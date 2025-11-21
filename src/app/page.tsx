@@ -1,65 +1,219 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div style={{ paddingTop: "120px", minHeight: "100vh", backgroundColor: "#FAFAF8" }}>
+      
+      {/* Hero Section */}
+      <section style={{ 
+        maxWidth: "1000px", 
+        margin: "0 auto", 
+        padding: "80px 40px",
+        textAlign: "center"
+      }}>
+        <p style={{ 
+          fontSize: "12px", 
+          letterSpacing: "0.2em", 
+          textTransform: "uppercase", 
+          color: "#71706E",
+          marginBottom: "24px"
+        }}>
+          Autonomous Systems Engineer
+        </p>
+        
+        <h1 style={{ 
+          fontFamily: "Playfair Display, Georgia, serif",
+          fontSize: "clamp(40px, 6vw, 72px)", 
+          fontWeight: 400,
+          color: "#1C1C1C",
+          lineHeight: 1.1,
+          marginBottom: "32px"
+        }}>
+          Building systems that<br />think for themselves
+        </h1>
+        
+        <p style={{ 
+          fontSize: "18px", 
+          color: "#71706E", 
+          maxWidth: "600px", 
+          margin: "0 auto 48px",
+          lineHeight: 1.8
+        }}>
+          I design and build autonomous software — algorithmic trading platforms, 
+          multi-agent orchestrators, and intelligent decision engines.
+        </p>
+        
+        <Link href="/work" style={{
+          display: "inline-block",
+          fontSize: "13px",
+          letterSpacing: "0.15em",
+          textTransform: "uppercase",
+          color: "#1C1C1C",
+          borderBottom: "1px solid #1C1C1C",
+          paddingBottom: "8px"
+        }}>
+          View Selected Work
+        </Link>
+      </section>
+
+      {/* Divider */}
+      <div style={{ height: "1px", backgroundColor: "#E0DED6", maxWidth: "1000px", margin: "0 auto" }} />
+
+      {/* Philosophy Section */}
+      <section style={{ 
+        maxWidth: "1000px", 
+        margin: "0 auto", 
+        padding: "80px 40px",
+        display: "grid",
+        gridTemplateColumns: "1fr 2fr",
+        gap: "60px"
+      }}>
+        <div>
+          <h2 style={{ 
+            fontFamily: "Playfair Display, Georgia, serif",
+            fontSize: "32px", 
+            fontWeight: 400,
+            color: "#1C1C1C"
+          }}>
+            Philosophy
+          </h2>
+        </div>
+        <div>
+          <p style={{ fontSize: "17px", color: "#71706E", lineHeight: 1.9, marginBottom: "24px" }}>
+            Every system I build is designed to operate without constant human oversight. 
+            Not automation for the sake of convenience, but true autonomy — software that 
+            can adapt, decide, and execute in real-time.
+          </p>
+          <p style={{ fontSize: "17px", color: "#71706E", lineHeight: 1.9 }}>
+            From options trading algorithms processing market signals to multi-agent 
+            systems coordinating complex workflows, the goal is always the same: 
+            intelligence that scales.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Divider */}
+      <div style={{ height: "1px", backgroundColor: "#E0DED6", maxWidth: "1000px", margin: "0 auto" }} />
+
+      {/* Projects Section */}
+      <section style={{ 
+        maxWidth: "1000px", 
+        margin: "0 auto", 
+        padding: "80px 40px"
+      }}>
+        <p style={{ 
+          fontSize: "12px", 
+          letterSpacing: "0.2em", 
+          textTransform: "uppercase", 
+          color: "#71706E",
+          marginBottom: "16px"
+        }}>
+          Selected Work
+        </p>
+        <h2 style={{ 
+          fontFamily: "Playfair Display, Georgia, serif",
+          fontSize: "32px", 
+          fontWeight: 400,
+          color: "#1C1C1C",
+          marginBottom: "48px"
+        }}>
+          Recent Projects
+        </h2>
+
+        <div style={{ 
+          display: "grid", 
+          gridTemplateColumns: "repeat(2, 1fr)", 
+          gap: "24px" 
+        }}>
+          <Link href="/work/trade69" style={{
+            display: "block",
+            padding: "40px",
+            backgroundColor: "#F2F1ED",
+            textDecoration: "none"
+          }}>
+            <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "16px" }}>
+              Algorithmic Trading
+            </p>
+            <h3 style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: "28px", fontWeight: 400, color: "#1C1C1C", marginBottom: "12px" }}>
+              Trade69
+            </h3>
+            <p style={{ fontSize: "15px", color: "#71706E", lineHeight: 1.7 }}>
+              Options trading platform combining ML, sentiment analysis, and real-time market data.
+            </p>
+          </Link>
+
+          <Link href="/work/megaagent" style={{
+            display: "block",
+            padding: "40px",
+            backgroundColor: "#F2F1ED",
+            textDecoration: "none"
+          }}>
+            <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "16px" }}>
+              Autonomous Systems
+            </p>
+            <h3 style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: "28px", fontWeight: 400, color: "#1C1C1C", marginBottom: "12px" }}>
+              MegaAgent
+            </h3>
+            <p style={{ fontSize: "15px", color: "#71706E", lineHeight: 1.7 }}>
+              Autonomous opportunity engine that identifies and executes on emerging possibilities.
+            </p>
+          </Link>
+
+          <Link href="/work/octopus" style={{
+            display: "block",
+            padding: "40px",
+            backgroundColor: "#F2F1ED",
+            textDecoration: "none"
+          }}>
+            <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "16px" }}>
+              Multi-Agent Systems
+            </p>
+            <h3 style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: "28px", fontWeight: 400, color: "#1C1C1C", marginBottom: "12px" }}>
+              Octopus
+            </h3>
+            <p style={{ fontSize: "15px", color: "#71706E", lineHeight: 1.7 }}>
+              Multi-agent orchestrator coordinating specialized AI agents.
+            </p>
+          </Link>
+
+          <Link href="/work/overmind" style={{
+            display: "block",
+            padding: "40px",
+            backgroundColor: "#F2F1ED",
+            textDecoration: "none"
+          }}>
+            <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "16px" }}>
+              Blockchain
+            </p>
+            <h3 style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: "28px", fontWeight: 400, color: "#1C1C1C", marginBottom: "12px" }}>
+              Overmind
+            </h3>
+            <p style={{ fontSize: "15px", color: "#71706E", lineHeight: 1.7 }}>
+              Cryptocurrency exploring decentralized autonomous systems.
+            </p>
+          </Link>
         </div>
-      </main>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ 
+        maxWidth: "1000px", 
+        margin: "0 auto", 
+        padding: "60px 40px",
+        borderTop: "1px solid #E0DED6",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center"
+      }}>
+        <div>
+          <p style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: "20px", color: "#1C1C1C" }}>Daniel Dahan</p>
+          <p style={{ fontSize: "13px", color: "#71706E", marginTop: "4px" }}>Autonomous Systems Engineer</p>
+        </div>
+        <div style={{ display: "flex", gap: "32px" }}>
+          <a href="mailto:daniel@example.com" style={{ fontSize: "13px", color: "#71706E" }}>Email</a>
+          <a href="https://github.com" target="_blank" style={{ fontSize: "13px", color: "#71706E" }}>GitHub</a>
+        </div>
+      </footer>
     </div>
   );
 }
