@@ -3,40 +3,40 @@ import Image from "next/image";
 
 export default function Octopus() {
   return (
-    <div style={{ paddingTop: "120px", minHeight: "100vh", backgroundColor: "#FAFAF8" }}>
+    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#FAFAF8" }}>
       
-      {/* Hero Section - Full Width */}
+      {/* Hero Section */}
       <div style={{ 
         width: "100%",
         backgroundColor: "#1C1C1C",
-        padding: "80px 40px",
-        marginBottom: "80px"
+        padding: "60px 24px",
+        marginBottom: "60px"
       }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
           <p style={{ 
-            fontSize: "11px", 
+            fontSize: "10px", 
             letterSpacing: "0.3em", 
             textTransform: "uppercase", 
             color: "#71706E",
-            marginBottom: "20px"
+            marginBottom: "16px"
           }}>
             Multi-Agent Systems
           </p>
           <h1 style={{ 
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(48px, 8vw, 80px)", 
+            fontSize: "clamp(36px, 10vw, 64px)", 
             fontWeight: 400,
             color: "#FAFAF8",
-            marginBottom: "32px",
+            marginBottom: "24px",
             lineHeight: 1.1
           }}>
             Octopus
           </h1>
           <p style={{ 
-            fontSize: "18px", 
+            fontSize: "16px", 
             color: "#A0A0A0", 
             lineHeight: 1.8,
-            maxWidth: "600px"
+            maxWidth: "500px"
           }}>
             A multi-agent orchestrator that coordinates specialized AI agents 
             to solve complex problems through collaborative intelligence.
@@ -44,99 +44,97 @@ export default function Octopus() {
         </div>
       </div>
 
-      {/* Main Hero Image - Floating */}
+      {/* Main Hero Image */}
       <div style={{ 
-        maxWidth: "900px", 
-        margin: "-100px auto 80px",
-        padding: "0 40px"
+        maxWidth: "800px", 
+        margin: "-40px auto 60px",
+        padding: "0 24px"
       }}>
         <div style={{ 
-          boxShadow: "0 40px 80px rgba(0,0,0,0.15)",
-          borderRadius: "8px",
+          boxShadow: "0 30px 60px rgba(0,0,0,0.12)",
+          borderRadius: "6px",
           overflow: "hidden",
           border: "1px solid #E0DED6"
         }}>
           <Image 
             src="/images/ophoto4.png" 
             alt="Octopus Main Interface"
-            width={1100}
-            height={650}
+            width={800}
+            height={500}
             style={{ width: "100%", height: "auto", display: "block" }}
           />
         </div>
       </div>
 
       {/* Content */}
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "0 40px" }}>
+      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "0 24px" }}>
         
         {/* Meta Info */}
         <div style={{ 
           display: "grid", 
-          gridTemplateColumns: "repeat(4, 1fr)", 
-          gap: "32px",
-          padding: "48px 0",
+          gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", 
+          gap: "24px",
+          padding: "32px 0",
           borderTop: "1px solid #E0DED6",
           borderBottom: "1px solid #E0DED6",
-          marginBottom: "80px"
+          marginBottom: "60px"
         }}>
           <div>
-            <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "8px" }}>Year</p>
-            <p style={{ fontSize: "16px", color: "#1C1C1C", fontWeight: 400 }}>2025</p>
+            <p style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "6px" }}>Year</p>
+            <p style={{ fontSize: "15px", color: "#1C1C1C" }}>2025</p>
           </div>
           <div>
-            <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "8px" }}>Type</p>
-            <p style={{ fontSize: "16px", color: "#1C1C1C", fontWeight: 400 }}>Agent Orchestration</p>
+            <p style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "6px" }}>Type</p>
+            <p style={{ fontSize: "15px", color: "#1C1C1C" }}>Agent Orchestration</p>
           </div>
           <div>
-            <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "8px" }}>Status</p>
-            <p style={{ fontSize: "16px", color: "#1C1C1C", fontWeight: 400 }}>Active</p>
+            <p style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "6px" }}>Status</p>
+            <p style={{ fontSize: "15px", color: "#1C1C1C" }}>Active</p>
           </div>
           <div>
-            <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "8px" }}>Stack</p>
-            <p style={{ fontSize: "16px", color: "#1C1C1C", fontWeight: 400 }}>Python, LangChain</p>
+            <p style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "6px" }}>Stack</p>
+            <p style={{ fontSize: "15px", color: "#1C1C1C" }}>Python, LangChain</p>
           </div>
         </div>
 
-        {/* Concept & How It Works - Side by Side */}
+        {/* Concept & How It Works */}
         <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "1fr 1fr", 
-          gap: "60px",
-          marginBottom: "100px"
+          display: "flex", 
+          flexDirection: "column",
+          gap: "40px",
+          marginBottom: "60px"
         }}>
           <div>
             <h2 style={{ 
-              fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "14px", 
+              fontSize: "12px", 
               fontWeight: 400,
               color: "#71706E",
               textTransform: "uppercase",
               letterSpacing: "0.15em",
-              marginBottom: "20px"
+              marginBottom: "16px"
             }}>
               Concept
             </h2>
-            <p style={{ fontSize: "16px", color: "#1C1C1C", lineHeight: 2 }}>
+            <p style={{ fontSize: "15px", color: "#1C1C1C", lineHeight: 1.9 }}>
               Complex problems rarely have simple solutions. They require multiple perspectives, 
               different types of expertise, and coordinated effort. Octopus applies this principle 
-              to AI — orchestrating multiple specialized agents that collaborate like a team.
+              to AI. Orchestrating multiple specialized agents that collaborate like a team.
             </p>
           </div>
           <div>
             <h2 style={{ 
-              fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "14px", 
+              fontSize: "12px", 
               fontWeight: 400,
               color: "#71706E",
               textTransform: "uppercase",
               letterSpacing: "0.15em",
-              marginBottom: "20px"
+              marginBottom: "16px"
             }}>
               How It Works
             </h2>
-            <p style={{ fontSize: "16px", color: "#1C1C1C", lineHeight: 2 }}>
+            <p style={{ fontSize: "15px", color: "#1C1C1C", lineHeight: 1.9 }}>
               When a task arrives, the orchestrator decomposes it into subtasks. Each is assigned 
-              to the best-suited agent — researcher, coder, analyst, writer. Agents work in parallel, 
+              to the best-suited agent: researcher, coder, analyst, writer. Agents work in parallel, 
               share context, and synthesize outputs into coherent results.
             </p>
           </div>
@@ -144,40 +142,40 @@ export default function Octopus() {
 
       </div>
 
-      {/* Full Width Image Section */}
+      {/* Image Gallery */}
       <div style={{ 
         backgroundColor: "#F2F1ED",
-        padding: "100px 40px"
+        padding: "60px 24px"
       }}>
         <div style={{ maxWidth: "900px", margin: "0 auto" }}>
           <div style={{ 
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "24px"
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "20px"
           }}>
             <div style={{ 
-              boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
-              borderRadius: "6px",
+              boxShadow: "0 15px 40px rgba(0,0,0,0.08)",
+              borderRadius: "4px",
               overflow: "hidden"
             }}>
               <Image 
                 src="/images/ophoto1.jpg" 
                 alt="Octopus Agent View"
-                width={540}
-                height={380}
+                width={450}
+                height={300}
                 style={{ width: "100%", height: "auto", display: "block" }}
               />
             </div>
             <div style={{ 
-              boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
-              borderRadius: "6px",
+              boxShadow: "0 15px 40px rgba(0,0,0,0.08)",
+              borderRadius: "4px",
               overflow: "hidden"
             }}>
               <Image 
                 src="/images/ophoto2.jpg" 
                 alt="Octopus Workflow"
-                width={540}
-                height={380}
+                width={450}
+                height={300}
                 style={{ width: "100%", height: "auto", display: "block" }}
               />
             </div>
@@ -185,30 +183,28 @@ export default function Octopus() {
         </div>
       </div>
 
-      {/* Architecture Section */}
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "100px 40px" }}>
+      {/* Architecture & Tech */}
+      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "60px 24px" }}>
         
-        <div style={{ textAlign: "center", marginBottom: "60px" }}>
+        <div style={{ textAlign: "center", marginBottom: "40px" }}>
           <h2 style={{ 
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "36px", 
+            fontSize: "28px", 
             fontWeight: 400,
             color: "#1C1C1C",
-            marginBottom: "16px"
+            marginBottom: "12px"
           }}>
-            System Architecture
+            Architecture
           </h2>
-          <p style={{ fontSize: "16px", color: "#71706E" }}>
-            Four integrated components enabling collaborative AI
-          </p>
         </div>
 
         <div style={{ 
           display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
+          gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
           gap: "1px",
           backgroundColor: "#E0DED6",
-          border: "1px solid #E0DED6"
+          border: "1px solid #E0DED6",
+          marginBottom: "60px"
         }}>
           {[
             { title: "Orchestrator", desc: "Task Decomposition" },
@@ -218,44 +214,31 @@ export default function Octopus() {
           ].map((item, i) => (
             <div key={i} style={{ 
               backgroundColor: "#FAFAF8",
-              padding: "32px 20px",
+              padding: "24px 16px",
               textAlign: "center"
             }}>
-              <p style={{ 
-                fontSize: "11px", 
-                letterSpacing: "0.1em", 
-                textTransform: "uppercase", 
-                color: "#71706E",
-                marginBottom: "8px"
-              }}>
+              <p style={{ fontSize: "10px", letterSpacing: "0.1em", textTransform: "uppercase", color: "#71706E", marginBottom: "6px" }}>
                 {item.title}
               </p>
-              <p style={{ fontSize: "14px", color: "#1C1C1C" }}>
+              <p style={{ fontSize: "13px", color: "#1C1C1C" }}>
                 {item.desc}
               </p>
             </div>
           ))}
         </div>
 
-        {/* Technology Tags */}
-        <div style={{ marginTop: "80px", textAlign: "center" }}>
-          <p style={{ 
-            fontSize: "11px", 
-            letterSpacing: "0.2em", 
-            textTransform: "uppercase", 
-            color: "#71706E",
-            marginBottom: "24px"
-          }}>
+        {/* Tech Tags */}
+        <div style={{ textAlign: "center" }}>
+          <p style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#71706E", marginBottom: "20px" }}>
             Built With
           </p>
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px" }}>
             {["Python", "LangChain", "OpenAI API", "Claude API", "Redis", "Graph Execution"].map((tech) => (
               <span key={tech} style={{ 
-                padding: "12px 24px", 
+                padding: "10px 18px", 
                 border: "1px solid #E0DED6",
-                fontSize: "13px", 
-                color: "#1C1C1C",
-                backgroundColor: "#FAFAF8"
+                fontSize: "12px", 
+                color: "#1C1C1C"
               }}>
                 {tech}
               </span>
@@ -268,14 +251,14 @@ export default function Octopus() {
           display: "flex", 
           justifyContent: "space-between", 
           alignItems: "center",
-          marginTop: "100px",
-          paddingTop: "32px",
+          marginTop: "80px",
+          paddingTop: "24px",
           borderTop: "1px solid #E0DED6"
         }}>
-          <Link href="/work/megaagent" style={{ fontSize: "14px", color: "#1C1C1C", textDecoration: "none" }}>
+          <Link href="/work/megaagent" style={{ fontSize: "13px", color: "#1C1C1C", textDecoration: "none" }}>
             ← Previous: MegaAgent
           </Link>
-          <Link href="/work/overmind" style={{ fontSize: "14px", color: "#1C1C1C", textDecoration: "none" }}>
+          <Link href="/work/overmind" style={{ fontSize: "13px", color: "#1C1C1C", textDecoration: "none" }}>
             Next: Overmind →
           </Link>
         </div>

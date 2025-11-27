@@ -1,10 +1,10 @@
 export default function About() {
   return (
-    <div style={{ paddingTop: "120px", minHeight: "100vh", backgroundColor: "#FAFAF8" }}>
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "60px 40px" }}>
+    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#FAFAF8" }}>
+      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "60px 24px" }}>
         
         {/* Header */}
-        <div style={{ marginBottom: "80px", textAlign: "center" }}>
+        <div style={{ marginBottom: "60px", textAlign: "center" }}>
           <p style={{ 
             fontSize: "11px", 
             letterSpacing: "0.25em", 
@@ -16,7 +16,7 @@ export default function About() {
           </p>
           <h1 style={{ 
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "42px", 
+            fontSize: "clamp(32px, 8vw, 42px)", 
             fontWeight: 400,
             color: "#1C1C1C"
           }}>
@@ -26,16 +26,16 @@ export default function About() {
 
         {/* Main Content */}
         <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "2fr 1fr", 
-          gap: "80px"
+          display: "flex", 
+          flexDirection: "column",
+          gap: "60px"
         }}>
           
-          {/* Left Column */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+          {/* Story */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px", maxWidth: "600px" }}>
             <p style={{ 
               fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "22px", 
+              fontSize: "20px", 
               color: "#1C1C1C",
               lineHeight: 1.5
             }}>
@@ -65,8 +65,12 @@ export default function About() {
             </p>
           </div>
 
-          {/* Right Column */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+          {/* Details Grid */}
+          <div style={{ 
+            display: "grid", 
+            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+            gap: "40px"
+          }}>
             
             <div>
               <h3 style={{ 
@@ -131,26 +135,23 @@ export default function About() {
             </div>
 
           </div>
-        </div>
 
-        {/* Quote */}
-        <div style={{ 
-          marginTop: "100px", 
-          textAlign: "center"
-        }}>
-          <p style={{ 
-            fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "20px", 
-            fontStyle: "italic",
-            color: "#71706E",
-            maxWidth: "600px",
-            margin: "0 auto",
-            lineHeight: 1.6
-          }}>
-            Intelligence that scales. Systems that adapt, decide, and execute.
-          </p>
-        </div>
+          {/* Quote */}
+          <div style={{ textAlign: "center", paddingTop: "40px" }}>
+            <p style={{ 
+              fontFamily: "Playfair Display, Georgia, serif",
+              fontSize: "18px", 
+              fontStyle: "italic",
+              color: "#71706E",
+              maxWidth: "500px",
+              margin: "0 auto",
+              lineHeight: 1.6
+            }}>
+              Intelligence that scales. Systems that adapt, decide, and execute.
+            </p>
+          </div>
 
+        </div>
       </div>
     </div>
   );

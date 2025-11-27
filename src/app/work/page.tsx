@@ -33,14 +33,14 @@ const projects = [
 
 export default function Work() {
   return (
-    <div style={{ paddingTop: "120px", minHeight: "100vh", backgroundColor: "#FAFAF8" }}>
-      <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "60px 40px" }}>
+    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#FAFAF8" }}>
+      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "60px 24px" }}>
         
         {/* Header */}
-        <div style={{ marginBottom: "80px", textAlign: "center" }}>
+        <div style={{ marginBottom: "60px", textAlign: "center" }}>
           <p style={{ 
-            fontSize: "12px", 
-            letterSpacing: "0.2em", 
+            fontSize: "11px", 
+            letterSpacing: "0.25em", 
             textTransform: "uppercase", 
             color: "#71706E",
             marginBottom: "16px"
@@ -49,21 +49,21 @@ export default function Work() {
           </p>
           <h1 style={{ 
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "48px", 
+            fontSize: "clamp(32px, 8vw, 42px)", 
             fontWeight: 400,
             color: "#1C1C1C",
-            marginBottom: "24px"
+            marginBottom: "20px"
           }}>
             Selected Work
           </h1>
           <p style={{ 
-            fontSize: "17px", 
+            fontSize: "15px", 
             color: "#71706E", 
-            maxWidth: "500px", 
+            maxWidth: "400px", 
             margin: "0 auto",
             lineHeight: 1.8
           }}>
-            A collection of autonomous systems, trading platforms, and intelligent software.
+            Autonomous systems, trading platforms, and intelligent software.
           </p>
         </div>
 
@@ -75,35 +75,31 @@ export default function Work() {
               href={`/work/${project.slug}`}
               style={{
                 display: "block",
-                padding: "40px 0",
+                padding: "32px 0",
                 borderBottom: "1px solid #E0DED6",
                 textDecoration: "none"
               }}
             >
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "12px" }}>
-                    <span style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E" }}>
-                      {project.category}
-                    </span>
-                    <span style={{ fontSize: "11px", color: "#71706E" }}>
-                      {project.year}
-                    </span>
-                  </div>
-                  <h2 style={{ 
-                    fontFamily: "Playfair Display, Georgia, serif",
-                    fontSize: "32px", 
-                    fontWeight: 400,
-                    color: "#1C1C1C",
-                    marginBottom: "12px"
-                  }}>
-                    {project.title}
-                  </h2>
-                  <p style={{ fontSize: "15px", color: "#71706E", maxWidth: "600px", lineHeight: 1.7 }}>
-                    {project.description}
-                  </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+                  <span style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E" }}>
+                    {project.category}
+                  </span>
+                  <span style={{ fontSize: "10px", color: "#71706E" }}>
+                    {project.year}
+                  </span>
                 </div>
-                <div style={{ fontSize: "24px", color: "#1C1C1C" }}>→</div>
+                <h2 style={{ 
+                  fontFamily: "Playfair Display, Georgia, serif",
+                  fontSize: "clamp(24px, 5vw, 30px)", 
+                  fontWeight: 400,
+                  color: "#1C1C1C"
+                }}>
+                  {project.title}
+                </h2>
+                <p style={{ fontSize: "14px", color: "#71706E", lineHeight: 1.7 }}>
+                  {project.description}
+                </p>
               </div>
             </Link>
           ))}
