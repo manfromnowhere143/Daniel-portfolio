@@ -1,180 +1,267 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Trade69() {
   return (
     <div style={{ paddingTop: "120px", minHeight: "100vh", backgroundColor: "#FAFAF8" }}>
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "60px 40px" }}>
-        
-        {/* Back Link */}
-        <Link href="/work" style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "8px",
-          fontSize: "13px",
-          color: "#71706E",
-          textDecoration: "none",
-          marginBottom: "60px"
-        }}>
-          ← Back to Work
-        </Link>
-
-        {/* Header */}
-        <div style={{ marginBottom: "60px" }}>
+      
+      {/* Hero Section - Full Width */}
+      <div style={{ 
+        width: "100%",
+        backgroundColor: "#1C1C1C",
+        padding: "80px 40px",
+        marginBottom: "80px"
+      }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <p style={{ 
-            fontSize: "12px", 
-            letterSpacing: "0.2em", 
+            fontSize: "11px", 
+            letterSpacing: "0.3em", 
             textTransform: "uppercase", 
             color: "#71706E",
-            marginBottom: "16px"
+            marginBottom: "20px"
           }}>
-            Algorithmic Trading
+            Algorithmic Trading Platform
           </p>
           <h1 style={{ 
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "52px", 
+            fontSize: "clamp(48px, 8vw, 80px)", 
             fontWeight: 400,
-            color: "#1C1C1C",
-            marginBottom: "24px"
+            color: "#FAFAF8",
+            marginBottom: "32px",
+            lineHeight: 1.1
           }}>
             Trade69
           </h1>
           <p style={{ 
-            fontSize: "19px", 
-            color: "#71706E", 
+            fontSize: "18px", 
+            color: "#A0A0A0", 
             lineHeight: 1.8,
-            maxWidth: "700px"
+            maxWidth: "600px"
           }}>
-            A comprehensive options trading platform combining machine learning, 
-            sentiment analysis, and real-time market data for autonomous trading decisions.
+            Autonomous options trading powered by machine learning, 
+            sentiment analysis, and real-time market intelligence.
           </p>
         </div>
+      </div>
 
+      {/* Main Hero Image - Floating */}
+      <div style={{ 
+        maxWidth: "1100px", 
+        margin: "-140px auto 100px",
+        padding: "0 40px"
+      }}>
+        <div style={{ 
+          boxShadow: "0 40px 80px rgba(0,0,0,0.15)",
+          borderRadius: "8px",
+          overflow: "hidden",
+          border: "1px solid #E0DED6"
+        }}>
+          <Image 
+            src="/images/tphoto1.png" 
+            alt="Trade69 Dashboard"
+            width={1100}
+            height={650}
+            style={{ width: "100%", height: "auto", display: "block" }}
+          />
+        </div>
+      </div>
+
+      {/* Content */}
+      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "0 40px" }}>
+        
         {/* Meta Info */}
         <div style={{ 
           display: "grid", 
           gridTemplateColumns: "repeat(4, 1fr)", 
           gap: "32px",
-          padding: "32px 0",
+          padding: "48px 0",
           borderTop: "1px solid #E0DED6",
           borderBottom: "1px solid #E0DED6",
-          marginBottom: "60px"
+          marginBottom: "80px"
         }}>
           <div>
             <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "8px" }}>Year</p>
-            <p style={{ fontSize: "15px", color: "#1C1C1C" }}>2024</p>
+            <p style={{ fontSize: "16px", color: "#1C1C1C", fontWeight: 400 }}>2025</p>
           </div>
           <div>
             <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "8px" }}>Type</p>
-            <p style={{ fontSize: "15px", color: "#1C1C1C" }}>Trading Platform</p>
+            <p style={{ fontSize: "16px", color: "#1C1C1C", fontWeight: 400 }}>Trading Platform</p>
           </div>
           <div>
             <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "8px" }}>Status</p>
-            <p style={{ fontSize: "15px", color: "#1C1C1C" }}>Active</p>
+            <p style={{ fontSize: "16px", color: "#1C1C1C", fontWeight: 400 }}>Active</p>
           </div>
           <div>
             <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "8px" }}>Stack</p>
-            <p style={{ fontSize: "15px", color: "#1C1C1C" }}>Python, PostgreSQL</p>
+            <p style={{ fontSize: "16px", color: "#1C1C1C", fontWeight: 400 }}>Python, PostgreSQL</p>
           </div>
         </div>
 
-        {/* Content Sections */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "60px" }}>
-          
-          <section>
+        {/* Problem & Approach - Side by Side */}
+        <div style={{ 
+          display: "grid", 
+          gridTemplateColumns: "1fr 1fr", 
+          gap: "60px",
+          marginBottom: "100px"
+        }}>
+          <div>
             <h2 style={{ 
               fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "28px", 
+              fontSize: "14px", 
               fontWeight: 400,
-              color: "#1C1C1C",
+              color: "#71706E",
+              textTransform: "uppercase",
+              letterSpacing: "0.15em",
               marginBottom: "20px"
             }}>
               The Problem
             </h2>
-            <p style={{ fontSize: "16px", color: "#71706E", lineHeight: 1.9 }}>
+            <p style={{ fontSize: "16px", color: "#1C1C1C", lineHeight: 2 }}>
               Options trading requires processing vast amounts of data in real-time. Human traders 
               cannot consistently synthesize market prices, volatility, sentiment signals, and 
               technical indicators quickly enough to capture short-lived opportunities.
             </p>
-          </section>
-
-          <section>
+          </div>
+          <div>
             <h2 style={{ 
               fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "28px", 
+              fontSize: "14px", 
               fontWeight: 400,
-              color: "#1C1C1C",
+              color: "#71706E",
+              textTransform: "uppercase",
+              letterSpacing: "0.15em",
               marginBottom: "20px"
             }}>
-              Approach
+              The Approach
             </h2>
-            <p style={{ fontSize: "16px", color: "#71706E", lineHeight: 1.9 }}>
-              Trade69 is an end-to-end autonomous trading system. It continuously ingests sentiment 
-              data from Reddit and StockTwits, combines it with technical indicators and real options 
-              pricing from ThetaData, runs predictions through trained ML models, and executes through 
-              Alpaca API — all without manual intervention.
+            <p style={{ fontSize: "16px", color: "#1C1C1C", lineHeight: 2 }}>
+              An end-to-end autonomous system that ingests sentiment from Reddit and StockTwits, 
+              combines it with technical indicators and real options pricing, runs ML predictions, 
+              and executes via Alpaca — all without manual intervention.
             </p>
-          </section>
+          </div>
+        </div>
 
-          <section>
-            <h2 style={{ 
-              fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "28px", 
-              fontWeight: 400,
-              color: "#1C1C1C",
-              marginBottom: "24px"
+      </div>
+
+      {/* Full Width Image Section */}
+      <div style={{ 
+        backgroundColor: "#F2F1ED",
+        padding: "100px 40px"
+      }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+          <div style={{ 
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "24px"
+          }}>
+            <div style={{ 
+              boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
+              borderRadius: "6px",
+              overflow: "hidden"
             }}>
-              Architecture
-            </h2>
-            <div style={{ backgroundColor: "#F2F1ED", padding: "32px" }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                <div style={{ display: "flex", gap: "24px" }}>
-                  <span style={{ fontSize: "14px", color: "#71706E", width: "140px", flexShrink: 0 }}>Data Layer</span>
-                  <span style={{ fontSize: "14px", color: "#1C1C1C" }}>PostgreSQL with TimescaleDB for time-series storage</span>
-                </div>
-                <div style={{ display: "flex", gap: "24px" }}>
-                  <span style={{ fontSize: "14px", color: "#71706E", width: "140px", flexShrink: 0 }}>Signals</span>
-                  <span style={{ fontSize: "14px", color: "#1C1C1C" }}>RSI, MACD, Bollinger Bands, sentiment aggregation</span>
-                </div>
-                <div style={{ display: "flex", gap: "24px" }}>
-                  <span style={{ fontSize: "14px", color: "#71706E", width: "140px", flexShrink: 0 }}>ML Models</span>
-                  <span style={{ fontSize: "14px", color: "#1C1C1C" }}>Gradient boosting classifiers, 85%+ accuracy on filtered signals</span>
-                </div>
-                <div style={{ display: "flex", gap: "24px" }}>
-                  <span style={{ fontSize: "14px", color: "#71706E", width: "140px", flexShrink: 0 }}>Execution</span>
-                  <span style={{ fontSize: "14px", color: "#1C1C1C" }}>Alpaca API with Kelly Criterion position sizing</span>
-                </div>
-                <div style={{ display: "flex", gap: "24px" }}>
-                  <span style={{ fontSize: "14px", color: "#71706E", width: "140px", flexShrink: 0 }}>Interface</span>
-                  <span style={{ fontSize: "14px", color: "#1C1C1C" }}>Dash dashboard for monitoring, backtesting, and configuration</span>
-                </div>
-              </div>
+              <Image 
+                src="/images/tphoto2.png" 
+                alt="Trade69 Analytics"
+                width={540}
+                height={380}
+                style={{ width: "100%", height: "auto", display: "block" }}
+              />
             </div>
-          </section>
-
-          <section>
-            <h2 style={{ 
-              fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "28px", 
-              fontWeight: 400,
-              color: "#1C1C1C",
-              marginBottom: "24px"
+            <div style={{ 
+              boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
+              borderRadius: "6px",
+              overflow: "hidden"
             }}>
-              Technology
-            </h2>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
-              {["Python", "PostgreSQL", "ThetaData", "Alpaca API", "Dash", "scikit-learn", "pandas", "Redis"].map((tech) => (
-                <span key={tech} style={{ 
-                  padding: "10px 20px", 
-                  backgroundColor: "#F2F1ED", 
-                  fontSize: "13px", 
-                  color: "#1C1C1C" 
-                }}>
-                  {tech}
-                </span>
-              ))}
+              <Image 
+                src="/images/tphoto3.png" 
+                alt="Trade69 Backtesting"
+                width={540}
+                height={380}
+                style={{ width: "100%", height: "auto", display: "block" }}
+              />
             </div>
-          </section>
+          </div>
+        </div>
+      </div>
 
+      {/* Architecture Section */}
+      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "100px 40px" }}>
+        
+        <div style={{ textAlign: "center", marginBottom: "60px" }}>
+          <h2 style={{ 
+            fontFamily: "Playfair Display, Georgia, serif",
+            fontSize: "36px", 
+            fontWeight: 400,
+            color: "#1C1C1C",
+            marginBottom: "16px"
+          }}>
+            System Architecture
+          </h2>
+          <p style={{ fontSize: "16px", color: "#71706E" }}>
+            Five integrated layers working in harmony
+          </p>
+        </div>
+
+        <div style={{ 
+          display: "grid",
+          gridTemplateColumns: "repeat(5, 1fr)",
+          gap: "1px",
+          backgroundColor: "#E0DED6",
+          border: "1px solid #E0DED6"
+        }}>
+          {[
+            { title: "Data Layer", desc: "PostgreSQL + TimescaleDB" },
+            { title: "Signals", desc: "RSI, MACD, Sentiment" },
+            { title: "ML Models", desc: "85%+ Accuracy" },
+            { title: "Execution", desc: "Kelly Criterion Sizing" },
+            { title: "Interface", desc: "Dash Dashboard" },
+          ].map((item, i) => (
+            <div key={i} style={{ 
+              backgroundColor: "#FAFAF8",
+              padding: "32px 20px",
+              textAlign: "center"
+            }}>
+              <p style={{ 
+                fontSize: "11px", 
+                letterSpacing: "0.1em", 
+                textTransform: "uppercase", 
+                color: "#71706E",
+                marginBottom: "8px"
+              }}>
+                {item.title}
+              </p>
+              <p style={{ fontSize: "14px", color: "#1C1C1C" }}>
+                {item.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Technology Tags */}
+        <div style={{ marginTop: "80px", textAlign: "center" }}>
+          <p style={{ 
+            fontSize: "11px", 
+            letterSpacing: "0.2em", 
+            textTransform: "uppercase", 
+            color: "#71706E",
+            marginBottom: "24px"
+          }}>
+            Built With
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px" }}>
+            {["Python", "PostgreSQL", "ThetaData", "Alpaca API", "Dash", "scikit-learn", "pandas", "Redis"].map((tech) => (
+              <span key={tech} style={{ 
+                padding: "12px 24px", 
+                border: "1px solid #E0DED6",
+                fontSize: "13px", 
+                color: "#1C1C1C",
+                backgroundColor: "#FAFAF8"
+              }}>
+                {tech}
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* Navigation */}
@@ -182,12 +269,12 @@ export default function Trade69() {
           display: "flex", 
           justifyContent: "space-between", 
           alignItems: "center",
-          marginTop: "80px",
+          marginTop: "100px",
           paddingTop: "32px",
           borderTop: "1px solid #E0DED6"
         }}>
           <Link href="/work" style={{ fontSize: "14px", color: "#71706E", textDecoration: "none" }}>
-            All Projects
+            ← All Projects
           </Link>
           <Link href="/work/megaagent" style={{ fontSize: "14px", color: "#1C1C1C", textDecoration: "none" }}>
             Next: MegaAgent →

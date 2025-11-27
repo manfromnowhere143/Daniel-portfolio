@@ -61,7 +61,7 @@ export default function Overmind() {
         }}>
           <div>
             <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "8px" }}>Year</p>
-            <p style={{ fontSize: "15px", color: "#1C1C1C" }}>2024</p>
+            <p style={{ fontSize: "15px", color: "#1C1C1C" }}>2025</p>
           </div>
           <div>
             <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E", marginBottom: "8px" }}>Type</p>
