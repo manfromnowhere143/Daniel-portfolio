@@ -46,8 +46,8 @@ export default function Octopus() {
 
       {/* Main Hero Image - Floating */}
       <div style={{ 
-        maxWidth: "1100px", 
-        margin: "-140px auto 100px",
+        maxWidth: "900px", 
+        margin: "-100px auto 80px",
         padding: "0 40px"
       }}>
         <div style={{ 
@@ -149,7 +149,7 @@ export default function Octopus() {
         backgroundColor: "#F2F1ED",
         padding: "100px 40px"
       }}>
-        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
           <div style={{ 
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
