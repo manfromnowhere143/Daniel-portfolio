@@ -198,8 +198,8 @@ export default function Home() {
           <p style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: "18px", color: "#1C1C1C" }}>Daniel Wahnich</p>
         </div>
         <div style={{ display: "flex", gap: "24px" }}>
-          <a href="mailto:daniel@example.com" style={{ fontSize: "12px", color: "#71706E" }}>Email</a>
-          <a href="https://github.com" target="_blank" style={{ fontSize: "12px", color: "#71706E" }}>GitHub</a>
+          <a href="mailto:cogitoergosum143@gmail.com" style={{ fontSize: "12px", color: "#71706E" }}>Email</a>
+          <a href="https://github.com/manfromnowhere143" target="_blank" style={{ fontSize: "12px", color: "#71706E" }}>GitHub</a>
         </div>
       </footer>
     </div>

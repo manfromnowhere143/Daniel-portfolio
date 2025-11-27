@@ -122,12 +122,12 @@ export default function About() {
               </h3>
               <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
                 <li>
-                  <a href="mailto:daniel@example.com" style={{ fontSize: "14px", color: "#1C1C1C", textDecoration: "none", borderBottom: "1px solid #1C1C1C", paddingBottom: "2px" }}>
+                  <a href="mailto:cogitoergosum143@gmail.com" style={{ fontSize: "14px", color: "#1C1C1C", textDecoration: "none", borderBottom: "1px solid #1C1C1C", paddingBottom: "2px" }}>
                     Email
                   </a>
                 </li>
                 <li>
-                  <a href="https://github.com" target="_blank" style={{ fontSize: "14px", color: "#1C1C1C", textDecoration: "none", borderBottom: "1px solid #1C1C1C", paddingBottom: "2px" }}>
+                  <a href="https://github.com/manfromnowhere143" target="_blank" style={{ fontSize: "14px", color: "#1C1C1C", textDecoration: "none", borderBottom: "1px solid #1C1C1C", paddingBottom: "2px" }}>
                     GitHub
                   </a>
                 </li>
