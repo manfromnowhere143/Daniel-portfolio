@@ -6,28 +6,32 @@ const projects = [
     title: "Trade69",
     category: "Algorithmic Trading",
     year: "2025",
-    description: "Options trading platform combining machine learning, sentiment analysis, and real-time market data for autonomous decision-making.",
+    stats: "245 files · 32K+ lines · 11 data sources",
+    description: "End-to-end trading platform integrating StockTwits, Reddit, dark pools, and SEC filings. HMM regime detection, Random Forest classifiers, Kelly Criterion sizing.",
   },
   {
     slug: "megaagent",
     title: "MegaAgent",
     category: "Autonomous Systems",
     year: "2025",
-    description: "Autonomous opportunity engine that identifies, evaluates, and executes on emerging possibilities without human intervention.",
+    stats: "365 files · 258K lines · 12 modules",
+    description: "Multi-agent system with Markowitz portfolio optimization, LinUCB contextual bandits, Thompson Sampling, and circuit breaker patterns with anomaly detection.",
   },
   {
     slug: "octopus",
     title: "Octopus",
-    category: "Multi-Agent Systems",
+    category: "Cognitive Framework",
     year: "2025",
-    description: "Multi-agent orchestrator coordinating specialized AI agents to solve complex problems through collaborative intelligence.",
+    stats: "v0.1.0 · 5 strategies · 3 memory stores",
+    description: "Goal decomposition with DAG task graphs. Tri-store memory: semantic, episodic, procedural. Meta-reflection with blind spot detection.",
   },
   {
     slug: "overmind",
     title: "Overmind",
     category: "Blockchain",
     year: "2025",
-    description: "Cryptocurrency project exploring decentralized autonomous systems with philosophical underpinnings.",
+    stats: "Solana · SPL Token",
+    description: "Cryptocurrency exploring decentralized autonomous systems with philosophical foundations rooted in Buddhist concepts of interconnected consciousness.",
   },
 ];
 
@@ -37,7 +41,7 @@ export default function Work() {
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "60px 24px" }}>
         
         {/* Header */}
-        <div style={{ marginBottom: "60px", textAlign: "center" }}>
+        <div style={{ marginBottom: "80px", textAlign: "center" }}>
           <p style={{ 
             fontSize: "11px", 
             letterSpacing: "0.25em", 
@@ -49,7 +53,7 @@ export default function Work() {
           </p>
           <h1 style={{ 
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(32px, 8vw, 42px)", 
+            fontSize: "clamp(36px, 8vw, 48px)", 
             fontWeight: 400,
             color: "#1C1C1C",
             marginBottom: "20px"
@@ -57,13 +61,13 @@ export default function Work() {
             Selected Work
           </h1>
           <p style={{ 
-            fontSize: "15px", 
+            fontSize: "16px", 
             color: "#71706E", 
-            maxWidth: "400px", 
+            maxWidth: "500px", 
             margin: "0 auto",
             lineHeight: 1.8
           }}>
-            Autonomous systems, trading platforms, and intelligent software.
+            Autonomous systems built with stubborn rigor. Real code, real capabilities.
           </p>
         </div>
 
@@ -75,29 +79,30 @@ export default function Work() {
               href={`/work/${project.slug}`}
               style={{
                 display: "block",
-                padding: "32px 0",
+                padding: "40px 0",
                 borderBottom: "1px solid #E0DED6",
                 textDecoration: "none"
               }}
             >
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
-                  <span style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+                  <span style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E" }}>
                     {project.category}
                   </span>
-                  <span style={{ fontSize: "10px", color: "#71706E" }}>
-                    {project.year}
+                  <span style={{ fontSize: "11px", color: "#E0DED6" }}>·</span>
+                  <span style={{ fontSize: "11px", color: "#71706E" }}>
+                    {project.stats}
                   </span>
                 </div>
                 <h2 style={{ 
                   fontFamily: "Playfair Display, Georgia, serif",
-                  fontSize: "clamp(24px, 5vw, 30px)", 
+                  fontSize: "clamp(28px, 5vw, 36px)", 
                   fontWeight: 400,
                   color: "#1C1C1C"
                 }}>
                   {project.title}
                 </h2>
-                <p style={{ fontSize: "14px", color: "#71706E", lineHeight: 1.7 }}>
+                <p style={{ fontSize: "15px", color: "#71706E", lineHeight: 1.8, maxWidth: "700px" }}>
                   {project.description}
                 </p>
               </div>
