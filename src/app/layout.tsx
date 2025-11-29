@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   keywords: ["Daniel Wahnich", "Autonomous Systems", "Algorithmic Trading", "Multi-Agent Systems", "Machine Learning", "Python Developer"],
   authors: [{ name: "Daniel Wahnich" }],
   creator: "Daniel Wahnich",
+  verification: {
+    google: "oUl-My2-hKLVi79mstsvLVV9hrNo5pOAi45KqqkGOIs",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
