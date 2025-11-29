@@ -84,27 +84,37 @@ export default function Work() {
                 textDecoration: "none"
               }}
             >
-              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
-                  <span style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E" }}>
-                    {project.category}
-                  </span>
-                  <span style={{ fontSize: "11px", color: "#E0DED6" }}>·</span>
-                  <span style={{ fontSize: "11px", color: "#71706E" }}>
-                    {project.stats}
-                  </span>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "12px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+                    <span style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E" }}>
+                      {project.category}
+                    </span>
+                    <span style={{ fontSize: "11px", color: "#E0DED6" }}>·</span>
+                    <span style={{ fontSize: "11px", color: "#71706E" }}>
+                      {project.stats}
+                    </span>
+                  </div>
+                  <h2 style={{ 
+                    fontFamily: "Playfair Display, Georgia, serif",
+                    fontSize: "clamp(28px, 5vw, 36px)", 
+                    fontWeight: 400,
+                    color: "#1C1C1C"
+                  }}>
+                    {project.title}
+                  </h2>
+                  <p style={{ fontSize: "15px", color: "#71706E", lineHeight: 1.8, maxWidth: "700px" }}>
+                    {project.description}
+                  </p>
                 </div>
-                <h2 style={{ 
-                  fontFamily: "Playfair Display, Georgia, serif",
-                  fontSize: "clamp(28px, 5vw, 36px)", 
-                  fontWeight: 400,
-                  color: "#1C1C1C"
+                <div style={{ 
+                  fontSize: "20px", 
+                  color: "#1C1C1C",
+                  marginLeft: "24px",
+                  marginTop: "8px"
                 }}>
-                  {project.title}
-                </h2>
-                <p style={{ fontSize: "15px", color: "#71706E", lineHeight: 1.8, maxWidth: "700px" }}>
-                  {project.description}
-                </p>
+                  →
+                </div>
               </div>
             </Link>
           ))}
