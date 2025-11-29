@@ -1,5 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Creative Work | Daniel Wahnich",
+  description: "Abstract visual explorations in texture, form, and layered complexity by Daniel Wahnich.",
+};
 
 export default function Creative() {
   return (
