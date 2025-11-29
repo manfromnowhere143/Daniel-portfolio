@@ -20,32 +20,25 @@ export default function Navigation() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "80px",
-        gap: "60px"
+        height: "70px",
+        gap: "60px",
+        padding: "0 20px"
       }}>
         <Link href="/" style={{
-          fontSize: "14px",
+          fontSize: "13px",
           letterSpacing: "0.1em",
           textTransform: "uppercase",
           color: pathname === "/" ? "#1C1C1C" : "#71706E"
         }}>
-          Home
+          About
         </Link>
         <Link href="/work" style={{
-          fontSize: "14px",
+          fontSize: "13px",
           letterSpacing: "0.1em",
           textTransform: "uppercase",
-          color: pathname === "/work" ? "#1C1C1C" : "#71706E"
+          color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E"
         }}>
           Work
-        </Link>
-        <Link href="/about" style={{
-          fontSize: "14px",
-          letterSpacing: "0.1em",
-          textTransform: "uppercase",
-          color: pathname === "/about" ? "#1C1C1C" : "#71706E"
-        }}>
-          About
         </Link>
       </div>
       <div style={{ height: "1px", backgroundColor: "#E0DED6" }} />
