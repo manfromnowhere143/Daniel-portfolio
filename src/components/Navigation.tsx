@@ -21,14 +21,15 @@ export default function Navigation() {
         justifyContent: "center",
         alignItems: "center",
         height: "70px",
-        gap: "60px",
+        gap: "40px",
         padding: "0 20px"
       }}>
         <Link href="/" style={{
           fontSize: "13px",
           letterSpacing: "0.1em",
           textTransform: "uppercase",
-          color: pathname === "/" ? "#1C1C1C" : "#71706E"
+          color: pathname === "/" ? "#1C1C1C" : "#71706E",
+          textDecoration: "none"
         }}>
           About
         </Link>
@@ -36,9 +37,19 @@ export default function Navigation() {
           fontSize: "13px",
           letterSpacing: "0.1em",
           textTransform: "uppercase",
-          color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E"
+          color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E",
+          textDecoration: "none"
         }}>
           Work
+        </Link>
+        <Link href="/creative" style={{
+          fontSize: "13px",
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+          color: pathname === "/creative" ? "#1C1C1C" : "#71706E",
+          textDecoration: "none"
+        }}>
+          Creative
         </Link>
       </div>
       <div style={{ height: "1px", backgroundColor: "#E0DED6" }} />
