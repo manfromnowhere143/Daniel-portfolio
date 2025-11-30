@@ -57,8 +57,21 @@ export default function Creative() {
             overflow: "hidden"
           }}>
             <Image 
-              src="/images/art3.jpg" 
+              src="/images/art4.png" 
               alt="Abstract Study I"
+              width={800}
+              height={500}
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
+          </div>
+
+          <div style={{ 
+            boxShadow: "0 20px 50px rgba(0,0,0,0.1)",
+            overflow: "hidden"
+          }}>
+            <Image 
+              src="/images/art3.jpg" 
+              alt="Abstract Study II"
               width={800}
               height={1100}
               style={{ width: "100%", height: "auto", display: "block" }}
@@ -71,7 +84,7 @@ export default function Creative() {
           }}>
             <Image 
               src="/images/art2.JPEG" 
-              alt="Abstract Study II"
+              alt="Abstract Study III"
               width={800}
               height={800}
               style={{ width: "100%", height: "auto", display: "block" }}
@@ -84,7 +97,7 @@ export default function Creative() {
           }}>
             <Image 
               src="/images/art1.JPEG" 
-              alt="Abstract Study III"
+              alt="Abstract Study IV"
               width={800}
               height={600}
               style={{ width: "100%", height: "auto", display: "block" }}
