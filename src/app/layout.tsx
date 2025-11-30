@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   keywords: ["Daniel Wahnich", "Autonomous Systems", "Algorithmic Trading", "Multi-Agent Systems", "Machine Learning", "Python Developer"],
   authors: [{ name: "Daniel Wahnich" }],
   creator: "Daniel Wahnich",
+  publisher: "Daniel Wahnich",
+  applicationName: "Daniel Wahnich",
   verification: {
     google: "oUl-My2-hKLVi79mstsvLVV9hrNo5pOAi45KqqkGOIs",
   },
@@ -32,6 +34,17 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
