@@ -9,132 +9,316 @@ export const metadata: Metadata = {
 
 export default function Creative() {
   return (
-    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#FAFAF8" }}>
+    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
       
-      {/* Hero Section */}
+      {/* Hero Section - Ultra Minimal */}
       <div style={{ 
-        maxWidth: "900px", 
+        maxWidth: "1600px", 
         margin: "0 auto", 
-        padding: "80px 24px",
+        padding: "clamp(100px, 15vh, 180px) 24px clamp(80px, 12vh, 140px)",
         textAlign: "center"
       }}>
-        <p style={{ 
-          fontSize: "11px", 
-          letterSpacing: "0.3em", 
-          textTransform: "uppercase", 
-          color: "#71706E",
-          marginBottom: "20px"
-        }}>
-          Visual Studies
-        </p>
         <h1 style={{ 
           fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(40px, 8vw, 56px)", 
-          fontWeight: 400,
-          color: "#1C1C1C",
-          marginBottom: "24px"
+          fontSize: "clamp(40px, 6vw, 80px)", 
+          fontWeight: 300,
+          color: "#FAFAF8",
+          marginBottom: "clamp(24px, 4vh, 40px)",
+          letterSpacing: "-0.03em",
+          lineHeight: 1.1
         }}>
-          Creative Work
+          Visual Studies
         </h1>
+        <div style={{
+          width: "60px",
+          height: "1px",
+          backgroundColor: "#71706E",
+          margin: "0 auto clamp(32px, 5vh, 48px)"
+        }} />
         <p style={{ 
-          fontSize: "16px", 
-          color: "#71706E",
-          maxWidth: "500px",
+          fontSize: "clamp(15px, 2vw, 20px)", 
+          color: "#B8B7B3",
+          maxWidth: "700px",
           margin: "0 auto",
-          lineHeight: 1.8
+          lineHeight: 1.7,
+          fontWeight: 300
         }}>
-          Abstract explorations in texture, form, and layered complexity. 
-          The same principles that make systems interesting make images interesting.
+          Explorations in form, emergence, and the architecture of complexity
         </p>
       </div>
 
-      {/* Gallery - Stacked Layout */}
-      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "0 24px 80px" }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
-          
+      {/* Gallery - Asymmetric Grid */}
+      <div style={{ maxWidth: "1600px", margin: "0 auto", padding: "0 clamp(24px, 4vw, 80px) clamp(100px, 15vh, 180px)" }}>
+        
+        {/* Piece 1 - Full Bleed */}
+        <div style={{ marginBottom: "clamp(80px, 12vh, 160px)" }}>
           <div style={{ 
-            boxShadow: "0 20px 50px rgba(0,0,0,0.1)",
+            position: "relative",
+            backgroundColor: "#000000",
             overflow: "hidden"
           }}>
             <Image 
               src="/images/art4.png" 
-              alt="Abstract Study I"
-              width={800}
-              height={500}
-              style={{ width: "100%", height: "auto", display: "block" }}
+              alt="Neural Architecture Study"
+              width={1600}
+              height={900}
+              style={{ 
+                width: "100%", 
+                height: "auto", 
+                display: "block",
+                opacity: 0.95
+              }}
             />
           </div>
-
           <div style={{ 
-            boxShadow: "0 20px 50px rgba(0,0,0,0.1)",
-            overflow: "hidden"
+            marginTop: "clamp(20px, 3vh, 32px)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+            flexWrap: "wrap",
+            gap: "16px"
           }}>
-            <Image 
-              src="/images/art3.jpg" 
-              alt="Abstract Study II"
-              width={800}
-              height={1100}
-              style={{ width: "100%", height: "auto", display: "block" }}
-            />
+            <div>
+              <p style={{ 
+                fontFamily: "Playfair Display, Georgia, serif",
+                fontSize: "clamp(18px, 2.5vw, 24px)",
+                color: "#FAFAF8",
+                fontWeight: 300,
+                marginBottom: "8px"
+              }}>
+                Neural Architecture
+              </p>
+              <p style={{ 
+                fontSize: "clamp(12px, 1.5vw, 14px)",
+                color: "#71706E",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase"
+              }}>
+                Digital Study
+              </p>
+            </div>
+            <p style={{ 
+              fontSize: "clamp(12px, 1.5vw, 14px)",
+              color: "#71706E",
+              letterSpacing: "0.05em"
+            }}>
+              2024
+            </p>
+          </div>
+        </div>
+
+        {/* Piece 2 & 3 - Side by Side on Desktop, Stacked on Mobile */}
+        <div style={{ 
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 500px), 1fr))",
+          gap: "clamp(40px, 6vw, 80px)",
+          marginBottom: "clamp(80px, 12vh, 160px)"
+        }}>
+          
+          {/* Piece 2 */}
+          <div>
+            <div style={{ 
+              backgroundColor: "#000000",
+              overflow: "hidden",
+              aspectRatio: "3/4"
+            }}>
+              <Image 
+                src="/images/art3.jpg" 
+                alt="Emergence Study"
+                width={800}
+                height={1100}
+                style={{ 
+                  width: "100%", 
+                  height: "100%", 
+                  objectFit: "cover",
+                  display: "block",
+                  opacity: 0.95
+                }}
+              />
+            </div>
+            <div style={{ marginTop: "clamp(20px, 3vh, 32px)" }}>
+              <p style={{ 
+                fontFamily: "Playfair Display, Georgia, serif",
+                fontSize: "clamp(16px, 2.2vw, 20px)",
+                color: "#FAFAF8",
+                fontWeight: 300,
+                marginBottom: "8px"
+              }}>
+                Emergence
+              </p>
+              <p style={{ 
+                fontSize: "clamp(11px, 1.4vw, 13px)",
+                color: "#71706E",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase"
+              }}>
+                Mixed Media
+              </p>
+            </div>
           </div>
 
-          <div style={{ 
-            boxShadow: "0 20px 50px rgba(0,0,0,0.1)",
-            overflow: "hidden"
-          }}>
-            <Image 
-              src="/images/art2.JPEG" 
-              alt="Abstract Study III"
-              width={800}
-              height={800}
-              style={{ width: "100%", height: "auto", display: "block" }}
-            />
+          {/* Piece 3 */}
+          <div>
+            <div style={{ 
+              backgroundColor: "#000000",
+              overflow: "hidden",
+              aspectRatio: "1/1"
+            }}>
+              <Image 
+                src="/images/art2.JPEG" 
+                alt="Layers Study"
+                width={800}
+                height={800}
+                style={{ 
+                  width: "100%", 
+                  height: "100%", 
+                  objectFit: "cover",
+                  display: "block",
+                  opacity: 0.95
+                }}
+              />
+            </div>
+            <div style={{ marginTop: "clamp(20px, 3vh, 32px)" }}>
+              <p style={{ 
+                fontFamily: "Playfair Display, Georgia, serif",
+                fontSize: "clamp(16px, 2.2vw, 20px)",
+                color: "#FAFAF8",
+                fontWeight: 300,
+                marginBottom: "8px"
+              }}>
+                Layers
+              </p>
+              <p style={{ 
+                fontSize: "clamp(11px, 1.4vw, 13px)",
+                color: "#71706E",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase"
+              }}>
+                Digital Composite
+              </p>
+            </div>
           </div>
 
+        </div>
+
+        {/* Piece 4 - Offset Right */}
+        <div style={{ 
+          maxWidth: "1200px",
+          marginLeft: "auto",
+          marginRight: "0",
+          marginBottom: "clamp(80px, 12vh, 160px)"
+        }}>
           <div style={{ 
-            boxShadow: "0 20px 50px rgba(0,0,0,0.1)",
+            backgroundColor: "#000000",
             overflow: "hidden"
           }}>
             <Image 
               src="/images/art1.JPEG" 
-              alt="Abstract Study IV"
-              width={800}
-              height={600}
-              style={{ width: "100%", height: "auto", display: "block" }}
+              alt="Geometric Study"
+              width={1200}
+              height={700}
+              style={{ 
+                width: "100%", 
+                height: "auto", 
+                display: "block",
+                opacity: 0.95
+              }}
             />
           </div>
-
+          <div style={{ 
+            marginTop: "clamp(20px, 3vh, 32px)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+            flexWrap: "wrap",
+            gap: "16px"
+          }}>
+            <div>
+              <p style={{ 
+                fontFamily: "Playfair Display, Georgia, serif",
+                fontSize: "clamp(18px, 2.5vw, 24px)",
+                color: "#FAFAF8",
+                fontWeight: 300,
+                marginBottom: "8px"
+              }}>
+                Geometric Abstractions
+              </p>
+              <p style={{ 
+                fontSize: "clamp(12px, 1.5vw, 14px)",
+                color: "#71706E",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase"
+              }}>
+                Algorithmic Process
+              </p>
+            </div>
+            <p style={{ 
+              fontSize: "clamp(12px, 1.5vw, 14px)",
+              color: "#71706E",
+              letterSpacing: "0.05em"
+            }}>
+              2024
+            </p>
+          </div>
         </div>
+
       </div>
 
-      {/* Quote */}
+      {/* Philosophy Statement */}
       <div style={{ 
-        backgroundColor: "#1C1C1C",
-        padding: "80px 24px"
+        borderTop: "1px solid #1C1C1C",
+        padding: "clamp(80px, 12vh, 140px) 24px"
       }}>
-        <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto", textAlign: "center" }}>
           <p style={{ 
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "24px", 
-            fontStyle: "italic",
+            fontSize: "clamp(20px, 3.5vw, 36px)", 
+            fontWeight: 300,
             color: "#FAFAF8",
-            lineHeight: 1.6
+            lineHeight: 1.5,
+            letterSpacing: "-0.01em"
           }}>
-            "Complexity emerging from simple rules. Order from chaos. 
-            The space between intention and accident."
+            Order from chaos
+          </p>
+          <div style={{
+            width: "40px",
+            height: "1px",
+            backgroundColor: "#71706E",
+            margin: "clamp(24px, 4vh, 40px) auto"
+          }} />
+          <p style={{ 
+            fontSize: "clamp(14px, 2vw, 18px)", 
+            fontWeight: 300,
+            color: "#B8B7B3",
+            lineHeight: 1.7,
+            maxWidth: "600px",
+            margin: "0 auto"
+          }}>
+            Pattern from randomness. The space between control and surrender.
           </p>
         </div>
       </div>
 
       {/* Navigation */}
-      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "48px 24px" }}>
+      <div style={{ 
+        padding: "clamp(60px, 10vh, 100px) 24px"
+      }}>
         <div style={{ 
           display: "flex", 
           justifyContent: "center", 
           alignItems: "center"
         }}>
-          <Link href="/" style={{ fontSize: "13px", color: "#71706E", textDecoration: "none" }}>
-            ← Back to About
+          <Link href="/" style={{ 
+            fontSize: "clamp(11px, 1.5vw, 13px)", 
+            color: "#71706E", 
+            textDecoration: "none",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            borderBottom: "1px solid transparent",
+            paddingBottom: "4px",
+            transition: "all 0.3s ease"
+          }}>
+            About
           </Link>
         </div>
       </div>
