@@ -48,20 +48,22 @@ export default function Creative() {
       </div>
 
       {/* Gallery - Asymmetric Grid */}
-      <div style={{ maxWidth: "1600px", margin: "0 auto", padding: "0 clamp(24px, 4vw, 80px) clamp(100px, 15vh, 180px)" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 clamp(24px, 4vw, 80px) clamp(100px, 15vh, 180px)" }}>
         
-        {/* Piece 1 - Full Bleed */}
+        {/* Piece 1 - Constrained Width */}
         <div style={{ marginBottom: "clamp(80px, 12vh, 160px)" }}>
           <div style={{ 
             position: "relative",
             backgroundColor: "#000000",
-            overflow: "hidden"
+            overflow: "hidden",
+            maxWidth: "900px",
+            margin: "0 auto"
           }}>
             <Image 
               src="/images/art4.png" 
               alt="Neural Architecture Study"
-              width={1600}
-              height={900}
+              width={900}
+              height={600}
               style={{ 
                 width: "100%", 
                 height: "auto", 
@@ -76,7 +78,9 @@ export default function Creative() {
             justifyContent: "space-between",
             alignItems: "baseline",
             flexWrap: "wrap",
-            gap: "16px"
+            gap: "16px",
+            maxWidth: "900px",
+            margin: "clamp(20px, 3vh, 32px) auto 0"
           }}>
             <div>
               <p style={{ 
@@ -110,8 +114,8 @@ export default function Creative() {
         {/* Piece 2 & 3 - Side by Side on Desktop, Stacked on Mobile */}
         <div style={{ 
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 500px), 1fr))",
-          gap: "clamp(40px, 6vw, 80px)",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 400px), 1fr))",
+          gap: "clamp(40px, 6vw, 60px)",
           marginBottom: "clamp(80px, 12vh, 160px)"
         }}>
           
@@ -201,12 +205,10 @@ export default function Creative() {
 
         </div>
 
-        {/* Piece 4 - Offset Right */}
+        {/* Piece 4 - Constrained Width, Centered */}
         <div style={{ 
-          maxWidth: "1200px",
-          marginLeft: "auto",
-          marginRight: "0",
-          marginBottom: "clamp(80px, 12vh, 160px)"
+          maxWidth: "850px",
+          margin: "0 auto clamp(80px, 12vh, 160px)"
         }}>
           <div style={{ 
             backgroundColor: "#000000",
@@ -215,8 +217,8 @@ export default function Creative() {
             <Image 
               src="/images/art1.JPEG" 
               alt="Geometric Study"
-              width={1200}
-              height={700}
+              width={850}
+              height={500}
               style={{ 
                 width: "100%", 
                 height: "auto", 
