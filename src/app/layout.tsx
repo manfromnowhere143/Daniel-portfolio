@@ -7,9 +7,9 @@ const inter = Inter({ subsets: ["latin"] });
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Daniel Wahnich | Autonomous Systems Engineer",
-  description: "Daniel Wahnich builds autonomous systems - algorithmic trading platforms, multi-agent AI systems, and cognitive frameworks. 600+ Python files, 290K+ lines of code.",
-  keywords: ["Daniel Wahnich", "Autonomous Systems", "Algorithmic Trading", "Multi-Agent Systems", "Machine Learning", "Python Developer"],
+  title: "Daniel Wahnich",
+  description: "Artist, Autodidact, Builder.",
+  keywords: ["Daniel Wahnich", "Autonomous Systems", "Algorithmic Trading", "Multi-Agent Systems", "Machine Learning", "Python Developer", "Artist", "Autodidact", "Builder"],
   authors: [{ name: "Daniel Wahnich" }],
   creator: "Daniel Wahnich",
   publisher: "Daniel Wahnich",
@@ -21,14 +21,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://danielwahnich.vercel.app",
-    title: "Daniel Wahnich | Autonomous Systems Engineer",
-    description: "Building intelligence that operates independently. Algorithmic trading, multi-agent orchestration, cognitive frameworks.",
+    title: "Daniel Wahnich",
+    description: "Artist, Autodidact, Builder.",
     siteName: "Daniel Wahnich",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Daniel Wahnich | Autonomous Systems Engineer",
-    description: "Building intelligence that operates independently.",
+    title: "Daniel Wahnich",
+    description: "Artist, Autodidact, Builder.",
   },
   robots: {
     index: true,
