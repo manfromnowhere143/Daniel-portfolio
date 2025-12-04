@@ -2,11 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Navigation() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Lock body scroll when sidebar is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   return (
     <>
@@ -16,8 +28,8 @@ export default function Navigation() {
         left: 0,
         right: 0,
         zIndex: 50,
-        backgroundColor: "rgba(250, 250, 248, 0.9)",
-        backdropFilter: "blur(8px)"
+        backgroundColor: "rgba(250, 250, 248, 0.95)",
+        backdropFilter: "blur(12px)"
       }}>
         <div style={{
           display: "flex",
@@ -28,7 +40,7 @@ export default function Navigation() {
           padding: "0 20px",
           position: "relative"
         }}>
-          {/* Desktop Links - Hidden on Mobile */}
+          {/* Desktop Links */}
           <div style={{
             display: "flex",
             gap: "40px",
@@ -40,7 +52,8 @@ export default function Navigation() {
               textTransform: "uppercase",
               color: pathname === "/" ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
-              display: "block"
+              display: "block",
+              transition: "color 0.3s"
             }}
             className="desktop-only">
               About
@@ -51,7 +64,8 @@ export default function Navigation() {
               textTransform: "uppercase",
               color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
-              display: "block"
+              display: "block",
+              transition: "color 0.3s"
             }}
             className="desktop-only">
               Work
@@ -62,7 +76,8 @@ export default function Navigation() {
               textTransform: "uppercase",
               color: pathname === "/creative" ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
-              display: "block"
+              display: "block",
+              transition: "color 0.3s"
             }}
             className="desktop-only">
               Creative
@@ -74,153 +89,174 @@ export default function Navigation() {
             onClick={() => setIsOpen(!isOpen)}
             style={{
               position: "absolute",
-              right: "20px",
+              right: "24px",
               background: "none",
               border: "none",
               cursor: "pointer",
-              padding: "8px",
-              display: "none"
+              padding: "12px",
+              display: "none",
+              zIndex: 101
             }}
             className="mobile-only"
             aria-label="Menu"
           >
-            <div style={{
-              width: "24px",
-              height: "2px",
-              backgroundColor: "#1C1C1C",
-              marginBottom: "5px",
-              transition: "all 0.3s"
-            }} />
-            <div style={{
-              width: "24px",
-              height: "2px",
-              backgroundColor: "#1C1C1C",
-              marginBottom: "5px",
-              transition: "all 0.3s"
-            }} />
-            <div style={{
-              width: "24px",
-              height: "2px",
-              backgroundColor: "#1C1C1C",
-              transition: "all 0.3s"
-            }} />
+            <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
+              <line x1="0" y1="1" x2="24" y2="1" stroke="#1C1C1C" strokeWidth="1.5"/>
+              <line x1="0" y1="9" x2="24" y2="9" stroke="#1C1C1C" strokeWidth="1.5"/>
+              <line x1="0" y1="17" x2="24" y2="17" stroke="#1C1C1C" strokeWidth="1.5"/>
+            </svg>
           </button>
         </div>
         <div style={{ height: "1px", backgroundColor: "#E0DED6" }} />
       </nav>
 
-      {/* Mobile Sidebar */}
+      {/* Mobile Sidebar - Full Screen Elegant Design */}
       <div
         style={{
           position: "fixed",
           top: 0,
-          right: isOpen ? 0 : "-100%",
-          width: "70%",
-          maxWidth: "300px",
+          right: 0,
+          width: "100%",
           height: "100vh",
           backgroundColor: "#FAFAF8",
           zIndex: 100,
-          transition: "right 0.3s ease",
-          boxShadow: isOpen ? "-4px 0 24px rgba(0,0,0,0.1)" : "none",
-          display: "none"
+          transform: isOpen ? "translateX(0)" : "translateX(100%)",
+          transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          display: "none",
+          overflow: "hidden"
         }}
         className="mobile-sidebar"
       >
-        {/* Close Button */}
+        {/* Close Button - Elegant X */}
         <button
           onClick={() => setIsOpen(false)}
           style={{
             position: "absolute",
-            top: "20px",
-            right: "20px",
+            top: "24px",
+            right: "24px",
             background: "none",
             border: "none",
             cursor: "pointer",
-            fontSize: "32px",
-            color: "#1C1C1C",
             padding: "8px",
-            lineHeight: 1
+            zIndex: 101
           }}
           aria-label="Close"
         >
-          ×
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <line x1="2" y1="2" x2="22" y2="22" stroke="#1C1C1C" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="22" y1="2" x2="2" y2="22" stroke="#1C1C1C" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
         </button>
 
-        {/* Menu Items */}
+        {/* Centered Menu Content */}
         <div style={{
           display: "flex",
           flexDirection: "column",
-          paddingTop: "100px",
-          gap: "0"
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          gap: "0",
+          padding: "0 40px"
         }}>
+          {/* Decorative Line Above */}
+          <div style={{
+            width: "60px",
+            height: "1px",
+            backgroundColor: "#E0DED6",
+            marginBottom: "60px"
+          }} />
+
+          {/* Menu Items */}
           <Link
             href="/"
             onClick={() => setIsOpen(false)}
             style={{
-              padding: "24px 40px",
-              fontSize: "16px",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
+              fontFamily: "Playfair Display, Georgia, serif",
+              fontSize: "32px",
+              fontWeight: 300,
+              letterSpacing: "0.02em",
               color: pathname === "/" ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
-              borderBottom: "1px solid #E0DED6",
-              transition: "all 0.3s"
+              padding: "20px 0",
+              transition: "all 0.3s ease",
+              textAlign: "center"
             }}
           >
             About
           </Link>
+
+          <div style={{
+            width: "40px",
+            height: "1px",
+            backgroundColor: "#E0DED6",
+            margin: "8px 0"
+          }} />
+
           <Link
             href="/work"
             onClick={() => setIsOpen(false)}
             style={{
-              padding: "24px 40px",
-              fontSize: "16px",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
+              fontFamily: "Playfair Display, Georgia, serif",
+              fontSize: "32px",
+              fontWeight: 300,
+              letterSpacing: "0.02em",
               color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
-              borderBottom: "1px solid #E0DED6",
-              transition: "all 0.3s"
+              padding: "20px 0",
+              transition: "all 0.3s ease",
+              textAlign: "center"
             }}
           >
             Work
           </Link>
+
+          <div style={{
+            width: "40px",
+            height: "1px",
+            backgroundColor: "#E0DED6",
+            margin: "8px 0"
+          }} />
+
           <Link
             href="/creative"
             onClick={() => setIsOpen(false)}
             style={{
-              padding: "24px 40px",
-              fontSize: "16px",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
+              fontFamily: "Playfair Display, Georgia, serif",
+              fontSize: "32px",
+              fontWeight: 300,
+              letterSpacing: "0.02em",
               color: pathname === "/creative" ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
-              borderBottom: "1px solid #E0DED6",
-              transition: "all 0.3s"
+              padding: "20px 0",
+              transition: "all 0.3s ease",
+              textAlign: "center"
             }}
           >
             Creative
           </Link>
+
+          {/* Decorative Line Below */}
+          <div style={{
+            width: "60px",
+            height: "1px",
+            backgroundColor: "#E0DED6",
+            marginTop: "60px"
+          }} />
+
+          {/* Subtle Footer Text */}
+          <p style={{
+            fontFamily: "Inter, sans-serif",
+            fontSize: "11px",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            color: "#B8B7B3",
+            marginTop: "40px",
+            textAlign: "center"
+          }}>
+            Daniel Wahnich
+          </p>
         </div>
       </div>
-
-      {/* Overlay */}
-      {isOpen && (
-        <div
-          onClick={() => setIsOpen(false)}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0,0,0,0.5)",
-            zIndex: 99,
-            display: "none"
-          }}
-          className="mobile-overlay"
-        />
-      )}
 
       <style jsx global>{`
         @media (max-width: 768px) {
@@ -233,9 +269,6 @@ export default function Navigation() {
           .mobile-sidebar {
             display: block !important;
           }
-          .mobile-overlay {
-            display: block !important;
-          }
         }
         @media (min-width: 769px) {
           .desktop-only {
@@ -245,9 +278,6 @@ export default function Navigation() {
             display: none !important;
           }
           .mobile-sidebar {
-            display: none !important;
-          }
-          .mobile-overlay {
             display: none !important;
           }
         }
