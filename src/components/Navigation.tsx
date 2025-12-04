@@ -9,6 +9,15 @@ export default function Navigation() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
+  // Determine if current page has dark background
+  const isDarkPage = pathname === "/" || 
+                     pathname === "/work" || 
+                     pathname === "/creative" ||
+                     pathname.startsWith("/work/");
+
+  // Hamburger line color based on page background
+  const hamburgerColor = isDarkPage ? "#FAFAF8" : "#1C1C1C";
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -94,9 +103,9 @@ export default function Navigation() {
         aria-label="Menu"
       >
         <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
-          <line x1="0" y1="1" x2="24" y2="1" stroke="#FAFAF8" strokeWidth="1.5"/>
-          <line x1="0" y1="9" x2="24" y2="9" stroke="#FAFAF8" strokeWidth="1.5"/>
-          <line x1="0" y1="17" x2="24" y2="17" stroke="#FAFAF8" strokeWidth="1.5"/>
+          <line x1="0" y1="1" x2="24" y2="1" stroke={hamburgerColor} strokeWidth="1.5"/>
+          <line x1="0" y1="9" x2="24" y2="9" stroke={hamburgerColor} strokeWidth="1.5"/>
+          <line x1="0" y1="17" x2="24" y2="17" stroke={hamburgerColor} strokeWidth="1.5"/>
         </svg>
       </button>
 
