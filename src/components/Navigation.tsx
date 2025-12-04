@@ -22,7 +22,8 @@ export default function Navigation() {
 
   return (
     <>
-      <nav style={{
+      {/* Desktop Navigation - Keep for desktop */}
+      <nav className={styles.desktopOnly} style={{
         position: "fixed",
         top: 0,
         left: 0,
@@ -37,70 +38,66 @@ export default function Navigation() {
           alignItems: "center",
           height: "70px",
           gap: "40px",
-          padding: "0 20px",
-          position: "relative"
+          padding: "0 20px"
         }}>
-          <div style={{
-            display: "flex",
-            gap: "40px",
-            alignItems: "center"
+          <Link href="/" style={{
+            fontSize: "13px",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: pathname === "/" ? "#1C1C1C" : "#71706E",
+            textDecoration: "none",
+            transition: "color 0.3s"
           }}>
-            <Link href="/" className={styles.desktopOnly} style={{
-              fontSize: "13px",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: pathname === "/" ? "#1C1C1C" : "#71706E",
-              textDecoration: "none",
-              transition: "color 0.3s"
-            }}>
-              About
-            </Link>
-            <Link href="/work" className={styles.desktopOnly} style={{
-              fontSize: "13px",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E",
-              textDecoration: "none",
-              transition: "color 0.3s"
-            }}>
-              Work
-            </Link>
-            <Link href="/creative" className={styles.desktopOnly} style={{
-              fontSize: "13px",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: pathname === "/creative" ? "#1C1C1C" : "#71706E",
-              textDecoration: "none",
-              transition: "color 0.3s"
-            }}>
-              Creative
-            </Link>
-          </div>
-
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className={styles.mobileOnly}
-            style={{
-              position: "absolute",
-              right: "24px",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: "12px",
-              zIndex: 101
-            }}
-            aria-label="Menu"
-          >
-            <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
-              <line x1="0" y1="1" x2="24" y2="1" stroke="#1C1C1C" strokeWidth="1.5"/>
-              <line x1="0" y1="9" x2="24" y2="9" stroke="#1C1C1C" strokeWidth="1.5"/>
-              <line x1="0" y1="17" x2="24" y2="17" stroke="#1C1C1C" strokeWidth="1.5"/>
-            </svg>
-          </button>
+            About
+          </Link>
+          <Link href="/work" style={{
+            fontSize: "13px",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E",
+            textDecoration: "none",
+            transition: "color 0.3s"
+          }}>
+            Work
+          </Link>
+          <Link href="/creative" style={{
+            fontSize: "13px",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: pathname === "/creative" ? "#1C1C1C" : "#71706E",
+            textDecoration: "none",
+            transition: "color 0.3s"
+          }}>
+            Creative
+          </Link>
         </div>
         <div style={{ height: "1px", backgroundColor: "#E0DED6" }} />
       </nav>
 
+      {/* Floating Hamburger - Mobile Only */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={styles.mobileOnly}
+        style={{
+          position: "fixed",
+          top: "24px",
+          right: "24px",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          padding: "12px",
+          zIndex: 102
+        }}
+        aria-label="Menu"
+      >
+        <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
+          <line x1="0" y1="1" x2="24" y2="1" stroke="#1C1C1C" strokeWidth="1.5"/>
+          <line x1="0" y1="9" x2="24" y2="9" stroke="#1C1C1C" strokeWidth="1.5"/>
+          <line x1="0" y1="17" x2="24" y2="17" stroke="#1C1C1C" strokeWidth="1.5"/>
+        </svg>
+      </button>
+
+      {/* Mobile Sidebar */}
       <div
         className={styles.mobileSidebar}
         style={{
@@ -110,7 +107,7 @@ export default function Navigation() {
           width: "100%",
           height: "100vh",
           backgroundColor: "#FAFAF8",
-          zIndex: 100,
+          zIndex: 101,
           transform: isOpen ? "translateX(0)" : "translateX(100%)",
           transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
           overflow: "hidden"
@@ -126,7 +123,7 @@ export default function Navigation() {
             border: "none",
             cursor: "pointer",
             padding: "8px",
-            zIndex: 101
+            zIndex: 102
           }}
           aria-label="Close"
         >
