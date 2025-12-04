@@ -15,7 +15,7 @@ export default function Creative() {
       <div style={{ 
         maxWidth: "1600px", 
         margin: "0 auto", 
-        padding: "clamp(60px, 10vh, 100px) 24px clamp(60px, 10vh, 100px)",
+        padding: "clamp(20px, 4vh, 40px) 24px clamp(40px, 6vh, 60px)",
         textAlign: "center"
       }}>
         <h1 style={{ 
@@ -23,7 +23,7 @@ export default function Creative() {
           fontSize: "clamp(40px, 6vw, 80px)", 
           fontWeight: 300,
           color: "#FAFAF8",
-          marginBottom: "clamp(24px, 4vh, 40px)",
+          marginBottom: "clamp(20px, 3vh, 32px)",
           letterSpacing: "-0.03em",
           lineHeight: 1.1
         }}>
@@ -33,7 +33,7 @@ export default function Creative() {
           width: "60px",
           height: "1px",
           backgroundColor: "#71706E",
-          margin: "0 auto clamp(32px, 5vh, 48px)"
+          margin: "0 auto clamp(24px, 4vh, 36px)"
         }} />
         <p style={{ 
           fontSize: "clamp(15px, 2vw, 20px)", 
@@ -48,7 +48,7 @@ export default function Creative() {
       </div>
 
       {/* Gallery - Asymmetric Grid */}
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 clamp(24px, 4vw, 80px) clamp(80px, 12vh, 120px)" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "clamp(40px, 6vh, 60px) clamp(24px, 4vw, 80px) clamp(80px, 12vh, 120px)" }}>
         
         {/* Piece 1 - Constrained Width */}
         <div style={{ marginBottom: "clamp(60px, 10vh, 100px)" }}>
