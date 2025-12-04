@@ -9,13 +9,13 @@ export const metadata: Metadata = {
 
 export default function Creative() {
   return (
-    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+    <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
       
       {/* Hero Section - Ultra Minimal */}
       <div style={{ 
         maxWidth: "1600px", 
         margin: "0 auto", 
-        padding: "clamp(100px, 15vh, 180px) 24px clamp(80px, 12vh, 140px)",
+        padding: "clamp(60px, 10vh, 100px) 24px clamp(60px, 10vh, 100px)",
         textAlign: "center"
       }}>
         <h1 style={{ 
@@ -48,10 +48,10 @@ export default function Creative() {
       </div>
 
       {/* Gallery - Asymmetric Grid */}
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 clamp(24px, 4vw, 80px) clamp(100px, 15vh, 180px)" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 clamp(24px, 4vw, 80px) clamp(80px, 12vh, 120px)" }}>
         
         {/* Piece 1 - Constrained Width */}
-        <div style={{ marginBottom: "clamp(80px, 12vh, 160px)" }}>
+        <div style={{ marginBottom: "clamp(60px, 10vh, 100px)" }}>
           <div style={{ 
             position: "relative",
             backgroundColor: "#000000",
@@ -116,7 +116,7 @@ export default function Creative() {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 400px), 1fr))",
           gap: "clamp(40px, 6vw, 60px)",
-          marginBottom: "clamp(80px, 12vh, 160px)"
+          marginBottom: "clamp(60px, 10vh, 100px)"
         }}>
           
           {/* Piece 2 */}
@@ -208,7 +208,7 @@ export default function Creative() {
         {/* Piece 4 - Constrained Width, Centered */}
         <div style={{ 
           maxWidth: "850px",
-          margin: "0 auto clamp(80px, 12vh, 160px)"
+          margin: "0 auto clamp(60px, 10vh, 100px)"
         }}>
           <div style={{ 
             backgroundColor: "#000000",
@@ -269,7 +269,7 @@ export default function Creative() {
       {/* Philosophy Statement */}
       <div style={{ 
         borderTop: "1px solid #1C1C1C",
-        padding: "clamp(80px, 12vh, 140px) 24px"
+        padding: "clamp(60px, 10vh, 100px) 24px"
       }}>
         <div style={{ maxWidth: "900px", margin: "0 auto", textAlign: "center" }}>
           <p style={{ 
