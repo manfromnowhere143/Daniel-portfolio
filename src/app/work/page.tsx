@@ -31,13 +31,13 @@ export default function Work() {
   ];
 
   return (
-    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+    <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
       
       {/* Hero */}
       <div style={{ 
         maxWidth: "900px", 
         margin: "0 auto", 
-        padding: "clamp(40px, 8vh, 60px) 24px clamp(50px, 8vh, 70px)",
+        padding: "clamp(20px, 4vh, 40px) 24px clamp(40px, 6vh, 60px)",
         textAlign: "center"
       }}>
         <h1 style={{ 
@@ -45,7 +45,7 @@ export default function Work() {
           fontSize: "clamp(42px, 6vw, 58px)", 
           fontWeight: 300,
           color: "#FAFAF8",
-          marginBottom: "clamp(24px, 4vh, 32px)",
+          marginBottom: "clamp(20px, 3vh, 28px)",
           letterSpacing: "-0.01em",
           lineHeight: 1.1
         }}>
@@ -67,7 +67,7 @@ export default function Work() {
         width: "1px",
         height: "40px",
         backgroundColor: "#FAFAF8",
-        margin: "0 auto clamp(50px, 8vh, 70px)"
+        margin: "0 auto clamp(40px, 6vh, 60px)"
       }} />
 
       {/* Projects List */}
