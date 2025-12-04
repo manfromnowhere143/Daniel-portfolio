@@ -1,116 +1,139 @@
 import Link from "next/link";
 
-const projects = [
-  {
-    slug: "trade69",
-    title: "Trade69",
-    category: "Algorithmic Trading",
-    year: "2025",
-    stats: "245 files · 32K+ lines · 11 data sources",
-    description: "End-to-end trading platform integrating StockTwits, Reddit, dark pools, and SEC filings. HMM regime detection, Random Forest classifiers, Kelly Criterion sizing.",
-  },
-  {
-    slug: "megaagent",
-    title: "MegaAgent",
-    category: "Autonomous Systems",
-    year: "2025",
-    stats: "365 files · 258K lines · 12 modules",
-    description: "Multi-agent system with Markowitz portfolio optimization, LinUCB contextual bandits, Thompson Sampling, and circuit breaker patterns with anomaly detection.",
-  },
-  {
-    slug: "octopus",
-    title: "Octopus",
-    category: "Cognitive Framework",
-    year: "2025",
-    stats: "v0.1.0 · 5 strategies · 3 memory stores",
-    description: "Goal decomposition with DAG task graphs. Tri-store memory: semantic, episodic, procedural. Meta-reflection with blind spot detection.",
-  },
-  {
-    slug: "overmind",
-    title: "Overmind",
-    category: "Blockchain",
-    year: "2025",
-    stats: "Solana · SPL Token",
-    description: "Cryptocurrency exploring decentralized autonomous systems with philosophical foundations rooted in Buddhist concepts of interconnected consciousness.",
-  },
-];
-
 export default function Work() {
-  return (
-    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#FAFAF8" }}>
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "60px 24px" }}>
-        
-        {/* Header */}
-        <div style={{ marginBottom: "80px", textAlign: "center" }}>
-          <p style={{ 
-            fontSize: "11px", 
-            letterSpacing: "0.25em", 
-            textTransform: "uppercase", 
-            color: "#71706E",
-            marginBottom: "16px"
-          }}>
-            Portfolio
-          </p>
-          <h1 style={{ 
-            fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(36px, 8vw, 48px)", 
-            fontWeight: 400,
-            color: "#1C1C1C",
-            marginBottom: "20px"
-          }}>
-            Selected Work
-          </h1>
-          <p style={{ 
-            fontSize: "16px", 
-            color: "#71706E", 
-            maxWidth: "500px", 
-            margin: "0 auto",
-            lineHeight: 1.8
-          }}>
-            Autonomous systems built with stubborn rigor. Real code, real capabilities.
-          </p>
-        </div>
+  const projects = [
+    {
+      name: "Trade69",
+      description: "Algorithmic trading platform with ML-powered signal detection",
+      stats: "245 files • 32K+ lines • 11 data sources",
+      href: "/work/trade69"
+    },
+    {
+      name: "MegaAgent",
+      description: "Multi-agent orchestration with portfolio optimization",
+      stats: "365 files • 258K lines • 12 core modules",
+      href: "/work/megaagent"
+    },
+    {
+      name: "Octopus",
+      description: "Cognitive agent framework with tri-store memory",
+      stats: "5 strategies • 3 memory stores • NetworkX DAG",
+      href: "/work/octopus"
+    },
+    {
+      name: "Overmind",
+      description: "Solana-based autonomous collective intelligence",
+      stats: "Blockchain • Token economics • DeFi integration",
+      href: "/work/overmind"
+    }
+  ];
 
-        {/* Projects List */}
-        <div style={{ borderTop: "1px solid #E0DED6" }}>
-          {projects.map((project) => (
-            <Link
-              key={project.slug}
-              href={`/work/${project.slug}`}
-              style={{
+  return (
+    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+      
+      {/* Hero */}
+      <div style={{ 
+        maxWidth: "900px", 
+        margin: "0 auto", 
+        padding: "clamp(80px, 12vh, 120px) 24px clamp(60px, 10vh, 100px)",
+        textAlign: "center"
+      }}>
+        <h1 style={{ 
+          fontFamily: "Playfair Display, Georgia, serif",
+          fontSize: "clamp(42px, 6vw, 58px)", 
+          fontWeight: 300,
+          color: "#FAFAF8",
+          marginBottom: "clamp(24px, 4vh, 32px)",
+          letterSpacing: "-0.01em",
+          lineHeight: 1.1
+        }}>
+          Work
+        </h1>
+        <p style={{ 
+          fontSize: "clamp(16px, 2vw, 18px)", 
+          color: "#999999",
+          lineHeight: 1.8,
+          fontWeight: 300,
+          letterSpacing: "0.01em"
+        }}>
+          Autonomous systems, algorithmic trading, and cognitive frameworks
+        </p>
+      </div>
+
+      {/* Vertical Divider */}
+      <div style={{
+        width: "1px",
+        height: "60px",
+        backgroundColor: "#1A1A1A",
+        margin: "0 auto clamp(60px, 10vh, 100px)"
+      }} />
+
+      {/* Projects List */}
+      <div style={{ 
+        maxWidth: "900px", 
+        margin: "0 auto", 
+        padding: "0 24px clamp(80px, 12vh, 120px)"
+      }}>
+        <div style={{ 
+          display: "flex", 
+          flexDirection: "column", 
+          gap: "1px",
+          backgroundColor: "#1A1A1A"
+        }}>
+          {projects.map((project, index) => (
+            <Link 
+              key={index}
+              href={project.href}
+              style={{ 
+                textDecoration: "none",
                 display: "block",
-                padding: "40px 0",
-                borderBottom: "1px solid #E0DED6",
-                textDecoration: "none"
+                backgroundColor: "#0A0A0A",
+                padding: "clamp(40px, 6vw, 56px) clamp(32px, 5vw, 48px)",
+                transition: "background-color 0.3s ease"
               }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#0F0F0F"}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#0A0A0A"}
             >
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "12px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
-                    <span style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E" }}>
-                      {project.category}
-                    </span>
-                    <span style={{ fontSize: "11px", color: "#E0DED6" }}>·</span>
-                    <span style={{ fontSize: "11px", color: "#71706E" }}>
-                      {project.stats}
-                    </span>
-                  </div>
+              <div style={{ 
+                display: "flex", 
+                justifyContent: "space-between", 
+                alignItems: "flex-start",
+                gap: "32px",
+                flexWrap: "wrap"
+              }}>
+                <div style={{ flex: 1, minWidth: "250px" }}>
                   <h2 style={{ 
                     fontFamily: "Playfair Display, Georgia, serif",
-                    fontSize: "clamp(28px, 5vw, 36px)", 
-                    fontWeight: 400,
-                    color: "#1C1C1C"
+                    fontSize: "clamp(24px, 3vw, 32px)", 
+                    fontWeight: 300,
+                    color: "#FAFAF8",
+                    marginBottom: "clamp(12px, 2vh, 16px)",
+                    letterSpacing: "-0.01em"
                   }}>
-                    {project.title}
+                    {project.name}
                   </h2>
-                  <p style={{ fontSize: "15px", color: "#71706E", lineHeight: 1.8, maxWidth: "700px" }}>
+                  <p style={{ 
+                    fontSize: "clamp(15px, 1.9vw, 17px)", 
+                    color: "#999999",
+                    lineHeight: 1.7,
+                    marginBottom: "clamp(12px, 2vh, 16px)",
+                    fontWeight: 300,
+                    letterSpacing: "0.01em"
+                  }}>
                     {project.description}
+                  </p>
+                  <p style={{ 
+                    fontSize: "clamp(13px, 1.6vw, 14px)", 
+                    color: "#666666",
+                    letterSpacing: "0.02em",
+                    fontWeight: 300
+                  }}>
+                    {project.stats}
                   </p>
                 </div>
                 <div style={{ 
-                  fontSize: "20px", 
-                  color: "#1C1C1C",
-                  marginLeft: "24px",
+                  fontSize: "clamp(20px, 2.5vw, 24px)", 
+                  color: "#4D4D4D",
                   marginTop: "8px"
                 }}>
                   →
@@ -119,8 +142,27 @@ export default function Work() {
             </Link>
           ))}
         </div>
-
       </div>
+
+      {/* Back Link */}
+      <div style={{ 
+        maxWidth: "900px", 
+        margin: "0 auto", 
+        padding: "0 24px clamp(60px, 10vh, 100px)",
+        textAlign: "center"
+      }}>
+        <Link href="/" style={{ 
+          fontSize: "clamp(13px, 1.6vw, 14px)", 
+          color: "#666666",
+          textDecoration: "none",
+          borderBottom: "1px solid #333333",
+          paddingBottom: "2px",
+          letterSpacing: "0.02em"
+        }}>
+          ← Back to About
+        </Link>
+      </div>
+
     </div>
   );
 }
