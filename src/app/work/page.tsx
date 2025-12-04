@@ -62,19 +62,19 @@ export default function Work() {
         </p>
       </div>
 
-      {/* Vertical Divider */}
+      {/* Vertical Divider - White */}
       <div style={{
         width: "1px",
-        height: "60px",
-        backgroundColor: "#1A1A1A",
-        margin: "0 auto clamp(60px, 10vh, 100px)"
+        height: "40px",
+        backgroundColor: "#FAFAF8",
+        margin: "0 auto clamp(50px, 8vh, 70px)"
       }} />
 
       {/* Projects List */}
       <div style={{ 
         maxWidth: "900px", 
         margin: "0 auto", 
-        padding: "0 24px clamp(80px, 12vh, 120px)"
+        padding: "0 24px clamp(60px, 10vh, 80px)"
       }}>
         <div style={{ 
           display: "flex", 

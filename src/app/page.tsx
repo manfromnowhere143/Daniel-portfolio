@@ -35,19 +35,19 @@ export default function About() {
         </p>
       </div>
 
-      {/* Subtle Divider */}
+      {/* Subtle Divider - White */}
       <div style={{
         width: "1px",
-        height: "60px",
-        backgroundColor: "#1A1A1A",
-        margin: "0 auto clamp(80px, 12vh, 120px)"
+        height: "40px",
+        backgroundColor: "#FAFAF8",
+        margin: "0 auto clamp(60px, 10vh, 80px)"
       }} />
 
       {/* Main Statement - Breathing Room */}
       <div style={{ 
         maxWidth: "720px", 
         margin: "0 auto", 
-        padding: "0 24px clamp(80px, 12vh, 120px)"
+        padding: "0 24px clamp(60px, 10vh, 80px)"
       }}>
         <h2 style={{ 
           fontFamily: "Playfair Display, Georgia, serif",
@@ -97,19 +97,19 @@ export default function About() {
         </div>
       </div>
 
-      {/* Vertical Divider */}
+      {/* Vertical Divider - White */}
       <div style={{
         width: "1px",
-        height: "80px",
-        backgroundColor: "#1A1A1A",
-        margin: "0 auto clamp(80px, 12vh, 120px)"
+        height: "50px",
+        backgroundColor: "#FAFAF8",
+        margin: "0 auto clamp(60px, 10vh, 80px)"
       }} />
 
       {/* What I Build - Minimalist Grid */}
       <div style={{ 
         maxWidth: "1200px", 
         margin: "0 auto", 
-        padding: "0 24px clamp(80px, 12vh, 120px)"
+        padding: "0 24px clamp(60px, 10vh, 80px)"
       }}>
         <h2 style={{ 
           fontSize: "clamp(11px, 1.4vw, 13px)", 
@@ -208,19 +208,19 @@ export default function About() {
         </div>
       </div>
 
-      {/* Vertical Divider */}
+      {/* Vertical Divider - White */}
       <div style={{
         width: "1px",
-        height: "80px",
-        backgroundColor: "#1A1A1A",
-        margin: "clamp(80px, 12vh, 120px) auto"
+        height: "50px",
+        backgroundColor: "#FAFAF8",
+        margin: "clamp(60px, 10vh, 80px) auto"
       }} />
 
       {/* Technical Focus - Ultra Minimal */}
       <div style={{ 
         maxWidth: "1100px", 
         margin: "0 auto", 
-        padding: "0 24px clamp(80px, 12vh, 120px)"
+        padding: "0 24px clamp(60px, 10vh, 80px)"
       }}>
         <h2 style={{ 
           fontSize: "clamp(11px, 1.4vw, 13px)", 
@@ -321,19 +321,19 @@ export default function About() {
         </div>
       </div>
 
-      {/* Vertical Divider */}
+      {/* Vertical Divider - White */}
       <div style={{
         width: "1px",
-        height: "80px",
-        backgroundColor: "#1A1A1A",
-        margin: "clamp(80px, 12vh, 120px) auto"
+        height: "50px",
+        backgroundColor: "#FAFAF8",
+        margin: "clamp(60px, 10vh, 80px) auto"
       }} />
 
       {/* Philosophy - Centered Elegance */}
       <div style={{ 
         maxWidth: "700px", 
         margin: "0 auto", 
-        padding: "0 24px clamp(80px, 12vh, 120px)",
+        padding: "0 24px clamp(60px, 10vh, 80px)",
         textAlign: "center"
       }}>
         <h2 style={{ 
@@ -373,7 +373,7 @@ export default function About() {
       <div style={{ 
         maxWidth: "700px", 
         margin: "0 auto", 
-        padding: "0 24px clamp(80px, 12vh, 120px)",
+        padding: "0 24px clamp(60px, 10vh, 80px)",
         textAlign: "center"
       }}>
         <h2 style={{ 
@@ -420,7 +420,7 @@ export default function About() {
       {/* Final Statement - Whisper */}
       <div style={{ 
         backgroundColor: "#000000",
-        padding: "clamp(120px, 18vh, 200px) 24px"
+        padding: "clamp(100px, 15vh, 140px) 24px"
       }}>
         <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
           <p style={{ 
