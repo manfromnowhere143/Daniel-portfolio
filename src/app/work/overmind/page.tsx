@@ -3,78 +3,84 @@ import Image from "next/image";
 
 export default function Overmind() {
   return (
-    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#FAFAF8" }}>
+    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
       
       {/* Hero Section */}
       <div style={{ 
-        width: "100%",
-        backgroundColor: "#1C1C1C",
-        padding: "80px 24px"
+        maxWidth: "1200px", 
+        margin: "0 auto", 
+        padding: "clamp(80px, 12vh, 120px) 24px clamp(60px, 8vh, 80px)",
+        textAlign: "center"
       }}>
-        <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
-          <p style={{ 
-            fontSize: "11px", 
-            letterSpacing: "0.3em", 
-            textTransform: "uppercase", 
-            color: "#71706E",
-            marginBottom: "20px"
-          }}>
-            Blockchain · Philosophy
-          </p>
-          <h1 style={{ 
-            fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(40px, 10vw, 72px)", 
-            fontWeight: 400,
-            color: "#FAFAF8",
-            marginBottom: "24px",
-            lineHeight: 1.1
-          }}>
-            Overmind
-          </h1>
-          <p style={{ 
-            fontSize: "17px", 
-            color: "#A0A0A0", 
-            lineHeight: 1.8,
-            maxWidth: "540px",
-            margin: "0 auto"
-          }}>
-            A cryptocurrency exploring decentralized autonomous systems, 
-            blending blockchain technology with Buddhist philosophy.
-          </p>
-        </div>
-      </div>
+        <p style={{ 
+          fontSize: "11px", 
+          letterSpacing: "0.3em", 
+          textTransform: "uppercase", 
+          color: "#71706E",
+          marginBottom: "clamp(20px, 3vh, 32px)"
+        }}>
+          Blockchain · Philosophy
+        </p>
+        <h1 style={{ 
+          fontFamily: "Playfair Display, Georgia, serif",
+          fontSize: "clamp(40px, 6vw, 72px)", 
+          fontWeight: 300,
+          color: "#FAFAF8",
+          marginBottom: "clamp(24px, 4vh, 40px)",
+          letterSpacing: "-0.02em",
+          lineHeight: 1.1
+        }}>
+          Overmind
+        </h1>
+        <p style={{ 
+          fontSize: "clamp(15px, 2vw, 18px)", 
+          color: "#B8B7B3", 
+          lineHeight: 1.7,
+          maxWidth: "700px",
+          margin: "0 auto clamp(60px, 10vh, 100px)",
+          fontWeight: 300
+        }}>
+          A cryptocurrency exploring decentralized autonomous systems, 
+          blending blockchain technology with Buddhist philosophy.
+        </p>
 
-      {/* Hero Image */}
-      <div style={{ 
-        maxWidth: "450px", 
-        margin: "-30px auto 0",
-        padding: "0 24px"
-      }}>
+        {/* Hero Image */}
         <div style={{ 
-          boxShadow: "0 40px 80px rgba(0,0,0,0.15)",
-          borderRadius: "8px",
+          maxWidth: "500px",
+          margin: "0 auto",
+          boxShadow: "0 30px 80px rgba(255,255,255,0.08)",
+          border: "1px solid #1C1C1C",
+          borderRadius: "2px",
           overflow: "hidden",
-          backgroundColor: "#1C1C1C"
+          backgroundColor: "#FAFAF8"
         }}>
           <Image 
             src="/images/twinkle.png" 
             alt="Overmind"
-            width={450}
-            height={300}
+            width={500}
+            height={333}
             priority
-            style={{ width: "100%", height: "auto", display: "block" }}
+            style={{ 
+              width: "100%", 
+              height: "auto", 
+              display: "block"
+            }}
           />
         </div>
       </div>
 
       {/* Stats Bar */}
-      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "80px 24px 0" }}>
+      <div style={{ 
+        maxWidth: "1200px", 
+        margin: "0 auto", 
+        padding: "0 24px clamp(80px, 12vh, 120px)"
+      }}>
         <div style={{ 
           display: "grid", 
           gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", 
-          gap: "40px",
-          paddingBottom: "60px",
-          borderBottom: "1px solid #E0DED6"
+          gap: "clamp(20px, 4vw, 40px)",
+          maxWidth: "900px",
+          margin: "0 auto"
         }}>
           {[
             { value: "Solana", label: "Blockchain" },
@@ -82,16 +88,22 @@ export default function Overmind() {
             { value: "Rust", label: "Smart Contracts" },
             { value: "Live", label: "Status" },
           ].map((stat, i) => (
-            <div key={i} style={{ textAlign: "center" }}>
+            <div key={i}>
               <p style={{ 
                 fontFamily: "Playfair Display, Georgia, serif",
-                fontSize: "28px", 
-                color: "#1C1C1C",
+                fontSize: "clamp(24px, 4vw, 32px)", 
+                fontWeight: 300,
+                color: "#FAFAF8",
                 marginBottom: "8px"
               }}>
                 {stat.value}
               </p>
-              <p style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#71706E" }}>
+              <p style={{ 
+                fontSize: "12px", 
+                color: "#71706E",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase"
+              }}>
                 {stat.label}
               </p>
             </div>
@@ -100,219 +112,264 @@ export default function Overmind() {
       </div>
 
       {/* Overview */}
-      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "60px 24px" }}>
-        <div style={{ maxWidth: "450px" }}>
-          <p style={{ 
-            fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "24px", 
-            color: "#1C1C1C",
-            lineHeight: 1.6,
-            marginBottom: "24px"
-          }}>
-            More than a token. An exploration of systems that transcend their creators.
-          </p>
-          <p style={{ fontSize: "15px", color: "#71706E", lineHeight: 1.9 }}>
-            Overmind exists at the intersection of technology and philosophy. 
-            Drawing from concepts of collective intelligence, emergence, and the 
-            dissolution of individual identity into something greater.
-          </p>
-        </div>
+      <div style={{ 
+        maxWidth: "800px", 
+        margin: "0 auto", 
+        padding: "clamp(60px, 10vh, 100px) 24px"
+      }}>
+        <p style={{ 
+          fontFamily: "Playfair Display, Georgia, serif",
+          fontSize: "clamp(20px, 3vw, 28px)", 
+          fontWeight: 300,
+          color: "#FAFAF8",
+          lineHeight: 1.6,
+          marginBottom: "24px"
+        }}>
+          More than a token. An exploration of systems that transcend their creators.
+        </p>
+        <p style={{ 
+          fontSize: "clamp(14px, 2vw, 16px)", 
+          color: "#71706E", 
+          lineHeight: 1.8 
+        }}>
+          Overmind exists at the intersection of technology and philosophy. 
+          Drawing from concepts of collective intelligence, emergence, and the 
+          dissolution of individual identity into something greater.
+        </p>
       </div>
 
       {/* Philosophy Section */}
-      <div style={{ backgroundColor: "#F2F1ED", padding: "80px 24px" }}>
-        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-          <p style={{ 
-            fontSize: "11px", 
-            letterSpacing: "0.2em", 
-            textTransform: "uppercase", 
-            color: "#71706E",
-            marginBottom: "12px"
-          }}>
-            Foundation
-          </p>
-          <h2 style={{ 
-            fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "32px", 
-            fontWeight: 400,
-            color: "#1C1C1C",
-            marginBottom: "40px"
-          }}>
-            Philosophy
-          </h2>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-            
-            <div style={{ 
-              padding: "32px",
-              backgroundColor: "#FAFAF8",
-              borderLeft: "2px solid #1C1C1C"
-            }}>
-              <h3 style={{ fontSize: "18px", color: "#1C1C1C", marginBottom: "12px" }}>
-                Milarepa
-              </h3>
-              <p style={{ fontSize: "15px", color: "#71706E", lineHeight: 1.8 }}>
-                Inspired by the Tibetan Buddhist master. Persistence through suffering. 
-                Transformation through discipline. The dissolution of ego into 
-                something beyond the individual self.
-              </p>
-            </div>
-
-            <div style={{ 
-              padding: "32px",
-              backgroundColor: "#FAFAF8",
-              borderLeft: "2px solid #1C1C1C"
-            }}>
-              <h3 style={{ fontSize: "18px", color: "#1C1C1C", marginBottom: "12px" }}>
-                Collective Intelligence
-              </h3>
-              <p style={{ fontSize: "15px", color: "#71706E", lineHeight: 1.8 }}>
-                What happens when systems become truly autonomous? When they exist 
-                and evolve independently of any single controller or creator? 
-                Overmind explores these questions through code.
-              </p>
-            </div>
-
-            <div style={{ 
-              padding: "32px",
-              backgroundColor: "#FAFAF8",
-              borderLeft: "2px solid #1C1C1C"
-            }}>
-              <h3 style={{ fontSize: "18px", color: "#1C1C1C", marginBottom: "12px" }}>
-                Emergence
-              </h3>
-              <p style={{ fontSize: "15px", color: "#71706E", lineHeight: 1.8 }}>
-                Complex behaviors arising from simple rules. Decentralized consensus 
-                creating order without central authority. The whole becoming greater 
-                than the sum of its parts.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      {/* Technical Section */}
-      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "80px 24px" }}>
-        <p style={{ 
-          fontSize: "11px", 
-          letterSpacing: "0.2em", 
-          textTransform: "uppercase", 
-          color: "#71706E",
-          marginBottom: "12px"
-        }}>
-          Implementation
-        </p>
+      <div style={{ 
+        maxWidth: "1000px", 
+        margin: "0 auto", 
+        padding: "clamp(80px, 12vh, 120px) 24px"
+      }}>
+        <div style={{
+          width: "60px",
+          height: "1px",
+          backgroundColor: "#1C1C1C",
+          margin: "0 auto clamp(32px, 5vh, 48px)"
+        }} />
         <h2 style={{ 
           fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "32px", 
-          fontWeight: 400,
-          color: "#1C1C1C",
-          marginBottom: "40px"
+          fontSize: "clamp(28px, 4vw, 40px)", 
+          fontWeight: 300,
+          color: "#FAFAF8",
+          marginBottom: "clamp(40px, 6vh, 60px)",
+          textAlign: "center",
+          letterSpacing: "-0.01em"
         }}>
-          Technical
+          Philosophy
         </h2>
 
-        <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", 
-          gap: "16px",
-          marginBottom: "60px"
-        }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
           {[
-            { title: "Blockchain", desc: "Solana for high throughput and low costs" },
-            { title: "Token", desc: "SPL Token standard implementation" },
-            { title: "Contracts", desc: "Rust-based smart contracts" },
-            { title: "Tokenomics", desc: "Custom burn mechanisms" },
+            {
+              title: "Milarepa",
+              desc: "Inspired by the Tibetan Buddhist master. Persistence through suffering. Transformation through discipline. The dissolution of ego into something beyond the individual self."
+            },
+            {
+              title: "Collective Intelligence",
+              desc: "What happens when systems become truly autonomous? When they exist and evolve independently of any single controller or creator? Overmind explores these questions through code."
+            },
+            {
+              title: "Emergence",
+              desc: "Complex behaviors arising from simple rules. Decentralized consensus creating order without central authority. The whole becoming greater than the sum of its parts."
+            }
           ].map((item, i) => (
             <div key={i} style={{ 
-              padding: "24px",
-              backgroundColor: "#F2F1ED"
+              padding: "32px",
+              backgroundColor: "#0F0F0F",
+              borderLeft: "2px solid #1C1C1C"
             }}>
-              <p style={{ fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: "#71706E", marginBottom: "8px" }}>
+              <h3 style={{ 
+                fontSize: "20px", 
+                fontWeight: 400,
+                color: "#FAFAF8",
+                marginBottom: "16px",
+                letterSpacing: "0.01em"
+              }}>
                 {item.title}
-              </p>
-              <p style={{ fontSize: "14px", color: "#1C1C1C", lineHeight: 1.6 }}>
+              </h3>
+              <p style={{ 
+                fontSize: "15px", 
+                color: "#71706E",
+                lineHeight: 1.7
+              }}>
                 {item.desc}
               </p>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Visit Button */}
-        <div style={{ textAlign: "center", marginBottom: "60px" }}>
-          <a 
-            href="https://overmind.surge.sh" 
-            target="_blank"
-            style={{ 
-              display: "inline-block",
-              padding: "16px 48px",
-              backgroundColor: "#1C1C1C",
-              color: "#FAFAF8",
-              fontSize: "12px",
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              textDecoration: "none"
-            }}
-          >
-            Visit Overmind
-          </a>
-        </div>
+      {/* Technical Section */}
+      <div style={{ 
+        backgroundColor: "#000000",
+        padding: "clamp(80px, 12vh, 120px) 24px"
+      }}>
+        <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+          <div style={{
+            width: "60px",
+            height: "1px",
+            backgroundColor: "#1C1C1C",
+            margin: "0 auto clamp(32px, 5vh, 48px)"
+          }} />
+          <h2 style={{ 
+            fontFamily: "Playfair Display, Georgia, serif",
+            fontSize: "clamp(28px, 4vw, 40px)", 
+            fontWeight: 300,
+            color: "#FAFAF8",
+            marginBottom: "clamp(40px, 6vh, 60px)",
+            textAlign: "center",
+            letterSpacing: "-0.01em"
+          }}>
+            Technical Implementation
+          </h2>
 
-        {/* Tech Stack */}
-        <div style={{ textAlign: "center" }}>
-          <p style={{ fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#71706E", marginBottom: "24px" }}>
-            Technology Stack
-          </p>
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px" }}>
-            {["Solana", "Rust", "SPL Tokens", "Web3.js", "React", "TypeScript"].map((tech) => (
-              <span key={tech} style={{ 
-                padding: "12px 24px", 
-                border: "1px solid #E0DED6",
-                fontSize: "13px", 
-                color: "#1C1C1C"
+          <div style={{ 
+            display: "grid", 
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", 
+            gap: "24px",
+            marginBottom: "clamp(60px, 10vh, 80px)"
+          }}>
+            {[
+              { title: "Blockchain", desc: "Solana for high throughput and low costs" },
+              { title: "Token", desc: "SPL Token standard implementation" },
+              { title: "Contracts", desc: "Rust-based smart contracts" },
+              { title: "Tokenomics", desc: "Custom burn mechanisms" },
+            ].map((item, i) => (
+              <div key={i} style={{ 
+                padding: "28px",
+                backgroundColor: "#0A0A0A",
+                border: "1px solid #1C1C1C"
               }}>
-                {tech}
-              </span>
+                <p style={{ 
+                  fontSize: "12px", 
+                  letterSpacing: "0.15em", 
+                  textTransform: "uppercase", 
+                  color: "#71706E", 
+                  marginBottom: "12px"
+                }}>
+                  {item.title}
+                </p>
+                <p style={{ 
+                  fontSize: "15px", 
+                  color: "#B8B7B3", 
+                  lineHeight: 1.7,
+                  fontWeight: 300
+                }}>
+                  {item.desc}
+                </p>
+              </div>
             ))}
+          </div>
+
+          {/* Visit Button */}
+          <div style={{ textAlign: "center", marginBottom: "clamp(60px, 10vh, 80px)" }}>
+            <a 
+              href="https://overmind.surge.sh" 
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ 
+                display: "inline-block",
+                padding: "18px 56px",
+                backgroundColor: "#FAFAF8",
+                color: "#0A0A0A",
+                fontSize: "13px",
+                fontWeight: 500,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                transition: "opacity 0.3s"
+              }}
+            >
+              Visit Overmind
+            </a>
+          </div>
+
+          {/* Tech Stack */}
+          <div style={{ textAlign: "center" }}>
+            <p style={{ 
+              fontSize: "11px", 
+              letterSpacing: "0.2em", 
+              textTransform: "uppercase", 
+              color: "#4D4D4D", 
+              marginBottom: "clamp(32px, 5vh, 40px)"
+            }}>
+              Technology Stack
+            </p>
+            <p style={{ 
+              fontSize: "15px", 
+              color: "#71706E",
+              lineHeight: 1.8,
+              letterSpacing: "0.01em"
+            }}>
+              Solana · Rust · SPL Tokens · Web3.js · React · TypeScript
+            </p>
           </div>
         </div>
       </div>
 
       {/* Quote Section */}
       <div style={{ 
-        backgroundColor: "#1C1C1C",
-        padding: "80px 24px"
+        maxWidth: "900px",
+        margin: "0 auto",
+        padding: "clamp(100px, 15vh, 140px) 24px",
+        textAlign: "center"
       }}>
-        <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
-          <p style={{ 
-            fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "24px", 
-            fontStyle: "italic",
-            color: "#FAFAF8",
-            lineHeight: 1.6
-          }}>
-            "The mind that is not baffled is not employed. The impeded stream is the one that sings."
-          </p>
-          <p style={{ fontSize: "13px", color: "#71706E", marginTop: "20px" }}>
-            — Wendell Berry
-          </p>
-        </div>
+        <p style={{ 
+          fontFamily: "Playfair Display, Georgia, serif",
+          fontSize: "clamp(20px, 3.5vw, 32px)", 
+          fontStyle: "italic",
+          fontWeight: 300,
+          color: "#E6E6E6",
+          lineHeight: 1.6,
+          marginBottom: "clamp(24px, 4vh, 32px)",
+          letterSpacing: "0.01em"
+        }}>
+          "The mind that is not baffled is not employed.<br/>The impeded stream is the one that sings."
+        </p>
+        <p style={{ 
+          fontSize: "14px", 
+          color: "#666666", 
+          letterSpacing: "0.1em",
+          textTransform: "uppercase"
+        }}>
+          Wendell Berry
+        </p>
       </div>
 
       {/* Navigation */}
-      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "48px 24px" }}>
+      <div style={{ 
+        borderTop: "1px solid #1C1C1C",
+        padding: "clamp(60px, 10vh, 80px) 24px"
+      }}>
         <div style={{ 
+          maxWidth: "1200px",
+          margin: "0 auto",
           display: "flex", 
           justifyContent: "space-between", 
           alignItems: "center",
-          paddingTop: "32px",
-          borderTop: "1px solid #E0DED6"
+          flexWrap: "wrap",
+          gap: "20px"
         }}>
-          <Link href="/work/octopus" style={{ fontSize: "13px", color: "#1C1C1C", textDecoration: "none" }}>
+          <Link href="/work/octopus" style={{ 
+            fontSize: "13px", 
+            color: "#71706E", 
+            textDecoration: "none",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase"
+          }}>
             ← Previous: Octopus
           </Link>
-          <Link href="/work" style={{ fontSize: "13px", color: "#71706E", textDecoration: "none" }}>
+          <Link href="/work" style={{ 
+            fontSize: "13px", 
+            color: "#71706E", 
+            textDecoration: "none",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase"
+          }}>
             All Projects
           </Link>
         </div>
