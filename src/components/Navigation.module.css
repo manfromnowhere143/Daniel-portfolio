@@ -1,0 +1,23 @@
+@media (max-width: 768px) {
+  .desktopOnly {
+    display: none !important;
+  }
+  .mobileOnly {
+    display: block !important;
+  }
+  .mobileSidebar {
+    display: block !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .desktopOnly {
+    display: block !important;
+  }
+  .mobileOnly {
+    display: none !important;
+  }
+  .mobileSidebar {
+    display: none !important;
+  }
+}

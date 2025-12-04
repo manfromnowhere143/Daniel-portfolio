@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import styles from "./Navigation.module.css";
 
 export default function Navigation() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Lock body scroll when sidebar is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -40,53 +40,46 @@ export default function Navigation() {
           padding: "0 20px",
           position: "relative"
         }}>
-          {/* Desktop Links */}
           <div style={{
             display: "flex",
             gap: "40px",
             alignItems: "center"
           }}>
-            <Link href="/" style={{
+            <Link href="/" className={styles.desktopOnly} style={{
               fontSize: "13px",
               letterSpacing: "0.1em",
               textTransform: "uppercase",
               color: pathname === "/" ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
-              display: "block",
               transition: "color 0.3s"
-            }}
-            className="desktop-only">
+            }}>
               About
             </Link>
-            <Link href="/work" style={{
+            <Link href="/work" className={styles.desktopOnly} style={{
               fontSize: "13px",
               letterSpacing: "0.1em",
               textTransform: "uppercase",
               color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
-              display: "block",
               transition: "color 0.3s"
-            }}
-            className="desktop-only">
+            }}>
               Work
             </Link>
-            <Link href="/creative" style={{
+            <Link href="/creative" className={styles.desktopOnly} style={{
               fontSize: "13px",
               letterSpacing: "0.1em",
               textTransform: "uppercase",
               color: pathname === "/creative" ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
-              display: "block",
               transition: "color 0.3s"
-            }}
-            className="desktop-only">
+            }}>
               Creative
             </Link>
           </div>
 
-          {/* Hamburger Menu - Only on Mobile */}
           <button
             onClick={() => setIsOpen(!isOpen)}
+            className={styles.mobileOnly}
             style={{
               position: "absolute",
               right: "24px",
@@ -94,10 +87,8 @@ export default function Navigation() {
               border: "none",
               cursor: "pointer",
               padding: "12px",
-              display: "none",
               zIndex: 101
             }}
-            className="mobile-only"
             aria-label="Menu"
           >
             <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
@@ -110,8 +101,8 @@ export default function Navigation() {
         <div style={{ height: "1px", backgroundColor: "#E0DED6" }} />
       </nav>
 
-      {/* Mobile Sidebar - Full Screen Elegant Design */}
       <div
+        className={styles.mobileSidebar}
         style={{
           position: "fixed",
           top: 0,
@@ -122,12 +113,9 @@ export default function Navigation() {
           zIndex: 100,
           transform: isOpen ? "translateX(0)" : "translateX(100%)",
           transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-          display: "none",
           overflow: "hidden"
         }}
-        className="mobile-sidebar"
       >
-        {/* Close Button - Elegant X */}
         <button
           onClick={() => setIsOpen(false)}
           style={{
@@ -148,7 +136,6 @@ export default function Navigation() {
           </svg>
         </button>
 
-        {/* Centered Menu Content */}
         <div style={{
           display: "flex",
           flexDirection: "column",
@@ -158,7 +145,6 @@ export default function Navigation() {
           gap: "0",
           padding: "0 40px"
         }}>
-          {/* Decorative Line Above */}
           <div style={{
             width: "60px",
             height: "1px",
@@ -166,7 +152,6 @@ export default function Navigation() {
             marginBottom: "60px"
           }} />
 
-          {/* Menu Items */}
           <Link
             href="/"
             onClick={() => setIsOpen(false)}
@@ -235,7 +220,6 @@ export default function Navigation() {
             Creative
           </Link>
 
-          {/* Decorative Line Below */}
           <div style={{
             width: "60px",
             height: "1px",
@@ -243,7 +227,6 @@ export default function Navigation() {
             marginTop: "60px"
           }} />
 
-          {/* Subtle Footer Text */}
           <p style={{
             fontFamily: "Inter, sans-serif",
             fontSize: "11px",
@@ -257,31 +240,6 @@ export default function Navigation() {
           </p>
         </div>
       </div>
-
-      <style jsx global>{`
-        @media (max-width: 768px) {
-          .desktop-only {
-            display: none !important;
-          }
-          .mobile-only {
-            display: block !important;
-          }
-          .mobile-sidebar {
-            display: block !important;
-          }
-        }
-        @media (min-width: 769px) {
-          .desktop-only {
-            display: block !important;
-          }
-          .mobile-only {
-            display: none !important;
-          }
-          .mobile-sidebar {
-            display: none !important;
-          }
-        }
-      `}</style>
     </>
   );
 }
