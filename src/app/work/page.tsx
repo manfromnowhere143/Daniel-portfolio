@@ -37,7 +37,7 @@ export default function Work() {
       <div style={{ 
         maxWidth: "900px", 
         margin: "0 auto", 
-        padding: "clamp(80px, 12vh, 120px) 24px clamp(60px, 10vh, 100px)",
+        padding: "clamp(40px, 8vh, 60px) 24px clamp(50px, 8vh, 70px)",
         textAlign: "center"
       }}>
         <h1 style={{ 
