@@ -2,13 +2,13 @@ import Link from "next/link";
 
 export default function MegaAgent() {
   return (
-    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+    <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
       
       {/* Hero Section */}
       <div style={{ 
         maxWidth: "1200px", 
         margin: "0 auto", 
-        padding: "clamp(80px, 12vh, 120px) 24px clamp(60px, 8vh, 80px)",
+        padding: "clamp(20px, 4vh, 40px) 24px clamp(50px, 8vh, 80px)",
         textAlign: "center"
       }}>
         <p style={{ 
@@ -16,7 +16,7 @@ export default function MegaAgent() {
           letterSpacing: "0.3em", 
           textTransform: "uppercase", 
           color: "#71706E",
-          marginBottom: "clamp(20px, 3vh, 32px)"
+          marginBottom: "clamp(16px, 2vh, 24px)"
         }}>
           Autonomous Intelligence System
         </p>
@@ -25,7 +25,7 @@ export default function MegaAgent() {
           fontSize: "clamp(40px, 6vw, 72px)", 
           fontWeight: 300,
           color: "#FAFAF8",
-          marginBottom: "clamp(24px, 4vh, 40px)",
+          marginBottom: "clamp(20px, 3vh, 32px)",
           letterSpacing: "-0.02em",
           lineHeight: 1.1
         }}>
@@ -36,7 +36,7 @@ export default function MegaAgent() {
           color: "#B8B7B3", 
           lineHeight: 1.7,
           maxWidth: "700px",
-          margin: "0 auto clamp(60px, 10vh, 100px)",
+          margin: "0 auto clamp(50px, 8vh, 80px)",
           fontWeight: 300
         }}>
           Production-grade autonomous agent system for business opportunity discovery, 
