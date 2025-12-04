@@ -86,10 +86,7 @@ export default function Navigation() {
           border: "none",
           cursor: "pointer",
           padding: "12px",
-          zIndex: 102,
-          opacity: isOpen ? 0 : 1,
-          pointerEvents: isOpen ? "none" : "auto",
-          transition: "opacity 0.3s ease"
+          zIndex: 102
         }}
         aria-label="Menu"
       >
@@ -116,26 +113,6 @@ export default function Navigation() {
           overflow: "hidden"
         }}
       >
-        <button
-          onClick={() => setIsOpen(false)}
-          style={{
-            position: "absolute",
-            top: "24px",
-            right: "24px",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: "8px",
-            zIndex: 102
-          }}
-          aria-label="Close"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <line x1="2" y1="2" x2="22" y2="22" stroke="#1C1C1C" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="22" y1="2" x2="2" y2="22" stroke="#1C1C1C" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
-        </button>
-
         <div style={{
           display: "flex",
           flexDirection: "column",
