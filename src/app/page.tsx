@@ -9,7 +9,7 @@ export default function About() {
       <div style={{ 
         maxWidth: "900px", 
         margin: "0 auto", 
-        padding: "clamp(120px, 18vh, 200px) 24px clamp(100px, 15vh, 160px)",
+        padding: "clamp(60px, 10vh, 100px) 24px clamp(80px, 12vh, 120px)",
         textAlign: "center"
       }}>
         <h1 style={{ 
