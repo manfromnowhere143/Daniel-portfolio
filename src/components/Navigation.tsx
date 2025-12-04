@@ -13,6 +13,7 @@ export default function Navigation() {
   const isDarkPage = pathname === "/" || 
                      pathname === "/work" || 
                      pathname === "/creative" ||
+                     pathname === "/story" ||
                      pathname.startsWith("/work/");
 
   // Hamburger line color based on page background
@@ -78,6 +79,16 @@ export default function Navigation() {
             transition: "color 0.3s"
           }}>
             Creative
+          </Link>
+          <Link href="/story" style={{
+            fontSize: "13px",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: pathname === "/story" ? "#1C1C1C" : "#71706E",
+            textDecoration: "none",
+            transition: "color 0.3s"
+          }}>
+            Story
           </Link>
         </div>
         <div style={{ height: "1px", backgroundColor: "#E0DED6" }} />
@@ -227,6 +238,31 @@ export default function Navigation() {
             }}
           >
             Creative
+          </Link>
+
+          <div style={{
+            width: "40px",
+            height: "1px",
+            backgroundColor: "#E0DED6",
+            margin: "8px 0"
+          }} />
+
+          <Link
+            href="/story"
+            onClick={() => setIsOpen(false)}
+            style={{
+              fontFamily: "Playfair Display, Georgia, serif",
+              fontSize: "32px",
+              fontWeight: 300,
+              letterSpacing: "0.02em",
+              color: pathname === "/story" ? "#1C1C1C" : "#71706E",
+              textDecoration: "none",
+              padding: "20px 0",
+              transition: "all 0.3s ease",
+              textAlign: "center"
+            }}
+          >
+            Story
           </Link>
 
           <div style={{
