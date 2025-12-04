@@ -86,7 +86,10 @@ export default function Navigation() {
           border: "none",
           cursor: "pointer",
           padding: "12px",
-          zIndex: 102
+          zIndex: 102,
+          opacity: isOpen ? 0 : 1,
+          pointerEvents: isOpen ? "none" : "auto",
+          transition: "opacity 0.3s ease"
         }}
         aria-label="Menu"
       >
