@@ -135,7 +135,7 @@ export default function Work() {
                 </div>
                 <div style={{ 
                   fontSize: "clamp(20px, 2.5vw, 24px)", 
-                  color: "#4D4D4D",
+                  color: "#FAFAF8",
                   marginTop: "8px"
                 }}>
                   →

@@ -94,9 +94,9 @@ export default function Navigation() {
         aria-label="Menu"
       >
         <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
-          <line x1="0" y1="1" x2="24" y2="1" stroke="#1C1C1C" strokeWidth="1.5"/>
-          <line x1="0" y1="9" x2="24" y2="9" stroke="#1C1C1C" strokeWidth="1.5"/>
-          <line x1="0" y1="17" x2="24" y2="17" stroke="#1C1C1C" strokeWidth="1.5"/>
+          <line x1="0" y1="1" x2="24" y2="1" stroke="#FAFAF8" strokeWidth="1.5"/>
+          <line x1="0" y1="9" x2="24" y2="9" stroke="#FAFAF8" strokeWidth="1.5"/>
+          <line x1="0" y1="17" x2="24" y2="17" stroke="#FAFAF8" strokeWidth="1.5"/>
         </svg>
       </button>
 
