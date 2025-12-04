@@ -3,13 +3,13 @@ import Link from "next/link";
 
 export default function About() {
   return (
-    <div style={{ paddingTop: "100px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+    <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
       
       {/* Hero Section - Whisper Quiet */}
       <div style={{ 
         maxWidth: "900px", 
         margin: "0 auto", 
-        padding: "clamp(60px, 10vh, 100px) 24px clamp(80px, 12vh, 120px)",
+        padding: "clamp(20px, 4vh, 40px) 24px clamp(60px, 10vh, 80px)",
         textAlign: "center"
       }}>
         <h1 style={{ 
@@ -29,9 +29,20 @@ export default function About() {
           fontStyle: "italic",
           fontWeight: 300,
           color: "#666666",
-          letterSpacing: "0.15em"
+          letterSpacing: "0.15em",
+          marginBottom: "clamp(32px, 5vh, 48px)"
         }}>
           Ostinato Rigore
+        </p>
+        <p style={{ 
+          fontFamily: "Playfair Display, Georgia, serif",
+          fontSize: "clamp(18px, 2.5vw, 24px)", 
+          fontWeight: 300,
+          color: "#999999",
+          letterSpacing: "0.05em",
+          lineHeight: 1.4
+        }}>
+          Artist, Autodidact, Builder
         </p>
       </div>
 
@@ -40,7 +51,7 @@ export default function About() {
         width: "1px",
         height: "40px",
         backgroundColor: "#FAFAF8",
-        margin: "0 auto clamp(60px, 10vh, 80px)"
+        margin: "0 auto clamp(50px, 8vh, 70px)"
       }} />
 
       {/* Main Statement - Breathing Room */}
