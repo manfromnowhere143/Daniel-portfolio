@@ -14,11 +14,11 @@ export default function About() {
       }}>
         <h1 style={{ 
           fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(42px, 6vw, 58px)", 
+          fontSize: "clamp(36px, 5vw, 48px)", 
           fontWeight: 300,
-          color: "#FAFAF8",
+          color: "#E6E6E6",
           marginBottom: "clamp(16px, 2vh, 20px)",
-          letterSpacing: "-0.01em",
+          letterSpacing: "0.02em",
           lineHeight: 1.1
         }}>
           Daniel Wahnich
@@ -324,7 +324,7 @@ export default function About() {
               fontFamily: "Playfair Display, Georgia, serif",
               fontSize: "clamp(22px, 3vw, 28px)", 
               fontWeight: 300,
-              color: "#FAFAF8",
+              color: "#E6E6E6",
               marginBottom: "clamp(20px, 3vh, 24px)",
               letterSpacing: "-0.01em"
             }}>
@@ -349,7 +349,7 @@ export default function About() {
               fontFamily: "Playfair Display, Georgia, serif",
               fontSize: "clamp(22px, 3vw, 28px)", 
               fontWeight: 300,
-              color: "#FAFAF8",
+              color: "#E6E6E6",
               marginBottom: "clamp(20px, 3vh, 24px)",
               letterSpacing: "-0.01em"
             }}>
@@ -374,7 +374,7 @@ export default function About() {
               fontFamily: "Playfair Display, Georgia, serif",
               fontSize: "clamp(22px, 3vw, 28px)", 
               fontWeight: 300,
-              color: "#FAFAF8",
+              color: "#E6E6E6",
               marginBottom: "clamp(20px, 3vh, 24px)",
               letterSpacing: "-0.01em"
             }}>
