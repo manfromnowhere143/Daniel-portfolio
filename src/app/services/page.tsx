@@ -14,7 +14,7 @@ export default function Services() {
       <div style={{
         maxWidth: "900px",
         margin: "0 auto",
-        padding: "clamp(60px, 12vh, 100px) 24px clamp(80px, 14vh, 120px)",
+        padding: "clamp(20px, 4vh, 40px) 24px clamp(40px, 6vh, 60px)",
         textAlign: "center"
       }}>
         <h1 style={{
@@ -33,7 +33,7 @@ export default function Services() {
       <div style={{
         maxWidth: "1000px",
         margin: "0 auto",
-        padding: "0 24px clamp(80px, 12vh, 120px)"
+        padding: "0 24px clamp(40px, 6vh, 60px)"
       }}>
         <div style={{
           display: "grid",
@@ -46,7 +46,7 @@ export default function Services() {
             backgroundColor: "#0A0A0A",
             padding: "clamp(40px, 6vw, 60px) clamp(24px, 4vw, 40px)",
             textAlign: "center",
-            minHeight: "280px",
+            minHeight: "240px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -84,7 +84,7 @@ export default function Services() {
             backgroundColor: "#0A0A0A",
             padding: "clamp(40px, 6vw, 60px) clamp(24px, 4vw, 40px)",
             textAlign: "center",
-            minHeight: "280px",
+            minHeight: "240px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -122,7 +122,7 @@ export default function Services() {
             backgroundColor: "#0A0A0A",
             padding: "clamp(40px, 6vw, 60px) clamp(24px, 4vw, 40px)",
             textAlign: "center",
-            minHeight: "280px",
+            minHeight: "240px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -162,7 +162,7 @@ export default function Services() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "clamp(40px, 8vh, 80px) 24px"
+        padding: "clamp(24px, 4vh, 40px) 24px"
       }}>
         <div style={{ width: "80px", height: "1px", background: "#1C1C1C" }} />
         <div style={{
@@ -179,7 +179,7 @@ export default function Services() {
       <div style={{
         maxWidth: "800px",
         margin: "0 auto",
-        padding: "clamp(40px, 8vh, 80px) 24px",
+        padding: "clamp(24px, 4vh, 40px) 24px",
         textAlign: "center"
       }}>
         <p style={{
@@ -187,7 +187,7 @@ export default function Services() {
           letterSpacing: "0.3em",
           textTransform: "uppercase",
           color: "#4A4A48",
-          marginBottom: "clamp(32px, 5vh, 48px)"
+          marginBottom: "clamp(20px, 3vh, 32px)"
         }}>
           Also Seeking
         </p>
@@ -199,7 +199,7 @@ export default function Services() {
           color: "#E6E6E6",
           lineHeight: 1.5,
           letterSpacing: "-0.01em",
-          marginBottom: "clamp(24px, 4vh, 36px)"
+          marginBottom: "clamp(16px, 3vh, 24px)"
         }}>
           A team. A mentor. A guide.
         </p>
@@ -207,9 +207,9 @@ export default function Services() {
         <div style={{
           display: "flex",
           justifyContent: "center",
-          gap: "clamp(24px, 5vw, 48px)",
+          gap: "clamp(16px, 4vw, 32px)",
           flexWrap: "wrap",
-          marginTop: "clamp(32px, 5vh, 48px)"
+          marginTop: "clamp(24px, 4vh, 36px)"
         }}>
           {["Robotics", "Computer Vision", "AI", "LLM"].map((field) => (
             <span
@@ -232,19 +232,19 @@ export default function Services() {
       {/* The Story Section */}
       <div style={{
         backgroundColor: "#000000",
-        marginTop: "clamp(60px, 10vh, 100px)"
+        marginTop: "clamp(40px, 6vh, 60px)"
       }}>
         <div style={{
           maxWidth: "700px",
           margin: "0 auto",
-          padding: "clamp(80px, 14vh, 140px) 24px",
+          padding: "clamp(48px, 8vh, 80px) 24px",
           textAlign: "center"
         }}>
           <div style={{
             width: "1px",
-            height: "60px",
+            height: "40px",
             backgroundColor: "#2A2A28",
-            margin: "0 auto clamp(48px, 8vh, 72px)"
+            margin: "0 auto clamp(32px, 5vh, 48px)"
           }} />
 
           <p style={{
@@ -253,7 +253,7 @@ export default function Services() {
             lineHeight: 2,
             fontWeight: 300,
             letterSpacing: "0.01em",
-            marginBottom: "clamp(32px, 5vh, 48px)"
+            marginBottom: "clamp(20px, 3vh, 32px)"
           }}>
             Everything you see here, I built in the past nine months.
           </p>
@@ -274,7 +274,7 @@ export default function Services() {
       <div style={{
         maxWidth: "700px",
         margin: "0 auto",
-        padding: "clamp(100px, 16vh, 160px) 24px",
+        padding: "clamp(60px, 10vh, 80px) 24px",
         textAlign: "center"
       }}>
         <p style={{
@@ -282,7 +282,7 @@ export default function Services() {
           letterSpacing: "0.4em",
           textTransform: "uppercase",
           color: "#3A3A38",
-          marginBottom: "clamp(32px, 5vh, 48px)"
+          marginBottom: "clamp(20px, 3vh, 32px)"
         }}>
           Let's Talk
         </p>
@@ -312,7 +312,7 @@ export default function Services() {
         </a>
 
         <div style={{
-          marginTop: "clamp(48px, 8vh, 72px)"
+          marginTop: "clamp(32px, 5vh, 48px)"
         }}>
           <a
             href="https://github.com/manfromnowhere143"
@@ -336,7 +336,7 @@ export default function Services() {
       {/* Navigation */}
       <div style={{
         borderTop: "1px solid #1C1C1C",
-        padding: "clamp(60px, 10vh, 80px) 24px"
+        padding: "clamp(40px, 6vh, 60px) 24px"
       }}>
         <div style={{
           display: "flex",
