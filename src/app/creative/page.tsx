@@ -293,7 +293,7 @@ export default function Creative() {
                 marginBottom: "clamp(20px, 3vh, 28px)",
                 maxWidth: "720px"
               }}>
-                An artistic exploration where thought sought form—nothing more. The ancient geometry
+                An artistic exploration where thought sought form. Nothing more. The ancient geometry
                 of Metatron's Cube rendered as an interactive meditation. Eight Platonic solids orbit
                 the source pattern, each carrying its element, frequency, and metaphysical resonance.
               </p>
@@ -307,7 +307,7 @@ export default function Creative() {
                 maxWidth: "720px"
               }}>
                 Currently presenting the frontend visualization. Backend logic and testing infrastructure
-                have been developed and validated—available upon request for those interested in the
+                have been developed and validated. Available upon request for those interested in the
                 technical architecture.
               </p>
 
