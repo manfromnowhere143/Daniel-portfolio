@@ -265,7 +265,7 @@ export default function Creative() {
                 letterSpacing: "0.1em",
                 fontFamily: "monospace"
               }}>
-                2024
+                2025
               </span>
               <div style={{
                 width: "4px",
