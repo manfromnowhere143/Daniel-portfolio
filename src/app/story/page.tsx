@@ -9,26 +9,26 @@ export const metadata: Metadata = {
 export default function Story() {
   return (
     <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
-      
+
       {/* Header */}
-      <div style={{ 
-        maxWidth: "700px", 
-        margin: "0 auto", 
+      <div style={{
+        maxWidth: "700px",
+        margin: "0 auto",
         padding: "clamp(20px, 4vh, 40px) 24px clamp(50px, 8vh, 70px)",
         textAlign: "center"
       }}>
-        <p style={{ 
-          fontSize: "11px", 
-          letterSpacing: "0.3em", 
-          textTransform: "uppercase", 
+        <p style={{
+          fontSize: "11px",
+          letterSpacing: "0.3em",
+          textTransform: "uppercase",
           color: "#71706E",
           marginBottom: "clamp(16px, 2vh, 24px)"
         }}>
           The Full Story
         </p>
-        <h1 style={{ 
+        <h1 style={{
           fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(36px, 6vw, 48px)", 
+          fontSize: "clamp(36px, 6vw, 48px)",
           fontWeight: 300,
           color: "#FAFAF8",
           marginBottom: "24px",
@@ -40,11 +40,11 @@ export default function Story() {
 
       {/* Story Content */}
       <div style={{ maxWidth: "720px", margin: "0 auto", padding: "0 24px clamp(80px, 12vh, 120px)" }}>
-        
+
         <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
-          <h2 style={{ 
+          <h2 style={{
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(20px, 3vw, 24px)", 
+            fontSize: "clamp(20px, 3vw, 24px)",
             fontWeight: 300,
             color: "#FAFAF8",
             borderLeft: "2px solid #FAFAF8",
@@ -54,7 +54,7 @@ export default function Story() {
           }}>
             Jerusalem to Chaos
           </h2>
-          <p style={{ 
+          <p style={{
             fontFamily: "Playfair Display, Georgia, serif",
             fontSize: "clamp(12px, 1.6vw, 14px)",
             fontStyle: "italic",
@@ -74,9 +74,9 @@ export default function Story() {
         </div>
 
         <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
-          <h2 style={{ 
+          <h2 style={{
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(20px, 3vw, 24px)", 
+            fontSize: "clamp(20px, 3vw, 24px)",
             fontWeight: 300,
             color: "#FAFAF8",
             borderLeft: "2px solid #FAFAF8",
@@ -86,7 +86,7 @@ export default function Story() {
           }}>
             Leaving Home at 16
           </h2>
-          <p style={{ 
+          <p style={{
             fontFamily: "Playfair Display, Georgia, serif",
             fontSize: "clamp(12px, 1.6vw, 14px)",
             fontStyle: "italic",
@@ -106,9 +106,9 @@ export default function Story() {
         </div>
 
         <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
-          <h2 style={{ 
+          <h2 style={{
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(20px, 3vw, 24px)", 
+            fontSize: "clamp(20px, 3vw, 24px)",
             fontWeight: 300,
             color: "#FAFAF8",
             borderLeft: "2px solid #FAFAF8",
@@ -118,7 +118,7 @@ export default function Story() {
           }}>
             IDF, Loss & Growth
           </h2>
-          <p style={{ 
+          <p style={{
             fontFamily: "Playfair Display, Georgia, serif",
             fontSize: "clamp(12px, 1.6vw, 14px)",
             fontStyle: "italic",
@@ -141,9 +141,9 @@ export default function Story() {
         </div>
 
         <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
-          <h2 style={{ 
+          <h2 style={{
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(20px, 3vw, 24px)", 
+            fontSize: "clamp(20px, 3vw, 24px)",
             fontWeight: 300,
             color: "#FAFAF8",
             borderLeft: "2px solid #FAFAF8",
@@ -153,7 +153,7 @@ export default function Story() {
           }}>
             The First Rise
           </h2>
-          <p style={{ 
+          <p style={{
             fontFamily: "Playfair Display, Georgia, serif",
             fontSize: "clamp(12px, 1.6vw, 14px)",
             fontStyle: "italic",
@@ -176,9 +176,9 @@ export default function Story() {
         </div>
 
         <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
-          <h2 style={{ 
+          <h2 style={{
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(20px, 3vw, 24px)", 
+            fontSize: "clamp(20px, 3vw, 24px)",
             fontWeight: 300,
             color: "#FAFAF8",
             borderLeft: "2px solid #FAFAF8",
@@ -188,7 +188,7 @@ export default function Story() {
           }}>
             Wanderer
           </h2>
-          <p style={{ 
+          <p style={{
             fontFamily: "Playfair Display, Georgia, serif",
             fontSize: "clamp(12px, 1.6vw, 14px)",
             fontStyle: "italic",
@@ -217,9 +217,9 @@ export default function Story() {
         </div>
 
         <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
-          <h2 style={{ 
+          <h2 style={{
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(20px, 3vw, 24px)", 
+            fontSize: "clamp(20px, 3vw, 24px)",
             fontWeight: 300,
             color: "#FAFAF8",
             borderLeft: "2px solid #FAFAF8",
@@ -229,7 +229,7 @@ export default function Story() {
           }}>
             The Dark Years
           </h2>
-          <p style={{ 
+          <p style={{
             fontFamily: "Playfair Display, Georgia, serif",
             fontSize: "clamp(12px, 1.6vw, 14px)",
             fontStyle: "italic",
@@ -255,9 +255,9 @@ export default function Story() {
         </div>
 
         <div style={{ marginBottom: "0" }}>
-          <h2 style={{ 
+          <h2 style={{
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(20px, 3vw, 24px)", 
+            fontSize: "clamp(20px, 3vw, 24px)",
             fontWeight: 300,
             color: "#FAFAF8",
             borderLeft: "2px solid #FAFAF8",
@@ -267,7 +267,7 @@ export default function Story() {
           }}>
             The Rebirth
           </h2>
-          <p style={{ 
+          <p style={{
             fontFamily: "Playfair Display, Georgia, serif",
             fontSize: "clamp(12px, 1.6vw, 14px)",
             fontStyle: "italic",
@@ -293,9 +293,9 @@ export default function Story() {
           <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, fontWeight: 300, letterSpacing: "0.01em" }}>
             Now I dedicate every day to learning, building, and becoming the best version of myself.
           </p>
-          <p style={{ 
+          <p style={{
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(14px, 2vw, 16px)", 
+            fontSize: "clamp(14px, 2vw, 16px)",
             fontStyle: "italic",
             color: "#FAFAF8",
             marginTop: "clamp(32px, 5vh, 48px)",
@@ -308,39 +308,48 @@ export default function Story() {
 
       </div>
 
-      {/* Quote Section */}
-      <div style={{ 
+      {/* Quote Section - Hillel the Elder */}
+      <div style={{
         backgroundColor: "#000000",
         padding: "clamp(80px, 12vh, 120px) 24px"
       }}>
         <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
-          <p style={{ 
+          <p style={{
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(20px, 3.5vw, 28px)", 
+            fontSize: "clamp(18px, 3vw, 26px)",
             fontStyle: "italic",
             fontWeight: 300,
             color: "#E6E6E6",
-            lineHeight: 1.6,
-            letterSpacing: "0.01em"
+            lineHeight: 1.7,
+            letterSpacing: "0.01em",
+            marginBottom: "24px"
           }}>
-            "The obstacle is the way. The path through darkness leads to light."
+            "If I am not for myself, who will be for me? And if I am only for myself, what am I? And if not now, when?"
+          </p>
+          <p style={{
+            fontSize: "12px",
+            color: "#71706E",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase"
+          }}>
+            — Hillel the Elder
           </p>
         </div>
       </div>
 
       {/* Navigation */}
-      <div style={{ 
+      <div style={{
         borderTop: "1px solid #1C1C1C",
         padding: "clamp(60px, 10vh, 80px) 24px"
       }}>
-        <div style={{ 
-          display: "flex", 
-          justifyContent: "center", 
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
           alignItems: "center"
         }}>
-          <Link href="/" style={{ 
-            fontSize: "13px", 
-            color: "#71706E", 
+          <Link href="/" style={{
+            fontSize: "13px",
+            color: "#71706E",
             textDecoration: "none",
             letterSpacing: "0.1em",
             textTransform: "uppercase"
