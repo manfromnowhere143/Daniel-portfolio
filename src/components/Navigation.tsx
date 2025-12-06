@@ -14,6 +14,7 @@ export default function Navigation() {
                      pathname === "/work" || 
                      pathname === "/creative" ||
                      pathname === "/story" ||
+                     pathname === "/services" ||
                      pathname.startsWith("/work/");
 
   // Hamburger line color based on page background
@@ -89,6 +90,16 @@ export default function Navigation() {
             transition: "color 0.3s"
           }}>
             Story
+          </Link>
+          <Link href="/services" style={{
+            fontSize: "13px",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: pathname === "/services" ? "#1C1C1C" : "#71706E",
+            textDecoration: "none",
+            transition: "color 0.3s"
+          }}>
+            Services
           </Link>
         </div>
         <div style={{ height: "1px", backgroundColor: "#E0DED6" }} />
@@ -263,6 +274,31 @@ export default function Navigation() {
             }}
           >
             Story
+          </Link>
+
+          <div style={{
+            width: "40px",
+            height: "1px",
+            backgroundColor: "#E0DED6",
+            margin: "8px 0"
+          }} />
+
+          <Link
+            href="/services"
+            onClick={() => setIsOpen(false)}
+            style={{
+              fontFamily: "Playfair Display, Georgia, serif",
+              fontSize: "32px",
+              fontWeight: 300,
+              letterSpacing: "0.02em",
+              color: pathname === "/services" ? "#1C1C1C" : "#71706E",
+              textDecoration: "none",
+              padding: "20px 0",
+              transition: "all 0.3s ease",
+              textAlign: "center"
+            }}
+          >
+            Services
           </Link>
 
           <div style={{
