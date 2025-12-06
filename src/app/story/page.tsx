@@ -47,13 +47,24 @@ export default function Story() {
             fontSize: "clamp(20px, 3vw, 24px)", 
             fontWeight: 300,
             color: "#FAFAF8",
-            marginBottom: "clamp(20px, 3vh, 28px)",
             borderLeft: "2px solid #FAFAF8",
             paddingLeft: "16px",
-            letterSpacing: "-0.01em"
+            letterSpacing: "-0.01em",
+            marginBottom: "8px"
           }}>
             Jerusalem to Chaos
           </h2>
+          <p style={{ 
+            fontFamily: "Playfair Display, Georgia, serif",
+            fontSize: "clamp(12px, 1.6vw, 14px)",
+            fontStyle: "italic",
+            color: "#FAFAF8",
+            letterSpacing: "0.05em",
+            marginBottom: "clamp(20px, 3vh, 28px)",
+            paddingLeft: "18px"
+          }}>
+            1988–2004
+          </p>
           <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, marginBottom: "20px", fontWeight: 300, letterSpacing: "0.01em" }}>
             I was born in Jerusalem. At the age of 8 my parents divorced, and my father disappeared from my life for three years. I was a difficult kid, kicked out of every school I attended. I can't blame the divorce, because my brothers and sister did well, but for me it was deeply traumatic.
           </p>
@@ -68,13 +79,24 @@ export default function Story() {
             fontSize: "clamp(20px, 3vw, 24px)", 
             fontWeight: 300,
             color: "#FAFAF8",
-            marginBottom: "clamp(20px, 3vh, 28px)",
             borderLeft: "2px solid #FAFAF8",
             paddingLeft: "16px",
-            letterSpacing: "-0.01em"
+            letterSpacing: "-0.01em",
+            marginBottom: "8px"
           }}>
             Leaving Home at 16
           </h2>
+          <p style={{ 
+            fontFamily: "Playfair Display, Georgia, serif",
+            fontSize: "clamp(12px, 1.6vw, 14px)",
+            fontStyle: "italic",
+            color: "#FAFAF8",
+            letterSpacing: "0.05em",
+            marginBottom: "clamp(20px, 3vh, 28px)",
+            paddingLeft: "18px"
+          }}>
+            2005–2007
+          </p>
           <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, marginBottom: "20px", fontWeight: 300, letterSpacing: "0.01em" }}>
             At 16, I made a decision that changed everything: I quit school, left Israel, and moved alone to the USA with $500 in my pocket.
           </p>
@@ -89,13 +111,24 @@ export default function Story() {
             fontSize: "clamp(20px, 3vw, 24px)", 
             fontWeight: 300,
             color: "#FAFAF8",
-            marginBottom: "clamp(20px, 3vh, 28px)",
             borderLeft: "2px solid #FAFAF8",
             paddingLeft: "16px",
-            letterSpacing: "-0.01em"
+            letterSpacing: "-0.01em",
+            marginBottom: "8px"
           }}>
             IDF, Loss & Growth
           </h2>
+          <p style={{ 
+            fontFamily: "Playfair Display, Georgia, serif",
+            fontSize: "clamp(12px, 1.6vw, 14px)",
+            fontStyle: "italic",
+            color: "#FAFAF8",
+            letterSpacing: "0.05em",
+            marginBottom: "clamp(20px, 3vh, 28px)",
+            paddingLeft: "18px"
+          }}>
+            2007–2010
+          </p>
           <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, marginBottom: "20px", fontWeight: 300, letterSpacing: "0.01em" }}>
             I joined Duchifat (IDF Ground Forces). It wasn't easy. I lost a good friend, Noam, who was accidentally shot by a senior officer. That moment stayed with me forever.
           </p>
@@ -113,13 +146,24 @@ export default function Story() {
             fontSize: "clamp(20px, 3vw, 24px)", 
             fontWeight: 300,
             color: "#FAFAF8",
-            marginBottom: "clamp(20px, 3vh, 28px)",
             borderLeft: "2px solid #FAFAF8",
             paddingLeft: "16px",
-            letterSpacing: "-0.01em"
+            letterSpacing: "-0.01em",
+            marginBottom: "8px"
           }}>
             The First Rise
           </h2>
+          <p style={{ 
+            fontFamily: "Playfair Display, Georgia, serif",
+            fontSize: "clamp(12px, 1.6vw, 14px)",
+            fontStyle: "italic",
+            color: "#FAFAF8",
+            letterSpacing: "0.05em",
+            marginBottom: "clamp(20px, 3vh, 28px)",
+            paddingLeft: "18px"
+          }}>
+            2010–2017
+          </p>
           <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, marginBottom: "20px", fontWeight: 300, letterSpacing: "0.01em" }}>
             I worked as a sales manager for two years before deciding to start my own business with two friends. We opened our first location in Denver and it took off fast. Within a year I saved a few hundred thousand dollars. But we were young and stupid, and we managed to destroy it.
           </p>
@@ -137,13 +181,24 @@ export default function Story() {
             fontSize: "clamp(20px, 3vw, 24px)", 
             fontWeight: 300,
             color: "#FAFAF8",
-            marginBottom: "clamp(20px, 3vh, 28px)",
             borderLeft: "2px solid #FAFAF8",
             paddingLeft: "16px",
-            letterSpacing: "-0.01em"
+            letterSpacing: "-0.01em",
+            marginBottom: "8px"
           }}>
-            The Fall
+            Wanderer
           </h2>
+          <p style={{ 
+            fontFamily: "Playfair Display, Georgia, serif",
+            fontSize: "clamp(12px, 1.6vw, 14px)",
+            fontStyle: "italic",
+            color: "#FAFAF8",
+            letterSpacing: "0.05em",
+            marginBottom: "clamp(20px, 3vh, 28px)",
+            paddingLeft: "18px"
+          }}>
+            2017–2021
+          </p>
           <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, marginBottom: "20px", fontWeight: 300, letterSpacing: "0.01em" }}>
             But money didn't fulfill me. I felt empty. So I sold everything to my manager and went searching for purpose.
           </p>
@@ -167,13 +222,24 @@ export default function Story() {
             fontSize: "clamp(20px, 3vw, 24px)", 
             fontWeight: 300,
             color: "#FAFAF8",
-            marginBottom: "clamp(20px, 3vh, 28px)",
             borderLeft: "2px solid #FAFAF8",
             paddingLeft: "16px",
-            letterSpacing: "-0.01em"
+            letterSpacing: "-0.01em",
+            marginBottom: "8px"
           }}>
             The Dark Years
           </h2>
+          <p style={{ 
+            fontFamily: "Playfair Display, Georgia, serif",
+            fontSize: "clamp(12px, 1.6vw, 14px)",
+            fontStyle: "italic",
+            color: "#FAFAF8",
+            letterSpacing: "0.05em",
+            marginBottom: "clamp(20px, 3vh, 28px)",
+            paddingLeft: "18px"
+          }}>
+            2021–2024
+          </p>
           <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, marginBottom: "20px", fontWeight: 300, letterSpacing: "0.01em" }}>
             My mental health collapsed. My family distanced themselves. My friends disappeared. I became impossible to deal with.
           </p>
@@ -188,48 +254,55 @@ export default function Story() {
           </p>
         </div>
 
-        <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
-          <h2 style={{ 
-            fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(20px, 3vw, 24px)", 
-            fontWeight: 300,
-            color: "#FAFAF8",
-            marginBottom: "clamp(20px, 3vh, 28px)",
-            borderLeft: "2px solid #FAFAF8",
-            paddingLeft: "16px",
-            letterSpacing: "-0.01em"
-          }}>
-            The Rebirth Through Code
-          </h2>
-          <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, marginBottom: "20px", fontWeight: 300, letterSpacing: "0.01em" }}>
-            When I was done grieving, I made a decision that saved my life: I taught myself Computer Science and Software Development.
-          </p>
-          <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, marginBottom: "20px", fontWeight: 300, letterSpacing: "0.01em" }}>
-            No courses. No classes. Just me, YouTube, documentation, and a burning need to rebuild myself.
-          </p>
-          <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, fontWeight: 300, letterSpacing: "0.01em" }}>
-            I started by Googling how to open the Terminal on my Mac. Slowly, I built websites, APIs, databases, tests, complete systems. For the first time, my thoughts turned into something real on a screen, and I felt alive.
-          </p>
-        </div>
-
         <div style={{ marginBottom: "0" }}>
           <h2 style={{ 
             fontFamily: "Playfair Display, Georgia, serif",
             fontSize: "clamp(20px, 3vw, 24px)", 
             fontWeight: 300,
             color: "#FAFAF8",
-            marginBottom: "clamp(20px, 3vh, 28px)",
             borderLeft: "2px solid #FAFAF8",
             paddingLeft: "16px",
-            letterSpacing: "-0.01em"
+            letterSpacing: "-0.01em",
+            marginBottom: "8px"
           }}>
-            Where I Am Today
+            The Rebirth
           </h2>
+          <p style={{ 
+            fontFamily: "Playfair Display, Georgia, serif",
+            fontSize: "clamp(12px, 1.6vw, 14px)",
+            fontStyle: "italic",
+            color: "#FAFAF8",
+            letterSpacing: "0.05em",
+            marginBottom: "clamp(20px, 3vh, 28px)",
+            paddingLeft: "18px"
+          }}>
+            2024
+          </p>
+          <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, marginBottom: "20px", fontWeight: 300, letterSpacing: "0.01em" }}>
+            When I was done grieving, I made a decision that saved my life: I taught myself Computer Science and Software Development.
+          </p>
+          <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, marginBottom: "20px", fontWeight: 300, letterSpacing: "0.01em" }}>
+            No courses. No classes. Just me, YouTube, documentation, and a burning need to rebuild myself.
+          </p>
+          <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, marginBottom: "20px", fontWeight: 300, letterSpacing: "0.01em" }}>
+            I started by Googling how to open the Terminal on my Mac. Slowly, I built websites, APIs, databases, tests, complete systems. For the first time, my thoughts turned into something real on a screen, and I felt alive.
+          </p>
           <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, marginBottom: "20px", fontWeight: 300, letterSpacing: "0.01em" }}>
             Today I'm 37, and excited about the future. I rose from the darkest place a person can be.
           </p>
           <p style={{ fontSize: "clamp(15px, 2vw, 16px)", color: "#999999", lineHeight: 1.9, fontWeight: 300, letterSpacing: "0.01em" }}>
             Now I dedicate every day to learning, building, and becoming the best version of myself.
+          </p>
+          <p style={{ 
+            fontFamily: "Playfair Display, Georgia, serif",
+            fontSize: "clamp(14px, 2vw, 16px)", 
+            fontStyle: "italic",
+            color: "#FAFAF8",
+            marginTop: "clamp(32px, 5vh, 48px)",
+            letterSpacing: "0.05em",
+            textAlign: "left"
+          }}>
+            And we are here — 2025
           </p>
         </div>
 
