@@ -628,6 +628,49 @@ export default function Creative() {
                 </p>
               </div>
             </div>
+
+            {/* Homework 3 */}
+            <div>
+              <div style={{
+                position: "relative",
+                backgroundColor: "#000000",
+                overflow: "hidden",
+                border: "1px solid rgba(255,255,255,0.04)",
+                borderRadius: "4px"
+              }}>
+                <Image
+                  src="/images/homework36.jpg"
+                  alt="Homework 3"
+                  width={900}
+                  height={1200}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    display: "block",
+                    opacity: 0.96
+                  }}
+                />
+              </div>
+              <div style={{ marginTop: "clamp(20px, 4vh, 32px)" }}>
+                <p style={{
+                  fontSize: "clamp(15px, 2.2vw, 18px)",
+                  color: "#FAFAF8",
+                  fontWeight: 300,
+                  marginBottom: "8px",
+                  letterSpacing: "0.01em"
+                }}>
+                  Homework 3
+                </p>
+                <p style={{
+                  fontSize: "clamp(11px, 1.5vw, 12px)",
+                  color: "#FAFAF8",
+                  letterSpacing: "0.05em",
+                  fontFamily: "monospace"
+                }}>
+                  2025
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
