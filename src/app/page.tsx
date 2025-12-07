@@ -16,7 +16,7 @@ export default function About() {
           fontFamily: "Playfair Display, Georgia, serif",
           fontSize: "clamp(36px, 5vw, 48px)",
           fontWeight: 300,
-          color: "#E6E6E6",
+          color: "#FAFAF8",
           marginBottom: "clamp(16px, 2vh, 20px)",
           letterSpacing: "0.02em",
           lineHeight: 1.1
@@ -28,7 +28,7 @@ export default function About() {
           fontSize: "clamp(16px, 2vw, 20px)",
           fontStyle: "italic",
           fontWeight: 300,
-          color: "#666666",
+          color: "#CCCCCC",
           letterSpacing: "0.15em",
           marginBottom: "clamp(32px, 5vh, 48px)"
         }}>
@@ -38,7 +38,7 @@ export default function About() {
           fontFamily: "Playfair Display, Georgia, serif",
           fontSize: "clamp(18px, 2.5vw, 24px)",
           fontWeight: 300,
-          color: "#999999",
+          color: "#FAFAF8",
           letterSpacing: "0.05em",
           lineHeight: 1.4
         }}>
@@ -67,7 +67,7 @@ export default function About() {
         }}>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -76,7 +76,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -85,7 +85,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -94,7 +94,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -103,7 +103,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -112,7 +112,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -121,7 +121,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -130,7 +130,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -159,7 +159,7 @@ export default function About() {
           fontWeight: 500,
           letterSpacing: "0.25em",
           textTransform: "uppercase",
-          color: "#4D4D4D",
+          color: "#FAFAF8",
           marginBottom: "clamp(48px, 8vh, 64px)",
           textAlign: "center"
         }}>
@@ -173,7 +173,7 @@ export default function About() {
         }}>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -182,7 +182,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -191,7 +191,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -200,7 +200,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -209,7 +209,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -218,7 +218,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -227,7 +227,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -236,7 +236,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -245,7 +245,7 @@ export default function About() {
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 1.9,
             fontWeight: 300,
             letterSpacing: "0.01em"
@@ -272,239 +272,15 @@ export default function About() {
       }}>
         <Link href="/story" style={{
           fontSize: "clamp(14px, 1.8vw, 15px)",
-          color: "#CCCCCC",
+          color: "#FAFAF8",
           textDecoration: "none",
-          borderBottom: "1px solid #333333",
+          borderBottom: "1px solid #666666",
           paddingBottom: "3px",
           letterSpacing: "0.02em",
           fontStyle: "italic"
         }}>
           Read full life story
         </Link>
-      </div>
-
-      {/* Vertical Divider - White */}
-      <div style={{
-        width: "1px",
-        height: "50px",
-        backgroundColor: "#FAFAF8",
-        margin: "clamp(60px, 10vh, 80px) auto"
-      }} />
-
-      {/* What I Build - Minimalist Grid */}
-      <div style={{
-        maxWidth: "1200px",
-        margin: "0 auto",
-        padding: "0 24px clamp(60px, 10vh, 80px)"
-      }}>
-        <h2 style={{
-          fontSize: "clamp(11px, 1.4vw, 13px)",
-          fontWeight: 500,
-          letterSpacing: "0.25em",
-          textTransform: "uppercase",
-          color: "#4D4D4D",
-          marginBottom: "clamp(64px, 10vh, 96px)",
-          textAlign: "center"
-        }}>
-          Selected Work
-        </h2>
-
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
-          gap: "1px",
-          backgroundColor: "#1A1A1A"
-        }}>
-
-          <div style={{
-            padding: "clamp(48px, 7vw, 64px)",
-            backgroundColor: "#0A0A0A"
-          }}>
-            <h3 style={{
-              fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "clamp(22px, 3vw, 28px)",
-              fontWeight: 300,
-              color: "#E6E6E6",
-              marginBottom: "clamp(20px, 3vh, 24px)",
-              letterSpacing: "-0.01em"
-            }}>
-              Trade69
-            </h3>
-            <p style={{
-              fontSize: "clamp(14px, 1.8vw, 15px)",
-              color: "#666666",
-              lineHeight: 1.8,
-              fontWeight: 300,
-              letterSpacing: "0.01em"
-            }}>
-              Algorithmic trading platform. 245 Python files, 32K+ lines, 11 data sources. HMM regime detection, Random Forest classifiers, Kelly Criterion sizing.
-            </p>
-          </div>
-
-          <div style={{
-            padding: "clamp(48px, 7vw, 64px)",
-            backgroundColor: "#0A0A0A"
-          }}>
-            <h3 style={{
-              fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "clamp(22px, 3vw, 28px)",
-              fontWeight: 300,
-              color: "#E6E6E6",
-              marginBottom: "clamp(20px, 3vh, 24px)",
-              letterSpacing: "-0.01em"
-            }}>
-              MegaAgent
-            </h3>
-            <p style={{
-              fontSize: "clamp(14px, 1.8vw, 15px)",
-              color: "#666666",
-              lineHeight: 1.8,
-              fontWeight: 300,
-              letterSpacing: "0.01em"
-            }}>
-              Multi-agent autonomous system. 365 Python files, 258K lines. Markowitz portfolio optimization with CVaR, LinUCB Thompson Sampling, circuit breaker patterns.
-            </p>
-          </div>
-
-          <div style={{
-            padding: "clamp(48px, 7vw, 64px)",
-            backgroundColor: "#0A0A0A"
-          }}>
-            <h3 style={{
-              fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "clamp(22px, 3vw, 28px)",
-              fontWeight: 300,
-              color: "#E6E6E6",
-              marginBottom: "clamp(20px, 3vh, 24px)",
-              letterSpacing: "-0.01em"
-            }}>
-              Octopus
-            </h3>
-            <p style={{
-              fontSize: "clamp(14px, 1.8vw, 15px)",
-              color: "#666666",
-              lineHeight: 1.8,
-              fontWeight: 300,
-              letterSpacing: "0.01em"
-            }}>
-              Cognitive agent framework. 5 decomposition strategies, tri-store memory (semantic, episodic, procedural), NetworkX DAG, meta-reflection with blind spot detection.
-            </p>
-          </div>
-
-        </div>
-      </div>
-
-      {/* Vertical Divider - White */}
-      <div style={{
-        width: "1px",
-        height: "50px",
-        backgroundColor: "#FAFAF8",
-        margin: "clamp(60px, 10vh, 80px) auto"
-      }} />
-
-      {/* Technical Focus - Ultra Minimal */}
-      <div style={{
-        maxWidth: "1100px",
-        margin: "0 auto",
-        padding: "0 24px clamp(60px, 10vh, 80px)"
-      }}>
-        <h2 style={{
-          fontSize: "clamp(11px, 1.4vw, 13px)",
-          fontWeight: 500,
-          letterSpacing: "0.25em",
-          textTransform: "uppercase",
-          color: "#4D4D4D",
-          marginBottom: "clamp(64px, 10vh, 96px)",
-          textAlign: "center"
-        }}>
-          Technical Focus
-        </h2>
-
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))",
-          gap: "clamp(56px, 9vw, 96px)"
-        }}>
-
-          <div style={{ textAlign: "center" }}>
-            <h3 style={{
-              fontSize: "clamp(12px, 1.5vw, 14px)",
-              fontWeight: 500,
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "#4D4D4D",
-              marginBottom: "clamp(28px, 5vh, 40px)"
-            }}>
-              Focus Areas
-            </h3>
-            <p style={{
-              fontSize: "clamp(15px, 1.9vw, 17px)",
-              color: "#808080",
-              lineHeight: 2.2,
-              fontWeight: 300,
-              letterSpacing: "0.01em"
-            }}>
-              Algorithmic Trading<br/>
-              Multi-Agent Systems<br/>
-              Autonomous Software<br/>
-              Machine Learning<br/>
-              Cognitive Architecture
-            </p>
-          </div>
-
-          <div style={{ textAlign: "center" }}>
-            <h3 style={{
-              fontSize: "clamp(12px, 1.5vw, 14px)",
-              fontWeight: 500,
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "#4D4D4D",
-              marginBottom: "clamp(28px, 5vh, 40px)"
-            }}>
-              Core Stack
-            </h3>
-            <p style={{
-              fontSize: "clamp(15px, 1.9vw, 17px)",
-              color: "#808080",
-              lineHeight: 2.2,
-              fontWeight: 300,
-              letterSpacing: "0.01em"
-            }}>
-              Python<br/>
-              PostgreSQL / MongoDB<br/>
-              FastAPI<br/>
-              scikit-learn / PyTorch<br/>
-              Redis
-            </p>
-          </div>
-
-          <div style={{ textAlign: "center" }}>
-            <h3 style={{
-              fontSize: "clamp(12px, 1.5vw, 14px)",
-              fontWeight: 500,
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "#4D4D4D",
-              marginBottom: "clamp(28px, 5vh, 40px)"
-            }}>
-              Techniques
-            </h3>
-            <p style={{
-              fontSize: "clamp(15px, 1.9vw, 17px)",
-              color: "#808080",
-              lineHeight: 2.2,
-              fontWeight: 300,
-              letterSpacing: "0.01em"
-            }}>
-              Hidden Markov Models<br/>
-              Kelly Criterion<br/>
-              Contextual Bandits<br/>
-              Portfolio Optimization<br/>
-              Event Sourcing
-            </p>
-          </div>
-
-        </div>
       </div>
 
       {/* Vertical Divider - White */}
@@ -527,21 +303,21 @@ export default function About() {
           fontWeight: 500,
           letterSpacing: "0.25em",
           textTransform: "uppercase",
-          color: "#4D4D4D",
+          color: "#FAFAF8",
           marginBottom: "clamp(48px, 8vh, 64px)"
         }}>
           Contact
         </h2>
         <p style={{
           fontSize: "clamp(15px, 1.9vw, 17px)",
-          color: "#808080",
+          color: "#FAFAF8",
           marginBottom: "clamp(24px, 4vh, 32px)",
           letterSpacing: "0.01em"
         }}>
           <a href="mailto:cogitoergosum143@gmail.com" style={{
-            color: "#CCCCCC",
+            color: "#FAFAF8",
             textDecoration: "none",
-            borderBottom: "1px solid #333333",
+            borderBottom: "1px solid #666666",
             paddingBottom: "2px"
           }}>
             cogitoergosum143@gmail.com
@@ -549,13 +325,13 @@ export default function About() {
         </p>
         <p style={{
           fontSize: "clamp(15px, 1.9vw, 17px)",
-          color: "#808080",
+          color: "#FAFAF8",
           letterSpacing: "0.01em"
         }}>
           <a href="https://github.com/manfromnowhere143" target="_blank" rel="noopener noreferrer" style={{
-            color: "#CCCCCC",
+            color: "#FAFAF8",
             textDecoration: "none",
-            borderBottom: "1px solid #333333",
+            borderBottom: "1px solid #666666",
             paddingBottom: "2px"
           }}>
             GitHub
@@ -575,7 +351,7 @@ export default function About() {
             fontSize: "clamp(20px, 3.5vw, 30px)",
             fontStyle: "italic",
             fontWeight: 300,
-            color: "#E6E6E6",
+            color: "#FAFAF8",
             lineHeight: 1.6,
             letterSpacing: "0.01em",
             marginBottom: "12px"
@@ -585,7 +361,7 @@ export default function About() {
           <p style={{
             fontSize: "clamp(14px, 2vw, 17px)",
             fontWeight: 300,
-            color: "#808080",
+            color: "#FAFAF8",
             letterSpacing: "0.02em",
             marginBottom: "clamp(48px, 7vh, 64px)"
           }}>
@@ -598,7 +374,7 @@ export default function About() {
             fontSize: "clamp(20px, 3.5vw, 30px)",
             fontStyle: "italic",
             fontWeight: 300,
-            color: "#E6E6E6",
+            color: "#FAFAF8",
             lineHeight: 1.6,
             letterSpacing: "0.01em",
             marginBottom: "12px"
@@ -608,7 +384,7 @@ export default function About() {
           <p style={{
             fontSize: "clamp(14px, 2vw, 17px)",
             fontWeight: 300,
-            color: "#808080",
+            color: "#FAFAF8",
             letterSpacing: "0.02em",
             marginBottom: "clamp(40px, 6vh, 56px)"
           }}>
@@ -618,7 +394,7 @@ export default function About() {
           {/* Attribution */}
           <p style={{
             fontSize: "12px",
-            color: "#4D4D4D",
+            color: "#FAFAF8",
             letterSpacing: "0.2em",
             textTransform: "uppercase"
           }}>
