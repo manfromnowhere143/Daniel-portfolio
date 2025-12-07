@@ -506,7 +506,7 @@ export default function Creative() {
                 borderRadius: "4px"
               }}>
                 <Image
-                  src="/images/math-language.jpg"
+                  src="/images/homework1.jpg"
                   alt="Homework 1"
                   width={900}
                   height={1200}
