@@ -7,6 +7,16 @@ export const metadata: Metadata = {
 };
 
 export default function Services() {
+  const githubLinkStyle = {
+    fontSize: "12px",
+    color: "#FAFAF8",
+    textDecoration: "none",
+    letterSpacing: "0.2em",
+    textTransform: "uppercase" as const,
+    borderBottom: "1px solid #666666",
+    paddingBottom: "4px"
+  };
+
   return (
     <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
 
@@ -19,10 +29,10 @@ export default function Services() {
       }}>
         <h1 style={{
           fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(42px, 7vw, 64px)",
+          fontSize: "clamp(42px, 6vw, 58px)",
           fontWeight: 300,
           color: "#FAFAF8",
-          letterSpacing: "-0.02em",
+          letterSpacing: "-0.01em",
           lineHeight: 1.1
         }}>
           Services
@@ -55,8 +65,9 @@ export default function Services() {
             <div style={{
               width: "1px",
               height: "40px",
-              backgroundColor: "#2A2A28",
-              marginBottom: "32px"
+              backgroundColor: "#FAFAF8",
+              marginBottom: "32px",
+              opacity: 0.3
             }} />
             <h2 style={{
               fontFamily: "Playfair Display, Georgia, serif",
@@ -71,11 +82,11 @@ export default function Services() {
             </h2>
             <p style={{
               fontSize: "12px",
-              color: "#5A5A58",
+              color: "#FAFAF8",
               letterSpacing: "0.1em",
               textTransform: "uppercase"
             }}>
-              Design & Development
+              Design • SEO • Development
             </p>
           </div>
 
@@ -93,8 +104,9 @@ export default function Services() {
             <div style={{
               width: "1px",
               height: "40px",
-              backgroundColor: "#2A2A28",
-              marginBottom: "32px"
+              backgroundColor: "#FAFAF8",
+              marginBottom: "32px",
+              opacity: 0.3
             }} />
             <h2 style={{
               fontFamily: "Playfair Display, Georgia, serif",
@@ -109,7 +121,7 @@ export default function Services() {
             </h2>
             <p style={{
               fontSize: "12px",
-              color: "#5A5A58",
+              color: "#FAFAF8",
               letterSpacing: "0.1em",
               textTransform: "uppercase"
             }}>
@@ -131,8 +143,9 @@ export default function Services() {
             <div style={{
               width: "1px",
               height: "40px",
-              backgroundColor: "#2A2A28",
-              marginBottom: "32px"
+              backgroundColor: "#FAFAF8",
+              marginBottom: "32px",
+              opacity: 0.3
             }} />
             <h2 style={{
               fontFamily: "Playfair Display, Georgia, serif",
@@ -147,11 +160,11 @@ export default function Services() {
             </h2>
             <p style={{
               fontSize: "12px",
-              color: "#5A5A58",
+              color: "#FAFAF8",
               letterSpacing: "0.1em",
               textTransform: "uppercase"
             }}>
-              AI & Data
+              AI • SQL Databases • Data
             </p>
           </div>
         </div>
@@ -162,7 +175,7 @@ export default function Services() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "clamp(24px, 4vh, 40px) 24px"
+        padding: "clamp(32px, 5vh, 48px) 24px"
       }}>
         <div style={{ width: "80px", height: "1px", background: "#1C1C1C" }} />
         <div style={{
@@ -186,8 +199,9 @@ export default function Services() {
           fontSize: "11px",
           letterSpacing: "0.3em",
           textTransform: "uppercase",
-          color: "#4A4A48",
-          marginBottom: "clamp(20px, 3vh, 32px)"
+          color: "#FAFAF8",
+          marginBottom: "clamp(20px, 3vh, 32px)",
+          opacity: 0.5
         }}>
           Also Seeking
         </p>
@@ -196,7 +210,7 @@ export default function Services() {
           fontFamily: "Playfair Display, Georgia, serif",
           fontSize: "clamp(24px, 4vw, 36px)",
           fontWeight: 300,
-          color: "#E6E6E6",
+          color: "#FAFAF8",
           lineHeight: 1.5,
           letterSpacing: "-0.01em",
           marginBottom: "clamp(16px, 3vh, 24px)"
@@ -216,7 +230,7 @@ export default function Services() {
               key={field}
               style={{
                 fontSize: "13px",
-                color: "#71706E",
+                color: "#FAFAF8",
                 letterSpacing: "0.15em",
                 textTransform: "uppercase",
                 padding: "12px 0",
@@ -243,13 +257,14 @@ export default function Services() {
           <div style={{
             width: "1px",
             height: "40px",
-            backgroundColor: "#2A2A28",
-            margin: "0 auto clamp(32px, 5vh, 48px)"
+            backgroundColor: "#FAFAF8",
+            margin: "0 auto clamp(32px, 5vh, 48px)",
+            opacity: 0.3
           }} />
 
           <p style={{
             fontSize: "clamp(17px, 2.2vw, 20px)",
-            color: "#999999",
+            color: "#FAFAF8",
             lineHeight: 2,
             fontWeight: 300,
             letterSpacing: "0.01em",
@@ -260,10 +275,11 @@ export default function Services() {
 
           <p style={{
             fontSize: "clamp(15px, 1.8vw, 17px)",
-            color: "#5A5A58",
+            color: "#FAFAF8",
             lineHeight: 1.8,
             fontWeight: 300,
-            letterSpacing: "0.02em"
+            letterSpacing: "0.02em",
+            opacity: 0.7
           }}>
             My first GitHub commit was March 2025.
           </p>
@@ -281,53 +297,39 @@ export default function Services() {
           fontSize: "10px",
           letterSpacing: "0.4em",
           textTransform: "uppercase",
-          color: "#3A3A38",
-          marginBottom: "clamp(20px, 3vh, 32px)"
+          color: "#FAFAF8",
+          marginBottom: "clamp(20px, 3vh, 32px)",
+          opacity: 0.5
         }}>
-          Let's Talk
+          Let&apos;s Talk
         </p>
 
-        <a href="mailto:cogitoergosum143@gmail.com" style={{
-          fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(22px, 3.5vw, 32px)",
-          color: "#FAFAF8",
-          textDecoration: "none",
-          letterSpacing: "-0.01em",
-          position: "relative",
-          paddingBottom: "8px"
-        }}>
+        <a 
+          href="mailto:cogitoergosum143@gmail.com" 
+          style={{
+            fontFamily: "Playfair Display, Georgia, serif",
+            fontSize: "clamp(22px, 3.5vw, 32px)",
+            color: "#FAFAF8",
+            textDecoration: "none",
+            letterSpacing: "-0.01em",
+            display: "inline-block",
+            position: "relative",
+            paddingBottom: "8px"
+          }}
+        >
+          cogitoergosum143@gmail.com
           <span style={{
-            position: "relative"
-          }}>
-            cogitoergosum143@gmail.com
-            <span style={{
-              position: "absolute",
-              bottom: "-4px",
-              left: 0,
-              right: 0,
-              height: "1px",
-              backgroundColor: "#333333"
-            }} />
-          </span>
+            position: "absolute",
+            bottom: "0",
+            left: 0,
+            right: 0,
+            height: "1px",
+            backgroundColor: "#666666"
+          }} />
         </a>
 
-        <div style={{
-          marginTop: "clamp(32px, 5vh, 48px)"
-        }}>
-          <a
-            href="https://github.com/manfromnowhere143"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontSize: "12px",
-              color: "#5A5A58",
-              textDecoration: "none",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              borderBottom: "1px solid #2A2A28",
-              paddingBottom: "4px"
-            }}
-          >
+        <div style={{ marginTop: "clamp(32px, 5vh, 48px)" }}>
+          <a href="https://github.com/manfromnowhere143" target="_blank" rel="noopener noreferrer" style={githubLinkStyle}>
             GitHub
           </a>
         </div>
@@ -343,13 +345,16 @@ export default function Services() {
           justifyContent: "center",
           alignItems: "center"
         }}>
-          <Link href="/" style={{
-            fontSize: "12px",
-            color: "#4A4A48",
-            textDecoration: "none",
-            letterSpacing: "0.15em",
-            textTransform: "uppercase"
-          }}>
+          <Link 
+            href="/" 
+            style={{
+              fontSize: "12px",
+              color: "#FAFAF8",
+              textDecoration: "none",
+              letterSpacing: "0.15em",
+              textTransform: "uppercase"
+            }}
+          >
             ← About
           </Link>
         </div>
