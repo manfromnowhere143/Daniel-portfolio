@@ -15,7 +15,7 @@ export default function Creative() {
       <div style={{
         maxWidth: "1400px",
         margin: "0 auto",
-        padding: "clamp(40px, 6vh, 60px) clamp(20px, 5vw, 40px) clamp(80px, 12vh, 120px)",
+        padding: "clamp(20px, 4vh, 40px) clamp(20px, 5vw, 40px) clamp(80px, 12vh, 120px)",
         textAlign: "center"
       }}>
         <div style={{
