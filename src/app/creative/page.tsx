@@ -109,7 +109,7 @@ export default function Creative() {
               />
             </div>
 
-            {/* Experience Button - State of the Art */}
+            {/* Experience Button - Simple Text + Arrow */}
             <div style={{
               display: "flex",
               justifyContent: "center",
@@ -119,118 +119,156 @@ export default function Creative() {
                 href="https://metatron-genesis369.vercel.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ textDecoration: "none" }}
-              >
-                <div style={{
-                  position: "relative",
+                style={{
+                  textDecoration: "none",
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "20px",
-                  padding: "22px 48px",
-                  background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
-                  overflow: "hidden",
-                  boxShadow: "0 4px 16px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.03) inset"
+                  gap: "12px",
+                  transition: "all 0.4s ease"
+                }}
+              >
+                <span style={{
+                  fontSize: "clamp(13px, 2vw, 15px)",
+                  color: "#CCCCCC",
+                  letterSpacing: "0.08em",
+                  fontWeight: 300
                 }}>
-                  {/* Subtle gradient overlay */}
-                  <div style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 60%)",
-                    pointerEvents: "none"
-                  }} />
-
-                  {/* Live indicator dot */}
-                  <div style={{ 
-                    position: "relative",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    zIndex: 1
-                  }}>
-                    <div style={{
-                      width: "7px",
-                      height: "7px",
-                      borderRadius: "50%",
-                      background: "#FFFFFF",
-                      boxShadow: "0 0 12px rgba(255,255,255,0.6)"
-                    }} />
-                    <div style={{
-                      position: "absolute",
-                      width: "15px",
-                      height: "15px",
-                      borderRadius: "50%",
-                      border: "1px solid rgba(255,255,255,0.25)"
-                    }} />
-                  </div>
-
-                  <span style={{
-                    position: "relative",
-                    fontSize: "13px",
-                    fontWeight: 500,
-                    color: "#FAFAF8",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    zIndex: 1
-                  }}>
-                    Experience Live
-                  </span>
-
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    style={{ 
-                      color: "#CCCCCC",
-                      position: "relative",
-                      zIndex: 1
-                    }}
-                  >
-                    <path d="M7 17L17 7M17 7H10M17 7V14" />
-                  </svg>
-                </div>
+                  Experience Live
+                </span>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  style={{ color: "#999999" }}
+                >
+                  <path d="M7 17L17 7M17 7H10M17 7V14" />
+                </svg>
               </Link>
             </div>
           </div>
 
-          {/* Description - Later, Separated */}
+          {/* Full Description - Left Aligned */}
           <div style={{
-            maxWidth: "900px",
-            margin: "clamp(80px, 12vh, 120px) auto 0",
-            textAlign: "center",
-            padding: "0 clamp(20px, 4vw, 0)"
+            maxWidth: "950px",
+            margin: "clamp(80px, 12vh, 120px) auto 0"
           }}>
-            <p style={{
-              fontSize: "clamp(16px, 2.2vw, 21px)",
-              color: "#B8B7B3",
-              lineHeight: 1.85,
-              fontWeight: 300,
-              marginBottom: "clamp(24px, 4vh, 36px)",
-              letterSpacing: "0.01em"
-            }}>
-              An artistic exploration where thought sought form. Nothing more. The ancient geometry
-              of Metatron's Cube rendered as an interactive meditation. Eight Platonic solids orbit
-              the source pattern, each carrying its element, frequency, and metaphysical resonance.
-            </p>
+            {/* Minimal divider */}
+            <div style={{
+              width: "32px",
+              height: "1px",
+              background: "#2A2A28",
+              marginBottom: "clamp(32px, 5vh, 44px)"
+            }} />
 
-            <p style={{
-              fontSize: "clamp(14px, 1.9vw, 17px)",
-              color: "#666666",
-              lineHeight: 1.8,
-              fontWeight: 300,
-              maxWidth: "780px",
-              margin: "0 auto"
+            {/* Year and Status Row */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "24px",
+              marginBottom: "clamp(24px, 4vh, 32px)"
             }}>
-              Currently presenting the frontend visualization. Backend logic and testing infrastructure
-              have been developed and validated. Available upon request for those interested in the
-              technical architecture.
-            </p>
+              <span style={{
+                fontSize: "12px",
+                color: "#4A4A48",
+                letterSpacing: "0.1em",
+                fontFamily: "monospace"
+              }}>
+                2025
+              </span>
+              <div style={{
+                width: "4px",
+                height: "4px",
+                borderRadius: "50%",
+                background: "#2A2A28"
+              }} />
+              <span style={{
+                fontSize: "11px",
+                color: "#4A4A48",
+                letterSpacing: "0.15em",
+                textTransform: "uppercase"
+              }}>
+                In Progress
+              </span>
+            </div>
+
+            {/* Description */}
+            <div>
+              <p style={{
+                fontSize: "clamp(16px, 2vw, 19px)",
+                color: "#B8B7B3",
+                lineHeight: 1.8,
+                fontWeight: 300,
+                marginBottom: "clamp(20px, 3vh, 28px)",
+                maxWidth: "720px",
+                textAlign: "left"
+              }}>
+                An artistic exploration where thought sought form. Nothing more. The ancient geometry
+                of Metatron's Cube rendered as an interactive meditation. Eight Platonic solids orbit
+                the source pattern, each carrying its element, frequency, and metaphysical resonance.
+              </p>
+
+              <p style={{
+                fontSize: "clamp(14px, 1.7vw, 16px)",
+                color: "#5A5A58",
+                lineHeight: 1.75,
+                fontWeight: 300,
+                marginBottom: "clamp(36px, 5vh, 48px)",
+                maxWidth: "720px",
+                textAlign: "left"
+              }}>
+                Currently presenting the frontend visualization. Backend logic and testing infrastructure
+                have been developed and validated. Available upon request for those interested in the
+                technical architecture.
+              </p>
+
+              {/* Tech Stack */}
+              <div style={{ marginBottom: "clamp(32px, 5vh, 44px)" }}>
+                <p style={{
+                  fontSize: "10px",
+                  color: "#3A3A38",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  marginBottom: "16px"
+                }}>
+                  Technologies
+                </p>
+                <div style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "8px"
+                }}>
+                  {["React", "Three.js", "TypeScript", "Next.js", "Framer Motion", "WebGL"].map((tech) => (
+                    <span
+                      key={tech}
+                      style={{
+                        fontSize: "11px",
+                        color: "#5A5A58",
+                        letterSpacing: "0.04em",
+                        padding: "8px 16px",
+                        border: "1px solid #1E1E1C",
+                        borderRadius: "2px"
+                      }}
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Continuation Note */}
+              <p style={{
+                fontSize: "14px",
+                color: "#3A3A38",
+                fontStyle: "italic",
+                letterSpacing: "0.02em",
+                textAlign: "left"
+              }}>
+                To be continued... <span style={{ opacity: 0.5 }}>perhaps</span>
+              </p>
+            </div>
           </div>
         </div>
 
