@@ -9,13 +9,13 @@ export const metadata: Metadata = {
 
 export default function Creative() {
   return (
-    <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+    <div style={{ paddingTop: "80px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
 
       {/* Hero Section */}
       <div style={{
         maxWidth: "1400px",
         margin: "0 auto",
-        padding: "clamp(60px, 10vh, 100px) clamp(20px, 5vw, 40px) clamp(80px, 12vh, 120px)",
+        padding: "clamp(40px, 6vh, 60px) clamp(20px, 5vw, 40px) clamp(80px, 12vh, 120px)",
         textAlign: "center"
       }}>
         <div style={{
@@ -31,11 +31,11 @@ export default function Creative() {
           }} />
           <h1 style={{
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(48px, 7vw, 92px)",
+            fontSize: "clamp(32px, 4.5vw, 56px)",
             fontWeight: 300,
             color: "#FAFAF8",
-            letterSpacing: "-0.03em",
-            lineHeight: 1,
+            letterSpacing: "0.02em",
+            lineHeight: 1.2,
             marginBottom: "28px"
           }}>
             Visual Studies
@@ -109,11 +109,11 @@ export default function Creative() {
               />
             </div>
 
-            {/* Experience Button - Simple Text + Arrow */}
+            {/* Experience Live Button - Simple & Elegant */}
             <div style={{
               display: "flex",
               justifyContent: "center",
-              marginTop: "clamp(48px, 8vh, 72px)"
+              marginTop: "clamp(56px, 9vh, 80px)"
             }}>
               <Link
                 href="https://metatron-genesis369.vercel.app"
@@ -123,28 +123,37 @@ export default function Creative() {
                   textDecoration: "none",
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "12px",
+                  gap: "14px",
                   transition: "all 0.4s ease"
                 }}
               >
                 <span style={{
-                  fontSize: "clamp(13px, 2vw, 15px)",
+                  fontSize: "clamp(13px, 1.8vw, 15px)",
                   color: "#FAFAF8",
-                  letterSpacing: "0.08em",
+                  letterSpacing: "0.06em",
                   fontWeight: 300
                 }}>
                   Experience Live
                 </span>
+
+                {/* Thin Geometric Arrow */}
                 <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
                   fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  style={{ color: "#FAFAF8" }}
+                  style={{ 
+                    minWidth: "16px",
+                    minHeight: "16px"
+                  }}
                 >
-                  <path d="M7 17L17 7M17 7H10M17 7V14" />
+                  <path
+                    d="M3 13L13 3M13 3H6M13 3V10"
+                    stroke="#FAFAF8"
+                    strokeWidth="0.8"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
+                  />
                 </svg>
               </Link>
             </div>
