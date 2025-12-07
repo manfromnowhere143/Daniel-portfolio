@@ -48,8 +48,8 @@ export default function Creative() {
           }} />
         </div>
         <p style={{
-          fontSize: "clamp(16px, 2.2vw, 22px)",
-          color: "#999999",
+          fontSize: "clamp(15px, 2.2vw, 22px)",
+          color: "#FAFAF8",
           maxWidth: "720px",
           margin: "0 auto",
           lineHeight: 1.8,
@@ -57,7 +57,7 @@ export default function Creative() {
           letterSpacing: "0.01em",
           padding: "0 20px"
         }}>
-          Explorations in sacred geometry, emergence,<br />and the architecture of complexity
+          Explorations in sacred geometry, emergence, and the architecture of complexity
         </p>
       </div>
 
@@ -129,7 +129,7 @@ export default function Creative() {
               >
                 <span style={{
                   fontSize: "clamp(13px, 2vw, 15px)",
-                  color: "#CCCCCC",
+                  color: "#FAFAF8",
                   letterSpacing: "0.08em",
                   fontWeight: 300
                 }}>
@@ -142,7 +142,7 @@ export default function Creative() {
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.5"
-                  style={{ color: "#999999" }}
+                  style={{ color: "#FAFAF8" }}
                 >
                   <path d="M7 17L17 7M17 7H10M17 7V14" />
                 </svg>
@@ -172,7 +172,7 @@ export default function Creative() {
             }}>
               <span style={{
                 fontSize: "12px",
-                color: "#4A4A48",
+                color: "#FAFAF8",
                 letterSpacing: "0.1em",
                 fontFamily: "monospace"
               }}>
@@ -186,7 +186,7 @@ export default function Creative() {
               }} />
               <span style={{
                 fontSize: "11px",
-                color: "#4A4A48",
+                color: "#FAFAF8",
                 letterSpacing: "0.15em",
                 textTransform: "uppercase"
               }}>
@@ -198,7 +198,7 @@ export default function Creative() {
             <div>
               <p style={{
                 fontSize: "clamp(16px, 2vw, 19px)",
-                color: "#B8B7B3",
+                color: "#FAFAF8",
                 lineHeight: 1.8,
                 fontWeight: 300,
                 marginBottom: "clamp(20px, 3vh, 28px)",
@@ -212,7 +212,7 @@ export default function Creative() {
 
               <p style={{
                 fontSize: "clamp(14px, 1.7vw, 16px)",
-                color: "#5A5A58",
+                color: "#FAFAF8",
                 lineHeight: 1.75,
                 fontWeight: 300,
                 marginBottom: "clamp(36px, 5vh, 48px)",
@@ -228,7 +228,7 @@ export default function Creative() {
               <div style={{ marginBottom: "clamp(32px, 5vh, 44px)" }}>
                 <p style={{
                   fontSize: "10px",
-                  color: "#3A3A38",
+                  color: "#FAFAF8",
                   letterSpacing: "0.2em",
                   textTransform: "uppercase",
                   marginBottom: "16px"
@@ -245,7 +245,7 @@ export default function Creative() {
                       key={tech}
                       style={{
                         fontSize: "11px",
-                        color: "#5A5A58",
+                        color: "#FAFAF8",
                         letterSpacing: "0.04em",
                         padding: "8px 16px",
                         border: "1px solid #1E1E1C",
@@ -261,7 +261,7 @@ export default function Creative() {
               {/* Continuation Note */}
               <p style={{
                 fontSize: "14px",
-                color: "#3A3A38",
+                color: "#FAFAF8",
                 fontStyle: "italic",
                 letterSpacing: "0.02em",
                 textAlign: "left"
@@ -341,7 +341,7 @@ export default function Creative() {
               </p>
               <p style={{
                 fontSize: "clamp(10px, 1.4vw, 13px)",
-                color: "#666666",
+                color: "#FAFAF8",
                 letterSpacing: "0.12em",
                 textTransform: "uppercase"
               }}>
@@ -350,7 +350,7 @@ export default function Creative() {
             </div>
             <p style={{
               fontSize: "clamp(11px, 1.5vw, 13px)",
-              color: "#555555",
+              color: "#FAFAF8",
               letterSpacing: "0.05em",
               fontFamily: "monospace"
             }}>
@@ -401,7 +401,7 @@ export default function Creative() {
               </p>
               <p style={{
                 fontSize: "clamp(10px, 1.4vw, 12px)",
-                color: "#666666",
+                color: "#FAFAF8",
                 letterSpacing: "0.12em",
                 textTransform: "uppercase"
               }}>
@@ -445,7 +445,7 @@ export default function Creative() {
               </p>
               <p style={{
                 fontSize: "clamp(10px, 1.4vw, 12px)",
-                color: "#666666",
+                color: "#FAFAF8",
                 letterSpacing: "0.12em",
                 textTransform: "uppercase"
               }}>
@@ -493,7 +493,7 @@ export default function Creative() {
               </p>
               <p style={{
                 fontSize: "clamp(10px, 1.4vw, 13px)",
-                color: "#666666",
+                color: "#FAFAF8",
                 letterSpacing: "0.12em",
                 textTransform: "uppercase"
               }}>
@@ -502,7 +502,7 @@ export default function Creative() {
             </div>
             <p style={{
               fontSize: "clamp(11px, 1.5vw, 13px)",
-              color: "#555555",
+              color: "#FAFAF8",
               letterSpacing: "0.05em",
               fontFamily: "monospace"
             }}>
@@ -517,7 +517,7 @@ export default function Creative() {
         <div>
           <p style={{
             fontSize: "clamp(12px, 2vw, 13px)",
-            color: "#555555",
+            color: "#FAFAF8",
             letterSpacing: "0.05em",
             marginBottom: "clamp(36px, 6vh, 60px)",
             textAlign: "center",
@@ -559,7 +559,7 @@ export default function Creative() {
               <div style={{ marginTop: "clamp(20px, 4vh, 32px)" }}>
                 <p style={{
                   fontSize: "clamp(15px, 2.2vw, 18px)",
-                  color: "#AAAAAA",
+                  color: "#FAFAF8",
                   fontWeight: 300,
                   marginBottom: "8px",
                   letterSpacing: "0.01em"
@@ -568,7 +568,7 @@ export default function Creative() {
                 </p>
                 <p style={{
                   fontSize: "clamp(11px, 1.5vw, 12px)",
-                  color: "#555555",
+                  color: "#FAFAF8",
                   letterSpacing: "0.05em",
                   fontFamily: "monospace"
                 }}>
@@ -602,7 +602,7 @@ export default function Creative() {
               <div style={{ marginTop: "clamp(20px, 4vh, 32px)" }}>
                 <p style={{
                   fontSize: "clamp(15px, 2.2vw, 18px)",
-                  color: "#AAAAAA",
+                  color: "#FAFAF8",
                   fontWeight: 300,
                   marginBottom: "8px",
                   letterSpacing: "0.01em"
@@ -611,7 +611,7 @@ export default function Creative() {
                 </p>
                 <p style={{
                   fontSize: "clamp(11px, 1.5vw, 12px)",
-                  color: "#555555",
+                  color: "#FAFAF8",
                   letterSpacing: "0.05em",
                   fontFamily: "monospace"
                 }}>
@@ -625,7 +625,7 @@ export default function Creative() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════ */}
-      {/* EINSTEIN QUOTE - ELEGANT */}
+      {/* NEW QUOTE - NONSENSE */}
       {/* ═══════════════════════════════════════════════════════════ */}
       <div style={{
         borderTop: "1px solid rgba(255,255,255,0.04)",
@@ -634,31 +634,15 @@ export default function Creative() {
         <div style={{ maxWidth: "900px", margin: "0 auto", textAlign: "center" }}>
           <p style={{
             fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(24px, 4vw, 42px)",
+            fontSize: "clamp(20px, 3.5vw, 36px)",
             fontWeight: 300,
-            color: "#D4D4D4",
+            color: "#FAFAF8",
             lineHeight: 1.6,
             letterSpacing: "-0.01em",
             fontStyle: "italic",
-            padding: "0 20px",
-            marginBottom: "clamp(32px, 6vh, 48px)"
+            padding: "0 20px"
           }}>
-            "Art is intelligence having fun"
-          </p>
-          <div style={{
-            width: "80px",
-            height: "1px",
-            background: "linear-gradient(90deg, transparent, #3A3A38, transparent)",
-            margin: "0 auto clamp(28px, 5vh, 40px)"
-          }} />
-          <p style={{
-            fontSize: "clamp(11px, 1.6vw, 13px)",
-            fontWeight: 400,
-            color: "#777777",
-            letterSpacing: "0.15em",
-            textTransform: "uppercase"
-          }}>
-            Albert Einstein
+            "Everything presented on this page is nonsense,<br />treat it accordingly"
           </p>
         </div>
       </div>
@@ -672,7 +656,7 @@ export default function Creative() {
             href="/"
             style={{
               fontSize: "clamp(10px, 1.8vw, 11px)",
-              color: "#666666",
+              color: "#FAFAF8",
               textDecoration: "none",
               letterSpacing: "0.18em",
               textTransform: "uppercase",
