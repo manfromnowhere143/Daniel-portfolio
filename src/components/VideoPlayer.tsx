@@ -9,6 +9,7 @@ interface VideoPlayerProps {
 export default function VideoPlayer({ src }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [showControls, setShowControls] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -37,6 +38,21 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
     return () => video.removeEventListener("timeupdate", updateProgress);
   }, [isDragging]);
 
+  // Auto-hide controls on mobile after 3 seconds
+  const showControlsTemporarily = useCallback(() => {
+    setShowControls(true);
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+    if (isMobile) {
+      hideTimeoutRef.current = setTimeout(() => {
+        if (!isDragging) {
+          setShowControls(false);
+        }
+      }, 3000);
+    }
+  }, [isMobile, isDragging]);
+
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
@@ -45,6 +61,14 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
         videoRef.current.play();
       }
       setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleVideoClick = () => {
+    if (isMobile) {
+      showControlsTemporarily();
+    } else {
+      togglePlay();
     }
   };
 
@@ -105,6 +129,7 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
         videoRef.current.currentTime + seconds
       ));
     }
+    showControlsTemporarily();
   };
 
   return (
@@ -119,7 +144,6 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
       }}
       onMouseEnter={() => !isMobile && setShowControls(true)}
       onMouseLeave={() => !isMobile && !isDragging && setShowControls(false)}
-      onTouchStart={() => setShowControls(true)}
     >
       <video
         ref={videoRef}
@@ -128,7 +152,7 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
         muted
         loop
         playsInline
-        onClick={togglePlay}
+        onClick={handleVideoClick}
         style={{
           width: "100%",
           height: "auto",
@@ -144,14 +168,14 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
           bottom: 0,
           left: 0,
           right: 0,
-          padding: isMobile ? "20px 16px" : "24px 20px",
-          background: "linear-gradient(transparent, rgba(0,0,0,0.5))",
-          opacity: showControls || isMobile ? 1 : 0,
+          padding: isMobile ? "16px 12px" : "24px 20px",
+          background: showControls ? "linear-gradient(transparent, rgba(0,0,0,0.6))" : "transparent",
+          opacity: showControls ? 1 : 0,
           transition: "opacity 0.3s ease",
-          pointerEvents: showControls || isMobile ? "auto" : "none",
+          pointerEvents: showControls ? "auto" : "none",
         }}
       >
-        {/* Progress Bar Container - larger hit area */}
+        {/* Progress Bar Container */}
         <div
           ref={progressRef}
           onMouseDown={handleMouseDown}
@@ -160,7 +184,7 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
             width: "100%",
             height: "20px",
             cursor: "pointer",
-            marginBottom: isMobile ? "10px" : "12px",
+            marginBottom: isMobile ? "8px" : "12px",
             position: "relative",
             display: "flex",
             alignItems: "center",
@@ -210,7 +234,7 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: isMobile ? "32px" : "28px",
+            gap: isMobile ? "24px" : "28px",
           }}
         >
           {/* Rewind */}
@@ -225,23 +249,20 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
               alignItems: "center",
               justifyContent: "center",
               opacity: 0.6,
-              transition: "opacity 0.2s ease",
             }}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = "1"}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = "0.6"}
             aria-label="Rewind 10 seconds"
           >
-            <svg width={isMobile ? "20" : "16"} height={isMobile ? "20" : "16"} viewBox="0 0 24 24" fill="none">
+            <svg width={isMobile ? "18" : "16"} height={isMobile ? "18" : "16"} viewBox="0 0 24 24" fill="none">
               <path d="M12 5V1L7 6L12 11V7C15.31 7 18 9.69 18 13C18 16.31 15.31 19 12 19C8.69 19 6 16.31 6 13H4C4 17.42 7.58 21 12 21C16.42 21 20 17.42 20 13C20 8.58 16.42 5 12 5Z" fill="#FAFAF8"/>
             </svg>
           </button>
 
           {/* Play/Pause */}
           <button
-            onClick={togglePlay}
+            onClick={() => { togglePlay(); showControlsTemporarily(); }}
             style={{
-              width: isMobile ? "40px" : "36px",
-              height: isMobile ? "40px" : "36px",
+              width: isMobile ? "36px" : "36px",
+              height: isMobile ? "36px" : "36px",
               borderRadius: "50%",
               backgroundColor: "rgba(255,255,255,0.1)",
               backdropFilter: "blur(8px)",
@@ -250,7 +271,6 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              transition: "background-color 0.2s ease",
             }}
             aria-label={isPlaying ? "Pause" : "Play"}
           >
@@ -278,13 +298,10 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
               alignItems: "center",
               justifyContent: "center",
               opacity: 0.6,
-              transition: "opacity 0.2s ease",
             }}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = "1"}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = "0.6"}
             aria-label="Forward 10 seconds"
           >
-            <svg width={isMobile ? "20" : "16"} height={isMobile ? "20" : "16"} viewBox="0 0 24 24" fill="none">
+            <svg width={isMobile ? "18" : "16"} height={isMobile ? "18" : "16"} viewBox="0 0 24 24" fill="none">
               <path d="M12 5V1L17 6L12 11V7C8.69 7 6 9.69 6 13C6 16.31 8.69 19 12 19C15.31 19 18 16.31 18 13H20C20 17.42 16.42 21 12 21C7.58 21 4 17.42 4 13C4 8.58 7.58 5 12 5Z" fill="#FAFAF8"/>
             </svg>
           </button>
