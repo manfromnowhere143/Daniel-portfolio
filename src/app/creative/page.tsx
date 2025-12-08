@@ -274,7 +274,6 @@ export default function Creative() {
                 fontSize: "14px",
                 color: "#FAFAF8",
                 letterSpacing: "0.08em",
-                letterSpacing: "0.02em",
                 textAlign: "left"
               }}>
                 To be continued... <span style={{ opacity: 0.5 }}>perhaps</span>
