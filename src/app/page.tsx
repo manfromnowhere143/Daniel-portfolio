@@ -25,17 +25,6 @@ export default function About() {
         </h1>
         <p style={{
           fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(16px, 2vw, 20px)",
-          fontStyle: "italic",
-          fontWeight: 300,
-          color: "#CCCCCC",
-          letterSpacing: "0.15em",
-          marginBottom: "clamp(32px, 5vh, 48px)"
-        }}>
-          Ostinato Rigore
-        </p>
-        <p style={{
-          fontFamily: "Playfair Display, Georgia, serif",
           fontSize: "clamp(18px, 2.5vw, 24px)",
           fontWeight: 300,
           color: "#FAFAF8",
