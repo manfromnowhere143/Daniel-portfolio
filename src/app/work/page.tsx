@@ -37,7 +37,7 @@ export default function Work() {
       <div style={{ 
         maxWidth: "900px", 
         margin: "0 auto", 
-        padding: "clamp(20px, 4vh, 40px) 24px clamp(40px, 6vh, 60px)",
+        padding: "clamp(20px, 4vh, 40px) 24px clamp(20px, 3vh, 32px)",
         textAlign: "center"
       }}>
         <h1 style={{ 
@@ -51,15 +51,6 @@ export default function Work() {
         }}>
           Work
         </h1>
-        <p style={{ 
-          fontSize: "clamp(16px, 2vw, 18px)", 
-          color: "#FAFAF8",
-          lineHeight: 1.8,
-          fontWeight: 300,
-          letterSpacing: "0.01em"
-        }}>
-          Autonomous systems, algorithmic trading, and cognitive frameworks
-        </p>
       </div>
 
       {/* Vertical Divider - White */}
