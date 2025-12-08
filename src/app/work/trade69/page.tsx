@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import VideoPlayer from "@/components/VideoPlayer";
 
 export default function Trade69() {
   return (
@@ -16,7 +17,7 @@ export default function Trade69() {
           fontSize: "11px", 
           letterSpacing: "0.3em", 
           textTransform: "uppercase", 
-          color: "#71706E",
+          color: "#FAFAF8",
           marginBottom: "clamp(16px, 2vh, 24px)"
         }}>
           Algorithmic Trading Intelligence
@@ -34,7 +35,7 @@ export default function Trade69() {
         </h1>
         <p style={{ 
           fontSize: "clamp(15px, 2vw, 18px)", 
-          color: "#B8B7B3", 
+          color: "#FAFAF8", 
           lineHeight: 1.7,
           maxWidth: "700px",
           margin: "0 auto clamp(40px, 6vh, 60px)",
@@ -95,7 +96,7 @@ export default function Trade69() {
               </p>
               <p style={{ 
                 fontSize: "12px", 
-                color: "#71706E",
+                color: "#FAFAF8",
                 letterSpacing: "0.1em",
                 textTransform: "uppercase"
               }}>
@@ -104,6 +105,15 @@ export default function Trade69() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Video Section */}
+      <div style={{ 
+        maxWidth: "1000px", 
+        margin: "0 auto", 
+        padding: "clamp(60px, 10vh, 100px) 24px"
+      }}>
+        <VideoPlayer src="/videos/t69record.mov" />
       </div>
 
       {/* Overview */}
@@ -125,7 +135,7 @@ export default function Trade69() {
         </p>
         <p style={{ 
           fontSize: "clamp(14px, 2vw, 16px)", 
-          color: "#71706E", 
+          color: "#FAFAF8", 
           lineHeight: 1.8 
         }}>
           The system employs Hidden Markov Models for market regime detection, 
@@ -190,7 +200,7 @@ export default function Trade69() {
               </h3>
               <p style={{ 
                 fontSize: "14px", 
-                color: "#71706E",
+                color: "#FAFAF8",
                 lineHeight: 1.6
               }}>
                 {item.data}
@@ -313,7 +323,7 @@ export default function Trade69() {
               </h3>
               <p style={{ 
                 fontSize: "15px", 
-                color: "#71706E",
+                color: "#FAFAF8",
                 lineHeight: 1.7
               }}>
                 {item.desc}
@@ -348,7 +358,7 @@ export default function Trade69() {
           </h2>
           <p style={{ 
             fontSize: "16px", 
-            color: "#71706E",
+            color: "#FAFAF8",
             lineHeight: 1.7,
             textAlign: "center",
             marginBottom: "clamp(32px, 6vh, 48px)",
@@ -367,7 +377,7 @@ export default function Trade69() {
           }}>
             <code style={{ 
               fontSize: "clamp(13px, 1.8vw, 15px)", 
-              color: "#B8B7B3",
+              color: "#FAFAF8",
               fontFamily: "Monaco, Courier, monospace",
               lineHeight: 1.8,
               display: "block"
@@ -403,7 +413,7 @@ export default function Trade69() {
         </h2>
         <p style={{ 
           fontSize: "15px", 
-          color: "#71706E",
+          color: "#FAFAF8",
           lineHeight: 1.8,
           textAlign: "center"
         }}>
@@ -427,7 +437,7 @@ export default function Trade69() {
         }}>
           <Link href="/work" style={{ 
             fontSize: "13px", 
-            color: "#71706E", 
+            color: "#FAFAF8", 
             textDecoration: "none",
             letterSpacing: "0.1em",
             textTransform: "uppercase"
@@ -436,7 +446,7 @@ export default function Trade69() {
           </Link>
           <Link href="/work/megaagent" style={{ 
             fontSize: "13px", 
-            color: "#71706E", 
+            color: "#FAFAF8", 
             textDecoration: "none",
             letterSpacing: "0.1em",
             textTransform: "uppercase"
