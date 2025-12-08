@@ -88,7 +88,7 @@ export default function Services() {
               letterSpacing: "0.01em",
               marginBottom: "16px"
             }}>
-              Dashboards & Control Panels
+              Dashboards and Control Panels
             </h2>
             <p style={{
               fontSize: "clamp(14px, 1.8vw, 16px)",
