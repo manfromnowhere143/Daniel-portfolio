@@ -55,8 +55,8 @@ export default function Creative() {
           margin: "0 auto",
           lineHeight: 1.6,
           fontWeight: 300,
-          fontStyle: "italic",
-          letterSpacing: "0.03em",
+          letterSpacing: "0.08em",
+          textTransform: "lowercase",
           padding: "0 20px"
         }}>
           Figment of imagination
@@ -273,7 +273,7 @@ export default function Creative() {
               <p style={{
                 fontSize: "14px",
                 color: "#FAFAF8",
-                fontStyle: "italic",
+                letterSpacing: "0.08em",
                 letterSpacing: "0.02em",
                 textAlign: "left"
               }}>
