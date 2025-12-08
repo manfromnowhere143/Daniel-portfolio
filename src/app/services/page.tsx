@@ -138,7 +138,7 @@ export default function Services() {
               letterSpacing: "0.01em",
               marginBottom: "16px"
             }}>
-              LLM Middleware & SQL Agents
+              LLM Middleware and SQL Agents
             </h2>
             <p style={{
               fontSize: "clamp(14px, 1.8vw, 16px)",
