@@ -48,16 +48,18 @@ export default function Creative() {
           }} />
         </div>
         <p style={{
-          fontSize: "clamp(15px, 2.2vw, 22px)",
+          fontFamily: "Playfair Display, Georgia, serif",
+          fontSize: "clamp(18px, 2.8vw, 28px)",
           color: "#FAFAF8",
           maxWidth: "720px",
           margin: "0 auto",
-          lineHeight: 1.8,
+          lineHeight: 1.6,
           fontWeight: 300,
-          letterSpacing: "0.01em",
+          fontStyle: "italic",
+          letterSpacing: "0.03em",
           padding: "0 20px"
         }}>
-          Explorations in sacred geometry, emergence, and the architecture of complexity
+          Figment of imagination
         </p>
       </div>
 
@@ -68,7 +70,7 @@ export default function Creative() {
         {/* METATRON GENESIS - STANDALONE HERO */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <div style={{ marginBottom: "clamp(140px, 20vh, 200px)" }}>
-          
+
           {/* Hero Image - Standalone */}
           <div style={{
             position: "relative",
@@ -142,7 +144,7 @@ export default function Creative() {
                   height="16"
                   viewBox="0 0 16 16"
                   fill="none"
-                  style={{ 
+                  style={{
                     minWidth: "16px",
                     minHeight: "16px"
                   }}
@@ -418,7 +420,7 @@ export default function Creative() {
               </p>
             </div>
           </div>
-          
+
           <div>
             <div style={{
               backgroundColor: "#000000",
@@ -671,32 +673,95 @@ export default function Creative() {
                 </p>
               </div>
             </div>
+
+            {/* Homework 4 */}
+            <div>
+              <div style={{
+                position: "relative",
+                backgroundColor: "#000000",
+                overflow: "hidden",
+                border: "1px solid rgba(255,255,255,0.04)",
+                borderRadius: "4px"
+              }}>
+                <Image
+                  src="/images/homework4.jpg"
+                  alt="Homework 4"
+                  width={900}
+                  height={1200}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    display: "block",
+                    opacity: 0.96
+                  }}
+                />
+              </div>
+              <div style={{ marginTop: "clamp(20px, 4vh, 32px)" }}>
+                <p style={{
+                  fontSize: "clamp(15px, 2.2vw, 18px)",
+                  color: "#FAFAF8",
+                  fontWeight: 300,
+                  marginBottom: "8px",
+                  letterSpacing: "0.01em"
+                }}>
+                  Homework 4
+                </p>
+                <p style={{
+                  fontSize: "clamp(11px, 1.5vw, 12px)",
+                  color: "#FAFAF8",
+                  letterSpacing: "0.05em",
+                  fontFamily: "monospace"
+                }}>
+                  2025
+                </p>
+              </div>
+            </div>
+
+            {/* Homework 5 */}
+            <div>
+              <div style={{
+                position: "relative",
+                backgroundColor: "#000000",
+                overflow: "hidden",
+                border: "1px solid rgba(255,255,255,0.04)",
+                borderRadius: "4px"
+              }}>
+                <Image
+                  src="/images/homework5.jpg"
+                  alt="Homework 5"
+                  width={900}
+                  height={1200}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    display: "block",
+                    opacity: 0.96
+                  }}
+                />
+              </div>
+              <div style={{ marginTop: "clamp(20px, 4vh, 32px)" }}>
+                <p style={{
+                  fontSize: "clamp(15px, 2.2vw, 18px)",
+                  color: "#FAFAF8",
+                  fontWeight: 300,
+                  marginBottom: "8px",
+                  letterSpacing: "0.01em"
+                }}>
+                  Homework 5
+                </p>
+                <p style={{
+                  fontSize: "clamp(11px, 1.5vw, 12px)",
+                  color: "#FAFAF8",
+                  letterSpacing: "0.05em",
+                  fontFamily: "monospace"
+                }}>
+                  2025
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
-      </div>
-
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* NEW QUOTE - NONSENSE */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <div style={{
-        borderTop: "1px solid rgba(255,255,255,0.04)",
-        padding: "clamp(100px, 18vh, 160px) clamp(20px, 5vw, 40px)"
-      }}>
-        <div style={{ maxWidth: "900px", margin: "0 auto", textAlign: "center" }}>
-          <p style={{
-            fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(20px, 3.5vw, 36px)",
-            fontWeight: 300,
-            color: "#FAFAF8",
-            lineHeight: 1.6,
-            letterSpacing: "-0.01em",
-            fontStyle: "italic",
-            padding: "0 20px"
-          }}>
-            "Everything presented on this page is nonsense,<br />treat it accordingly"
-          </p>
-        </div>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════ */}
