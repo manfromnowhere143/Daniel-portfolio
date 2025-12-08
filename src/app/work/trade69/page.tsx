@@ -111,8 +111,36 @@ export default function Trade69() {
       <div style={{ 
         maxWidth: "1000px", 
         margin: "0 auto", 
-        padding: "clamp(60px, 10vh, 100px) 24px"
+        padding: "clamp(60px, 10vh, 100px) 24px clamp(40px, 6vh, 60px)"
       }}>
+        {/* Video Context Text */}
+        <div style={{
+          maxWidth: "800px",
+          margin: "0 auto clamp(32px, 5vh, 48px)"
+        }}>
+          <p style={{
+            fontSize: "clamp(14px, 1.8vw, 16px)",
+            color: "#FAFAF8",
+            lineHeight: 1.8,
+            fontWeight: 300,
+            marginBottom: "16px"
+          }}>
+            My first dashboard, built alongside the backend as a control panel for live data extraction. 
+            Started with Streamlit, then migrated to Dash for better flexibility. The system page 
+            includes the database schema to provide LLMs with structural context, enabling 
+            natural language queries through the middleware.
+          </p>
+          <p style={{
+            fontSize: "clamp(14px, 1.8vw, 16px)",
+            color: "#FAFAF8",
+            lineHeight: 1.8,
+            fontWeight: 300
+          }}>
+            This was also my first proper SQL database, the one where things finally clicked. 
+            Currently paused, but the foundation is there for something better.
+          </p>
+        </div>
+        
         <VideoPlayer src="/videos/t69demo.mp4" />
       </div>
 
