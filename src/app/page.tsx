@@ -49,17 +49,6 @@ export default function About() {
         margin: "0 auto",
         padding: "0 24px clamp(60px, 10vh, 80px)"
       }}>
-        <h2 style={{
-          fontSize: "clamp(11px, 1.4vw, 13px)",
-          fontWeight: 500,
-          letterSpacing: "0.25em",
-          textTransform: "uppercase",
-          color: "#FAFAF8",
-          marginBottom: "clamp(48px, 8vh, 64px)",
-          textAlign: "center"
-        }}>
-          About Me
-        </h2>
 
         <div style={{
           display: "flex",
