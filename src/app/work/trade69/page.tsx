@@ -48,7 +48,7 @@ export default function Trade69() {
         {/* Floating Hero Image with Shadow and Border */}
         <div style={{ 
           maxWidth: "900px",
-          margin: "0 auto clamp(50px, 8vh, 80px)",
+          margin: "0 auto clamp(24px, 4vh, 40px)",
           boxShadow: "0 30px 80px rgba(0,0,0,0.6)",
           border: "1px solid #1C1C1C",
           borderRadius: "2px",
@@ -75,7 +75,7 @@ export default function Trade69() {
       <div style={{ 
         maxWidth: "1000px", 
         margin: "0 auto", 
-        padding: "clamp(60px, 10vh, 100px) 24px clamp(40px, 6vh, 60px)"
+        padding: "clamp(32px, 5vh, 48px) 24px clamp(40px, 6vh, 60px)"
       }}>
         {/* Video Context Text */}
         <div style={{

@@ -36,7 +36,7 @@ export default function MegaAgent() {
           color: "#B8B7B3", 
           lineHeight: 1.7,
           maxWidth: "700px",
-          margin: "0 auto clamp(50px, 8vh, 80px)",
+          margin: "0 auto clamp(24px, 4vh, 40px)",
           fontWeight: 300
         }}>
           Production-grade autonomous agent system for business opportunity discovery, 
