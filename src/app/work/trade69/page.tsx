@@ -158,7 +158,7 @@ export default function Trade69() {
           lineHeight: 1.6,
           marginBottom: "24px"
         }}>
-          A comprehensive trading system that aggregates data from social sentiment, 
+          Trading system that aggregates data from social sentiment, 
           news APIs, dark pool activity, and market data to generate autonomous trading signals.
         </p>
         <p style={{ 
