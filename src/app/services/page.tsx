@@ -36,7 +36,6 @@ export default function Services() {
           maxWidth: "560px",
           margin: "0 auto"
         }}>
-          Building digital solutions with precision and care
         </p>
       </div>
 
