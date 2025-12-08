@@ -69,42 +69,6 @@ export default function Trade69() {
             }}
           />
         </div>
-
-        {/* Stats Bar */}
-        <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", 
-          gap: "clamp(20px, 4vw, 40px)",
-          maxWidth: "900px",
-          margin: "0 auto"
-        }}>
-          {[
-            { value: "245", label: "Python Files" },
-            { value: "32K+", label: "Lines of Code" },
-            { value: "11", label: "Data Sources" },
-            { value: "36", label: "Database Tables" },
-          ].map((stat, i) => (
-            <div key={i}>
-              <p style={{ 
-                fontFamily: "Playfair Display, Georgia, serif",
-                fontSize: "clamp(28px, 5vw, 36px)", 
-                fontWeight: 300,
-                color: "#FAFAF8",
-                marginBottom: "8px"
-              }}>
-                {stat.value}
-              </p>
-              <p style={{ 
-                fontSize: "12px", 
-                color: "#FAFAF8",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase"
-              }}>
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Video Section */}

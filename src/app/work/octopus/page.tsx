@@ -67,42 +67,6 @@ export default function Octopus() {
             }}
           />
         </div>
-
-        {/* Stats Bar */}
-        <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", 
-          gap: "clamp(20px, 4vw, 40px)",
-          maxWidth: "900px",
-          margin: "0 auto"
-        }}>
-          {[
-            { value: "v0.1.0", label: "Version" },
-            { value: "3", label: "Memory Stores" },
-            { value: "5", label: "Decomposition Strategies" },
-            { value: "5", label: "Execution Strategies" },
-          ].map((stat, i) => (
-            <div key={i}>
-              <p style={{ 
-                fontFamily: "Playfair Display, Georgia, serif",
-                fontSize: "clamp(28px, 5vw, 36px)", 
-                fontWeight: 300,
-                color: "#FAFAF8",
-                marginBottom: "8px"
-              }}>
-                {stat.value}
-              </p>
-              <p style={{ 
-                fontSize: "12px", 
-                color: "#71706E",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase"
-              }}>
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Overview */}

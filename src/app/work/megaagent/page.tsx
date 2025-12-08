@@ -42,42 +42,6 @@ export default function MegaAgent() {
           Production-grade autonomous agent system for business opportunity discovery, 
           evaluation, and execution using portfolio theory and reinforcement learning.
         </p>
-
-        {/* Stats Bar */}
-        <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", 
-          gap: "clamp(20px, 4vw, 40px)",
-          maxWidth: "900px",
-          margin: "0 auto"
-        }}>
-          {[
-            { value: "365", label: "Python Files" },
-            { value: "258K", label: "Lines of Code" },
-            { value: "12", label: "Core Modules" },
-            { value: "30", label: "Opportunity Feeds" },
-          ].map((stat, i) => (
-            <div key={i}>
-              <p style={{ 
-                fontFamily: "Playfair Display, Georgia, serif",
-                fontSize: "clamp(28px, 5vw, 36px)", 
-                fontWeight: 300,
-                color: "#FAFAF8",
-                marginBottom: "8px"
-              }}>
-                {stat.value}
-              </p>
-              <p style={{ 
-                fontSize: "12px", 
-                color: "#71706E",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase"
-              }}>
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Overview */}
