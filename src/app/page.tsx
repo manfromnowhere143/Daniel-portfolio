@@ -300,24 +300,6 @@ export default function About() {
             fontWeight: 300,
             letterSpacing: "0.01em"
           }}>
-            Another sentence that shaped me is by Leonardo da Vinci: "Ostinato Rigore", "Persistent Rigour." I learned it recently, reading someone I truly admire. When I was eighteen, I trusted him enough to tattoo another word he once gave me, "Veritas" (truthfulness). He abandoned the sentence, but I never did.
-          </p>
-          <p style={{
-            fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#FAFAF8",
-            lineHeight: 1.9,
-            fontWeight: 300,
-            letterSpacing: "0.01em"
-          }}>
-            "Ostinato Rigore" aligned with me immediately. It became my motto. Don't worry, I'm not planning to tattoo it. I'm probably done with tattoos… at least for now.
-          </p>
-          <p style={{
-            fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#FAFAF8",
-            lineHeight: 1.9,
-            fontWeight: 300,
-            letterSpacing: "0.01em"
-          }}>
             I don't know much. Most days, I feel like I don't know anything at all, only that there is an entire universe left to learn. Time… well, it terrifies me every time I think about it. The speed of it. The weight of it. The fact that it never stops.
           </p>
           <p style={{
