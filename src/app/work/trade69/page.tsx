@@ -113,7 +113,7 @@ export default function Trade69() {
         margin: "0 auto", 
         padding: "clamp(60px, 10vh, 100px) 24px"
       }}>
-        <VideoPlayer src="/videos/t69record.mov" />
+        <VideoPlayer src="/videos/t69demo.mp4" />
       </div>
 
       {/* Overview */}
