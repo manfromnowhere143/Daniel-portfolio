@@ -22,9 +22,8 @@ export default function Octopus() {
           Cognitive Agent Framework
         </p>
         <h1 style={{ 
-          
           fontSize: "clamp(32px, 5vw, 52px)", 
-          fontWeight: 300,
+          fontWeight: 200,
           color: "#FAFAF8",
           marginBottom: "clamp(20px, 3vh, 32px)",
           letterSpacing: "-0.02em",
@@ -32,21 +31,10 @@ export default function Octopus() {
         }}>
           Octopus
         </h1>
-        <p style={{ 
-          fontSize: "clamp(15px, 2vw, 18px)", 
-          color: "#FAFAF8", 
-          lineHeight: 1.7,
-          maxWidth: "700px",
-          margin: "0 auto clamp(40px, 6vh, 60px)",
-          fontWeight: 300
-        }}>
-          A modular cognitive architecture for autonomous goal decomposition, 
-          task planning, and execution with tri-store memory and reflection.
-        </p>
         
         {/* Floating Hero Image */}
         <div style={{ 
-          maxWidth: "700px",
+          maxWidth: "500px",
           margin: "0 auto",
           boxShadow: "0 30px 80px rgba(255,255,255,0.08)",
           border: "1px solid #1C1C1C",
@@ -55,10 +43,10 @@ export default function Octopus() {
           backgroundColor: "#FAFAF8"
         }}>
           <Image 
-            src="/images/octopushero.jpg" 
+            src="/images/octopushero3.png" 
             alt="Octopus Interface"
-            width={900}
-            height={560}
+            width={500}
+            height={350}
             priority
             style={{ 
               width: "100%", 
@@ -79,7 +67,17 @@ export default function Octopus() {
           fontSize: "clamp(14px, 2vw, 16px)", 
           color: "#FAFAF8", 
           lineHeight: 1.8,
-          fontWeight: 300,
+          fontWeight: 200,
+          marginBottom: "20px"
+        }}>
+          A modular cognitive architecture for autonomous goal decomposition, 
+          task planning, and execution with tri-store memory and reflection.
+        </p>
+        <p style={{ 
+          fontSize: "clamp(14px, 2vw, 16px)", 
+          color: "#FAFAF8", 
+          lineHeight: 1.8,
+          fontWeight: 200,
           marginBottom: "20px"
         }}>
           Process high-level natural language goals, decompose them into executable 
