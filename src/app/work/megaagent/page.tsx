@@ -31,14 +31,16 @@ export default function MegaAgent() {
         </h1>
 
         {/* Hero - Metatron's Cube */}
+        <div style={{ margin: "clamp(32px, 5vh, 48px) 0 clamp(24px, 4vh, 32px)" }}>
         <MetatronCube />
+        </div>
       </div>
 
       {/* Overview */}
       <div style={{ 
         maxWidth: "800px", 
         margin: "0 auto", 
-        padding: "clamp(60px, 10vh, 80px) 24px"
+        padding: "clamp(32px, 5vh, 48px) 24px"
       }}>
         <p style={{ 
           fontSize: "clamp(14px, 2vw, 16px)", 
@@ -199,7 +201,7 @@ export default function MegaAgent() {
       <div style={{ 
         maxWidth: "800px", 
         margin: "0 auto", 
-        padding: "clamp(60px, 10vh, 80px) 24px",
+        padding: "clamp(32px, 5vh, 48px) 24px",
         textAlign: "center"
       }}>
         <p style={{
