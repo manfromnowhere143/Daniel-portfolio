@@ -36,7 +36,7 @@ export default function About() {
       </div>
 
       {/* Golden Spiral */}
-      <div style={{ margin: "clamp(16px, 3vh, 24px) auto clamp(32px, 5vh, 48px)" }}>
+      <div style={{ margin: "clamp(8px, 1.5vh, 12px) auto clamp(32px, 5vh, 48px)" }}>
         <GoldenSpiral />
       </div>
 
