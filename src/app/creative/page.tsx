@@ -95,6 +95,7 @@ export default function Creative() {
               backgroundColor: "#000000",
               borderRadius: "4px",
               border: "1px solid #1A1A1A",
+              minHeight: "300px",
               overflow: "hidden",
             }}>
               <VideoPlayer
