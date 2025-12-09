@@ -23,7 +23,6 @@ export default function Trade69() {
           Algorithmic Trading Intelligence
         </p>
         <h1 style={{ 
-          
           fontSize: "clamp(32px, 5vw, 52px)", 
           fontWeight: 200,
           color: "#FAFAF8",
@@ -33,21 +32,10 @@ export default function Trade69() {
         }}>
           Trade69
         </h1>
-        <p style={{ 
-          fontSize: "clamp(15px, 2vw, 18px)", 
-          color: "#FAFAF8", 
-          lineHeight: 1.7,
-          maxWidth: "700px",
-          margin: "0 auto clamp(40px, 6vh, 60px)",
-          fontWeight: 300
-        }}>
-          End-to-end algorithmic trading platform integrating multi-source market intelligence, 
-          machine learning, and quantitative risk management.
-        </p>
         
         {/* Floating Hero Image */}
         <div style={{ 
-          maxWidth: "700px",
+          maxWidth: "500px",
           margin: "0 auto",
           boxShadow: "0 30px 80px rgba(0,0,0,0.6)",
           border: "1px solid #1C1C1C",
@@ -56,16 +44,15 @@ export default function Trade69() {
           backgroundColor: "#000000"
         }}>
           <Image 
-            src="/images/t69hero.jpg" 
+            src="/images/t69hero4.png" 
             alt="Trade69 Dashboard"
-            width={900}
-            height={560}
+            width={500}
+            height={350}
             priority
             style={{ 
               width: "100%", 
               height: "auto", 
-              display: "block",
-              opacity: 0.98
+              display: "block"
             }}
           />
         </div>
@@ -77,6 +64,16 @@ export default function Trade69() {
         margin: "0 auto", 
         padding: "clamp(60px, 10vh, 80px) 24px"
       }}>
+        <p style={{ 
+          fontSize: "clamp(14px, 2vw, 16px)", 
+          color: "#FAFAF8", 
+          lineHeight: 1.8,
+          fontWeight: 200,
+          marginBottom: "20px"
+        }}>
+          End-to-end algorithmic trading platform integrating multi-source market intelligence, 
+          machine learning, and quantitative risk management.
+        </p>
         <p style={{ 
           fontSize: "clamp(14px, 2vw, 16px)", 
           color: "#FAFAF8", 
@@ -345,7 +342,7 @@ export default function Trade69() {
             color: "#FAFAF8",
             fontFamily: "Monaco, Courier, monospace"
           }}>
-            "Show me top 5 signals from last week with win rate above 60%"
+            &quot;Show me top 5 signals from last week with win rate above 60%&quot;
           </code>
         </div>
       </div>
