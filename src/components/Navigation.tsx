@@ -177,9 +177,9 @@ export default function Navigation() {
             href="/"
             onClick={() => setIsOpen(false)}
             style={{
-              fontFamily: "Playfair Display, Georgia, serif",
+              fontWeight: 200,
               fontSize: "32px",
-              fontWeight: 300,
+              
               letterSpacing: "0.02em",
               color: pathname === "/" ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
@@ -202,9 +202,9 @@ export default function Navigation() {
             href="/work"
             onClick={() => setIsOpen(false)}
             style={{
-              fontFamily: "Playfair Display, Georgia, serif",
+              fontWeight: 200,
               fontSize: "32px",
-              fontWeight: 300,
+              
               letterSpacing: "0.02em",
               color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
@@ -227,9 +227,9 @@ export default function Navigation() {
             href="/creative"
             onClick={() => setIsOpen(false)}
             style={{
-              fontFamily: "Playfair Display, Georgia, serif",
+              fontWeight: 200,
               fontSize: "32px",
-              fontWeight: 300,
+              
               letterSpacing: "0.02em",
               color: pathname === "/creative" ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
@@ -252,9 +252,9 @@ export default function Navigation() {
             href="/services"
             onClick={() => setIsOpen(false)}
             style={{
-              fontFamily: "Playfair Display, Georgia, serif",
+              fontWeight: 200,
               fontSize: "32px",
-              fontWeight: 300,
+              
               letterSpacing: "0.02em",
               color: pathname === "/services" ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
