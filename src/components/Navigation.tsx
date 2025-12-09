@@ -92,7 +92,7 @@ export default function Navigation() {
             Services
           </Link>
         </div>
-        <div style={{ height: "1px", backgroundColor: "#E0DED6" }} />
+        <div style={{ height: "1px", backgroundColor: "transparent" }} />
       </nav>
 
       {/* Floating Hamburger - Mobile Only */}
@@ -169,7 +169,7 @@ export default function Navigation() {
           <div style={{
             width: "60px",
             height: "1px",
-            backgroundColor: "#E0DED6",
+            backgroundColor: "transparent",
             marginBottom: "60px"
           }} />
 
@@ -194,7 +194,7 @@ export default function Navigation() {
           <div style={{
             width: "40px",
             height: "1px",
-            backgroundColor: "#E0DED6",
+            backgroundColor: "transparent",
             margin: "8px 0"
           }} />
 
@@ -219,7 +219,7 @@ export default function Navigation() {
           <div style={{
             width: "40px",
             height: "1px",
-            backgroundColor: "#E0DED6",
+            backgroundColor: "transparent",
             margin: "8px 0"
           }} />
 
@@ -244,7 +244,7 @@ export default function Navigation() {
           <div style={{
             width: "40px",
             height: "1px",
-            backgroundColor: "#E0DED6",
+            backgroundColor: "transparent",
             margin: "8px 0"
           }} />
 
@@ -269,7 +269,7 @@ export default function Navigation() {
           <div style={{
             width: "60px",
             height: "1px",
-            backgroundColor: "#E0DED6",
+            backgroundColor: "transparent",
             marginTop: "60px"
           }} />
 
