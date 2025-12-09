@@ -13,7 +13,6 @@ export default function About() {
         textAlign: "center"
       }}>
         <h1 style={{
-          fontFamily: "Playfair Display, Georgia, serif",
           fontSize: "clamp(36px, 5vw, 48px)",
           fontWeight: 300,
           color: "#FAFAF8",
@@ -31,7 +30,7 @@ export default function About() {
           letterSpacing: "0.05em",
           lineHeight: 1.4
         }}>
-          Artist, Autodidact, Builder
+          Artist, Autodidact, Builder.
         </p>
       </div>
 
@@ -395,9 +394,8 @@ export default function About() {
         <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
           {/* First Quote */}
           <p style={{
-            fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(20px, 3.5vw, 30px)",
-            fontStyle: "italic",
+            fontSize: "clamp(14px, 2vw, 18px)",
+            fontStyle: "normal",
             fontWeight: 300,
             color: "#FAFAF8",
             lineHeight: 1.6,
@@ -407,7 +405,7 @@ export default function About() {
             "Cogito, ergo sum"
           </p>
           <p style={{
-            fontSize: "clamp(14px, 2vw, 17px)",
+            fontSize: "clamp(12px, 1.5vw, 14px)",
             fontWeight: 300,
             color: "#FAFAF8",
             letterSpacing: "0.02em",
@@ -418,9 +416,8 @@ export default function About() {
 
           {/* Second Quote */}
           <p style={{
-            fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(20px, 3.5vw, 30px)",
-            fontStyle: "italic",
+            fontSize: "clamp(14px, 2vw, 18px)",
+            fontStyle: "normal",
             fontWeight: 300,
             color: "#FAFAF8",
             lineHeight: 1.6,
@@ -430,7 +427,7 @@ export default function About() {
             "Dubito, ergo cogito, ergo sum"
           </p>
           <p style={{
-            fontSize: "clamp(14px, 2vw, 17px)",
+            fontSize: "clamp(12px, 1.5vw, 14px)",
             fontWeight: 300,
             color: "#FAFAF8",
             letterSpacing: "0.02em",
