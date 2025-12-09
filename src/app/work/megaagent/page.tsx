@@ -1,4 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import dynamic from 'next/dynamic';
+
+const MetatronCube = dynamic(() => import('@/components/MetatronCube'), {
+  ssr: false,
+  loading: () => <div style={{ width: '300px', height: '300px', margin: '0 auto' }} />
+});
 
 export default function MegaAgent() {
   return (
@@ -21,7 +29,6 @@ export default function MegaAgent() {
           Autonomous Intelligence System
         </p>
         <h1 style={{ 
-          
           fontSize: "clamp(32px, 5vw, 52px)", 
           fontWeight: 200,
           color: "#FAFAF8",
@@ -31,17 +38,9 @@ export default function MegaAgent() {
         }}>
           MegaAgent
         </h1>
-        <p style={{ 
-          fontSize: "clamp(15px, 2vw, 18px)", 
-          color: "#FAFAF8", 
-          lineHeight: 1.7,
-          maxWidth: "700px",
-          margin: "0 auto",
-          fontWeight: 300
-        }}>
-          Production-grade autonomous agent system for business opportunity discovery, 
-          evaluation, and execution using portfolio theory and reinforcement learning.
-        </p>
+
+        {/* Hero - Metatron's Cube */}
+        <MetatronCube />
       </div>
 
       {/* Overview */}
@@ -50,6 +49,16 @@ export default function MegaAgent() {
         margin: "0 auto", 
         padding: "clamp(60px, 10vh, 80px) 24px"
       }}>
+        <p style={{ 
+          fontSize: "clamp(14px, 2vw, 16px)", 
+          color: "#FAFAF8", 
+          lineHeight: 1.8,
+          fontWeight: 200,
+          marginBottom: "20px"
+        }}>
+          Production-grade autonomous agent system for business opportunity discovery, 
+          evaluation, and execution using portfolio theory and reinforcement learning.
+        </p>
         <p style={{ 
           fontSize: "clamp(14px, 2vw, 16px)", 
           color: "#FAFAF8", 
