@@ -98,7 +98,6 @@ export default function Creative() {
             }}>
               <VideoPlayer
                 src="/videos/metatrondemo1.mov"
-                poster="/images/metatron-genesis.png"
               />
             </div>
 
