@@ -55,7 +55,7 @@ export default function Octopus() {
           backgroundColor: "#FAFAF8"
         }}>
           <Image 
-            src="/images/ophoto4.png" 
+            src="/images/octopushero.jpg" 
             alt="Octopus Interface"
             width={900}
             height={560}

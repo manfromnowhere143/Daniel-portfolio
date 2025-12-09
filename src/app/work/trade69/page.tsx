@@ -56,7 +56,7 @@ export default function Trade69() {
           backgroundColor: "#000000"
         }}>
           <Image 
-            src="/images/tphoto1.png" 
+            src="/images/t69hero.jpg" 
             alt="Trade69 Dashboard"
             width={900}
             height={560}
