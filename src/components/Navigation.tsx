@@ -178,7 +178,7 @@ export default function Navigation() {
             onClick={() => setIsOpen(false)}
             style={{
               fontWeight: 200,
-              fontSize: "32px",
+              fontSize: "24px",
               
               letterSpacing: "0.02em",
               color: pathname === "/" ? "#1C1C1C" : "#71706E",
@@ -203,7 +203,7 @@ export default function Navigation() {
             onClick={() => setIsOpen(false)}
             style={{
               fontWeight: 200,
-              fontSize: "32px",
+              fontSize: "24px",
               
               letterSpacing: "0.02em",
               color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E",
@@ -228,7 +228,7 @@ export default function Navigation() {
             onClick={() => setIsOpen(false)}
             style={{
               fontWeight: 200,
-              fontSize: "32px",
+              fontSize: "24px",
               
               letterSpacing: "0.02em",
               color: pathname === "/creative" ? "#1C1C1C" : "#71706E",
@@ -253,7 +253,7 @@ export default function Navigation() {
             onClick={() => setIsOpen(false)}
             style={{
               fontWeight: 200,
-              fontSize: "32px",
+              fontSize: "24px",
               
               letterSpacing: "0.02em",
               color: pathname === "/services" ? "#1C1C1C" : "#71706E",
