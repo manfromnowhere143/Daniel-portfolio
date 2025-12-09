@@ -120,7 +120,7 @@ export default function Trade69() {
           display: "grid", 
           gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", 
           gap: "1px",
-          backgroundColor: "#1A1A1A"
+          backgroundColor: "#0A0A0A"
         }}>
           {[
             { source: "StockTwits", data: "Trending tickers, sentiment ratios, message volume" },
