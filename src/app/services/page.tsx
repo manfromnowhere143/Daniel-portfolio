@@ -98,7 +98,7 @@ export default function Services() {
         textAlign: "center"
       }}>
         <p style={{
-          fontSize: "11px",
+          fontSize: "10px",
           letterSpacing: "0.2em",
           textTransform: "uppercase",
           color: "#FAFAF8",
@@ -121,17 +121,17 @@ export default function Services() {
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
-          gap: "12px"
+          gap: "8px"
         }}>
           {["Robotics", "Computer Vision", "AI", "LLM"].map((field) => (
             <span
               key={field}
               style={{
-                fontSize: "11px",
+                fontSize: "10px",
                 color: "#FAFAF8",
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                padding: "8px 14px",
+                padding: "6px 12px",
                 border: "1px solid #2A2A28",
                 borderRadius: "2px"
               }}
@@ -199,7 +199,7 @@ export default function Services() {
           <Link 
             href="/" 
             style={{
-              fontSize: "11px",
+              fontSize: "10px",
               color: "#FAFAF8",
               textDecoration: "none",
               letterSpacing: "0.12em",
