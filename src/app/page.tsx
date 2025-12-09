@@ -1,4 +1,5 @@
 import Image from "next/image";
+import GoldenSpiral from "@/components/GoldenSpiral";
 import Link from "next/link";
 
 export default function About() {
@@ -34,13 +35,10 @@ export default function About() {
         </p>
       </div>
 
-      {/* Subtle Divider - White */}
-      <div style={{
-        width: "1px",
-        height: "40px",
-        backgroundColor: "#FAFAF8",
-        margin: "0 auto clamp(50px, 8vh, 70px)"
-      }} />
+      {/* Golden Spiral */}
+      <div style={{ margin: "clamp(16px, 3vh, 24px) auto clamp(32px, 5vh, 48px)" }}>
+        <GoldenSpiral />
+      </div>
 
       {/* About Me - Builder Section */}
       <div style={{
