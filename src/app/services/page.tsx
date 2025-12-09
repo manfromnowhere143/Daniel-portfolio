@@ -14,196 +14,126 @@ export default function Services() {
       <div style={{
         maxWidth: "900px",
         margin: "0 auto",
-        padding: "clamp(40px, 8vh, 80px) 24px clamp(60px, 10vh, 100px)",
+        padding: "clamp(20px, 4vh, 40px) 24px clamp(40px, 6vh, 60px)",
         textAlign: "center"
       }}>
         <h1 style={{
           fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(36px, 5vw, 52px)",
+          fontSize: "clamp(28px, 4vw, 40px)",
           fontWeight: 300,
           color: "#FAFAF8",
           letterSpacing: "0.02em",
-          lineHeight: 1.1,
-          marginBottom: "clamp(20px, 3vh, 32px)"
+          lineHeight: 1.1
         }}>
           Services
         </h1>
-        <p style={{
-          fontSize: "clamp(15px, 2vw, 17px)",
-          color: "#FAFAF8",
-          lineHeight: 1.7,
-          fontWeight: 300,
-          maxWidth: "560px",
-          margin: "0 auto"
-        }}>
-        </p>
       </div>
 
       {/* Services List */}
       <div style={{
-        maxWidth: "800px",
+        maxWidth: "1000px",
         margin: "0 auto",
-        padding: "0 24px clamp(80px, 12vh, 120px)"
+        padding: "clamp(40px, 6vh, 60px) 24px"
       }}>
-        <div style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "clamp(48px, 8vh, 72px)"
+        <div style={{ 
+          display: "grid", 
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", 
+          gap: "24px"
         }}>
-          {/* Service 1 */}
-          <div style={{
-            borderLeft: "1px solid #2A2A28",
-            paddingLeft: "clamp(24px, 4vw, 40px)"
-          }}>
-            <h2 style={{
-              fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "clamp(22px, 3vw, 28px)",
-              fontWeight: 400,
-              color: "#FAFAF8",
-              letterSpacing: "0.01em",
-              marginBottom: "16px"
+          {[
+            {
+              title: "Custom Websites",
+              desc: "Design, development, and SEO optimization. Clean architecture built for performance and longevity."
+            },
+            {
+              title: "Dashboards and Control Panels",
+              desc: "Custom dashboards for small businesses. Live data visualization, analytics, and operational control."
+            },
+            {
+              title: "API Development",
+              desc: "Backend systems and third-party integrations. Reliable infrastructure that scales with your needs."
+            },
+            {
+              title: "LLM Middleware and SQL Agents",
+              desc: "AI-powered database interfaces. Natural language queries, schema-aware generation, and intelligent data access."
+            }
+          ].map((item, i) => (
+            <div key={i} style={{ 
+              borderLeft: "1px solid #2A2A28",
+              paddingLeft: "20px"
             }}>
-              Custom Websites
-            </h2>
-            <p style={{
-              fontSize: "clamp(14px, 1.8vw, 16px)",
-              color: "#FAFAF8",
-              lineHeight: 1.7,
-              fontWeight: 300
-            }}>
-              Design, development, and SEO optimization. Clean architecture built for performance and longevity.
-            </p>
-          </div>
-
-          {/* Service 2 */}
-          <div style={{
-            borderLeft: "1px solid #2A2A28",
-            paddingLeft: "clamp(24px, 4vw, 40px)"
-          }}>
-            <h2 style={{
-              fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "clamp(22px, 3vw, 28px)",
-              fontWeight: 400,
-              color: "#FAFAF8",
-              letterSpacing: "0.01em",
-              marginBottom: "16px"
-            }}>
-              Dashboards and Control Panels
-            </h2>
-            <p style={{
-              fontSize: "clamp(14px, 1.8vw, 16px)",
-              color: "#FAFAF8",
-              lineHeight: 1.7,
-              fontWeight: 300
-            }}>
-              Custom dashboards for small businesses. Live data visualization, analytics, and operational control in one place.
-            </p>
-          </div>
-
-          {/* Service 3 */}
-          <div style={{
-            borderLeft: "1px solid #2A2A28",
-            paddingLeft: "clamp(24px, 4vw, 40px)"
-          }}>
-            <h2 style={{
-              fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "clamp(22px, 3vw, 28px)",
-              fontWeight: 400,
-              color: "#FAFAF8",
-              letterSpacing: "0.01em",
-              marginBottom: "16px"
-            }}>
-              API Development
-            </h2>
-            <p style={{
-              fontSize: "clamp(14px, 1.8vw, 16px)",
-              color: "#FAFAF8",
-              lineHeight: 1.7,
-              fontWeight: 300
-            }}>
-              Backend systems and third-party integrations. Reliable infrastructure that scales with your needs.
-            </p>
-          </div>
-
-          {/* Service 4 */}
-          <div style={{
-            borderLeft: "1px solid #2A2A28",
-            paddingLeft: "clamp(24px, 4vw, 40px)"
-          }}>
-            <h2 style={{
-              fontFamily: "Playfair Display, Georgia, serif",
-              fontSize: "clamp(22px, 3vw, 28px)",
-              fontWeight: 400,
-              color: "#FAFAF8",
-              letterSpacing: "0.01em",
-              marginBottom: "16px"
-            }}>
-              LLM Middleware and SQL Agents
-            </h2>
-            <p style={{
-              fontSize: "clamp(14px, 1.8vw, 16px)",
-              color: "#FAFAF8",
-              lineHeight: 1.7,
-              fontWeight: 300
-            }}>
-              AI-powered database interfaces. Natural language queries, schema-aware generation, and intelligent data access.
-            </p>
-          </div>
+              <p style={{ 
+                fontSize: "13px", 
+                fontWeight: 400,
+                color: "#FAFAF8",
+                marginBottom: "8px"
+              }}>
+                {item.title}
+              </p>
+              <p style={{ 
+                fontSize: "12px", 
+                color: "#FAFAF8",
+                lineHeight: 1.6
+              }}>
+                {item.desc}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Divider */}
       <div style={{
         width: "1px",
-        height: "60px",
+        height: "40px",
         backgroundColor: "#2A2A28",
-        margin: "0 auto"
+        margin: "clamp(40px, 6vh, 60px) auto"
       }} />
 
       {/* Also Seeking */}
       <div style={{
         maxWidth: "700px",
         margin: "0 auto",
-        padding: "clamp(60px, 10vh, 100px) 24px",
+        padding: "clamp(40px, 6vh, 60px) 24px",
         textAlign: "center"
       }}>
         <p style={{
           fontSize: "11px",
-          letterSpacing: "0.25em",
+          letterSpacing: "0.2em",
           textTransform: "uppercase",
           color: "#FAFAF8",
-          marginBottom: "clamp(32px, 5vh, 48px)"
+          marginBottom: "clamp(20px, 3vh, 28px)"
         }}>
           Also Seeking
         </p>
 
         <p style={{
-          fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(22px, 3.5vw, 32px)",
+          fontSize: "clamp(15px, 2.5vw, 18px)",
           fontWeight: 300,
           color: "#FAFAF8",
           lineHeight: 1.5,
-          letterSpacing: "0.01em",
-          marginBottom: "clamp(40px, 6vh, 56px)"
+          marginBottom: "clamp(24px, 4vh, 32px)"
         }}>
           A team and a mentor
         </p>
 
         <div style={{
           display: "flex",
+          flexWrap: "wrap",
           justifyContent: "center",
-          gap: "clamp(24px, 5vw, 48px)",
-          flexWrap: "wrap"
+          gap: "12px"
         }}>
           {["Robotics", "Computer Vision", "AI", "LLM"].map((field) => (
             <span
               key={field}
               style={{
-                fontSize: "12px",
+                fontSize: "11px",
                 color: "#FAFAF8",
-                letterSpacing: "0.12em",
+                letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                fontWeight: 300
+                padding: "8px 14px",
+                border: "1px solid #2A2A28",
+                borderRadius: "2px"
               }}
             >
               {field}
@@ -214,57 +144,52 @@ export default function Services() {
 
       {/* Contact */}
       <div style={{
-        borderTop: "1px solid #1A1A1A",
-        padding: "clamp(80px, 12vh, 120px) 24px"
+        maxWidth: "700px",
+        margin: "0 auto",
+        padding: "clamp(60px, 10vh, 80px) 24px",
+        textAlign: "center"
       }}>
-        <div style={{
-          maxWidth: "700px",
-          margin: "0 auto",
-          textAlign: "center"
+        <p style={{
+          fontSize: "13px",
+          color: "#FAFAF8",
+          marginBottom: "16px"
         }}>
-          <p style={{
-            fontSize: "clamp(15px, 2vw, 17px)",
-            color: "#FAFAF8",
-            marginBottom: "clamp(24px, 4vh, 36px)",
-            fontWeight: 300
-          }}>
-            <a 
-              href="mailto:cogitoergosum143@gmail.com" 
-              style={{
-                color: "#FAFAF8",
-                textDecoration: "none",
-                borderBottom: "1px solid #3A3A38",
-                paddingBottom: "4px"
-              }}
-            >
-              cogitoergosum143@gmail.com
-            </a>
-          </p>
+          <a 
+            href="mailto:cogitoergosum143@gmail.com" 
+            style={{
+              color: "#FAFAF8",
+              textDecoration: "none",
+              borderBottom: "1px solid #3A3A38",
+              paddingBottom: "2px"
+            }}
+          >
+            cogitoergosum143@gmail.com
+          </a>
+        </p>
 
-          <p style={{
-            fontSize: "clamp(14px, 1.8vw, 15px)",
-            color: "#FAFAF8",
-            fontWeight: 300
-          }}>
-            <a 
-              href="https://github.com/manfromnowhere143" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              style={{
-                color: "#FAFAF8",
-                textDecoration: "none",
-                borderBottom: "1px solid #3A3A38",
-                paddingBottom: "4px"
-              }}
-            >
-              GitHub
-            </a>
-          </p>
-        </div>
+        <p style={{
+          fontSize: "12px",
+          color: "#FAFAF8"
+        }}>
+          <a 
+            href="https://github.com/manfromnowhere143" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            style={{
+              color: "#FAFAF8",
+              textDecoration: "none",
+              borderBottom: "1px solid #3A3A38",
+              paddingBottom: "2px"
+            }}
+          >
+            GitHub
+          </a>
+        </p>
       </div>
 
       {/* Navigation */}
       <div style={{
+        borderTop: "1px solid #1C1C1C",
         padding: "clamp(40px, 6vh, 60px) 24px"
       }}>
         <div style={{
@@ -277,7 +202,7 @@ export default function Services() {
               fontSize: "11px",
               color: "#FAFAF8",
               textDecoration: "none",
-              letterSpacing: "0.15em",
+              letterSpacing: "0.12em",
               textTransform: "uppercase"
             }}
           >
