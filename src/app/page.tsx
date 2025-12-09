@@ -109,13 +109,6 @@ export default function About() {
         </div>
       </div>
 
-      {/* Vertical Divider - White */}
-      <div style={{
-        width: "1px",
-        height: "50px",
-        backgroundColor: "#FAFAF8",
-        margin: "clamp(60px, 10vh, 80px) auto"
-      }} />
 
       {/* Main Story - Authentic Voice */}
       <div style={{
@@ -203,13 +196,6 @@ export default function About() {
         </div>
       </div>
 
-      {/* Vertical Divider - White */}
-      <div style={{
-        width: "1px",
-        height: "50px",
-        backgroundColor: "#FAFAF8",
-        margin: "clamp(60px, 10vh, 80px) auto"
-      }} />
 
       {/* Philosophy Section */}
       <div style={{
@@ -220,7 +206,7 @@ export default function About() {
         <h2 style={{
           fontSize: "clamp(11px, 1.4vw, 13px)",
           fontWeight: 500,
-          letterSpacing: "0.25em",
+          letterSpacing: "0.08em",
           textTransform: "uppercase",
           color: "#FAFAF8",
           marginBottom: "clamp(48px, 8vh, 64px)",
@@ -300,13 +286,6 @@ export default function About() {
         </div>
       </div>
 
-      {/* Vertical Divider - White */}
-      <div style={{
-        width: "1px",
-        height: "50px",
-        backgroundColor: "#FAFAF8",
-        margin: "clamp(60px, 10vh, 80px) auto"
-      }} />
 
       {/* Read Full Life Story Link */}
       <div style={{
@@ -319,22 +298,15 @@ export default function About() {
           fontSize: "clamp(14px, 1.8vw, 15px)",
           color: "#FAFAF8",
           textDecoration: "none",
-          borderBottom: "1px solid #666666",
-          paddingBottom: "3px",
+          
+          
           letterSpacing: "0.02em",
-          fontStyle: "italic"
+          fontStyle: "normal"
         }}>
           Read full life story
         </Link>
       </div>
 
-      {/* Vertical Divider - White */}
-      <div style={{
-        width: "1px",
-        height: "50px",
-        backgroundColor: "#FAFAF8",
-        margin: "clamp(60px, 10vh, 80px) auto"
-      }} />
 
       {/* Contact - Minimal */}
       <div style={{
@@ -346,7 +318,7 @@ export default function About() {
         <h2 style={{
           fontSize: "clamp(11px, 1.4vw, 13px)",
           fontWeight: 500,
-          letterSpacing: "0.25em",
+          letterSpacing: "0.08em",
           textTransform: "uppercase",
           color: "#FAFAF8",
           marginBottom: "clamp(48px, 8vh, 64px)"
@@ -362,8 +334,8 @@ export default function About() {
           <a href="mailto:cogitoergosum143@gmail.com" style={{
             color: "#FAFAF8",
             textDecoration: "none",
-            borderBottom: "1px solid #666666",
-            paddingBottom: "2px"
+            
+            
           }}>
             cogitoergosum143@gmail.com
           </a>
@@ -376,8 +348,8 @@ export default function About() {
           <a href="https://github.com/manfromnowhere143" target="_blank" rel="noopener noreferrer" style={{
             color: "#FAFAF8",
             textDecoration: "none",
-            borderBottom: "1px solid #666666",
-            paddingBottom: "2px"
+            
+            
           }}>
             GitHub
           </a>
@@ -438,7 +410,7 @@ export default function About() {
           <p style={{
             fontSize: "12px",
             color: "#FAFAF8",
-            letterSpacing: "0.2em",
+            letterSpacing: "0.08em",
             textTransform: "uppercase"
           }}>
             René Descartes
