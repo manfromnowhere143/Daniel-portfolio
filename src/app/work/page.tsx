@@ -41,9 +41,9 @@ export default function Work() {
         textAlign: "center"
       }}>
         <h1 style={{ 
-          fontFamily: "Playfair Display, Georgia, serif",
+          
           fontSize: "clamp(42px, 6vw, 58px)", 
-          fontWeight: 300,
+          fontWeight: 200,
           color: "#FAFAF8",
           marginBottom: "clamp(20px, 3vh, 28px)",
           letterSpacing: "-0.01em",
@@ -96,9 +96,9 @@ export default function Work() {
               }}>
                 <div style={{ flex: 1, minWidth: "250px" }}>
                   <h2 style={{ 
-                    fontFamily: "Playfair Display, Georgia, serif",
+                    
                     fontSize: "clamp(24px, 3vw, 32px)", 
-                    fontWeight: 300,
+                    fontWeight: 200,
                     color: "#FAFAF8",
                     marginBottom: "clamp(16px, 2.5vh, 20px)",
                     letterSpacing: "-0.01em"
@@ -110,7 +110,7 @@ export default function Work() {
                     color: "#FAFAF8",
                     lineHeight: 1.8,
                     marginBottom: "clamp(16px, 2.5vh, 20px)",
-                    fontWeight: 300,
+                    fontWeight: 200,
                     letterSpacing: "0.01em"
                   }}>
                     {project.description}
@@ -184,7 +184,7 @@ export default function Work() {
               fontSize: "clamp(15px, 1.9vw, 17px)",
               color: "#FAFAF8",
               lineHeight: 2.2,
-              fontWeight: 300,
+              fontWeight: 200,
               letterSpacing: "0.01em"
             }}>
               Algorithmic Trading<br/>
@@ -210,7 +210,7 @@ export default function Work() {
               fontSize: "clamp(15px, 1.9vw, 17px)",
               color: "#FAFAF8",
               lineHeight: 2.2,
-              fontWeight: 300,
+              fontWeight: 200,
               letterSpacing: "0.01em"
             }}>
               Python<br/>
@@ -236,7 +236,7 @@ export default function Work() {
               fontSize: "clamp(15px, 1.9vw, 17px)",
               color: "#FAFAF8",
               lineHeight: 2.2,
-              fontWeight: 300,
+              fontWeight: 200,
               letterSpacing: "0.01em"
             }}>
               Hidden Markov Models<br/>

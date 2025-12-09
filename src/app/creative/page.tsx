@@ -30,7 +30,7 @@ export default function Creative() {
             margin: "0 auto 24px"
           }} />
           <h1 style={{
-            fontFamily: "Playfair Display, Georgia, serif",
+            
             fontSize: "clamp(32px, 4.5vw, 56px)",
             fontWeight: 300,
             color: "#FAFAF8",
@@ -48,7 +48,7 @@ export default function Creative() {
           }} />
         </div>
         <p style={{
-          fontFamily: "Playfair Display, Georgia, serif",
+          
           fontSize: "clamp(18px, 2.8vw, 28px)",
           color: "#FAFAF8",
           maxWidth: "720px",
@@ -340,7 +340,7 @@ export default function Creative() {
           }}>
             <div>
               <p style={{
-                fontFamily: "Playfair Display, Georgia, serif",
+                
                 fontSize: "clamp(18px, 2.8vw, 26px)",
                 color: "#FAFAF8",
                 fontWeight: 300,
@@ -400,7 +400,7 @@ export default function Creative() {
             </div>
             <div style={{ marginTop: "clamp(20px, 4vh, 36px)" }}>
               <p style={{
-                fontFamily: "Playfair Display, Georgia, serif",
+                
                 fontSize: "clamp(16px, 2.4vw, 22px)",
                 color: "#FAFAF8",
                 fontWeight: 300,
@@ -444,7 +444,7 @@ export default function Creative() {
             </div>
             <div style={{ marginTop: "clamp(20px, 4vh, 36px)" }}>
               <p style={{
-                fontFamily: "Playfair Display, Georgia, serif",
+                
                 fontSize: "clamp(16px, 2.4vw, 22px)",
                 color: "#FAFAF8",
                 fontWeight: 300,
@@ -492,7 +492,7 @@ export default function Creative() {
           }}>
             <div>
               <p style={{
-                fontFamily: "Playfair Display, Georgia, serif",
+                
                 fontSize: "clamp(18px, 2.8vw, 26px)",
                 color: "#FAFAF8",
                 fontWeight: 300,

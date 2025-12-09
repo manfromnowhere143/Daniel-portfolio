@@ -21,9 +21,9 @@ export default function MegaAgent() {
           Autonomous Intelligence System
         </p>
         <h1 style={{ 
-          fontFamily: "Playfair Display, Georgia, serif",
+          
           fontSize: "clamp(32px, 5vw, 52px)", 
-          fontWeight: 300,
+          fontWeight: 200,
           color: "#FAFAF8",
           marginBottom: "clamp(20px, 3vh, 32px)",
           letterSpacing: "-0.02em",
@@ -54,7 +54,7 @@ export default function MegaAgent() {
           fontSize: "clamp(14px, 2vw, 16px)", 
           color: "#FAFAF8", 
           lineHeight: 1.8,
-          fontWeight: 300,
+          fontWeight: 200,
           marginBottom: "20px"
         }}>
           A multi-agent system combining DAG-based orchestration, Markowitz portfolio optimization, 

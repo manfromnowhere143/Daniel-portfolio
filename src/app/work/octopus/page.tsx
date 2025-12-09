@@ -22,7 +22,7 @@ export default function Octopus() {
           Cognitive Agent Framework
         </p>
         <h1 style={{ 
-          fontFamily: "Playfair Display, Georgia, serif",
+          
           fontSize: "clamp(32px, 5vw, 52px)", 
           fontWeight: 300,
           color: "#FAFAF8",

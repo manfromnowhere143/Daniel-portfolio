@@ -18,9 +18,9 @@ export default function Services() {
         textAlign: "center"
       }}>
         <h1 style={{
-          fontFamily: "Playfair Display, Georgia, serif",
+          
           fontSize: "clamp(28px, 4vw, 40px)",
-          fontWeight: 300,
+          fontWeight: 200,
           color: "#FAFAF8",
           letterSpacing: "0.02em",
           lineHeight: 1.1
@@ -109,7 +109,7 @@ export default function Services() {
 
         <p style={{
           fontSize: "clamp(15px, 2.5vw, 18px)",
-          fontWeight: 300,
+          fontWeight: 200,
           color: "#FAFAF8",
           lineHeight: 1.5,
           marginBottom: "clamp(24px, 4vh, 32px)"

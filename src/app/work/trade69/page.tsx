@@ -23,9 +23,9 @@ export default function Trade69() {
           Algorithmic Trading Intelligence
         </p>
         <h1 style={{ 
-          fontFamily: "Playfair Display, Georgia, serif",
+          
           fontSize: "clamp(32px, 5vw, 52px)", 
-          fontWeight: 300,
+          fontWeight: 200,
           color: "#FAFAF8",
           marginBottom: "clamp(20px, 3vh, 32px)",
           letterSpacing: "-0.02em",
@@ -81,7 +81,7 @@ export default function Trade69() {
           fontSize: "clamp(14px, 2vw, 16px)", 
           color: "#FAFAF8", 
           lineHeight: 1.8,
-          fontWeight: 300,
+          fontWeight: 200,
           marginBottom: "20px"
         }}>
           Trading system that aggregates data from social sentiment, 
@@ -235,7 +235,7 @@ export default function Trade69() {
             fontSize: "clamp(14px, 1.8vw, 15px)",
             color: "#FAFAF8",
             lineHeight: 1.8,
-            fontWeight: 300,
+            fontWeight: 200,
             marginBottom: "16px"
           }}>
             My first dashboard, built alongside the backend as a control panel for live data extraction. 

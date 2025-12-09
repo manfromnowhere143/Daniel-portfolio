@@ -23,7 +23,7 @@ export default function About() {
           Daniel Wahnich
         </h1>
         <p style={{
-          fontFamily: "Playfair Display, Georgia, serif",
+          
           fontSize: "clamp(18px, 2.5vw, 24px)",
           fontWeight: 300,
           color: "#FAFAF8",
