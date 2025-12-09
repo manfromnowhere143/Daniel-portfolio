@@ -17,7 +17,7 @@ export default function Work() {
       <div style={{ 
         maxWidth: "900px", 
         margin: "0 auto", 
-        padding: "clamp(20px, 4vh, 40px) 24px clamp(24px, 4vh, 32px)",
+        padding: "clamp(20px, 4vh, 40px) 24px clamp(16px, 2vh, 20px)",
         textAlign: "center"
       }}>
         <h1 style={{ 
@@ -43,11 +43,13 @@ export default function Work() {
       <div style={{ 
         maxWidth: "600px", 
         margin: "0 auto", 
-        padding: "clamp(24px, 4vh, 32px) 24px clamp(80px, 12vh, 120px)"
+        padding: "clamp(16px, 3vh, 24px) 24px clamp(80px, 12vh, 120px)"
       }}>
         <div style={{ 
           display: "flex", 
-          flexDirection: "column"
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "clamp(20px, 3vh, 28px)"
         }}>
           {projects.map((project, index) => (
             <Link 
@@ -58,8 +60,6 @@ export default function Work() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                padding: "clamp(28px, 4vh, 40px) 0",
-                borderBottom: index < projects.length - 1 ? "1px solid #1A1A1A" : "none",
                 transition: "opacity 0.3s ease"
               }}
               onMouseEnter={(e) => e.currentTarget.style.opacity = "0.7"}
@@ -70,13 +70,14 @@ export default function Work() {
                 fontWeight: 200,
                 color: "#FAFAF8",
                 letterSpacing: "0.01em",
-                marginBottom: "12px"
+                marginBottom: "8px"
               }}>
                 {project.name}
               </h2>
               <span style={{ 
-                fontSize: "16px", 
-                color: "#FAFAF8"
+                fontSize: "14px", 
+                color: "#FAFAF8",
+                opacity: 1
               }}>
                 →
               </span>
