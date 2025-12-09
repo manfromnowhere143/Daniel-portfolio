@@ -1,4 +1,5 @@
 import Image from "next/image";
+import VideoPlayer from "@/components/VideoPlayer";
 import Link from "next/link";
 import { Metadata } from "next";
 
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function Creative() {
   return (
-    <div style={{ paddingTop: "80px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+    <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
 
       {/* Hero Section */}
       <div style={{
@@ -59,7 +60,7 @@ export default function Creative() {
           textTransform: "lowercase",
           padding: "0 20px"
         }}>
-          Figment of imagination
+          
         </p>
       </div>
 
@@ -87,27 +88,17 @@ export default function Creative() {
               opacity: 0.4
             }} />
 
-            {/* Image Container */}
+            {/* Video Container */}
             <div style={{
               position: "relative",
               backgroundColor: "#000000",
-              borderRadius: "clamp(6px, 1vw, 8px)",
-              border: "1px solid rgba(255,255,255,0.06)",
-              overflow: "hidden",
-              boxShadow: "0 12px 24px rgba(0,0,0,0.5), 0 30px 60px rgba(0,0,0,0.6)",
-              padding: "clamp(40px, 8vw, 100px)"
+              borderRadius: "4px",
+              border: "1px solid #1A1A1A",
+              overflow: "hidden"
             }}>
-              <Image
-                src="/images/metatron-genesis.png"
-                alt="Metatron Genesis"
-                width={1200}
-                height={1200}
-                priority
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  display: "block"
-                }}
+              <VideoPlayer
+                src="/videos/metatrondemo1.mov"
+                poster="/images/metatron-genesis.png"
               />
             </div>
 
@@ -125,36 +116,30 @@ export default function Creative() {
                   textDecoration: "none",
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "14px",
+                  gap: "8px",
                   transition: "all 0.4s ease"
                 }}
               >
                 <span style={{
-                  fontSize: "clamp(13px, 1.8vw, 15px)",
+                  fontSize: "12px",
                   color: "#FAFAF8",
-                  letterSpacing: "0.06em",
-                  fontWeight: 300
+                  letterSpacing: "0.12em",
+                  fontWeight: 200,
+                  textTransform: "uppercase"
                 }}>
                   Experience Live
                 </span>
 
-                {/* Thin Geometric Arrow */}
                 <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
+                  width="20"
+                  height="8"
+                  viewBox="0 0 20 8"
                   fill="none"
-                  style={{
-                    minWidth: "16px",
-                    minHeight: "16px"
-                  }}
                 >
                   <path
-                    d="M3 13L13 3M13 3H6M13 3V10"
+                    d="M0 4H18M18 4L14 1M18 4L14 7"
                     stroke="#FAFAF8"
-                    strokeWidth="0.8"
-                    strokeLinecap="square"
-                    strokeLinejoin="miter"
+                    strokeWidth="0.5"
                   />
                 </svg>
               </Link>
@@ -241,7 +226,6 @@ export default function Creative() {
                   fontSize: "10px",
                   color: "#FAFAF8",
                   letterSpacing: "0.2em",
-                  textTransform: "uppercase",
                   marginBottom: "16px"
                 }}>
                   Technologies
@@ -531,7 +515,8 @@ export default function Creative() {
             letterSpacing: "0.05em",
             marginBottom: "clamp(36px, 6vh, 60px)",
             textAlign: "center",
-            fontWeight: 300
+            fontWeight: 200,
+                  textTransform: "uppercase"
           }}>
             Homework
           </p>
@@ -771,11 +756,10 @@ export default function Creative() {
           <Link
             href="/"
             style={{
-              fontSize: "clamp(10px, 1.8vw, 11px)",
+              fontSize: "11px",
               color: "#FAFAF8",
               textDecoration: "none",
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
+              letterSpacing: "0.12em",
               padding: "12px 0",
               borderBottom: "1px solid transparent",
               transition: "all 0.4s ease"
