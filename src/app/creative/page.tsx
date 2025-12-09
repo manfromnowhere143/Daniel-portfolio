@@ -31,8 +31,8 @@ export default function Creative() {
           }} />
           <h1 style={{
             
-            fontSize: "clamp(32px, 4.5vw, 56px)",
-            fontWeight: 300,
+            fontSize: "clamp(28px, 4vw, 40px)",
+            fontWeight: 200,
             color: "#FAFAF8",
             letterSpacing: "0.02em",
             lineHeight: 1.2,
@@ -49,12 +49,12 @@ export default function Creative() {
         </div>
         <p style={{
           
-          fontSize: "clamp(18px, 2.8vw, 28px)",
+          fontSize: "clamp(14px, 2vw, 18px)",
           color: "#FAFAF8",
           maxWidth: "720px",
           margin: "0 auto",
           lineHeight: 1.6,
-          fontWeight: 300,
+          fontWeight: 200,
           letterSpacing: "0.08em",
           textTransform: "lowercase",
           padding: "0 20px"
@@ -211,7 +211,7 @@ export default function Creative() {
                 fontSize: "clamp(16px, 2vw, 19px)",
                 color: "#FAFAF8",
                 lineHeight: 1.8,
-                fontWeight: 300,
+                fontWeight: 200,
                 marginBottom: "clamp(20px, 3vh, 28px)",
                 maxWidth: "720px",
                 textAlign: "left"
@@ -225,7 +225,7 @@ export default function Creative() {
                 fontSize: "clamp(14px, 1.7vw, 16px)",
                 color: "#FAFAF8",
                 lineHeight: 1.75,
-                fontWeight: 300,
+                fontWeight: 200,
                 marginBottom: "clamp(36px, 5vh, 48px)",
                 maxWidth: "720px",
                 textAlign: "left"
@@ -343,7 +343,7 @@ export default function Creative() {
                 
                 fontSize: "clamp(18px, 2.8vw, 26px)",
                 color: "#FAFAF8",
-                fontWeight: 300,
+                fontWeight: 200,
                 marginBottom: "8px",
                 letterSpacing: "-0.01em"
               }}>
@@ -403,7 +403,7 @@ export default function Creative() {
                 
                 fontSize: "clamp(16px, 2.4vw, 22px)",
                 color: "#FAFAF8",
-                fontWeight: 300,
+                fontWeight: 200,
                 marginBottom: "8px",
                 letterSpacing: "-0.01em"
               }}>
@@ -447,7 +447,7 @@ export default function Creative() {
                 
                 fontSize: "clamp(16px, 2.4vw, 22px)",
                 color: "#FAFAF8",
-                fontWeight: 300,
+                fontWeight: 200,
                 marginBottom: "8px",
                 letterSpacing: "-0.01em"
               }}>
@@ -495,7 +495,7 @@ export default function Creative() {
                 
                 fontSize: "clamp(18px, 2.8vw, 26px)",
                 color: "#FAFAF8",
-                fontWeight: 300,
+                fontWeight: 200,
                 marginBottom: "8px",
                 letterSpacing: "-0.01em"
               }}>
@@ -570,7 +570,7 @@ export default function Creative() {
                 <p style={{
                   fontSize: "clamp(15px, 2.2vw, 18px)",
                   color: "#FAFAF8",
-                  fontWeight: 300,
+                  fontWeight: 200,
                   marginBottom: "8px",
                   letterSpacing: "0.01em"
                 }}>
@@ -613,7 +613,7 @@ export default function Creative() {
                 <p style={{
                   fontSize: "clamp(15px, 2.2vw, 18px)",
                   color: "#FAFAF8",
-                  fontWeight: 300,
+                  fontWeight: 200,
                   marginBottom: "8px",
                   letterSpacing: "0.01em"
                 }}>
@@ -656,7 +656,7 @@ export default function Creative() {
                 <p style={{
                   fontSize: "clamp(15px, 2.2vw, 18px)",
                   color: "#FAFAF8",
-                  fontWeight: 300,
+                  fontWeight: 200,
                   marginBottom: "8px",
                   letterSpacing: "0.01em"
                 }}>
@@ -699,7 +699,7 @@ export default function Creative() {
                 <p style={{
                   fontSize: "clamp(15px, 2.2vw, 18px)",
                   color: "#FAFAF8",
-                  fontWeight: 300,
+                  fontWeight: 200,
                   marginBottom: "8px",
                   letterSpacing: "0.01em"
                 }}>
@@ -742,7 +742,7 @@ export default function Creative() {
                 <p style={{
                   fontSize: "clamp(15px, 2.2vw, 18px)",
                   color: "#FAFAF8",
-                  fontWeight: 300,
+                  fontWeight: 200,
                   marginBottom: "8px",
                   letterSpacing: "0.01em"
                 }}>
