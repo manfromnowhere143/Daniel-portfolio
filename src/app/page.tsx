@@ -109,15 +109,6 @@ export default function About() {
           }}>
             I don't pretend to be a mathematician or an engineer. I'm just a very curious individual with the ability to learn fast. Everything you see on this website is work I built on my own, experiments, projects, and attempts to understand how to speak with the machine and bring my thoughts onto the screen.
           </p>
-          <p style={{
-            fontSize: "clamp(16px, 2vw, 18px)",
-            color: "#FAFAF8",
-            lineHeight: 1.9,
-            fontWeight: 300,
-            letterSpacing: "0.01em"
-          }}>
-            This is my path.
-          </p>
         </div>
       </div>
 
