@@ -16,12 +16,12 @@ export default function Creative() {
       <div style={{
         maxWidth: "1400px",
         margin: "0 auto",
-        padding: "clamp(20px, 4vh, 40px) clamp(20px, 5vw, 40px) clamp(80px, 12vh, 120px)",
+        padding: "clamp(16px, 3vh, 24px) clamp(20px, 5vw, 40px) clamp(32px, 5vh, 48px)",
         textAlign: "center"
       }}>
         <div style={{
           display: "inline-block",
-          marginBottom: "clamp(32px, 5vh, 48px)"
+          marginBottom: "clamp(16px, 2vh, 24px)"
         }}>
           <div style={{
             width: "3px",
@@ -70,7 +70,7 @@ export default function Creative() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/* METATRON GENESIS - STANDALONE HERO */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <div style={{ marginBottom: "clamp(140px, 20vh, 200px)" }}>
+        <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
 
           {/* Hero Image - Standalone */}
           <div style={{
@@ -89,12 +89,13 @@ export default function Creative() {
             }} />
 
             {/* Video Container */}
+            {/* Aspect ratio wrapper prevents layout shift */}
             <div style={{
               position: "relative",
               backgroundColor: "#000000",
               borderRadius: "4px",
               border: "1px solid #1A1A1A",
-              overflow: "hidden"
+              overflow: "hidden",
             }}>
               <VideoPlayer
                 src="/videos/metatrondemo1.mov"
@@ -105,7 +106,7 @@ export default function Creative() {
             <div style={{
               display: "flex",
               justifyContent: "center",
-              marginTop: "clamp(56px, 9vh, 80px)"
+              marginTop: "clamp(24px, 4vh, 32px)"
             }}>
               <Link
                 href="https://metatron-genesis369.vercel.app"
