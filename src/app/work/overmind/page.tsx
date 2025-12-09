@@ -22,7 +22,6 @@ export default function Overmind() {
           Blockchain · Philosophy
         </p>
         <h1 style={{ 
-          
           fontSize: "clamp(32px, 5vw, 52px)", 
           fontWeight: 200,
           color: "#FAFAF8",
@@ -32,17 +31,6 @@ export default function Overmind() {
         }}>
           Overmind
         </h1>
-        <p style={{ 
-          fontSize: "clamp(15px, 2vw, 18px)", 
-          color: "#FAFAF8", 
-          lineHeight: 1.7,
-          maxWidth: "700px",
-          margin: "0 auto clamp(40px, 6vh, 60px)",
-          fontWeight: 300
-        }}>
-          A cryptocurrency exploring decentralized autonomous systems, 
-          blending blockchain technology with Buddhist philosophy.
-        </p>
 
         {/* Hero Image */}
         <div style={{ 
@@ -58,7 +46,7 @@ export default function Overmind() {
             src="/images/twinkle.png" 
             alt="Overmind"
             width={500}
-            height={333}
+            height={350}
             priority
             style={{ 
               width: "100%", 
@@ -75,6 +63,16 @@ export default function Overmind() {
         margin: "0 auto", 
         padding: "clamp(60px, 10vh, 80px) 24px"
       }}>
+        <p style={{ 
+          fontSize: "clamp(14px, 2vw, 16px)", 
+          color: "#FAFAF8", 
+          lineHeight: 1.8,
+          fontWeight: 200,
+          marginBottom: "20px"
+        }}>
+          A cryptocurrency exploring decentralized autonomous systems, 
+          blending blockchain technology with Buddhist philosophy.
+        </p>
         <p style={{ 
           fontSize: "clamp(14px, 2vw, 16px)", 
           color: "#FAFAF8", 
@@ -224,16 +222,14 @@ export default function Overmind() {
         textAlign: "center"
       }}>
         <p style={{ 
-          
           fontSize: "13px", 
-          
           fontWeight: 200,
           color: "#FAFAF8",
           lineHeight: 1.7,
           marginBottom: "clamp(16px, 3vh, 24px)",
           letterSpacing: "0.15em"
         }}>
-          "Second star to the right, and straight on till morning."
+          &quot;Second star to the right, and straight on till morning.&quot;
         </p>
         <p style={{ 
           fontSize: "11px", 
