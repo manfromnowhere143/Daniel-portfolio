@@ -16,14 +16,14 @@ export default function Octopus() {
           fontSize: "11px", 
           letterSpacing: "0.3em", 
           textTransform: "uppercase", 
-          color: "#71706E",
+          color: "#FAFAF8",
           marginBottom: "clamp(16px, 2vh, 24px)"
         }}>
           Cognitive Agent Framework
         </p>
         <h1 style={{ 
           fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(40px, 6vw, 72px)", 
+          fontSize: "clamp(32px, 5vw, 52px)", 
           fontWeight: 300,
           color: "#FAFAF8",
           marginBottom: "clamp(20px, 3vh, 32px)",
@@ -34,7 +34,7 @@ export default function Octopus() {
         </h1>
         <p style={{ 
           fontSize: "clamp(15px, 2vw, 18px)", 
-          color: "#B8B7B3", 
+          color: "#FAFAF8", 
           lineHeight: 1.7,
           maxWidth: "700px",
           margin: "0 auto clamp(40px, 6vh, 60px)",
@@ -47,7 +47,7 @@ export default function Octopus() {
         {/* Floating Hero Image */}
         <div style={{ 
           maxWidth: "900px",
-          margin: "0 auto clamp(24px, 4vh, 40px)",
+          margin: "0 auto",
           boxShadow: "0 30px 80px rgba(255,255,255,0.08)",
           border: "1px solid #1C1C1C",
           borderRadius: "2px",
@@ -73,23 +73,23 @@ export default function Octopus() {
       <div style={{ 
         maxWidth: "800px", 
         margin: "0 auto", 
-        padding: "clamp(60px, 10vh, 100px) 24px"
+        padding: "clamp(60px, 10vh, 80px) 24px"
       }}>
         <p style={{ 
-          fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(20px, 3vw, 28px)", 
+          fontSize: "clamp(14px, 2vw, 16px)", 
+          color: "#FAFAF8", 
+          lineHeight: 1.8,
           fontWeight: 300,
-          color: "#FAFAF8",
-          lineHeight: 1.6,
-          marginBottom: "24px"
+          marginBottom: "20px"
         }}>
           Process high-level natural language goals, decompose them into executable 
           task graphs, manage persistent memory, and perform post-execution reflection.
         </p>
         <p style={{ 
           fontSize: "clamp(14px, 2vw, 16px)", 
-          color: "#71706E", 
-          lineHeight: 1.8 
+          color: "#FAFAF8", 
+          lineHeight: 1.8,
+          fontWeight: 300
         }}>
           Built on FastAPI with async MongoDB via Motor, NetworkX for DAG-based task graphs, 
           and ChromaDB for vector search. Event sourcing captures all cognitive activity 
@@ -99,91 +99,111 @@ export default function Octopus() {
 
       {/* Core Components */}
       <div style={{ 
-        maxWidth: "1200px", 
+        maxWidth: "1000px", 
         margin: "0 auto", 
-        padding: "clamp(80px, 12vh, 120px) 24px"
+        padding: "clamp(40px, 6vh, 60px) 24px"
       }}>
-        <div style={{
-          width: "60px",
-          height: "1px",
-          backgroundColor: "#1C1C1C",
-          margin: "0 auto clamp(32px, 5vh, 48px)"
-        }} />
-        <h2 style={{ 
-          fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(28px, 4vw, 40px)", 
-          fontWeight: 300,
+        <p style={{
+          fontSize: "11px",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
           color: "#FAFAF8",
-          marginBottom: "clamp(40px, 6vh, 60px)",
-          textAlign: "center",
-          letterSpacing: "-0.01em"
+          marginBottom: "clamp(24px, 4vh, 32px)",
+          textAlign: "center"
         }}>
           Core Components
-        </h2>
+        </p>
         
         <div style={{ 
           display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", 
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", 
+          gap: "1px",
+          backgroundColor: "#0A0A0A"
+        }}>
+          {[
+            { name: "Goal Parser", desc: "Natural language to structured goal with intent classification" },
+            { name: "Task Decomposer", desc: "Top-down, bottom-up, hybrid, template, learned strategies" },
+            { name: "Plan Executor", desc: "Sequential, parallel, adaptive, priority, round-robin execution" },
+            { name: "Task Graph", desc: "NetworkX DAG with dependency resolution and topological ordering" },
+            { name: "Event Sourcing", desc: "Immutable cognitive events with causality chain tracking" },
+            { name: "REST API", desc: "FastAPI endpoints for goal processing and system status" },
+          ].map((item, i) => (
+            <div key={i} style={{ 
+              padding: "20px",
+              backgroundColor: "#0A0A0A",
+              borderLeft: "1px solid #1A1A1A"
+            }}>
+              <p style={{ 
+                fontSize: "13px", 
+                fontWeight: 400,
+                color: "#FAFAF8",
+                marginBottom: "6px"
+              }}>
+                {item.name}
+              </p>
+              <p style={{ 
+                fontSize: "12px", 
+                color: "#FAFAF8",
+                lineHeight: 1.5
+              }}>
+                {item.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Tri-Store Memory */}
+      <div style={{ 
+        maxWidth: "1000px", 
+        margin: "0 auto", 
+        padding: "clamp(40px, 6vh, 60px) 24px"
+      }}>
+        <p style={{
+          fontSize: "11px",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          color: "#FAFAF8",
+          marginBottom: "clamp(24px, 4vh, 32px)",
+          textAlign: "center"
+        }}>
+          Tri-Store Memory System
+        </p>
+        
+        <div style={{ 
+          display: "grid", 
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", 
           gap: "24px"
         }}>
           {[
-            { 
-              name: "Goal Parser", 
-              desc: "Natural language to structured goal with intent classification",
-              status: "Functional"
+            {
+              title: "Semantic Memory",
+              desc: "Facts, concepts, knowledge graph with similarity-based retrieval and importance scoring"
             },
-            { 
-              name: "Task Decomposer", 
-              desc: "5 strategies: top-down, bottom-up, hybrid, template, learned",
-              status: "Functional"
+            {
+              title: "Episodic Memory",
+              desc: "Time-ordered events with temporal context, emotional valence, and auto-summarization"
             },
-            { 
-              name: "Plan Executor", 
-              desc: "5 strategies: sequential, parallel, adaptive, priority, round-robin",
-              status: "Functional"
-            },
-            { 
-              name: "Task Graph", 
-              desc: "NetworkX-based DAG with dependency resolution and topological ordering",
-              status: "Functional"
-            },
-            { 
-              name: "Event Sourcing", 
-              desc: "Immutable cognitive events with causality chain tracking",
-              status: "Functional"
-            },
-            { 
-              name: "REST API", 
-              desc: "FastAPI endpoints for goal processing and system status",
-              status: "Functional"
-            },
+            {
+              title: "Procedural Memory",
+              desc: "Workflow storage, execution tracking, pattern learning, and performance metrics"
+            }
           ].map((item, i) => (
             <div key={i} style={{ 
-              padding: "28px",
-              backgroundColor: "#0F0F0F",
-              borderLeft: "1px solid #1C1C1C"
+              borderLeft: "1px solid #2A2A28",
+              paddingLeft: "20px"
             }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-                <h3 style={{ 
-                  fontSize: "16px", 
-                  fontWeight: 500,
-                  color: "#FAFAF8",
-                  letterSpacing: "0.02em"
-                }}>
-                  {item.name}
-                </h3>
-                <span style={{ 
-                  fontSize: "10px", 
-                  color: "#71706E", 
-                  textTransform: "uppercase", 
-                  letterSpacing: "0.1em" 
-                }}>
-                  {item.status}
-                </span>
-              </div>
               <p style={{ 
-                fontSize: "14px", 
-                color: "#71706E",
+                fontSize: "13px", 
+                fontWeight: 400,
+                color: "#FAFAF8",
+                marginBottom: "8px"
+              }}>
+                {item.title}
+              </p>
+              <p style={{ 
+                fontSize: "12px", 
+                color: "#FAFAF8",
                 lineHeight: 1.6
               }}>
                 {item.desc}
@@ -195,17 +215,17 @@ export default function Octopus() {
 
       {/* Screenshots Section */}
       <div style={{ 
-        maxWidth: "1200px", 
+        maxWidth: "1000px", 
         margin: "0 auto", 
-        padding: "0 24px clamp(80px, 12vh, 120px)"
+        padding: "clamp(40px, 6vh, 60px) 24px"
       }}>
         <div style={{ 
           display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 500px), 1fr))", 
-          gap: "32px"
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 400px), 1fr))", 
+          gap: "24px"
         }}>
           <div style={{ 
-            boxShadow: "0 30px 80px rgba(255,255,255,0.08)",
+            boxShadow: "0 20px 60px rgba(255,255,255,0.05)",
             border: "1px solid #1C1C1C",
             borderRadius: "2px",
             overflow: "hidden",
@@ -224,7 +244,7 @@ export default function Octopus() {
             />
           </div>
           <div style={{ 
-            boxShadow: "0 30px 80px rgba(255,255,255,0.08)",
+            boxShadow: "0 20px 60px rgba(255,255,255,0.05)",
             border: "1px solid #1C1C1C",
             borderRadius: "2px",
             overflow: "hidden",
@@ -245,223 +265,124 @@ export default function Octopus() {
         </div>
       </div>
 
-      {/* Tri-Store Memory */}
+      {/* Reflection System */}
       <div style={{ 
-        maxWidth: "1000px", 
+        maxWidth: "800px", 
         margin: "0 auto", 
-        padding: "clamp(80px, 12vh, 120px) 24px"
+        padding: "clamp(60px, 10vh, 80px) 24px",
+        textAlign: "center"
       }}>
-        <div style={{
-          width: "60px",
-          height: "1px",
-          backgroundColor: "#1C1C1C",
-          margin: "0 auto clamp(32px, 5vh, 48px)"
-        }} />
-        <h2 style={{ 
-          fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(28px, 4vw, 40px)", 
-          fontWeight: 300,
+        <p style={{
+          fontSize: "11px",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
           color: "#FAFAF8",
-          marginBottom: "clamp(40px, 6vh, 60px)",
-          textAlign: "center",
-          letterSpacing: "-0.01em"
+          marginBottom: "clamp(16px, 3vh, 24px)"
         }}>
-          Tri-Store Memory System
-        </h2>
-        
-        <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+          Reflection System
+        </p>
+        <p style={{ 
+          fontSize: "clamp(14px, 1.8vw, 15px)", 
+          color: "#FAFAF8",
+          lineHeight: 1.7,
+          marginBottom: "clamp(24px, 4vh, 32px)"
+        }}>
+          Post-execution analysis for continuous improvement through pattern recognition 
+          and recursive self-analysis.
+        </p>
+        <div style={{ 
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "12px"
+        }}>
           {[
-            {
-              title: "Semantic Memory",
-              desc: "Facts, concepts, and knowledge graph with inference capabilities. Supports similarity-based retrieval, concept relationships, and knowledge consolidation with importance scoring and decay."
-            },
-            {
-              title: "Episodic Memory",
-              desc: "Time-ordered events with temporal context and retrieval. Captures experiences with emotional valence, temporal relationships, and automatic summarization of event sequences."
-            },
-            {
-              title: "Procedural Memory",
-              desc: "Workflow storage, execution tracking, and performance metrics. Learns patterns from execution history for the 'learned' decomposition strategy. Tracks success rates and optimization hints."
-            }
+            "Reflector", "Meta-Reflector", "Blind Spot Detector"
           ].map((item, i) => (
-            <div key={i} style={{ 
-              padding: "32px",
-              backgroundColor: "#0F0F0F",
-              borderLeft: "2px solid #1C1C1C"
+            <span key={i} style={{ 
+              fontSize: "12px",
+              color: "#FAFAF8",
+              padding: "8px 16px",
+              border: "1px solid #2A2A28",
+              borderRadius: "2px"
             }}>
-              <h3 style={{ 
-                fontSize: "20px", 
-                fontWeight: 400,
-                color: "#FAFAF8",
-                marginBottom: "16px",
-                letterSpacing: "0.01em"
-              }}>
-                {item.title}
-              </h3>
-              <p style={{ 
-                fontSize: "15px", 
-                color: "#71706E",
-                lineHeight: 1.7
-              }}>
-                {item.desc}
-              </p>
-            </div>
+              {item}
+            </span>
           ))}
         </div>
       </div>
 
-      {/* Reflection System */}
+      {/* REST API */}
       <div style={{ 
-        backgroundColor: "#000000",
-        padding: "clamp(80px, 12vh, 120px) 24px"
-      }}>
-        <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-          <div style={{
-            width: "60px",
-            height: "1px",
-            backgroundColor: "#1C1C1C",
-            margin: "0 auto clamp(32px, 5vh, 48px)"
-          }} />
-          <h2 style={{ 
-            fontFamily: "Playfair Display, Georgia, serif",
-            fontSize: "clamp(28px, 4vw, 40px)", 
-            fontWeight: 300,
-            color: "#FAFAF8",
-            marginBottom: "clamp(24px, 4vh, 32px)",
-            textAlign: "center",
-            letterSpacing: "-0.01em"
-          }}>
-            Reflection System
-          </h2>
-          <p style={{ 
-            fontSize: "16px", 
-            color: "#71706E",
-            lineHeight: 1.7,
-            textAlign: "center",
-            marginBottom: "clamp(32px, 6vh, 48px)",
-            maxWidth: "700px",
-            margin: "0 auto clamp(32px, 6vh, 48px)"
-          }}>
-            Post-execution analysis for continuous improvement through pattern recognition 
-            and recursive self-analysis.
-          </p>
-          <div style={{ 
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: "24px"
-          }}>
-            {[
-              { name: "Reflector", desc: "Performance analysis and insight generation" },
-              { name: "Meta-Reflector", desc: "Recursive self-analysis and pattern detection" },
-              { name: "Blind Spot Detector", desc: "Identifies analysis gaps and biases" },
-            ].map((item, i) => (
-              <div key={i} style={{ 
-                padding: "28px",
-                backgroundColor: "#0A0A0A",
-                border: "1px solid #1C1C1C"
-              }}>
-                <p style={{ 
-                  fontSize: "16px", 
-                  color: "#FAFAF8", 
-                  marginBottom: "12px",
-                  fontWeight: 500
-                }}>
-                  {item.name}
-                </p>
-                <p style={{ 
-                  fontSize: "14px", 
-                  color: "#71706E", 
-                  lineHeight: 1.6
-                }}>
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* API Endpoints */}
-      <div style={{ 
-        maxWidth: "1000px", 
+        maxWidth: "700px", 
         margin: "0 auto", 
-        padding: "clamp(80px, 12vh, 120px) 24px"
+        padding: "clamp(40px, 6vh, 60px) 24px",
+        textAlign: "center"
       }}>
-        <div style={{
-          width: "60px",
-          height: "1px",
-          backgroundColor: "#1C1C1C",
-          margin: "0 auto clamp(32px, 5vh, 48px)"
-        }} />
-        <h2 style={{ 
-          fontFamily: "Playfair Display, Georgia, serif",
-          fontSize: "clamp(28px, 4vw, 40px)", 
-          fontWeight: 300,
+        <p style={{
+          fontSize: "11px",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
           color: "#FAFAF8",
-          marginBottom: "clamp(40px, 6vh, 60px)",
-          textAlign: "center",
-          letterSpacing: "-0.01em"
+          marginBottom: "clamp(16px, 3vh, 24px)"
         }}>
           REST API
-        </h2>
+        </p>
         <div style={{ 
           backgroundColor: "#0F0F0F",
-          padding: "clamp(20px, 3vw, 28px)",
+          padding: "20px 24px",
           borderRadius: "2px",
           border: "1px solid #1C1C1C",
-          maxWidth: "700px",
-          margin: "0 auto"
+          display: "inline-block",
+          textAlign: "left"
         }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px", fontFamily: "Monaco, Courier, monospace", fontSize: "14px" }}>
-            {[
-              { method: "POST", path: "/api/v1/goal", desc: "Process a goal" },
-              { method: "GET", path: "/api/v1/goal/examples", desc: "Example goals" },
-              { method: "GET", path: "/api/v1/status", desc: "System status" },
-              { method: "GET", path: "/api/v1/status/metrics", desc: "Performance metrics" },
-            ].map((endpoint, i) => (
-              <div key={i} style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-                <span style={{ color: "#FAFAF8", fontWeight: 600, minWidth: "60px" }}>{endpoint.method}</span>
-                <span style={{ color: "#B8B7B3", flex: 1, minWidth: "200px" }}>{endpoint.path}</span>
-                <span style={{ color: "#71706E", fontSize: "13px" }}>{endpoint.desc}</span>
-              </div>
-            ))}
-          </div>
+          <code style={{ 
+            fontSize: "12px", 
+            color: "#FAFAF8",
+            fontFamily: "Monaco, Courier, monospace",
+            lineHeight: 2,
+            display: "block"
+          }}>
+            POST /api/v1/goal<br/>
+            GET /api/v1/goal/examples<br/>
+            GET /api/v1/status
+          </code>
         </div>
       </div>
 
       {/* Technology Stack */}
       <div style={{ 
-        maxWidth: "1000px", 
+        maxWidth: "800px", 
         margin: "0 auto", 
-        padding: "0 24px clamp(80px, 12vh, 120px)"
+        padding: "clamp(40px, 6vh, 60px) 24px",
+        textAlign: "center"
       }}>
-        <p style={{ 
-          fontSize: "11px", 
-          letterSpacing: "0.2em", 
-          textTransform: "uppercase", 
-          color: "#71706E",
-          marginBottom: "clamp(24px, 4vh, 32px)",
-          textAlign: "center"
+        <p style={{
+          fontSize: "11px",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          color: "#FAFAF8",
+          marginBottom: "clamp(16px, 3vh, 24px)"
         }}>
-          Technology Stack
+          Stack
         </p>
         <p style={{ 
-          fontSize: "15px", 
-          color: "#71706E",
-          lineHeight: 1.8,
-          textAlign: "center"
+          fontSize: "12px", 
+          color: "#FAFAF8",
+          lineHeight: 2,
+          letterSpacing: "0.02em"
         }}>
-          Python 3.11+ · FastAPI · Motor · MongoDB · NetworkX · ChromaDB · Pydantic · structlog · tenacity
+          Python · FastAPI · Motor · MongoDB · NetworkX · ChromaDB · Pydantic · structlog
         </p>
       </div>
 
       {/* Navigation */}
       <div style={{ 
         borderTop: "1px solid #1C1C1C",
-        padding: "clamp(60px, 10vh, 80px) 24px"
+        padding: "clamp(40px, 6vh, 60px) 24px"
       }}>
         <div style={{ 
-          maxWidth: "1200px",
+          maxWidth: "1000px",
           margin: "0 auto",
           display: "flex", 
           justifyContent: "space-between", 
@@ -470,22 +391,22 @@ export default function Octopus() {
           gap: "20px"
         }}>
           <Link href="/work/megaagent" style={{ 
-            fontSize: "13px", 
-            color: "#71706E", 
+            fontSize: "12px", 
+            color: "#FAFAF8", 
             textDecoration: "none",
             letterSpacing: "0.1em",
             textTransform: "uppercase"
           }}>
-            ← Previous: MegaAgent
+            ← MegaAgent
           </Link>
           <Link href="/work/overmind" style={{ 
-            fontSize: "13px", 
-            color: "#71706E", 
+            fontSize: "12px", 
+            color: "#FAFAF8", 
             textDecoration: "none",
             letterSpacing: "0.1em",
             textTransform: "uppercase"
           }}>
-            Next: Overmind →
+            Overmind →
           </Link>
         </div>
       </div>
