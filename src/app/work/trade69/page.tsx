@@ -79,7 +79,7 @@ export default function Trade69() {
       <div style={{
         maxWidth: "1000px",
         margin: "0 auto",
-        padding: "clamp(40px, 6vh, 60px) 24px"
+        padding: "0 24px clamp(40px, 6vh, 60px)"
       }}>
         <div style={{
           maxWidth: "600px",
@@ -349,47 +349,6 @@ export default function Trade69() {
               </p>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* LLM Middleware */}
-      <div style={{
-        maxWidth: "800px",
-        margin: "0 auto",
-        padding: "clamp(60px, 10vh, 80px) 24px",
-        textAlign: "center"
-      }}>
-        <p style={{
-          fontSize: "11px",
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          color: "#FAFAF8",
-          marginBottom: "clamp(16px, 3vh, 24px)"
-        }}>
-          LLM Middleware
-        </p>
-        <p style={{
-          fontSize: "clamp(14px, 1.8vw, 15px)",
-          color: "#FAFAF8",
-          lineHeight: 1.7,
-          marginBottom: "clamp(24px, 4vh, 32px)"
-        }}>
-          AI Manager V4 with GPT-4 integration. Natural language to SQL translation with schema-aware query generation.
-        </p>
-        <div style={{
-          backgroundColor: "#0F0F0F",
-          padding: "20px 24px",
-          borderRadius: "2px",
-          border: "1px solid #1C1C1C",
-          display: "inline-block"
-        }}>
-          <code style={{
-            fontSize: "13px",
-            color: "#FAFAF8",
-            fontFamily: "Monaco, Courier, monospace"
-          }}>
-            &quot;Show me top 5 signals from last week with win rate above 60%&quot;
-          </code>
         </div>
       </div>
 
