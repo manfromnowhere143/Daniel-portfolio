@@ -11,7 +11,6 @@ export default function Trade69Architecture() {
     const updateDimensions = () => {
       if (containerRef.current) {
         const width = containerRef.current.clientWidth;
-        // Responsive height: shorter on mobile
         const height = width < 500 ? 350 : width < 700 ? 420 : 500;
         setDimensions({ width, height });
       }
@@ -28,11 +27,8 @@ export default function Trade69Architecture() {
     const container = containerRef.current;
     const width = dimensions.width;
     const height = dimensions.height;
-    
-    // Scale factor for mobile
     const scale = Math.min(1, width / 600);
 
-    // Clear existing canvas
     const existingCanvas = container.querySelector('canvas');
     if (existingCanvas) existingCanvas.remove();
 
@@ -45,43 +41,103 @@ export default function Trade69Architecture() {
     const ctx = canvas.getContext('2d')!;
     ctx.scale(2, 2);
 
-    // Define layers - scaled for mobile
+    // Enhanced layers with more detail
     const layers = [
-      { name: 'INTERFACE', nodes: ['Dashboard', 'Analytics', 'Monitor'], radius: 40 * scale },
-      { name: 'RISK', nodes: ['Kelly', 'Options', 'Heat', 'Executor'], radius: 80 * scale },
-      { name: 'ML', nodes: ['Tracker', 'Backtest', 'Pipeline', 'Pattern', 'Version'], radius: 120 * scale },
-      { name: 'INTELLIGENCE', nodes: ['Sentiment', 'Technical', 'HMM', 'Signal'], radius: 160 * scale },
-      { name: 'DATA', nodes: ['StockTwits', 'Reddit', 'Alpaca', 'ThetaData', 'DarkPool', 'News'], radius: 200 * scale }
+      { name: 'INTERFACE', nodes: ['Dashboard', 'Analytics', 'Monitor'], radius: 45 * scale, color: 'rgba(255, 255, 255, 0.95)' },
+      { name: 'RISK', nodes: ['Kelly', 'Options', 'Heat', 'Executor'], radius: 85 * scale, color: 'rgba(255, 255, 255, 0.9)' },
+      { name: 'ML', nodes: ['Tracker', 'Backtest', 'Pipeline', 'Pattern', 'Version'], radius: 125 * scale, color: 'rgba(255, 255, 255, 0.85)' },
+      { name: 'INTELLIGENCE', nodes: ['Sentiment', 'Technical', 'HMM', 'Signal'], radius: 165 * scale, color: 'rgba(255, 255, 255, 0.8)' },
+      { name: 'DATA', nodes: ['StockTwits', 'Reddit', 'Alpaca', 'ThetaData', 'DarkPool', 'News'], radius: 205 * scale, color: 'rgba(255, 255, 255, 0.75)' }
     ];
 
     let time = 0;
 
     const animate = () => {
+      // Clear with slight trail effect
       ctx.fillStyle = '#0A0A0A';
       ctx.fillRect(0, 0, width, height);
 
       const cx = width / 2;
       const cy = height / 2;
-      time += 0.008;
+      time += 0.006;
 
-      // Draw outer glow
-      const outerGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 220 * scale);
-      outerGlow.addColorStop(0, 'rgba(250, 250, 248, 0.03)');
+      // Outer atmospheric glow - more visible
+      const outerGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 240 * scale);
+      outerGlow.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
+      outerGlow.addColorStop(0.5, 'rgba(255, 255, 255, 0.03)');
       outerGlow.addColorStop(1, 'transparent');
       ctx.fillStyle = outerGlow;
       ctx.beginPath();
-      ctx.arc(cx, cy, 220 * scale, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 240 * scale, 0, Math.PI * 2);
       ctx.fill();
 
-      // Draw concentric hexagons for each layer
+      // Draw radial guide lines first (behind everything)
+      for (let i = 0; i < 12; i++) {
+        const angle = (i * Math.PI * 2) / 12;
+        const gradient = ctx.createLinearGradient(
+          cx + Math.cos(angle) * 25 * scale,
+          cy + Math.sin(angle) * 25 * scale,
+          cx + Math.cos(angle) * 220 * scale,
+          cy + Math.sin(angle) * 220 * scale
+        );
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0.03)');
+
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(angle) * 25 * scale, cy + Math.sin(angle) * 25 * scale);
+        ctx.lineTo(cx + Math.cos(angle) * 220 * scale, cy + Math.sin(angle) * 220 * scale);
+        ctx.stroke();
+      }
+
+      // Draw connection lines between layers (behind nodes)
+      layers.forEach((layer, layerIndex) => {
+        if (layerIndex < layers.length - 1) {
+          const nextLayer = layers[layerIndex + 1];
+          const pulse = 1 + Math.sin(time * 2 + layerIndex * 0.5) * 0.015;
+
+          layer.nodes.forEach((_, nodeIndex) => {
+            const angle = (nodeIndex * Math.PI * 2) / layer.nodes.length - Math.PI / 2 + time * 0.08;
+            const nodeX = cx + Math.cos(angle) * layer.radius * pulse;
+            const nodeY = cy + Math.sin(angle) * layer.radius * pulse;
+
+            // Connect to multiple nodes in next layer for web effect
+            const connectionsPerNode = 2;
+            for (let c = 0; c < connectionsPerNode; c++) {
+              const targetIndex = (nodeIndex + c) % nextLayer.nodes.length;
+              const targetAngle = (targetIndex * Math.PI * 2) / nextLayer.nodes.length - Math.PI / 2 + time * 0.08;
+              const targetX = cx + Math.cos(targetAngle) * nextLayer.radius * pulse;
+              const targetY = cy + Math.sin(targetAngle) * nextLayer.radius * pulse;
+
+              // Gradient connection line
+              const lineGradient = ctx.createLinearGradient(nodeX, nodeY, targetX, targetY);
+              lineGradient.addColorStop(0, 'rgba(255, 255, 255, 0.25)');
+              lineGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.12)');
+              lineGradient.addColorStop(1, 'rgba(255, 255, 255, 0.25)');
+
+              ctx.strokeStyle = lineGradient;
+              ctx.lineWidth = 0.8;
+              ctx.beginPath();
+              ctx.moveTo(nodeX, nodeY);
+              ctx.lineTo(targetX, targetY);
+              ctx.stroke();
+            }
+          });
+        }
+      });
+
+      // Draw hexagonal layers
       layers.forEach((layer, layerIndex) => {
         const r = layer.radius;
-        const pulse = 1 + Math.sin(time * 2 + layerIndex * 0.5) * 0.02;
+        const pulse = 1 + Math.sin(time * 2 + layerIndex * 0.5) * 0.015;
         const adjustedR = r * pulse;
 
-        // Draw hexagon
-        ctx.strokeStyle = `rgba(250, 250, 248, ${0.15 + layerIndex * 0.05})`;
-        ctx.lineWidth = 0.5;
+        // Hexagon glow
+        ctx.strokeStyle = `rgba(255, 255, 255, ${0.08 + layerIndex * 0.02})`;
+        ctx.lineWidth = 8 * scale;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
         ctx.beginPath();
         for (let i = 0; i <= 6; i++) {
           const angle = (i * Math.PI * 2) / 6 - Math.PI / 2;
@@ -92,138 +148,157 @@ export default function Trade69Architecture() {
         }
         ctx.stroke();
 
-        // Draw nodes on this layer
+        // Hexagon main line
+        ctx.strokeStyle = `rgba(255, 255, 255, ${0.35 + layerIndex * 0.08})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let i = 0; i <= 6; i++) {
+          const angle = (i * Math.PI * 2) / 6 - Math.PI / 2;
+          const x = cx + Math.cos(angle) * adjustedR;
+          const y = cy + Math.sin(angle) * adjustedR;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Draw nodes
         const nodeCount = layer.nodes.length;
         layer.nodes.forEach((nodeName, nodeIndex) => {
-          const angle = (nodeIndex * Math.PI * 2) / nodeCount - Math.PI / 2 + time * 0.1;
+          const angle = (nodeIndex * Math.PI * 2) / nodeCount - Math.PI / 2 + time * 0.08;
           const nodeX = cx + Math.cos(angle) * adjustedR;
           const nodeY = cy + Math.sin(angle) * adjustedR;
 
-          // Node glow
-          const nodeGlow = ctx.createRadialGradient(nodeX, nodeY, 0, nodeX, nodeY, 15 * scale);
-          nodeGlow.addColorStop(0, 'rgba(250, 250, 248, 0.15)');
+          // Node outer glow
+          const nodeGlow = ctx.createRadialGradient(nodeX, nodeY, 0, nodeX, nodeY, 20 * scale);
+          nodeGlow.addColorStop(0, 'rgba(255, 255, 255, 0.25)');
+          nodeGlow.addColorStop(0.5, 'rgba(255, 255, 255, 0.08)');
           nodeGlow.addColorStop(1, 'transparent');
           ctx.fillStyle = nodeGlow;
           ctx.beginPath();
-          ctx.arc(nodeX, nodeY, 15 * scale, 0, Math.PI * 2);
+          ctx.arc(nodeX, nodeY, 20 * scale, 0, Math.PI * 2);
           ctx.fill();
 
-          // Node circle
-          ctx.strokeStyle = 'rgba(250, 250, 248, 0.6)';
-          ctx.lineWidth = 0.5;
+          // Node ring
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+          ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.arc(nodeX, nodeY, 3 * scale, 0, Math.PI * 2);
+          ctx.arc(nodeX, nodeY, 4 * scale, 0, Math.PI * 2);
           ctx.stroke();
 
-          // Node center dot
-          ctx.fillStyle = 'rgba(250, 250, 248, 0.8)';
+          // Node center - solid white
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
           ctx.beginPath();
-          ctx.arc(nodeX, nodeY, 1.5 * scale, 0, Math.PI * 2);
+          ctx.arc(nodeX, nodeY, 2 * scale, 0, Math.PI * 2);
           ctx.fill();
 
-          // Node label - hide on very small screens
-          if (scale > 0.4) {
-            ctx.fillStyle = 'rgba(250, 250, 248, 0.5)';
-            ctx.font = `${Math.max(7, 9 * scale)}px system-ui`;
+          // Node label - bright and visible
+          if (scale > 0.35) {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+            ctx.font = `${Math.max(8, 10 * scale)}px system-ui, -apple-system, sans-serif`;
             ctx.textAlign = 'center';
-            const labelOffset = adjustedR > 100 * scale ? 12 * scale : -12 * scale;
+            const labelOffset = adjustedR > 100 * scale ? 14 * scale : -14 * scale;
             ctx.fillText(nodeName, nodeX, nodeY + labelOffset);
-          }
-
-          // Connection lines to inner layer
-          if (layerIndex < layers.length - 1) {
-            const innerLayer = layers[layerIndex + 1];
-            const innerNodeCount = innerLayer.nodes.length;
-            
-            const innerAngle = (nodeIndex % innerNodeCount) * Math.PI * 2 / innerNodeCount - Math.PI / 2 + time * 0.1;
-            const innerX = cx + Math.cos(innerAngle) * innerLayer.radius * pulse;
-            const innerY = cy + Math.sin(innerAngle) * innerLayer.radius * pulse;
-
-            ctx.strokeStyle = 'rgba(250, 250, 248, 0.08)';
-            ctx.lineWidth = 0.5;
-            ctx.beginPath();
-            ctx.moveTo(nodeX, nodeY);
-            ctx.lineTo(innerX, innerY);
-            ctx.stroke();
           }
         });
       });
 
-      // Center core - PostgreSQL
+      // Enhanced center core
       ctx.save();
       ctx.translate(cx, cy);
-      ctx.rotate(time);
-      
-      // Inner square
-      ctx.strokeStyle = 'rgba(250, 250, 248, 0.4)';
-      ctx.lineWidth = 0.5;
-      const innerSize = 10 * scale;
+
+      // Rotating outer square
+      ctx.rotate(time * 0.5);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+      ctx.lineWidth = 1;
+      const outerSize = 14 * scale;
       ctx.beginPath();
-      ctx.rect(-innerSize, -innerSize, innerSize * 2, innerSize * 2);
+      ctx.rect(-outerSize, -outerSize, outerSize * 2, outerSize * 2);
       ctx.stroke();
-      
-      // Inner diamond
-      ctx.rotate(Math.PI / 4);
-      const diamondSize = 7 * scale;
+
+      // Counter-rotating inner diamond
+      ctx.rotate(-time);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+      const innerSize = 9 * scale;
       ctx.beginPath();
-      ctx.rect(-diamondSize, -diamondSize, diamondSize * 2, diamondSize * 2);
+      ctx.moveTo(0, -innerSize);
+      ctx.lineTo(innerSize, 0);
+      ctx.lineTo(0, innerSize);
+      ctx.lineTo(-innerSize, 0);
+      ctx.closePath();
       ctx.stroke();
-      
+
       ctx.restore();
 
-      // Center circle
-      ctx.strokeStyle = 'rgba(250, 250, 248, 0.6)';
-      ctx.lineWidth = 0.5;
+      // Center glow
+      const centerGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 25 * scale);
+      centerGlow.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+      centerGlow.addColorStop(0.5, 'rgba(255, 255, 255, 0.1)');
+      centerGlow.addColorStop(1, 'transparent');
+      ctx.fillStyle = centerGlow;
       ctx.beginPath();
-      ctx.arc(cx, cy, 15 * scale, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 25 * scale, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Center circle
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 18 * scale, 0, Math.PI * 2);
       ctx.stroke();
 
       // Center dot
-      ctx.fillStyle = 'rgba(250, 250, 248, 0.9)';
+      ctx.fillStyle = 'rgba(255, 255, 255, 1)';
       ctx.beginPath();
-      ctx.arc(cx, cy, 2.5 * scale, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 3 * scale, 0, Math.PI * 2);
       ctx.fill();
 
       // Center label
-      if (scale > 0.4) {
-        ctx.fillStyle = 'rgba(250, 250, 248, 0.6)';
-        ctx.font = `${Math.max(7, 9 * scale)}px system-ui`;
+      if (scale > 0.35) {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.font = `bold ${Math.max(8, 10 * scale)}px system-ui, -apple-system, sans-serif`;
         ctx.textAlign = 'center';
-        ctx.fillText('PostgreSQL', cx, cy + 25 * scale);
+        ctx.fillText('PostgreSQL', cx, cy + 32 * scale);
       }
 
-      // Data flow particles
-      for (let i = 0; i < 20; i++) {
-        const particleTime = (time * 0.5 + i * 0.2) % 1;
-        const layerFrom = Math.floor(i / 4);
+      // Enhanced data flow particles
+      for (let i = 0; i < 30; i++) {
+        const particleTime = (time * 0.4 + i * 0.15) % 1;
+        const layerFrom = Math.floor(i / 6);
         const layerTo = Math.max(0, layerFrom - 1);
-        
+
         if (layerFrom < layers.length && layerTo < layers.length) {
-          const fromR = layers[layerFrom]?.radius || 200 * scale;
-          const toR = layers[layerTo]?.radius || 40 * scale;
-          const angle = (i * 0.7 + time * 0.3) % (Math.PI * 2);
-          
+          const fromR = layers[layerFrom]?.radius || 205 * scale;
+          const toR = layers[layerTo]?.radius || 45 * scale;
+          const angle = (i * 0.5 + time * 0.2) % (Math.PI * 2);
+
           const currentR = fromR + (toR - fromR) * particleTime;
           const particleX = cx + Math.cos(angle) * currentR;
           const particleY = cy + Math.sin(angle) * currentR;
-          
-          ctx.fillStyle = `rgba(250, 250, 248, ${0.3 * (1 - particleTime)})`;
+
+          // Particle with trail effect
+          const particleAlpha = 0.6 * (1 - particleTime);
+          ctx.fillStyle = `rgba(255, 255, 255, ${particleAlpha})`;
           ctx.beginPath();
-          ctx.arc(particleX, particleY, 1, 0, Math.PI * 2);
+          ctx.arc(particleX, particleY, 1.5 * scale, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Particle glow
+          ctx.fillStyle = `rgba(255, 255, 255, ${particleAlpha * 0.3})`;
+          ctx.beginPath();
+          ctx.arc(particleX, particleY, 4 * scale, 0, Math.PI * 2);
           ctx.fill();
         }
       }
 
-      // Radial lines from center
-      for (let i = 0; i < 12; i++) {
-        const angle = (i * Math.PI * 2) / 12;
-        ctx.strokeStyle = 'rgba(250, 250, 248, 0.04)';
-        ctx.lineWidth = 0.5;
-        ctx.beginPath();
-        ctx.moveTo(cx + Math.cos(angle) * 20 * scale, cy + Math.sin(angle) * 20 * scale);
-        ctx.lineTo(cx + Math.cos(angle) * 210 * scale, cy + Math.sin(angle) * 210 * scale);
-        ctx.stroke();
-      }
+      // Pulsing ring effect
+      const ringPulse = (time * 0.3) % 1;
+      const ringRadius = 30 * scale + ringPulse * 180 * scale;
+      const ringAlpha = 0.15 * (1 - ringPulse);
+      ctx.strokeStyle = `rgba(255, 255, 255, ${ringAlpha})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(cx, cy, ringRadius, 0, Math.PI * 2);
+      ctx.stroke();
 
       animationRef.current = requestAnimationFrame(animate);
     };
@@ -238,15 +313,15 @@ export default function Trade69Architecture() {
   }, [dimensions]);
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      style={{ 
-        width: '100%', 
+      style={{
+        width: '100%',
         height: dimensions.height || 500,
         margin: '0 auto',
         overflow: 'hidden',
         backgroundColor: '#0A0A0A'
-      }} 
+      }}
     />
   );
 }
