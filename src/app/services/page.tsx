@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Metadata } from "next";
-import GeometricDivider from "@/components/GeometricDivider";
 import { WebsiteIcon, DashboardIcon, APIIcon, LLMIcon } from "@/components/ServiceIcons";
 
 export const metadata: Metadata = {
@@ -39,7 +38,7 @@ export default function Services() {
       <div style={{
         maxWidth: "800px",
         margin: "0 auto",
-        padding: "clamp(32px, 5vh, 48px) 24px clamp(24px, 4vh, 32px)",
+        padding: "clamp(32px, 5vh, 48px) 24px clamp(40px, 6vh, 60px)",
         textAlign: "center"
       }}>
         <h1 style={{
@@ -53,14 +52,11 @@ export default function Services() {
         </h1>
       </div>
 
-      {/* Geometric Divider */}
-      <GeometricDivider />
-
       {/* Services List */}
       <div style={{
         maxWidth: "700px",
         margin: "0 auto",
-        padding: "clamp(48px, 7vh, 64px) 24px"
+        padding: "0 24px clamp(48px, 7vh, 64px)"
       }}>
         {services.map((item, i) => (
           <div 
