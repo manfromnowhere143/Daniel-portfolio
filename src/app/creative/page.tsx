@@ -482,13 +482,13 @@ export default function Creative() {
           <div style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, 1fr)",
-            gap: "16px",
+            gap: "24px",
             maxWidth: "700px",
             margin: "0 auto"
           }}>
             {/* Neural Architecture */}
-            <div style={{ position: "relative", overflow: "hidden", borderRadius: "2px" }}>
-              <div style={{ aspectRatio: "4/3", backgroundColor: "#000" }}>
+            <div>
+              <div style={{ aspectRatio: "4/3", backgroundColor: "#000", borderRadius: "2px", overflow: "hidden" }}>
                 <Image
                   src="/images/art4.png"
                   alt="Neural Architecture"
@@ -497,14 +497,7 @@ export default function Creative() {
                   style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 />
               </div>
-              <div style={{ 
-                position: "absolute", 
-                bottom: 0, 
-                left: 0, 
-                right: 0, 
-                padding: "24px 12px 12px",
-                background: "linear-gradient(transparent, rgba(0,0,0,0.7))"
-              }}>
+              <div style={{ marginTop: "10px", textAlign: "left" }}>
                 <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
                   Neural Architecture
                 </p>
@@ -515,8 +508,8 @@ export default function Creative() {
             </div>
 
             {/* Emergence */}
-            <div style={{ position: "relative", overflow: "hidden", borderRadius: "2px" }}>
-              <div style={{ aspectRatio: "4/3", backgroundColor: "#000" }}>
+            <div>
+              <div style={{ aspectRatio: "4/3", backgroundColor: "#000", borderRadius: "2px", overflow: "hidden" }}>
                 <Image
                   src="/images/art3.jpg"
                   alt="Emergence"
@@ -525,14 +518,7 @@ export default function Creative() {
                   style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 />
               </div>
-              <div style={{ 
-                position: "absolute", 
-                bottom: 0, 
-                left: 0, 
-                right: 0, 
-                padding: "24px 12px 12px",
-                background: "linear-gradient(transparent, rgba(0,0,0,0.7))"
-              }}>
+              <div style={{ marginTop: "10px", textAlign: "left" }}>
                 <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
                   Emergence
                 </p>
@@ -543,8 +529,8 @@ export default function Creative() {
             </div>
 
             {/* Layers */}
-            <div style={{ position: "relative", overflow: "hidden", borderRadius: "2px" }}>
-              <div style={{ aspectRatio: "4/3", backgroundColor: "#000" }}>
+            <div>
+              <div style={{ aspectRatio: "4/3", backgroundColor: "#000", borderRadius: "2px", overflow: "hidden" }}>
                 <Image
                   src="/images/art2.JPEG"
                   alt="Layers"
@@ -553,14 +539,7 @@ export default function Creative() {
                   style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 />
               </div>
-              <div style={{ 
-                position: "absolute", 
-                bottom: 0, 
-                left: 0, 
-                right: 0, 
-                padding: "24px 12px 12px",
-                background: "linear-gradient(transparent, rgba(0,0,0,0.7))"
-              }}>
+              <div style={{ marginTop: "10px", textAlign: "left" }}>
                 <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
                   Layers
                 </p>
@@ -571,8 +550,8 @@ export default function Creative() {
             </div>
 
             {/* Geometric Abstractions */}
-            <div style={{ position: "relative", overflow: "hidden", borderRadius: "2px" }}>
-              <div style={{ aspectRatio: "4/3", backgroundColor: "#000" }}>
+            <div>
+              <div style={{ aspectRatio: "4/3", backgroundColor: "#000", borderRadius: "2px", overflow: "hidden" }}>
                 <Image
                   src="/images/art1.JPEG"
                   alt="Geometric Abstractions"
@@ -581,14 +560,7 @@ export default function Creative() {
                   style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 />
               </div>
-              <div style={{ 
-                position: "absolute", 
-                bottom: 0, 
-                left: 0, 
-                right: 0, 
-                padding: "24px 12px 12px",
-                background: "linear-gradient(transparent, rgba(0,0,0,0.7))"
-              }}>
+              <div style={{ marginTop: "10px", textAlign: "left" }}>
                 <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
                   Geometric Abstractions
                 </p>
@@ -600,7 +572,6 @@ export default function Creative() {
           </div>
         </div>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
         {/* SKETCHES */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <div>
