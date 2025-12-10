@@ -473,136 +473,129 @@ export default function Creative() {
             color: "#FAFAF8",
             letterSpacing: "0.15em",
             textAlign: "center",
-            marginBottom: "clamp(48px, 7vh, 64px)"
+            marginBottom: "clamp(40px, 6vh, 56px)"
           }}>
             Visual Studies
           </p>
 
-          {/* Neural Architecture */}
-          <div style={{ marginBottom: "clamp(60px, 10vh, 80px)" }}>
-            <div style={{
-              backgroundColor: "#000000",
-              overflow: "hidden",
-              borderRadius: "4px"
-            }}>
-              <Image
-                src="/images/art4.png"
-                alt="Neural Architecture Study"
-                width={1000}
-                height={667}
-                style={{ width: "100%", height: "auto", display: "block" }}
-              />
-            </div>
-            <div style={{ marginTop: "20px", textAlign: "center" }}>
-              <p style={{
-                fontSize: "clamp(14px, 2vw, 18px)",
-                color: "#FAFAF8",
-                fontWeight: 200,
-                marginBottom: "6px"
-              }}>
-                Neural Architecture
-              </p>
-              <p style={{
-                fontSize: "11px",
-                color: "#FAFAF8",
-                letterSpacing: "0.1em",
-                fontFamily: "monospace"
-              }}>
-                2024
-              </p>
-            </div>
-          </div>
-
-          {/* Grid: Emergence & Layers */}
+          {/* Elegant 2x2 Grid */}
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "clamp(32px, 5vw, 48px)",
-            marginBottom: "clamp(60px, 10vh, 80px)"
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: "16px",
+            maxWidth: "700px",
+            margin: "0 auto"
           }}>
-            <div>
-              <div style={{
-                backgroundColor: "#000000",
-                overflow: "hidden",
-                aspectRatio: "3/4",
-                borderRadius: "4px"
+            {/* Neural Architecture */}
+            <div style={{ position: "relative", overflow: "hidden", borderRadius: "2px" }}>
+              <div style={{ aspectRatio: "4/3", backgroundColor: "#000" }}>
+                <Image
+                  src="/images/art4.png"
+                  alt="Neural Architecture"
+                  width={400}
+                  height={300}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                />
+              </div>
+              <div style={{ 
+                position: "absolute", 
+                bottom: 0, 
+                left: 0, 
+                right: 0, 
+                padding: "24px 12px 12px",
+                background: "linear-gradient(transparent, rgba(0,0,0,0.7))"
               }}>
+                <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
+                  Neural Architecture
+                </p>
+                <p style={{ fontSize: "9px", color: "#FAFAF8", opacity: 0.6, fontFamily: "monospace" }}>
+                  2024
+                </p>
+              </div>
+            </div>
+
+            {/* Emergence */}
+            <div style={{ position: "relative", overflow: "hidden", borderRadius: "2px" }}>
+              <div style={{ aspectRatio: "4/3", backgroundColor: "#000" }}>
                 <Image
                   src="/images/art3.jpg"
-                  alt="Emergence Study"
-                  width={800}
-                  height={1100}
+                  alt="Emergence"
+                  width={400}
+                  height={300}
                   style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 />
               </div>
-              <div style={{ marginTop: "20px", textAlign: "center" }}>
-                <p style={{ fontSize: "clamp(14px, 2vw, 16px)", color: "#FAFAF8", fontWeight: 200, marginBottom: "6px" }}>
+              <div style={{ 
+                position: "absolute", 
+                bottom: 0, 
+                left: 0, 
+                right: 0, 
+                padding: "24px 12px 12px",
+                background: "linear-gradient(transparent, rgba(0,0,0,0.7))"
+              }}>
+                <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
                   Emergence
                 </p>
-                <p style={{ fontSize: "11px", color: "#FAFAF8", letterSpacing: "0.1em", fontFamily: "monospace" }}>
+                <p style={{ fontSize: "9px", color: "#FAFAF8", opacity: 0.6, fontFamily: "monospace" }}>
                   2024
                 </p>
               </div>
             </div>
 
-            <div>
-              <div style={{
-                backgroundColor: "#000000",
-                overflow: "hidden",
-                aspectRatio: "1/1",
-                borderRadius: "4px"
-              }}>
+            {/* Layers */}
+            <div style={{ position: "relative", overflow: "hidden", borderRadius: "2px" }}>
+              <div style={{ aspectRatio: "4/3", backgroundColor: "#000" }}>
                 <Image
                   src="/images/art2.JPEG"
-                  alt="Layers Study"
-                  width={800}
-                  height={800}
+                  alt="Layers"
+                  width={400}
+                  height={300}
                   style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 />
               </div>
-              <div style={{ marginTop: "20px", textAlign: "center" }}>
-                <p style={{ fontSize: "clamp(14px, 2vw, 16px)", color: "#FAFAF8", fontWeight: 200, marginBottom: "6px" }}>
+              <div style={{ 
+                position: "absolute", 
+                bottom: 0, 
+                left: 0, 
+                right: 0, 
+                padding: "24px 12px 12px",
+                background: "linear-gradient(transparent, rgba(0,0,0,0.7))"
+              }}>
+                <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
                   Layers
                 </p>
-                <p style={{ fontSize: "11px", color: "#FAFAF8", letterSpacing: "0.1em", fontFamily: "monospace" }}>
+                <p style={{ fontSize: "9px", color: "#FAFAF8", opacity: 0.6, fontFamily: "monospace" }}>
                   2024
                 </p>
               </div>
             </div>
-          </div>
 
-          {/* Geometric Abstractions */}
-          <div>
-            <div style={{
-              backgroundColor: "#000000",
-              overflow: "hidden",
-              borderRadius: "4px"
-            }}>
-              <Image
-                src="/images/art1.JPEG"
-                alt="Geometric Study"
-                width={920}
-                height={540}
-                style={{ width: "100%", height: "auto", display: "block" }}
-              />
-            </div>
-            <div style={{ marginTop: "20px", textAlign: "center" }}>
-              <p style={{
-                fontSize: "clamp(14px, 2vw, 18px)",
-                color: "#FAFAF8",
-                fontWeight: 200,
-                marginBottom: "6px"
+            {/* Geometric Abstractions */}
+            <div style={{ position: "relative", overflow: "hidden", borderRadius: "2px" }}>
+              <div style={{ aspectRatio: "4/3", backgroundColor: "#000" }}>
+                <Image
+                  src="/images/art1.JPEG"
+                  alt="Geometric Abstractions"
+                  width={400}
+                  height={300}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                />
+              </div>
+              <div style={{ 
+                position: "absolute", 
+                bottom: 0, 
+                left: 0, 
+                right: 0, 
+                padding: "24px 12px 12px",
+                background: "linear-gradient(transparent, rgba(0,0,0,0.7))"
               }}>
-                Geometric Abstractions
-              </p>
-              <p style={{
-                fontSize: "11px",
-                color: "#FAFAF8",
-                letterSpacing: "0.1em",
-                fontFamily: "monospace"
-              }}>
-                2024
-              </p>
+                <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
+                  Geometric Abstractions
+                </p>
+                <p style={{ fontSize: "9px", color: "#FAFAF8", opacity: 0.6, fontFamily: "monospace" }}>
+                  2024
+                </p>
+              </div>
             </div>
           </div>
         </div>
