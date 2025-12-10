@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 
 const MetatronCube = dynamic(() => import('@/components/MetatronCube'), {
   ssr: false,
-  loading: () => <div style={{ width: '300px', height: '300px', margin: '0 auto' }} />
+  loading: () => <div style={{ width: '160px', height: '160px', margin: '0 auto' }} />
 });
 
 export default function MegaAgent() {
@@ -31,7 +31,7 @@ export default function MegaAgent() {
         </h1>
 
         {/* Hero - Metatron's Cube */}
-        <div style={{ margin: "clamp(32px, 5vh, 48px) 0 clamp(24px, 4vh, 32px)" }}>
+        <div style={{ margin: "clamp(32px, 5vh, 48px) 0 clamp(24px, 4vh, 32px)", animation: "fadeIn 0.6s ease-out" }}>
         <MetatronCube />
         </div>
       </div>

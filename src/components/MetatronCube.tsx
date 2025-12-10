@@ -21,7 +21,7 @@ export default function MetatronCube() {
   });
 
   return (
-    <div style={{ width: size, height: size, margin: '0 auto' }}>
+    <div style={{ width: size, height: size, margin: '0 auto', animation: 'fadeIn 0.6s ease-out' }}><style>{`@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }`}</style>
       <svg
         viewBox={`0 0 ${size} ${size}`}
         width={size}
