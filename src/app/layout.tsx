@@ -54,7 +54,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className} style={{ backgroundColor: "#FAFAF8" }}>
+      <body className={inter.className} style={{ backgroundColor: "#0A0A0A" }}>
         <Navigation />
         {children}
       </body>
