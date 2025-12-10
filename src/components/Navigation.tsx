@@ -11,8 +11,8 @@ export default function Navigation() {
   const [time, setTime] = useState<Date | null>(null);
 
   // Determine if current page has dark background
-  const isDarkPage = pathname === "/" || 
-                     pathname === "/work" || 
+  const isDarkPage = pathname === "/" ||
+                     pathname === "/work" ||
                      pathname === "/creative" ||
                      pathname === "/story" ||
                      pathname === "/services" ||
@@ -20,7 +20,6 @@ export default function Navigation() {
 
   // Colors based on page background
   const textColor = isDarkPage ? "#FAFAF8" : "#0A0A0A";
-  const dimColor = isDarkPage ? "rgba(250, 250, 248, 0.5)" : "rgba(10, 10, 10, 0.5)";
   const hamburgerColor = isDarkPage ? "#FAFAF8" : "#1C1C1C";
 
   // Real-time clock
@@ -51,16 +50,16 @@ export default function Navigation() {
   ];
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
       minute: '2-digit',
-      hour12: false 
+      hour12: false
     });
   };
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
       day: 'numeric'
     }).toUpperCase();
   };
@@ -84,9 +83,9 @@ export default function Navigation() {
           marginBottom: "28px"
         }}>
           <svg viewBox="0 0 28 32" fill="none" style={{ width: "100%", height: "100%" }}>
-            <path 
-              d="M14 1L26 8.5V23.5L14 31L2 23.5V8.5L14 1Z" 
-              stroke={textColor} 
+            <path
+              d="M14 1L26 8.5V23.5L14 31L2 23.5V8.5L14 1Z"
+              stroke={textColor}
               strokeWidth="0.75"
               fill="none"
             />
@@ -100,7 +99,7 @@ export default function Navigation() {
             display: "flex",
             flexDirection: "column",
             gap: "4px",
-            marginBottom: "32px"
+            marginBottom: "28px"
           }}>
             <span style={{
               fontSize: "13px",
@@ -123,53 +122,28 @@ export default function Navigation() {
           </div>
         )}
 
-        {/* Divider line */}
-        <div style={{
-          width: "24px",
-          height: "1px",
-          backgroundColor: textColor,
-          opacity: 0.2,
-          marginBottom: "28px"
-        }} />
-
-        {/* Navigation Links */}
+        {/* Navigation Links - directly under clock, no line, no dots */}
         <div style={{
           display: "flex",
           flexDirection: "column",
-          gap: "20px"
+          gap: "18px"
         }}>
           {navItems.map((item) => (
-            <Link 
+            <Link
               key={item.href}
-              href={item.href} 
+              href={item.href}
               className={styles.navLink}
               style={{
                 fontSize: "12px",
                 fontWeight: item.isActive ? 400 : 300,
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
-                color: item.isActive ? textColor : dimColor,
+                color: textColor,
                 textDecoration: "none",
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-                gap: "12px"
+                transition: "opacity 0.3s ease"
               }}
             >
-              {/* Active indicator - small diamond */}
-              <span style={{
-                width: "5px",
-                height: "5px",
-                backgroundColor: textColor,
-                transform: "rotate(45deg)",
-                opacity: item.isActive ? 1 : 0,
-                transition: "opacity 0.3s ease"
-              }} />
-              <span style={{
-                transition: "opacity 0.3s ease"
-              }}>
-                {item.label}
-              </span>
+              {item.label}
             </Link>
           ))}
         </div>
