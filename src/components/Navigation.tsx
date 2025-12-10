@@ -241,7 +241,7 @@ export default function Navigation() {
               fontWeight: 300,
               letterSpacing: "0.25em",
               color: "#FAFAF8",
-              opacity: 0.5
+              opacity: 0.6
             }}>
               {formatDate(time)}
             </span>
@@ -269,76 +269,55 @@ export default function Navigation() {
           </svg>
         </button>
 
-        {/* Center Content */}
+        {/* Center Content - Navigation Only */}
         <div style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
           alignItems: "center",
-          height: "100%",
-          padding: "0 40px"
+          gap: "32px"
         }}>
-          
-          {/* Hexagon Symbol */}
-          <div style={{
-            width: "32px",
-            height: "37px",
-            marginBottom: "48px"
-          }}>
-            <svg viewBox="0 0 28 32" fill="none" style={{ width: "100%", height: "100%" }}>
-              <path 
-                d="M14 1L26 8.5V23.5L14 31L2 23.5V8.5L14 1Z" 
-                stroke="#FAFAF8" 
-                strokeWidth="0.5"
-                fill="none"
-              />
-              <circle cx="14" cy="16" r="3" stroke="#FAFAF8" strokeWidth="0.4" fill="none" opacity="0.5"/>
-            </svg>
-          </div>
-
-          {/* Navigation Links - Centered */}
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "32px"
-          }}>
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                style={{
-                  textDecoration: "none"
-                }}
-              >
-                <span style={{
-                  fontWeight: item.isActive ? 300 : 200,
-                  fontSize: "20px",
-                  letterSpacing: "0.06em",
-                  color: item.isActive ? "#FAFAF8" : "rgba(250, 250, 248, 0.4)",
-                  transition: "color 0.3s ease"
-                }}>
-                  {item.label}
-                </span>
-              </Link>
-            ))}
-          </div>
-
-          {/* Name at bottom */}
-          <p style={{
-            position: "absolute",
-            bottom: "32px",
-            fontSize: "9px",
-            fontWeight: 300,
-            letterSpacing: "0.3em",
-            textTransform: "uppercase",
-            color: "#FAFAF8",
-            opacity: 0.3
-          }}>
-            Daniel Wahnich
-          </p>
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setIsOpen(false)}
+              style={{
+                textDecoration: "none"
+              }}
+            >
+              <span style={{
+                fontWeight: item.isActive ? 300 : 200,
+                fontSize: "22px",
+                letterSpacing: "0.04em",
+                color: "#FAFAF8",
+                transition: "opacity 0.3s ease",
+                opacity: item.isActive ? 1 : 0.7
+              }}>
+                {item.label}
+              </span>
+            </Link>
+          ))}
         </div>
+
+        {/* Name at bottom */}
+        <p style={{
+          position: "absolute",
+          bottom: "32px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          fontSize: "9px",
+          fontWeight: 300,
+          letterSpacing: "0.3em",
+          textTransform: "uppercase",
+          color: "#FAFAF8",
+          opacity: 0.4
+        }}>
+          Daniel Wahnich
+        </p>
       </div>
     </>
   );
