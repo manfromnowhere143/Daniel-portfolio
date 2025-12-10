@@ -349,22 +349,22 @@ export default function Creative() {
         </div>
 
         {/* ═══════════════════════════════════════════════════════════ */}
-        {/* QUANTUM MANIFOLD - FLOATING PRESENTATION */}
+        {/* QUANTUM MANIFOLD - TIGHT FLOATING PRESENTATION */}
         {/* ═══════════════════════════════════════════════════════════ */}
 
-        <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
-          {/* Title */}
+        <div style={{ marginBottom: "clamp(60px, 10vh, 80px)" }}>
+          {/* Title - Tighter spacing */}
           <div style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginBottom: "clamp(32px, 5vh, 48px)"
+            marginBottom: "clamp(16px, 2.5vh, 24px)"
           }}>
             <h3 style={{
               fontSize: "clamp(16px, 2vw, 20px)",
               fontWeight: 200,
               color: "#FAFAF8",
-              marginBottom: "12px",
+              marginBottom: "10px",
               letterSpacing: "0.02em"
             }}>
               Quantum Manifold
@@ -381,20 +381,20 @@ export default function Creative() {
             </p>
           </div>
 
-          {/* Floating Container - Full width, no borders */}
+          {/* Floating Container - Full width, seamless */}
           <div style={{
             position: "relative",
             width: "100vw",
             marginLeft: "calc(-50vw + 50%)",
             overflow: "hidden"
           }}>
-            {/* Top fade gradient */}
+            {/* Top fade - shorter */}
             <div style={{
               position: "absolute",
               top: 0,
               left: 0,
               right: 0,
-              height: "80px",
+              height: "40px",
               background: "linear-gradient(to bottom, #0A0A0A, transparent)",
               zIndex: 2,
               pointerEvents: "none"
@@ -403,25 +403,25 @@ export default function Creative() {
             {/* The Manifold */}
             <QuantumManifold />
 
-            {/* Bottom fade gradient */}
+            {/* Bottom fade - shorter */}
             <div style={{
               position: "absolute",
               bottom: 0,
               left: 0,
               right: 0,
-              height: "80px",
+              height: "40px",
               background: "linear-gradient(to top, #0A0A0A, transparent)",
               zIndex: 2,
               pointerEvents: "none"
             }} />
           </div>
 
-          {/* Tech info below */}
+          {/* Tech info - tighter */}
           <div style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginTop: "clamp(32px, 5vh, 48px)"
+            marginTop: "clamp(16px, 2.5vh, 24px)"
           }}>
             <p style={{
               fontSize: "10px",
