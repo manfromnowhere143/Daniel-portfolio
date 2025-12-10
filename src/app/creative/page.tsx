@@ -348,7 +348,7 @@ export default function Creative() {
             maxWidth: "500px",
             margin: "clamp(24px, 4vh, 32px) auto 0"
           }}>
-            I needed a creative way to display Mermaid diagrams in a cool way. So I built this interactive 3D visualization using Canvas and custom rendering. The nodes orbit and pulse, showing data flow through the system layers.
+            I needed a creative way to display Mermaid diagrams in a cool way. So I built this interactive visualization using HTML5 Canvas 2D API with custom rendering. The nodes orbit and pulse, showing data flow through the system layers.
           </p>
         </div>
 

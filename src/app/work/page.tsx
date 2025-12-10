@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import GeometricDivider from "@/components/GeometricDivider";
 import { Trade69Icon, MegaAgentIcon, OctopusIcon, OvermindIcon } from "@/components/WorkIcons";
 
 export default function Work() {
@@ -19,7 +18,7 @@ export default function Work() {
       <div style={{ 
         maxWidth: "900px", 
         margin: "0 auto", 
-        padding: "clamp(20px, 4vh, 40px) 24px clamp(24px, 4vh, 32px)",
+        padding: "clamp(32px, 5vh, 48px) 24px clamp(40px, 6vh, 60px)",
         textAlign: "center"
       }}>
         <h1 style={{ 
@@ -33,20 +32,17 @@ export default function Work() {
         </h1>
       </div>
 
-      {/* Geometric Divider */}
-      <GeometricDivider />
-
       {/* Projects List */}
       <div style={{ 
         maxWidth: "600px", 
         margin: "0 auto", 
-        padding: "clamp(40px, 6vh, 60px) 24px clamp(80px, 12vh, 120px)"
+        padding: "0 24px clamp(80px, 12vh, 120px)"
       }}>
         <div style={{ 
           display: "flex", 
           flexDirection: "column",
           alignItems: "center",
-          gap: "clamp(28px, 4vh, 36px)"
+          gap: "clamp(32px, 5vh, 44px)"
         }}>
           {projects.map((project, index) => (
             <Link 
@@ -78,8 +74,7 @@ export default function Work() {
               </h2>
               <span style={{ 
                 fontSize: "12px", 
-                color: "#FAFAF8",
-                opacity: 0.6
+                color: "#FAFAF8"
               }}>
                 →
               </span>
