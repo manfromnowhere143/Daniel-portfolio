@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import VideoPlayer from "@/components/VideoPlayer";
 
+import Trade69Architecture from "@/components/Trade69Architecture";
+
 export default function Trade69() {
   return (
     <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
@@ -85,6 +87,25 @@ export default function Trade69() {
           Random Forest classifiers for signal prediction, and Kelly Criterion 
           for position sizing. All operating without manual intervention.
         </p>
+      </div>
+
+      {/* System Architecture - 3D Visualization */}
+      <div style={{
+        maxWidth: "1000px",
+        margin: "0 auto",
+        padding: "clamp(40px, 6vh, 60px) 24px"
+      }}>
+        <p style={{
+          fontSize: "11px",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          color: "#FAFAF8",
+          marginBottom: "clamp(24px, 4vh, 32px)",
+          textAlign: "center"
+        }}>
+          System Architecture
+        </p>
+        <Trade69Architecture />
       </div>
 
       {/* Data Collection Layer */}
