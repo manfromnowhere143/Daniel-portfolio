@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Lightbox from "./Lightbox";
+import FadeImage from "./FadeImage";
 
 export default function CreativeGallery() {
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
@@ -56,22 +56,21 @@ export default function CreativeGallery() {
               onClick={() => setLightbox({ src: item.src, alt: item.name })}
               style={{ cursor: "zoom-in" }}
             >
-              <div style={{ 
-                aspectRatio: "4/3", 
-                backgroundColor: "#000", 
-                borderRadius: "2px", 
-                overflow: "hidden",
-                transition: "opacity 0.2s ease"
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.opacity = "0.85"}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
+              <div 
+                style={{ 
+                  borderRadius: "2px", 
+                  overflow: "hidden",
+                  transition: "opacity 0.2s ease"
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = "0.85"}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
               >
-                <Image
+                <FadeImage
                   src={item.src}
                   alt={item.name}
                   width={400}
                   height={300}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  aspectRatio="4/3"
                 />
               </div>
               <div style={{ marginTop: "10px", textAlign: "left" }}>
@@ -112,22 +111,21 @@ export default function CreativeGallery() {
               onClick={() => setLightbox({ src: item.src, alt: item.name })}
               style={{ cursor: "zoom-in" }}
             >
-              <div style={{ 
-                aspectRatio: "3/4", 
-                backgroundColor: "#000", 
-                borderRadius: "2px", 
-                overflow: "hidden",
-                transition: "opacity 0.2s ease"
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.opacity = "0.85"}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
+              <div 
+                style={{ 
+                  borderRadius: "2px", 
+                  overflow: "hidden",
+                  transition: "opacity 0.2s ease"
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = "0.85"}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
               >
-                <Image
+                <FadeImage
                   src={item.src}
                   alt={item.name}
                   width={200}
                   height={267}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  aspectRatio="3/4"
                 />
               </div>
               <div style={{ marginTop: "8px", textAlign: "left" }}>

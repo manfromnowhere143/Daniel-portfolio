@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import FadeImage from "@/components/FadeImage";
 import VideoPlayer from "@/components/VideoPlayer";
 
 import Trade69Architecture from "@/components/Trade69Architecture";
@@ -36,16 +36,13 @@ export default function Trade69() {
           overflow: "hidden",
           backgroundColor: "#000000"
         }}>
-          <Image 
+          <FadeImage 
             src="/images/t69hero4.png" 
             alt="Trade69 Dashboard"
             width={500}
             height={350}
             priority
             style={{ 
-              width: "100%", 
-              height: "auto", 
-              display: "block"
             }}
           />
         </div>
@@ -284,15 +281,12 @@ export default function Trade69() {
             overflow: "hidden",
             backgroundColor: "#000000"
           }}>
-            <Image 
+            <FadeImage 
               src="/images/tphoto2.png" 
               alt="Trade69 Analytics"
               width={600}
               height={400}
               style={{ 
-                width: "100%", 
-                height: "auto", 
-                display: "block"
               }}
             />
           </div>
@@ -303,15 +297,12 @@ export default function Trade69() {
             overflow: "hidden",
             backgroundColor: "#000000"
           }}>
-            <Image 
+            <FadeImage 
               src="/images/tphoto3.png" 
               alt="Trade69 Backtesting"
               width={600}
               height={400}
               style={{ 
-                width: "100%", 
-                height: "auto", 
-                display: "block"
               }}
             />
           </div>
