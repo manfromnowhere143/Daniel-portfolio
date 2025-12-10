@@ -69,7 +69,7 @@ export default function About() {
             fontWeight: 200,
             letterSpacing: "0.01em"
           }}>
-            As I'm writing this (December 10, 2025), in that interval of time, 79 hours of work spread across 6 days, I've been trying to gather everything I've built in the last nine months since March 2025. The site has turned into something more than a project, it's becoming authentic. My thoughts appear on the screen exactly as they move in my mind, and I can't rest until it feels right. It's not really a choice. It's simply how my mind works: it wants to express my taste, my style, and my logic with precision.
+            As I'm writing this (December 10, 2025), after 79 hours of work spread across 6 days, I've been trying to gather everything I've built in the last nine months since March 2025. The site has turned into something more than a project, it's becoming authentic. My thoughts appear on the screen exactly as they move in my mind, and I can't rest until it feels right. It's not really a choice. It's simply how my mind works: it wants to express my taste, my style, and my logic with precision.
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
@@ -78,7 +78,7 @@ export default function About() {
             fontWeight: 200,
             letterSpacing: "0.01em"
           }}>
-            My desire is that this presentation reflects that I'm not trying to look antagonized or overly confident, quite the opposite. I'm someone who often lacks confidence, not someone with extra of it. I hope what comes through is the message I'm truly trying to send: my commitment, my stubborn work, and my dedication. Not for approval, not to impress anyone, but simply because I want to be presented precisely as I am.
+            My desire is that this presentation reflects that I'm not trying to appear arrogant or overly confident, quite the opposite. I'm someone who often lacks confidence, not someone with extra of it. I hope what comes through is the message I'm truly trying to send: my commitment, my stubborn work, and my dedication. Not for approval, not to impress anyone, but simply because I want to be presented precisely as I am.
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
