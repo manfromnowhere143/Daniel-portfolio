@@ -15,7 +15,7 @@ export default function Trade69() {
         padding: "clamp(20px, 4vh, 40px) 24px clamp(40px, 6vh, 60px)",
         textAlign: "center"
       }}>
-                <h1 style={{ 
+        <h1 style={{ 
           fontSize: "clamp(32px, 5vw, 52px)", 
           fontWeight: 200,
           color: "#FAFAF8",
@@ -43,6 +43,114 @@ export default function Trade69() {
             height={350}
             priority
           />
+        </div>
+      </div>
+
+      {/* System Architecture - 3D Visualization */}
+      <div style={{
+        maxWidth: "1000px",
+        margin: "0 auto",
+        padding: "clamp(40px, 6vh, 60px) 24px"
+      }}>
+        <p style={{
+          fontSize: "11px",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          color: "#FAFAF8",
+          marginBottom: "clamp(24px, 4vh, 32px)",
+          textAlign: "center"
+        }}>
+          System Architecture
+        </p>
+        <p style={{
+          fontSize: "clamp(14px, 1.8vw, 15px)",
+          color: "#FAFAF8",
+          lineHeight: 1.8,
+          fontWeight: 200,
+          
+          maxWidth: "600px",
+          margin: "0 auto clamp(32px, 5vh, 40px)"
+        }}>
+          I was thinking to share the screenshot of the Mermaid diagram from the readme file on GitHub, but then I thought - let&apos;s create something more like me.
+        </p>
+        <Trade69Architecture />
+      </div>
+
+      {/* Dashboard & Video Section */}
+      <div style={{ 
+        maxWidth: "1000px", 
+        margin: "0 auto", 
+        padding: "clamp(40px, 6vh, 60px) 24px"
+      }}>
+        <div style={{
+          maxWidth: "700px",
+          margin: "0 auto clamp(40px, 6vh, 56px)"
+        }}>
+          <p style={{
+            fontSize: "clamp(14px, 1.8vw, 15px)",
+            color: "#FAFAF8",
+            lineHeight: 1.8,
+            fontWeight: 200,
+            marginBottom: "16px"
+          }}>
+            My first dashboard, built alongside the backend as a control panel for live data extraction. 
+            Started with Streamlit, then migrated to Dash for better flexibility. The system page 
+            includes the database schema to provide LLMs with structural context, enabling 
+            natural language queries through the middleware.
+          </p>
+          <p style={{
+            fontSize: "clamp(14px, 1.8vw, 15px)",
+            color: "#FAFAF8",
+            lineHeight: 1.8,
+            fontWeight: 300
+          }}>
+            This was also my first proper SQL database, the one where things finally clicked. 
+            Currently paused, but the foundation is there for something better.
+          </p>
+        </div>
+        
+        <VideoPlayer src="/videos/t69demo.mp4" />
+      </div>
+
+      {/* Screenshots Section */}
+      <div style={{ 
+        maxWidth: "1000px", 
+        margin: "0 auto", 
+        padding: "clamp(40px, 6vh, 60px) 24px"
+      }}>
+        <div style={{ 
+          display: "grid", 
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 400px), 1fr))", 
+          gap: "24px"
+        }}>
+          <div style={{ 
+            boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+            border: "1px solid #1C1C1C",
+            borderRadius: "2px",
+            overflow: "hidden",
+            backgroundColor: "#000000"
+          }}>
+            <FadeImage 
+              src="/images/tphoto2.png" 
+              alt="Trade69 Analytics"
+              width={600}
+              height={400}
+            />
+          </div>
+          <div style={{ 
+            boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+            border: "1px solid #1C1C1C",
+            borderRadius: "2px",
+            overflow: "hidden",
+            backgroundColor: "#000000"
+          }}>
+            <FadeImage 
+              src="/images/tphoto3.png" 
+              alt="Trade69 Backtesting"
+              width={600}
+              height={400}
+            />
+          </div>
         </div>
       </div>
 
@@ -82,25 +190,6 @@ export default function Trade69() {
           Random Forest classifiers for signal prediction, and Kelly Criterion 
           for position sizing. All operating without manual intervention.
         </p>
-      </div>
-
-      {/* System Architecture - 3D Visualization */}
-      <div style={{
-        maxWidth: "1000px",
-        margin: "0 auto",
-        padding: "clamp(40px, 6vh, 60px) 24px"
-      }}>
-        <p style={{
-          fontSize: "11px",
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          color: "#FAFAF8",
-          marginBottom: "clamp(24px, 4vh, 32px)",
-          textAlign: "center"
-        }}>
-          System Architecture
-        </p>
-        <Trade69Architecture />
       </div>
 
       {/* Data Collection Layer */}
@@ -222,84 +311,6 @@ export default function Trade69() {
               </p>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* Video Section */}
-      <div style={{ 
-        maxWidth: "1000px", 
-        margin: "0 auto", 
-        padding: "clamp(60px, 10vh, 80px) 24px"
-      }}>
-        <div style={{
-          maxWidth: "700px",
-          margin: "0 auto clamp(40px, 6vh, 56px)"
-        }}>
-          <p style={{
-            fontSize: "clamp(14px, 1.8vw, 15px)",
-            color: "#FAFAF8",
-            lineHeight: 1.8,
-            fontWeight: 200,
-            marginBottom: "16px"
-          }}>
-            My first dashboard, built alongside the backend as a control panel for live data extraction. 
-            Started with Streamlit, then migrated to Dash for better flexibility. The system page 
-            includes the database schema to provide LLMs with structural context, enabling 
-            natural language queries through the middleware.
-          </p>
-          <p style={{
-            fontSize: "clamp(14px, 1.8vw, 15px)",
-            color: "#FAFAF8",
-            lineHeight: 1.8,
-            fontWeight: 300
-          }}>
-            This was also my first proper SQL database, the one where things finally clicked. 
-            Currently paused, but the foundation is there for something better.
-          </p>
-        </div>
-        
-        <VideoPlayer src="/videos/t69demo.mp4" />
-      </div>
-
-      {/* Screenshots Section */}
-      <div style={{ 
-        maxWidth: "1000px", 
-        margin: "0 auto", 
-        padding: "clamp(40px, 6vh, 60px) 24px"
-      }}>
-        <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 400px), 1fr))", 
-          gap: "24px"
-        }}>
-          <div style={{ 
-            boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
-            border: "1px solid #1C1C1C",
-            borderRadius: "2px",
-            overflow: "hidden",
-            backgroundColor: "#000000"
-          }}>
-            <FadeImage 
-              src="/images/tphoto2.png" 
-              alt="Trade69 Analytics"
-              width={600}
-              height={400}
-            />
-          </div>
-          <div style={{ 
-            boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
-            border: "1px solid #1C1C1C",
-            borderRadius: "2px",
-            overflow: "hidden",
-            backgroundColor: "#000000"
-          }}>
-            <FadeImage 
-              src="/images/tphoto3.png" 
-              alt="Trade69 Backtesting"
-              width={600}
-              height={400}
-            />
-          </div>
         </div>
       </div>
 
