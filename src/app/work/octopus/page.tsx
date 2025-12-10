@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import FadeImage from "@/components/FadeImage";
 
 export default function Octopus() {
   return (
@@ -33,10 +33,10 @@ export default function Octopus() {
           overflow: "hidden",
           backgroundColor: "#FAFAF8"
         }}>
-          <Image 
+          <FadeImage 
             src="/images/octopushero3.png" 
             alt="Octopus Interface"
-            width={500}
+            width={500} aspectRatio={500/350}
             height={350}
             priority
             style={{ 
@@ -220,10 +220,10 @@ export default function Octopus() {
             overflow: "hidden",
             backgroundColor: "#FAFAF8"
           }}>
-            <Image 
+            <FadeImage 
               src="/images/ophoto1.jpg" 
               alt="Octopus Planning View"
-              width={600}
+              width={600} aspectRatio={600/400}
               height={400}
               style={{ 
                 width: "100%", 
@@ -239,10 +239,10 @@ export default function Octopus() {
             overflow: "hidden",
             backgroundColor: "#FAFAF8"
           }}>
-            <Image 
+            <FadeImage 
               src="/images/ophoto2.jpg" 
               alt="Octopus Memory View"
-              width={600}
+              width={600} aspectRatio={600/400}
               height={400}
               style={{ 
                 width: "100%", 
