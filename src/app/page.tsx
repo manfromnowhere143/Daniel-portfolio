@@ -14,7 +14,7 @@ export default function About() {
       <div style={{
         maxWidth: "900px",
         margin: "0 auto",
-        padding: "clamp(20px, 4vh, 40px) 24px clamp(60px, 10vh, 80px)",
+        padding: "clamp(20px, 4vh, 40px) 24px clamp(32px, 5vh, 48px)",
         textAlign: "center"
       }}>
         <h1 style={{
