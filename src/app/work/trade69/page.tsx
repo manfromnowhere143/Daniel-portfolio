@@ -42,8 +42,6 @@ export default function Trade69() {
             width={500}
             height={350}
             priority
-            style={{ 
-            }}
           />
         </div>
       </div>
@@ -286,8 +284,6 @@ export default function Trade69() {
               alt="Trade69 Analytics"
               width={600}
               height={400}
-              style={{ 
-              }}
             />
           </div>
           <div style={{ 
@@ -302,8 +298,6 @@ export default function Trade69() {
               alt="Trade69 Backtesting"
               width={600}
               height={400}
-              style={{ 
-              }}
             />
           </div>
         </div>
