@@ -60,7 +60,7 @@ export default function About() {
             fontWeight: 200,
             letterSpacing: "0.01em"
           }}>
-            Deciding to build this website was my way of showing my work, my progress, and what I'm capable of, or better said, what I'm still figuring out every single day. I'm a solo builder, self-taught, never educated by humans in the formal sense.
+            Building this website was my way of showing where my expertise lies, or perhaps more honestly, where it's still taking shape. I'm a solo builder, self-taught, never formally educated in this craft.
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
