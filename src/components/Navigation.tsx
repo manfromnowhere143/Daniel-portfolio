@@ -8,6 +8,7 @@ import styles from "./Navigation.module.css";
 export default function Navigation() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [time, setTime] = useState<Date | null>(null);
 
   // Determine if current page has dark background
   const isDarkPage = pathname === "/" || 
@@ -17,8 +18,19 @@ export default function Navigation() {
                      pathname === "/services" ||
                      pathname.startsWith("/work/");
 
-  // Hamburger line color based on page background
+  // Colors based on page background
+  const textColor = isDarkPage ? "#FAFAF8" : "#0A0A0A";
+  const dimColor = isDarkPage ? "rgba(250, 250, 248, 0.5)" : "rgba(10, 10, 10, 0.5)";
   const hamburgerColor = isDarkPage ? "#FAFAF8" : "#1C1C1C";
+
+  // Real-time clock
+  useEffect(() => {
+    setTime(new Date());
+    const interval = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -31,68 +43,136 @@ export default function Navigation() {
     };
   }, [isOpen]);
 
+  const navItems = [
+    { href: "/", label: "About", isActive: pathname === "/" },
+    { href: "/work", label: "Work", isActive: pathname === "/work" || pathname.startsWith("/work/") },
+    { href: "/creative", label: "Creative", isActive: pathname === "/creative" },
+    { href: "/services", label: "Services", isActive: pathname === "/services" },
+  ];
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: false 
+    });
+  };
+
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric'
+    }).toUpperCase();
+  };
+
   return (
     <>
-      {/* Desktop Navigation - Keep for desktop */}
+      {/* Desktop Navigation - Floating Vertical Sidebar */}
       <nav className={styles.desktopOnly} style={{
         position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
+        left: "40px",
+        top: "40px",
         zIndex: 50,
-        backgroundColor: "rgba(250, 250, 248, 0.95)",
-        backdropFilter: "blur(12px)"
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start"
       }}>
+        {/* Geometric accent - hexagon outline */}
+        <div style={{
+          width: "28px",
+          height: "32px",
+          marginBottom: "28px"
+        }}>
+          <svg viewBox="0 0 28 32" fill="none" style={{ width: "100%", height: "100%" }}>
+            <path 
+              d="M14 1L26 8.5V23.5L14 31L2 23.5V8.5L14 1Z" 
+              stroke={textColor} 
+              strokeWidth="0.75"
+              fill="none"
+            />
+            <circle cx="14" cy="16" r="3" stroke={textColor} strokeWidth="0.5" fill="none" opacity="0.6"/>
+          </svg>
+        </div>
+
+        {/* Time & Date Display - ABOVE nav links */}
+        {time && (
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "4px",
+            marginBottom: "32px"
+          }}>
+            <span style={{
+              fontSize: "13px",
+              fontWeight: 300,
+              letterSpacing: "0.12em",
+              color: textColor,
+              fontVariantNumeric: "tabular-nums"
+            }}>
+              {formatTime(time)}
+            </span>
+            <span style={{
+              fontSize: "10px",
+              fontWeight: 300,
+              letterSpacing: "0.2em",
+              color: textColor,
+              opacity: 0.7
+            }}>
+              {formatDate(time)}
+            </span>
+          </div>
+        )}
+
+        {/* Divider line */}
+        <div style={{
+          width: "24px",
+          height: "1px",
+          backgroundColor: textColor,
+          opacity: 0.2,
+          marginBottom: "28px"
+        }} />
+
+        {/* Navigation Links */}
         <div style={{
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "70px",
-          gap: "40px",
-          padding: "0 20px"
+          flexDirection: "column",
+          gap: "20px"
         }}>
-          <Link href="/" style={{
-            fontSize: "13px",
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            color: pathname === "/" ? "#1C1C1C" : "#71706E",
-            textDecoration: "none",
-            transition: "color 0.3s"
-          }}>
-            About
-          </Link>
-          <Link href="/work" style={{
-            fontSize: "13px",
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E",
-            textDecoration: "none",
-            transition: "color 0.3s"
-          }}>
-            Work
-          </Link>
-          <Link href="/creative" style={{
-            fontSize: "13px",
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            color: pathname === "/creative" ? "#1C1C1C" : "#71706E",
-            textDecoration: "none",
-            transition: "color 0.3s"
-          }}>
-            Creative
-          </Link>
-          <Link href="/services" style={{
-            fontSize: "13px",
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            color: pathname === "/services" ? "#1C1C1C" : "#71706E",
-            textDecoration: "none",
-            transition: "color 0.3s"
-          }}>
-            Services
-          </Link>
+          {navItems.map((item) => (
+            <Link 
+              key={item.href}
+              href={item.href} 
+              className={styles.navLink}
+              style={{
+                fontSize: "12px",
+                fontWeight: item.isActive ? 400 : 300,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: item.isActive ? textColor : dimColor,
+                textDecoration: "none",
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px"
+              }}
+            >
+              {/* Active indicator - small diamond */}
+              <span style={{
+                width: "5px",
+                height: "5px",
+                backgroundColor: textColor,
+                transform: "rotate(45deg)",
+                opacity: item.isActive ? 1 : 0,
+                transition: "opacity 0.3s ease"
+              }} />
+              <span style={{
+                transition: "opacity 0.3s ease"
+              }}>
+                {item.label}
+              </span>
+            </Link>
+          ))}
         </div>
-        <div style={{ height: "1px", backgroundColor: "transparent" }} />
       </nav>
 
       {/* Floating Hamburger - Mobile Only */}
@@ -179,7 +259,6 @@ export default function Navigation() {
             style={{
               fontWeight: 200,
               fontSize: "24px",
-              
               letterSpacing: "0.02em",
               color: pathname === "/" ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
@@ -204,7 +283,6 @@ export default function Navigation() {
             style={{
               fontWeight: 200,
               fontSize: "24px",
-              
               letterSpacing: "0.02em",
               color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
@@ -229,7 +307,6 @@ export default function Navigation() {
             style={{
               fontWeight: 200,
               fontSize: "24px",
-              
               letterSpacing: "0.02em",
               color: pathname === "/creative" ? "#1C1C1C" : "#71706E",
               textDecoration: "none",
@@ -254,7 +331,6 @@ export default function Navigation() {
             style={{
               fontWeight: 200,
               fontSize: "24px",
-              
               letterSpacing: "0.02em",
               color: pathname === "/services" ? "#1C1C1C" : "#71706E",
               textDecoration: "none",

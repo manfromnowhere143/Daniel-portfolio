@@ -12,12 +12,16 @@
 
 @media (min-width: 769px) {
   .desktopOnly {
-    display: block !important;
+    display: flex !important;
   }
   .mobileOnly {
     display: none !important;
   }
   .mobileSidebar {
     display: none !important;
+  }
+  
+  .navLink:hover span:last-child {
+    opacity: 1 !important;
   }
 }
