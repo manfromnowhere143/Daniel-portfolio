@@ -39,11 +39,6 @@ export default function Octopus() {
             width={500} aspectRatio={500/350}
             height={350}
             priority
-            style={{ 
-              width: "100%", 
-              height: "auto", 
-              display: "block"
-            }}
           />
         </div>
       </div>
@@ -225,11 +220,6 @@ export default function Octopus() {
               alt="Octopus Planning View"
               width={600} aspectRatio={600/400}
               height={400}
-              style={{ 
-                width: "100%", 
-                height: "auto", 
-                display: "block"
-              }}
             />
           </div>
           <div style={{ 
@@ -244,11 +234,6 @@ export default function Octopus() {
               alt="Octopus Memory View"
               width={600} aspectRatio={600/400}
               height={400}
-              style={{ 
-                width: "100%", 
-                height: "auto", 
-                display: "block"
-              }}
             />
           </div>
         </div>
