@@ -210,7 +210,15 @@ export default function Creative() {
               textAlign: "left",
               maxWidth: "500px"
             }}>
-              The blueprint of creation. Thirteen circles containing all five Platonic solids. Used as the central orchestrator in the agent network, coordinating information flow between all subsystems.
+              The blueprint of creation. Thirteen circles containing all five Platonic solids. Used as the central orchestrator in the agent network, coordinating information flow between all subsystems.</p>
+            <p style={{
+              fontSize: "10px",
+              color: "#FAFAF8",
+              letterSpacing: "0.1em",
+              marginTop: "12px",
+              fontFamily: "monospace"
+            }}>
+              React · Pure SVG · Mathematical geometry
             </p>
           </div>
 
@@ -246,7 +254,7 @@ export default function Creative() {
               textAlign: "left",
               maxWidth: "500px"
             }}>
-              Nature's perfect ratio, φ = 1.618. The Fibonacci sequence made visible. Represents the memory retrieval system, spiraling outward from recent to distant memories with logarithmic efficiency.
+              Nature's perfect ratio, φ = 1.618. The Fibonacci sequence made visible. Represents the memory retrieval system, spiraling outward from recent to distant memories with logarithmic efficiency.</p>            <p style={{              fontSize: "10px",              color: "#FAFAF8",              letterSpacing: "0.1em",              marginTop: "12px",              fontFamily: "monospace"            }}>              React · SVG · Fibonacci sequence · Golden ratio calculations
             </p>
           </div>
 
@@ -282,7 +290,15 @@ export default function Creative() {
               textAlign: "left",
               maxWidth: "500px"
             }}>
-              Nineteen overlapping circles creating the pattern of genesis. Each petal represents a specialized processing unit, interconnected through shared boundaries for parallel computation.
+              Nineteen overlapping circles creating the pattern of genesis. Each petal represents a specialized processing unit, interconnected through shared boundaries for parallel computation.</p>
+            <p style={{
+              fontSize: "10px",
+              color: "#FAFAF8",
+              letterSpacing: "0.1em",
+              marginTop: "12px",
+              fontFamily: "monospace"
+            }}>
+              React · SVG · Trigonometric positioning
             </p>
           </div>
 
@@ -317,7 +333,15 @@ export default function Creative() {
               textAlign: "left",
               maxWidth: "500px"
             }}>
-              The infinity symbol. Continuous flow without beginning or end. Represents the feedback loops in the system, where output becomes input in an eternal cycle of refinement.
+              The infinity symbol. Continuous flow without beginning or end. Represents the feedback loops in the system, where output becomes input in an eternal cycle of refinement.</p>
+            <p style={{
+              fontSize: "10px",
+              color: "#FAFAF8",
+              letterSpacing: "0.1em",
+              marginTop: "12px",
+              fontFamily: "monospace"
+            }}>
+              React · SVG · Bezier curves · Linear gradients
             </p>
           </div>
         </div>
@@ -348,7 +372,15 @@ export default function Creative() {
             maxWidth: "500px",
             margin: "clamp(24px, 4vh, 32px) auto 0"
           }}>
-            I needed a creative way to display Mermaid diagrams in a cool way. So I built this interactive visualization using HTML5 Canvas 2D API with custom rendering. The nodes orbit and pulse, showing data flow through the system layers.
+            I needed a creative way to display Mermaid diagrams in a cool way. So I built this interactive visualization using HTML5 Canvas 2D API with custom rendering.</p>
+            <p style={{
+              fontSize: "10px",
+              color: "#FAFAF8",
+              letterSpacing: "0.1em",
+              marginTop: "12px",
+              fontFamily: "monospace"
+            }}>
+              React · HTML5 Canvas 2D · requestAnimationFrame · Hexagonal geometry The nodes orbit and pulse, showing data flow through the system layers.
           </p>
         </div>
 
