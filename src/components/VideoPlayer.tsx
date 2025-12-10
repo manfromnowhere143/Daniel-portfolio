@@ -15,6 +15,7 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
   const [progress, setProgress] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 768);
@@ -27,6 +28,15 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
     const video = videoRef.current;
     if (!video) return;
 
+    const handleLoaded = () => {
+      setIsLoaded(true);
+    };
+
+    // Check if video is already loaded (from cache)
+    if (video.readyState >= 3) {
+      setIsLoaded(true);
+    }
+
     const updateProgress = () => {
       if (!isDragging) {
         const percent = (video.currentTime / video.duration) * 100;
@@ -34,8 +44,14 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
       }
     };
 
+    video.addEventListener("loadeddata", handleLoaded);
+    video.addEventListener("canplay", handleLoaded);
     video.addEventListener("timeupdate", updateProgress);
-    return () => video.removeEventListener("timeupdate", updateProgress);
+    return () => {
+      video.removeEventListener("loadeddata", handleLoaded);
+      video.removeEventListener("canplay", handleLoaded);
+      video.removeEventListener("timeupdate", updateProgress);
+    };
   }, [isDragging]);
 
   // Auto-hide controls on mobile after 3 seconds
@@ -137,6 +153,8 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
       style={{
         position: "relative",
         width: "100%",
+        aspectRatio: "16 / 9",
+        paddingTop: "56.25%", /* fallback for older browsers */
         backgroundColor: "#000",
         borderRadius: "4px",
         overflow: "hidden",
@@ -154,12 +172,50 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
         playsInline
         onClick={handleVideoClick}
         style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
           width: "100%",
-          height: "auto",
+          height: "100%",
+          objectFit: "contain",
           display: "block",
           cursor: "pointer",
+          opacity: isLoaded ? 1 : 0,
+          transition: "opacity 0.5s ease",
         }}
       />
+      
+      {/* Loading placeholder */}
+      {!isLoaded && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              width: "24px",
+              height: "24px",
+              border: "2px solid rgba(255,255,255,0.1)",
+              borderTopColor: "#FAFAF8",
+              borderRadius: "50%",
+              animation: "spin 1s linear infinite",
+            }}
+          />
+          <style>{`
+            @keyframes spin {
+              to { transform: rotate(360deg); }
+            }
+          `}</style>
+        </div>
+      )}
       
       {/* Controls Overlay */}
       <div
