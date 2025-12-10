@@ -11,16 +11,16 @@ const MetatronCube = dynamic(() => import('@/components/MetatronCube'), {
 export default function MegaAgent() {
   return (
     <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
-      
+
       {/* Hero Section */}
-      <div style={{ 
-        maxWidth: "1200px", 
-        margin: "0 auto", 
-        padding: "clamp(20px, 4vh, 40px) 24px clamp(40px, 6vh, 60px)",
+      <div style={{
+        maxWidth: "1200px",
+        margin: "0 auto",
+        padding: "clamp(20px, 4vh, 40px) 24px clamp(24px, 4vh, 32px)",
         textAlign: "center"
       }}>
-                <h1 style={{ 
-          fontSize: "clamp(32px, 5vw, 52px)", 
+        <h1 style={{
+          fontSize: "clamp(32px, 5vw, 52px)",
           fontWeight: 200,
           color: "#FAFAF8",
           marginBottom: "clamp(20px, 3vh, 32px)",
@@ -31,95 +31,218 @@ export default function MegaAgent() {
         </h1>
 
         {/* Hero - Metatron's Cube */}
-        <div style={{ margin: "clamp(32px, 5vh, 48px) 0 clamp(24px, 4vh, 32px)", animation: "fadeIn 0.6s ease-out" }}>
-        <MetatronCube />
+        <div style={{ margin: "clamp(24px, 4vh, 40px) 0", animation: "fadeIn 0.6s ease-out" }}>
+          <MetatronCube />
         </div>
       </div>
 
-      {/* Overview */}
-      <div style={{ 
-        maxWidth: "800px", 
-        margin: "0 auto", 
-        padding: "clamp(32px, 5vh, 48px) 24px"
+      {/* Personal Story */}
+      <div style={{
+        maxWidth: "600px",
+        margin: "0 auto",
+        padding: "clamp(40px, 6vh, 60px) 24px"
       }}>
-        <p style={{ 
-          fontSize: "clamp(14px, 2vw, 16px)", 
-          color: "#FAFAF8", 
-          lineHeight: 1.8,
+        <p style={{
+          fontSize: "clamp(14px, 1.8vw, 15px)",
+          color: "#FAFAF8",
+          lineHeight: 1.9,
           fontWeight: 200,
           marginBottom: "20px"
         }}>
-          Production-grade autonomous agent system for business opportunity discovery, 
-          evaluation, and execution using portfolio theory and reinforcement learning.
+          Back in July-August I was still lost in space. Lack of confidence and hiding from the world, I couldn&apos;t find what I&apos;m good at. So I said okay, let&apos;s build agents that will tell me what&apos;s profitable. That&apos;s how it started.
         </p>
-        <p style={{ 
-          fontSize: "clamp(14px, 2vw, 16px)", 
-          color: "#FAFAF8", 
-          lineHeight: 1.8,
+        <p style={{
+          fontSize: "clamp(14px, 1.8vw, 15px)",
+          color: "#FAFAF8",
+          lineHeight: 1.9,
           fontWeight: 200,
           marginBottom: "20px"
         }}>
-          A multi-agent system combining DAG-based orchestration, Markowitz portfolio optimization, 
-          and contextual bandits for intelligent autonomous operations.
+          This project touched my software development the most. It started with finding the most efficient way to work as a solo developer, structuring my own environment, accelerating by automating everything. Pre-commit, ruff, tests... I actually started testing seriously here. 3,200 tests, 100% passing.
         </p>
-        <p style={{ 
-          fontSize: "clamp(14px, 2vw, 16px)", 
-          color: "#FAFAF8", 
-          lineHeight: 1.8,
+        <p style={{
+          fontSize: "clamp(14px, 1.8vw, 15px)",
+          color: "#FAFAF8",
+          lineHeight: 1.9,
+          fontWeight: 200,
+          marginBottom: "20px"
+        }}>
+          Honestly, I don&apos;t know what I was trying to improve or for who. Kind of what I&apos;m doing now. So later I wanted to deploy the 15 agents, 8 models, all the services. Building the tree and tests like blind. Wait, I actually built 30 opportunity scrapers trying to cover the entire internet. All for one reason: find billion-dollar opportunities and build solutions for them.
+        </p>
+        <p style={{
+          fontSize: "clamp(14px, 1.8vw, 15px)",
+          color: "#FAFAF8",
+          lineHeight: 1.9,
+          fontWeight: 200,
+          marginBottom: "20px"
+        }}>
+          Anyway, this is when I learned how to properly work with GitHub. Became an API expert and did that for about three months. Learned Docker, Poetry for dependencies, Kubernetes for dynamic deployment. And I found out I don&apos;t need to be a math genius to use state-of-the-art mathematics that&apos;s already there. Markov models, Thompson sampling, Kelly criterion and many more. I just need to know what mathematics belongs where.
+        </p>
+        <p style={{
+          fontSize: "clamp(14px, 1.8vw, 15px)",
+          color: "#FAFAF8",
+          lineHeight: 1.9,
           fontWeight: 300
         }}>
-          The system implements Byzantine fault tolerance, circuit breaker patterns with 
-          statistical anomaly detection, and Bayesian inference for opportunity assessment.
+          I was that ambitious and ignorant. Well, MegaAgent does deploy Notion pages, create Stripe products, find opportunities apparently, but I never bothered making it actually build SaaS. Science fiction, right?
         </p>
       </div>
 
-      {/* Core Capabilities */}
-      <div style={{ 
-        maxWidth: "1000px", 
-        margin: "0 auto", 
-        padding: "clamp(40px, 6vh, 60px) 24px"
+      {/* Architecture Layers - Vertical flow */}
+      <div style={{
+        maxWidth: "900px",
+        margin: "0 auto",
+        padding: "clamp(60px, 10vh, 100px) 24px"
       }}>
         <p style={{
           fontSize: "11px",
           letterSpacing: "0.2em",
           textTransform: "uppercase",
           color: "#FAFAF8",
-          marginBottom: "clamp(24px, 4vh, 32px)",
+          marginBottom: "clamp(48px, 8vh, 64px)",
           textAlign: "center"
         }}>
-          Core Capabilities
+          Architecture
         </p>
-        
-        <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", 
+
+        {/* Vertical stack with connecting line */}
+        <div style={{ position: "relative" }}>
+          {/* Vertical connecting line */}
+          <div style={{
+            position: "absolute",
+            left: "24px",
+            top: "24px",
+            bottom: "24px",
+            width: "1px",
+            background: "linear-gradient(180deg, #2A2A28 0%, #2A2A28 100%)"
+          }} />
+
+          {[
+            {
+              layer: "Orchestration",
+              desc: "Central coordinator managing agent lifecycle with health monitoring and graceful degradation"
+            },
+            {
+              layer: "Economic Brain",
+              desc: "Dynamic factor models with 50+ economic indicators and automatic feature selection"
+            },
+            {
+              layer: "Learning Engine",
+              desc: "LinUCB algorithm with ridge regression for exploration-exploitation balance"
+            },
+            {
+              layer: "Portfolio Optimizer",
+              desc: "Markowitz mean-variance with efficient frontier and maximum Sharpe ratio selection"
+            },
+            {
+              layer: "Resilience Layer",
+              desc: "Circuit breaker with three states, sliding window failure rate calculation"
+            }
+          ].map((item, i) => (
+            <div key={i} style={{
+              display: "flex",
+              alignItems: "flex-start",
+              gap: "clamp(24px, 4vw, 40px)",
+              marginBottom: i < 4 ? "clamp(32px, 5vh, 48px)" : 0,
+              position: "relative"
+            }}>
+              {/* Node */}
+              <div style={{
+                width: "48px",
+                height: "48px",
+                borderRadius: "50%",
+                border: "1px solid #2A2A28",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#0A0A0A",
+                flexShrink: 0,
+                position: "relative",
+                zIndex: 1
+              }}>
+                <span style={{
+                  fontSize: "11px",
+                  color: "#FAFAF8",
+                  fontFamily: "Monaco, Courier, monospace"
+                }}>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+              </div>
+
+              {/* Content */}
+              <div style={{ paddingTop: "4px" }}>
+                <p style={{
+                  fontSize: "clamp(13px, 1.6vw, 15px)",
+                  fontWeight: 400,
+                  color: "#FAFAF8",
+                  marginBottom: "8px",
+                  letterSpacing: "0.01em"
+                }}>
+                  {item.layer}
+                </p>
+                <p style={{
+                  fontSize: "clamp(12px, 1.4vw, 13px)",
+                  color: "#FAFAF8",
+                  lineHeight: 1.6,
+                  fontWeight: 300,
+                  maxWidth: "500px"
+                }}>
+                  {item.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Core Capabilities - Horizontal cards */}
+      <div style={{
+        maxWidth: "1000px",
+        margin: "0 auto",
+        padding: "clamp(60px, 10vh, 100px) 24px"
+      }}>
+        <p style={{
+          fontSize: "11px",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          color: "#FAFAF8",
+          marginBottom: "clamp(40px, 6vh, 56px)",
+          textAlign: "center"
+        }}>
+          Capabilities
+        </p>
+
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
           gap: "1px",
-          backgroundColor: "#0A0A0A"
+          backgroundColor: "#1A1A1A"
         }}>
           {[
-            { name: "Multi-Agent Orchestration", desc: "DAG-based workflow with task dependencies and priority queues" },
-            { name: "Portfolio Optimization", desc: "Markowitz mean-variance with CVaR risk constraints" },
-            { name: "Reinforcement Learning", desc: "LinUCB with ridge regression, Thompson Sampling" },
-            { name: "Economic Brain", desc: "Bayesian belief networks, Kelly Criterion allocation" },
-            { name: "Circuit Breaker", desc: "Three-state pattern with z-score anomaly detection" },
-            { name: "Revenue Engine", desc: "End-to-end opportunity discovery and execution" },
+            { name: "Multi-Agent DAG", desc: "Task dependencies and priority queues" },
+            { name: "Portfolio Theory", desc: "CVaR risk constraints optimization" },
+            { name: "Reinforcement Learning", desc: "Thompson Sampling exploration" },
+            { name: "Bayesian Networks", desc: "Belief propagation inference" },
+            { name: "Circuit Breaker", desc: "Z-score anomaly detection" },
+            { name: "Revenue Engine", desc: "End-to-end execution pipeline" },
           ].map((item, i) => (
-            <div key={i} style={{ 
-              padding: "20px",
+            <div key={i} style={{
+              padding: "clamp(20px, 3vw, 32px)",
               backgroundColor: "#0A0A0A",
-              borderLeft: "1px solid #1A1A1A"
+              textAlign: "center"
             }}>
-              <p style={{ 
-                fontSize: "13px", 
+              <p style={{
+                fontSize: "clamp(12px, 1.4vw, 13px)",
                 fontWeight: 400,
                 color: "#FAFAF8",
-                marginBottom: "6px"
+                marginBottom: "8px"
               }}>
                 {item.name}
               </p>
-              <p style={{ 
-                fontSize: "12px", 
+              <p style={{
+                fontSize: "11px",
                 color: "#FAFAF8",
+                opacity: 0.7,
                 lineHeight: 1.5
               }}>
                 {item.desc}
@@ -129,79 +252,11 @@ export default function MegaAgent() {
         </div>
       </div>
 
-      {/* System Components */}
-      <div style={{ 
-        maxWidth: "1000px", 
-        margin: "0 auto", 
-        padding: "clamp(40px, 6vh, 60px) 24px"
-      }}>
-        <p style={{
-          fontSize: "11px",
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          color: "#FAFAF8",
-          marginBottom: "clamp(24px, 4vh, 32px)",
-          textAlign: "center"
-        }}>
-          System Components
-        </p>
-        
-        <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", 
-          gap: "24px"
-        }}>
-          {[
-            {
-              title: "Orchestrator Layer",
-              desc: "Central coordinator managing agent lifecycle with health monitoring and graceful degradation"
-            },
-            {
-              title: "Economic Brain",
-              desc: "Dynamic factor models with 50+ economic indicators and automatic feature selection"
-            },
-            {
-              title: "Contextual Bandits",
-              desc: "LinUCB algorithm with ridge regression for exploration-exploitation balance"
-            },
-            {
-              title: "Resilience Patterns",
-              desc: "Circuit breaker with three states, sliding window failure rate calculation"
-            },
-            {
-              title: "Portfolio Optimization",
-              desc: "Markowitz mean-variance with efficient frontier and maximum Sharpe ratio selection"
-            }
-          ].map((item, i) => (
-            <div key={i} style={{ 
-              borderLeft: "1px solid #2A2A28",
-              paddingLeft: "20px"
-            }}>
-              <p style={{ 
-                fontSize: "13px", 
-                fontWeight: 400,
-                color: "#FAFAF8",
-                marginBottom: "8px"
-              }}>
-                {item.title}
-              </p>
-              <p style={{ 
-                fontSize: "12px", 
-                color: "#FAFAF8",
-                lineHeight: 1.6
-              }}>
-                {item.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Opportunity Feeds */}
-      <div style={{ 
-        maxWidth: "800px", 
-        margin: "0 auto", 
-        padding: "clamp(32px, 5vh, 48px) 24px",
+      <div style={{
+        maxWidth: "800px",
+        margin: "0 auto",
+        padding: "clamp(60px, 10vh, 80px) 24px",
         textAlign: "center"
       }}>
         <p style={{
@@ -213,42 +268,73 @@ export default function MegaAgent() {
         }}>
           30 Opportunity Feeds
         </p>
-        <p style={{ 
-          fontSize: "clamp(14px, 1.8vw, 15px)", 
+        <p style={{
+          fontSize: "clamp(14px, 1.8vw, 15px)",
           color: "#FAFAF8",
           lineHeight: 1.7,
-          marginBottom: "clamp(24px, 4vh, 32px)"
+          fontWeight: 300,
+          marginBottom: "clamp(32px, 5vh, 40px)"
         }}>
-          Automated scanning across multiple domains including GitHub trending repositories, 
-          market data feeds, and business intelligence sources with standardized scoring pipelines.
+          Automated scanning across multiple domains with standardized scoring pipelines.
         </p>
-        <div style={{ 
+
+        {/* Feed list - elegant inline */}
+        <p style={{
+          fontSize: "12px",
+          color: "#FAFAF8",
+          lineHeight: 2.2,
+          letterSpacing: "0.02em"
+        }}>
+          GitHub Trending · Market Intelligence · Business Signals · Technical Analysis · Sentiment Feeds · Economic Indicators
+        </p>
+      </div>
+
+      {/* Scale */}
+      <div style={{
+        maxWidth: "900px",
+        margin: "0 auto",
+        padding: "clamp(40px, 6vh, 60px) 24px"
+      }}>
+        <div style={{
           display: "flex",
-          flexWrap: "wrap",
           justifyContent: "center",
-          gap: "12px"
+          gap: "clamp(40px, 8vw, 80px)",
+          flexWrap: "wrap"
         }}>
           {[
-            "GitHub Trending", "Market Intelligence", "Business Signals", 
-            "Technical Analysis", "Sentiment Feeds", "Economic Indicators"
-          ].map((feed, i) => (
-            <span key={i} style={{ 
-              fontSize: "12px",
-              color: "#FAFAF8",
-              padding: "8px 16px",
-              border: "1px solid #2A2A28",
-              borderRadius: "2px"
-            }}>
-              {feed}
-            </span>
+            { value: "365", label: "Files" },
+            { value: "258K", label: "Lines" },
+            { value: "3,200", label: "Tests" },
+            { value: "100%", label: "Passing" }
+          ].map((item, i) => (
+            <div key={i} style={{ textAlign: "center" }}>
+              <p style={{
+                fontSize: "clamp(28px, 4vw, 36px)",
+                fontWeight: 200,
+                color: "#FAFAF8",
+                letterSpacing: "-0.02em",
+                marginBottom: "4px"
+              }}>
+                {item.value}
+              </p>
+              <p style={{
+                fontSize: "10px",
+                color: "#FAFAF8",
+                opacity: 0.5,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase"
+              }}>
+                {item.label}
+              </p>
+            </div>
           ))}
         </div>
       </div>
 
       {/* Technology Stack */}
-      <div style={{ 
-        maxWidth: "800px", 
-        margin: "0 auto", 
+      <div style={{
+        maxWidth: "800px",
+        margin: "0 auto",
         padding: "clamp(40px, 6vh, 60px) 24px",
         textAlign: "center"
       }}>
@@ -261,8 +347,8 @@ export default function MegaAgent() {
         }}>
           Stack
         </p>
-        <p style={{ 
-          fontSize: "12px", 
+        <p style={{
+          fontSize: "12px",
           color: "#FAFAF8",
           lineHeight: 2,
           letterSpacing: "0.02em"
@@ -272,31 +358,31 @@ export default function MegaAgent() {
       </div>
 
       {/* Navigation */}
-      <div style={{ 
+      <div style={{
         borderTop: "1px solid #1C1C1C",
         padding: "clamp(40px, 6vh, 60px) 24px"
       }}>
-        <div style={{ 
+        <div style={{
           maxWidth: "1000px",
           margin: "0 auto",
-          display: "flex", 
-          justifyContent: "space-between", 
+          display: "flex",
+          justifyContent: "space-between",
           alignItems: "center",
           flexWrap: "wrap",
           gap: "20px"
         }}>
-          <Link href="/work/trade69" style={{ 
-            fontSize: "12px", 
-            color: "#FAFAF8", 
+          <Link href="/work/trade69" style={{
+            fontSize: "12px",
+            color: "#FAFAF8",
             textDecoration: "none",
             letterSpacing: "0.1em",
             textTransform: "uppercase"
           }}>
             ← Trade69
           </Link>
-          <Link href="/work/octopus" style={{ 
-            fontSize: "12px", 
-            color: "#FAFAF8", 
+          <Link href="/work/octopus" style={{
+            fontSize: "12px",
+            color: "#FAFAF8",
             textDecoration: "none",
             letterSpacing: "0.1em",
             textTransform: "uppercase"
