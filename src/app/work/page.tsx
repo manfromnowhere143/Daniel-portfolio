@@ -59,7 +59,7 @@ export default function Work() {
               onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
             >
               {/* Icon */}
-              <div style={{ marginBottom: "12px" }}>
+              <div>
                 {project.icon}
               </div>
               
@@ -68,7 +68,8 @@ export default function Work() {
                 fontWeight: 200,
                 color: "#FAFAF8",
                 letterSpacing: "0.02em",
-                marginBottom: "6px"
+                marginTop: "4px",
+                marginBottom: "2px"
               }}>
                 {project.name}
               </h2>
