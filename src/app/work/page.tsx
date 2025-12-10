@@ -1,5 +1,7 @@
 "use client";
 
+import GeometricDivider from "@/components/GeometricDivider";
+
 import Link from "next/link";
 
 export default function Work() {
@@ -31,13 +33,8 @@ export default function Work() {
         </h1>
       </div>
 
-      {/* Divider */}
-      <div style={{
-        width: "1px",
-        height: "40px",
-        backgroundColor: "#2A2A28",
-        margin: "0 auto"
-      }} />
+      {/* Geometric Divider */}
+      <GeometricDivider />
 
       {/* Projects List */}
       <div style={{ 
