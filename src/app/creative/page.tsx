@@ -372,7 +372,7 @@ export default function Creative() {
             maxWidth: "500px",
             margin: "clamp(24px, 4vh, 32px) auto 0"
           }}>
-            I needed a creative way to display Mermaid diagrams in a cool way. So I built this interactive visualization using HTML5 Canvas 2D API with custom rendering.</p>
+            I needed a creative way to display the Mermaid diagram for the Trade69 project.</p>
             <p style={{
               fontSize: "10px",
               color: "#FAFAF8",
@@ -380,7 +380,6 @@ export default function Creative() {
               marginTop: "12px",
               fontFamily: "monospace"
             }}>
-              React · HTML5 Canvas 2D · requestAnimationFrame · Hexagonal geometry The nodes orbit and pulse, showing data flow through the system layers.
           </p>
         </div>
 
