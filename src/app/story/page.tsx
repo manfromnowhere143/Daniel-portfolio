@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Metadata } from "next";
+import FlowerOfLife from "@/components/FlowerOfLife";
 
 export const metadata: Metadata = {
   title: "My Story | Daniel Wahnich",
@@ -14,30 +15,24 @@ export default function Story() {
       <div style={{
         maxWidth: "700px",
         margin: "0 auto",
-        padding: "clamp(20px, 4vh, 40px) 24px clamp(50px, 8vh, 70px)",
+        padding: "clamp(20px, 4vh, 40px) 24px clamp(32px, 5vh, 40px)",
         textAlign: "center"
       }}>
-        <p style={{
-          fontSize: "11px",
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          color: "#FAFAF8",
-          marginBottom: "clamp(16px, 2vh, 24px)"
-        }}>
-          The Full Story
-        </p>
         <h1 style={{
           fontSize: "clamp(28px, 5vw, 40px)",
           fontWeight: 200,
           color: "#FAFAF8",
-          letterSpacing: "-0.01em"
+          letterSpacing: "-0.01em",
+          marginBottom: "clamp(24px, 4vh, 32px)"
         }}>
           How I Got Here
         </h1>
+        
+        <FlowerOfLife />
       </div>
 
       {/* Story Content */}
-      <div style={{ maxWidth: "720px", margin: "0 auto", padding: "0 24px clamp(80px, 12vh, 120px)" }}>
+      <div style={{ maxWidth: "720px", margin: "0 auto", padding: "clamp(32px, 5vh, 48px) 24px clamp(80px, 12vh, 120px)" }}>
 
         <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
           <p style={{
@@ -233,8 +228,7 @@ export default function Story() {
         <p style={{
           fontSize: "11px",
           color: "#FAFAF8",
-          letterSpacing: "0.15em",
-          textTransform: "uppercase"
+          letterSpacing: "0.08em"
         }}>
           Hillel the Elder
         </p>
@@ -242,23 +236,17 @@ export default function Story() {
 
       {/* Navigation */}
       <div style={{
-        borderTop: "1px solid #1C1C1C",
-        padding: "clamp(40px, 6vh, 60px) 24px"
+        padding: "clamp(40px, 6vh, 60px) 24px",
+        textAlign: "center"
       }}>
-        <div style={{
-          display: "flex",
-          justifyContent: "center"
+        <Link href="/" style={{
+          fontSize: "11px",
+          color: "#FAFAF8",
+          textDecoration: "none",
+          letterSpacing: "0.12em"
         }}>
-          <Link href="/" style={{
-            fontSize: "11px",
-            color: "#FAFAF8",
-            textDecoration: "none",
-            letterSpacing: "0.12em",
-            textTransform: "uppercase"
-          }}>
-            About
-          </Link>
-        </div>
+          ← About
+        </Link>
       </div>
 
     </div>
