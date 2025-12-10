@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import FadeImage from "@/components/FadeImage";
 
 export default function Overmind() {
   return (
@@ -33,17 +33,12 @@ export default function Overmind() {
           overflow: "hidden",
           backgroundColor: "#FAFAF8"
         }}>
-          <Image 
+          <FadeImage 
             src="/images/twinkle.png" 
             alt="Overmind"
-            width={500}
+            width={500} aspectRatio={500/350}
             height={350}
             priority
-            style={{ 
-              width: "100%", 
-              height: "auto", 
-              display: "block"
-            }}
           />
         </div>
         <p style={{
