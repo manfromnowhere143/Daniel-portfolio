@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import GeometricDivider from "@/components/GeometricDivider";
+import { WebsiteIcon, DashboardIcon, APIIcon, LLMIcon } from "@/components/ServiceIcons";
 
 export const metadata: Metadata = {
   title: "Services | Daniel Wahnich",
@@ -8,6 +9,29 @@ export const metadata: Metadata = {
 };
 
 export default function Services() {
+  const services = [
+    {
+      title: "Custom Websites",
+      desc: "Design, development, and SEO optimization. Clean architecture built for performance and longevity.",
+      icon: <WebsiteIcon />
+    },
+    {
+      title: "Dashboards",
+      desc: "Custom dashboards for small businesses. Live data visualization, analytics, and operational control.",
+      icon: <DashboardIcon />
+    },
+    {
+      title: "API Development",
+      desc: "Backend systems and third-party integrations. Reliable infrastructure that scales with your needs.",
+      icon: <APIIcon />
+    },
+    {
+      title: "LLM Middleware",
+      desc: "AI-powered database interfaces. Natural language queries, schema-aware generation, and intelligent data access.",
+      icon: <LLMIcon />
+    }
+  ];
+
   return (
     <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
 
@@ -38,31 +62,19 @@ export default function Services() {
         margin: "0 auto",
         padding: "clamp(48px, 7vh, 64px) 24px"
       }}>
-        {[
-          {
-            title: "Custom Websites",
-            desc: "Design, development, and SEO optimization. Clean architecture built for performance and longevity."
-          },
-          {
-            title: "Dashboards",
-            desc: "Custom dashboards for small businesses. Live data visualization, analytics, and operational control."
-          },
-          {
-            title: "API Development",
-            desc: "Backend systems and third-party integrations. Reliable infrastructure that scales with your needs."
-          },
-          {
-            title: "LLM Middleware",
-            desc: "AI-powered database interfaces. Natural language queries, schema-aware generation, and intelligent data access."
-          }
-        ].map((item, i) => (
+        {services.map((item, i) => (
           <div 
             key={i} 
             style={{ 
-              marginBottom: i < 3 ? "clamp(32px, 5vh, 40px)" : 0,
+              marginBottom: i < 3 ? "clamp(40px, 6vh, 52px)" : 0,
               textAlign: "center"
             }}
           >
+            {/* Icon */}
+            <div style={{ marginBottom: "16px", display: "flex", justifyContent: "center" }}>
+              {item.icon}
+            </div>
+            
             <p style={{ 
               fontSize: "clamp(14px, 2vw, 16px)", 
               fontWeight: 300,
@@ -75,7 +87,6 @@ export default function Services() {
             <p style={{ 
               fontSize: "clamp(12px, 1.5vw, 13px)", 
               color: "#FAFAF8",
-              
               lineHeight: 1.7,
               maxWidth: "500px",
               margin: "0 auto",
@@ -98,7 +109,6 @@ export default function Services() {
           fontSize: "11px",
           letterSpacing: "0.12em",
           color: "#FAFAF8",
-          
           marginBottom: "clamp(16px, 2vh, 20px)"
         }}>
           Also seeking
@@ -118,7 +128,6 @@ export default function Services() {
         <p style={{
           fontSize: "12px",
           color: "#FAFAF8",
-          
           letterSpacing: "0.08em",
           fontWeight: 300
         }}>
@@ -137,7 +146,6 @@ export default function Services() {
           fontSize: "11px",
           letterSpacing: "0.08em",
           color: "#FAFAF8",
-          
           marginBottom: "clamp(16px, 2vh, 20px)",
           fontWeight: 200
         }}>
@@ -169,7 +177,6 @@ export default function Services() {
             style={{
               fontSize: "12px",
               color: "#FAFAF8",
-              
               textDecoration: "none",
               fontWeight: 300
             }}
@@ -190,8 +197,7 @@ export default function Services() {
             fontSize: "11px",
             color: "#FAFAF8",
             textDecoration: "none",
-            letterSpacing: "0.12em",
-            opacity: 0.6
+            letterSpacing: "0.12em"
           }}
         >
           ← About

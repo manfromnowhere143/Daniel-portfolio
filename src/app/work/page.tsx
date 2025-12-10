@@ -1,15 +1,15 @@
 "use client";
 
-import GeometricDivider from "@/components/GeometricDivider";
-
 import Link from "next/link";
+import GeometricDivider from "@/components/GeometricDivider";
+import { Trade69Icon, MegaAgentIcon, OctopusIcon, OvermindIcon } from "@/components/WorkIcons";
 
 export default function Work() {
   const projects = [
-    { name: "Trade69", href: "/work/trade69" },
-    { name: "MegaAgent", href: "/work/megaagent" },
-    { name: "Octopus", href: "/work/octopus" },
-    { name: "Overmind", href: "/work/overmind" }
+    { name: "Trade69", href: "/work/trade69", icon: <Trade69Icon /> },
+    { name: "MegaAgent", href: "/work/megaagent", icon: <MegaAgentIcon /> },
+    { name: "Octopus", href: "/work/octopus", icon: <OctopusIcon /> },
+    { name: "Overmind", href: "/work/overmind", icon: <OvermindIcon /> }
   ];
 
   return (
@@ -19,11 +19,11 @@ export default function Work() {
       <div style={{ 
         maxWidth: "900px", 
         margin: "0 auto", 
-        padding: "clamp(20px, 4vh, 40px) 24px clamp(16px, 2vh, 20px)",
+        padding: "clamp(20px, 4vh, 40px) 24px clamp(24px, 4vh, 32px)",
         textAlign: "center"
       }}>
         <h1 style={{ 
-          fontSize: "clamp(32px, 5vw, 48px)", 
+          fontSize: "clamp(32px, 5vw, 52px)", 
           fontWeight: 200,
           color: "#FAFAF8",
           letterSpacing: "-0.01em",
@@ -40,13 +40,13 @@ export default function Work() {
       <div style={{ 
         maxWidth: "600px", 
         margin: "0 auto", 
-        padding: "clamp(16px, 3vh, 24px) 24px clamp(80px, 12vh, 120px)"
+        padding: "clamp(40px, 6vh, 60px) 24px clamp(80px, 12vh, 120px)"
       }}>
         <div style={{ 
           display: "flex", 
           flexDirection: "column",
           alignItems: "center",
-          gap: "clamp(20px, 3vh, 28px)"
+          gap: "clamp(28px, 4vh, 36px)"
         }}>
           {projects.map((project, index) => (
             <Link 
@@ -62,19 +62,24 @@ export default function Work() {
               onMouseEnter={(e) => e.currentTarget.style.opacity = "0.7"}
               onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
             >
+              {/* Icon */}
+              <div style={{ marginBottom: "12px" }}>
+                {project.icon}
+              </div>
+              
               <h2 style={{ 
-                fontSize: "clamp(20px, 3vw, 26px)", 
+                fontSize: "clamp(18px, 2.5vw, 22px)", 
                 fontWeight: 200,
                 color: "#FAFAF8",
-                letterSpacing: "0.01em",
-                marginBottom: "8px"
+                letterSpacing: "0.02em",
+                marginBottom: "6px"
               }}>
                 {project.name}
               </h2>
               <span style={{ 
-                fontSize: "14px", 
+                fontSize: "12px", 
                 color: "#FAFAF8",
-                opacity: 1
+                opacity: 0.6
               }}>
                 →
               </span>
@@ -82,7 +87,6 @@ export default function Work() {
           ))}
         </div>
       </div>
-
     </div>
   );
 }
