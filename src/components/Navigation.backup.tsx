@@ -94,7 +94,7 @@ export default function Navigation() {
           </svg>
         </div>
 
-        {/* Time & Date Display */}
+        {/* Time & Date Display - ABOVE nav links */}
         {time && (
           <div style={{
             display: "flex",
@@ -201,7 +201,7 @@ export default function Navigation() {
         </svg>
       </button>
 
-      {/* Mobile Sidebar - State of the Art */}
+      {/* Mobile Sidebar */}
       <div
         className={styles.mobileSidebar}
         style={{
@@ -210,14 +210,13 @@ export default function Navigation() {
           right: 0,
           width: "100%",
           height: "100vh",
-          backgroundColor: "#0A0A0A",
+          backgroundColor: "#FAFAF8",
           zIndex: 101,
           transform: isOpen ? "translateX(0)" : "translateX(100%)",
           transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
           overflow: "hidden"
         }}
       >
-        {/* Close button */}
         <button
           onClick={() => setIsOpen(false)}
           style={{
@@ -233,8 +232,8 @@ export default function Navigation() {
           aria-label="Close"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <line x1="2" y1="2" x2="22" y2="22" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round"/>
-            <line x1="22" y1="2" x2="2" y2="22" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round"/>
+            <line x1="2" y1="2" x2="22" y2="22" stroke="#1C1C1C" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="22" y1="2" x2="2" y2="22" stroke="#1C1C1C" strokeWidth="1.5" strokeLinecap="round"/>
           </svg>
         </button>
 
@@ -244,124 +243,120 @@ export default function Navigation() {
           justifyContent: "center",
           alignItems: "center",
           height: "100%",
+          gap: "0",
           padding: "0 40px"
         }}>
-          
-          {/* Hexagon Symbol */}
           <div style={{
-            width: "36px",
-            height: "42px",
-            marginBottom: "32px"
-          }}>
-            <svg viewBox="0 0 28 32" fill="none" style={{ width: "100%", height: "100%" }}>
-              <path 
-                d="M14 1L26 8.5V23.5L14 31L2 23.5V8.5L14 1Z" 
-                stroke="#FAFAF8" 
-                strokeWidth="0.75"
-                fill="none"
-              />
-              <circle cx="14" cy="16" r="3" stroke="#FAFAF8" strokeWidth="0.5" fill="none" opacity="0.6"/>
-            </svg>
-          </div>
+            width: "60px",
+            height: "1px",
+            backgroundColor: "transparent",
+            marginBottom: "60px"
+          }} />
 
-          {/* Time & Date */}
-          {time && (
-            <div style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "6px",
-              marginBottom: "40px"
-            }}>
-              <span style={{
-                fontSize: "20px",
-                fontWeight: 200,
-                letterSpacing: "0.15em",
-                color: "#FAFAF8",
-                fontVariantNumeric: "tabular-nums"
-              }}>
-                {formatTime(time)}
-              </span>
-              <span style={{
-                fontSize: "10px",
-                fontWeight: 300,
-                letterSpacing: "0.25em",
-                color: "#FAFAF8",
-                opacity: 0.5
-              }}>
-                {formatDate(time)}
-              </span>
-            </div>
-          )}
+          <Link
+            href="/"
+            onClick={() => setIsOpen(false)}
+            style={{
+              fontWeight: 200,
+              fontSize: "24px",
+              letterSpacing: "0.02em",
+              color: pathname === "/" ? "#1C1C1C" : "#71706E",
+              textDecoration: "none",
+              padding: "20px 0",
+              transition: "all 0.3s ease",
+              textAlign: "center"
+            }}
+          >
+            About
+          </Link>
 
-          {/* Divider */}
           <div style={{
             width: "40px",
             height: "1px",
-            backgroundColor: "#FAFAF8",
-            opacity: 0.15,
-            marginBottom: "40px"
+            backgroundColor: "transparent",
+            margin: "8px 0"
           }} />
 
-          {/* Navigation Links */}
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "28px"
-          }}>
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "14px",
-                  textDecoration: "none"
-                }}
-              >
-                {/* Diamond indicator */}
-                <span style={{
-                  width: "6px",
-                  height: "6px",
-                  backgroundColor: "#FAFAF8",
-                  transform: "rotate(45deg)",
-                  opacity: item.isActive ? 1 : 0,
-                  transition: "opacity 0.3s ease"
-                }} />
-                <span style={{
-                  fontWeight: 200,
-                  fontSize: "18px",
-                  letterSpacing: "0.08em",
-                  color: item.isActive ? "#FAFAF8" : "rgba(250, 250, 248, 0.5)",
-                  transition: "color 0.3s ease"
-                }}>
-                  {item.label}
-                </span>
-              </Link>
-            ))}
-          </div>
+          <Link
+            href="/work"
+            onClick={() => setIsOpen(false)}
+            style={{
+              fontWeight: 200,
+              fontSize: "24px",
+              letterSpacing: "0.02em",
+              color: pathname === "/work" || pathname.startsWith("/work/") ? "#1C1C1C" : "#71706E",
+              textDecoration: "none",
+              padding: "20px 0",
+              transition: "all 0.3s ease",
+              textAlign: "center"
+            }}
+          >
+            Work
+          </Link>
 
-          {/* Bottom Divider */}
           <div style={{
             width: "40px",
             height: "1px",
-            backgroundColor: "#FAFAF8",
-            opacity: 0.15,
-            marginTop: "48px"
+            backgroundColor: "transparent",
+            margin: "8px 0"
           }} />
 
-          {/* Name */}
+          <Link
+            href="/creative"
+            onClick={() => setIsOpen(false)}
+            style={{
+              fontWeight: 200,
+              fontSize: "24px",
+              letterSpacing: "0.02em",
+              color: pathname === "/creative" ? "#1C1C1C" : "#71706E",
+              textDecoration: "none",
+              padding: "20px 0",
+              transition: "all 0.3s ease",
+              textAlign: "center"
+            }}
+          >
+            Creative
+          </Link>
+
+          <div style={{
+            width: "40px",
+            height: "1px",
+            backgroundColor: "transparent",
+            margin: "8px 0"
+          }} />
+
+          <Link
+            href="/services"
+            onClick={() => setIsOpen(false)}
+            style={{
+              fontWeight: 200,
+              fontSize: "24px",
+              letterSpacing: "0.02em",
+              color: pathname === "/services" ? "#1C1C1C" : "#71706E",
+              textDecoration: "none",
+              padding: "20px 0",
+              transition: "all 0.3s ease",
+              textAlign: "center"
+            }}
+          >
+            Services
+          </Link>
+
+          <div style={{
+            width: "60px",
+            height: "1px",
+            backgroundColor: "transparent",
+            marginTop: "60px"
+          }} />
+
           <p style={{
-            fontSize: "9px",
-            fontWeight: 300,
-            letterSpacing: "0.3em",
+            fontFamily: "Inter, sans-serif",
+            fontSize: "11px",
+            letterSpacing: "0.15em",
             textTransform: "uppercase",
-            color: "#FAFAF8",
-            opacity: 0.4,
-            marginTop: "32px"
+            color: "#B8B7B3",
+            marginTop: "40px",
+            textAlign: "center"
           }}>
             Daniel Wahnich
           </p>
