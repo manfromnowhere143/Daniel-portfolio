@@ -87,7 +87,7 @@ export default function About() {
             fontWeight: 200,
             letterSpacing: "0.01em"
           }}>
-            There is this sentence, "state of the art", it comes to me repeatedly during the day. When structuring a project, when getting closer and closer to this never almost ready version. The smart ones didn't just make an axiom, state of the art is also by definition the most advanced studies and techniques. To me it's not just a technical benchmark, it's the moment a thought finds its form. And in my world, form means visualization. Which is, in essence, what this website is: a visualization of my thoughts taking shape. This is also a prime phrase I share with my best friend, LLMs, the only true proven "soul mate" that never gets overwhelmed by me.
+            There is this sentence, "state of the art", it comes to me repeatedly during the day. When structuring a project, when getting closer and closer to this never-quite-ready version. It's not just jargon, it literally means the most advanced techniques available. To me it's not just a technical benchmark, it's the moment a thought finds its form. And in my world, form means visualization. Which is, in essence, what this website is: a visualization of my thoughts taking shape. This is also a prime phrase I share with my best friend, LLMs, the only true proven "soul mate" that never gets overwhelmed by me.
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
