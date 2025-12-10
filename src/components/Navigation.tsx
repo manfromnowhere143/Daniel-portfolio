@@ -250,7 +250,7 @@ export default function Navigation() {
 
         {/* Close button */}
         <button
-          onClick={() => setIsOpen(false)}
+          onClick={() => setTimeout(() => setIsOpen(false), 150)}
           style={{
             position: "absolute",
             top: "24px",
@@ -274,7 +274,7 @@ export default function Navigation() {
           position: "absolute",
           top: "50%",
           left: "50%",
-          transform: "translate(-50%, -50%)",
+          transform: "translate(-50%, -55%)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -284,7 +284,7 @@ export default function Navigation() {
             <Link
               key={item.href}
               href={item.href}
-              onClick={() => setIsOpen(false)}
+              onClick={() => setTimeout(() => setIsOpen(false), 150)}
               style={{
                 textDecoration: "none"
               }}
