@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function About() {
   return (
-    <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+    <div style={{ paddingTop: "40px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
 
       {/* Hero Section - Whisper Quiet */}
       <div style={{
@@ -45,7 +45,7 @@ export default function About() {
       <div style={{
         maxWidth: "720px",
         margin: "0 auto",
-        padding: "0 24px clamp(40px, 6vh, 60px)"
+        padding: "clamp(60px, 10vh, 80px) 24px clamp(40px, 6vh, 60px)"
       }}>
 
         <div style={{
