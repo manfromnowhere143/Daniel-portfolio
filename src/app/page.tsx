@@ -1,5 +1,9 @@
 import Image from "next/image";
-import GoldenSpiral from "@/components/GoldenSpiral";
+import dynamic from "next/dynamic";
+const GoldenSpiral = dynamic(() => import("@/components/GoldenSpiral"), {
+  ssr: false,
+  loading: () => <div style={{ width: 140, height: 140, margin: "0 auto" }} />
+});
 import Link from "next/link";
 
 export default function About() {
@@ -36,7 +40,7 @@ export default function About() {
       </div>
 
       {/* Golden Spiral */}
-      <div style={{ margin: "0 auto clamp(32px, 5vh, 48px)" }}>
+      <div style={{ margin: "0 auto clamp(16px, 2vh, 24px)" }}>
         <GoldenSpiral />
       </div>
 
@@ -44,7 +48,7 @@ export default function About() {
       <div style={{
         maxWidth: "720px",
         margin: "0 auto",
-        padding: "0 24px clamp(60px, 10vh, 80px)"
+        padding: "0 24px clamp(40px, 6vh, 60px)"
       }}>
 
         <div style={{
@@ -114,7 +118,7 @@ export default function About() {
       <div style={{
         maxWidth: "720px",
         margin: "0 auto",
-        padding: "0 24px clamp(60px, 10vh, 80px)"
+        padding: "0 24px clamp(40px, 6vh, 60px)"
       }}>
         <div style={{
           display: "flex",
@@ -201,7 +205,7 @@ export default function About() {
       <div style={{
         maxWidth: "720px",
         margin: "0 auto",
-        padding: "0 24px clamp(60px, 10vh, 80px)"
+        padding: "0 24px clamp(40px, 6vh, 60px)"
       }}>
         <h2 style={{
           fontSize: "clamp(11px, 1.4vw, 13px)",
@@ -312,7 +316,7 @@ export default function About() {
       <div style={{
         maxWidth: "700px",
         margin: "0 auto",
-        padding: "0 24px clamp(60px, 10vh, 80px)",
+        padding: "0 24px clamp(40px, 6vh, 60px)",
         textAlign: "center"
       }}>
         <h2 style={{
