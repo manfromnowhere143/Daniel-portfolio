@@ -9,6 +9,7 @@ import GeometricDivider from "@/components/GeometricDivider";
 import { Trade69Icon, MegaAgentIcon, OctopusIcon, OvermindIcon } from "@/components/WorkIcons";
 import { WebsiteIcon, DashboardIcon, APIIcon, LLMIcon } from "@/components/ServiceIcons";
 import Trade69Architecture from "@/components/Trade69Architecture";
+import CreativeGallery from "@/components/CreativeGallery";
 
 export const metadata: Metadata = {
   title: "Creative Work | Daniel Wahnich",
@@ -464,169 +465,9 @@ export default function Creative() {
         </div>
 
         {/* ═══════════════════════════════════════════════════════════ */}
-        {/* GALLERY */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        
-        <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
-          <p style={{
-            fontSize: "11px",
-            color: "#FAFAF8",
-            letterSpacing: "0.15em",
-            textAlign: "center",
-            marginBottom: "clamp(40px, 6vh, 56px)"
-          }}>
-            Visual Studies
-          </p>
 
-          {/* Elegant 2x2 Grid */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gap: "24px",
-            maxWidth: "700px",
-            margin: "0 auto"
-          }}>
-            {/* Neural Architecture */}
-            <div>
-              <div style={{ aspectRatio: "4/3", backgroundColor: "#000", borderRadius: "2px", overflow: "hidden" }}>
-                <Image
-                  src="/images/art4.png"
-                  alt="Neural Architecture"
-                  width={400}
-                  height={300}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                />
-              </div>
-              <div style={{ marginTop: "10px", textAlign: "left" }}>
-                <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
-                  Neural Architecture
-                </p>
-                <p style={{ fontSize: "9px", color: "#FAFAF8", opacity: 0.6, fontFamily: "monospace" }}>
-                  2024
-                </p>
-              </div>
-            </div>
-
-            {/* Emergence */}
-            <div>
-              <div style={{ aspectRatio: "4/3", backgroundColor: "#000", borderRadius: "2px", overflow: "hidden" }}>
-                <Image
-                  src="/images/art3.jpg"
-                  alt="Emergence"
-                  width={400}
-                  height={300}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                />
-              </div>
-              <div style={{ marginTop: "10px", textAlign: "left" }}>
-                <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
-                  Emergence
-                </p>
-                <p style={{ fontSize: "9px", color: "#FAFAF8", opacity: 0.6, fontFamily: "monospace" }}>
-                  2024
-                </p>
-              </div>
-            </div>
-
-            {/* Layers */}
-            <div>
-              <div style={{ aspectRatio: "4/3", backgroundColor: "#000", borderRadius: "2px", overflow: "hidden" }}>
-                <Image
-                  src="/images/art2.JPEG"
-                  alt="Layers"
-                  width={400}
-                  height={300}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                />
-              </div>
-              <div style={{ marginTop: "10px", textAlign: "left" }}>
-                <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
-                  Layers
-                </p>
-                <p style={{ fontSize: "9px", color: "#FAFAF8", opacity: 0.6, fontFamily: "monospace" }}>
-                  2024
-                </p>
-              </div>
-            </div>
-
-            {/* Geometric Abstractions */}
-            <div>
-              <div style={{ aspectRatio: "4/3", backgroundColor: "#000", borderRadius: "2px", overflow: "hidden" }}>
-                <Image
-                  src="/images/art1.JPEG"
-                  alt="Geometric Abstractions"
-                  width={400}
-                  height={300}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                />
-              </div>
-              <div style={{ marginTop: "10px", textAlign: "left" }}>
-                <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
-                  Geometric Abstractions
-                </p>
-                <p style={{ fontSize: "9px", color: "#FAFAF8", opacity: 0.6, fontFamily: "monospace" }}>
-                  2024
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* SKETCHES */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <div>
-          <p style={{
-            fontSize: "11px",
-            color: "#FAFAF8",
-            letterSpacing: "0.15em",
-            textAlign: "center",
-            marginBottom: "clamp(40px, 6vh, 56px)"
-          }}>
-            Sketches
-          </p>
-
-          {/* Horizontal scroll on mobile, 5-column on desktop */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(5, 1fr)",
-            gap: "12px",
-            maxWidth: "800px",
-            margin: "0 auto"
-          }}>
-            {[
-              { src: "/images/homework1.jpg", name: "Study I" },
-              { src: "/images/neural-timeline.jpg", name: "Study II" },
-              { src: "/images/homework36.jpg", name: "Study III" },
-              { src: "/images/homework4.jpg", name: "Study IV" },
-              { src: "/images/homework5.jpg", name: "Study V" }
-            ].map((item, i) => (
-              <div key={i}>
-                <div style={{ 
-                  aspectRatio: "3/4", 
-                  backgroundColor: "#000", 
-                  borderRadius: "2px", 
-                  overflow: "hidden" 
-                }}>
-                  <Image
-                    src={item.src}
-                    alt={item.name}
-                    width={200}
-                    height={267}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                  />
-                </div>
-                <div style={{ marginTop: "8px", textAlign: "left" }}>
-                  <p style={{ fontSize: "10px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
-                    {item.name}
-                  </p>
-                  <p style={{ fontSize: "8px", color: "#FAFAF8", opacity: 0.6, fontFamily: "monospace" }}>
-                    2025
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* GALLERY & SKETCHES */}
+        <CreativeGallery />
 
       </div>
 
