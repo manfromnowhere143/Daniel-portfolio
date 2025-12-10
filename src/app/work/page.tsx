@@ -12,13 +12,13 @@ export default function Work() {
   ];
 
   return (
-    <div style={{ paddingTop: "60px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+    <div style={{ paddingTop: "40px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
       
       {/* Hero */}
       <div style={{ 
         maxWidth: "900px", 
         margin: "0 auto", 
-        padding: "clamp(32px, 5vh, 48px) 24px clamp(40px, 6vh, 60px)",
+        padding: "clamp(20px, 3vh, 32px) 24px clamp(40px, 6vh, 60px)",
         textAlign: "center"
       }}>
         <h1 style={{ 
