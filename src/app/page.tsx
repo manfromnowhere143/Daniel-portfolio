@@ -25,7 +25,7 @@ export default function About() {
           Daniel Wahnich
         </h1>
         <p style={{
-          
+
           fontSize: "clamp(14px, 2vw, 18px)",
           fontWeight: 200,
           color: "#FAFAF8",
@@ -288,134 +288,104 @@ export default function About() {
       </div>
 
 
-      {/* Read Full Life Story Link */}
+      {/* Footer - Elegant & Clean */}
       <div style={{
         maxWidth: "700px",
         margin: "0 auto",
-        padding: "0 24px clamp(48px, 8vh, 64px)",
+        padding: "clamp(80px, 12vh, 120px) 24px clamp(100px, 15vh, 140px)",
         textAlign: "center"
       }}>
-        <Link href="/story" style={{
-          fontSize: "clamp(14px, 1.8vw, 15px)",
-          color: "#FAFAF8",
-          textDecoration: "none",
-          
-          
-          letterSpacing: "0.02em",
-          fontStyle: "normal"
-        }}>
-          Read full life story
-        </Link>
-      </div>
-
-
-      {/* Contact - Minimal */}
-      <div style={{
-        maxWidth: "700px",
-        margin: "0 auto",
-        padding: "0 24px clamp(40px, 6vh, 60px)",
-        textAlign: "center"
-      }}>
-        <h2 style={{
-          fontSize: "clamp(11px, 1.4vw, 13px)",
-          fontWeight: 500,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-          color: "#FAFAF8",
-          marginBottom: "clamp(48px, 8vh, 64px)"
-        }}>
-          Contact
-        </h2>
-        <p style={{
-          fontSize: "clamp(15px, 1.9vw, 17px)",
-          color: "#FAFAF8",
-          marginBottom: "clamp(24px, 4vh, 32px)",
-          letterSpacing: "0.01em"
-        }}>
-          <a href="mailto:cogitoergosum143@gmail.com" style={{
+        {/* Read Full Story Link - First */}
+        <div style={{ marginBottom: "clamp(64px, 10vh, 80px)" }}>
+          <Link href="/story" style={{
+            fontSize: "clamp(13px, 1.6vw, 15px)",
             color: "#FAFAF8",
             textDecoration: "none",
-            
-            
+            letterSpacing: "0.02em",
+            fontWeight: 300
           }}>
-            cogitoergosum143@gmail.com
-          </a>
-        </p>
-        <p style={{
-          fontSize: "clamp(15px, 1.9vw, 17px)",
-          color: "#FAFAF8",
-          letterSpacing: "0.01em"
-        }}>
-          <a href="https://github.com/manfromnowhere143" target="_blank" rel="noopener noreferrer" style={{
-            color: "#FAFAF8",
-            textDecoration: "none",
-            
-            
-          }}>
-            GitHub
-          </a>
-        </p>
-      </div>
+            Read full life story
+          </Link>
+        </div>
 
-      {/* Final Statement - Descartes Quotes */}
-      <div style={{
-        backgroundColor: "#000000",
-        padding: "clamp(100px, 15vh, 140px) 24px"
-      }}>
-        <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
-          {/* First Quote */}
+        {/* Descartes Quotes - All White */}
+        <div style={{ marginBottom: "clamp(64px, 10vh, 80px)" }}>
           <p style={{
-            fontSize: "clamp(14px, 2vw, 18px)",
-            fontStyle: "normal",
+            fontSize: "clamp(15px, 2vw, 18px)",
+            fontStyle: "italic",
             fontWeight: 200,
             color: "#FAFAF8",
             lineHeight: 1.6,
-            letterSpacing: "0.01em",
-            marginBottom: "12px"
+            letterSpacing: "0.02em",
+            marginBottom: "8px"
           }}>
-            "Cogito, ergo sum"
+            Cogito, ergo sum
           </p>
           <p style={{
-            fontSize: "clamp(12px, 1.5vw, 14px)",
-            fontWeight: 200,
+            fontSize: "clamp(12px, 1.4vw, 14px)",
+            fontWeight: 300,
             color: "#FAFAF8",
-            letterSpacing: "0.02em",
-            marginBottom: "clamp(48px, 7vh, 64px)"
+            letterSpacing: "0.03em",
+            marginBottom: "clamp(32px, 5vh, 40px)"
           }}>
             I think, therefore I am
           </p>
 
-          {/* Second Quote */}
           <p style={{
-            fontSize: "clamp(14px, 2vw, 18px)",
-            fontStyle: "normal",
+            fontSize: "clamp(15px, 2vw, 18px)",
+            fontStyle: "italic",
             fontWeight: 200,
             color: "#FAFAF8",
             lineHeight: 1.6,
-            letterSpacing: "0.01em",
-            marginBottom: "12px"
+            letterSpacing: "0.02em",
+            marginBottom: "8px"
           }}>
-            "Dubito, ergo cogito, ergo sum"
+            Dubito, ergo cogito, ergo sum
           </p>
           <p style={{
-            fontSize: "clamp(12px, 1.5vw, 14px)",
-            fontWeight: 200,
+            fontSize: "clamp(12px, 1.4vw, 14px)",
+            fontWeight: 300,
             color: "#FAFAF8",
-            letterSpacing: "0.02em",
-            marginBottom: "clamp(40px, 6vh, 56px)"
+            letterSpacing: "0.03em"
           }}>
             I doubt, therefore I think, therefore I am
           </p>
+        </div>
 
-          {/* Attribution */}
-          <p style={{
-            fontSize: "12px",
-            color: "#FAFAF8",
-            letterSpacing: "0.08em",
-            textTransform: "uppercase"
-          }}>
-            René Descartes
-          </p>
+        {/* Contact - Clean Minimal */}
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "16px"
+        }}>
+          <a
+            href="mailto:cogitoergosum143@gmail.com"
+            style={{
+              fontSize: "clamp(13px, 1.6vw, 15px)",
+              color: "#FAFAF8",
+              textDecoration: "none",
+              letterSpacing: "0.02em",
+              fontWeight: 300
+            }}
+          >
+            cogitoergosum143@gmail.com
+          </a>
+          <a
+            href="https://github.com/manfromnowhere143"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: "clamp(12px, 1.4vw, 13px)",
+              color: "#FAFAF8",
+              textDecoration: "none",
+              letterSpacing: "0.1em",
+              fontWeight: 300,
+              textTransform: "uppercase"
+            }}
+          >
+            GitHub
+          </a>
         </div>
       </div>
 
