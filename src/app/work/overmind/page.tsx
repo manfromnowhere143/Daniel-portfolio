@@ -12,7 +12,7 @@ export default function Overmind() {
         padding: "clamp(20px, 4vh, 40px) 24px clamp(40px, 6vh, 60px)",
         textAlign: "center"
       }}>
-                <h1 style={{ 
+        <h1 style={{ 
           fontSize: "clamp(32px, 5vw, 52px)", 
           fontWeight: 200,
           color: "#FAFAF8",
@@ -53,7 +53,7 @@ export default function Overmind() {
           color: "#FAFAF8",
           marginTop: "clamp(24px, 4vh, 32px)"
         }}>
-          Blockchain · Philosophy
+          Blockchain
         </p>
       </div>
 
@@ -70,8 +70,7 @@ export default function Overmind() {
           fontWeight: 200,
           marginBottom: "20px"
         }}>
-          A cryptocurrency exploring decentralized autonomous systems, 
-          blending blockchain technology with Buddhist philosophy.
+          I built this token mainly to learn how to interact with smart contracts and how to deploy one on the blockchain. It was one of my first experiments, sometime around June 2025, and the whole thing took me about two days.
         </p>
         <p style={{ 
           fontSize: "clamp(14px, 2vw, 16px)", 
@@ -80,7 +79,16 @@ export default function Overmind() {
           fontWeight: 200,
           marginBottom: "20px"
         }}>
-          More than a token. An exploration of systems that transcend their creators.
+          The principles were simple. I followed the Satori pattern: deploy the contract, renounce ownership, and burn the liquidity pool. I had an $80 budget for the entire project, so the full amount was used to create the liquidity pool and then burn it.
+        </p>
+        <p style={{ 
+          fontSize: "clamp(14px, 2vw, 16px)", 
+          color: "#FAFAF8", 
+          lineHeight: 1.8,
+          fontWeight: 200,
+          marginBottom: "20px"
+        }}>
+          The first well-known meme token deployed in the Satori pattern was Ryoshis SHIB. Ryoshi wrote a few Medium posts, had a small Discord community, shared the philosophy, and then disappeared about six months after SHIB launched. That story is what inspired me to try it myself.
         </p>
         <p style={{ 
           fontSize: "clamp(14px, 2vw, 16px)", 
@@ -88,70 +96,8 @@ export default function Overmind() {
           lineHeight: 1.8,
           fontWeight: 300
         }}>
-          Overmind exists at the intersection of technology and philosophy. 
-          Drawing from concepts of collective intelligence, emergence, and the 
-          dissolution of individual identity into something greater.
+          The token I made is nothing serious, just a meme token, a simple smart contract deployed on Solana and BNB Smart Chain because of the low fees. But for me, it was an important step in learning blockchain deployments, smart-contract interaction, and the whole process end to end.
         </p>
-      </div>
-
-      {/* Philosophy Section */}
-      <div style={{ 
-        maxWidth: "1000px", 
-        margin: "0 auto", 
-        padding: "clamp(40px, 6vh, 60px) 24px"
-      }}>
-        <p style={{
-          fontSize: "11px",
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          color: "#FAFAF8",
-          marginBottom: "clamp(24px, 4vh, 32px)",
-          textAlign: "center"
-        }}>
-          Philosophy
-        </p>
-
-        <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", 
-          gap: "24px"
-        }}>
-          {[
-            {
-              title: "Milarepa",
-              desc: "Inspired by the Tibetan Buddhist master. Persistence through suffering. Transformation through discipline."
-            },
-            {
-              title: "Collective Intelligence",
-              desc: "Systems that exist and evolve independently. Autonomy beyond any single controller or creator."
-            },
-            {
-              title: "Emergence",
-              desc: "Complex behaviors from simple rules. Decentralized consensus creating order without central authority."
-            }
-          ].map((item, i) => (
-            <div key={i} style={{ 
-              borderLeft: "1px solid #2A2A28",
-              paddingLeft: "20px"
-            }}>
-              <p style={{ 
-                fontSize: "13px", 
-                fontWeight: 400,
-                color: "#FAFAF8",
-                marginBottom: "8px"
-              }}>
-                {item.title}
-              </p>
-              <p style={{ 
-                fontSize: "12px", 
-                color: "#FAFAF8",
-                lineHeight: 1.6
-              }}>
-                {item.desc}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Technical Section */}
@@ -179,7 +125,7 @@ export default function Overmind() {
           marginBottom: "clamp(40px, 6vh, 56px)"
         }}>
           {[
-            "Solana", "SPL Token", "Rust", "Custom Tokenomics"
+            "Solana", "BNB Smart Chain", "SPL Token", "React", "Surge"
           ].map((item, i) => (
             <span key={i} style={{ 
               fontSize: "12px",
@@ -229,7 +175,7 @@ export default function Overmind() {
           marginBottom: "clamp(16px, 3vh, 24px)",
           letterSpacing: "0.15em"
         }}>
-          &quot;Second star to the right, and straight on till morning.&quot;
+          "Second star to the right, and straight on till morning."
         </p>
         <p style={{ 
           fontSize: "11px", 
@@ -238,32 +184,6 @@ export default function Overmind() {
           textTransform: "uppercase"
         }}>
           Peter Pan
-        </p>
-      </div>
-
-      {/* Technology Stack */}
-      <div style={{ 
-        maxWidth: "800px", 
-        margin: "0 auto", 
-        padding: "clamp(40px, 6vh, 60px) 24px",
-        textAlign: "center"
-      }}>
-        <p style={{
-          fontSize: "11px",
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          color: "#FAFAF8",
-          marginBottom: "clamp(16px, 3vh, 24px)"
-        }}>
-          Stack
-        </p>
-        <p style={{ 
-          fontSize: "12px", 
-          color: "#FAFAF8",
-          lineHeight: 2,
-          letterSpacing: "0.02em"
-        }}>
-          Solana · Rust · SPL Tokens · Web3.js · React · TypeScript
         </p>
       </div>
 
@@ -288,7 +208,7 @@ export default function Overmind() {
             letterSpacing: "0.1em",
             textTransform: "uppercase"
           }}>
-            ← Octopus
+            Octopus
           </Link>
           <Link href="/work" style={{ 
             fontSize: "12px", 

@@ -1,9 +1,6 @@
 import Image from "next/image";
-import dynamic from "next/dynamic";
-const GoldenSpiral = dynamic(() => import("@/components/GoldenSpiral"), {
-  ssr: false,
-  loading: () => <div style={{ width: 140, height: 140, margin: "0 auto" }} />
-});
+
+import GoldenSpiral from "@/components/GoldenSpiral";
 import Link from "next/link";
 
 export default function About() {
