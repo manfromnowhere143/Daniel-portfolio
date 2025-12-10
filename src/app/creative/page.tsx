@@ -10,6 +10,7 @@ import { Trade69Icon, MegaAgentIcon, OctopusIcon, OvermindIcon } from "@/compone
 import { WebsiteIcon, DashboardIcon, APIIcon, LLMIcon } from "@/components/ServiceIcons";
 import Trade69Architecture from "@/components/Trade69Architecture";
 import CreativeGallery from "@/components/CreativeGallery";
+import QuantumManifold from "@/components/QuantumManifold";
 
 export const metadata: Metadata = {
   title: "Creative Work | Daniel Wahnich",
@@ -167,7 +168,7 @@ export default function Creative() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/* SACRED GEOMETRY COMPONENTS */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        
+
         <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
           <p style={{
             fontSize: "11px",
@@ -348,9 +349,96 @@ export default function Creative() {
         </div>
 
         {/* ═══════════════════════════════════════════════════════════ */}
+        {/* QUANTUM MANIFOLD - FLOATING PRESENTATION */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+
+        <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
+          {/* Title */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginBottom: "clamp(32px, 5vh, 48px)"
+          }}>
+            <h3 style={{
+              fontSize: "clamp(16px, 2vw, 20px)",
+              fontWeight: 200,
+              color: "#FAFAF8",
+              marginBottom: "12px",
+              letterSpacing: "0.02em"
+            }}>
+              Quantum Manifold
+            </h3>
+            <p style={{
+              fontSize: "clamp(12px, 1.5vw, 14px)",
+              color: "#FAFAF8",
+              lineHeight: 1.8,
+              fontWeight: 300,
+              textAlign: "left",
+              maxWidth: "500px"
+            }}>
+              A field of infinite possibility. The manifold ripples with quantum fluctuations, each wave representing probability amplitudes in superposition.
+            </p>
+          </div>
+
+          {/* Floating Container - Full width, no borders */}
+          <div style={{
+            position: "relative",
+            width: "100vw",
+            marginLeft: "calc(-50vw + 50%)",
+            overflow: "hidden"
+          }}>
+            {/* Top fade gradient */}
+            <div style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "80px",
+              background: "linear-gradient(to bottom, #0A0A0A, transparent)",
+              zIndex: 2,
+              pointerEvents: "none"
+            }} />
+
+            {/* The Manifold */}
+            <QuantumManifold />
+
+            {/* Bottom fade gradient */}
+            <div style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "80px",
+              background: "linear-gradient(to top, #0A0A0A, transparent)",
+              zIndex: 2,
+              pointerEvents: "none"
+            }} />
+          </div>
+
+          {/* Tech info below */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: "clamp(32px, 5vh, 48px)"
+          }}>
+            <p style={{
+              fontSize: "10px",
+              color: "#FAFAF8",
+              letterSpacing: "0.1em",
+              fontFamily: "monospace",
+              textAlign: "center"
+            }}>
+              Three.js · WebGL · GLSL Shaders · Simplex Noise · Interactive
+            </p>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
         {/* 3D ARCHITECTURE VISUALIZATION */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        
+
         <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
           <p style={{
             fontSize: "11px",
@@ -361,9 +449,9 @@ export default function Creative() {
           }}>
             3D Architecture Visualization
           </p>
-          
+
           <Trade69Architecture />
-          
+
           <p style={{
             fontSize: "clamp(12px, 1.5vw, 14px)",
             color: "#FAFAF8",
@@ -387,7 +475,7 @@ export default function Creative() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/* FUNCTIONAL ICONS */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        
+
         <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
           <p style={{
             fontSize: "11px",
