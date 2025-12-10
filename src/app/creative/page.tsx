@@ -95,7 +95,7 @@ export default function Creative() {
           <div style={{
             maxWidth: "700px",
             margin: "clamp(48px, 8vh, 64px) auto 0",
-            textAlign: "center"
+            textAlign: "left"
           }}>
             <p style={{
               fontSize: "11px",
@@ -207,7 +207,7 @@ export default function Creative() {
               color: "#FAFAF8",
               lineHeight: 1.8,
               fontWeight: 300,
-              textAlign: "center",
+              textAlign: "left",
               maxWidth: "500px"
             }}>
               The blueprint of creation. Thirteen circles containing all five Platonic solids. Used as the central orchestrator in the agent network, coordinating information flow between all subsystems.
@@ -243,7 +243,7 @@ export default function Creative() {
               color: "#FAFAF8",
               lineHeight: 1.8,
               fontWeight: 300,
-              textAlign: "center",
+              textAlign: "left",
               maxWidth: "500px"
             }}>
               Nature's perfect ratio, φ = 1.618. The Fibonacci sequence made visible. Represents the memory retrieval system, spiraling outward from recent to distant memories with logarithmic efficiency.
@@ -279,7 +279,7 @@ export default function Creative() {
               color: "#FAFAF8",
               lineHeight: 1.8,
               fontWeight: 300,
-              textAlign: "center",
+              textAlign: "left",
               maxWidth: "500px"
             }}>
               Nineteen overlapping circles creating the pattern of genesis. Each petal represents a specialized processing unit, interconnected through shared boundaries for parallel computation.
@@ -314,7 +314,7 @@ export default function Creative() {
               color: "#FAFAF8",
               lineHeight: 1.8,
               fontWeight: 300,
-              textAlign: "center",
+              textAlign: "left",
               maxWidth: "500px"
             }}>
               The infinity symbol. Continuous flow without beginning or end. Represents the feedback loops in the system, where output becomes input in an eternal cycle of refinement.
@@ -344,7 +344,7 @@ export default function Creative() {
             color: "#FAFAF8",
             lineHeight: 1.8,
             fontWeight: 300,
-            textAlign: "center",
+            textAlign: "left",
             maxWidth: "500px",
             margin: "clamp(24px, 4vh, 32px) auto 0"
           }}>

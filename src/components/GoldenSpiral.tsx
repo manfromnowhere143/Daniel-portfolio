@@ -1,29 +1,66 @@
 "use client";
 
+import { useMemo } from 'react';
+
 export default function GoldenSpiral() {
   const size = 140;
   const cx = size / 2;
   const cy = size / 2;
-  
-  // Golden ratio
   const phi = 1.618033988749;
-  
-  // Generate Fibonacci spiral points
-  const generateSpiral = () => {
+
+  // Pre-compute spiral points as a static string
+  const spiralPoints = useMemo(() => {
     const points: string[] = [];
-    let angle = 0;
-    let scale = 2.5;
-    
-    for (let i = 0; i < 60; i++) {
-      const r = scale * Math.pow(phi, angle / (Math.PI / 2));
-      const x = cx + r * Math.cos(angle);
-      const y = cy + r * Math.sin(angle);
-      points.push(`${x},${y}`);
-      angle += 0.12;
+    const numPoints = 60;
+    for (let i = 0; i <= numPoints; i++) {
+      const t = (i / numPoints) * 4 * Math.PI;
+      const r = 2.5 * Math.pow(phi, t / (2 * Math.PI));
+      if (r < 65) {
+        const x = cx + r * Math.cos(t);
+        const y = cy + r * Math.sin(t);
+        points.push(`${Math.round(x * 100) / 100},${Math.round(y * 100) / 100}`);
+      }
     }
-    
     return points.join(' ');
-  };
+  }, []);
+
+  // Pre-compute circle positions
+  const circles = useMemo(() => {
+    const result: { r: number; opacity: number }[] = [];
+    for (let i = 1; i <= 6; i++) {
+      result.push({
+        r: Math.round(8 * Math.pow(phi, i - 1) * 100) / 100,
+        opacity: Math.round((0.4 - i * 0.05) * 100) / 100
+      });
+    }
+    return result;
+  }, []);
+
+  // Pre-compute rays
+  const rays = useMemo(() => {
+    return Array.from({ length: 8 }, (_, i) => {
+      const angle = (i * Math.PI * 2) / 8;
+      return {
+        x1: Math.round((cx + Math.cos(angle) * 8) * 100) / 100,
+        y1: Math.round((cy + Math.sin(angle) * 8) * 100) / 100,
+        x2: Math.round((cx + Math.cos(angle) * 60) * 100) / 100,
+        y2: Math.round((cy + Math.sin(angle) * 60) * 100) / 100
+      };
+    });
+  }, []);
+
+  // Pre-compute golden dots
+  const goldenDots = useMemo(() => {
+    return [1, 2, 3, 4, 5].map((i) => {
+      const r = 8 * Math.pow(phi, i - 1);
+      const angle = i * phi * Math.PI;
+      return {
+        cx: Math.round((cx + Math.cos(angle) * r) * 100) / 100,
+        cy: Math.round((cy + Math.sin(angle) * r) * 100) / 100,
+        opacity: Math.round((0.5 - i * 0.06) * 100) / 100
+      };
+    });
+  }, []);
 
   return (
     <div style={{ width: size, height: size, margin: '0 auto' }}>
@@ -34,7 +71,6 @@ export default function GoldenSpiral() {
         style={{ display: 'block' }}
       >
         <defs>
-          {/* Subtle glow filter */}
           <filter id="goldenGlow" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
             <feMerge>
@@ -42,47 +78,46 @@ export default function GoldenSpiral() {
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
-          
-          {/* Radial gradient for depth */}
-          <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#FAFAF8" stopOpacity="0.12"/>
-            <stop offset="100%" stopColor="#FAFAF8" stopOpacity="0"/>
+          <radialGradient id="goldenGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#FAFAF8" stopOpacity="0.1" />
+            <stop offset="100%" stopColor="#FAFAF8" stopOpacity="0" />
           </radialGradient>
         </defs>
 
-        {/* Subtle background glow */}
-        <circle cx={cx} cy={cy} r={60} fill="url(#centerGlow)" />
+        <circle cx={cx} cy={cy} r="65" fill="url(#goldenGradient)" />
 
-        {/* Main geometry group */}
         <g filter="url(#goldenGlow)">
-          
-          {/* Outer circles based on golden ratio - subtle */}
-          <g stroke="#FAFAF8" strokeWidth="0.3" fill="none" opacity="0.4">
-            <circle cx={cx} cy={cy} r={55} />
-            <circle cx={cx} cy={cy} r={55 / phi} />
-            <circle cx={cx} cy={cy} r={55 / (phi * phi)} />
-            <circle cx={cx} cy={cy} r={55 / (phi * phi * phi)} />
-          </g>
+          {/* Concentric circles at golden ratio intervals */}
+          {circles.map((circle, i) => (
+            <circle
+              key={`circle-${i}`}
+              cx={cx}
+              cy={cy}
+              r={circle.r}
+              stroke="#FAFAF8"
+              strokeWidth="0.3"
+              fill="none"
+              opacity={circle.opacity}
+            />
+          ))}
 
-          {/* Radiating lines - very subtle */}
-          <g stroke="#FAFAF8" strokeWidth="0.25" opacity="0.3">
-            {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
-              const angle = (i * Math.PI * 2) / 8;
-              return (
-                <line
-                  key={`ray-${i}`}
-                  x1={cx + Math.cos(angle) * 10}
-                  y1={cy + Math.sin(angle) * 10}
-                  x2={cx + Math.cos(angle) * 55}
-                  y2={cy + Math.sin(angle) * 55}
-                />
-              );
-            })}
-          </g>
+          {/* Radiating lines */}
+          {rays.map((ray, i) => (
+            <line
+              key={`ray-${i}`}
+              x1={ray.x1}
+              y1={ray.y1}
+              x2={ray.x2}
+              y2={ray.y2}
+              stroke="#FAFAF8"
+              strokeWidth="0.25"
+              opacity="0.2"
+            />
+          ))}
 
-          {/* Golden spiral - main feature */}
+          {/* Golden spiral */}
           <polyline
-            points={generateSpiral()}
+            points={spiralPoints}
             stroke="#FAFAF8"
             strokeWidth="0.6"
             fill="none"
@@ -90,44 +125,25 @@ export default function GoldenSpiral() {
             opacity="0.85"
           />
 
-          {/* Inner structure */}
-          <g stroke="#FAFAF8" strokeWidth="0.35" fill="none" opacity="0.5">
-            {/* Golden rectangle proportions */}
-            <rect 
-              x={cx - 20} 
-              y={cy - 20 / phi} 
-              width={40} 
-              height={40 / phi} 
-              transform={`rotate(45, ${cx}, ${cy})`}
-            />
-            <rect 
-              x={cx - 12} 
-              y={cy - 12 / phi} 
-              width={24} 
-              height={24 / phi} 
-              transform={`rotate(45, ${cx}, ${cy})`}
-            />
-          </g>
+          {/* Golden rectangles hint */}
+          <rect x={cx - 21} y={cy - 21} width="42" height="42" stroke="#FAFAF8" strokeWidth="0.3" fill="none" opacity="0.3" />
+          <rect x={cx - 13} y={cy - 13} width="26" height="26" stroke="#FAFAF8" strokeWidth="0.3" fill="none" opacity="0.35" transform={`rotate(90, ${cx}, ${cy})`} />
 
-          {/* Center point accent */}
-          <circle cx={cx} cy={cy} r="2" fill="#FAFAF8" opacity="0.7" />
-          <circle cx={cx} cy={cy} r="4" stroke="#FAFAF8" strokeWidth="0.3" fill="none" opacity="0.5" />
+          {/* Center point */}
+          <circle cx={cx} cy={cy} r="2" stroke="#FAFAF8" strokeWidth="0.4" fill="none" opacity="0.7" />
+          <circle cx={cx} cy={cy} r="0.8" fill="#FAFAF8" opacity="0.9" />
 
-          {/* Small dots at golden ratio intersections */}
-          {[1, 2, 3, 4].map((i) => {
-            const r = 55 / Math.pow(phi, i);
-            const angle = i * 0.5;
-            return (
-              <circle
-                key={`dot-${i}`}
-                cx={cx + r * Math.cos(angle)}
-                cy={cy + r * Math.sin(angle)}
-                r="1"
-                fill="#FAFAF8"
-                opacity={0.7 - i * 0.12}
-              />
-            );
-          })}
+          {/* Golden ratio intersection points */}
+          {goldenDots.map((dot, i) => (
+            <circle
+              key={`dot-${i}`}
+              cx={dot.cx}
+              cy={dot.cy}
+              r="1"
+              fill="#FAFAF8"
+              opacity={dot.opacity}
+            />
+          ))}
         </g>
       </svg>
     </div>

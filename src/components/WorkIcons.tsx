@@ -3,8 +3,6 @@
 // Trade69 - Algorithmic trading - ascending geometric pattern with data flow
 export function Trade69Icon() {
   const size = 32;
-  const cx = size / 2;
-  const cy = size / 2;
 
   return (
     <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
@@ -44,6 +42,21 @@ export function MegaAgentIcon() {
   const cx = size / 2;
   const cy = size / 2;
 
+  const hexPoints = [0, 1, 2, 3, 4, 5].map((i) => {
+    const angle = (i * Math.PI * 2) / 6 - Math.PI / 2;
+    const r = 6;
+    return `${Math.round((cx + Math.cos(angle) * r) * 100) / 100},${Math.round((cy + Math.sin(angle) * r) * 100) / 100}`;
+  }).join(' ');
+
+  const outerNodes = [0, 1, 2, 3, 4, 5].map((i) => {
+    const angle = (i * Math.PI * 2) / 6 - Math.PI / 2;
+    const r = 12;
+    return {
+      x: Math.round((cx + Math.cos(angle) * r) * 100) / 100,
+      y: Math.round((cy + Math.sin(angle) * r) * 100) / 100
+    };
+  });
+
   return (
     <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
       <defs>
@@ -58,11 +71,7 @@ export function MegaAgentIcon() {
       <g filter="url(#megaAgentGlow)">
         {/* Central hexagon */}
         <polygon
-          points={Array.from({ length: 6 }, (_, i) => {
-            const angle = (i * Math.PI * 2) / 6 - Math.PI / 2;
-            const r = 6;
-            return `${cx + Math.cos(angle) * r},${cy + Math.sin(angle) * r}`;
-          }).join(' ')}
+          points={hexPoints}
           stroke="#FAFAF8"
           strokeWidth="0.4"
           fill="none"
@@ -70,19 +79,13 @@ export function MegaAgentIcon() {
         />
         
         {/* Outer nodes */}
-        {[0, 1, 2, 3, 4, 5].map((i) => {
-          const angle = (i * Math.PI * 2) / 6 - Math.PI / 2;
-          const r = 12;
-          const x = cx + Math.cos(angle) * r;
-          const y = cy + Math.sin(angle) * r;
-          return (
-            <g key={i}>
-              <line x1={cx} y1={cy} x2={x} y2={y} stroke="#FAFAF8" strokeWidth="0.3" opacity="0.4" />
-              <circle cx={x} cy={y} r="2" stroke="#FAFAF8" strokeWidth="0.4" fill="none" opacity="0.7" />
-              <circle cx={x} cy={y} r="0.8" fill="#FAFAF8" opacity="0.8" />
-            </g>
-          );
-        })}
+        {outerNodes.map((node, i) => (
+          <g key={i}>
+            <line x1={cx} y1={cy} x2={node.x} y2={node.y} stroke="#FAFAF8" strokeWidth="0.3" opacity="0.4" />
+            <circle cx={node.x} cy={node.y} r="2" stroke="#FAFAF8" strokeWidth="0.4" fill="none" opacity="0.7" />
+            <circle cx={node.x} cy={node.y} r="0.8" fill="#FAFAF8" opacity="0.8" />
+          </g>
+        ))}
         
         {/* Center dot */}
         <circle cx={cx} cy={cy} r="1.5" fill="#FAFAF8" opacity="0.9" />
@@ -96,6 +99,17 @@ export function OctopusIcon() {
   const size = 32;
   const cx = size / 2;
   const cy = size / 2;
+
+  const tentacles = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
+    const angle = (i * Math.PI * 2) / 8;
+    const startX = Math.round((cx + Math.cos(angle) * 4) * 100) / 100;
+    const startY = Math.round((cy + Math.sin(angle) * 4) * 100) / 100;
+    const midX = Math.round((cx + Math.cos(angle + 0.2) * 9) * 100) / 100;
+    const midY = Math.round((cy + Math.sin(angle + 0.2) * 9) * 100) / 100;
+    const endX = Math.round((cx + Math.cos(angle - 0.1) * 14) * 100) / 100;
+    const endY = Math.round((cy + Math.sin(angle - 0.1) * 14) * 100) / 100;
+    return { startX, startY, midX, midY, endX, endY, opacity: 0.5 + (i % 2) * 0.2 };
+  });
 
   return (
     <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
@@ -115,27 +129,18 @@ export function OctopusIcon() {
         <circle cx={cx} cy={cy} r="1" fill="#FAFAF8" opacity="0.9" />
         
         {/* 8 tentacles - curved paths */}
-        {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
-          const angle = (i * Math.PI * 2) / 8;
-          const startX = cx + Math.cos(angle) * 4;
-          const startY = cy + Math.sin(angle) * 4;
-          const midX = cx + Math.cos(angle + 0.2) * 9;
-          const midY = cy + Math.sin(angle + 0.2) * 9;
-          const endX = cx + Math.cos(angle - 0.1) * 14;
-          const endY = cy + Math.sin(angle - 0.1) * 14;
-          return (
-            <g key={i}>
-              <path
-                d={`M${startX},${startY} Q${midX},${midY} ${endX},${endY}`}
-                stroke="#FAFAF8"
-                strokeWidth="0.4"
-                fill="none"
-                opacity={0.5 + (i % 2) * 0.2}
-              />
-              <circle cx={endX} cy={endY} r="0.6" fill="#FAFAF8" opacity="0.7" />
-            </g>
-          );
-        })}
+        {tentacles.map((t, i) => (
+          <g key={i}>
+            <path
+              d={`M${t.startX},${t.startY} Q${t.midX},${t.midY} ${t.endX},${t.endY}`}
+              stroke="#FAFAF8"
+              strokeWidth="0.4"
+              fill="none"
+              opacity={t.opacity}
+            />
+            <circle cx={t.endX} cy={t.endY} r="0.6" fill="#FAFAF8" opacity="0.7" />
+          </g>
+        ))}
       </g>
     </svg>
   );
@@ -146,6 +151,17 @@ export function OvermindIcon() {
   const size = 32;
   const cx = size / 2;
   const cy = size / 2;
+
+  const chainLinks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => {
+    const angle = (i * Math.PI * 2) / 12 - Math.PI / 2;
+    const r = 10;
+    const x = Math.round((cx + Math.cos(angle) * r) * 100) / 100;
+    const y = Math.round((cy + Math.sin(angle) * r) * 100) / 100;
+    const rotation = (i * 30) + 45;
+    return { x, y, rotation, opacity: 0.5 + (i % 3) * 0.15 };
+  });
+
+  const trianglePoints = `${cx},${cy - 5} ${Math.round((cx - 4.3) * 100) / 100},${cy + 2.5} ${Math.round((cx + 4.3) * 100) / 100},${cy + 2.5}`;
 
   return (
     <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
@@ -163,30 +179,24 @@ export function OvermindIcon() {
         <circle cx={cx} cy={cy} r="12" stroke="#FAFAF8" strokeWidth="0.3" fill="none" opacity="0.4" />
         
         {/* Chain links around the circle */}
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => {
-          const angle = (i * Math.PI * 2) / 12 - Math.PI / 2;
-          const r = 10;
-          const x = cx + Math.cos(angle) * r;
-          const y = cy + Math.sin(angle) * r;
-          return (
-            <rect
-              key={i}
-              x={x - 1.5}
-              y={y - 1.5}
-              width="3"
-              height="3"
-              transform={`rotate(${(i * 30) + 45}, ${x}, ${y})`}
-              stroke="#FAFAF8"
-              strokeWidth="0.3"
-              fill="none"
-              opacity={0.5 + (i % 3) * 0.15}
-            />
-          );
-        })}
+        {chainLinks.map((link, i) => (
+          <rect
+            key={i}
+            x={link.x - 1.5}
+            y={link.y - 1.5}
+            width="3"
+            height="3"
+            transform={`rotate(${link.rotation}, ${link.x}, ${link.y})`}
+            stroke="#FAFAF8"
+            strokeWidth="0.3"
+            fill="none"
+            opacity={link.opacity}
+          />
+        ))}
         
         {/* Inner sacred triangle */}
         <polygon
-          points={`${cx},${cy - 5} ${cx - 4.3},${cy + 2.5} ${cx + 4.3},${cy + 2.5}`}
+          points={trianglePoints}
           stroke="#FAFAF8"
           strokeWidth="0.4"
           fill="none"
