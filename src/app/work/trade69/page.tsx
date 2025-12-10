@@ -28,7 +28,7 @@ export default function Trade69() {
         
         {/* Floating Hero Image */}
         <div style={{ 
-          maxWidth: "500px",
+          maxWidth: "clamp(280px, 70vw, 500px)",
           margin: "0 auto",
           boxShadow: "0 30px 80px rgba(0,0,0,0.6)",
           border: "1px solid #1C1C1C",

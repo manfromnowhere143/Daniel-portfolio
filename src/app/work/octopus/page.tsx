@@ -25,7 +25,7 @@ export default function Octopus() {
         
         {/* Floating Hero Image */}
         <div style={{ 
-          maxWidth: "500px",
+          maxWidth: "clamp(280px, 70vw, 500px)",
           margin: "0 auto",
           boxShadow: "0 30px 80px rgba(255,255,255,0.08)",
           border: "1px solid #1C1C1C",
