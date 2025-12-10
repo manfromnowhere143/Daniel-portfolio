@@ -154,7 +154,7 @@ export default function VideoPlayer({ src }: VideoPlayerProps) {
         position: "relative",
         width: "100%",
         aspectRatio: "16 / 9",
-        paddingTop: "56.25%", /* fallback for older browsers */
+        
         backgroundColor: "#000",
         borderRadius: "4px",
         overflow: "hidden",
