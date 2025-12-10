@@ -122,9 +122,9 @@ export default function Trade69Architecture() {
           ctx.fill();
 
           // Node label - hide on very small screens
-          if (scale > 0.6) {
+          if (scale > 0.4) {
             ctx.fillStyle = 'rgba(250, 250, 248, 0.5)';
-            ctx.font = `${Math.max(6, 8 * scale)}px system-ui`;
+            ctx.font = `${Math.max(7, 9 * scale)}px system-ui`;
             ctx.textAlign = 'center';
             const labelOffset = adjustedR > 100 * scale ? 12 * scale : -12 * scale;
             ctx.fillText(nodeName, nodeX, nodeY + labelOffset);
@@ -185,9 +185,9 @@ export default function Trade69Architecture() {
       ctx.fill();
 
       // Center label
-      if (scale > 0.6) {
+      if (scale > 0.4) {
         ctx.fillStyle = 'rgba(250, 250, 248, 0.6)';
-        ctx.font = `${Math.max(6, 8 * scale)}px system-ui`;
+        ctx.font = `${Math.max(7, 9 * scale)}px system-ui`;
         ctx.textAlign = 'center';
         ctx.fillText('PostgreSQL', cx, cy + 25 * scale);
       }
