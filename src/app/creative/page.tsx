@@ -580,15 +580,18 @@ export default function Creative() {
             color: "#FAFAF8",
             letterSpacing: "0.15em",
             textAlign: "center",
-            marginBottom: "clamp(48px, 7vh, 64px)"
+            marginBottom: "clamp(40px, 6vh, 56px)"
           }}>
             Sketches
           </p>
 
+          {/* Horizontal scroll on mobile, 5-column on desktop */}
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: "clamp(24px, 4vw, 40px)"
+            gridTemplateColumns: "repeat(5, 1fr)",
+            gap: "12px",
+            maxWidth: "800px",
+            margin: "0 auto"
           }}>
             {[
               { src: "/images/homework1.jpg", name: "Study I" },
@@ -598,34 +601,25 @@ export default function Creative() {
               { src: "/images/homework5.jpg", name: "Study V" }
             ].map((item, i) => (
               <div key={i}>
-                <div style={{
-                  backgroundColor: "#000000",
-                  overflow: "hidden",
-                  borderRadius: "4px"
+                <div style={{ 
+                  aspectRatio: "3/4", 
+                  backgroundColor: "#000", 
+                  borderRadius: "2px", 
+                  overflow: "hidden" 
                 }}>
                   <Image
                     src={item.src}
                     alt={item.name}
-                    width={900}
-                    height={1200}
-                    style={{ width: "100%", height: "auto", display: "block" }}
+                    width={200}
+                    height={267}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                   />
                 </div>
-                <div style={{ marginTop: "16px", textAlign: "center" }}>
-                  <p style={{
-                    fontSize: "clamp(13px, 1.8vw, 15px)",
-                    color: "#FAFAF8",
-                    fontWeight: 200,
-                    marginBottom: "4px"
-                  }}>
+                <div style={{ marginTop: "8px", textAlign: "left" }}>
+                  <p style={{ fontSize: "10px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
                     {item.name}
                   </p>
-                  <p style={{
-                    fontSize: "10px",
-                    color: "#FAFAF8",
-                    letterSpacing: "0.1em",
-                    fontFamily: "monospace"
-                  }}>
+                  <p style={{ fontSize: "8px", color: "#FAFAF8", opacity: 0.6, fontFamily: "monospace" }}>
                     2025
                   </p>
                 </div>
