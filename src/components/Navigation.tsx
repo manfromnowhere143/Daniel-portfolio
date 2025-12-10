@@ -225,7 +225,8 @@ export default function Navigation() {
             left: "28px",
             display: "flex",
             flexDirection: "column",
-            gap: "4px"
+            alignItems: "flex-start",
+            gap: "2px"
           }}>
             <span style={{
               fontSize: "13px",
@@ -239,9 +240,8 @@ export default function Navigation() {
             <span style={{
               fontSize: "9px",
               fontWeight: 300,
-              letterSpacing: "0.25em",
-              color: "#FAFAF8",
-              opacity: 0.6
+              letterSpacing: "0.2em",
+              color: "#FAFAF8"
             }}>
               {formatDate(time)}
             </span>
@@ -269,7 +269,7 @@ export default function Navigation() {
           </svg>
         </button>
 
-        {/* Center Content - Navigation Only */}
+        {/* Exact Center - Navigation */}
         <div style={{
           position: "absolute",
           top: "50%",
@@ -278,7 +278,7 @@ export default function Navigation() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "32px"
+          gap: "28px"
         }}>
           {navItems.map((item) => (
             <Link
@@ -290,12 +290,10 @@ export default function Navigation() {
               }}
             >
               <span style={{
-                fontWeight: item.isActive ? 300 : 200,
+                fontWeight: 200,
                 fontSize: "22px",
                 letterSpacing: "0.04em",
-                color: "#FAFAF8",
-                transition: "opacity 0.3s ease",
-                opacity: item.isActive ? 1 : 0.7
+                color: "#FAFAF8"
               }}>
                 {item.label}
               </span>
@@ -303,7 +301,7 @@ export default function Navigation() {
           ))}
         </div>
 
-        {/* Name at bottom */}
+        {/* Name at bottom center */}
         <p style={{
           position: "absolute",
           bottom: "32px",
@@ -314,7 +312,7 @@ export default function Navigation() {
           letterSpacing: "0.3em",
           textTransform: "uppercase",
           color: "#FAFAF8",
-          opacity: 0.4
+          opacity: 0.5
         }}>
           Daniel Wahnich
         </p>
