@@ -217,6 +217,37 @@ export default function Navigation() {
           overflow: "hidden"
         }}
       >
+        {/* Top Left - Time & Date */}
+        {time && (
+          <div style={{
+            position: "absolute",
+            top: "28px",
+            left: "28px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "4px"
+          }}>
+            <span style={{
+              fontSize: "13px",
+              fontWeight: 300,
+              letterSpacing: "0.12em",
+              color: "#FAFAF8",
+              fontVariantNumeric: "tabular-nums"
+            }}>
+              {formatTime(time)}
+            </span>
+            <span style={{
+              fontSize: "9px",
+              fontWeight: 300,
+              letterSpacing: "0.25em",
+              color: "#FAFAF8",
+              opacity: 0.5
+            }}>
+              {formatDate(time)}
+            </span>
+          </div>
+        )}
+
         {/* Close button */}
         <button
           onClick={() => setIsOpen(false)}
@@ -233,11 +264,12 @@ export default function Navigation() {
           aria-label="Close"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <line x1="2" y1="2" x2="22" y2="22" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round"/>
-            <line x1="22" y1="2" x2="2" y2="22" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round"/>
+            <line x1="4" y1="4" x2="20" y2="20" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round"/>
+            <line x1="20" y1="4" x2="4" y2="20" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round"/>
           </svg>
         </button>
 
+        {/* Center Content */}
         <div style={{
           display: "flex",
           flexDirection: "column",
@@ -249,66 +281,27 @@ export default function Navigation() {
           
           {/* Hexagon Symbol */}
           <div style={{
-            width: "36px",
-            height: "42px",
-            marginBottom: "32px"
+            width: "32px",
+            height: "37px",
+            marginBottom: "48px"
           }}>
             <svg viewBox="0 0 28 32" fill="none" style={{ width: "100%", height: "100%" }}>
               <path 
                 d="M14 1L26 8.5V23.5L14 31L2 23.5V8.5L14 1Z" 
                 stroke="#FAFAF8" 
-                strokeWidth="0.75"
+                strokeWidth="0.5"
                 fill="none"
               />
-              <circle cx="14" cy="16" r="3" stroke="#FAFAF8" strokeWidth="0.5" fill="none" opacity="0.6"/>
+              <circle cx="14" cy="16" r="3" stroke="#FAFAF8" strokeWidth="0.4" fill="none" opacity="0.5"/>
             </svg>
           </div>
 
-          {/* Time & Date */}
-          {time && (
-            <div style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "6px",
-              marginBottom: "40px"
-            }}>
-              <span style={{
-                fontSize: "20px",
-                fontWeight: 200,
-                letterSpacing: "0.15em",
-                color: "#FAFAF8",
-                fontVariantNumeric: "tabular-nums"
-              }}>
-                {formatTime(time)}
-              </span>
-              <span style={{
-                fontSize: "10px",
-                fontWeight: 300,
-                letterSpacing: "0.25em",
-                color: "#FAFAF8",
-                opacity: 0.5
-              }}>
-                {formatDate(time)}
-              </span>
-            </div>
-          )}
-
-          {/* Divider */}
-          <div style={{
-            width: "40px",
-            height: "1px",
-            backgroundColor: "#FAFAF8",
-            opacity: 0.15,
-            marginBottom: "40px"
-          }} />
-
-          {/* Navigation Links */}
+          {/* Navigation Links - Centered */}
           <div style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: "28px"
+            gap: "32px"
           }}>
             {navItems.map((item) => (
               <Link
@@ -316,26 +309,14 @@ export default function Navigation() {
                 href={item.href}
                 onClick={() => setIsOpen(false)}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "14px",
                   textDecoration: "none"
                 }}
               >
-                {/* Diamond indicator */}
                 <span style={{
-                  width: "6px",
-                  height: "6px",
-                  backgroundColor: "#FAFAF8",
-                  transform: "rotate(45deg)",
-                  opacity: item.isActive ? 1 : 0,
-                  transition: "opacity 0.3s ease"
-                }} />
-                <span style={{
-                  fontWeight: 200,
-                  fontSize: "18px",
-                  letterSpacing: "0.08em",
-                  color: item.isActive ? "#FAFAF8" : "rgba(250, 250, 248, 0.5)",
+                  fontWeight: item.isActive ? 300 : 200,
+                  fontSize: "20px",
+                  letterSpacing: "0.06em",
+                  color: item.isActive ? "#FAFAF8" : "rgba(250, 250, 248, 0.4)",
                   transition: "color 0.3s ease"
                 }}>
                   {item.label}
@@ -344,24 +325,16 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* Bottom Divider */}
-          <div style={{
-            width: "40px",
-            height: "1px",
-            backgroundColor: "#FAFAF8",
-            opacity: 0.15,
-            marginTop: "48px"
-          }} />
-
-          {/* Name */}
+          {/* Name at bottom */}
           <p style={{
+            position: "absolute",
+            bottom: "32px",
             fontSize: "9px",
             fontWeight: 300,
             letterSpacing: "0.3em",
             textTransform: "uppercase",
             color: "#FAFAF8",
-            opacity: 0.4,
-            marginTop: "32px"
+            opacity: 0.3
           }}>
             Daniel Wahnich
           </p>
