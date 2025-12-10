@@ -5,10 +5,14 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import styles from "./Navigation.module.css";
 
+// Birthday - March 9, 1988
+const BIRTHDAY = new Date("1988-03-09T00:00:00");
+
 export default function Navigation() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState<Date | null>(null);
+  const [age, setAge] = useState<number | null>(null);
 
   // Determine if current page has dark background
   const isDarkPage = pathname === "/" ||
@@ -22,12 +26,19 @@ export default function Navigation() {
   const textColor = isDarkPage ? "#FAFAF8" : "#0A0A0A";
   const hamburgerColor = isDarkPage ? "#FAFAF8" : "#1C1C1C";
 
-  // Real-time clock
+  // Real-time clock & age - updates every 50ms for smooth ticking
   useEffect(() => {
-    setTime(new Date());
-    const interval = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
+    const updateTime = () => {
+      const now = new Date();
+      setTime(now);
+      // Calculate precise age in decimal years
+      const diffMs = now.getTime() - BIRTHDAY.getTime();
+      const years = diffMs / (1000 * 60 * 60 * 24 * 365.2425);
+      setAge(years);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 50);
     return () => clearInterval(interval);
   }, []);
 
@@ -64,6 +75,11 @@ export default function Navigation() {
     }).toUpperCase();
   };
 
+  // Format age with 8 decimal places for smooth ticking
+  const formatAge = (years: number) => {
+    return years.toFixed(8);
+  };
+
   return (
     <>
       {/* Desktop Navigation - Floating Vertical Sidebar */}
@@ -93,7 +109,7 @@ export default function Navigation() {
           </svg>
         </div>
 
-        {/* Time & Date Display */}
+        {/* Time, Date & Age Display */}
         {time && (
           <div style={{
             display: "flex",
@@ -114,15 +130,28 @@ export default function Navigation() {
               fontSize: "10px",
               fontWeight: 300,
               letterSpacing: "0.2em",
-              color: textColor,
-              opacity: 0.7
+              color: textColor
             }}>
               {formatDate(time)}
             </span>
+            {/* Age Clock - Live Ticking */}
+            {age !== null && (
+              <span style={{
+                fontSize: "9px",
+                fontWeight: 300,
+                letterSpacing: "0.02em",
+                color: textColor,
+                fontVariantNumeric: "tabular-nums",
+                marginTop: "8px",
+                fontFamily: "ui-monospace, SFMono-Regular, monospace"
+              }}>
+                {formatAge(age)}
+              </span>
+            )}
           </div>
         )}
 
-        {/* Navigation Links - directly under clock, no line, no dots */}
+        {/* Navigation Links */}
         <div style={{
           display: "flex",
           flexDirection: "column",
@@ -175,7 +204,7 @@ export default function Navigation() {
         </svg>
       </button>
 
-      {/* Mobile Sidebar - State of the Art */}
+      {/* Mobile Sidebar */}
       <div
         className={styles.mobileSidebar}
         style={{
@@ -191,7 +220,7 @@ export default function Navigation() {
           overflow: "hidden"
         }}
       >
-        {/* Top Left - Time & Date */}
+        {/* Top Left - Time, Date & Age */}
         {time && (
           <div style={{
             position: "absolute",
@@ -219,6 +248,20 @@ export default function Navigation() {
             }}>
               {formatDate(time)}
             </span>
+            {/* Age Clock - Live Ticking */}
+            {age !== null && (
+              <span style={{
+                fontSize: "8px",
+                fontWeight: 300,
+                letterSpacing: "0.02em",
+                color: "#FAFAF8",
+                fontVariantNumeric: "tabular-nums",
+                marginTop: "6px",
+                fontFamily: "ui-monospace, SFMono-Regular, monospace"
+              }}>
+                {formatAge(age)}
+              </span>
+            )}
           </div>
         )}
 
