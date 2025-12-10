@@ -36,7 +36,7 @@ export default function Octopus() {
           <FadeImage 
             src="/images/octopushero3.png" 
             alt="Octopus Interface"
-            width={500} aspectRatio={500/350}
+            width={500} aspectRatio="500/350"
             height={350}
             priority
           />
@@ -218,7 +218,7 @@ export default function Octopus() {
             <FadeImage 
               src="/images/ophoto1.jpg" 
               alt="Octopus Planning View"
-              width={600} aspectRatio={600/400}
+              width={600} aspectRatio="600/400"
               height={400}
             />
           </div>
@@ -232,7 +232,7 @@ export default function Octopus() {
             <FadeImage 
               src="/images/ophoto2.jpg" 
               alt="Octopus Memory View"
-              width={600} aspectRatio={600/400}
+              width={600} aspectRatio="600/400"
               height={400}
             />
           </div>

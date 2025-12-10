@@ -36,7 +36,7 @@ export default function Overmind() {
           <FadeImage 
             src="/images/twinkle.png" 
             alt="Overmind"
-            width={500} aspectRatio={500/350}
+            width={500} aspectRatio="500/350"
             height={350}
             priority
           />
