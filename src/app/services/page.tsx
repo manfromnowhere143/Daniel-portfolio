@@ -70,37 +70,18 @@ export default function Services() {
 
       {/* Also Seeking Section */}
       <div style={{
-        maxWidth: "700px",
+        maxWidth: "480px",
         marginTop: "clamp(60px, 10vh, 80px)",
-        textAlign: "center"
+        textAlign: "left"
       }}>
         <p style={{
-          fontSize: "11px",
-          letterSpacing: "0.12em",
-          color: "#FAFAF8",
-          marginBottom: "clamp(16px, 2vh, 20px)"
-        }}>
-          Also seeking
-        </p>
-
-        <p style={{
-          fontSize: "clamp(18px, 3vw, 24px)",
+          fontSize: "clamp(14px, 2vw, 15px)",
           fontWeight: 200,
           color: "#FAFAF8",
-          lineHeight: 1.4,
-          marginBottom: "clamp(20px, 3vh, 28px)",
-          letterSpacing: "-0.01em"
+          lineHeight: 1.7,
+          letterSpacing: "0.02em"
         }}>
-          A team and a mentor
-        </p>
-
-        <p style={{
-          fontSize: "12px",
-          color: "#FAFAF8",
-          letterSpacing: "0.08em",
-          fontWeight: 300
-        }}>
-          Robotics · Computer Vision · AI · LLM
+          Also seeking to join a team, find a great mentor, and happy to take the coffee maker position at any data center. My deep interests lie in robotics, computer vision, and LLMs.
         </p>
       </div>
 
