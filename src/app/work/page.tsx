@@ -12,43 +12,33 @@ export default function Work() {
   ];
 
   return (
-    <div style={{ paddingTop: "40px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
-      
-      {/* Hero */}
-      <div style={{ 
-        maxWidth: "900px", 
-        margin: "0 auto", 
-        padding: "clamp(20px, 3vh, 32px) 24px clamp(40px, 6vh, 60px)",
-        textAlign: "center"
-      }}>
-        <h1 style={{ 
-          fontSize: "clamp(32px, 5vw, 52px)", 
-          fontWeight: 200,
-          color: "#FAFAF8",
-          letterSpacing: "-0.01em",
-          lineHeight: 1.1
-        }}>
-          Work
-        </h1>
-      </div>
-
+    <div style={{
+      minHeight: "100vh",
+      backgroundColor: "#0A0A0A",
+      display: "flex",
+      alignItems: "flex-start",
+      justifyContent: "center",
+      paddingTop: "clamp(80px, 12vh, 140px)",
+      paddingBottom: "60px",
+      paddingLeft: "24px",
+      paddingRight: "24px"
+    }}>
       {/* Projects List */}
-      <div style={{ 
-        maxWidth: "600px", 
-        margin: "0 auto", 
-        padding: "0 24px clamp(80px, 12vh, 120px)"
+      <div style={{
+        maxWidth: "600px",
+        width: "100%"
       }}>
-        <div style={{ 
-          display: "flex", 
+        <div style={{
+          display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "clamp(32px, 5vh, 44px)"
+          gap: "clamp(36px, 6vh, 48px)"
         }}>
           {projects.map((project, index) => (
-            <Link 
+            <Link
               key={index}
               href={project.href}
-              style={{ 
+              style={{
                 textDecoration: "none",
                 display: "flex",
                 flexDirection: "column",
@@ -62,9 +52,9 @@ export default function Work() {
               <div>
                 {project.icon}
               </div>
-              
-              <h2 style={{ 
-                fontSize: "clamp(18px, 2.5vw, 22px)", 
+
+              <h2 style={{
+                fontSize: "clamp(18px, 2.5vw, 22px)",
                 fontWeight: 200,
                 color: "#FAFAF8",
                 letterSpacing: "0.02em",
@@ -73,8 +63,8 @@ export default function Work() {
               }}>
                 {project.name}
               </h2>
-              <span style={{ 
-                fontSize: "12px", 
+              <span style={{
+                fontSize: "12px",
                 color: "#FAFAF8"
               }}>
                 →
