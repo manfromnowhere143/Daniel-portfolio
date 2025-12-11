@@ -78,6 +78,24 @@ export default function About() {
             fontWeight: 200,
             letterSpacing: "0.01em"
           }}>
+            It's actually much deeper than that. Building this website means facing my darkest demons, my entire life story. The shame, the guilt, the self-hate, and their opposites. This is something I meet every single day, so perhaps the best I can do is extract something useful from it. The beauty of state of the art creations is that they all have one thing in common: they are free to be made.
+          </p>
+          <p style={{
+            fontSize: "clamp(16px, 2vw, 18px)",
+            color: "#FAFAF8",
+            lineHeight: 1.9,
+            fontWeight: 200,
+            letterSpacing: "0.01em"
+          }}>
+            A few months ago I wrote: "I don't know what I'm becoming, but I will let myself unfold." This line defines my work. This custom build is the presentation of that unfolding.
+          </p>
+          <p style={{
+            fontSize: "clamp(16px, 2vw, 18px)",
+            color: "#FAFAF8",
+            lineHeight: 1.9,
+            fontWeight: 200,
+            letterSpacing: "0.01em"
+          }}>
             I'm not trying to appear confident here, I'm really not. If anything, I often lack it. What I hope comes through is simpler than that: my commitment, my stubborn work, and my dedication. Not for approval, not to impress. Just to be presented as I am.
           </p>
           <p style={{
