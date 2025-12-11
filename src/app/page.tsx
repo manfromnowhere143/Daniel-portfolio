@@ -69,7 +69,7 @@ export default function About() {
             fontWeight: 200,
             letterSpacing: "0.01em"
           }}>
-            As I'm writing this (December 10, 2025), 79 hours into building this website over the past 6 days, I've been trying to gather everything I've built in the last nine months since March 2025, the date of my first ever GitHub commit. In this short (yet very long) time of building, I've been learning how authenticity takes form, how it shapes itself and spreads like a spider's web until it becomes whole.
+            As I'm writing this (December 10, 2025), 79 hours into building this website over the past 6 days, I've been trying to gather everything I've built in the last nine months since March 2025, the date of my first ever GitHub commit. In these short (yet very long) 6 days, I've been learning how authenticity takes form, how it shapes itself and spreads like a spider's web until it becomes itself.
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
