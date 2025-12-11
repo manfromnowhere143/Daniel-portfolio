@@ -12,73 +12,117 @@ export default function Work() {
   ];
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      backgroundColor: "#0A0A0A",
-      paddingTop: "clamp(80px, 12vh, 140px)",
-      paddingBottom: "60px",
-      paddingLeft: "24px",
-      paddingRight: "24px"
-    }}>
-      {/* Projects Grid - 2x2 on desktop, stacked on mobile */}
+    <>
+      <style>{`
+        .work-grid {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 36px;
+        }
+        .work-item {
+          padding: 0;
+        }
+        .work-icon {
+          transform: scale(1);
+          padding: 0;
+          background: none;
+          margin-bottom: 4px;
+        }
+        .work-title {
+          font-size: 18px;
+          margin-top: 4px;
+          margin-bottom: 2px;
+        }
+        .work-arrow {
+          opacity: 1;
+        }
+        
+        @media (min-width: 600px) {
+          .work-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 64px;
+          }
+          .work-item {
+            padding: 32px;
+          }
+          .work-icon {
+            transform: scale(1.4);
+            padding: 20px;
+            background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            margin-bottom: 16px;
+          }
+          .work-title {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 6px;
+          }
+          .work-arrow {
+            opacity: 0.6;
+          }
+        }
+      `}</style>
+
       <div style={{
-        maxWidth: "700px",
-        margin: "0 auto"
+        minHeight: "100vh",
+        backgroundColor: "#0A0A0A",
+        paddingTop: "clamp(80px, 12vh, 140px)",
+        paddingBottom: "60px",
+        paddingLeft: "24px",
+        paddingRight: "24px"
       }}>
         <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          gap: "clamp(40px, 7vh, 64px) clamp(32px, 6vw, 64px)"
+          maxWidth: "700px",
+          margin: "0 auto"
         }}>
-          {projects.map((project, index) => (
-            <Link
-              key={index}
-              href={project.href}
-              style={{
-                textDecoration: "none",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: "clamp(24px, 4vh, 32px)",
-                borderRadius: "2px",
-                transition: "opacity 0.3s ease"
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.opacity = "0.7"}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
-            >
-              {/* Icon with subtle glow */}
-              <div style={{
-                padding: "20px",
-                background: "radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%)",
-                borderRadius: "50%",
-                marginBottom: "16px",
-                transform: "scale(1.4)"
-              }}>
-                {project.icon}
-              </div>
+          <div className="work-grid">
+            {projects.map((project, index) => (
+              <Link
+                key={index}
+                href={project.href}
+                className="work-item"
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  borderRadius: "2px",
+                  transition: "opacity 0.3s ease"
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = "0.7"}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
+              >
+                <div className="work-icon">
+                  {project.icon}
+                </div>
 
-              <h2 style={{
-                fontSize: "clamp(15px, 2vw, 18px)",
-                fontWeight: 200,
-                color: "#FAFAF8",
-                letterSpacing: "0.03em",
-                marginTop: "0",
-                marginBottom: "6px",
-                textAlign: "center"
-              }}>
-                {project.name}
-              </h2>
-              <span style={{
-                fontSize: "12px",
-                color: "#FAFAF8",
-                opacity: 0.6
-              }}>
-                →
-              </span>
-            </Link>
-          ))}
+                <h2
+                  className="work-title"
+                  style={{
+                    fontWeight: 200,
+                    color: "#FAFAF8",
+                    letterSpacing: "0.03em",
+                    textAlign: "center"
+                  }}
+                >
+                  {project.name}
+                </h2>
+                <span
+                  className="work-arrow"
+                  style={{
+                    fontSize: "12px",
+                    color: "#FAFAF8"
+                  }}
+                >
+                  →
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
