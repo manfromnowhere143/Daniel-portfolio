@@ -34,10 +34,10 @@ export default function Services() {
         }
         .services-seeking {
           font-size: 14px;
-          margin-top: 48px;
+          margin-top: 80px;
         }
         .services-contact {
-          margin-top: 48px;
+          margin-top: 56px;
         }
         
         @media (min-width: 600px) {
@@ -61,10 +61,10 @@ export default function Services() {
           }
           .services-seeking {
             font-size: 16px;
-            margin-top: clamp(64px, 10vh, 96px);
+            margin-top: clamp(100px, 14vh, 130px);
           }
           .services-contact {
-            margin-top: clamp(64px, 10vh, 96px);
+            margin-top: clamp(72px, 11vh, 100px);
           }
         }
       `}</style>
