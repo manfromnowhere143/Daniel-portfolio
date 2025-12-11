@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import { WebsiteIcon, DashboardIcon, APIIcon, LLMIcon } from "@/components/ServiceIcons";
+import GeometricDivider from "@/components/GeometricDivider";
 
 export const metadata: Metadata = {
   title: "Services | Daniel Wahnich",
@@ -19,25 +20,21 @@ export default function Services() {
     <div style={{
       minHeight: "100vh",
       backgroundColor: "#0A0A0A",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      paddingTop: "clamp(80px, 12vh, 140px)",
-      paddingBottom: "60px",
+      paddingTop: "clamp(100px, 15vh, 160px)",
+      paddingBottom: "clamp(80px, 12vh, 120px)",
       paddingLeft: "24px",
       paddingRight: "24px"
     }}>
 
-      {/* Services List */}
+      {/* Services Grid - 2x2 on desktop, stacked on mobile */}
       <div style={{
-        maxWidth: "600px",
-        width: "100%"
+        maxWidth: "700px",
+        margin: "0 auto"
       }}>
         <div style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "clamp(36px, 6vh, 48px)"
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+          gap: "clamp(40px, 7vh, 64px) clamp(32px, 6vw, 64px)"
         }}>
           {services.map((item, i) => (
             <div
@@ -45,21 +42,29 @@ export default function Services() {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center"
+                alignItems: "center",
+                padding: "clamp(24px, 4vh, 32px)",
+                borderRadius: "2px",
+                transition: "all 0.4s ease"
               }}
             >
-              {/* Icon */}
-              <div>
+              {/* Icon with subtle glow */}
+              <div style={{
+                padding: "20px",
+                background: "radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%)",
+                borderRadius: "50%",
+                marginBottom: "16px",
+                transform: "scale(1.4)"
+              }}>
                 {item.icon}
               </div>
 
               <p style={{
-                fontSize: "clamp(18px, 2.5vw, 22px)",
+                fontSize: "clamp(15px, 2vw, 18px)",
                 fontWeight: 200,
                 color: "#FAFAF8",
-                letterSpacing: "0.02em",
-                marginTop: "4px",
-                marginBottom: "0"
+                letterSpacing: "0.03em",
+                textAlign: "center"
               }}>
                 {item.title}
               </p>
@@ -68,89 +73,67 @@ export default function Services() {
         </div>
       </div>
 
-      {/* Also Seeking Section */}
+      {/* Geometric Divider */}
       <div style={{
-        maxWidth: "480px",
-        marginTop: "clamp(60px, 10vh, 80px)",
-        textAlign: "left"
+        display: "flex",
+        justifyContent: "center",
+        margin: "clamp(64px, 10vh, 96px) auto"
+      }}>
+        <GeometricDivider />
+      </div>
+
+      {/* Also Seeking Section - Centered elegant note */}
+      <div style={{
+        maxWidth: "520px",
+        margin: "0 auto",
+        textAlign: "center"
       }}>
         <p style={{
-          fontSize: "clamp(14px, 2vw, 15px)",
+          fontSize: "clamp(14px, 1.8vw, 16px)",
           fontWeight: 200,
           color: "#FAFAF8",
-          lineHeight: 1.7,
+          lineHeight: 1.9,
           letterSpacing: "0.02em"
         }}>
           Also seeking to join a team, find a great mentor, and happy to take the coffee maker position at any data center. My deep interests lie in robotics, computer vision, and LLMs.
         </p>
       </div>
 
-      {/* Contact */}
+      {/* Contact - Minimal */}
       <div style={{
-        maxWidth: "700px",
-        marginTop: "clamp(48px, 8vh, 72px)",
+        maxWidth: "520px",
+        margin: "clamp(64px, 10vh, 96px) auto 0",
         textAlign: "center"
       }}>
-        <p style={{
-          fontSize: "11px",
-          letterSpacing: "0.08em",
-          color: "#FAFAF8",
-          marginBottom: "clamp(16px, 2vh, 20px)",
-          fontWeight: 200
-        }}>
-          Contact
-        </p>
-
-        <p style={{
-          marginBottom: "12px"
-        }}>
-          <a
-            href="mailto:cogitoergosum143@gmail.com"
-            style={{
-              fontSize: "13px",
-              color: "#FAFAF8",
-              textDecoration: "none",
-              fontWeight: 300,
-              letterSpacing: "0.02em"
-            }}
-          >
-            cogitoergosum143@gmail.com
-          </a>
-        </p>
-
-        <p>
-          <a
-            href="https://github.com/manfromnowhere143"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontSize: "12px",
-              color: "#FAFAF8",
-              textDecoration: "none",
-              fontWeight: 300
-            }}
-          >
-            GitHub
-          </a>
-        </p>
-      </div>
-
-      {/* Navigation */}
-      <div style={{
-        marginTop: "clamp(40px, 6vh, 60px)",
-        textAlign: "center"
-      }}>
-        <Link
-          href="/"
+        <a
+          href="mailto:cogitoergosum143@gmail.com"
           style={{
-            fontSize: "11px",
+            fontSize: "clamp(12px, 1.5vw, 14px)",
             color: "#FAFAF8",
             textDecoration: "none",
-            letterSpacing: "0.12em"
+            fontWeight: 200,
+            letterSpacing: "0.04em",
+            display: "inline-block",
+            marginBottom: "16px"
           }}
         >
-          ← About
-        </Link>
+          cogitoergosum143@gmail.com
+        </a>
+
+        <div style={{ marginTop: "24px" }}>
+          <Link
+            href="/"
+            style={{
+              fontSize: "11px",
+              color: "#FAFAF8",
+              textDecoration: "none",
+              letterSpacing: "0.12em",
+              opacity: 0.7
+            }}
+          >
+            ← About
+          </Link>
+        </div>
       </div>
 
     </div>
