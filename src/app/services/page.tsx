@@ -34,10 +34,10 @@ export default function Services() {
         }
         .services-seeking {
           font-size: 14px;
-          margin-top: 80px;
+          margin-top: 96px;
         }
         .services-contact {
-          margin-top: 56px;
+          margin-top: 64px;
         }
         
         @media (min-width: 600px) {
@@ -61,10 +61,10 @@ export default function Services() {
           }
           .services-seeking {
             font-size: 16px;
-            margin-top: clamp(100px, 14vh, 130px);
+            margin-top: clamp(120px, 16vh, 160px);
           }
           .services-contact {
-            margin-top: clamp(72px, 11vh, 100px);
+            margin-top: clamp(80px, 12vh, 110px);
           }
         }
       `}</style>
@@ -122,7 +122,8 @@ export default function Services() {
           className="services-seeking"
           style={{
             maxWidth: "520px",
-            margin: "0 auto",
+            marginLeft: "auto",
+            marginRight: "auto",
             textAlign: "left"
           }}
         >
@@ -143,7 +144,8 @@ export default function Services() {
           className="services-contact"
           style={{
             maxWidth: "520px",
-            margin: "0 auto",
+            marginLeft: "auto",
+            marginRight: "auto",
             textAlign: "left"
           }}
         >
