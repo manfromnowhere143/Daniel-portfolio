@@ -289,16 +289,16 @@ export default function MegaAgent() {
         </p>
       </div>
 
-      {/* Scale - Mobile Responsive */}
+      {/* Scale - Compact */}
       <div style={{
-        maxWidth: "900px",
+        maxWidth: "600px",
         margin: "0 auto",
         padding: "clamp(40px, 6vh, 60px) 24px"
       }}>
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "clamp(8px, 2vw, 40px)"
+          gap: "16px"
         }}>
           {[
             { value: "365", label: "Files" },
@@ -308,16 +308,16 @@ export default function MegaAgent() {
           ].map((item, i) => (
             <div key={i} style={{ textAlign: "center" }}>
               <p style={{
-                fontSize: "clamp(14px, 2.5vw, 36px)",
-                fontWeight: 200,
+                fontSize: "16px",
+                fontWeight: 300,
                 color: "#FAFAF8",
-                letterSpacing: "-0.02em",
+                letterSpacing: "-0.01em",
                 marginBottom: "2px"
               }}>
                 {item.value}
               </p>
               <p style={{
-                fontSize: "clamp(6px, 0.8vw, 10px)",
+                fontSize: "8px",
                 color: "#FAFAF8",
                 opacity: 0.5,
                 letterSpacing: "0.08em",
