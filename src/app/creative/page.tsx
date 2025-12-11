@@ -29,13 +29,14 @@ export default function Creative() {
         textAlign: "center"
       }}>
         <h1 style={{
-          fontSize: "clamp(32px, 5vw, 52px)",
+          fontSize: "clamp(24px, 4vw, 36px)",
           fontWeight: 200,
           color: "#FAFAF8",
-          letterSpacing: "-0.01em",
-          lineHeight: 1.1
+          letterSpacing: "0.02em",
+          lineHeight: 1.1,
+          fontStyle: "italic"
         }}>
-          Creative
+          visual figments
         </h1>
       </div>
 
@@ -99,16 +100,6 @@ export default function Creative() {
             margin: "clamp(48px, 8vh, 64px) auto 0",
             textAlign: "left"
           }}>
-            <p style={{
-              fontSize: "11px",
-              color: "#FAFAF8",
-              letterSpacing: "0.15em",
-              marginBottom: "clamp(16px, 2vh, 20px)",
-              fontFamily: "monospace"
-            }}>
-              May 2025
-            </p>
-
             <p style={{
               fontSize: "clamp(14px, 1.8vw, 16px)",
               color: "#FAFAF8",
