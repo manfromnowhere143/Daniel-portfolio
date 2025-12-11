@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { WebsiteIcon, DashboardIcon, APIIcon, LLMIcon } from "@/components/ServiceIcons";
-import GeometricDivider from "@/components/GeometricDivider";
 
 export default function Services() {
   const services = [
@@ -33,11 +32,9 @@ export default function Services() {
         .services-title {
           font-size: 16px;
         }
-        .services-divider {
-          margin: 48px auto;
-        }
         .services-seeking {
           font-size: 14px;
+          margin-top: 48px;
         }
         .services-contact {
           margin-top: 48px;
@@ -62,11 +59,9 @@ export default function Services() {
           .services-title {
             font-size: 18px;
           }
-          .services-divider {
-            margin: clamp(64px, 10vh, 96px) auto;
-          }
           .services-seeking {
             font-size: 16px;
+            margin-top: clamp(64px, 10vh, 96px);
           }
           .services-contact {
             margin-top: clamp(64px, 10vh, 96px);
@@ -80,7 +75,8 @@ export default function Services() {
         paddingTop: "clamp(80px, 12vh, 140px)",
         paddingBottom: "60px",
         paddingLeft: "24px",
-        paddingRight: "24px"
+        paddingRight: "24px",
+        overscrollBehavior: "none"
       }}>
 
         {/* Services Grid */}
@@ -121,25 +117,16 @@ export default function Services() {
           </div>
         </div>
 
-        {/* Geometric Divider */}
+        {/* Also Seeking Section */}
         <div
-          className="services-divider"
+          className="services-seeking"
           style={{
-            display: "flex",
-            justifyContent: "center"
+            maxWidth: "520px",
+            margin: "0 auto",
+            textAlign: "left"
           }}
         >
-          <GeometricDivider />
-        </div>
-
-        {/* Also Seeking Section */}
-        <div style={{
-          maxWidth: "520px",
-          margin: "0 auto",
-          textAlign: "center"
-        }}>
           <p
-            className="services-seeking"
             style={{
               fontWeight: 200,
               color: "#FAFAF8",
@@ -157,7 +144,7 @@ export default function Services() {
           style={{
             maxWidth: "520px",
             margin: "0 auto",
-            textAlign: "center"
+            textAlign: "left"
           }}
         >
           <a
