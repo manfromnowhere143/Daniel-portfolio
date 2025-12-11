@@ -20,8 +20,8 @@ export default function Services() {
     <div style={{
       minHeight: "100vh",
       backgroundColor: "#0A0A0A",
-      paddingTop: "clamp(100px, 15vh, 160px)",
-      paddingBottom: "clamp(80px, 12vh, 120px)",
+      paddingTop: "clamp(80px, 12vh, 140px)",
+      paddingBottom: "60px",
       paddingLeft: "24px",
       paddingRight: "24px"
     }}>
