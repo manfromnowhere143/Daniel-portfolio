@@ -130,29 +130,16 @@ export default function Creative() {
               The frontend is also tricky and contains complex architecture. Well, it was for me anyway.
             </p>
 
-            {/* Tech Stack */}
-            <div style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: "8px"
+            {/* Tech Stack - Natural format */}
+            <p style={{
+              fontSize: "10px",
+              color: "#FAFAF8",
+              letterSpacing: "0.1em",
+              fontFamily: "monospace",
+              textAlign: "center"
             }}>
-              {["React", "Three.js", "TypeScript", "Next.js", "WebGL"].map((tech) => (
-                <span
-                  key={tech}
-                  style={{
-                    fontSize: "10px",
-                    color: "#FAFAF8",
-                    letterSpacing: "0.08em",
-                    padding: "6px 12px",
-                    border: "1px solid #1E1E1C",
-                    borderRadius: "2px"
-                  }}
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
+              React · Three.js · TypeScript · Next.js · WebGL
+            </p>
           </div>
         </div>
 
