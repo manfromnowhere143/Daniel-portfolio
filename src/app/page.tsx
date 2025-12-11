@@ -78,7 +78,7 @@ export default function About() {
             fontWeight: 200,
             letterSpacing: "0.01em"
           }}>
-            My desire is that this presentation reflects that I'm not trying to appear arrogant or overly confident, quite the opposite. I'm someone who often lacks confidence, not someone with extra of it. I hope what comes through is the message I'm truly trying to send: my commitment, my stubborn work, and my dedication. Not for approval, not to impress anyone, but simply because I want to be presented precisely as I am.
+            I'm not trying to appear confident here, I'm really not. If anything, I often lack it. What I hope comes through is simpler than that: my commitment, my stubborn work, and my dedication. Not for approval, not to impress. Just to be presented as I am.
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
@@ -204,18 +204,6 @@ export default function About() {
         margin: "0 auto",
         padding: "0 24px clamp(40px, 6vh, 60px)"
       }}>
-        <h2 style={{
-          fontSize: "clamp(11px, 1.4vw, 13px)",
-          fontWeight: 500,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-          color: "#FAFAF8",
-          marginBottom: "clamp(48px, 8vh, 64px)",
-          textAlign: "center"
-        }}>
-          Philosophy, Thought & Identity
-        </h2>
-
         <div style={{
           display: "flex",
           flexDirection: "column",
@@ -228,7 +216,7 @@ export default function About() {
             fontWeight: 200,
             letterSpacing: "0.01em"
           }}>
-            Another person I appreciate deeply introduced me to a famous sentence by René Descartes: "Cogito ergo sum", "I think, therefore I am." It took time to sink in. She didn't explain it, she simply said it to me and left the meaning for me to discover.
+            A person I met along the way introduced me to a famous sentence by René Descartes: "Cogito ergo sum", "I think, therefore I am." It took time to sink in. She didn't explain it, she simply said it to me and left the meaning for me to discover.
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
@@ -273,7 +261,7 @@ export default function About() {
             fontWeight: 200,
             letterSpacing: "0.01em"
           }}>
-            But the one thing that excites me every single day, the thing that fulfills me more than anything, is learning. Understanding something today that I didn't understand yesterday. Getting wiser, even in tiny increments. Growing to the point I sometimes forget I'm supposed to make a living.
+            You see, I learned on my flesh what gives me real satisfaction. Surprisingly, the answer is simple. I like to think of it as difficult simplicity. Understanding new things, I mean when they're really built in. Like understanding what a function is for the first time. That moment when something clicks and becomes part of how you think. Growing to the point I sometimes forget I'm supposed to make a living.
           </p>
           <p style={{
             fontSize: "clamp(16px, 2vw, 18px)",
