@@ -39,7 +39,7 @@ function ServiceIcon3D({ type, size = 220, forceAnimate = false }: ServiceIcon3D
     const container = containerRef.current;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-    camera.position.z = isMobile ? 3.2 : 4.2; // Closer on mobile for better visibility
+    camera.position.z = isMobile ? 2.8 : 3.2; // Closer for bigger appearance
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,

@@ -49,12 +49,12 @@ export default function Services() {
         .services-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 8px;
-          max-width: 320px;
+          gap: 16px;
+          max-width: 300px;
           margin: 0 auto;
         }
         .services-item {
-          padding: 12px 8px;
+          padding: 8px;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -68,7 +68,7 @@ export default function Services() {
           margin-bottom: 8px;
         }
         .services-title {
-          font-size: 12px;
+          font-size: 11px;
           margin: 0;
           padding: 0;
         }
@@ -155,11 +155,11 @@ export default function Services() {
         @media (min-width: 600px) {
           .services-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 32px 56px;
-            max-width: 760px;
+            gap: 40px;
+            max-width: 420px;
           }
           .services-item {
-            padding: 20px;
+            padding: 16px;
             cursor: default;
           }
           .services-item:active {
@@ -169,11 +169,11 @@ export default function Services() {
             transform: scale(1.04);
           }
           .services-icon {
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             transition: transform 0.3s ease;
           }
           .services-title {
-            font-size: 17px;
+            font-size: 14px;
           }
           .services-seeking {
             font-size: 16px;
@@ -207,7 +207,7 @@ export default function Services() {
               onClick={() => handleClick(i)}
             >
               <div className="services-icon">
-                {renderIcon(item.key, isMobile ? 110 : 200)}
+                {renderIcon(item.key, isMobile ? 120 : 150)}
               </div>
               <p
                 className="services-title"
