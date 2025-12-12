@@ -215,7 +215,33 @@ export default function Creative() {
           </svg>
         );
       case "metatron-genesis":
-        return <MetatronCube />;
+        return (
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            {/* Outer circle */}
+            <circle cx="40" cy="40" r="28" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
+            {/* Inner circles - Fruit of Life pattern */}
+            <circle cx="40" cy="40" r="14" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.6" />
+            <circle cx="40" cy="26" r="14" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.4" />
+            <circle cx="40" cy="54" r="14" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.4" />
+            <circle cx="52" cy="33" r="14" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.4" />
+            <circle cx="52" cy="47" r="14" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.4" />
+            <circle cx="28" cy="33" r="14" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.4" />
+            <circle cx="28" cy="47" r="14" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.4" />
+            {/* Metatron lines */}
+            <line x1="40" y1="26" x2="52" y2="33" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
+            <line x1="52" y1="33" x2="52" y2="47" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
+            <line x1="52" y1="47" x2="40" y2="54" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
+            <line x1="40" y1="54" x2="28" y2="47" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
+            <line x1="28" y1="47" x2="28" y2="33" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
+            <line x1="28" y1="33" x2="40" y2="26" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
+            {/* Cross lines */}
+            <line x1="40" y1="26" x2="40" y2="54" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
+            <line x1="28" y1="33" x2="52" y2="47" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
+            <line x1="28" y1="47" x2="52" y2="33" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
+            {/* Center */}
+            <circle cx="40" cy="40" r="3" fill="#FAFAF8" opacity="0.6" />
+          </svg>
+        );
       case "architecture":
         return (
           <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
