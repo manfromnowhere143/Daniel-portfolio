@@ -16,10 +16,26 @@ export default function Services() {
   }, []);
 
   const services = [
-    { title: "Custom Websites", key: "website" },
-    { title: "Dashboards", key: "dashboard" },
-    { title: "API Development", key: "api" },
-    { title: "LLM Middleware", key: "llm" }
+    {
+      title: "Web Applications",
+      key: "website",
+      description: "Full-stack applications with modern frameworks. SEO optimization, responsive design, authentication, databases, and deployment infrastructure."
+    },
+    {
+      title: "Dashboards",
+      key: "dashboard",
+      description: "Real-time data visualization and monitoring interfaces. Custom analytics, interactive charts, and live data streams for informed decision-making."
+    },
+    {
+      title: "API Development",
+      key: "api",
+      description: "RESTful and GraphQL APIs with robust architecture. Authentication, rate limiting, documentation, and seamless third-party integrations."
+    },
+    {
+      title: "LLM Middleware",
+      key: "llm",
+      description: "Custom AI integrations and agent systems. Prompt engineering, context management, tool orchestration, and multi-model pipelines."
+    }
   ];
 
   const renderIcon = (key: string, size: number, forceAnimate: boolean = false) => {
@@ -65,12 +81,7 @@ export default function Services() {
           transform: scale(0.95);
         }
         .services-icon {
-          margin-bottom: 8px;
-        }
-        .services-title {
-          font-size: 11px;
-          margin: 0;
-          padding: 0;
+          /* No margin needed without title */
         }
         .services-seeking {
           font-size: 14px;
@@ -98,10 +109,17 @@ export default function Services() {
           transition: opacity 0.3s ease;
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
+          padding: 40px 24px;
         }
         .expanded-overlay.active {
           opacity: 1;
           pointer-events: auto;
+        }
+        .expanded-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          max-width: 400px;
         }
         .expanded-icon {
           transform: scale(0.7);
@@ -118,9 +136,25 @@ export default function Services() {
           letter-spacing: 0.08em;
           opacity: 0;
           transform: translateY(15px);
-          transition: all 0.4s ease 0.2s;
+          transition: all 0.4s ease 0.15s;
         }
         .expanded-overlay.active .expanded-title {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .expanded-desc {
+          margin-top: 16px;
+          font-size: 13px;
+          font-weight: 300;
+          color: #FAFAF8;
+          line-height: 1.9;
+          text-align: center;
+          opacity: 0;
+          transform: translateY(15px);
+          transition: all 0.4s ease 0.25s;
+          padding: 0 16px;
+        }
+        .expanded-overlay.active .expanded-desc {
           opacity: 1;
           transform: translateY(0);
         }
@@ -169,11 +203,7 @@ export default function Services() {
             transform: scale(1.04);
           }
           .services-icon {
-            margin-bottom: 12px;
             transition: transform 0.3s ease;
-          }
-          .services-title {
-            font-size: 14px;
           }
           .services-seeking {
             font-size: 16px;
@@ -209,17 +239,6 @@ export default function Services() {
               <div className="services-icon">
                 {renderIcon(item.key, isMobile ? 120 : 150)}
               </div>
-              <p
-                className="services-title"
-                style={{
-                  fontWeight: 200,
-                  color: "#FAFAF8",
-                  letterSpacing: "0.04em",
-                  textAlign: "center"
-                }}
-              >
-                {item.title}
-              </p>
             </div>
           ))}
         </div>
@@ -231,12 +250,13 @@ export default function Services() {
         >
           <div className="expanded-close">×</div>
           {expandedIndex !== null && (
-            <>
+            <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
               <div className="expanded-icon" key={`expanded-${expandedIndex}`}>
                 {renderIcon(services[expandedIndex].key, 280, true)}
               </div>
               <p className="expanded-title">{services[expandedIndex].title}</p>
-            </>
+              <p className="expanded-desc">{services[expandedIndex].description}</p>
+            </div>
           )}
           <p className="expanded-tap-hint">tap anywhere to close</p>
         </div>
@@ -295,8 +315,7 @@ export default function Services() {
                 fontSize: "11px",
                 color: "#FAFAF8",
                 textDecoration: "none",
-                letterSpacing: "0.12em",
-                opacity: 0.7
+                letterSpacing: "0.12em"
               }}
             >
               ← About

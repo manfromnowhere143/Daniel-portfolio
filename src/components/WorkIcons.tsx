@@ -124,16 +124,22 @@ export function OvermindIcon() {
   const size = 32;
   const cx = size / 2;
   const cy = size / 2;
-  const chainLinks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => {
-    const angle = (i * Math.PI * 2) / 12 - Math.PI / 2;
-    const r = 10;
-    return {
-      x: cx + Math.cos(angle) * r,
-      y: cy + Math.sin(angle) * r,
-      rotation: (i * 30) + 45,
-      opacity: 0.5 + (i % 3) * 0.15
-    };
-  });
+
+  // Pre-calculated chain link positions to avoid hydration mismatch from floating point
+  const chainLinks = [
+    { x: 16, y: 6, rotation: 45, opacity: 0.5 },
+    { x: 20.66, y: 7.34, rotation: 75, opacity: 0.65 },
+    { x: 24, y: 11.34, rotation: 105, opacity: 0.8 },
+    { x: 25, y: 16, rotation: 135, opacity: 0.5 },
+    { x: 24, y: 20.66, rotation: 165, opacity: 0.65 },
+    { x: 20.66, y: 24, rotation: 195, opacity: 0.8 },
+    { x: 16, y: 25, rotation: 225, opacity: 0.5 },
+    { x: 11.34, y: 24, rotation: 255, opacity: 0.65 },
+    { x: 8, y: 20.66, rotation: 285, opacity: 0.8 },
+    { x: 7, y: 16, rotation: 315, opacity: 0.5 },
+    { x: 8, y: 11.34, rotation: 345, opacity: 0.65 },
+    { x: 11.34, y: 7.34, rotation: 375, opacity: 0.8 }
+  ];
   const trianglePoints = `${cx},${cy - 5} ${cx - 4.3},${cy + 2.5} ${cx + 4.3},${cy + 2.5}`;
 
   return (
