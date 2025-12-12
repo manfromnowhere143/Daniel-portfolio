@@ -18,53 +18,70 @@ export default function Services() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 32px;
+          gap: 40px;
         }
         .services-item {
           padding: 0;
         }
         .services-icon {
-          transform: scale(1);
-          padding: 0;
-          background: none;
-          margin-bottom: 4px;
+          transform: scale(1.2);
+          padding: 16px;
+          background: radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%);
+          border-radius: 50%;
+          margin-bottom: 12px;
+          transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .services-icon svg {
+          stroke: #FAFAF8 !important;
+          fill: none !important;
+          opacity: 1 !important;
+        }
+        .services-icon svg * {
+          stroke: #FAFAF8 !important;
+          opacity: 1 !important;
+        }
+        .services-item:hover .services-icon {
+          transform: scale(1.3);
+          background: radial-gradient(ellipse at center, rgba(255,255,255,0.08) 0%, transparent 70%);
         }
         .services-title {
-          font-size: 16px;
+          font-size: 15px;
         }
         .services-seeking {
           font-size: 14px;
-          margin-top: 96px;
+          margin-top: 80px;
         }
         .services-contact {
-          margin-top: 64px;
+          margin-top: 56px;
         }
         
         @media (min-width: 600px) {
           .services-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 64px;
+            gap: 56px 80px;
           }
           .services-item {
             padding: 32px;
           }
           .services-icon {
-            transform: scale(1.4);
-            padding: 20px;
-            background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%);
-            border-radius: 50%;
-            margin-bottom: 16px;
+            transform: scale(1.5);
+            padding: 24px;
+            background: radial-gradient(ellipse at center, rgba(255,255,255,0.05) 0%, transparent 70%);
+            margin-bottom: 20px;
+          }
+          .services-item:hover .services-icon {
+            transform: scale(1.65);
           }
           .services-title {
-            font-size: 18px;
+            font-size: 17px;
           }
           .services-seeking {
             font-size: 16px;
-            margin-top: clamp(120px, 16vh, 160px);
+            margin-top: clamp(100px, 14vh, 140px);
           }
           .services-contact {
-            margin-top: clamp(80px, 12vh, 110px);
+            margin-top: clamp(64px, 10vh, 90px);
           }
         }
       `}</style>
@@ -94,7 +111,7 @@ export default function Services() {
                   flexDirection: "column",
                   alignItems: "center",
                   borderRadius: "2px",
-                  transition: "all 0.4s ease"
+                  cursor: "default"
                 }}
               >
                 <div className="services-icon">
@@ -106,7 +123,7 @@ export default function Services() {
                   style={{
                     fontWeight: 200,
                     color: "#FAFAF8",
-                    letterSpacing: "0.03em",
+                    letterSpacing: "0.04em",
                     textAlign: "center"
                   }}
                 >
