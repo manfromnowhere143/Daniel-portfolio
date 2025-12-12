@@ -54,22 +54,18 @@ export default function Services() {
           margin: 0 auto;
         }
         .services-item {
-          padding: 16px 8px;
+          padding: 12px 8px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          border-radius: 8px;
           cursor: pointer;
-          transition: all 0.2s ease;
-          background: rgba(255,255,255,0.015);
-          border: 1px solid rgba(255,255,255,0.04);
+          transition: transform 0.2s ease;
         }
         .services-item:active {
           transform: scale(0.95);
-          background: rgba(255,255,255,0.03);
         }
         .services-icon {
-          margin-bottom: 10px;
+          margin-bottom: 8px;
         }
         .services-title {
           font-size: 12px;
@@ -165,12 +161,9 @@ export default function Services() {
           .services-item {
             padding: 20px;
             cursor: default;
-            background: transparent;
-            border: none;
           }
           .services-item:active {
             transform: none;
-            background: transparent;
           }
           .services-item:hover .services-icon {
             transform: scale(1.04);
@@ -239,8 +232,8 @@ export default function Services() {
           <div className="expanded-close">×</div>
           {expandedIndex !== null && (
             <>
-              <div className="expanded-icon">
-                {renderIcon(services[expandedIndex].key, 300, true)}
+              <div className="expanded-icon" key={`expanded-${expandedIndex}`}>
+                {renderIcon(services[expandedIndex].key, 280, true)}
               </div>
               <p className="expanded-title">{services[expandedIndex].title}</p>
             </>

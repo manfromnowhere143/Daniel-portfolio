@@ -952,7 +952,7 @@ function ServiceIcon3D({ type, size = 220, forceAnimate = false }: ServiceIcon3D
       }
       materials.forEach(m => m.dispose());
     };
-  }, [type, size, isHovered, shouldAnimate, isMobile]);
+  }, [type, size, isHovered, shouldAnimate, isMobile, forceAnimate]);
 
   return (
     <div
