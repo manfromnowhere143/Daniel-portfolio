@@ -174,8 +174,17 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
   const animationRef = useRef<number>(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const hoverRef = useRef(0);
   const isTouching = useRef(false);
+
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 600);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -183,7 +192,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     const container = containerRef.current;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    camera.position.z = 2.0; // Much closer for larger icons
+    camera.position.z = isMobile ? 1.6 : 2.0; // Closer on mobile = bigger icons
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -943,43 +952,58 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // ANIMATION - Slow, Elegant, Meditative
+    // ANIMATION - Slow, Elegant, Meditative (Static on Mobile)
     // ═══════════════════════════════════════════════════════════════════════
     let time = 0;
     let frameCount = 0;
 
     const animate = () => {
-      time += 0.004; // Very slow
+      // On mobile: static render (no time progression)
+      // On desktop: full animation
+      if (!isMobile) {
+        time += 0.004;
+      }
       frameCount++;
       if (frameCount === 5) setIsLoaded(true);
 
-      hoverRef.current += (isHovered ? 1 : 0 - hoverRef.current) * 0.04;
+      // Only animate hover on desktop
+      if (!isMobile) {
+        hoverRef.current += (isHovered ? 1 : 0 - hoverRef.current) * 0.04;
+      }
 
       materials.forEach(mat => {
         if (mat.uniforms.uTime) mat.uniforms.uTime.value = time;
         if (mat.uniforms.uHover) mat.uniforms.uHover.value = hoverRef.current;
       });
 
-      // Gentle rotation per type
-      if (type === 'trade69') {
-        mainGroup.rotation.y = Math.sin(time * 0.08) * 0.06 + hoverRef.current * 0.1;
-        mainGroup.rotation.x = Math.cos(time * 0.06) * 0.03;
-      } else if (type === 'megaagent') {
-        mainGroup.rotation.y = Math.sin(time * 0.06) * 0.05 + hoverRef.current * 0.12;
-        mainGroup.rotation.x = Math.cos(time * 0.05) * 0.03;
-        mainGroup.rotation.z = Math.sin(time * 0.04) * 0.015;
-      } else if (type === 'octopus') {
-        mainGroup.position.y = 0.08 + Math.sin(time * 0.12) * 0.015;
-        mainGroup.rotation.y = Math.sin(time * 0.08) * 0.06 + hoverRef.current * 0.1;
-        mainGroup.rotation.x = Math.cos(time * 0.06) * 0.025;
-        mainGroup.rotation.z = Math.sin(time * 0.07) * 0.03;
-      } else if (type === 'overmind') {
-        mainGroup.rotation.z = time * 0.025;
-        mainGroup.rotation.y = Math.sin(time * 0.05) * 0.04 + hoverRef.current * 0.1;
-        mainGroup.rotation.x = Math.cos(time * 0.04) * 0.025;
+      // Gentle rotation per type (only on desktop)
+      if (!isMobile) {
+        if (type === 'trade69') {
+          mainGroup.rotation.y = Math.sin(time * 0.08) * 0.06 + hoverRef.current * 0.1;
+          mainGroup.rotation.x = Math.cos(time * 0.06) * 0.03;
+        } else if (type === 'megaagent') {
+          mainGroup.rotation.y = Math.sin(time * 0.06) * 0.05 + hoverRef.current * 0.12;
+          mainGroup.rotation.x = Math.cos(time * 0.05) * 0.03;
+          mainGroup.rotation.z = Math.sin(time * 0.04) * 0.015;
+        } else if (type === 'octopus') {
+          mainGroup.position.y = 0.08 + Math.sin(time * 0.12) * 0.015;
+          mainGroup.rotation.y = Math.sin(time * 0.08) * 0.06 + hoverRef.current * 0.1;
+          mainGroup.rotation.x = Math.cos(time * 0.06) * 0.025;
+          mainGroup.rotation.z = Math.sin(time * 0.07) * 0.03;
+        } else if (type === 'overmind') {
+          mainGroup.rotation.z = time * 0.025;
+          mainGroup.rotation.y = Math.sin(time * 0.05) * 0.04 + hoverRef.current * 0.1;
+          mainGroup.rotation.x = Math.cos(time * 0.04) * 0.025;
+        }
       }
 
       renderer.render(scene, camera);
+
+      // On mobile: stop animation loop after initial render
+      // On desktop: continue animation
+      if (isMobile && frameCount > 10) {
+        return; // Stop loop on mobile after initial render
+      }
       animationRef.current = requestAnimationFrame(animate);
     };
 
@@ -993,15 +1017,13 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
       }
       materials.forEach(m => m.dispose());
     };
-  }, [type, size, isHovered]);
+  }, [type, size, isHovered, isMobile]);
 
   return (
     <div
       ref={containerRef}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onTouchStart={() => { isTouching.current = true; setIsHovered(true); }}
-      onTouchEnd={() => { isTouching.current = false; setTimeout(() => { if (!isTouching.current) setIsHovered(false); }, 400); }}
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
       style={{ width: size, height: size, cursor: 'pointer', opacity: isLoaded ? 1 : 0, transition: 'opacity 0.8s ease-out' }}
     />
   );
