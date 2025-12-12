@@ -10,16 +10,28 @@ import * as THREE from 'three';
 interface ServiceIcon3DProps {
   type: 'website' | 'dashboard' | 'api' | 'llm';
   size?: number;
+  forceAnimate?: boolean;
 }
 
-function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
+function ServiceIcon3D({ type, size = 220, forceAnimate = false }: ServiceIcon3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const animationRef = useRef<number>(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const hoverRef = useRef(0);
-  const isTouching = useRef(false);
+
+  // Detect mobile
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 600);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Should animate: desktop OR forceAnimate (expanded on mobile)
+  const shouldAnimate = !isMobile || forceAnimate;
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -27,7 +39,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
     const container = containerRef.current;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-    camera.position.z = 4.2; // Pulled back for full view
+    camera.position.z = isMobile ? 3.2 : 4.2; // Closer on mobile for better visibility
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -879,41 +891,54 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // ANIMATION LOOP
+    // ANIMATION LOOP (Static on mobile unless forceAnimate)
     // ═══════════════════════════════════════════════════════════════════════
     let time = 0;
     let frameCount = 0;
 
     const animate = () => {
-      time += 0.004; // Much slower
+      // Only animate time on desktop or when forced
+      if (shouldAnimate) {
+        time += 0.004;
+      }
       frameCount++;
       if (frameCount === 5) setIsLoaded(true);
 
-      hoverRef.current += (isHovered ? 1 : 0 - hoverRef.current) * 0.05;
+      // Only animate hover on desktop
+      if (shouldAnimate) {
+        hoverRef.current += (isHovered ? 1 : 0 - hoverRef.current) * 0.05;
+      }
 
       materials.forEach(m => {
         if (m.uniforms.uTime) m.uniforms.uTime.value = time;
         if (m.uniforms.uHover) m.uniforms.uHover.value = hoverRef.current;
       });
 
-      // Unique rotation per type - slow and elegant
-      if (type === 'website') {
-        mainGroup.rotation.y = Math.sin(time * 0.06) * 0.06 + hoverRef.current * 0.12;
-        mainGroup.rotation.x = Math.cos(time * 0.05) * 0.03 + hoverRef.current * 0.03;
-      } else if (type === 'dashboard') {
-        mainGroup.rotation.y = Math.sin(time * 0.05) * 0.05 + hoverRef.current * 0.15;
-        mainGroup.rotation.x = 0.25 + Math.cos(time * 0.04) * 0.02;
-      } else if (type === 'api') {
-        mainGroup.rotation.y = time * 0.015 + hoverRef.current * 0.12;
-        mainGroup.rotation.x = Math.sin(time * 0.06) * 0.05;
-        mainGroup.rotation.z = Math.cos(time * 0.04) * 0.02;
-      } else if (type === 'llm') {
-        mainGroup.rotation.y = Math.sin(time * 0.07) * 0.08 + hoverRef.current * 0.12;
-        mainGroup.rotation.x = -0.08 + Math.cos(time * 0.05) * 0.03;
-        mainGroup.scale.setScalar(1.0 + Math.sin(time * 0.3) * 0.012 + hoverRef.current * 0.03);
+      // Unique rotation per type - only on desktop or forceAnimate
+      if (shouldAnimate) {
+        if (type === 'website') {
+          mainGroup.rotation.y = Math.sin(time * 0.06) * 0.06 + hoverRef.current * 0.12;
+          mainGroup.rotation.x = Math.cos(time * 0.05) * 0.03 + hoverRef.current * 0.03;
+        } else if (type === 'dashboard') {
+          mainGroup.rotation.y = Math.sin(time * 0.05) * 0.05 + hoverRef.current * 0.15;
+          mainGroup.rotation.x = 0.25 + Math.cos(time * 0.04) * 0.02;
+        } else if (type === 'api') {
+          mainGroup.rotation.y = time * 0.015 + hoverRef.current * 0.12;
+          mainGroup.rotation.x = Math.sin(time * 0.06) * 0.05;
+          mainGroup.rotation.z = Math.cos(time * 0.04) * 0.02;
+        } else if (type === 'llm') {
+          mainGroup.rotation.y = Math.sin(time * 0.07) * 0.08 + hoverRef.current * 0.12;
+          mainGroup.rotation.x = -0.08 + Math.cos(time * 0.05) * 0.03;
+          mainGroup.scale.setScalar(1.0 + Math.sin(time * 0.3) * 0.012 + hoverRef.current * 0.03);
+        }
       }
 
       renderer.render(scene, camera);
+
+      // On mobile (without forceAnimate): stop after initial render
+      if (!shouldAnimate && frameCount > 10) {
+        return;
+      }
       animationRef.current = requestAnimationFrame(animate);
     };
 
@@ -927,32 +952,30 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
       }
       materials.forEach(m => m.dispose());
     };
-  }, [type, size, isHovered]);
+  }, [type, size, isHovered, shouldAnimate, isMobile]);
 
   return (
     <div
       ref={containerRef}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onTouchStart={() => { isTouching.current = true; setIsHovered(true); }}
-      onTouchEnd={() => { isTouching.current = false; setTimeout(() => { if (!isTouching.current) setIsHovered(false); }, 500); }}
-      style={{ width: size, height: size, cursor: 'pointer', opacity: isLoaded ? 1 : 0, transition: 'opacity 0.8s ease-out' }}
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
+      style={{ width: size, height: size, cursor: isMobile ? 'pointer' : 'default', opacity: isLoaded ? 1 : 0, transition: 'opacity 0.8s ease-out' }}
     />
   );
 }
 
-export function WebsiteIcon3D({ size = 220 }: { size?: number }) {
-  return <ServiceIcon3D type="website" size={size} />;
+export function WebsiteIcon3D({ size = 220, forceAnimate = false }: { size?: number; forceAnimate?: boolean }) {
+  return <ServiceIcon3D type="website" size={size} forceAnimate={forceAnimate} />;
 }
 
-export function DashboardIcon3D({ size = 220 }: { size?: number }) {
-  return <ServiceIcon3D type="dashboard" size={size} />;
+export function DashboardIcon3D({ size = 220, forceAnimate = false }: { size?: number; forceAnimate?: boolean }) {
+  return <ServiceIcon3D type="dashboard" size={size} forceAnimate={forceAnimate} />;
 }
 
-export function APIIcon3D({ size = 220 }: { size?: number }) {
-  return <ServiceIcon3D type="api" size={size} />;
+export function APIIcon3D({ size = 220, forceAnimate = false }: { size?: number; forceAnimate?: boolean }) {
+  return <ServiceIcon3D type="api" size={size} forceAnimate={forceAnimate} />;
 }
 
-export function LLMIcon3D({ size = 220 }: { size?: number }) {
-  return <ServiceIcon3D type="llm" size={size} />;
+export function LLMIcon3D({ size = 220, forceAnimate = false }: { size?: number; forceAnimate?: boolean }) {
+  return <ServiceIcon3D type="llm" size={size} forceAnimate={forceAnimate} />;
 }

@@ -1,47 +1,78 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { WebsiteIcon3D, DashboardIcon3D, APIIcon3D, LLMIcon3D } from "@/components/ServiceIcons3D";
 
 export default function Services() {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 600);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const services = [
-    { title: "Custom Websites", icon: <WebsiteIcon3D size={220} /> },
-    { title: "Dashboards", icon: <DashboardIcon3D size={220} /> },
-    { title: "API Development", icon: <APIIcon3D size={220} /> },
-    { title: "LLM Middleware", icon: <LLMIcon3D size={220} /> }
+    { title: "Custom Websites", key: "website" },
+    { title: "Dashboards", key: "dashboard" },
+    { title: "API Development", key: "api" },
+    { title: "LLM Middleware", key: "llm" }
   ];
+
+  const renderIcon = (key: string, size: number, forceAnimate: boolean = false) => {
+    const props = { size, forceAnimate };
+    switch (key) {
+      case "website": return <WebsiteIcon3D {...props} />;
+      case "dashboard": return <DashboardIcon3D {...props} />;
+      case "api": return <APIIcon3D {...props} />;
+      case "llm": return <LLMIcon3D {...props} />;
+      default: return null;
+    }
+  };
+
+  const handleClick = (index: number) => {
+    if (isMobile) {
+      setExpandedIndex(index);
+    }
+  };
+
+  const closeExpanded = () => {
+    setExpandedIndex(null);
+  };
 
   return (
     <>
       <style>{`
         .services-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 8px;
+          max-width: 320px;
+          margin: 0 auto;
+        }
+        .services-item {
+          padding: 16px 8px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 8px;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          background: rgba(255,255,255,0.015);
+          border: 1px solid rgba(255,255,255,0.04);
         }
-        .services-item {
-          padding: 0;
-          margin: 0;
+        .services-item:active {
+          transform: scale(0.95);
+          background: rgba(255,255,255,0.03);
         }
         .services-icon {
-          margin-bottom: 0;
-          transition: transform 0.3s ease;
-        }
-        .services-icon svg {
-          stroke: #FAFAF8 !important;
-          fill: none !important;
-          opacity: 1 !important;
-        }
-        .services-icon svg * {
-          stroke: #FAFAF8 !important;
-          opacity: 1 !important;
-        }
-        .services-item:hover .services-icon {
-          transform: scale(1.05);
+          margin-bottom: 10px;
         }
         .services-title {
-          font-size: 16px;
+          font-size: 12px;
           margin: 0;
           padding: 0;
         }
@@ -50,26 +81,106 @@ export default function Services() {
           margin-top: 48px;
         }
         .services-contact {
-          margin-top: 56px;
+          margin-top: 48px;
+        }
+
+        /* Expanded overlay - mobile only */
+        .expanded-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(10, 10, 10, 0.98);
+          z-index: 1000;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.3s ease;
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+        }
+        .expanded-overlay.active {
+          opacity: 1;
+          pointer-events: auto;
+        }
+        .expanded-icon {
+          transform: scale(0.7);
+          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .expanded-overlay.active .expanded-icon {
+          transform: scale(1);
+        }
+        .expanded-title {
+          margin-top: 20px;
+          font-size: 20px;
+          font-weight: 200;
+          color: #FAFAF8;
+          letter-spacing: 0.08em;
+          opacity: 0;
+          transform: translateY(15px);
+          transition: all 0.4s ease 0.2s;
+        }
+        .expanded-overlay.active .expanded-title {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .expanded-close {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          width: 44px;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #FAFAF8;
+          opacity: 0.5;
+          font-size: 28px;
+          font-weight: 200;
+          cursor: pointer;
+          transition: opacity 0.2s;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.05);
+        }
+        .expanded-tap-hint {
+          position: absolute;
+          bottom: 50px;
+          font-size: 10px;
+          color: #FAFAF8;
+          opacity: 0.3;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
         }
         
         @media (min-width: 600px) {
           .services-grid {
-            display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px 32px;
+            gap: 32px 56px;
+            max-width: 760px;
           }
           .services-item {
-            padding: 8px;
+            padding: 20px;
+            cursor: default;
+            background: transparent;
+            border: none;
           }
-          .services-icon {
-            margin-bottom: 4px;
+          .services-item:active {
+            transform: none;
+            background: transparent;
           }
           .services-item:hover .services-icon {
-            transform: scale(1.08);
+            transform: scale(1.04);
+          }
+          .services-icon {
+            margin-bottom: 14px;
+            transition: transform 0.3s ease;
           }
           .services-title {
-            font-size: 20px;
+            font-size: 17px;
           }
           .services-seeking {
             font-size: 16px;
@@ -77,6 +188,9 @@ export default function Services() {
           }
           .services-contact {
             margin-top: clamp(64px, 10vh, 90px);
+          }
+          .expanded-overlay {
+            display: none !important;
           }
         }
       `}</style>
@@ -86,47 +200,52 @@ export default function Services() {
         backgroundColor: "#0A0A0A",
         paddingTop: "clamp(80px, 12vh, 140px)",
         paddingBottom: "60px",
-        paddingLeft: "24px",
-        paddingRight: "24px",
+        paddingLeft: "20px",
+        paddingRight: "20px",
         overscrollBehavior: "none"
       }}>
 
         {/* Services Grid */}
-        <div style={{
-          maxWidth: "900px",
-          margin: "0 auto"
-        }}>
-          <div className="services-grid">
-            {services.map((item, i) => (
-              <div
-                key={i}
-                className="services-item"
+        <div className="services-grid">
+          {services.map((item, i) => (
+            <div
+              key={i}
+              className="services-item"
+              onClick={() => handleClick(i)}
+            >
+              <div className="services-icon">
+                {renderIcon(item.key, isMobile ? 110 : 200)}
+              </div>
+              <p
+                className="services-title"
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  borderRadius: "2px",
-                  cursor: "default"
+                  fontWeight: 200,
+                  color: "#FAFAF8",
+                  letterSpacing: "0.04em",
+                  textAlign: "center"
                 }}
               >
-                <div className="services-icon">
-                  {item.icon}
-                </div>
+                {item.title}
+              </p>
+            </div>
+          ))}
+        </div>
 
-                <p
-                  className="services-title"
-                  style={{
-                    fontWeight: 200,
-                    color: "#FAFAF8",
-                    letterSpacing: "0.04em",
-                    textAlign: "center"
-                  }}
-                >
-                  {item.title}
-                </p>
+        {/* Expanded Overlay - Mobile Only */}
+        <div
+          className={`expanded-overlay ${expandedIndex !== null ? 'active' : ''}`}
+          onClick={closeExpanded}
+        >
+          <div className="expanded-close">×</div>
+          {expandedIndex !== null && (
+            <>
+              <div className="expanded-icon">
+                {renderIcon(services[expandedIndex].key, 300, true)}
               </div>
-            ))}
-          </div>
+              <p className="expanded-title">{services[expandedIndex].title}</p>
+            </>
+          )}
+          <p className="expanded-tap-hint">tap anywhere to close</p>
         </div>
 
         {/* Also Seeking Section */}
