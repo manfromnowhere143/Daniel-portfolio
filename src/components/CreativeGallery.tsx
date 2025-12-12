@@ -8,10 +8,10 @@ export default function CreativeGallery() {
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
 
   const galleryItems = [
-    { src: "/images/art4.png", name: "Neural Architecture", year: "2024" },
-    { src: "/images/art3.jpg", name: "Emergence", year: "2024" },
-    { src: "/images/art2.JPEG", name: "Layers", year: "2024" },
-    { src: "/images/art1.JPEG", name: "Geometric Abstractions", year: "2024" }
+    { src: "/images/art4.png", name: "Neural Architecture" },
+    { src: "/images/art3.jpg", name: "Emergence" },
+    { src: "/images/art2.JPEG", name: "Layers" },
+    { src: "/images/art1.JPEG", name: "Geometric Abstractions" }
   ];
 
   const sketchItems = [
@@ -32,17 +32,7 @@ export default function CreativeGallery() {
       />
 
       {/* GALLERY */}
-      <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
-        <p style={{
-          fontSize: "11px",
-          color: "#FAFAF8",
-          letterSpacing: "0.15em",
-          textAlign: "center",
-          marginBottom: "clamp(40px, 6vh, 56px)"
-        }}>
-          Visual Studies
-        </p>
-
+      <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
@@ -51,14 +41,14 @@ export default function CreativeGallery() {
           margin: "0 auto"
         }}>
           {galleryItems.map((item, i) => (
-            <div 
+            <div
               key={i}
               onClick={() => setLightbox({ src: item.src, alt: item.name })}
               style={{ cursor: "zoom-in" }}
             >
-              <div 
-                style={{ 
-                  borderRadius: "2px", 
+              <div
+                style={{
+                  borderRadius: "2px",
                   overflow: "hidden",
                   transition: "opacity 0.2s ease"
                 }}
@@ -73,14 +63,6 @@ export default function CreativeGallery() {
                   aspectRatio="4/3"
                 />
               </div>
-              <div style={{ marginTop: "10px", textAlign: "left" }}>
-                <p style={{ fontSize: "12px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
-                  {item.name}
-                </p>
-                <p style={{ fontSize: "9px", color: "#FAFAF8", opacity: 0.6, fontFamily: "monospace" }}>
-                  {item.year}
-                </p>
-              </div>
             </div>
           ))}
         </div>
@@ -88,16 +70,6 @@ export default function CreativeGallery() {
 
       {/* SKETCHES */}
       <div>
-        <p style={{
-          fontSize: "11px",
-          color: "#FAFAF8",
-          letterSpacing: "0.15em",
-          textAlign: "center",
-          marginBottom: "clamp(40px, 6vh, 56px)"
-        }}>
-          Sketches
-        </p>
-
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(5, 1fr)",
@@ -106,14 +78,14 @@ export default function CreativeGallery() {
           margin: "0 auto"
         }}>
           {sketchItems.map((item, i) => (
-            <div 
+            <div
               key={i}
               onClick={() => setLightbox({ src: item.src, alt: item.name })}
               style={{ cursor: "zoom-in" }}
             >
-              <div 
-                style={{ 
-                  borderRadius: "2px", 
+              <div
+                style={{
+                  borderRadius: "2px",
                   overflow: "hidden",
                   transition: "opacity 0.2s ease"
                 }}
@@ -127,14 +99,6 @@ export default function CreativeGallery() {
                   height={267}
                   aspectRatio="3/4"
                 />
-              </div>
-              <div style={{ marginTop: "8px", textAlign: "left" }}>
-                <p style={{ fontSize: "10px", color: "#FAFAF8", fontWeight: 300, marginBottom: "2px" }}>
-                  {item.name}
-                </p>
-                <p style={{ fontSize: "8px", color: "#FAFAF8", opacity: 0.6, fontFamily: "monospace" }}>
-                  2025
-                </p>
               </div>
             </div>
           ))}

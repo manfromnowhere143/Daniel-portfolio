@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VideoPlayer from "@/components/VideoPlayer";
 import Link from "next/link";
 import MetatronCube from "@/components/MetatronCube";
@@ -129,6 +129,13 @@ export default function Creative() {
   const [expandedGeometry, setExpandedGeometry] = useState<string | null>(null);
   const [expandedWork, setExpandedWork] = useState<string | null>(null);
   const [expandedService, setExpandedService] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Trigger load animation
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const openExperience = (id: string) => setExpandedExperience(id);
   const closeExperience = () => setExpandedExperience(null);
@@ -278,6 +285,33 @@ export default function Creative() {
   return (
     <>
       <style>{`
+        /* Page Load Animation */
+        .creative-page {
+          opacity: 0;
+          transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .creative-page.loaded {
+          opacity: 1;
+        }
+        
+        .load-section {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                      transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .creative-page.loaded .load-section {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .creative-page.loaded .load-section:nth-child(1) { transition-delay: 0.1s; }
+        .creative-page.loaded .load-section:nth-child(2) { transition-delay: 0.2s; }
+        .creative-page.loaded .load-section:nth-child(3) { transition-delay: 0.3s; }
+        .creative-page.loaded .load-section:nth-child(4) { transition-delay: 0.4s; }
+        .creative-page.loaded .load-section:nth-child(5) { transition-delay: 0.5s; }
+        .creative-page.loaded .load-section:nth-child(6) { transition-delay: 0.6s; }
+        .creative-page.loaded .load-section:nth-child(7) { transition-delay: 0.7s; }
+
         /* Experiences Gallery */
         .experiences-grid {
           display: grid;
@@ -760,7 +794,7 @@ export default function Creative() {
         }
       `}</style>
 
-      <div style={{ paddingTop: "40px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+      <div className={`creative-page ${isLoaded ? 'loaded' : ''}`} style={{ paddingTop: "40px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
 
         {/* Main Content */}
         <div style={{
@@ -773,7 +807,7 @@ export default function Creative() {
           {/* 3D EXPERIENCES - Unified Gallery */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
             {/* Gallery Grid */}
             <div className="experiences-grid">
               {experiencesItems.map((item) => (
@@ -794,7 +828,7 @@ export default function Creative() {
           {/* SACRED GEOMETRY COMPONENTS - Gallery Style */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
             {/* Gallery Grid */}
             <div className="geometry-grid">
               {sacredGeometryItems.map((item) => {
@@ -818,7 +852,7 @@ export default function Creative() {
           {/* 3D WORK ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
             {/* Gallery Grid */}
             <div className="icons3d-grid">
               {workIcons3DItems.map((item) => (
@@ -839,7 +873,7 @@ export default function Creative() {
           {/* 3D SERVICE ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
             {/* Gallery Grid */}
             <div className="icons3d-grid">
               {serviceIcons3DItems.map((item) => (
@@ -860,7 +894,7 @@ export default function Creative() {
           {/* SVG ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
             {/* Work Icons Grid */}
             <div style={{
               display: "grid",
@@ -907,26 +941,16 @@ export default function Creative() {
           </div>
 
           {/* ═══════════════════════════════════════════════════════════ */}
-          {/* VISUAL DIVIDER */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: "clamp(48px, 8vh, 64px)"
-          }}>
-            <GeometricDivider />
-          </div>
-
-          {/* ═══════════════════════════════════════════════════════════ */}
           {/* GALLERY & SKETCHES */}
           {/* ═══════════════════════════════════════════════════════════ */}
-          <CreativeGallery />
+          <div className="load-section">
+            <CreativeGallery />
+          </div>
 
         </div>
 
         {/* Navigation */}
-        <div style={{
+        <div className="load-section" style={{
           padding: "clamp(60px, 10vh, 80px) 24px",
           textAlign: "center"
         }}>
