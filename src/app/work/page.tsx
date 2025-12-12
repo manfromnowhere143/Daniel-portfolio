@@ -5,10 +5,10 @@ import { Trade69Icon3D, MegaAgentIcon3D, OctopusIcon3D, OvermindIcon3D } from "@
 
 export default function Work() {
   const projects = [
-    { name: "Trade69", href: "/work/trade69", icon: <Trade69Icon3D size={70} /> },
-    { name: "MegaAgent", href: "/work/megaagent", icon: <MegaAgentIcon3D size={70} /> },
-    { name: "Octopus", href: "/work/octopus", icon: <OctopusIcon3D size={70} /> },
-    { name: "Overmind", href: "/work/overmind", icon: <OvermindIcon3D size={70} /> }
+    { name: "Trade69", href: "/work/trade69", icon: <Trade69Icon3D size={90} /> },
+    { name: "MegaAgent", href: "/work/megaagent", icon: <MegaAgentIcon3D size={90} /> },
+    { name: "Octopus", href: "/work/octopus", icon: <OctopusIcon3D size={90} /> },
+    { name: "Overmind", href: "/work/overmind", icon: <OvermindIcon3D size={90} /> }
   ];
 
   return (
@@ -23,14 +23,6 @@ export default function Work() {
         .work-item {
           padding: 0;
         }
-        .work-icon {
-          margin-bottom: 0;
-        }
-        .work-title {
-          font-size: 16px;
-          margin-top: 0;
-          margin-bottom: 2px;
-        }
         
         @media (min-width: 600px) {
           .work-grid {
@@ -40,14 +32,6 @@ export default function Work() {
           }
           .work-item {
             padding: 24px;
-          }
-          .work-icon {
-            margin-bottom: 8px;
-          }
-          .work-title {
-            font-size: 18px;
-            margin-top: 0;
-            margin-bottom: 6px;
           }
         }
       `}</style>
@@ -79,21 +63,7 @@ export default function Work() {
                   transition: "opacity 0.3s ease"
                 }}
               >
-                <div className="work-icon">
-                  {project.icon}
-                </div>
-
-                <h2
-                  className="work-title"
-                  style={{
-                    fontWeight: 200,
-                    color: "#FAFAF8",
-                    letterSpacing: "0.03em",
-                    textAlign: "center"
-                  }}
-                >
-                  {project.name}
-                </h2>
+                {project.icon}
               </Link>
             ))}
           </div>
