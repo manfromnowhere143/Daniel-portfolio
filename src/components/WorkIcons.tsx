@@ -160,7 +160,7 @@ export function OvermindIcon() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// 3D ANIMATED ICONS - STATE OF THE ART - TRULY SPECTACULAR
+// 3D ANIMATED ICONS - STATE OF THE ART - ALL WHITE
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface WorkIcon3DProps {
@@ -190,7 +190,6 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     const container = containerRef.current;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    // Balanced camera distance
     camera.position.z = isMobile ? 1.6 : 1.5;
 
     const renderer = new THREE.WebGLRenderer({
@@ -209,21 +208,20 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     const materials: THREE.ShaderMaterial[] = [];
 
     // ═══════════════════════════════════════════════════════════════════════
-    // TRADE69 - Holographic Trading Terminal with 3D Candlesticks
+    // TRADE69 - Holographic Trading Terminal - WHITE
     // ═══════════════════════════════════════════════════════════════════════
     if (type === 'trade69') {
 
-      // 3D Candlestick bars with gradient glow
       const candleData = [
-        { x: -0.32, h: 0.22, g: true },
-        { x: -0.16, h: 0.38, g: false },
-        { x: 0, h: 0.28, g: true },
-        { x: 0.16, h: 0.52, g: true },
-        { x: 0.32, h: 0.68, g: true }
+        { x: -0.32, h: 0.22 },
+        { x: -0.16, h: 0.38 },
+        { x: 0, h: 0.28 },
+        { x: 0.16, h: 0.52 },
+        { x: 0.32, h: 0.68 }
       ];
 
       const candleMat = new THREE.ShaderMaterial({
-        uniforms: { uTime: { value: 0 }, uHover: { value: 0 }, uHeight: { value: 0 }, uGreen: { value: 1 } },
+        uniforms: { uTime: { value: 0 }, uHover: { value: 0 }, uHeight: { value: 0 } },
         vertexShader: `
           uniform float uTime, uHover, uHeight;
           varying vec3 vPos;
@@ -238,27 +236,21 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           }
         `,
         fragmentShader: `
-          uniform float uTime, uHover, uGreen;
+          uniform float uTime, uHover;
           varying vec3 vPos;
           varying float vH;
           void main() {
             float yNorm = (vPos.y + 0.35) / vH;
-            vec3 greenCol = vec3(0.2, 0.95, 0.6);
-            vec3 redCol = vec3(0.95, 0.3, 0.35);
-            vec3 baseCol = mix(redCol, greenCol, uGreen);
-            vec3 col = baseCol * (0.6 + yNorm * 0.5);
-            float edge = 1.0 - abs(dot(normalize(vec3(vPos.x, 0.0, 1.0)), vec3(0,0,1)));
-            float alpha = (0.5 + edge * 0.4 + yNorm * 0.2) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(col, alpha);
+            float alpha = (0.4 + yNorm * 0.4) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
 
-      candleData.forEach((c, i) => {
+      candleData.forEach((c) => {
         const mat = candleMat.clone();
         mat.uniforms.uHeight = { value: c.h };
-        mat.uniforms.uGreen = { value: c.g ? 1.0 : 0.0 };
         materials.push(mat);
 
         const geo = new THREE.BoxGeometry(0.06, c.h, 0.04, 1, 8, 1);
@@ -266,15 +258,14 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         mesh.position.set(c.x, -0.35 + c.h / 2, 0);
         mainGroup.add(mesh);
 
-        // Wick
         const wickGeo = new THREE.CylinderGeometry(0.004, 0.004, c.h * 0.3, 4);
-        const wickMat = new THREE.MeshBasicMaterial({ color: 0xfafaf8, transparent: true, opacity: 0.3 });
+        const wickMat = new THREE.MeshBasicMaterial({ color: 0xfafaf8, transparent: true, opacity: 0.4 });
         const wick = new THREE.Mesh(wickGeo, wickMat);
         wick.position.set(c.x, -0.35 + c.h + c.h * 0.15, 0);
         mainGroup.add(wick);
       });
 
-      // Trend line with energy flow
+      // Trend line
       const trendMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
@@ -291,9 +282,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying float vProg;
           void main() {
             float energy = sin(vProg * 15.0 - uTime * 1.2) * 0.5 + 0.5;
-            vec3 col = mix(vec3(0.3, 0.8, 0.5), vec3(0.9, 0.95, 1.0), energy);
-            float alpha = (0.4 + energy * 0.5) * (1.0 + uHover * 0.3);
-            gl_FragColor = vec4(col, alpha);
+            float alpha = (0.3 + energy * 0.5) * (1.0 + uHover * 0.3);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -314,7 +304,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
       trendGeo.setAttribute('aProgress', new THREE.BufferAttribute(trendProg, 1));
       mainGroup.add(new THREE.Line(trendGeo, trendMat));
 
-      // Data particles flowing upward
+      // Particles
       const particleMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
@@ -324,7 +314,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             vec3 pos = position;
             pos.y = mod(pos.y + uTime * aSpeed * 0.15, 1.0) - 0.5;
-            vAlpha = 0.4 + sin(uTime * 2.0 + aPhase) * 0.3;
+            vAlpha = 0.3 + sin(uTime * 2.0 + aPhase) * 0.2;
             vec4 mv = modelViewMatrix * vec4(pos * (1.0 + uHover * 0.1), 1.0);
             gl_PointSize = (3.0 + uHover * 1.5) / -mv.z;
             gl_Position = projectionMatrix * mv;
@@ -335,15 +325,14 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float d = length(gl_PointCoord - 0.5);
             if (d > 0.5) discard;
-            float glow = smoothstep(0.5, 0.0, d);
-            gl_FragColor = vec4(0.3, 0.9, 0.6, glow * vAlpha);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, smoothstep(0.5, 0.0, d) * vAlpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
       materials.push(particleMat);
 
-      const pCount = 30;
+      const pCount = 25;
       const pPos = new Float32Array(pCount * 3);
       const pPhase = new Float32Array(pCount);
       const pSpeed = new Float32Array(pCount);
@@ -360,15 +349,13 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
       pGeo.setAttribute('aSpeed', new THREE.BufferAttribute(pSpeed, 1));
       mainGroup.add(new THREE.Points(pGeo, particleMat));
 
-      // Holographic grid floor
+      // Grid
       const gridMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
         fragmentShader: `
-          uniform float uTime, uHover;
-          void main() {
-            gl_FragColor = vec4(0.5, 0.7, 0.9, 0.15 * (1.0 + uHover * 0.3));
-          }
+          uniform float uHover;
+          void main() { gl_FragColor = vec4(0.98, 0.98, 0.96, 0.12 * (1.0 + uHover * 0.3)); }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
@@ -383,11 +370,11 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // MEGAAGENT - Quantum Neural Network with Holographic Core
+    // MEGAAGENT - Neural Network - WHITE
     // ═══════════════════════════════════════════════════════════════════════
     else if (type === 'megaagent') {
 
-      // Central quantum processing sphere with holographic rings
+      // Central core
       const coreMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
@@ -398,7 +385,6 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
             vPos = position;
             float pulse = 1.0 + sin(uTime * 0.8) * 0.05;
             vec3 p = position * pulse;
-            // Subtle vertex displacement
             p += normal * sin(uTime * 1.5 + position.y * 8.0) * 0.008;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(p * (1.0 + uHover * 0.1), 1.0);
           }
@@ -408,31 +394,20 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying vec3 vNormal, vPos;
           void main() {
             float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.5);
-            // Holographic scan lines
             float scan = sin(vPos.y * 40.0 - uTime * 2.0) * 0.5 + 0.5;
-            // Energy grid pattern
-            float gridX = smoothstep(0.9, 1.0, abs(sin(vPos.x * 25.0)));
-            float gridY = smoothstep(0.9, 1.0, abs(sin(vPos.y * 25.0)));
-            float grid = max(gridX, gridY);
-            
-            vec3 col1 = vec3(0.3, 0.7, 1.0);
-            vec3 col2 = vec3(0.8, 0.4, 1.0);
-            vec3 col = mix(col1, col2, fresnel + sin(uTime * 0.5) * 0.2);
-            
-            float alpha = (0.15 + fresnel * 0.5 + scan * 0.15 + grid * 0.3) * (1.0 + uHover * 0.5);
-            gl_FragColor = vec4(col, alpha);
+            float alpha = (0.2 + fresnel * 0.5 + scan * 0.15) * (1.0 + uHover * 0.5);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
       materials.push(coreMat);
 
-      // Main quantum core sphere
       const coreGeo = new THREE.IcosahedronGeometry(0.12, 2);
       mainGroup.add(new THREE.Mesh(coreGeo, coreMat));
 
-      // Inner energy core (solid glow)
-      const innerCoreMat = new THREE.ShaderMaterial({
+      // Inner glow
+      const innerMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           uniform float uTime;
@@ -444,22 +419,22 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         fragmentShader: `
           uniform float uTime, uHover;
           void main() {
-            float glow = 0.8 + sin(uTime * 2.0) * 0.2;
-            gl_FragColor = vec4(0.5, 0.8, 1.0, glow * (1.0 + uHover * 0.3));
+            float glow = 0.7 + sin(uTime * 2.0) * 0.2;
+            gl_FragColor = vec4(0.98, 0.98, 0.96, glow * (1.0 + uHover * 0.3));
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
-      materials.push(innerCoreMat);
-      mainGroup.add(new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 16), innerCoreMat));
+      materials.push(innerMat);
+      mainGroup.add(new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 16), innerMat));
 
-      // Holographic orbital rings
+      // Orbital rings
       const ringMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
-          uniform float uTime, uHover;
           attribute float aAngle;
           varying float vAngle;
+          uniform float uHover;
           void main() {
             vAngle = aAngle;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position * (1.0 + uHover * 0.08), 1.0);
@@ -470,16 +445,14 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying float vAngle;
           void main() {
             float energy = sin(vAngle * 6.0 - uTime * 1.5) * 0.5 + 0.5;
-            vec3 col = mix(vec3(0.3, 0.6, 1.0), vec3(0.9, 0.5, 1.0), energy);
-            float alpha = (0.25 + energy * 0.5) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(col, alpha);
+            float alpha = (0.2 + energy * 0.4) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
       materials.push(ringMat);
 
-      // Create 3 orbital rings at different angles
       const ringConfigs = [
         { radius: 0.22, rotX: 0, rotY: 0, rotZ: 0 },
         { radius: 0.2, rotX: Math.PI / 3, rotY: 0, rotZ: Math.PI / 6 },
@@ -490,9 +463,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         const ringGeo = new THREE.BufferGeometry();
         const ringPts: number[] = [];
         const ringAngles: number[] = [];
-        const segments = 64;
-        for (let i = 0; i <= segments; i++) {
-          const angle = (i / segments) * Math.PI * 2;
+        for (let i = 0; i <= 64; i++) {
+          const angle = (i / 64) * Math.PI * 2;
           ringPts.push(Math.cos(angle) * cfg.radius, Math.sin(angle) * cfg.radius, 0);
           ringAngles.push(angle);
         }
@@ -504,7 +476,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         mainGroup.add(ring);
       });
 
-      // Agent nodes - 6 orbiting icosahedrons
+      // Agent nodes
       const agentMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 }, uPhase: { value: 0 } },
         vertexShader: `
@@ -521,9 +493,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying vec3 vNormal;
           void main() {
             float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.0);
-            vec3 col = mix(vec3(0.4, 0.8, 1.0), vec3(1.0, 0.6, 0.9), sin(uTime * 0.5 + uPhase) * 0.5 + 0.5);
-            float alpha = (0.35 + fresnel * 0.45) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(col, alpha);
+            float alpha = (0.3 + fresnel * 0.4) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -547,18 +518,16 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         const geo = new THREE.IcosahedronGeometry(0.045, 1);
         const agent = new THREE.Mesh(geo, mat);
         agent.position.set(pos.x, pos.y, pos.z);
-        agent.rotation.set(i * 0.5, i * 0.3, i * 0.2);
         agentGroup.add(agent);
 
-        // Agent core glow
         const glowMat = new THREE.ShaderMaterial({
           uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
           vertexShader: `void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
           fragmentShader: `
             uniform float uTime, uHover;
             void main() {
-              float glow = 0.7 + sin(uTime * 2.0) * 0.2;
-              gl_FragColor = vec4(0.6, 0.85, 1.0, glow * (1.0 + uHover * 0.3));
+              float glow = 0.6 + sin(uTime * 2.0) * 0.2;
+              gl_FragColor = vec4(0.98, 0.98, 0.96, glow * (1.0 + uHover * 0.3));
             }
           `,
           transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -570,7 +539,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
       });
       mainGroup.add(agentGroup);
 
-      // Neural connections with data flow
+      // Connections
       const connMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
@@ -586,22 +555,17 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           uniform float uTime, uHover;
           varying float vProg;
           void main() {
-            // Multiple data packets traveling
             float p1 = smoothstep(0.08, 0.0, abs(fract(vProg - uTime * 0.25) - 0.1));
-            float p2 = smoothstep(0.08, 0.0, abs(fract(vProg - uTime * 0.25 + 0.33) - 0.1));
-            float p3 = smoothstep(0.08, 0.0, abs(fract(vProg - uTime * 0.25 + 0.66) - 0.1));
-            float packets = max(max(p1, p2), p3);
-            
-            vec3 col = mix(vec3(0.3, 0.5, 0.8), vec3(0.9, 0.6, 1.0), packets);
-            float alpha = (0.08 + packets * 0.7) * (1.0 + uHover * 0.5);
-            gl_FragColor = vec4(col, alpha);
+            float p2 = smoothstep(0.08, 0.0, abs(fract(vProg - uTime * 0.25 + 0.5) - 0.1));
+            float packets = max(p1, p2);
+            float alpha = (0.08 + packets * 0.6) * (1.0 + uHover * 0.5);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
       materials.push(connMat);
 
-      // Connect each agent to center
       agentPositions.forEach(pos => {
         const pts: THREE.Vector3[] = [];
         for (let t = 0; t <= 20; t++) {
@@ -615,42 +579,21 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         mainGroup.add(new THREE.Line(geo, connMat));
       });
 
-      // Connect agents to each other (forming network)
-      const agentConnections = [[0,2], [0,4], [1,3], [1,5], [2,4], [3,5], [4,5]];
-      agentConnections.forEach(([a, b]) => {
-        const pts: THREE.Vector3[] = [];
-        const pa = agentPositions[a], pb = agentPositions[b];
-        for (let t = 0; t <= 16; t++) {
-          const p = t / 16;
-          pts.push(new THREE.Vector3(
-            pa.x + (pb.x - pa.x) * p,
-            pa.y + (pb.y - pa.y) * p,
-            pa.z + (pb.z - pa.z) * p
-          ));
-        }
-        const geo = new THREE.BufferGeometry().setFromPoints(pts);
-        const prog = new Float32Array(17);
-        for (let i = 0; i <= 16; i++) prog[i] = i / 16;
-        geo.setAttribute('aProgress', new THREE.BufferAttribute(prog, 1));
-        mainGroup.add(new THREE.Line(geo, connMat));
-      });
-
-      // Floating quantum particles
-      const quantumMat = new THREE.ShaderMaterial({
+      // Particles
+      const qMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           uniform float uTime, uHover;
-          attribute float aPhase, aOrbit;
+          attribute float aPhase;
           varying float vAlpha;
           void main() {
             float angle = uTime * 0.15 + aPhase;
             vec3 pos = position;
-            pos.x += cos(angle + aOrbit) * 0.05;
-            pos.y += sin(angle * 1.3 + aOrbit) * 0.05;
-            pos.z += sin(angle * 0.7) * 0.03;
-            vAlpha = 0.4 + sin(uTime * 1.5 + aPhase * 5.0) * 0.3;
+            pos.x += cos(angle) * 0.03;
+            pos.y += sin(angle * 1.3) * 0.03;
+            vAlpha = 0.3 + sin(uTime * 1.5 + aPhase * 5.0) * 0.2;
             vec4 mv = modelViewMatrix * vec4(pos * (1.0 + uHover * 0.1), 1.0);
-            gl_PointSize = (2.5 + uHover * 1.5 + sin(uTime + aPhase) * 0.5) / -mv.z;
+            gl_PointSize = (2.5 + uHover * 1.5) / -mv.z;
             gl_Position = projectionMatrix * mv;
           }
         `,
@@ -659,41 +602,36 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float d = length(gl_PointCoord - 0.5);
             if (d > 0.5) discard;
-            float core = smoothstep(0.5, 0.0, d);
-            gl_FragColor = vec4(0.5, 0.8, 1.0, core * vAlpha);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, smoothstep(0.5, 0.0, d) * vAlpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
-      materials.push(quantumMat);
+      materials.push(qMat);
 
-      const qCount = 40;
+      const qCount = 30;
       const qPos = new Float32Array(qCount * 3);
       const qPhase = new Float32Array(qCount);
-      const qOrbit = new Float32Array(qCount);
       for (let i = 0; i < qCount; i++) {
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.random() * Math.PI;
-        const r = 0.25 + Math.random() * 0.3;
+        const r = 0.25 + Math.random() * 0.25;
         qPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
         qPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
         qPos[i * 3 + 2] = r * Math.cos(phi);
         qPhase[i] = Math.random() * Math.PI * 2;
-        qOrbit[i] = Math.random() * Math.PI * 2;
       }
       const qGeo = new THREE.BufferGeometry();
       qGeo.setAttribute('position', new THREE.BufferAttribute(qPos, 3));
       qGeo.setAttribute('aPhase', new THREE.BufferAttribute(qPhase, 1));
-      qGeo.setAttribute('aOrbit', new THREE.BufferAttribute(qOrbit, 1));
-      mainGroup.add(new THREE.Points(qGeo, quantumMat));
+      mainGroup.add(new THREE.Points(qGeo, qMat));
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // OCTOPUS - Bioluminescent Cognitive Entity
+    // OCTOPUS - Organic Entity - WHITE
     // ═══════════════════════════════════════════════════════════════════════
     else if (type === 'octopus') {
 
-      // Organic head/mantle with neural pattern
       const headMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
@@ -704,7 +642,6 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
             vPos = position;
             float breathe = 1.0 + sin(uTime * 0.5) * 0.03;
             vec3 p = position * breathe;
-            // Subtle organic movement
             p += normal * sin(uTime * 0.8 + position.y * 5.0) * 0.006;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(p * (1.0 + uHover * 0.08), 1.0);
           }
@@ -714,33 +651,22 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying vec3 vNormal, vPos;
           void main() {
             float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.2);
-            // Bioluminescent patterns
-            float pattern1 = sin(vPos.x * 15.0 + vPos.y * 10.0 - uTime * 0.8) * 0.5 + 0.5;
-            float pattern2 = sin(vPos.y * 20.0 + uTime * 0.5) * 0.5 + 0.5;
-            
-            vec3 col1 = vec3(0.1, 0.6, 0.8);
-            vec3 col2 = vec3(0.6, 0.2, 0.9);
-            vec3 col = mix(col1, col2, pattern1 * 0.5 + fresnel * 0.3);
-            col += vec3(0.3, 0.8, 0.6) * pattern2 * 0.2;
-            
-            float alpha = (0.35 + fresnel * 0.45 + pattern1 * 0.15) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(col, alpha);
+            float pattern = sin(vPos.x * 15.0 + vPos.y * 10.0 - uTime * 0.8) * 0.5 + 0.5;
+            float alpha = (0.3 + fresnel * 0.4 + pattern * 0.15) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
       materials.push(headMat);
 
-      // Create organic mantle shape
       const mantleGeo = new THREE.SphereGeometry(0.15, 24, 18);
       const mantlePositions = mantleGeo.attributes.position;
       for (let i = 0; i < mantlePositions.count; i++) {
         const y = mantlePositions.getY(i);
         const x = mantlePositions.getX(i);
         const z = mantlePositions.getZ(i);
-        // Elongate and shape like mantle
         mantlePositions.setY(i, y * 1.3);
-        // Slight bottom tapering
         if (y < 0) {
           const factor = 1.0 - Math.abs(y) * 0.5;
           mantlePositions.setX(i, x * factor);
@@ -752,15 +678,15 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
       mantle.position.y = 0.12;
       mainGroup.add(mantle);
 
-      // Glowing eyes
+      // Eyes
       const eyeMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
         fragmentShader: `
           uniform float uTime, uHover;
           void main() {
-            float pulse = 0.85 + sin(uTime * 1.5) * 0.15;
-            gl_FragColor = vec4(0.9, 0.95, 1.0, pulse * (1.0 + uHover * 0.3));
+            float pulse = 0.8 + sin(uTime * 1.5) * 0.15;
+            gl_FragColor = vec4(0.98, 0.98, 0.96, pulse * (1.0 + uHover * 0.3));
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -775,13 +701,13 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
       rightEye.position.set(0.06, 0.14, 0.12);
       mainGroup.add(rightEye);
 
-      // 8 Tentacles with organic curves and suckers
+      // Tentacles
       const tentacleMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           attribute float aProgress;
           varying float vProg;
-          uniform float uTime, uHover;
+          uniform float uHover;
           void main() {
             vProg = aProgress;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position * (1.0 + uHover * 0.06), 1.0);
@@ -793,9 +719,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float energy = sin(vProg * 8.0 - uTime * 1.0) * 0.5 + 0.5;
             float tip = smoothstep(0.7, 1.0, vProg);
-            vec3 col = mix(vec3(0.2, 0.5, 0.8), vec3(0.5, 0.9, 0.7), energy);
-            float alpha = (0.35 + energy * 0.3 - tip * 0.2) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(col, alpha);
+            float alpha = (0.3 + energy * 0.3 - tip * 0.2) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -806,7 +731,6 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         const baseAngle = (t / 8) * Math.PI * 2;
         const length = 0.38 + (t % 2) * 0.08;
 
-        // Create curved tentacle path
         const pts: THREE.Vector3[] = [];
         for (let i = 0; i <= 24; i++) {
           const p = i / 24;
@@ -827,53 +751,9 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         for (let i = 0; i <= 32; i++) prog[i] = i / 32;
         curveGeo.setAttribute('aProgress', new THREE.BufferAttribute(prog, 1));
         mainGroup.add(new THREE.Line(curveGeo, tentacleMat));
-
-        // Suckers along tentacle
-        const suckerMat = new THREE.ShaderMaterial({
-          uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
-          vertexShader: `
-            uniform float uTime, uHover;
-            attribute float aPhase;
-            varying float vAlpha;
-            void main() {
-              vAlpha = 0.5 + sin(uTime * 1.5 + aPhase * 4.0) * 0.25;
-              vec4 mv = modelViewMatrix * vec4(position * (1.0 + uHover * 0.08), 1.0);
-              gl_PointSize = (2.0 + uHover * 1.0) / -mv.z;
-              gl_Position = projectionMatrix * mv;
-            }
-          `,
-          fragmentShader: `
-            varying float vAlpha;
-            void main() {
-              float d = length(gl_PointCoord - 0.5);
-              if (d > 0.5) discard;
-              float ring = smoothstep(0.3, 0.4, d) * (1.0 - smoothstep(0.4, 0.5, d));
-              float core = smoothstep(0.5, 0.0, d) * 0.5;
-              gl_FragColor = vec4(0.4, 0.9, 0.7, (ring + core) * vAlpha);
-            }
-          `,
-          transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
-        });
-        materials.push(suckerMat);
-
-        const suckerCount = 5;
-        const suckerPos = new Float32Array(suckerCount * 3);
-        const suckerPhase = new Float32Array(suckerCount);
-        for (let s = 0; s < suckerCount; s++) {
-          const sp = (s + 1) / (suckerCount + 1);
-          const pt = curve.getPoint(sp);
-          suckerPos[s * 3] = pt.x;
-          suckerPos[s * 3 + 1] = pt.y;
-          suckerPos[s * 3 + 2] = pt.z;
-          suckerPhase[s] = t + s * 0.5;
-        }
-        const suckerGeo = new THREE.BufferGeometry();
-        suckerGeo.setAttribute('position', new THREE.BufferAttribute(suckerPos, 3));
-        suckerGeo.setAttribute('aPhase', new THREE.BufferAttribute(suckerPhase, 1));
-        mainGroup.add(new THREE.Points(suckerGeo, suckerMat));
       }
 
-      // Bioluminescent particles
+      // Particles
       const bioMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
@@ -883,7 +763,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             vec3 pos = position;
             pos += vec3(sin(uTime * 0.3 + aPhase), cos(uTime * 0.25 + aPhase * 1.3), sin(uTime * 0.2 + aPhase * 0.7)) * 0.02;
-            vAlpha = 0.35 + sin(uTime * 2.0 + aPhase * 3.0) * 0.25;
+            vAlpha = 0.3 + sin(uTime * 2.0 + aPhase * 3.0) * 0.2;
             vec4 mv = modelViewMatrix * vec4(pos * (1.0 + uHover * 0.1), 1.0);
             gl_PointSize = (2.0 + uHover * 1.2) / -mv.z;
             gl_Position = projectionMatrix * mv;
@@ -894,19 +774,19 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float d = length(gl_PointCoord - 0.5);
             if (d > 0.5) discard;
-            gl_FragColor = vec4(0.3, 0.9, 0.7, smoothstep(0.5, 0.0, d) * vAlpha);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, smoothstep(0.5, 0.0, d) * vAlpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
       materials.push(bioMat);
 
-      const bioCount = 25;
+      const bioCount = 20;
       const bioPos = new Float32Array(bioCount * 3);
       const bioPhase = new Float32Array(bioCount);
       for (let i = 0; i < bioCount; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const r = 0.2 + Math.random() * 0.35;
+        const r = 0.2 + Math.random() * 0.3;
         bioPos[i * 3] = Math.cos(angle) * r;
         bioPos[i * 3 + 1] = (Math.random() - 0.3) * 0.5;
         bioPos[i * 3 + 2] = Math.sin(angle) * r;
@@ -921,52 +801,12 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // OVERMIND - Sacred Geometry Cosmic Consciousness
+    // OVERMIND - Simplified Sacred Geometry - WHITE
     // ═══════════════════════════════════════════════════════════════════════
     else if (type === 'overmind') {
 
-      // Metatron's Cube - Sacred Geometry Core
-      const sacredMat = new THREE.ShaderMaterial({
-        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
-        vertexShader: `
-          uniform float uTime, uHover;
-          varying vec3 vPos;
-          void main() {
-            vPos = position;
-            float pulse = 1.0 + sin(uTime * 0.6) * 0.03;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * pulse * (1.0 + uHover * 0.1), 1.0);
-          }
-        `,
-        fragmentShader: `
-          uniform float uTime, uHover;
-          varying vec3 vPos;
-          void main() {
-            float dist = length(vPos);
-            float energy = sin(dist * 20.0 - uTime * 1.5) * 0.5 + 0.5;
-            vec3 col = mix(vec3(0.6, 0.4, 1.0), vec3(1.0, 0.8, 0.4), energy);
-            float alpha = (0.35 + energy * 0.35) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(col, alpha);
-          }
-        `,
-        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
-      });
-      materials.push(sacredMat);
-
-      // Create interlocking tetrahedrons (Merkaba/Star Tetrahedron)
-      const tetraUp = new THREE.TetrahedronGeometry(0.18, 0);
-      const tetraDown = new THREE.TetrahedronGeometry(0.18, 0);
-
-      const merkaba1 = new THREE.Mesh(tetraUp, sacredMat);
-      merkaba1.rotation.x = Math.PI;
-      mainGroup.add(merkaba1);
-
-      const merkaba2Mat = sacredMat.clone();
-      materials.push(merkaba2Mat);
-      const merkaba2 = new THREE.Mesh(tetraDown, merkaba2Mat);
-      mainGroup.add(merkaba2);
-
-      // Outer dodecahedron wireframe
-      const dodecaMat = new THREE.ShaderMaterial({
+      // Simple outer sphere wireframe
+      const sphereMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           uniform float uTime, uHover;
@@ -982,21 +822,51 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying vec3 vNormal;
           void main() {
             float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.0);
-            vec3 col = vec3(0.7, 0.5, 1.0) + vec3(0.3, 0.3, 0.0) * fresnel;
-            float alpha = (0.2 + fresnel * 0.3) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(col, alpha);
+            float alpha = (0.15 + fresnel * 0.25) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
-      materials.push(dodecaMat);
+      materials.push(sphereMat);
+      mainGroup.add(new THREE.Mesh(new THREE.IcosahedronGeometry(0.32, 1), sphereMat));
 
-      const dodeca = new THREE.Mesh(new THREE.DodecahedronGeometry(0.32, 0), dodecaMat);
-      mainGroup.add(dodeca);
+      // Inner tetrahedron (pointing up)
+      const tetraMat = new THREE.ShaderMaterial({
+        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
+        vertexShader: `
+          uniform float uTime, uHover;
+          varying vec3 vPos;
+          void main() {
+            vPos = position;
+            float pulse = 1.0 + sin(uTime * 0.6) * 0.03;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * pulse * (1.0 + uHover * 0.1), 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float uTime, uHover;
+          varying vec3 vPos;
+          void main() {
+            float energy = sin(length(vPos) * 20.0 - uTime * 1.5) * 0.5 + 0.5;
+            float alpha = (0.25 + energy * 0.3) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
+          }
+        `,
+        transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
+      });
+      materials.push(tetraMat);
 
-      // Multiple orbital rings with energy flow
+      const tetra1 = new THREE.Mesh(new THREE.TetrahedronGeometry(0.18, 0), tetraMat);
+      mainGroup.add(tetra1);
+
+      const tetra2 = new THREE.Mesh(new THREE.TetrahedronGeometry(0.18, 0), tetraMat.clone());
+      materials.push(tetra2.material as THREE.ShaderMaterial);
+      tetra2.rotation.x = Math.PI;
+      mainGroup.add(tetra2);
+
+      // Single orbital ring
       const ringMat = new THREE.ShaderMaterial({
-        uniforms: { uTime: { value: 0 }, uHover: { value: 0 }, uSpeed: { value: 1 } },
+        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           attribute float aAngle;
           varying float vAngle;
@@ -1007,84 +877,69 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           }
         `,
         fragmentShader: `
-          uniform float uTime, uHover, uSpeed;
+          uniform float uTime, uHover;
           varying float vAngle;
           void main() {
-            float energy = sin(vAngle * 8.0 - uTime * uSpeed) * 0.5 + 0.5;
-            vec3 col = mix(vec3(0.5, 0.3, 0.9), vec3(1.0, 0.7, 0.3), energy);
-            float alpha = (0.2 + energy * 0.5) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(col, alpha);
+            float energy = sin(vAngle * 6.0 - uTime * 1.0) * 0.5 + 0.5;
+            float alpha = (0.2 + energy * 0.4) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
+      materials.push(ringMat);
 
-      const ringConfigs = [
-        { r: 0.42, rx: Math.PI / 2, ry: 0, speed: 1.2 },
-        { r: 0.38, rx: Math.PI / 2.5, ry: Math.PI / 4, speed: -0.8 },
-        { r: 0.35, rx: Math.PI / 3, ry: -Math.PI / 3, speed: 1.5 }
-      ];
+      const ringPts: number[] = [];
+      const ringAngles: number[] = [];
+      for (let i = 0; i <= 64; i++) {
+        const angle = (i / 64) * Math.PI * 2;
+        ringPts.push(Math.cos(angle) * 0.38, Math.sin(angle) * 0.38, 0);
+        ringAngles.push(angle);
+      }
+      const ringGeo = new THREE.BufferGeometry();
+      ringGeo.setAttribute('position', new THREE.Float32BufferAttribute(ringPts, 3));
+      ringGeo.setAttribute('aAngle', new THREE.Float32BufferAttribute(ringAngles, 1));
+      const ring = new THREE.Line(ringGeo, ringMat);
+      ring.rotation.x = Math.PI / 2;
+      mainGroup.add(ring);
 
-      ringConfigs.forEach(cfg => {
-        const mat = ringMat.clone();
-        mat.uniforms.uSpeed = { value: cfg.speed };
-        materials.push(mat);
-
-        const pts: number[] = [];
-        const angles: number[] = [];
-        for (let i = 0; i <= 64; i++) {
-          const a = (i / 64) * Math.PI * 2;
-          pts.push(Math.cos(a) * cfg.r, Math.sin(a) * cfg.r, 0);
-          angles.push(a);
-        }
-        const geo = new THREE.BufferGeometry();
-        geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-        geo.setAttribute('aAngle', new THREE.Float32BufferAttribute(angles, 1));
-        const ring = new THREE.Line(geo, mat);
-        ring.rotation.x = cfg.rx;
-        ring.rotation.y = cfg.ry;
-        mainGroup.add(ring);
-      });
-
-      // Central all-seeing eye / consciousness core
+      // Central eye
       const eyeMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           uniform float uTime;
           void main() {
-            float pulse = 1.0 + sin(uTime * 1.0) * 0.15;
+            float pulse = 1.0 + sin(uTime * 1.0) * 0.12;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position * pulse, 1.0);
           }
         `,
         fragmentShader: `
           uniform float uTime, uHover;
           void main() {
-            float glow = 0.9 + sin(uTime * 1.5) * 0.1;
-            gl_FragColor = vec4(1.0, 0.95, 0.8, glow * (1.0 + uHover * 0.2));
+            float glow = 0.85 + sin(uTime * 1.5) * 0.1;
+            gl_FragColor = vec4(0.98, 0.98, 0.96, glow * (1.0 + uHover * 0.2));
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
       materials.push(eyeMat);
-      mainGroup.add(new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 16), eyeMat));
+      mainGroup.add(new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 16), eyeMat));
 
-      // Constellation field particles
+      // Floating particles
       const starMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           uniform float uTime, uHover;
-          attribute float aPhase, aTwinkle;
+          attribute float aPhase;
           varying float vAlpha;
           void main() {
             vec3 pos = position;
-            // Gentle orbital drift
             float angle = uTime * 0.05 + aPhase;
             pos.x += cos(angle) * 0.015;
             pos.z += sin(angle) * 0.015;
-            
-            vAlpha = 0.3 + sin(uTime * aTwinkle + aPhase * 5.0) * 0.25;
+            vAlpha = 0.25 + sin(uTime * 2.0 + aPhase * 5.0) * 0.2;
             vec4 mv = modelViewMatrix * vec4(pos * (1.0 + uHover * 0.08), 1.0);
-            gl_PointSize = (2.0 + sin(uTime * aTwinkle) * 0.8 + uHover * 1.0) / -mv.z;
+            gl_PointSize = (2.0 + sin(uTime * 2.0 + aPhase) * 0.6 + uHover * 1.0) / -mv.z;
             gl_Position = projectionMatrix * mv;
           }
         `,
@@ -1093,48 +948,42 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float d = length(gl_PointCoord - 0.5);
             if (d > 0.5) discard;
-            float core = smoothstep(0.5, 0.0, d);
-            gl_FragColor = vec4(1.0, 0.95, 0.85, core * vAlpha);
+            gl_FragColor = vec4(0.98, 0.98, 0.96, smoothstep(0.5, 0.0, d) * vAlpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
       materials.push(starMat);
 
-      const starCount = 50;
+      const starCount = 30;
       const starPos = new Float32Array(starCount * 3);
       const starPhase = new Float32Array(starCount);
-      const starTwinkle = new Float32Array(starCount);
       for (let i = 0; i < starCount; i++) {
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.random() * Math.PI;
-        const r = 0.35 + Math.random() * 0.25;
+        const r = 0.3 + Math.random() * 0.2;
         starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
         starPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
         starPos[i * 3 + 2] = r * Math.cos(phi);
         starPhase[i] = Math.random() * Math.PI * 2;
-        starTwinkle[i] = 1.5 + Math.random() * 2.5;
       }
       const starGeo = new THREE.BufferGeometry();
       starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
       starGeo.setAttribute('aPhase', new THREE.BufferAttribute(starPhase, 1));
-      starGeo.setAttribute('aTwinkle', new THREE.BufferAttribute(starTwinkle, 1));
       mainGroup.add(new THREE.Points(starGeo, starMat));
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // ANIMATION - Desktop: Full | Mobile: Slow Rotation
+    // ANIMATION
     // ═══════════════════════════════════════════════════════════════════════
     let time = 0;
     let frameCount = 0;
 
     const animate = () => {
-      // Both mobile and desktop animate, but at different speeds
       time += isMobile ? 0.002 : 0.004;
       frameCount++;
       if (frameCount === 5) setIsLoaded(true);
 
-      // Hover only on desktop
       if (!isMobile) {
         hoverRef.current += (isHovered ? 1 : 0 - hoverRef.current) * 0.04;
       }
@@ -1144,7 +993,6 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         if (mat.uniforms.uHover) mat.uniforms.uHover.value = hoverRef.current;
       });
 
-      // Rotation - both mobile and desktop, but gentler on mobile
       const rotSpeed = isMobile ? 0.5 : 1.0;
 
       if (type === 'trade69') {
@@ -1153,15 +1001,12 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
       } else if (type === 'megaagent') {
         mainGroup.rotation.y = time * 0.03 * rotSpeed + hoverRef.current * 0.15;
         mainGroup.rotation.x = Math.sin(time * 0.05 * rotSpeed) * 0.05;
-        mainGroup.rotation.z = Math.cos(time * 0.04 * rotSpeed) * 0.03;
       } else if (type === 'octopus') {
         mainGroup.rotation.y = Math.sin(time * 0.06 * rotSpeed) * 0.1 + hoverRef.current * 0.12;
         mainGroup.rotation.x = Math.cos(time * 0.05 * rotSpeed) * 0.04;
-        mainGroup.rotation.z = Math.sin(time * 0.07 * rotSpeed) * 0.03;
       } else if (type === 'overmind') {
-        mainGroup.rotation.y = time * 0.025 * rotSpeed + hoverRef.current * 0.12;
-        mainGroup.rotation.x = Math.sin(time * 0.04 * rotSpeed) * 0.04;
-        mainGroup.rotation.z = Math.cos(time * 0.03 * rotSpeed) * 0.03;
+        mainGroup.rotation.y = time * 0.02 * rotSpeed + hoverRef.current * 0.12;
+        mainGroup.rotation.x = Math.sin(time * 0.04 * rotSpeed) * 0.03;
       }
 
       renderer.render(scene, camera);
