@@ -50,9 +50,7 @@ export default function Services() {
   };
 
   const handleClick = (index: number) => {
-    if (isMobile) {
-      setExpandedIndex(index);
-    }
+    setExpandedIndex(index);
   };
 
   const closeExpanded = () => {
@@ -196,10 +194,10 @@ export default function Services() {
           }
           .services-item {
             padding: 16px;
-            cursor: default;
+            cursor: pointer;
           }
           .services-item:active {
-            transform: none;
+            transform: scale(0.98);
           }
           .services-item:hover .services-icon {
             transform: scale(1.04);
@@ -214,8 +212,14 @@ export default function Services() {
           .services-contact {
             margin-top: clamp(64px, 10vh, 90px);
           }
-          .expanded-overlay {
-            display: none !important;
+          .expanded-content {
+            max-width: 500px;
+          }
+          .expanded-title {
+            font-size: 24px;
+          }
+          .expanded-desc {
+            font-size: 15px;
           }
         }
       `}</style>
@@ -245,7 +249,7 @@ export default function Services() {
           ))}
         </div>
 
-        {/* Expanded Overlay - Mobile Only */}
+        {/* Expanded Overlay */}
         <div
           className={`expanded-overlay ${expandedIndex !== null ? 'active' : ''}`}
           onClick={closeExpanded}
@@ -254,13 +258,13 @@ export default function Services() {
           {expandedIndex !== null && (
             <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
               <div className="expanded-icon" key={`expanded-${expandedIndex}`}>
-                {renderIcon(services[expandedIndex].key, 280, true)}
+                {renderIcon(services[expandedIndex].key, isMobile ? 280 : 320, true)}
               </div>
               <p className="expanded-title">{services[expandedIndex].title}</p>
               <p className="expanded-desc">{services[expandedIndex].description}</p>
             </div>
           )}
-          <p className="expanded-tap-hint">tap anywhere to close</p>
+          <p className="expanded-tap-hint">{isMobile ? 'tap anywhere to close' : 'click anywhere to close'}</p>
         </div>
 
         {/* Also Seeking Section */}
