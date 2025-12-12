@@ -504,55 +504,143 @@ function WorkIcon3D({ type, size = 80 }: WorkIcon3DProps) {
     }
 
     // ═══════════════════════════════════════════════════════════════
-    // OCTOPUS - Ethereal flowing tendrils
+    // OCTOPUS - True octopus form with head and 8 tentacles
     // ═══════════════════════════════════════════════════════════════
     else if (type === 'octopus') {
-      // Central consciousness - layered spheres
-      const coreGeo = new THREE.IcosahedronGeometry(0.14, 2);
-      const coreMat = elegantMaterial(0.85);
-      materials.push(coreMat);
-      mainGroup.add(new THREE.Mesh(coreGeo, coreMat));
+      // Mantle/head - elongated dome shape
+      const headGeo = new THREE.SphereGeometry(0.22, 24, 24, 0, Math.PI * 2, 0, Math.PI * 0.7);
+      const headMat = elegantMaterial(0.75);
+      materials.push(headMat);
+      const head = new THREE.Mesh(headGeo, headMat);
+      head.position.y = 0.15;
+      head.scale.set(1, 1.3, 0.9);
+      mainGroup.add(head);
 
-      const shellGeo = new THREE.IcosahedronGeometry(0.2, 1);
-      const shellMat = elegantMaterial(0.3);
-      materials.push(shellMat);
-      mainGroup.add(new THREE.Mesh(shellGeo, shellMat));
+      // Inner head structure
+      const innerHeadGeo = new THREE.SphereGeometry(0.15, 16, 16, 0, Math.PI * 2, 0, Math.PI * 0.6);
+      const innerHeadMat = elegantMaterial(0.4);
+      materials.push(innerHeadMat);
+      const innerHead = new THREE.Mesh(innerHeadGeo, innerHeadMat);
+      innerHead.position.y = 0.18;
+      innerHead.scale.set(1, 1.2, 0.85);
+      mainGroup.add(innerHead);
 
-      // 8 elegant tendrils - thinner, more curved
+      // Eyes - two small glowing points
+      const eyeGeo = new THREE.SphereGeometry(0.025, 12, 12);
+      const eyeMat = elegantMaterial(0.95);
+      materials.push(eyeMat);
+
+      const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+      leftEye.position.set(-0.1, 0.12, 0.15);
+      mainGroup.add(leftEye);
+
+      const rightEye = new THREE.Mesh(eyeGeo.clone(), eyeMat);
+      rightEye.position.set(0.1, 0.12, 0.15);
+      mainGroup.add(rightEye);
+
+      // 8 Tentacles - organic flowing curves
       const tentacleCount = 8;
       for (let i = 0; i < tentacleCount; i++) {
         const angle = (i / tentacleCount) * Math.PI * 2;
-        const wobble = (i % 2) * 0.15;
+        const isLong = i % 2 === 0;
+        const length = isLong ? 0.65 : 0.55;
 
-        // More elegant S-curve
+        // Base position around the head bottom
+        const baseX = Math.cos(angle) * 0.12;
+        const baseZ = Math.sin(angle) * 0.1;
+        const baseY = -0.05;
+
+        // Create organic S-curve for each tentacle
         const curve = new THREE.CatmullRomCurve3([
-          new THREE.Vector3(Math.cos(angle) * 0.15, Math.sin(angle) * 0.15, 0),
-          new THREE.Vector3(Math.cos(angle + 0.1) * 0.35, Math.sin(angle + 0.1) * 0.35, wobble),
-          new THREE.Vector3(Math.cos(angle + 0.15) * 0.5, Math.sin(angle + 0.15) * 0.5, -wobble * 0.5),
-          new THREE.Vector3(Math.cos(angle - 0.05) * 0.65, Math.sin(angle - 0.05) * 0.65, wobble * 0.3)
+          new THREE.Vector3(baseX, baseY, baseZ),
+          new THREE.Vector3(
+            Math.cos(angle) * 0.25,
+            -0.18,
+            Math.sin(angle) * 0.22
+          ),
+          new THREE.Vector3(
+            Math.cos(angle + 0.15) * 0.4,
+            -0.35 - (i % 3) * 0.05,
+            Math.sin(angle + 0.15) * 0.35
+          ),
+          new THREE.Vector3(
+            Math.cos(angle - 0.1) * 0.5,
+            -0.48 - (i % 2) * 0.08,
+            Math.sin(angle - 0.1) * 0.42
+          ),
+          new THREE.Vector3(
+            Math.cos(angle + 0.2) * length,
+            -0.55 - (isLong ? 0.1 : 0),
+            Math.sin(angle + 0.2) * (length * 0.85)
+          )
         ]);
 
-        // Very thin tube
-        const tubeGeo = new THREE.TubeGeometry(curve, 20, 0.01, 6, false);
-        const tubeMat = elegantMaterial(0.4 + (i % 2) * 0.15);
-        materials.push(tubeMat);
-        mainGroup.add(new THREE.Mesh(tubeGeo, tubeMat));
+        // Tapered tentacle - thicker at base, thin at tip
+        const tentacleRadii = [0.025, 0.02, 0.015, 0.01, 0.005];
+        const tentacleGeo = new THREE.TubeGeometry(curve, 24, 0.015, 8, false);
 
-        // Tiny tip sphere
-        const tipGeo = new THREE.SphereGeometry(0.025, 12, 12);
-        const tipMat = elegantMaterial(0.7);
-        materials.push(tipMat);
-        const tip = new THREE.Mesh(tipGeo, tipMat);
-        const endPoint = curve.getPoint(1);
-        tip.position.copy(endPoint);
-        mainGroup.add(tip);
+        // Custom tapered tube
+        const positions = tentacleGeo.attributes.position;
+        for (let j = 0; j < positions.count; j++) {
+          const vertex = new THREE.Vector3(
+            positions.getX(j),
+            positions.getY(j),
+            positions.getZ(j)
+          );
+          // Find progress along tube (approximate)
+          const progress = (vertex.y - baseY) / (-0.65 - baseY);
+          const taper = 1.0 - progress * 0.6;
+          // Scale perpendicular to curve direction
+          const center = curve.getPointAt(Math.max(0, Math.min(1, progress)));
+          const toVertex = vertex.clone().sub(center);
+          toVertex.multiplyScalar(taper);
+          vertex.copy(center).add(toVertex);
+          positions.setXYZ(j, vertex.x, vertex.y, vertex.z);
+        }
+        tentacleGeo.computeVertexNormals();
+
+        const tentacleMat = elegantMaterial(0.5 + (i % 3) * 0.1);
+        materials.push(tentacleMat);
+        mainGroup.add(new THREE.Mesh(tentacleGeo, tentacleMat));
+
+        // Sucker dots along tentacles
+        const suckerCount = 4;
+        for (let s = 0; s < suckerCount; s++) {
+          const t = 0.25 + (s / suckerCount) * 0.6;
+          const point = curve.getPointAt(t);
+          const suckerGeo = new THREE.SphereGeometry(0.012 - s * 0.002, 8, 8);
+          const suckerMat = elegantMaterial(0.35);
+          materials.push(suckerMat);
+          const sucker = new THREE.Mesh(suckerGeo, suckerMat);
+          // Offset slightly inward
+          const inward = new THREE.Vector3(-point.x, 0, -point.z).normalize().multiplyScalar(0.015);
+          sucker.position.copy(point).add(inward);
+          mainGroup.add(sucker);
+        }
       }
 
-      // Subtle halo ring
-      const haloGeo = new THREE.TorusGeometry(0.72, 0.004, 16, 64);
-      const haloMat = elegantMaterial(0.12);
-      materials.push(haloMat);
-      mainGroup.add(new THREE.Mesh(haloGeo, haloMat));
+      // Subtle particle aura
+      const auraGeo = new THREE.BufferGeometry();
+      const auraCount = 15;
+      const auraPositions = new Float32Array(auraCount * 3);
+      const auraPhases = new Float32Array(auraCount);
+      for (let i = 0; i < auraCount; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.random() * Math.PI;
+        const r = 0.35 + Math.random() * 0.35;
+        auraPositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        auraPositions[i * 3 + 1] = r * Math.cos(phi) - 0.15;
+        auraPositions[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+        auraPhases[i] = Math.random() * Math.PI * 2;
+      }
+      auraGeo.setAttribute('position', new THREE.BufferAttribute(auraPositions, 3));
+      auraGeo.setAttribute('aPhase', new THREE.BufferAttribute(auraPhases, 1));
+      const auraMat = etherealPointMaterial(0.4);
+      materials.push(auraMat);
+      mainGroup.add(new THREE.Points(auraGeo, auraMat));
+
+      // Position whole octopus slightly up so tentacles have room
+      mainGroup.position.y = 0.1;
     }
 
     // ═══════════════════════════════════════════════════════════════
@@ -658,8 +746,13 @@ function WorkIcon3D({ type, size = 80 }: WorkIcon3DProps) {
         // Very slow eternal rotation
         mainGroup.rotation.z = time * 0.05;
       } else if (type === 'octopus') {
-        // Subtle z-axis wobble
-        mainGroup.rotation.z = Math.sin(time * 0.1) * 0.03;
+        // Gentle floating bob and subtle rotation
+        mainGroup.position.y = 0.1 + Math.sin(time * 0.2) * 0.02;
+        mainGroup.rotation.z = Math.sin(time * 0.15) * 0.05;
+        mainGroup.rotation.x = baseRotX + Math.sin(time * 0.12) * 0.03;
+      } else if (type === 'megaagent') {
+        // Subtle network pulse
+        mainGroup.rotation.z = Math.sin(time * 0.08) * 0.02;
       }
 
       renderer.render(scene, camera);
