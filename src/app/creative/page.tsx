@@ -516,17 +516,17 @@ export default function Creative() {
                 fontSize: "clamp(16px, 2vw, 20px)",
                 fontWeight: 200,
                 color: "#FAFAF8",
-                marginBottom: "10px",
+                marginBottom: "16px",
                 letterSpacing: "0.02em"
               }}>
                 Quantum Sphere
               </h3>
               <p style={{
-                fontSize: "clamp(12px, 1.5vw, 14px)",
+                fontSize: "clamp(13px, 1.5vw, 15px)",
                 color: "#FAFAF8",
-                lineHeight: 1.8,
+                lineHeight: 1.9,
                 fontWeight: 300,
-                textAlign: "center",
+                textAlign: "left",
                 maxWidth: "500px"
               }}>
                 A living geodesic structure pulsing with quantum energy. Multi-layered icosahedral shells breathe and deform through simplex noise fields.
@@ -584,17 +584,17 @@ export default function Creative() {
                 fontSize: "clamp(16px, 2vw, 20px)",
                 fontWeight: 200,
                 color: "#FAFAF8",
-                marginBottom: "10px",
+                marginBottom: "16px",
                 letterSpacing: "0.02em"
               }}>
                 Quantum Manifold
               </h3>
               <p style={{
-                fontSize: "clamp(12px, 1.5vw, 14px)",
+                fontSize: "clamp(13px, 1.5vw, 15px)",
                 color: "#FAFAF8",
-                lineHeight: 1.8,
+                lineHeight: 1.9,
                 fontWeight: 300,
-                textAlign: "center",
+                textAlign: "left",
                 maxWidth: "500px"
               }}>
                 A field of infinite possibility. The manifold ripples with quantum fluctuations, each wave representing probability amplitudes in superposition.
@@ -814,11 +814,11 @@ export default function Creative() {
             <Trade69Architecture />
 
             <p style={{
-              fontSize: "clamp(12px, 1.5vw, 14px)",
+              fontSize: "clamp(13px, 1.5vw, 15px)",
               color: "#FAFAF8",
-              lineHeight: 1.8,
+              lineHeight: 1.9,
               fontWeight: 300,
-              textAlign: "center",
+              textAlign: "left",
               maxWidth: "500px",
               margin: "clamp(24px, 4vh, 32px) auto 0"
             }}>
@@ -927,19 +927,41 @@ export default function Creative() {
           </div>
 
           {/* ═══════════════════════════════════════════════════════════ */}
-          {/* FUNCTIONAL ICONS (SVG) */}
+          {/* SVG ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
           <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
-            <p style={{
-              fontSize: "11px",
-              color: "#FAFAF8",
-              letterSpacing: "0.15em",
+            {/* Section Header */}
+            <div style={{
               textAlign: "center",
-              marginBottom: "clamp(48px, 7vh, 64px)",
+              marginBottom: "clamp(32px, 5vh, 48px)"
+            }}>
+              <p style={{
+                fontSize: "11px",
+                color: "#FAFAF8",
+                letterSpacing: "0.15em",
+                marginBottom: "16px"
               }}>
-              SVG ICONS
-            </p>
+                2D VISUALIZATIONS
+              </p>
+              <h3 style={{
+                fontSize: "clamp(18px, 2.5vw, 24px)",
+                fontWeight: 200,
+                color: "#FAFAF8",
+                letterSpacing: "0.02em",
+                marginBottom: "12px"
+              }}>
+                SVG Icons
+              </h3>
+              <p style={{
+                fontSize: "10px",
+                color: "#FAFAF8",
+                letterSpacing: "0.1em",
+                fontFamily: "monospace"
+              }}>
+                Pure SVG · Mathematical Precision · Scalable Graphics
+              </p>
+            </div>
 
             {/* Work Icons Grid */}
             <div style={{
