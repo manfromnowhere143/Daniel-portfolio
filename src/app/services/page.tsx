@@ -18,17 +18,18 @@ export default function Services() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 40px;
+          gap: 24px;
         }
         .services-item {
           padding: 0;
+          margin: 0;
         }
         .services-icon {
           transform: scale(1.2);
-          padding: 16px;
+          padding: 8px;
           background: radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%);
           border-radius: 50%;
-          margin-bottom: 12px;
+          margin-bottom: 0;
           transition: transform 0.3s ease, background 0.3s ease;
         }
         .services-icon svg {
@@ -45,7 +46,9 @@ export default function Services() {
           background: radial-gradient(ellipse at center, rgba(255,255,255,0.08) 0%, transparent 70%);
         }
         .services-title {
-          font-size: 15px;
+          font-size: 14px;
+          margin: 0;
+          padding: 0;
         }
         .services-seeking {
           font-size: 14px;
@@ -68,7 +71,7 @@ export default function Services() {
             transform: scale(1.5);
             padding: 24px;
             background: radial-gradient(ellipse at center, rgba(255,255,255,0.05) 0%, transparent 70%);
-            margin-bottom: 20px;
+            margin-bottom: 16px;
           }
           .services-item:hover .services-icon {
             transform: scale(1.65);
