@@ -134,6 +134,8 @@ export default function Services() {
           font-weight: 200;
           color: #FAFAF8;
           letter-spacing: 0.08em;
+          text-align: center;
+          width: 100%;
           opacity: 0;
           transform: translateY(15px);
           transition: all 0.4s ease 0.15s;
@@ -148,7 +150,7 @@ export default function Services() {
           font-weight: 300;
           color: #FAFAF8;
           line-height: 1.9;
-          text-align: center;
+          text-align: left;
           opacity: 0;
           transform: translateY(15px);
           transition: all 0.4s ease 0.25s;
