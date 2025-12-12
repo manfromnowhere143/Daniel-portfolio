@@ -8,6 +8,7 @@ export default function QuantumManifold() {
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const animationRef = useRef<number>(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -459,9 +460,16 @@ export default function QuantumManifold() {
     // ═══════════════════════════════════════════════════════════════
 
     let time = 0;
+    let frameCount = 0;
 
     const animate = () => {
       time += 0.008;
+      frameCount++;
+
+      // Trigger loaded state after scene is fully rendered
+      if (frameCount === 5) {
+        setIsLoaded(true);
+      }
 
       // Update uniforms
       material.uniforms.uTime.value = time;
@@ -569,11 +577,14 @@ export default function QuantumManifold() {
         style={{
           width: '100%',
           height: containerHeight,
-          backgroundColor: 'transparent',
+          backgroundColor: '#0A0A0A',
           touchAction: 'none',
           cursor: 'grab',
           overflow: 'hidden',
-          borderRadius: '12px'
+          borderRadius: '12px',
+          opacity: isLoaded ? 1 : 0,
+          visibility: isLoaded ? 'visible' : 'hidden',
+          transition: 'opacity 0.8s ease-out, visibility 0.8s ease-out'
         }}
       />
     </div>

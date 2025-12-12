@@ -14,6 +14,7 @@ export default function QuantumSphere({ initialExpanded = false }: QuantumSphere
 
   const [isExpanded, setIsExpanded] = useState(initialExpanded);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const expandProgress = useRef(initialExpanded ? 1 : 0);
   const targetExpand = useRef(initialExpanded ? 1 : 0);
 
@@ -974,9 +975,16 @@ export default function QuantumSphere({ initialExpanded = false }: QuantumSphere
     // ═══════════════════════════════════════════════════════════════
 
     let time = 0;
+    let frameCount = 0;
 
     const animate = () => {
       time += 0.008;
+      frameCount++;
+
+      // Trigger loaded state after scene is fully rendered
+      if (frameCount === 5) {
+        setIsLoaded(true);
+      }
 
       expandProgress.current += (targetExpand.current - expandProgress.current) * 0.05;
       const scale = 0.6 + expandProgress.current * 0.55;
@@ -1100,11 +1108,14 @@ export default function QuantumSphere({ initialExpanded = false }: QuantumSphere
         style={{
           width: '100%',
           height: isMobile ? '320px' : '450px',
-          backgroundColor: 'transparent',
+          backgroundColor: '#0A0A0A',
           touchAction: 'none',
           cursor: 'grab',
           overflow: 'hidden',
-          borderRadius: '12px'
+          borderRadius: '12px',
+          opacity: isLoaded ? 1 : 0,
+          visibility: isLoaded ? 'visible' : 'hidden',
+          transition: 'opacity 0.8s ease-out, visibility 0.8s ease-out'
         }}
       />
     </div>
