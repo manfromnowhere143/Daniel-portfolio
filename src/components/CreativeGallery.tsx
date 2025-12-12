@@ -8,18 +8,54 @@ export default function CreativeGallery() {
   const [expandedSketch, setExpandedSketch] = useState<number | null>(null);
 
   const galleryItems = [
-    { src: "/images/art4.png", name: "Neural Architecture" },
-    { src: "/images/art3.jpg", name: "Emergence" },
-    { src: "/images/art2.JPEG", name: "Layers" },
-    { src: "/images/art1.JPEG", name: "Geometric Abstractions" }
+    {
+      src: "/images/art4.png",
+      name: "Neural Architecture",
+      description: "A visual exploration of artificial neural networks, depicting the intricate pathways of machine cognition through layered geometric abstraction."
+    },
+    {
+      src: "/images/art3.jpg",
+      name: "Emergence",
+      description: "Complex patterns arising from simple rules. An investigation into how order spontaneously manifests from chaos through iterative processes."
+    },
+    {
+      src: "/images/art2.JPEG",
+      name: "Layers",
+      description: "Depth through transparency. Multiple planes of existence coexisting in a single frame, each revealing and concealing simultaneously."
+    },
+    {
+      src: "/images/art1.JPEG",
+      name: "Geometric Abstractions",
+      description: "Pure form distilled to its essence. The fundamental shapes that underlie all visual perception, stripped of ornament."
+    }
   ];
 
   const sketchItems = [
-    { src: "/images/homework1.jpg", name: "Study I" },
-    { src: "/images/neural-timeline.jpg", name: "Study II" },
-    { src: "/images/homework36.jpg", name: "Study III" },
-    { src: "/images/homework4.jpg", name: "Study IV" },
-    { src: "/images/homework5.jpg", name: "Study V" }
+    {
+      src: "/images/homework1.jpg",
+      name: "Study I",
+      description: "Preliminary exploration of form and negative space. Graphite on paper."
+    },
+    {
+      src: "/images/neural-timeline.jpg",
+      name: "Study II",
+      description: "Temporal mapping of neural activation patterns. Mixed media."
+    },
+    {
+      src: "/images/homework36.jpg",
+      name: "Study III",
+      description: "Iterative refinement of geometric principles. Ink and wash."
+    },
+    {
+      src: "/images/homework4.jpg",
+      name: "Study IV",
+      description: "Light and shadow as structural elements. Charcoal study."
+    },
+    {
+      src: "/images/homework5.jpg",
+      name: "Study V",
+      description: "Final synthesis of form studies. Combined techniques."
+    }
   ];
 
   const closeGallery = () => setExpandedGallery(null);
@@ -73,7 +109,7 @@ export default function CreativeGallery() {
           transform: scale(0.98);
         }
 
-        /* Expanded Overlay */
+        /* Expanded Overlay - Same as icons */
         .gallery-overlay {
           position: fixed;
           top: 0;
@@ -92,6 +128,7 @@ export default function CreativeGallery() {
           transition: opacity 0.3s ease;
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
+          overflow-y: auto;
         }
         .gallery-overlay.active {
           opacity: 1;
@@ -125,17 +162,54 @@ export default function CreativeGallery() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          max-width: 90vw;
-          max-height: 80vh;
+          width: 100%;
+          max-width: 600px;
         }
         .gallery-overlay.active .gallery-expanded-content {
           transform: scale(1) translateY(0);
         }
+        .gallery-expanded-preview {
+          width: 100%;
+          margin-bottom: 32px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
         .gallery-expanded-image {
           max-width: 100%;
-          max-height: 75vh;
+          max-height: 50vh;
           border-radius: 4px;
           object-fit: contain;
+        }
+        .gallery-expanded-title {
+          font-size: 22px;
+          font-weight: 200;
+          color: #FAFAF8;
+          letter-spacing: 0.02em;
+          margin-bottom: 16px;
+          text-align: center;
+          opacity: 0;
+          transform: translateY(10px);
+          transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+        }
+        .gallery-overlay.active .gallery-expanded-title {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .gallery-expanded-desc {
+          font-size: 13px;
+          font-weight: 300;
+          color: #FAFAF8;
+          opacity: 0;
+          line-height: 1.7;
+          text-align: left;
+          max-width: 500px;
+          transform: translateY(10px);
+          transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
+        }
+        .gallery-overlay.active .gallery-expanded-desc {
+          opacity: 0.7;
+          transform: translateY(0);
         }
 
         @media (min-width: 600px) {
@@ -155,13 +229,22 @@ export default function CreativeGallery() {
             transform: scale(1.02);
           }
           .gallery-expanded-content {
-            max-width: 80vw;
+            max-width: 700px;
+          }
+          .gallery-expanded-title {
+            font-size: 26px;
+          }
+          .gallery-expanded-desc {
+            font-size: 15px;
+          }
+          .gallery-expanded-image {
+            max-height: 55vh;
           }
         }
       `}</style>
 
       {/* GALLERY */}
-      <div style={{ marginBottom: "clamp(32px, 5vh, 48px)" }}>
+      <div style={{ marginBottom: "clamp(36px, 6vh, 52px)" }}>
         <div className="gallery-grid">
           {galleryItems.map((item, i) => (
             <div
@@ -210,11 +293,15 @@ export default function CreativeGallery() {
         <div className="gallery-close" onClick={closeGallery}>×</div>
         {expandedGalleryItem && (
           <div className="gallery-expanded-content" onClick={(e) => e.stopPropagation()}>
-            <img
-              src={expandedGalleryItem.src}
-              alt={expandedGalleryItem.name}
-              className="gallery-expanded-image"
-            />
+            <div className="gallery-expanded-preview">
+              <img
+                src={expandedGalleryItem.src}
+                alt={expandedGalleryItem.name}
+                className="gallery-expanded-image"
+              />
+            </div>
+            <h3 className="gallery-expanded-title">{expandedGalleryItem.name}</h3>
+            <p className="gallery-expanded-desc">{expandedGalleryItem.description}</p>
           </div>
         )}
       </div>
@@ -227,11 +314,15 @@ export default function CreativeGallery() {
         <div className="gallery-close" onClick={closeSketch}>×</div>
         {expandedSketchItem && (
           <div className="gallery-expanded-content" onClick={(e) => e.stopPropagation()}>
-            <img
-              src={expandedSketchItem.src}
-              alt={expandedSketchItem.name}
-              className="gallery-expanded-image"
-            />
+            <div className="gallery-expanded-preview">
+              <img
+                src={expandedSketchItem.src}
+                alt={expandedSketchItem.name}
+                className="gallery-expanded-image"
+              />
+            </div>
+            <h3 className="gallery-expanded-title">{expandedSketchItem.name}</h3>
+            <p className="gallery-expanded-desc">{expandedSketchItem.description}</p>
           </div>
         )}
       </div>
