@@ -27,7 +27,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
     const container = containerRef.current;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-    camera.position.z = 3.5;
+    camera.position.z = 4.2; // Pulled back for full view
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -66,7 +66,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
           uniform float uTime, uHover;
           varying vec3 vPos;
           void main() {
-            float energy = sin(vPos.x * 10.0 - uTime * 3.0) * 0.5 + 0.5;
+            float energy = sin(vPos.x * 10.0 - uTime * 1.5) * 0.5 + 0.5;
             vec3 col = vec3(0.7, 0.8, 0.95) + vec3(0.2, 0.15, 0.05) * energy;
             float alpha = (0.6 + energy * 0.3) * (1.0 + uHover * 0.4);
             gl_FragColor = vec4(col, alpha);
@@ -76,10 +76,10 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
       });
       materials.push(frameMaterial);
 
-      // Main browser frame - ultra thin lines
+      // Main browser frame - ultra thin lines - scaled for full visibility
       const framePoints = [
-        [-0.8, 0.55, 0], [0.8, 0.55, 0], [0.8, -0.55, 0], [-0.8, -0.55, 0], [-0.8, 0.55, 0],
-        [-0.8, 0.42, 0], [0.8, 0.42, 0]
+        [-0.65, 0.45, 0], [0.65, 0.45, 0], [0.65, -0.45, 0], [-0.65, -0.45, 0], [-0.65, 0.45, 0],
+        [-0.65, 0.34, 0], [0.65, 0.34, 0]
       ];
       const frameGeo = new THREE.BufferGeometry().setFromPoints(
         framePoints.map(p => new THREE.Vector3(p[0], p[1], p[2]))
@@ -115,7 +115,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
       materials.push(dotMat);
 
       const dotGeo = new THREE.BufferGeometry();
-      dotGeo.setAttribute('position', new THREE.Float32BufferAttribute([-0.68, 0.48, 0.01, -0.58, 0.48, 0.01, -0.48, 0.48, 0.01], 3));
+      dotGeo.setAttribute('position', new THREE.Float32BufferAttribute([-0.55, 0.39, 0.01, -0.47, 0.39, 0.01, -0.39, 0.39, 0.01], 3));
       dotGeo.setAttribute('aPhase', new THREE.Float32BufferAttribute([0, 1.5, 3], 1));
       mainGroup.add(new THREE.Points(dotGeo, dotMat));
 
@@ -142,7 +142,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
             float grid = max(gx, gy) * 0.4;
             
             // Scan line
-            float scan = smoothstep(0.02, 0.0, abs(fract(vUv.y - uTime * 0.3) - 0.5)) * 0.3;
+            float scan = smoothstep(0.02, 0.0, abs(fract(vUv.y - uTime * 0.15) - 0.5)) * 0.3;
             
             // Edge fade
             float edge = smoothstep(0.0, 0.15, vUv.x) * smoothstep(1.0, 0.85, vUv.x) *
@@ -156,15 +156,15 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
         transparent: true, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending
       });
 
-      // Three floating layers at different depths
-      [0.05, 0.12, 0.2].forEach((depth, i) => {
+      // Three floating layers at different depths - scaled
+      [0.04, 0.1, 0.16].forEach((depth, i) => {
         const mat = layerMat.clone();
         mat.uniforms.uDepth = { value: depth };
         materials.push(mat);
-        const geo = new THREE.PlaneGeometry(0.45 - i * 0.08, 0.7 - i * 0.15, 8, 12);
+        const geo = new THREE.PlaneGeometry(0.36 - i * 0.06, 0.55 - i * 0.12, 8, 12);
         const mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set(-0.35 + i * 0.35, -0.05, depth);
-        mesh.rotation.y = (i - 1) * 0.08;
+        mesh.position.set(-0.28 + i * 0.28, -0.04, depth);
+        mesh.rotation.y = (i - 1) * 0.06;
         mainGroup.add(mesh);
       });
 
@@ -177,7 +177,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
           varying float vAlpha;
           void main() {
             vec3 p = position;
-            p.y = mod(p.y - uTime * aSpeed * 0.3, 1.0) - 0.5;
+            p.y = mod(p.y - uTime * aSpeed * 0.15, 1.0) - 0.5;
             p.y = p.y * 0.9 - 0.05;
             p *= 1.0 + uHover * 0.08;
             
@@ -206,9 +206,9 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
       const rainSpeed = new Float32Array(rainCount);
       const rainPhase = new Float32Array(rainCount);
       for (let i = 0; i < rainCount; i++) {
-        rainPos[i * 3] = (Math.random() - 0.5) * 1.4;
+        rainPos[i * 3] = (Math.random() - 0.5) * 1.1;
         rainPos[i * 3 + 1] = Math.random();
-        rainPos[i * 3 + 2] = 0.02 + Math.random() * 0.15;
+        rainPos[i * 3 + 2] = 0.02 + Math.random() * 0.12;
         rainSpeed[i] = 0.5 + Math.random() * 1.5;
         rainPhase[i] = Math.random() * Math.PI * 2;
       }
@@ -256,12 +256,12 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
         return mat;
       };
 
-      // Multiple orbital rings at different angles
+      // Multiple orbital rings at different angles - scaled for full visibility
       const rings = [
-        { r: 1.0, thick: 0.012, tilt: 0.3, speed: 2.5 },
-        { r: 0.85, thick: 0.01, tilt: -0.2, speed: -3.0 },
-        { r: 0.7, thick: 0.008, tilt: 0.5, speed: 4.0 },
-        { r: 0.55, thick: 0.006, tilt: -0.4, speed: -2.0 }
+        { r: 0.82, thick: 0.01, tilt: 0.3, speed: 1.8 },
+        { r: 0.7, thick: 0.008, tilt: -0.2, speed: -2.2 },
+        { r: 0.58, thick: 0.007, tilt: 0.5, speed: 2.8 },
+        { r: 0.46, thick: 0.005, tilt: -0.4, speed: -1.5 }
       ];
 
       rings.forEach((ring, i) => {
@@ -288,7 +288,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
           uniform float uTime, uHover;
           varying vec2 vUv;
           void main() {
-            float fill = smoothstep(0.0, 0.65 + sin(uTime * 0.8) * 0.15, vUv.x);
+            float fill = smoothstep(0.0, 0.65 + sin(uTime * 0.4) * 0.15, vUv.x);
             vec3 col = mix(vec3(0.3, 0.5, 0.9), vec3(0.9, 0.6, 0.3), fill);
             float alpha = (0.5 + fill * 0.4) * (1.0 + uHover * 0.4);
             gl_FragColor = vec4(col, alpha);
@@ -298,7 +298,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
       });
       materials.push(gaugeMat);
 
-      const gaugeGeo = new THREE.RingGeometry(0.32, 0.38, 48, 1, Math.PI * 0.75, Math.PI * 1.5);
+      const gaugeGeo = new THREE.RingGeometry(0.26, 0.31, 48, 1, Math.PI * 0.75, Math.PI * 1.5);
       mainGroup.add(new THREE.Mesh(gaugeGeo, gaugeMat));
 
       // Gauge tick marks
@@ -322,8 +322,8 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
 
       for (let i = 0; i <= 12; i++) {
         const angle = Math.PI * 0.75 + (i / 12) * Math.PI * 1.5;
-        const len = i % 3 === 0 ? 0.08 : 0.04;
-        const inner = 0.4;
+        const len = i % 3 === 0 ? 0.06 : 0.03;
+        const inner = 0.33;
         const geo = new THREE.BufferGeometry().setFromPoints([
           new THREE.Vector3(Math.cos(angle) * inner, Math.sin(angle) * inner, 0),
           new THREE.Vector3(Math.cos(angle) * (inner + len), Math.sin(angle) * (inner + len), 0)
@@ -349,7 +349,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
           void main() {
             vec2 c = vUv - 0.5;
             float d = length(c);
-            float rings = sin(d * 25.0 - uTime * 4.0) * 0.5 + 0.5;
+            float rings = sin(d * 25.0 - uTime * 2.0) * 0.5 + 0.5;
             float glow = smoothstep(0.5, 0.0, d);
             
             vec3 col = vec3(0.7, 0.85, 1.0);
@@ -360,7 +360,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
         transparent: true, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending
       });
       materials.push(coreMat);
-      mainGroup.add(new THREE.Mesh(new THREE.CircleGeometry(0.25, 48), coreMat));
+      mainGroup.add(new THREE.Mesh(new THREE.CircleGeometry(0.2, 48), coreMat));
 
       // Data stream particles on rings
       const streamMat = new THREE.ShaderMaterial({
@@ -426,23 +426,23 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
     // ═══════════════════════════════════════════════════════════════════════
     else if (type === 'api') {
 
-      // Node positions - hexagonal constellation spread
+      // Node positions - hexagonal constellation spread - scaled for full visibility
       const nodes: {x: number, y: number, z: number, s: number}[] = [
-        { x: 0, y: 0, z: 0, s: 0.1 }, // Center hub
+        { x: 0, y: 0, z: 0, s: 0.08 }, // Center hub
         // Inner ring - hex pattern
-        { x: 0.5, y: 0, z: 0.1, s: 0.06 },
-        { x: 0.25, y: 0.43, z: -0.05, s: 0.06 },
-        { x: -0.25, y: 0.43, z: 0.08, s: 0.06 },
-        { x: -0.5, y: 0, z: -0.08, s: 0.06 },
-        { x: -0.25, y: -0.43, z: 0.05, s: 0.06 },
-        { x: 0.25, y: -0.43, z: -0.05, s: 0.06 },
+        { x: 0.4, y: 0, z: 0.08, s: 0.05 },
+        { x: 0.2, y: 0.35, z: -0.04, s: 0.05 },
+        { x: -0.2, y: 0.35, z: 0.06, s: 0.05 },
+        { x: -0.4, y: 0, z: -0.06, s: 0.05 },
+        { x: -0.2, y: -0.35, z: 0.04, s: 0.05 },
+        { x: 0.2, y: -0.35, z: -0.04, s: 0.05 },
         // Outer points
-        { x: 0.9, y: 0.2, z: 0.05, s: 0.04 },
-        { x: 0, y: 0.85, z: -0.08, s: 0.04 },
-        { x: -0.85, y: 0.25, z: 0.06, s: 0.04 },
-        { x: -0.75, y: -0.5, z: -0.04, s: 0.04 },
-        { x: 0.4, y: -0.8, z: 0.07, s: 0.04 },
-        { x: 0.85, y: -0.35, z: -0.06, s: 0.04 }
+        { x: 0.72, y: 0.16, z: 0.04, s: 0.035 },
+        { x: 0, y: 0.68, z: -0.06, s: 0.035 },
+        { x: -0.68, y: 0.2, z: 0.05, s: 0.035 },
+        { x: -0.6, y: -0.4, z: -0.03, s: 0.035 },
+        { x: 0.32, y: -0.64, z: 0.05, s: 0.035 },
+        { x: 0.68, y: -0.28, z: -0.05, s: 0.035 }
       ];
 
       // Connections
@@ -533,8 +533,8 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
           varying float vProgress;
           void main() {
             // Multiple data packets
-            float p1 = smoothstep(0.08, 0.0, abs(fract(vProgress - uTime * 0.6) - 0.1));
-            float p2 = smoothstep(0.08, 0.0, abs(fract(vProgress - uTime * 0.6 + 0.5) - 0.1));
+            float p1 = smoothstep(0.08, 0.0, abs(fract(vProgress - uTime * 0.3) - 0.1));
+            float p2 = smoothstep(0.08, 0.0, abs(fract(vProgress - uTime * 0.3 + 0.5) - 0.1));
             float packets = max(p1, p2);
             
             vec3 col = vec3(0.5, 0.65, 0.9) + vec3(0.45, 0.3, 0.1) * packets;
@@ -580,7 +580,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
           uniform float uTime, uHover;
           varying float vAngle;
           void main() {
-            float pulse = sin(vAngle * 6.0 + uTime * 2.0) * 0.5 + 0.5;
+            float pulse = sin(vAngle * 6.0 + uTime * 1.0) * 0.5 + 0.5;
             vec3 col = vec3(0.6, 0.75, 0.95);
             float alpha = (0.15 + pulse * 0.25) * (1.0 + uHover * 0.4);
             gl_FragColor = vec4(col, alpha);
@@ -590,11 +590,11 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
       });
       materials.push(boundaryMat);
 
-      // Hexagonal boundary
+      // Hexagonal boundary - scaled
       const hexPoints: THREE.Vector3[] = [];
       for (let i = 0; i <= 6; i++) {
         const angle = (i / 6) * Math.PI * 2 - Math.PI / 6;
-        hexPoints.push(new THREE.Vector3(Math.cos(angle) * 1.1, Math.sin(angle) * 1.1, 0));
+        hexPoints.push(new THREE.Vector3(Math.cos(angle) * 0.88, Math.sin(angle) * 0.88, 0));
       }
       mainGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(hexPoints), boundaryMat));
     }
@@ -679,8 +679,8 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
             float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.5);
             
             // Neural activity waves
-            float wave1 = sin(vPos.x * 12.0 + vPos.y * 8.0 - uTime * 3.0) * 0.5 + 0.5;
-            float wave2 = sin(vPos.y * 10.0 - vPos.z * 6.0 + uTime * 2.5) * 0.5 + 0.5;
+            float wave1 = sin(vPos.x * 12.0 + vPos.y * 8.0 - uTime * 1.5) * 0.5 + 0.5;
+            float wave2 = sin(vPos.y * 10.0 - vPos.z * 6.0 + uTime * 1.2) * 0.5 + 0.5;
             float activity = wave1 * 0.6 + wave2 * 0.4;
             
             vec3 baseCol = vec3(0.55, 0.65, 0.85);
@@ -695,8 +695,8 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
       });
       materials.push(brainMat);
 
-      // Create organic brain shape
-      const brainGeo = new THREE.SphereGeometry(0.65, 40, 32);
+      // Create organic brain shape - scaled for full visibility
+      const brainGeo = new THREE.SphereGeometry(0.52, 40, 32);
       const pos = brainGeo.attributes.position;
       for (let i = 0; i < pos.count; i++) {
         let x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
@@ -724,14 +724,14 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
       brain.rotation.x = -0.15;
       mainGroup.add(brain);
 
-      // Synaptic lightning paths
+      // Synaptic lightning paths - scaled
       const synapsePaths = [
-        [[-0.4, 0.15, 0.5], [-0.1, 0.25, 0.55], [0.2, 0.1, 0.52], [0.4, 0.2, 0.45]],
-        [[0.35, 0, 0.5], [0.15, -0.15, 0.55], [-0.15, -0.1, 0.5], [-0.35, 0.05, 0.48]],
-        [[-0.3, -0.2, 0.45], [0, -0.25, 0.5], [0.25, -0.15, 0.52]],
-        [[0.3, 0.25, 0.4], [0.1, 0.3, 0.48], [-0.2, 0.25, 0.45]],
-        [[-0.25, 0.3, 0.35], [-0.05, 0.15, 0.5], [0.15, 0.28, 0.42]],
-        [[0.4, -0.2, 0.42], [0.2, -0.28, 0.48], [-0.1, -0.22, 0.45], [-0.3, -0.15, 0.4]]
+        [[-0.32, 0.12, 0.4], [-0.08, 0.2, 0.44], [0.16, 0.08, 0.42], [0.32, 0.16, 0.36]],
+        [[0.28, 0, 0.4], [0.12, -0.12, 0.44], [-0.12, -0.08, 0.4], [-0.28, 0.04, 0.38]],
+        [[-0.24, -0.16, 0.36], [0, -0.2, 0.4], [0.2, -0.12, 0.42]],
+        [[0.24, 0.2, 0.32], [0.08, 0.24, 0.38], [-0.16, 0.2, 0.36]],
+        [[-0.2, 0.24, 0.28], [-0.04, 0.12, 0.4], [0.12, 0.22, 0.34]],
+        [[0.32, -0.16, 0.34], [0.16, -0.22, 0.38], [-0.08, -0.18, 0.36], [-0.24, -0.12, 0.32]]
       ];
 
       synapsePaths.forEach((path, idx) => {
@@ -743,7 +743,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
             varying float vFire, vProgress;
             void main() {
               vProgress = aProgress;
-              float fireT = mod(uTime * 1.2 + uPhase, 2.5);
+              float fireT = mod(uTime * 0.6 + uPhase, 2.5);
               vFire = smoothstep(0.25, 0.0, abs(aProgress - fireT * 0.4)) * step(fireT * 0.4, 1.0);
               gl_Position = projectionMatrix * modelViewMatrix * vec4(position * (1.0 + uHover * 0.1), 1.0);
             }
@@ -782,7 +782,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
           attribute float aPhase;
           varying float vPulse;
           void main() {
-            float fire = sin(uTime * 4.0 + aPhase * 3.0) * 0.5 + 0.5;
+            float fire = sin(uTime * 2.0 + aPhase * 3.0) * 0.5 + 0.5;
             vPulse = pow(fire, 3.0);
             
             vec3 p = position * (1.0 + uHover * 0.1);
@@ -811,7 +811,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
       for (let i = 0; i < neuronCount; i++) {
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.random() * Math.PI * 0.85 + 0.075;
-        const r = 0.58 + Math.random() * 0.12;
+        const r = 0.46 + Math.random() * 0.1;
         nPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
         nPos[i * 3 + 1] = r * Math.cos(phi) * 0.72;
         nPos[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
@@ -864,7 +864,7 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
       const tOrbit = new Float32Array(tCount);
       for (let i = 0; i < tCount; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const r = 0.85 + Math.random() * 0.35;
+        const r = 0.68 + Math.random() * 0.25;
         tPos[i * 3] = Math.cos(angle) * r;
         tPos[i * 3 + 1] = (Math.random() - 0.5) * 0.7;
         tPos[i * 3 + 2] = Math.sin(angle) * r;
@@ -885,32 +885,32 @@ function ServiceIcon3D({ type, size = 220 }: ServiceIcon3DProps) {
     let frameCount = 0;
 
     const animate = () => {
-      time += 0.008;
+      time += 0.004; // Much slower
       frameCount++;
       if (frameCount === 5) setIsLoaded(true);
 
-      hoverRef.current += (isHovered ? 1 : 0 - hoverRef.current) * 0.07;
+      hoverRef.current += (isHovered ? 1 : 0 - hoverRef.current) * 0.05;
 
       materials.forEach(m => {
         if (m.uniforms.uTime) m.uniforms.uTime.value = time;
         if (m.uniforms.uHover) m.uniforms.uHover.value = hoverRef.current;
       });
 
-      // Unique rotation per type
+      // Unique rotation per type - slow and elegant
       if (type === 'website') {
-        mainGroup.rotation.y = Math.sin(time * 0.1) * 0.1 + hoverRef.current * 0.2;
-        mainGroup.rotation.x = Math.cos(time * 0.08) * 0.05 + hoverRef.current * 0.05;
+        mainGroup.rotation.y = Math.sin(time * 0.06) * 0.06 + hoverRef.current * 0.12;
+        mainGroup.rotation.x = Math.cos(time * 0.05) * 0.03 + hoverRef.current * 0.03;
       } else if (type === 'dashboard') {
-        mainGroup.rotation.y = Math.sin(time * 0.08) * 0.08 + hoverRef.current * 0.25;
-        mainGroup.rotation.x = 0.3 + Math.cos(time * 0.06) * 0.03;
+        mainGroup.rotation.y = Math.sin(time * 0.05) * 0.05 + hoverRef.current * 0.15;
+        mainGroup.rotation.x = 0.25 + Math.cos(time * 0.04) * 0.02;
       } else if (type === 'api') {
-        mainGroup.rotation.y = time * 0.03 + hoverRef.current * 0.2;
-        mainGroup.rotation.x = Math.sin(time * 0.1) * 0.08;
-        mainGroup.rotation.z = Math.cos(time * 0.07) * 0.04;
+        mainGroup.rotation.y = time * 0.015 + hoverRef.current * 0.12;
+        mainGroup.rotation.x = Math.sin(time * 0.06) * 0.05;
+        mainGroup.rotation.z = Math.cos(time * 0.04) * 0.02;
       } else if (type === 'llm') {
-        mainGroup.rotation.y = Math.sin(time * 0.12) * 0.12 + hoverRef.current * 0.2;
-        mainGroup.rotation.x = -0.1 + Math.cos(time * 0.09) * 0.05;
-        mainGroup.scale.setScalar(1.0 + Math.sin(time * 0.5) * 0.02 + hoverRef.current * 0.05);
+        mainGroup.rotation.y = Math.sin(time * 0.07) * 0.08 + hoverRef.current * 0.12;
+        mainGroup.rotation.x = -0.08 + Math.cos(time * 0.05) * 0.03;
+        mainGroup.scale.setScalar(1.0 + Math.sin(time * 0.3) * 0.012 + hoverRef.current * 0.03);
       }
 
       renderer.render(scene, camera);
