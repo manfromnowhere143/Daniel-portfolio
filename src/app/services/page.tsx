@@ -65,8 +65,8 @@ export default function Services() {
         .services-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
-          max-width: 300px;
+          gap: 20px;
+          max-width: 340px;
           margin: 0 auto;
         }
         .services-item {
@@ -189,8 +189,8 @@ export default function Services() {
         @media (min-width: 600px) {
           .services-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            max-width: 420px;
+            gap: 48px;
+            max-width: 480px;
           }
           .services-item {
             padding: 16px;
@@ -237,7 +237,7 @@ export default function Services() {
               onClick={() => handleClick(i)}
             >
               <div className="services-icon">
-                {renderIcon(item.key, isMobile ? 120 : 150)}
+                {renderIcon(item.key, isMobile ? 140 : 170)}
               </div>
             </div>
           ))}
