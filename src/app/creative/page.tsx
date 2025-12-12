@@ -762,29 +762,11 @@ export default function Creative() {
 
       <div style={{ paddingTop: "40px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
 
-        {/* Hero Section */}
-        <div style={{
-          maxWidth: "900px",
-          margin: "0 auto",
-          padding: "clamp(20px, 3vh, 32px) 24px clamp(24px, 4vh, 32px)",
-          textAlign: "center"
-        }}>
-          <h1 style={{
-            fontSize: "clamp(24px, 4vw, 36px)",
-            fontWeight: 200,
-            color: "#FAFAF8",
-            letterSpacing: "0.02em",
-            lineHeight: 1.1
-          }}>
-            visual figments
-          </h1>
-        </div>
-
         {/* Main Content */}
         <div style={{
           maxWidth: "900px",
           margin: "0 auto",
-          padding: "0 24px clamp(80px, 12vh, 120px)"
+          padding: "clamp(40px, 6vh, 60px) 24px clamp(80px, 12vh, 120px)"
         }}>
 
           {/* ═══════════════════════════════════════════════════════════ */}
