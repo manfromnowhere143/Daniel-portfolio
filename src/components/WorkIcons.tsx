@@ -160,7 +160,7 @@ export function OvermindIcon() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// 3D ANIMATED ICONS - STATE OF THE ART - ELEGANT & SLOW
+// 3D ANIMATED ICONS - STATE OF THE ART - TRULY SPECTACULAR
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface WorkIcon3DProps {
@@ -176,9 +176,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const hoverRef = useRef(0);
-  const isTouching = useRef(false);
 
-  // Detect mobile on mount
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 600);
     checkMobile();
@@ -192,7 +190,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     const container = containerRef.current;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    camera.position.z = isMobile ? 1.6 : 2.0; // Closer on mobile = bigger icons
+    // Desktop: much closer for bigger icons, Mobile: medium distance
+    camera.position.z = isMobile ? 1.8 : 1.4;
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -210,79 +209,90 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     const materials: THREE.ShaderMaterial[] = [];
 
     // ═══════════════════════════════════════════════════════════════════════
-    // TRADE69 - Holographic Trading Terminal with Live Data Streams
+    // TRADE69 - Holographic Trading Terminal with 3D Candlesticks
     // ═══════════════════════════════════════════════════════════════════════
     if (type === 'trade69') {
 
-      // Ascending data bars with gradient glow
-      const barData = [
-        { h: 0.18, x: -0.32 },
-        { h: 0.32, x: -0.16 },
-        { h: 0.24, x: 0 },
-        { h: 0.44, x: 0.16 },
-        { h: 0.62, x: 0.32 }
+      // 3D Candlestick bars with gradient glow
+      const candleData = [
+        { x: -0.32, h: 0.22, g: true },
+        { x: -0.16, h: 0.38, g: false },
+        { x: 0, h: 0.28, g: true },
+        { x: 0.16, h: 0.52, g: true },
+        { x: 0.32, h: 0.68, g: true }
       ];
 
-      barData.forEach((bar, i) => {
-        const barMat = new THREE.ShaderMaterial({
-          uniforms: { uTime: { value: 0 }, uHover: { value: 0 }, uPhase: { value: i * 0.7 } },
-          vertexShader: `
-            uniform float uTime, uHover, uPhase;
-            varying float vHeight;
-            varying vec3 vPos;
-            void main() {
-              vHeight = uv.y;
-              vPos = position;
-              vec3 pos = position;
-              float wave = sin(uTime * 0.3 + uPhase) * 0.015;
-              pos.y += wave;
-              pos *= 1.0 + uHover * 0.06;
-              gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-            }
-          `,
-          fragmentShader: `
-            uniform float uTime, uHover, uPhase;
-            varying float vHeight;
-            void main() {
-              float glow = pow(vHeight, 1.8);
-              float pulse = sin(uTime * 0.5 + uPhase) * 0.1 + 0.9;
-              vec3 col = mix(vec3(0.5, 0.6, 0.75), vec3(0.92, 0.95, 1.0), vHeight);
-              col += vec3(0.08, 0.1, 0.15) * glow * uHover;
-              float alpha = (0.3 + glow * 0.5) * pulse * (1.0 + uHover * 0.25);
-              gl_FragColor = vec4(col, alpha);
-            }
-          `,
-          transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
-        });
-        materials.push(barMat);
-
-        const barGeo = new THREE.BoxGeometry(0.06, bar.h, 0.03, 1, 4, 1);
-        const mesh = new THREE.Mesh(barGeo, barMat);
-        mesh.position.set(bar.x, bar.h / 2 - 0.28, 0);
-        mainGroup.add(mesh);
+      const candleMat = new THREE.ShaderMaterial({
+        uniforms: { uTime: { value: 0 }, uHover: { value: 0 }, uHeight: { value: 0 }, uGreen: { value: 1 } },
+        vertexShader: `
+          uniform float uTime, uHover, uHeight;
+          varying vec3 vPos;
+          varying float vH;
+          void main() {
+            vPos = position;
+            vH = uHeight;
+            float wave = sin(uTime * 0.5 + position.y * 3.0) * 0.008;
+            vec3 p = position;
+            p.x += wave;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(p * (1.0 + uHover * 0.08), 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float uTime, uHover, uGreen;
+          varying vec3 vPos;
+          varying float vH;
+          void main() {
+            float yNorm = (vPos.y + 0.35) / vH;
+            vec3 greenCol = vec3(0.2, 0.95, 0.6);
+            vec3 redCol = vec3(0.95, 0.3, 0.35);
+            vec3 baseCol = mix(redCol, greenCol, uGreen);
+            vec3 col = baseCol * (0.6 + yNorm * 0.5);
+            float edge = 1.0 - abs(dot(normalize(vec3(vPos.x, 0.0, 1.0)), vec3(0,0,1)));
+            float alpha = (0.5 + edge * 0.4 + yNorm * 0.2) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(col, alpha);
+          }
+        `,
+        transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
 
-      // Trend line with flowing energy
+      candleData.forEach((c, i) => {
+        const mat = candleMat.clone();
+        mat.uniforms.uHeight = { value: c.h };
+        mat.uniforms.uGreen = { value: c.g ? 1.0 : 0.0 };
+        materials.push(mat);
+
+        const geo = new THREE.BoxGeometry(0.06, c.h, 0.04, 1, 8, 1);
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set(c.x, -0.35 + c.h / 2, 0);
+        mainGroup.add(mesh);
+
+        // Wick
+        const wickGeo = new THREE.CylinderGeometry(0.004, 0.004, c.h * 0.3, 4);
+        const wickMat = new THREE.MeshBasicMaterial({ color: 0xfafaf8, transparent: true, opacity: 0.3 });
+        const wick = new THREE.Mesh(wickGeo, wickMat);
+        wick.position.set(c.x, -0.35 + c.h + c.h * 0.15, 0);
+        mainGroup.add(wick);
+      });
+
+      // Trend line with energy flow
       const trendMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
-          uniform float uTime, uHover;
           attribute float aProgress;
-          varying float vProgress;
+          varying float vProg;
+          uniform float uHover;
           void main() {
-            vProgress = aProgress;
-            vec3 pos = position * (1.0 + uHover * 0.06);
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            vProg = aProgress;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * (1.0 + uHover * 0.06), 1.0);
           }
         `,
         fragmentShader: `
           uniform float uTime, uHover;
-          varying float vProgress;
+          varying float vProg;
           void main() {
-            float energy = sin(vProgress * 10.0 - uTime * 0.8) * 0.5 + 0.5;
-            float glow = pow(energy, 2.5);
-            vec3 col = vec3(0.75, 0.82, 0.95) + vec3(0.2, 0.12, 0.05) * glow;
-            float alpha = (0.35 + glow * 0.5) * (1.0 + uHover * 0.35);
+            float energy = sin(vProg * 15.0 - uTime * 1.2) * 0.5 + 0.5;
+            vec3 col = mix(vec3(0.3, 0.8, 0.5), vec3(0.9, 0.95, 1.0), energy);
+            float alpha = (0.4 + energy * 0.5) * (1.0 + uHover * 0.3);
             gl_FragColor = vec4(col, alpha);
           }
         `,
@@ -290,107 +300,95 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
       });
       materials.push(trendMat);
 
-      const trendCurve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-0.38, -0.12, 0.05),
-        new THREE.Vector3(-0.15, 0.06, 0.05),
-        new THREE.Vector3(0, -0.02, 0.05),
-        new THREE.Vector3(0.15, 0.16, 0.05),
-        new THREE.Vector3(0.36, 0.36, 0.05)
-      ]);
-      const trendPts = trendCurve.getPoints(50);
-      const trendGeo = new THREE.BufferGeometry().setFromPoints(trendPts);
-      const progAttr = new Float32Array(51);
-      for (let i = 0; i <= 50; i++) progAttr[i] = i / 50;
-      trendGeo.setAttribute('aProgress', new THREE.BufferAttribute(progAttr, 1));
+      const trendPts = [
+        new THREE.Vector3(-0.4, -0.2, 0.05),
+        new THREE.Vector3(-0.2, 0.05, 0.05),
+        new THREE.Vector3(0, -0.08, 0.05),
+        new THREE.Vector3(0.2, 0.2, 0.05),
+        new THREE.Vector3(0.4, 0.35, 0.05)
+      ];
+      const trendCurve = new THREE.CatmullRomCurve3(trendPts);
+      const trendGeo = new THREE.BufferGeometry().setFromPoints(trendCurve.getPoints(50));
+      const trendProg = new Float32Array(51);
+      for (let i = 0; i <= 50; i++) trendProg[i] = i / 50;
+      trendGeo.setAttribute('aProgress', new THREE.BufferAttribute(trendProg, 1));
       mainGroup.add(new THREE.Line(trendGeo, trendMat));
 
-      // Data points with pulsing glow
-      const pointMat = new THREE.ShaderMaterial({
+      // Data particles flowing upward
+      const particleMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           uniform float uTime, uHover;
-          attribute float aPhase;
-          varying float vPulse;
+          attribute float aPhase, aSpeed;
+          varying float vAlpha;
           void main() {
-            vPulse = sin(uTime * 0.8 + aPhase) * 0.5 + 0.5;
-            vec3 pos = position * (1.0 + uHover * 0.08);
-            vec4 mv = modelViewMatrix * vec4(pos, 1.0);
-            gl_PointSize = (3.5 + vPulse * 2.5 + uHover * 1.5) / -mv.z;
+            vec3 pos = position;
+            pos.y = mod(pos.y + uTime * aSpeed * 0.15, 1.0) - 0.5;
+            vAlpha = 0.4 + sin(uTime * 2.0 + aPhase) * 0.3;
+            vec4 mv = modelViewMatrix * vec4(pos * (1.0 + uHover * 0.1), 1.0);
+            gl_PointSize = (3.0 + uHover * 1.5) / -mv.z;
             gl_Position = projectionMatrix * mv;
           }
         `,
         fragmentShader: `
-          varying float vPulse;
+          varying float vAlpha;
           void main() {
             float d = length(gl_PointCoord - 0.5);
             if (d > 0.5) discard;
-            float core = smoothstep(0.5, 0.0, d);
-            vec3 col = mix(vec3(0.85, 0.88, 1.0), vec3(1.0, 0.97, 0.92), vPulse);
-            gl_FragColor = vec4(col, core * (0.6 + vPulse * 0.4));
+            float glow = smoothstep(0.5, 0.0, d);
+            gl_FragColor = vec4(0.3, 0.9, 0.6, glow * vAlpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
-      materials.push(pointMat);
+      materials.push(particleMat);
 
-      const ptGeo = new THREE.BufferGeometry();
-      const pts = [[-0.38, -0.12, 0.07], [-0.15, 0.06, 0.07], [0, -0.02, 0.07], [0.15, 0.16, 0.07], [0.36, 0.36, 0.07]];
-      ptGeo.setAttribute('position', new THREE.Float32BufferAttribute(pts.flat(), 3));
-      ptGeo.setAttribute('aPhase', new THREE.Float32BufferAttribute([0, 1.2, 2.4, 3.6, 4.8], 1));
-      mainGroup.add(new THREE.Points(ptGeo, pointMat));
+      const pCount = 30;
+      const pPos = new Float32Array(pCount * 3);
+      const pPhase = new Float32Array(pCount);
+      const pSpeed = new Float32Array(pCount);
+      for (let i = 0; i < pCount; i++) {
+        pPos[i * 3] = (Math.random() - 0.5) * 0.9;
+        pPos[i * 3 + 1] = Math.random() - 0.5;
+        pPos[i * 3 + 2] = (Math.random() - 0.5) * 0.2;
+        pPhase[i] = Math.random() * Math.PI * 2;
+        pSpeed[i] = 0.5 + Math.random() * 1.5;
+      }
+      const pGeo = new THREE.BufferGeometry();
+      pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+      pGeo.setAttribute('aPhase', new THREE.BufferAttribute(pPhase, 1));
+      pGeo.setAttribute('aSpeed', new THREE.BufferAttribute(pSpeed, 1));
+      mainGroup.add(new THREE.Points(pGeo, particleMat));
 
-      // Subtle frame
-      const frameMat = new THREE.ShaderMaterial({
+      // Holographic grid floor
+      const gridMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
-        vertexShader: `
-          uniform float uHover;
-          void main() {
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * (1.0 + uHover * 0.05), 1.0);
-          }
-        `,
+        vertexShader: `void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
         fragmentShader: `
           uniform float uTime, uHover;
           void main() {
-            float pulse = 0.85 + sin(uTime * 0.4) * 0.1;
-            gl_FragColor = vec4(0.7, 0.75, 0.85, 0.15 * pulse * (1.0 + uHover * 0.3));
+            gl_FragColor = vec4(0.5, 0.7, 0.9, 0.15 * (1.0 + uHover * 0.3));
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
-      materials.push(frameMat);
+      materials.push(gridMat);
 
-      const frameGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(0.82, 0.72, 0.01));
-      mainGroup.add(new THREE.LineSegments(frameGeo, frameMat));
-
-      // Grid floor lines
-      for (let i = 0; i < 4; i++) {
-        const lineGeo = new THREE.PlaneGeometry(0.75, 0.002);
-        mainGroup.add(new THREE.Mesh(lineGeo, frameMat));
-        const line = mainGroup.children[mainGroup.children.length - 1] as THREE.Mesh;
-        line.position.y = -0.3 + i * 0.15;
-        line.position.z = -0.01;
+      for (let i = 0; i < 5; i++) {
+        const lineGeo = new THREE.PlaneGeometry(0.9, 0.002);
+        const line = new THREE.Mesh(lineGeo, gridMat);
+        line.position.set(0, -0.35 + i * 0.2, -0.02);
+        mainGroup.add(line);
       }
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // MEGAAGENT - Multi-Agent Neural Network with Data Flow
+    // MEGAAGENT - Quantum Neural Network with Holographic Core
     // ═══════════════════════════════════════════════════════════════════════
     else if (type === 'megaagent') {
 
-      const nodes = [
-        { x: 0, y: 0, z: 0, s: 0.08 },
-        { x: 0.35, y: 0.2, z: 0.06, s: 0.05 },
-        { x: -0.32, y: 0.25, z: -0.05, s: 0.048 },
-        { x: 0.25, y: -0.32, z: 0.08, s: 0.052 },
-        { x: -0.28, y: -0.26, z: -0.06, s: 0.048 },
-        { x: 0.06, y: 0.4, z: -0.04, s: 0.044 },
-        { x: -0.1, y: -0.38, z: 0.05, s: 0.044 }
-      ];
-
-      const connections = [[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[1,5],[2,5],[3,6],[4,6],[1,3],[2,4]];
-
-      // Node material with energy flow
-      const nodeMat = new THREE.ShaderMaterial({
+      // Central quantum processing sphere with holographic rings
+      const coreMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           uniform float uTime, uHover;
@@ -398,107 +396,485 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             vNormal = normal;
             vPos = position;
-            float pulse = 1.0 + sin(uTime * 0.8) * 0.03;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * pulse * (1.0 + uHover * 0.08), 1.0);
+            float pulse = 1.0 + sin(uTime * 0.8) * 0.05;
+            vec3 p = position * pulse;
+            // Subtle vertex displacement
+            p += normal * sin(uTime * 1.5 + position.y * 8.0) * 0.008;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(p * (1.0 + uHover * 0.1), 1.0);
           }
         `,
         fragmentShader: `
           uniform float uTime, uHover;
           varying vec3 vNormal, vPos;
           void main() {
-            float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.0);
-            float energy = sin(vPos.x * 6.0 + vPos.y * 6.0 - uTime * 0.6) * 0.5 + 0.5;
-            vec3 col = vec3(0.78, 0.84, 0.95) + vec3(0.15, 0.1, 0.05) * (fresnel + energy * 0.25);
-            float alpha = (0.4 + fresnel * 0.35) * (1.0 + uHover * 0.35);
+            float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.5);
+            // Holographic scan lines
+            float scan = sin(vPos.y * 40.0 - uTime * 2.0) * 0.5 + 0.5;
+            // Energy grid pattern
+            float gridX = smoothstep(0.9, 1.0, abs(sin(vPos.x * 25.0)));
+            float gridY = smoothstep(0.9, 1.0, abs(sin(vPos.y * 25.0)));
+            float grid = max(gridX, gridY);
+            
+            vec3 col1 = vec3(0.3, 0.7, 1.0);
+            vec3 col2 = vec3(0.8, 0.4, 1.0);
+            vec3 col = mix(col1, col2, fresnel + sin(uTime * 0.5) * 0.2);
+            
+            float alpha = (0.15 + fresnel * 0.5 + scan * 0.15 + grid * 0.3) * (1.0 + uHover * 0.5);
             gl_FragColor = vec4(col, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
-      materials.push(nodeMat);
+      materials.push(coreMat);
 
-      // Core glow
-      const coreMat = new THREE.ShaderMaterial({
+      // Main quantum core sphere
+      const coreGeo = new THREE.IcosahedronGeometry(0.12, 2);
+      mainGroup.add(new THREE.Mesh(coreGeo, coreMat));
+
+      // Inner energy core (solid glow)
+      const innerCoreMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
-          uniform float uTime, uHover;
+          uniform float uTime;
           void main() {
-            float pulse = 1.0 + sin(uTime * 1.2) * 0.06;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * pulse * (1.0 + uHover * 0.1), 1.0);
+            float pulse = 1.0 + sin(uTime * 1.5) * 0.1;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * pulse, 1.0);
           }
         `,
         fragmentShader: `
           uniform float uTime, uHover;
           void main() {
-            float pulse = 0.75 + sin(uTime * 0.8) * 0.2;
-            gl_FragColor = vec4(0.95, 0.97, 1.0, pulse * (1.0 + uHover * 0.25));
+            float glow = 0.8 + sin(uTime * 2.0) * 0.2;
+            gl_FragColor = vec4(0.5, 0.8, 1.0, glow * (1.0 + uHover * 0.3));
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
-      materials.push(coreMat);
+      materials.push(innerCoreMat);
+      mainGroup.add(new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 16), innerCoreMat));
 
-      nodes.forEach((n, i) => {
-        const geo = i === 0
-          ? new THREE.BoxGeometry(n.s, n.s, n.s, 2, 2, 2)
-          : new THREE.TetrahedronGeometry(n.s, 0);
-        const mesh = new THREE.Mesh(geo, nodeMat);
-        mesh.position.set(n.x, n.y, n.z);
-        mesh.rotation.set(i * 0.5, i * 0.3, i * 0.4);
-        mainGroup.add(mesh);
-
-        const core = new THREE.Mesh(new THREE.SphereGeometry(n.s * 0.32, 8, 8), coreMat);
-        core.position.set(n.x, n.y, n.z);
-        mainGroup.add(core);
-      });
-
-      // Connection lines with flowing packets
-      const lineMat = new THREE.ShaderMaterial({
+      // Holographic orbital rings
+      const ringMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           uniform float uTime, uHover;
-          attribute float aProgress;
-          varying float vProgress;
+          attribute float aAngle;
+          varying float vAngle;
           void main() {
-            vProgress = aProgress;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * (1.0 + uHover * 0.06), 1.0);
+            vAngle = aAngle;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * (1.0 + uHover * 0.08), 1.0);
           }
         `,
         fragmentShader: `
           uniform float uTime, uHover;
-          varying float vProgress;
+          varying float vAngle;
           void main() {
-            float p1 = smoothstep(0.1, 0.0, abs(fract(vProgress - uTime * 0.2) - 0.12));
-            float p2 = smoothstep(0.1, 0.0, abs(fract(vProgress - uTime * 0.2 + 0.5) - 0.12));
-            float packets = max(p1, p2);
-            vec3 col = vec3(0.65, 0.72, 0.9) + vec3(0.3, 0.2, 0.1) * packets;
-            float alpha = (0.12 + packets * 0.55) * (1.0 + uHover * 0.4);
+            float energy = sin(vAngle * 6.0 - uTime * 1.5) * 0.5 + 0.5;
+            vec3 col = mix(vec3(0.3, 0.6, 1.0), vec3(0.9, 0.5, 1.0), energy);
+            float alpha = (0.25 + energy * 0.5) * (1.0 + uHover * 0.4);
             gl_FragColor = vec4(col, alpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
-      materials.push(lineMat);
+      materials.push(ringMat);
 
-      connections.forEach(([a, b]) => {
+      // Create 3 orbital rings at different angles
+      const ringConfigs = [
+        { radius: 0.22, rotX: 0, rotY: 0, rotZ: 0 },
+        { radius: 0.2, rotX: Math.PI / 3, rotY: 0, rotZ: Math.PI / 6 },
+        { radius: 0.18, rotX: -Math.PI / 4, rotY: Math.PI / 4, rotZ: 0 }
+      ];
+
+      ringConfigs.forEach(cfg => {
+        const ringGeo = new THREE.BufferGeometry();
+        const ringPts: number[] = [];
+        const ringAngles: number[] = [];
+        const segments = 64;
+        for (let i = 0; i <= segments; i++) {
+          const angle = (i / segments) * Math.PI * 2;
+          ringPts.push(Math.cos(angle) * cfg.radius, Math.sin(angle) * cfg.radius, 0);
+          ringAngles.push(angle);
+        }
+        ringGeo.setAttribute('position', new THREE.Float32BufferAttribute(ringPts, 3));
+        ringGeo.setAttribute('aAngle', new THREE.Float32BufferAttribute(ringAngles, 1));
+        const ring = new THREE.Line(ringGeo, ringMat.clone());
+        materials.push(ring.material as THREE.ShaderMaterial);
+        ring.rotation.set(cfg.rotX, cfg.rotY, cfg.rotZ);
+        mainGroup.add(ring);
+      });
+
+      // Agent nodes - 6 orbiting icosahedrons
+      const agentMat = new THREE.ShaderMaterial({
+        uniforms: { uTime: { value: 0 }, uHover: { value: 0 }, uPhase: { value: 0 } },
+        vertexShader: `
+          uniform float uTime, uHover, uPhase;
+          varying vec3 vNormal;
+          void main() {
+            vNormal = normal;
+            float pulse = 1.0 + sin(uTime * 1.2 + uPhase) * 0.08;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * pulse * (1.0 + uHover * 0.15), 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float uTime, uHover, uPhase;
+          varying vec3 vNormal;
+          void main() {
+            float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.0);
+            vec3 col = mix(vec3(0.4, 0.8, 1.0), vec3(1.0, 0.6, 0.9), sin(uTime * 0.5 + uPhase) * 0.5 + 0.5);
+            float alpha = (0.35 + fresnel * 0.45) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(col, alpha);
+          }
+        `,
+        transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
+      });
+
+      const agentPositions = [
+        { x: 0.38, y: 0, z: 0 },
+        { x: -0.38, y: 0, z: 0 },
+        { x: 0, y: 0.38, z: 0 },
+        { x: 0, y: -0.38, z: 0 },
+        { x: 0.27, y: 0.27, z: 0.15 },
+        { x: -0.27, y: -0.27, z: -0.15 }
+      ];
+
+      const agentGroup = new THREE.Group();
+      agentPositions.forEach((pos, i) => {
+        const mat = agentMat.clone();
+        mat.uniforms.uPhase = { value: i * Math.PI / 3 };
+        materials.push(mat);
+
+        const geo = new THREE.IcosahedronGeometry(0.045, 1);
+        const agent = new THREE.Mesh(geo, mat);
+        agent.position.set(pos.x, pos.y, pos.z);
+        agent.rotation.set(i * 0.5, i * 0.3, i * 0.2);
+        agentGroup.add(agent);
+
+        // Agent core glow
+        const glowMat = new THREE.ShaderMaterial({
+          uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
+          vertexShader: `void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+          fragmentShader: `
+            uniform float uTime, uHover;
+            void main() {
+              float glow = 0.7 + sin(uTime * 2.0) * 0.2;
+              gl_FragColor = vec4(0.6, 0.85, 1.0, glow * (1.0 + uHover * 0.3));
+            }
+          `,
+          transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+        });
+        materials.push(glowMat);
+        const glow = new THREE.Mesh(new THREE.SphereGeometry(0.018, 8, 8), glowMat);
+        glow.position.set(pos.x, pos.y, pos.z);
+        agentGroup.add(glow);
+      });
+      mainGroup.add(agentGroup);
+
+      // Neural connections with data flow
+      const connMat = new THREE.ShaderMaterial({
+        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
+        vertexShader: `
+          attribute float aProgress;
+          varying float vProg;
+          uniform float uHover;
+          void main() {
+            vProg = aProgress;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * (1.0 + uHover * 0.05), 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float uTime, uHover;
+          varying float vProg;
+          void main() {
+            // Multiple data packets traveling
+            float p1 = smoothstep(0.08, 0.0, abs(fract(vProg - uTime * 0.25) - 0.1));
+            float p2 = smoothstep(0.08, 0.0, abs(fract(vProg - uTime * 0.25 + 0.33) - 0.1));
+            float p3 = smoothstep(0.08, 0.0, abs(fract(vProg - uTime * 0.25 + 0.66) - 0.1));
+            float packets = max(max(p1, p2), p3);
+            
+            vec3 col = mix(vec3(0.3, 0.5, 0.8), vec3(0.9, 0.6, 1.0), packets);
+            float alpha = (0.08 + packets * 0.7) * (1.0 + uHover * 0.5);
+            gl_FragColor = vec4(col, alpha);
+          }
+        `,
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+      });
+      materials.push(connMat);
+
+      // Connect each agent to center
+      agentPositions.forEach(pos => {
         const pts: THREE.Vector3[] = [];
+        for (let t = 0; t <= 20; t++) {
+          const p = t / 20;
+          pts.push(new THREE.Vector3(pos.x * p, pos.y * p, pos.z * p));
+        }
+        const geo = new THREE.BufferGeometry().setFromPoints(pts);
+        const prog = new Float32Array(21);
+        for (let i = 0; i <= 20; i++) prog[i] = i / 20;
+        geo.setAttribute('aProgress', new THREE.BufferAttribute(prog, 1));
+        mainGroup.add(new THREE.Line(geo, connMat));
+      });
+
+      // Connect agents to each other (forming network)
+      const agentConnections = [[0,2], [0,4], [1,3], [1,5], [2,4], [3,5], [4,5]];
+      agentConnections.forEach(([a, b]) => {
+        const pts: THREE.Vector3[] = [];
+        const pa = agentPositions[a], pb = agentPositions[b];
         for (let t = 0; t <= 16; t++) {
           const p = t / 16;
           pts.push(new THREE.Vector3(
-            nodes[a].x + (nodes[b].x - nodes[a].x) * p,
-            nodes[a].y + (nodes[b].y - nodes[a].y) * p,
-            nodes[a].z + (nodes[b].z - nodes[a].z) * p
+            pa.x + (pb.x - pa.x) * p,
+            pa.y + (pb.y - pa.y) * p,
+            pa.z + (pb.z - pa.z) * p
           ));
         }
         const geo = new THREE.BufferGeometry().setFromPoints(pts);
         const prog = new Float32Array(17);
         for (let i = 0; i <= 16; i++) prog[i] = i / 16;
         geo.setAttribute('aProgress', new THREE.BufferAttribute(prog, 1));
-        mainGroup.add(new THREE.Line(geo, lineMat));
+        mainGroup.add(new THREE.Line(geo, connMat));
       });
 
-      // Ambient particles
-      const particleMat = new THREE.ShaderMaterial({
+      // Floating quantum particles
+      const quantumMat = new THREE.ShaderMaterial({
+        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
+        vertexShader: `
+          uniform float uTime, uHover;
+          attribute float aPhase, aOrbit;
+          varying float vAlpha;
+          void main() {
+            float angle = uTime * 0.15 + aPhase;
+            vec3 pos = position;
+            pos.x += cos(angle + aOrbit) * 0.05;
+            pos.y += sin(angle * 1.3 + aOrbit) * 0.05;
+            pos.z += sin(angle * 0.7) * 0.03;
+            vAlpha = 0.4 + sin(uTime * 1.5 + aPhase * 5.0) * 0.3;
+            vec4 mv = modelViewMatrix * vec4(pos * (1.0 + uHover * 0.1), 1.0);
+            gl_PointSize = (2.5 + uHover * 1.5 + sin(uTime + aPhase) * 0.5) / -mv.z;
+            gl_Position = projectionMatrix * mv;
+          }
+        `,
+        fragmentShader: `
+          varying float vAlpha;
+          void main() {
+            float d = length(gl_PointCoord - 0.5);
+            if (d > 0.5) discard;
+            float core = smoothstep(0.5, 0.0, d);
+            gl_FragColor = vec4(0.5, 0.8, 1.0, core * vAlpha);
+          }
+        `,
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+      });
+      materials.push(quantumMat);
+
+      const qCount = 40;
+      const qPos = new Float32Array(qCount * 3);
+      const qPhase = new Float32Array(qCount);
+      const qOrbit = new Float32Array(qCount);
+      for (let i = 0; i < qCount; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.random() * Math.PI;
+        const r = 0.25 + Math.random() * 0.3;
+        qPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        qPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        qPos[i * 3 + 2] = r * Math.cos(phi);
+        qPhase[i] = Math.random() * Math.PI * 2;
+        qOrbit[i] = Math.random() * Math.PI * 2;
+      }
+      const qGeo = new THREE.BufferGeometry();
+      qGeo.setAttribute('position', new THREE.BufferAttribute(qPos, 3));
+      qGeo.setAttribute('aPhase', new THREE.BufferAttribute(qPhase, 1));
+      qGeo.setAttribute('aOrbit', new THREE.BufferAttribute(qOrbit, 1));
+      mainGroup.add(new THREE.Points(qGeo, quantumMat));
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // OCTOPUS - Bioluminescent Cognitive Entity
+    // ═══════════════════════════════════════════════════════════════════════
+    else if (type === 'octopus') {
+
+      // Organic head/mantle with neural pattern
+      const headMat = new THREE.ShaderMaterial({
+        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
+        vertexShader: `
+          uniform float uTime, uHover;
+          varying vec3 vNormal, vPos;
+          void main() {
+            vNormal = normal;
+            vPos = position;
+            float breathe = 1.0 + sin(uTime * 0.5) * 0.03;
+            vec3 p = position * breathe;
+            // Subtle organic movement
+            p += normal * sin(uTime * 0.8 + position.y * 5.0) * 0.006;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(p * (1.0 + uHover * 0.08), 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float uTime, uHover;
+          varying vec3 vNormal, vPos;
+          void main() {
+            float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.2);
+            // Bioluminescent patterns
+            float pattern1 = sin(vPos.x * 15.0 + vPos.y * 10.0 - uTime * 0.8) * 0.5 + 0.5;
+            float pattern2 = sin(vPos.y * 20.0 + uTime * 0.5) * 0.5 + 0.5;
+            
+            vec3 col1 = vec3(0.1, 0.6, 0.8);
+            vec3 col2 = vec3(0.6, 0.2, 0.9);
+            vec3 col = mix(col1, col2, pattern1 * 0.5 + fresnel * 0.3);
+            col += vec3(0.3, 0.8, 0.6) * pattern2 * 0.2;
+            
+            float alpha = (0.35 + fresnel * 0.45 + pattern1 * 0.15) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(col, alpha);
+          }
+        `,
+        transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
+      });
+      materials.push(headMat);
+
+      // Create organic mantle shape
+      const mantleGeo = new THREE.SphereGeometry(0.15, 24, 18);
+      const mantlePositions = mantleGeo.attributes.position;
+      for (let i = 0; i < mantlePositions.count; i++) {
+        const y = mantlePositions.getY(i);
+        const x = mantlePositions.getX(i);
+        const z = mantlePositions.getZ(i);
+        // Elongate and shape like mantle
+        mantlePositions.setY(i, y * 1.3);
+        // Slight bottom tapering
+        if (y < 0) {
+          const factor = 1.0 - Math.abs(y) * 0.5;
+          mantlePositions.setX(i, x * factor);
+          mantlePositions.setZ(i, z * factor);
+        }
+      }
+      mantleGeo.computeVertexNormals();
+      const mantle = new THREE.Mesh(mantleGeo, headMat);
+      mantle.position.y = 0.12;
+      mainGroup.add(mantle);
+
+      // Glowing eyes
+      const eyeMat = new THREE.ShaderMaterial({
+        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
+        vertexShader: `void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+        fragmentShader: `
+          uniform float uTime, uHover;
+          void main() {
+            float pulse = 0.85 + sin(uTime * 1.5) * 0.15;
+            gl_FragColor = vec4(0.9, 0.95, 1.0, pulse * (1.0 + uHover * 0.3));
+          }
+        `,
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+      });
+      materials.push(eyeMat);
+
+      const eyeGeo = new THREE.SphereGeometry(0.022, 12, 12);
+      const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+      leftEye.position.set(-0.06, 0.14, 0.12);
+      mainGroup.add(leftEye);
+      const rightEye = new THREE.Mesh(eyeGeo, eyeMat);
+      rightEye.position.set(0.06, 0.14, 0.12);
+      mainGroup.add(rightEye);
+
+      // 8 Tentacles with organic curves and suckers
+      const tentacleMat = new THREE.ShaderMaterial({
+        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
+        vertexShader: `
+          attribute float aProgress;
+          varying float vProg;
+          uniform float uTime, uHover;
+          void main() {
+            vProg = aProgress;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * (1.0 + uHover * 0.06), 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float uTime, uHover;
+          varying float vProg;
+          void main() {
+            float energy = sin(vProg * 8.0 - uTime * 1.0) * 0.5 + 0.5;
+            float tip = smoothstep(0.7, 1.0, vProg);
+            vec3 col = mix(vec3(0.2, 0.5, 0.8), vec3(0.5, 0.9, 0.7), energy);
+            float alpha = (0.35 + energy * 0.3 - tip * 0.2) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(col, alpha);
+          }
+        `,
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+      });
+      materials.push(tentacleMat);
+
+      for (let t = 0; t < 8; t++) {
+        const baseAngle = (t / 8) * Math.PI * 2;
+        const length = 0.38 + (t % 2) * 0.08;
+
+        // Create curved tentacle path
+        const pts: THREE.Vector3[] = [];
+        for (let i = 0; i <= 24; i++) {
+          const p = i / 24;
+          const angle = baseAngle + Math.sin(p * 3) * 0.3;
+          const r = 0.08 + p * length * 0.9;
+          const y = -p * length * 0.6;
+          const wave = Math.sin(p * 4 + t) * 0.04 * p;
+          pts.push(new THREE.Vector3(
+            Math.cos(angle) * r + wave,
+            y,
+            Math.sin(angle) * r + wave
+          ));
+        }
+
+        const curve = new THREE.CatmullRomCurve3(pts);
+        const curveGeo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(32));
+        const prog = new Float32Array(33);
+        for (let i = 0; i <= 32; i++) prog[i] = i / 32;
+        curveGeo.setAttribute('aProgress', new THREE.BufferAttribute(prog, 1));
+        mainGroup.add(new THREE.Line(curveGeo, tentacleMat));
+
+        // Suckers along tentacle
+        const suckerMat = new THREE.ShaderMaterial({
+          uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
+          vertexShader: `
+            uniform float uTime, uHover;
+            attribute float aPhase;
+            varying float vAlpha;
+            void main() {
+              vAlpha = 0.5 + sin(uTime * 1.5 + aPhase * 4.0) * 0.25;
+              vec4 mv = modelViewMatrix * vec4(position * (1.0 + uHover * 0.08), 1.0);
+              gl_PointSize = (2.0 + uHover * 1.0) / -mv.z;
+              gl_Position = projectionMatrix * mv;
+            }
+          `,
+          fragmentShader: `
+            varying float vAlpha;
+            void main() {
+              float d = length(gl_PointCoord - 0.5);
+              if (d > 0.5) discard;
+              float ring = smoothstep(0.3, 0.4, d) * (1.0 - smoothstep(0.4, 0.5, d));
+              float core = smoothstep(0.5, 0.0, d) * 0.5;
+              gl_FragColor = vec4(0.4, 0.9, 0.7, (ring + core) * vAlpha);
+            }
+          `,
+          transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+        });
+        materials.push(suckerMat);
+
+        const suckerCount = 5;
+        const suckerPos = new Float32Array(suckerCount * 3);
+        const suckerPhase = new Float32Array(suckerCount);
+        for (let s = 0; s < suckerCount; s++) {
+          const sp = (s + 1) / (suckerCount + 1);
+          const pt = curve.getPoint(sp);
+          suckerPos[s * 3] = pt.x;
+          suckerPos[s * 3 + 1] = pt.y;
+          suckerPos[s * 3 + 2] = pt.z;
+          suckerPhase[s] = t + s * 0.5;
+        }
+        const suckerGeo = new THREE.BufferGeometry();
+        suckerGeo.setAttribute('position', new THREE.BufferAttribute(suckerPos, 3));
+        suckerGeo.setAttribute('aPhase', new THREE.BufferAttribute(suckerPhase, 1));
+        mainGroup.add(new THREE.Points(suckerGeo, suckerMat));
+      }
+
+      // Bioluminescent particles
+      const bioMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           uniform float uTime, uHover;
@@ -506,11 +882,9 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying float vAlpha;
           void main() {
             vec3 pos = position;
-            pos.x += sin(uTime * 0.15 + aPhase) * 0.03;
-            pos.y += cos(uTime * 0.12 + aPhase * 1.2) * 0.03;
-            pos *= 1.0 + uHover * 0.08;
-            vAlpha = 0.35 + sin(uTime * 0.5 + aPhase * 2.0) * 0.2;
-            vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+            pos += vec3(sin(uTime * 0.3 + aPhase), cos(uTime * 0.25 + aPhase * 1.3), sin(uTime * 0.2 + aPhase * 0.7)) * 0.02;
+            vAlpha = 0.35 + sin(uTime * 2.0 + aPhase * 3.0) * 0.25;
+            vec4 mv = modelViewMatrix * vec4(pos * (1.0 + uHover * 0.1), 1.0);
             gl_PointSize = (2.0 + uHover * 1.2) / -mv.z;
             gl_Position = projectionMatrix * mv;
           }
@@ -520,358 +894,197 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float d = length(gl_PointCoord - 0.5);
             if (d > 0.5) discard;
-            gl_FragColor = vec4(0.88, 0.92, 1.0, smoothstep(0.5, 0.0, d) * vAlpha);
-          }
-        `,
-        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
-      });
-      materials.push(particleMat);
-
-      const pCount = 14;
-      const pGeo = new THREE.BufferGeometry();
-      const pPos = new Float32Array(pCount * 3);
-      const pPhase = new Float32Array(pCount);
-      for (let i = 0; i < pCount; i++) {
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.random() * Math.PI;
-        const r = 0.28 + Math.random() * 0.2;
-        pPos[i*3] = r * Math.sin(phi) * Math.cos(theta);
-        pPos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-        pPos[i*3+2] = r * Math.cos(phi);
-        pPhase[i] = Math.random() * Math.PI * 2;
-      }
-      pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-      pGeo.setAttribute('aPhase', new THREE.BufferAttribute(pPhase, 1));
-      mainGroup.add(new THREE.Points(pGeo, particleMat));
-    }
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // OCTOPUS - Organic Bioluminescent Creature
-    // ═══════════════════════════════════════════════════════════════════════
-    else if (type === 'octopus') {
-
-      // Organic head/mantle with pulsing
-      const headMat = new THREE.ShaderMaterial({
-        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
-        vertexShader: `
-          uniform float uTime, uHover;
-          varying vec3 vNormal, vPos;
-          void main() {
-            vNormal = normal;
-            vPos = position;
-            vec3 pos = position;
-            float breathe = 1.0 + sin(uTime * 0.4) * 0.02;
-            pos *= breathe * (1.0 + uHover * 0.06);
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-          }
-        `,
-        fragmentShader: `
-          uniform float uTime, uHover;
-          varying vec3 vNormal, vPos;
-          void main() {
-            float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.2);
-            float pulse = sin(vPos.y * 6.0 - uTime * 0.5) * 0.5 + 0.5;
-            vec3 col = vec3(0.75, 0.82, 0.95) + vec3(0.18, 0.12, 0.08) * (fresnel + pulse * 0.2);
-            float alpha = (0.4 + fresnel * 0.4) * (1.0 + uHover * 0.3);
-            gl_FragColor = vec4(col, alpha);
-          }
-        `,
-        transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
-      });
-      materials.push(headMat);
-
-      const headGeo = new THREE.SphereGeometry(0.18, 20, 16, 0, Math.PI * 2, 0, Math.PI * 0.7);
-      const head = new THREE.Mesh(headGeo, headMat);
-      head.position.y = 0.12;
-      head.scale.set(1, 1.25, 0.88);
-      mainGroup.add(head);
-
-      // Eyes
-      const eyeMat = new THREE.ShaderMaterial({
-        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
-        vertexShader: `
-          uniform float uTime, uHover;
-          void main() {
-            float pulse = 1.0 + sin(uTime * 1.5) * 0.08;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * pulse * (1.0 + uHover * 0.1), 1.0);
-          }
-        `,
-        fragmentShader: `
-          uniform float uTime, uHover;
-          void main() {
-            float glow = 0.8 + sin(uTime * 0.8) * 0.15;
-            gl_FragColor = vec4(0.95, 0.97, 1.0, glow * (1.0 + uHover * 0.2));
-          }
-        `,
-        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
-      });
-      materials.push(eyeMat);
-
-      const eyeGeo = new THREE.SphereGeometry(0.022, 10, 10);
-      const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
-      leftEye.position.set(-0.08, 0.1, 0.12);
-      mainGroup.add(leftEye);
-
-      const rightEye = new THREE.Mesh(eyeGeo.clone(), eyeMat);
-      rightEye.position.set(0.08, 0.1, 0.12);
-      mainGroup.add(rightEye);
-
-      // 8 Tentacles with flowing animation
-      const tentacleMat = new THREE.ShaderMaterial({
-        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
-        vertexShader: `
-          uniform float uTime, uHover;
-          attribute float aProgress;
-          varying float vProgress;
-          varying vec3 vPos;
-          void main() {
-            vProgress = aProgress;
-            vPos = position;
-            vec3 pos = position;
-            // Gentle sway
-            float sway = sin(uTime * 0.3 + aProgress * 3.0) * 0.02 * aProgress;
-            pos.x += sway;
-            pos.z += sway * 0.5;
-            pos *= 1.0 + uHover * 0.06;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-          }
-        `,
-        fragmentShader: `
-          uniform float uTime, uHover;
-          varying float vProgress;
-          void main() {
-            float energy = sin(vProgress * 8.0 - uTime * 0.6) * 0.5 + 0.5;
-            float fade = 1.0 - vProgress * 0.5;
-            vec3 col = vec3(0.72, 0.8, 0.94) + vec3(0.2, 0.15, 0.08) * energy;
-            float alpha = (0.35 + energy * 0.25) * fade * (1.0 + uHover * 0.35);
-            gl_FragColor = vec4(col, alpha);
-          }
-        `,
-        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
-      });
-      materials.push(tentacleMat);
-
-      for (let i = 0; i < 8; i++) {
-        const angle = (i / 8) * Math.PI * 2;
-        const isLong = i % 2 === 0;
-        const len = isLong ? 0.52 : 0.44;
-
-        const curve = new THREE.CatmullRomCurve3([
-          new THREE.Vector3(Math.cos(angle) * 0.1, -0.04, Math.sin(angle) * 0.08),
-          new THREE.Vector3(Math.cos(angle) * 0.2, -0.15, Math.sin(angle) * 0.17),
-          new THREE.Vector3(Math.cos(angle + 0.12) * 0.32, -0.28, Math.sin(angle + 0.12) * 0.28),
-          new THREE.Vector3(Math.cos(angle - 0.08) * 0.4, -0.38, Math.sin(angle - 0.08) * 0.34),
-          new THREE.Vector3(Math.cos(angle + 0.15) * len, -0.46 - (isLong ? 0.06 : 0), Math.sin(angle + 0.15) * (len * 0.82))
-        ]);
-
-        const pts = curve.getPoints(28);
-        const geo = new THREE.BufferGeometry().setFromPoints(pts);
-        const prog = new Float32Array(29);
-        for (let j = 0; j <= 28; j++) prog[j] = j / 28;
-        geo.setAttribute('aProgress', new THREE.BufferAttribute(prog, 1));
-        mainGroup.add(new THREE.Line(geo, tentacleMat));
-
-        // Sucker dots
-        for (let s = 0; s < 3; s++) {
-          const t = 0.3 + s * 0.22;
-          const pt = curve.getPointAt(t);
-          const suckerMat = new THREE.ShaderMaterial({
-            uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
-            vertexShader: `
-              uniform float uTime, uHover;
-              void main() {
-                vec4 mv = modelViewMatrix * vec4(position * (1.0 + uHover * 0.08), 1.0);
-                gl_PointSize = (1.8 - float(${s}) * 0.3) / -mv.z;
-                gl_Position = projectionMatrix * mv;
-              }
-            `,
-            fragmentShader: `
-              uniform float uTime, uHover;
-              void main() {
-                float d = length(gl_PointCoord - 0.5);
-                if (d > 0.5) discard;
-                float alpha = smoothstep(0.5, 0.1, d) * (0.4 + sin(uTime * 0.6) * 0.1);
-                gl_FragColor = vec4(0.85, 0.9, 1.0, alpha * (1.0 + uHover * 0.3));
-              }
-            `,
-            transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
-          });
-          materials.push(suckerMat);
-          const suckerGeo = new THREE.BufferGeometry();
-          suckerGeo.setAttribute('position', new THREE.Float32BufferAttribute([pt.x, pt.y, pt.z], 3));
-          mainGroup.add(new THREE.Points(suckerGeo, suckerMat));
-        }
-      }
-
-      // Ambient bioluminescent particles
-      const bioMat = new THREE.ShaderMaterial({
-        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
-        vertexShader: `
-          uniform float uTime, uHover;
-          attribute float aPhase;
-          varying float vAlpha;
-          void main() {
-            vec3 pos = position;
-            pos.x += sin(uTime * 0.2 + aPhase) * 0.025;
-            pos.y += cos(uTime * 0.15 + aPhase * 1.3) * 0.02;
-            pos *= 1.0 + uHover * 0.08;
-            vAlpha = 0.3 + sin(uTime * 0.6 + aPhase * 2.0) * 0.2;
-            vec4 mv = modelViewMatrix * vec4(pos, 1.0);
-            gl_PointSize = (1.8 + uHover * 1.0) / -mv.z;
-            gl_Position = projectionMatrix * mv;
-          }
-        `,
-        fragmentShader: `
-          varying float vAlpha;
-          void main() {
-            float d = length(gl_PointCoord - 0.5);
-            if (d > 0.5) discard;
-            gl_FragColor = vec4(0.8, 0.88, 1.0, smoothstep(0.5, 0.0, d) * vAlpha);
+            gl_FragColor = vec4(0.3, 0.9, 0.7, smoothstep(0.5, 0.0, d) * vAlpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
       materials.push(bioMat);
 
-      const bioCount = 12;
-      const bioGeo = new THREE.BufferGeometry();
+      const bioCount = 25;
       const bioPos = new Float32Array(bioCount * 3);
       const bioPhase = new Float32Array(bioCount);
       for (let i = 0; i < bioCount; i++) {
-        const theta = Math.random() * Math.PI * 2;
-        const r = 0.28 + Math.random() * 0.28;
-        bioPos[i*3] = Math.cos(theta) * r;
-        bioPos[i*3+1] = (Math.random() - 0.5) * 0.5 - 0.1;
-        bioPos[i*3+2] = Math.sin(theta) * r;
+        const angle = Math.random() * Math.PI * 2;
+        const r = 0.2 + Math.random() * 0.35;
+        bioPos[i * 3] = Math.cos(angle) * r;
+        bioPos[i * 3 + 1] = (Math.random() - 0.3) * 0.5;
+        bioPos[i * 3 + 2] = Math.sin(angle) * r;
         bioPhase[i] = Math.random() * Math.PI * 2;
       }
+      const bioGeo = new THREE.BufferGeometry();
       bioGeo.setAttribute('position', new THREE.BufferAttribute(bioPos, 3));
       bioGeo.setAttribute('aPhase', new THREE.BufferAttribute(bioPhase, 1));
       mainGroup.add(new THREE.Points(bioGeo, bioMat));
 
-      mainGroup.position.y = 0.08;
+      mainGroup.position.y = 0.05;
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // OVERMIND - Cosmic Unified Consciousness
+    // OVERMIND - Sacred Geometry Cosmic Consciousness
     // ═══════════════════════════════════════════════════════════════════════
     else if (type === 'overmind') {
 
-      // Orbital rings with energy flow
-      const createRingMat = (speed: number) => {
-        const mat = new THREE.ShaderMaterial({
-          uniforms: { uTime: { value: 0 }, uHover: { value: 0 }, uSpeed: { value: speed } },
-          vertexShader: `
-            uniform float uTime, uHover;
-            varying float vAngle;
-            void main() {
-              vAngle = atan(position.y, position.x);
-              gl_Position = projectionMatrix * modelViewMatrix * vec4(position * (1.0 + uHover * 0.08), 1.0);
-            }
-          `,
-          fragmentShader: `
-            uniform float uTime, uHover, uSpeed;
-            varying float vAngle;
-            void main() {
-              float a = vAngle + 3.14159;
-              float pulse = sin(a * 4.0 - uTime * uSpeed) * 0.5 + 0.5;
-              float glow = pow(pulse, 3.0);
-              vec3 col = vec3(0.68, 0.78, 0.95) + vec3(0.25, 0.15, 0.05) * glow;
-              float alpha = (0.2 + glow * 0.45) * (1.0 + uHover * 0.4);
-              gl_FragColor = vec4(col, alpha);
-            }
-          `,
-          transparent: true, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending
-        });
-        materials.push(mat);
-        return mat;
-      };
-
-      const rings = [
-        { r: 0.42, thick: 0.006, rx: 0, ry: 0, rz: 0, speed: 0.4 },
-        { r: 0.35, thick: 0.005, rx: Math.PI / 3, ry: Math.PI / 6, rz: 0, speed: -0.5 },
-        { r: 0.28, thick: 0.004, rx: -Math.PI / 4, ry: 0, rz: Math.PI / 5, speed: 0.6 }
-      ];
-
-      rings.forEach(ring => {
-        const geo = new THREE.TorusGeometry(ring.r, ring.thick, 16, 64);
-        const mesh = new THREE.Mesh(geo, createRingMat(ring.speed));
-        mesh.rotation.set(ring.rx, ring.ry, ring.rz);
-        mainGroup.add(mesh);
-      });
-
-      // Merkaba - two interlocking tetrahedrons
-      const merkabaMat = new THREE.ShaderMaterial({
+      // Metatron's Cube - Sacred Geometry Core
+      const sacredMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           uniform float uTime, uHover;
-          varying vec3 vNormal, vPos;
+          varying vec3 vPos;
           void main() {
-            vNormal = normal;
             vPos = position;
-            float pulse = 1.0 + sin(uTime * 0.5) * 0.03;
+            float pulse = 1.0 + sin(uTime * 0.6) * 0.03;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position * pulse * (1.0 + uHover * 0.1), 1.0);
           }
         `,
         fragmentShader: `
           uniform float uTime, uHover;
-          varying vec3 vNormal, vPos;
+          varying vec3 vPos;
+          void main() {
+            float dist = length(vPos);
+            float energy = sin(dist * 20.0 - uTime * 1.5) * 0.5 + 0.5;
+            vec3 col = mix(vec3(0.6, 0.4, 1.0), vec3(1.0, 0.8, 0.4), energy);
+            float alpha = (0.35 + energy * 0.35) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(col, alpha);
+          }
+        `,
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+      });
+      materials.push(sacredMat);
+
+      // Create interlocking tetrahedrons (Merkaba/Star Tetrahedron)
+      const tetraUp = new THREE.TetrahedronGeometry(0.18, 0);
+      const tetraDown = new THREE.TetrahedronGeometry(0.18, 0);
+
+      const merkaba1 = new THREE.Mesh(tetraUp, sacredMat);
+      merkaba1.rotation.x = Math.PI;
+      mainGroup.add(merkaba1);
+
+      const merkaba2Mat = sacredMat.clone();
+      materials.push(merkaba2Mat);
+      const merkaba2 = new THREE.Mesh(tetraDown, merkaba2Mat);
+      mainGroup.add(merkaba2);
+
+      // Outer dodecahedron wireframe
+      const dodecaMat = new THREE.ShaderMaterial({
+        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
+        vertexShader: `
+          uniform float uTime, uHover;
+          varying vec3 vNormal;
+          void main() {
+            vNormal = normal;
+            float breathe = 1.0 + sin(uTime * 0.4) * 0.02;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * breathe * (1.0 + uHover * 0.08), 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float uTime, uHover;
+          varying vec3 vNormal;
           void main() {
             float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.0);
-            float energy = sin(vPos.x * 8.0 + vPos.y * 8.0 - uTime * 0.4) * 0.5 + 0.5;
-            vec3 col = vec3(0.75, 0.82, 0.95) + vec3(0.18, 0.12, 0.05) * (fresnel + energy * 0.25);
-            float alpha = (0.45 + fresnel * 0.35) * (1.0 + uHover * 0.35);
+            vec3 col = vec3(0.7, 0.5, 1.0) + vec3(0.3, 0.3, 0.0) * fresnel;
+            float alpha = (0.2 + fresnel * 0.3) * (1.0 + uHover * 0.4);
             gl_FragColor = vec4(col, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
-      materials.push(merkabaMat);
+      materials.push(dodecaMat);
 
-      const tetra1 = new THREE.Mesh(new THREE.TetrahedronGeometry(0.15, 0), merkabaMat);
-      mainGroup.add(tetra1);
+      const dodeca = new THREE.Mesh(new THREE.DodecahedronGeometry(0.32, 0), dodecaMat);
+      mainGroup.add(dodeca);
 
-      const tetra2 = new THREE.Mesh(new THREE.TetrahedronGeometry(0.15, 0), merkabaMat);
-      tetra2.rotation.x = Math.PI;
-      mainGroup.add(tetra2);
+      // Multiple orbital rings with energy flow
+      const ringMat = new THREE.ShaderMaterial({
+        uniforms: { uTime: { value: 0 }, uHover: { value: 0 }, uSpeed: { value: 1 } },
+        vertexShader: `
+          attribute float aAngle;
+          varying float vAngle;
+          uniform float uHover;
+          void main() {
+            vAngle = aAngle;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * (1.0 + uHover * 0.06), 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float uTime, uHover, uSpeed;
+          varying float vAngle;
+          void main() {
+            float energy = sin(vAngle * 8.0 - uTime * uSpeed) * 0.5 + 0.5;
+            vec3 col = mix(vec3(0.5, 0.3, 0.9), vec3(1.0, 0.7, 0.3), energy);
+            float alpha = (0.2 + energy * 0.5) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(col, alpha);
+          }
+        `,
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+      });
 
-      // Central eye/consciousness
+      const ringConfigs = [
+        { r: 0.42, rx: Math.PI / 2, ry: 0, speed: 1.2 },
+        { r: 0.38, rx: Math.PI / 2.5, ry: Math.PI / 4, speed: -0.8 },
+        { r: 0.35, rx: Math.PI / 3, ry: -Math.PI / 3, speed: 1.5 }
+      ];
+
+      ringConfigs.forEach(cfg => {
+        const mat = ringMat.clone();
+        mat.uniforms.uSpeed = { value: cfg.speed };
+        materials.push(mat);
+
+        const pts: number[] = [];
+        const angles: number[] = [];
+        for (let i = 0; i <= 64; i++) {
+          const a = (i / 64) * Math.PI * 2;
+          pts.push(Math.cos(a) * cfg.r, Math.sin(a) * cfg.r, 0);
+          angles.push(a);
+        }
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+        geo.setAttribute('aAngle', new THREE.Float32BufferAttribute(angles, 1));
+        const ring = new THREE.Line(geo, mat);
+        ring.rotation.x = cfg.rx;
+        ring.rotation.y = cfg.ry;
+        mainGroup.add(ring);
+      });
+
+      // Central all-seeing eye / consciousness core
       const eyeMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
-          uniform float uTime, uHover;
+          uniform float uTime;
           void main() {
-            float pulse = 1.0 + sin(uTime * 0.8) * 0.08;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * pulse * (1.0 + uHover * 0.12), 1.0);
+            float pulse = 1.0 + sin(uTime * 1.0) * 0.15;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position * pulse, 1.0);
           }
         `,
         fragmentShader: `
           uniform float uTime, uHover;
           void main() {
-            float glow = 0.85 + sin(uTime * 0.6) * 0.12;
-            gl_FragColor = vec4(0.98, 0.99, 1.0, glow * (1.0 + uHover * 0.2));
+            float glow = 0.9 + sin(uTime * 1.5) * 0.1;
+            gl_FragColor = vec4(1.0, 0.95, 0.8, glow * (1.0 + uHover * 0.2));
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
       materials.push(eyeMat);
+      mainGroup.add(new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 16), eyeMat));
 
-      mainGroup.add(new THREE.Mesh(new THREE.SphereGeometry(0.048, 20, 20), eyeMat));
-
-      // Orbiting consciousness points
-      const orbitMat = new THREE.ShaderMaterial({
+      // Constellation field particles
+      const starMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
           uniform float uTime, uHover;
-          attribute float aPhase, aRadius;
+          attribute float aPhase, aTwinkle;
           varying float vAlpha;
           void main() {
-            float angle = uTime * 0.1 + aPhase;
-            vec3 pos = vec3(cos(angle) * aRadius, sin(angle) * aRadius, 0.0);
-            pos *= 1.0 + uHover * 0.08;
-            vAlpha = 0.5 + sin(uTime * 0.5 + aPhase * 3.0) * 0.25;
-            vec4 mv = modelViewMatrix * vec4(pos, 1.0);
-            gl_PointSize = (2.5 + uHover * 1.2) / -mv.z;
+            vec3 pos = position;
+            // Gentle orbital drift
+            float angle = uTime * 0.05 + aPhase;
+            pos.x += cos(angle) * 0.015;
+            pos.z += sin(angle) * 0.015;
+            
+            vAlpha = 0.3 + sin(uTime * aTwinkle + aPhase * 5.0) * 0.25;
+            vec4 mv = modelViewMatrix * vec4(pos * (1.0 + uHover * 0.08), 1.0);
+            gl_PointSize = (2.0 + sin(uTime * aTwinkle) * 0.8 + uHover * 1.0) / -mv.z;
             gl_Position = projectionMatrix * mv;
           }
         `,
@@ -881,92 +1094,47 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
             float d = length(gl_PointCoord - 0.5);
             if (d > 0.5) discard;
             float core = smoothstep(0.5, 0.0, d);
-            gl_FragColor = vec4(0.92, 0.95, 1.0, core * vAlpha);
+            gl_FragColor = vec4(1.0, 0.95, 0.85, core * vAlpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
-      materials.push(orbitMat);
+      materials.push(starMat);
 
-      const orbitCount = 8;
-      const orbitGeo = new THREE.BufferGeometry();
-      const oPos = new Float32Array(orbitCount * 3);
-      const oPhase = new Float32Array(orbitCount);
-      const oRadius = new Float32Array(orbitCount);
-      for (let i = 0; i < orbitCount; i++) {
-        oPos[i*3] = oPos[i*3+1] = oPos[i*3+2] = 0;
-        oPhase[i] = (i / orbitCount) * Math.PI * 2;
-        oRadius[i] = 0.42;
-      }
-      orbitGeo.setAttribute('position', new THREE.BufferAttribute(oPos, 3));
-      orbitGeo.setAttribute('aPhase', new THREE.BufferAttribute(oPhase, 1));
-      orbitGeo.setAttribute('aRadius', new THREE.BufferAttribute(oRadius, 1));
-      mainGroup.add(new THREE.Points(orbitGeo, orbitMat));
-
-      // Ambient cosmic dust
-      const dustMat = new THREE.ShaderMaterial({
-        uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
-        vertexShader: `
-          uniform float uTime, uHover;
-          attribute float aPhase;
-          varying float vAlpha;
-          void main() {
-            vec3 pos = position;
-            pos.x += sin(uTime * 0.1 + aPhase) * 0.02;
-            pos.y += cos(uTime * 0.08 + aPhase * 1.2) * 0.02;
-            pos *= 1.0 + uHover * 0.08;
-            vAlpha = 0.25 + sin(uTime * 0.4 + aPhase * 2.0) * 0.15;
-            vec4 mv = modelViewMatrix * vec4(pos, 1.0);
-            gl_PointSize = (1.5 + uHover * 0.8) / -mv.z;
-            gl_Position = projectionMatrix * mv;
-          }
-        `,
-        fragmentShader: `
-          varying float vAlpha;
-          void main() {
-            float d = length(gl_PointCoord - 0.5);
-            if (d > 0.5) discard;
-            gl_FragColor = vec4(0.85, 0.9, 1.0, smoothstep(0.5, 0.0, d) * vAlpha);
-          }
-        `,
-        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
-      });
-      materials.push(dustMat);
-
-      const dustCount = 18;
-      const dustGeo = new THREE.BufferGeometry();
-      const dPos = new Float32Array(dustCount * 3);
-      const dPhase = new Float32Array(dustCount);
-      for (let i = 0; i < dustCount; i++) {
+      const starCount = 50;
+      const starPos = new Float32Array(starCount * 3);
+      const starPhase = new Float32Array(starCount);
+      const starTwinkle = new Float32Array(starCount);
+      for (let i = 0; i < starCount; i++) {
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.random() * Math.PI;
-        const r = 0.2 + Math.random() * 0.3;
-        dPos[i*3] = r * Math.sin(phi) * Math.cos(theta);
-        dPos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-        dPos[i*3+2] = r * Math.cos(phi);
-        dPhase[i] = Math.random() * Math.PI * 2;
+        const r = 0.35 + Math.random() * 0.25;
+        starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        starPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        starPos[i * 3 + 2] = r * Math.cos(phi);
+        starPhase[i] = Math.random() * Math.PI * 2;
+        starTwinkle[i] = 1.5 + Math.random() * 2.5;
       }
-      dustGeo.setAttribute('position', new THREE.BufferAttribute(dPos, 3));
-      dustGeo.setAttribute('aPhase', new THREE.BufferAttribute(dPhase, 1));
-      mainGroup.add(new THREE.Points(dustGeo, dustMat));
+      const starGeo = new THREE.BufferGeometry();
+      starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+      starGeo.setAttribute('aPhase', new THREE.BufferAttribute(starPhase, 1));
+      starGeo.setAttribute('aTwinkle', new THREE.BufferAttribute(starTwinkle, 1));
+      mainGroup.add(new THREE.Points(starGeo, starMat));
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // ANIMATION - Slow, Elegant, Meditative (Static on Mobile)
+    // ANIMATION - Desktop: Full | Mobile: Slow Rotation
     // ═══════════════════════════════════════════════════════════════════════
     let time = 0;
     let frameCount = 0;
 
     const animate = () => {
-      // On mobile: static render (no time progression)
-      // On desktop: full animation
-      if (!isMobile) {
-        time += 0.004;
-      }
+      // Both mobile and desktop animate, but at different speeds
+      time += isMobile ? 0.002 : 0.004;
       frameCount++;
       if (frameCount === 5) setIsLoaded(true);
 
-      // Only animate hover on desktop
+      // Hover only on desktop
       if (!isMobile) {
         hoverRef.current += (isHovered ? 1 : 0 - hoverRef.current) * 0.04;
       }
@@ -976,34 +1144,27 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         if (mat.uniforms.uHover) mat.uniforms.uHover.value = hoverRef.current;
       });
 
-      // Gentle rotation per type (only on desktop)
-      if (!isMobile) {
-        if (type === 'trade69') {
-          mainGroup.rotation.y = Math.sin(time * 0.08) * 0.06 + hoverRef.current * 0.1;
-          mainGroup.rotation.x = Math.cos(time * 0.06) * 0.03;
-        } else if (type === 'megaagent') {
-          mainGroup.rotation.y = Math.sin(time * 0.06) * 0.05 + hoverRef.current * 0.12;
-          mainGroup.rotation.x = Math.cos(time * 0.05) * 0.03;
-          mainGroup.rotation.z = Math.sin(time * 0.04) * 0.015;
-        } else if (type === 'octopus') {
-          mainGroup.position.y = 0.08 + Math.sin(time * 0.12) * 0.015;
-          mainGroup.rotation.y = Math.sin(time * 0.08) * 0.06 + hoverRef.current * 0.1;
-          mainGroup.rotation.x = Math.cos(time * 0.06) * 0.025;
-          mainGroup.rotation.z = Math.sin(time * 0.07) * 0.03;
-        } else if (type === 'overmind') {
-          mainGroup.rotation.z = time * 0.025;
-          mainGroup.rotation.y = Math.sin(time * 0.05) * 0.04 + hoverRef.current * 0.1;
-          mainGroup.rotation.x = Math.cos(time * 0.04) * 0.025;
-        }
+      // Rotation - both mobile and desktop, but gentler on mobile
+      const rotSpeed = isMobile ? 0.5 : 1.0;
+
+      if (type === 'trade69') {
+        mainGroup.rotation.y = Math.sin(time * 0.08 * rotSpeed) * 0.08 + hoverRef.current * 0.15;
+        mainGroup.rotation.x = Math.cos(time * 0.06 * rotSpeed) * 0.04;
+      } else if (type === 'megaagent') {
+        mainGroup.rotation.y = time * 0.03 * rotSpeed + hoverRef.current * 0.15;
+        mainGroup.rotation.x = Math.sin(time * 0.05 * rotSpeed) * 0.05;
+        mainGroup.rotation.z = Math.cos(time * 0.04 * rotSpeed) * 0.03;
+      } else if (type === 'octopus') {
+        mainGroup.rotation.y = Math.sin(time * 0.06 * rotSpeed) * 0.1 + hoverRef.current * 0.12;
+        mainGroup.rotation.x = Math.cos(time * 0.05 * rotSpeed) * 0.04;
+        mainGroup.rotation.z = Math.sin(time * 0.07 * rotSpeed) * 0.03;
+      } else if (type === 'overmind') {
+        mainGroup.rotation.y = time * 0.025 * rotSpeed + hoverRef.current * 0.12;
+        mainGroup.rotation.x = Math.sin(time * 0.04 * rotSpeed) * 0.04;
+        mainGroup.rotation.z = Math.cos(time * 0.03 * rotSpeed) * 0.03;
       }
 
       renderer.render(scene, camera);
-
-      // On mobile: stop animation loop after initial render
-      // On desktop: continue animation
-      if (isMobile && frameCount > 10) {
-        return; // Stop loop on mobile after initial render
-      }
       animationRef.current = requestAnimationFrame(animate);
     };
 
