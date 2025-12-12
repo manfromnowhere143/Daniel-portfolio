@@ -439,17 +439,6 @@ export default function Creative() {
           background: rgba(255,255,255,0.05);
           z-index: 1001;
         }
-        .experiences-tap-hint {
-          position: absolute;
-          bottom: 30px;
-          left: 50%;
-          transform: translateX(-50%);
-          font-size: 10px;
-          color: #FAFAF8;
-          opacity: 0.3;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-        }
 
         /* Geometry Gallery */
         .geometry-grid {
@@ -589,15 +578,6 @@ export default function Creative() {
           border-radius: 50%;
           background: rgba(255,255,255,0.05);
         }
-        .geometry-tap-hint {
-          position: absolute;
-          bottom: 40px;
-          font-size: 10px;
-          color: #FAFAF8;
-          opacity: 0.3;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-        }
 
         /* 3D Icons Gallery */
         .icons3d-grid {
@@ -715,15 +695,6 @@ export default function Creative() {
           border-radius: 50%;
           background: rgba(255,255,255,0.05);
         }
-        .icons3d-tap-hint {
-          position: absolute;
-          bottom: 40px;
-          font-size: 10px;
-          color: #FAFAF8;
-          opacity: 0.3;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-        }
 
         @media (min-width: 600px) {
           .experiences-grid {
@@ -834,53 +805,27 @@ export default function Creative() {
             fontWeight: 200,
             color: "#FAFAF8",
             letterSpacing: "0.02em",
-            lineHeight: 1.1,
-            fontStyle: "italic"
+            lineHeight: 1.1
           }}>
             visual figments
           </h1>
         </div>
 
         {/* Main Content */}
-        <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "0 24px clamp(80px, 12vh, 120px)" }}>
+        <div style={{
+          maxWidth: "1000px",
+          margin: "0 auto",
+          padding: "0 24px clamp(80px, 12vh, 120px)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center"
+        }}>
 
           {/* ═══════════════════════════════════════════════════════════ */}
           {/* 3D EXPERIENCES - Unified Gallery */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
-            {/* Section Header */}
-            <div style={{
-              textAlign: "center",
-              marginBottom: "clamp(32px, 5vh, 48px)"
-            }}>
-              <p style={{
-                fontSize: "11px",
-                color: "#FAFAF8",
-                letterSpacing: "0.15em",
-                marginBottom: "16px"
-              }}>
-                INTERACTIVE EXPERIENCES
-              </p>
-              <h3 style={{
-                fontSize: "clamp(18px, 2.5vw, 24px)",
-                fontWeight: 200,
-                color: "#FAFAF8",
-                letterSpacing: "0.02em",
-                marginBottom: "12px"
-              }}>
-                3D Visualizations
-              </h3>
-              <p style={{
-                fontSize: "10px",
-                color: "#FAFAF8",
-                letterSpacing: "0.1em",
-                fontFamily: "monospace"
-              }}>
-                Three.js · WebGL · GLSL Shaders · Interactive
-              </p>
-            </div>
-
+          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)", width: "100%" }}>
             {/* Gallery Grid */}
             <div className="experiences-grid">
               {experiencesItems.map((item) => (
@@ -902,39 +847,7 @@ export default function Creative() {
           {/* SACRED GEOMETRY COMPONENTS - Gallery Style */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
-            {/* Section Header */}
-            <div style={{
-              textAlign: "center",
-              marginBottom: "clamp(32px, 5vh, 48px)"
-            }}>
-              <p style={{
-                fontSize: "11px",
-                color: "#FAFAF8",
-                letterSpacing: "0.15em",
-                marginBottom: "16px"
-              }}>
-                CUSTOM COMPONENTS
-              </p>
-              <h3 style={{
-                fontSize: "clamp(18px, 2.5vw, 24px)",
-                fontWeight: 200,
-                color: "#FAFAF8",
-                letterSpacing: "0.02em",
-                marginBottom: "12px"
-              }}>
-                Sacred Geometry
-              </h3>
-              <p style={{
-                fontSize: "10px",
-                color: "#FAFAF8",
-                letterSpacing: "0.1em",
-                fontFamily: "monospace"
-              }}>
-                React · Pure SVG · Mathematical Geometry · Trigonometric Positioning
-              </p>
-            </div>
-
+          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)", width: "100%" }}>
             {/* Gallery Grid */}
             <div className="geometry-grid">
               {sacredGeometryItems.map((item) => {
@@ -959,39 +872,7 @@ export default function Creative() {
           {/* 3D WORK ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
-            {/* Section Header */}
-            <div style={{
-              textAlign: "center",
-              marginBottom: "clamp(32px, 5vh, 48px)"
-            }}>
-              <p style={{
-                fontSize: "11px",
-                color: "#FAFAF8",
-                letterSpacing: "0.15em",
-                marginBottom: "16px"
-              }}>
-                3D VISUALIZATIONS
-              </p>
-              <h3 style={{
-                fontSize: "clamp(18px, 2.5vw, 24px)",
-                fontWeight: 200,
-                color: "#FAFAF8",
-                letterSpacing: "0.02em",
-                marginBottom: "12px"
-              }}>
-                Work Icons
-              </h3>
-              <p style={{
-                fontSize: "10px",
-                color: "#FAFAF8",
-                letterSpacing: "0.1em",
-                fontFamily: "monospace"
-              }}>
-                Three.js · WebGL · GLSL Shaders · Custom Geometry
-              </p>
-            </div>
-
+          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)", width: "100%" }}>
             {/* Gallery Grid */}
             <div className="icons3d-grid">
               {workIcons3DItems.map((item) => (
@@ -1013,31 +894,7 @@ export default function Creative() {
           {/* 3D SERVICE ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
-            {/* Section Header */}
-            <div style={{
-              textAlign: "center",
-              marginBottom: "clamp(32px, 5vh, 48px)"
-            }}>
-              <h3 style={{
-                fontSize: "clamp(18px, 2.5vw, 24px)",
-                fontWeight: 200,
-                color: "#FAFAF8",
-                letterSpacing: "0.02em",
-                marginBottom: "12px"
-              }}>
-                Service Icons
-              </h3>
-              <p style={{
-                fontSize: "10px",
-                color: "#FAFAF8",
-                letterSpacing: "0.1em",
-                fontFamily: "monospace"
-              }}>
-                Three.js · WebGL · GLSL Shaders · Holographic Effects
-              </p>
-            </div>
-
+          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)", width: "100%" }}>
             {/* Gallery Grid */}
             <div className="icons3d-grid">
               {serviceIcons3DItems.map((item) => (
@@ -1059,39 +916,7 @@ export default function Creative() {
           {/* SVG ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
-            {/* Section Header */}
-            <div style={{
-              textAlign: "center",
-              marginBottom: "clamp(32px, 5vh, 48px)"
-            }}>
-              <p style={{
-                fontSize: "11px",
-                color: "#FAFAF8",
-                letterSpacing: "0.15em",
-                marginBottom: "16px"
-              }}>
-                2D VISUALIZATIONS
-              </p>
-              <h3 style={{
-                fontSize: "clamp(18px, 2.5vw, 24px)",
-                fontWeight: 200,
-                color: "#FAFAF8",
-                letterSpacing: "0.02em",
-                marginBottom: "12px"
-              }}>
-                SVG Icons
-              </h3>
-              <p style={{
-                fontSize: "10px",
-                color: "#FAFAF8",
-                letterSpacing: "0.1em",
-                fontFamily: "monospace"
-              }}>
-                Pure SVG · Mathematical Precision · Scalable Graphics
-              </p>
-            </div>
-
+          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)", width: "100%" }}>
             {/* Work Icons Grid */}
             <div style={{
               display: "grid",
@@ -1152,7 +977,8 @@ export default function Creative() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            marginBottom: "clamp(80px, 12vh, 100px)"
+            marginBottom: "clamp(48px, 8vh, 64px)",
+            width: "100%"
           }}>
             <GeometricDivider />
           </div>
@@ -1278,7 +1104,6 @@ export default function Creative() {
             )}
           </div>
         )}
-        <p className="experiences-tap-hint">tap anywhere to close</p>
       </div>
 
       {/* Sacred Geometry Expanded Overlay */}
@@ -1296,7 +1121,6 @@ export default function Creative() {
             <p className="geometry-expanded-desc">{expandedGeometryItem.description}</p>
           </div>
         )}
-        <p className="geometry-tap-hint">tap anywhere to close</p>
       </div>
 
       {/* Work Icons 3D Expanded Overlay */}
@@ -1314,7 +1138,6 @@ export default function Creative() {
             <p className="icons3d-expanded-desc">{expandedWorkItem.description}</p>
           </div>
         )}
-        <p className="icons3d-tap-hint">tap anywhere to close</p>
       </div>
 
       {/* Service Icons 3D Expanded Overlay */}
@@ -1332,7 +1155,6 @@ export default function Creative() {
             <p className="icons3d-expanded-desc">{expandedServiceItem.description}</p>
           </div>
         )}
-        <p className="icons3d-tap-hint">tap anywhere to close</p>
       </div>
     </>
   );
