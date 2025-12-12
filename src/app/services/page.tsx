@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { WebsiteIcon, DashboardIcon, APIIcon, LLMIcon } from "@/components/ServiceIcons";
+import { WebsiteIcon3D, DashboardIcon3D, APIIcon3D, LLMIcon3D } from "@/components/ServiceIcons3D";
 
 export default function Services() {
   const services = [
-    { title: "Custom Websites", icon: <WebsiteIcon /> },
-    { title: "Dashboards", icon: <DashboardIcon /> },
-    { title: "API Development", icon: <APIIcon /> },
-    { title: "LLM Middleware", icon: <LLMIcon /> }
+    { title: "Custom Websites", icon: <WebsiteIcon3D size={70} /> },
+    { title: "Dashboards", icon: <DashboardIcon3D size={70} /> },
+    { title: "API Development", icon: <APIIcon3D size={70} /> },
+    { title: "LLM Middleware", icon: <LLMIcon3D size={70} /> }
   ];
 
   return (
@@ -18,19 +18,15 @@ export default function Services() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 24px;
+          gap: 28px;
         }
         .services-item {
           padding: 0;
           margin: 0;
         }
         .services-icon {
-          transform: scale(1.2);
-          padding: 8px;
-          background: radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%);
-          border-radius: 50%;
           margin-bottom: 0;
-          transition: transform 0.3s ease, background 0.3s ease;
+          transition: transform 0.3s ease;
         }
         .services-icon svg {
           stroke: #FAFAF8 !important;
@@ -42,8 +38,7 @@ export default function Services() {
           opacity: 1 !important;
         }
         .services-item:hover .services-icon {
-          transform: scale(1.3);
-          background: radial-gradient(ellipse at center, rgba(255,255,255,0.08) 0%, transparent 70%);
+          transform: scale(1.05);
         }
         .services-title {
           font-size: 14px;
@@ -62,19 +57,16 @@ export default function Services() {
           .services-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 56px 80px;
+            gap: 48px 72px;
           }
           .services-item {
             padding: 32px;
           }
           .services-icon {
-            transform: scale(1.5);
-            padding: 24px;
-            background: radial-gradient(ellipse at center, rgba(255,255,255,0.05) 0%, transparent 70%);
-            margin-bottom: 16px;
+            margin-bottom: 8px;
           }
           .services-item:hover .services-icon {
-            transform: scale(1.65);
+            transform: scale(1.08);
           }
           .services-title {
             font-size: 17px;
