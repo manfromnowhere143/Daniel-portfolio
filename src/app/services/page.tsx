@@ -5,10 +5,10 @@ import { WebsiteIcon3D, DashboardIcon3D, APIIcon3D, LLMIcon3D } from "@/componen
 
 export default function Services() {
   const services = [
-    { title: "Custom Websites", icon: <WebsiteIcon3D size={90} /> },
-    { title: "Dashboards", icon: <DashboardIcon3D size={90} /> },
-    { title: "API Development", icon: <APIIcon3D size={90} /> },
-    { title: "LLM Middleware", icon: <LLMIcon3D size={90} /> }
+    { title: "Custom Websites", icon: <WebsiteIcon3D size={220} /> },
+    { title: "Dashboards", icon: <DashboardIcon3D size={220} /> },
+    { title: "API Development", icon: <APIIcon3D size={220} /> },
+    { title: "LLM Middleware", icon: <LLMIcon3D size={220} /> }
   ];
 
   return (
@@ -18,7 +18,7 @@ export default function Services() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 24px;
+          gap: 8px;
         }
         .services-item {
           padding: 0;
@@ -41,13 +41,13 @@ export default function Services() {
           transform: scale(1.05);
         }
         .services-title {
-          font-size: 15px;
+          font-size: 16px;
           margin: 0;
           padding: 0;
         }
         .services-seeking {
           font-size: 14px;
-          margin-top: 80px;
+          margin-top: 48px;
         }
         .services-contact {
           margin-top: 56px;
@@ -57,23 +57,23 @@ export default function Services() {
           .services-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 40px 64px;
+            gap: 16px 32px;
           }
           .services-item {
-            padding: 24px;
+            padding: 8px;
           }
           .services-icon {
-            margin-bottom: 8px;
+            margin-bottom: 4px;
           }
           .services-item:hover .services-icon {
             transform: scale(1.08);
           }
           .services-title {
-            font-size: 18px;
+            font-size: 20px;
           }
           .services-seeking {
             font-size: 16px;
-            margin-top: clamp(100px, 14vh, 140px);
+            margin-top: clamp(64px, 10vh, 100px);
           }
           .services-contact {
             margin-top: clamp(64px, 10vh, 90px);
@@ -93,7 +93,7 @@ export default function Services() {
 
         {/* Services Grid */}
         <div style={{
-          maxWidth: "700px",
+          maxWidth: "900px",
           margin: "0 auto"
         }}>
           <div className="services-grid">
