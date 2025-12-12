@@ -5,10 +5,10 @@ import { WebsiteIcon3D, DashboardIcon3D, APIIcon3D, LLMIcon3D } from "@/componen
 
 export default function Services() {
   const services = [
-    { title: "Custom Websites", icon: <WebsiteIcon3D size={70} /> },
-    { title: "Dashboards", icon: <DashboardIcon3D size={70} /> },
-    { title: "API Development", icon: <APIIcon3D size={70} /> },
-    { title: "LLM Middleware", icon: <LLMIcon3D size={70} /> }
+    { title: "Custom Websites", icon: <WebsiteIcon3D size={90} /> },
+    { title: "Dashboards", icon: <DashboardIcon3D size={90} /> },
+    { title: "API Development", icon: <APIIcon3D size={90} /> },
+    { title: "LLM Middleware", icon: <LLMIcon3D size={90} /> }
   ];
 
   return (
@@ -18,7 +18,7 @@ export default function Services() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 28px;
+          gap: 24px;
         }
         .services-item {
           padding: 0;
@@ -41,7 +41,7 @@ export default function Services() {
           transform: scale(1.05);
         }
         .services-title {
-          font-size: 14px;
+          font-size: 15px;
           margin: 0;
           padding: 0;
         }
@@ -57,10 +57,10 @@ export default function Services() {
           .services-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 48px 72px;
+            gap: 40px 64px;
           }
           .services-item {
-            padding: 32px;
+            padding: 24px;
           }
           .services-icon {
             margin-bottom: 8px;
@@ -69,7 +69,7 @@ export default function Services() {
             transform: scale(1.08);
           }
           .services-title {
-            font-size: 17px;
+            font-size: 18px;
           }
           .services-seeking {
             font-size: 16px;
