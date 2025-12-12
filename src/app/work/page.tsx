@@ -1,37 +1,45 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Trade69Icon3D, MegaAgentIcon3D, OctopusIcon3D, OvermindIcon3D } from "@/components/WorkIcons";
 
 export default function Work() {
-  const projects = [
-    { name: "Trade69", href: "/work/trade69", icon: <Trade69Icon3D size={90} /> },
-    { name: "MegaAgent", href: "/work/megaagent", icon: <MegaAgentIcon3D size={90} /> },
-    { name: "Octopus", href: "/work/octopus", icon: <OctopusIcon3D size={90} /> },
-    { name: "Overmind", href: "/work/overmind", icon: <OvermindIcon3D size={90} /> }
-  ];
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 600);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  const iconSize = isMobile ? 120 : 150;
 
   return (
     <>
       <style>{`
         .work-grid {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 32px;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+          max-width: 300px;
+          margin: 0 auto;
         }
         .work-item {
-          padding: 0;
+          padding: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         
         @media (min-width: 600px) {
           .work-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 56px;
+            gap: 40px;
+            max-width: 420px;
           }
           .work-item {
-            padding: 24px;
+            padding: 16px;
           }
         }
       `}</style>
@@ -41,32 +49,22 @@ export default function Work() {
         backgroundColor: "#0A0A0A",
         paddingTop: "clamp(80px, 12vh, 140px)",
         paddingBottom: "60px",
-        paddingLeft: "24px",
-        paddingRight: "24px"
+        paddingLeft: "16px",
+        paddingRight: "16px"
       }}>
-        <div style={{
-          maxWidth: "700px",
-          margin: "0 auto"
-        }}>
-          <div className="work-grid">
-            {projects.map((project, index) => (
-              <Link
-                key={index}
-                href={project.href}
-                className="work-item"
-                style={{
-                  textDecoration: "none",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  borderRadius: "2px",
-                  transition: "opacity 0.3s ease"
-                }}
-              >
-                {project.icon}
-              </Link>
-            ))}
-          </div>
+        <div className="work-grid">
+          <Link href="/work/trade69" className="work-item" style={{ textDecoration: 'none' }}>
+            <Trade69Icon3D size={iconSize} />
+          </Link>
+          <Link href="/work/megaagent" className="work-item" style={{ textDecoration: 'none' }}>
+            <MegaAgentIcon3D size={iconSize} />
+          </Link>
+          <Link href="/work/octopus" className="work-item" style={{ textDecoration: 'none' }}>
+            <OctopusIcon3D size={iconSize} />
+          </Link>
+          <Link href="/work/overmind" className="work-item" style={{ textDecoration: 'none' }}>
+            <OvermindIcon3D size={iconSize} />
+          </Link>
         </div>
       </div>
     </>

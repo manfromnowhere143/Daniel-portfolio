@@ -190,8 +190,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     const container = containerRef.current;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    // Desktop: much closer for bigger icons, Mobile: medium distance
-    camera.position.z = isMobile ? 1.8 : 1.4;
+    // Balanced camera distance
+    camera.position.z = isMobile ? 1.6 : 1.5;
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
