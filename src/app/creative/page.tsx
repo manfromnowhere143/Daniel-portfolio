@@ -303,18 +303,10 @@ export default function Creative() {
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 16px;
         }
         .experiences-preview svg {
           width: 80px;
           height: 80px;
-        }
-        .experiences-title {
-          font-size: 13px;
-          font-weight: 200;
-          color: #FAFAF8;
-          letter-spacing: 0.02em;
-          text-align: center;
         }
 
         /* Experiences Expanded Overlay */
@@ -465,18 +457,10 @@ export default function Creative() {
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 16px;
         }
         .geometry-preview svg {
           max-width: 100%;
           max-height: 100%;
-        }
-        .geometry-title {
-          font-size: 13px;
-          font-weight: 200;
-          color: #FAFAF8;
-          letter-spacing: 0.02em;
-          text-align: center;
         }
 
         /* Geometry Expanded overlay */
@@ -584,7 +568,7 @@ export default function Creative() {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 16px;
-          max-width: 300px;
+          max-width: 500px;
           margin: 0 auto;
         }
         .icons3d-item {
@@ -599,14 +583,9 @@ export default function Creative() {
           transform: scale(0.96);
         }
         .icons3d-preview {
-          margin-bottom: 12px;
-        }
-        .icons3d-title {
-          font-size: 12px;
-          font-weight: 200;
-          color: #FAFAF8;
-          letter-spacing: 0.02em;
-          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         /* 3D Icons Expanded Overlay */
@@ -719,9 +698,6 @@ export default function Creative() {
             width: 100px;
             height: 100px;
           }
-          .experiences-title {
-            font-size: 14px;
-          }
           .experiences-expanded-title {
             font-size: 26px;
           }
@@ -746,10 +722,6 @@ export default function Creative() {
           .geometry-preview {
             width: 100px;
             height: 100px;
-            margin-bottom: 20px;
-          }
-          .geometry-title {
-            font-size: 14px;
           }
           .geometry-expanded-preview {
             width: 240px;
@@ -764,8 +736,8 @@ export default function Creative() {
           }
           .icons3d-grid {
             grid-template-columns: repeat(4, 1fr);
-            gap: 32px;
-            max-width: 600px;
+            gap: 24px;
+            max-width: 700px;
           }
           .icons3d-item {
             padding: 20px 16px;
@@ -775,9 +747,6 @@ export default function Creative() {
           }
           .icons3d-item:active {
             transform: scale(0.98);
-          }
-          .icons3d-title {
-            font-size: 13px;
           }
           .icons3d-expanded-preview {
             margin-bottom: 32px;
@@ -813,19 +782,16 @@ export default function Creative() {
 
         {/* Main Content */}
         <div style={{
-          maxWidth: "1000px",
+          maxWidth: "900px",
           margin: "0 auto",
-          padding: "0 24px clamp(80px, 12vh, 120px)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center"
+          padding: "0 24px clamp(80px, 12vh, 120px)"
         }}>
 
           {/* ═══════════════════════════════════════════════════════════ */}
           {/* 3D EXPERIENCES - Unified Gallery */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)", width: "100%" }}>
+          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
             {/* Gallery Grid */}
             <div className="experiences-grid">
               {experiencesItems.map((item) => (
@@ -837,7 +803,6 @@ export default function Creative() {
                   <div className="experiences-preview">
                     {renderExperienceThumbnail(item.id)}
                   </div>
-                  <p className="experiences-title">{item.title}</p>
                 </div>
               ))}
             </div>
@@ -847,7 +812,7 @@ export default function Creative() {
           {/* SACRED GEOMETRY COMPONENTS - Gallery Style */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)", width: "100%" }}>
+          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
             {/* Gallery Grid */}
             <div className="geometry-grid">
               {sacredGeometryItems.map((item) => {
@@ -861,7 +826,6 @@ export default function Creative() {
                     <div className="geometry-preview">
                       <Component />
                     </div>
-                    <p className="geometry-title">{item.title}</p>
                   </div>
                 );
               })}
@@ -872,7 +836,7 @@ export default function Creative() {
           {/* 3D WORK ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)", width: "100%" }}>
+          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
             {/* Gallery Grid */}
             <div className="icons3d-grid">
               {workIcons3DItems.map((item) => (
@@ -884,7 +848,6 @@ export default function Creative() {
                   <div className="icons3d-preview">
                     {renderWorkIcon(item.id, 100)}
                   </div>
-                  <p className="icons3d-title">{item.title}</p>
                 </div>
               ))}
             </div>
@@ -894,7 +857,7 @@ export default function Creative() {
           {/* 3D SERVICE ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)", width: "100%" }}>
+          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
             {/* Gallery Grid */}
             <div className="icons3d-grid">
               {serviceIcons3DItems.map((item) => (
@@ -906,7 +869,6 @@ export default function Creative() {
                   <div className="icons3d-preview">
                     {renderServiceIcon(item.id, 100)}
                   </div>
-                  <p className="icons3d-title">{item.title}</p>
                 </div>
               ))}
             </div>
@@ -916,30 +878,26 @@ export default function Creative() {
           {/* SVG ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)", width: "100%" }}>
+          <div style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
             {/* Work Icons Grid */}
             <div style={{
               display: "grid",
               gridTemplateColumns: "repeat(4, 1fr)",
               gap: "clamp(24px, 4vw, 40px)",
-              maxWidth: "600px",
+              maxWidth: "700px",
               margin: "0 auto clamp(48px, 7vh, 64px)"
             }}>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Trade69Icon />
-                <span style={{ fontSize: "10px", color: "#FAFAF8", letterSpacing: "0.08em" }}>Trading</span>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <MegaAgentIcon />
-                <span style={{ fontSize: "10px", color: "#FAFAF8", letterSpacing: "0.08em" }}>Network</span>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <OctopusIcon />
-                <span style={{ fontSize: "10px", color: "#FAFAF8", letterSpacing: "0.08em" }}>Cognitive</span>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <OvermindIcon />
-                <span style={{ fontSize: "10px", color: "#FAFAF8", letterSpacing: "0.08em" }}>Blockchain</span>
               </div>
             </div>
 
@@ -948,24 +906,20 @@ export default function Creative() {
               display: "grid",
               gridTemplateColumns: "repeat(4, 1fr)",
               gap: "clamp(24px, 4vw, 40px)",
-              maxWidth: "600px",
+              maxWidth: "700px",
               margin: "0 auto"
             }}>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <WebsiteIcon />
-                <span style={{ fontSize: "10px", color: "#FAFAF8", letterSpacing: "0.08em" }}>Web</span>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <DashboardIcon />
-                <span style={{ fontSize: "10px", color: "#FAFAF8", letterSpacing: "0.08em" }}>Dashboard</span>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <APIIcon />
-                <span style={{ fontSize: "10px", color: "#FAFAF8", letterSpacing: "0.08em" }}>API</span>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <LLMIcon />
-                <span style={{ fontSize: "10px", color: "#FAFAF8", letterSpacing: "0.08em" }}>LLM</span>
               </div>
             </div>
           </div>
@@ -977,8 +931,7 @@ export default function Creative() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            marginBottom: "clamp(48px, 8vh, 64px)",
-            width: "100%"
+            marginBottom: "clamp(48px, 8vh, 64px)"
           }}>
             <GeometricDivider />
           </div>
