@@ -838,7 +838,7 @@ export default function Creative() {
         }
       `}</style>
 
-      <div className={`creative-page ${isLoaded ? 'loaded' : ''}`} style={{ paddingTop: "24px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+      <div className={`creative-page ${isLoaded ? 'loaded' : ''}`} style={{ paddingTop: "40px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
 
         {/* Main Content */}
         <div style={{
