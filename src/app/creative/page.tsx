@@ -15,6 +15,35 @@ import CreativeGallery from "@/components/CreativeGallery";
 import QuantumManifold from "@/components/QuantumManifold";
 import QuantumSphere from "@/components/QuantumSphere";
 
+// 3D Experiences Gallery Data
+const experiencesItems = [
+  {
+    id: "sphere",
+    title: "Quantum Sphere",
+    description: "A living geodesic structure pulsing with quantum energy. Multi-layered icosahedral shells breathe and deform through simplex noise fields.",
+    tech: "Three.js · WebGL · GLSL Shaders · Simplex Noise"
+  },
+  {
+    id: "manifold",
+    title: "Quantum Manifold",
+    description: "A field of infinite possibility. The manifold ripples with quantum fluctuations, each wave representing probability amplitudes in superposition.",
+    tech: "Three.js · WebGL · GLSL Shaders · Simplex Noise"
+  },
+  {
+    id: "metatron-genesis",
+    title: "Metatron Genesis",
+    description: "Back in May I was probably smoking too much weed and started building a cognitive network based on sacred geometry. I tried to visualize it. While this was totally a figment of imagination, to me it looked like a beautiful aligned structure. I built the backend and gave each agent (a sacred geometry shape) a role. Basically a regular structure of memory agents, operative agents, and orchestration, but all based on the principles of each geometry shape.",
+    tech: "Next.js · Three.js · WebGL · Multi-Agent Architecture",
+    link: "https://metatron-genesis369.vercel.app"
+  },
+  {
+    id: "architecture",
+    title: "System Architecture",
+    description: "A creative way to display the Mermaid diagram for the Trade69 project. Interactive 3D visualization of system components and data flow.",
+    tech: "Three.js · WebGL · Interactive 3D"
+  }
+];
+
 // Sacred Geometry Gallery Data
 const sacredGeometryItems = [
   {
@@ -96,9 +125,13 @@ const geometryComponents: Record<string, React.FC> = {
 };
 
 export default function Creative() {
+  const [expandedExperience, setExpandedExperience] = useState<string | null>(null);
   const [expandedGeometry, setExpandedGeometry] = useState<string | null>(null);
   const [expandedWork, setExpandedWork] = useState<string | null>(null);
   const [expandedService, setExpandedService] = useState<string | null>(null);
+
+  const openExperience = (id: string) => setExpandedExperience(id);
+  const closeExperience = () => setExpandedExperience(null);
 
   const openGeometry = (id: string) => setExpandedGeometry(id);
   const closeGeometry = () => setExpandedGeometry(null);
@@ -109,9 +142,9 @@ export default function Creative() {
   const openService = (id: string) => setExpandedService(id);
   const closeService = () => setExpandedService(null);
 
+  const expandedExperienceItem = experiencesItems.find(item => item.id === expandedExperience);
   const expandedGeometryItem = sacredGeometryItems.find(item => item.id === expandedGeometry);
   const ExpandedGeometryComponent = expandedGeometry ? geometryComponents[expandedGeometry] : null;
-
   const expandedWorkItem = workIcons3DItems.find(item => item.id === expandedWork);
   const expandedServiceItem = serviceIcons3DItems.find(item => item.id === expandedService);
 
@@ -137,9 +170,262 @@ export default function Creative() {
     }
   };
 
+  // Render Experience Thumbnail - Elegant SVG icons
+  const renderExperienceThumbnail = (id: string) => {
+    switch (id) {
+      case "sphere":
+        return (
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            {/* Geodesic sphere */}
+            <circle cx="40" cy="40" r="28" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.4" />
+            <circle cx="40" cy="40" r="20" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.6" />
+            <circle cx="40" cy="40" r="12" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.8" />
+            {/* Horizontal ellipses */}
+            <ellipse cx="40" cy="40" rx="28" ry="10" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.5" />
+            <ellipse cx="40" cy="40" rx="28" ry="18" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.35" />
+            {/* Vertical ellipse */}
+            <ellipse cx="40" cy="40" rx="10" ry="28" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.5" />
+            {/* Diagonal cross */}
+            <ellipse cx="40" cy="40" rx="28" ry="10" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.3" transform="rotate(45 40 40)" />
+            <ellipse cx="40" cy="40" rx="28" ry="10" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.3" transform="rotate(-45 40 40)" />
+            {/* Center glow */}
+            <circle cx="40" cy="40" r="4" fill="#FAFAF8" opacity="0.5" />
+            <circle cx="40" cy="40" r="2" fill="#FAFAF8" opacity="0.9" />
+          </svg>
+        );
+      case "manifold":
+        return (
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            {/* Wave grid - more prominent */}
+            <path d="M8 55 Q24 42, 40 55 T72 55" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.3" fill="none" />
+            <path d="M8 48 Q24 35, 40 48 T72 48" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.4" fill="none" />
+            <path d="M8 41 Q24 28, 40 41 T72 41" stroke="#FAFAF8" strokeWidth="0.7" opacity="0.7" fill="none" />
+            <path d="M8 34 Q24 21, 40 34 T72 34" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.4" fill="none" />
+            <path d="M8 27 Q24 14, 40 27 T72 27" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.3" fill="none" />
+            {/* Cross lines for depth */}
+            <path d="M15 20 L15 60" stroke="#FAFAF8" strokeWidth="0.3" opacity="0.2" />
+            <path d="M27 16 L27 62" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.3" />
+            <path d="M40 14 L40 64" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
+            <path d="M53 16 L53 62" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.3" />
+            <path d="M65 20 L65 60" stroke="#FAFAF8" strokeWidth="0.3" opacity="0.2" />
+            {/* Glow points */}
+            <circle cx="40" cy="41" r="3" fill="#FAFAF8" opacity="0.6" />
+            <circle cx="27" cy="34" r="1.5" fill="#FAFAF8" opacity="0.3" />
+            <circle cx="53" cy="34" r="1.5" fill="#FAFAF8" opacity="0.3" />
+          </svg>
+        );
+      case "metatron-genesis":
+        return <MetatronCube />;
+      case "architecture":
+        return (
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            {/* Central node */}
+            <circle cx="40" cy="40" r="10" stroke="#FAFAF8" strokeWidth="0.8" opacity="0.7" />
+            <circle cx="40" cy="40" r="4" fill="#FAFAF8" opacity="0.6" />
+            {/* Orbiting nodes */}
+            <circle cx="40" cy="12" r="6" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.5" />
+            <circle cx="40" cy="12" r="2" fill="#FAFAF8" opacity="0.4" />
+            <circle cx="64" cy="26" r="6" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.5" />
+            <circle cx="64" cy="26" r="2" fill="#FAFAF8" opacity="0.4" />
+            <circle cx="64" cy="54" r="6" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.5" />
+            <circle cx="64" cy="54" r="2" fill="#FAFAF8" opacity="0.4" />
+            <circle cx="40" cy="68" r="6" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.5" />
+            <circle cx="40" cy="68" r="2" fill="#FAFAF8" opacity="0.4" />
+            <circle cx="16" cy="54" r="6" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.5" />
+            <circle cx="16" cy="54" r="2" fill="#FAFAF8" opacity="0.4" />
+            <circle cx="16" cy="26" r="6" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.5" />
+            <circle cx="16" cy="26" r="2" fill="#FAFAF8" opacity="0.4" />
+            {/* Connection lines */}
+            <line x1="40" y1="30" x2="40" y2="18" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
+            <line x1="49" y1="34" x2="58" y2="26" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
+            <line x1="49" y1="46" x2="58" y2="54" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
+            <line x1="40" y1="50" x2="40" y2="62" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
+            <line x1="31" y1="46" x2="22" y2="54" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
+            <line x1="31" y1="34" x2="22" y2="26" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
+          </svg>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       <style>{`
+        /* Experiences Gallery */
+        .experiences-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+          max-width: 500px;
+          margin: 0 auto;
+        }
+        .experiences-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 24px 16px;
+          cursor: pointer;
+          transition: transform 0.2s ease;
+        }
+        .experiences-item:active {
+          transform: scale(0.96);
+        }
+        .experiences-preview {
+          width: 80px;
+          height: 80px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 16px;
+        }
+        .experiences-preview svg {
+          width: 80px;
+          height: 80px;
+        }
+        .experiences-title {
+          font-size: 13px;
+          font-weight: 200;
+          color: #FAFAF8;
+          letter-spacing: 0.02em;
+          text-align: center;
+        }
+
+        /* Experiences Expanded Overlay */
+        .experiences-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(10, 10, 10, 0.98);
+          z-index: 1000;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 60px 24px;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.3s ease;
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          overflow-y: auto;
+        }
+        .experiences-overlay.active {
+          opacity: 1;
+          pointer-events: auto;
+        }
+        .experiences-expanded-content {
+          transform: scale(0.95) translateY(20px);
+          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          max-width: 900px;
+        }
+        .experiences-overlay.active .experiences-expanded-content {
+          transform: scale(1) translateY(0);
+        }
+        .experiences-expanded-preview {
+          width: 100%;
+          margin-bottom: 32px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .experiences-expanded-title {
+          font-size: 22px;
+          font-weight: 200;
+          color: #FAFAF8;
+          letter-spacing: 0.03em;
+          margin-bottom: 20px;
+          text-align: center;
+          width: 100%;
+          opacity: 0;
+          transform: translateY(10px);
+          transition: all 0.3s ease 0.15s;
+        }
+        .experiences-overlay.active .experiences-expanded-title {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .experiences-expanded-desc {
+          font-size: 14px;
+          color: #FAFAF8;
+          line-height: 1.9;
+          font-weight: 300;
+          text-align: left;
+          opacity: 0;
+          transform: translateY(10px);
+          transition: all 0.3s ease 0.2s;
+          padding: 0 16px;
+          max-width: 500px;
+        }
+        .experiences-overlay.active .experiences-expanded-desc {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .experiences-expanded-tech {
+          font-size: 10px;
+          color: #FAFAF8;
+          letter-spacing: 0.1em;
+          font-family: monospace;
+          margin-top: 24px;
+          opacity: 0;
+          transition: opacity 0.3s ease 0.25s;
+        }
+        .experiences-overlay.active .experiences-expanded-tech {
+          opacity: 0.6;
+        }
+        .experiences-expanded-link {
+          margin-top: 20px;
+          font-size: 11px;
+          color: #FAFAF8;
+          letter-spacing: 0.12em;
+          text-decoration: none;
+          text-transform: uppercase;
+          opacity: 0;
+          transition: opacity 0.3s ease 0.3s;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .experiences-overlay.active .experiences-expanded-link {
+          opacity: 1;
+        }
+        .experiences-close {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          width: 44px;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #FAFAF8;
+          opacity: 0.5;
+          font-size: 28px;
+          font-weight: 200;
+          cursor: pointer;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.05);
+          z-index: 1001;
+        }
+        .experiences-tap-hint {
+          position: absolute;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 10px;
+          color: #FAFAF8;
+          opacity: 0.3;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+        }
+
+        /* Geometry Gallery */
         .geometry-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -178,7 +464,7 @@ export default function Creative() {
           text-align: center;
         }
 
-        /* Expanded overlay */
+        /* Geometry Expanded overlay */
         .geometry-overlay {
           position: fixed;
           top: 0;
@@ -414,6 +700,37 @@ export default function Creative() {
         }
 
         @media (min-width: 600px) {
+          .experiences-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            max-width: 700px;
+          }
+          .experiences-item {
+            padding: 32px 20px;
+          }
+          .experiences-item:hover {
+            transform: scale(1.02);
+          }
+          .experiences-item:active {
+            transform: scale(0.98);
+          }
+          .experiences-preview {
+            width: 100px;
+            height: 100px;
+          }
+          .experiences-preview svg {
+            width: 100px;
+            height: 100px;
+          }
+          .experiences-title {
+            font-size: 14px;
+          }
+          .experiences-expanded-title {
+            font-size: 26px;
+          }
+          .experiences-expanded-desc {
+            font-size: 15px;
+          }
           .geometry-grid {
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
@@ -502,240 +819,56 @@ export default function Creative() {
         <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "0 24px clamp(80px, 12vh, 120px)" }}>
 
           {/* ═══════════════════════════════════════════════════════════ */}
-          {/* QUANTUM SPHERE */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-
-          <div style={{ marginBottom: "clamp(60px, 10vh, 80px)" }}>
-            <div style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginBottom: "clamp(20px, 3vh, 28px)"
-            }}>
-              <h3 style={{
-                fontSize: "clamp(16px, 2vw, 20px)",
-                fontWeight: 200,
-                color: "#FAFAF8",
-                marginBottom: "16px",
-                letterSpacing: "0.02em"
-              }}>
-                Quantum Sphere
-              </h3>
-              <p style={{
-                fontSize: "clamp(13px, 1.5vw, 15px)",
-                color: "#FAFAF8",
-                lineHeight: 1.9,
-                fontWeight: 300,
-                textAlign: "left",
-                maxWidth: "500px"
-              }}>
-                A living geodesic structure pulsing with quantum energy. Multi-layered icosahedral shells breathe and deform through simplex noise fields.
-              </p>
-            </div>
-
-            <div style={{
-              position: "relative",
-              maxWidth: "700px",
-              margin: "0 auto",
-              padding: "clamp(12px, 2vw, 24px)"
-            }}>
-              <div style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: "70%",
-                height: "70%",
-                background: "radial-gradient(ellipse at center, rgba(100, 140, 200, 0.06) 0%, rgba(60, 100, 160, 0.02) 40%, transparent 70%)",
-                borderRadius: "50%",
-                pointerEvents: "none",
-                zIndex: 0
-              }} />
-
-              <div style={{ position: "relative", zIndex: 1 }}>
-                <QuantumSphere initialExpanded={false} />
-              </div>
-            </div>
-
-            <p style={{
-              fontSize: "10px",
-              color: "#FAFAF8",
-              letterSpacing: "0.1em",
-              fontFamily: "monospace",
-              textAlign: "center",
-              marginTop: "clamp(16px, 2.5vh, 24px)"
-            }}>
-              Three.js · WebGL · GLSL Shaders · Simplex Noise
-            </p>
-          </div>
-
-          {/* ═══════════════════════════════════════════════════════════ */}
-          {/* QUANTUM MANIFOLD */}
+          {/* 3D EXPERIENCES - Unified Gallery */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
           <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
+            {/* Section Header */}
             <div style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginBottom: "clamp(16px, 2.5vh, 24px)"
+              textAlign: "center",
+              marginBottom: "clamp(32px, 5vh, 48px)"
             }}>
+              <p style={{
+                fontSize: "11px",
+                color: "#FAFAF8",
+                letterSpacing: "0.15em",
+                marginBottom: "16px"
+              }}>
+                INTERACTIVE EXPERIENCES
+              </p>
               <h3 style={{
-                fontSize: "clamp(16px, 2vw, 20px)",
+                fontSize: "clamp(18px, 2.5vw, 24px)",
                 fontWeight: 200,
                 color: "#FAFAF8",
-                marginBottom: "16px",
-                letterSpacing: "0.02em"
+                letterSpacing: "0.02em",
+                marginBottom: "12px"
               }}>
-                Quantum Manifold
+                3D Visualizations
               </h3>
               <p style={{
-                fontSize: "clamp(13px, 1.5vw, 15px)",
+                fontSize: "10px",
                 color: "#FAFAF8",
-                lineHeight: 1.9,
-                fontWeight: 300,
-                textAlign: "left",
-                maxWidth: "500px"
+                letterSpacing: "0.1em",
+                fontFamily: "monospace"
               }}>
-                A field of infinite possibility. The manifold ripples with quantum fluctuations, each wave representing probability amplitudes in superposition.
+                Three.js · WebGL · GLSL Shaders · Interactive
               </p>
             </div>
 
-            <div style={{
-              position: "relative",
-              width: "100vw",
-              marginLeft: "calc(-50vw + 50%)",
-              overflow: "hidden"
-            }}>
-              <div style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                height: "40px",
-                background: "linear-gradient(to bottom, #0A0A0A, transparent)",
-                zIndex: 2,
-                pointerEvents: "none"
-              }} />
-
-              <QuantumManifold />
-
-              <div style={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: "40px",
-                background: "linear-gradient(to top, #0A0A0A, transparent)",
-                zIndex: 2,
-                pointerEvents: "none"
-              }} />
-            </div>
-
-            <p style={{
-              fontSize: "10px",
-              color: "#FAFAF8",
-              letterSpacing: "0.1em",
-              fontFamily: "monospace",
-              textAlign: "center",
-              marginTop: "clamp(16px, 2.5vh, 24px)"
-            }}>
-              Three.js · WebGL · GLSL Shaders · Simplex Noise
-            </p>
-          </div>
-
-          {/* ═══════════════════════════════════════════════════════════ */}
-          {/* METATRON GENESIS */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-
-          <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
-            <p style={{
-              fontSize: "11px",
-              color: "#FAFAF8",
-              letterSpacing: "0.15em",
-              textAlign: "center",
-              marginBottom: "clamp(32px, 5vh, 40px)",
-              }}>
-              METATRON GENESIS
-            </p>
-
-            <div style={{
-              position: "relative",
-              maxWidth: "700px",
-              margin: "0 auto"
-            }}>
-              <div style={{
-                position: "relative",
-                backgroundColor: "#000000",
-                borderRadius: "4px",
-                overflow: "hidden",
-              }}>
-                <VideoPlayer src="/videos/metatrondemo1.mov" />
-              </div>
-
-              <div style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "clamp(20px, 3vh, 28px)"
-              }}>
-                <Link
-                  href="https://metatron-genesis369.vercel.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    textDecoration: "none",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "8px"
-                  }}
+            {/* Gallery Grid */}
+            <div className="experiences-grid">
+              {experiencesItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="experiences-item"
+                  onClick={() => openExperience(item.id)}
                 >
-                  <span style={{
-                    fontSize: "11px",
-                    color: "#FAFAF8",
-                    letterSpacing: "0.12em",
-                    fontWeight: 200,
-                    textTransform: "uppercase"
-                  }}>
-                    Experience Live
-                  </span>
-                  <span style={{ color: "#FAFAF8", fontSize: "12px" }}>→</span>
-                </Link>
-              </div>
-            </div>
-
-            <div style={{
-              maxWidth: "700px",
-              margin: "clamp(48px, 8vh, 64px) auto 0",
-              textAlign: "left"
-            }}>
-              <p style={{
-                fontSize: "clamp(14px, 1.8vw, 16px)",
-                color: "#FAFAF8",
-                lineHeight: 1.9,
-                fontWeight: 300,
-                marginBottom: "20px"
-              }}>
-                Back in May I was probably smoking too much weed and started building a cognitive network based on sacred geometry. I tried to visualize it. While this was totally a figment of imagination, to me it looked like a beautiful aligned structure.
-              </p>
-
-              <p style={{
-                fontSize: "clamp(14px, 1.8vw, 16px)",
-                color: "#FAFAF8",
-                lineHeight: 1.9,
-                fontWeight: 300,
-                marginBottom: "20px"
-              }}>
-                I built the backend and gave each agent (a sacred geometry shape) a role. Basically a regular structure of memory agents, operative agents, and orchestration, but all based on the principles of each geometry shape.
-              </p>
-
-              <p style={{
-                fontSize: "clamp(14px, 1.8vw, 16px)",
-                color: "#FAFAF8",
-                lineHeight: 1.9,
-                fontWeight: 300
-              }}>
-                The frontend is also tricky and contains complex architecture. Well, it was for me anyway.
-              </p>
+                  <div className="experiences-preview">
+                    {renderExperienceThumbnail(item.id)}
+                  </div>
+                  <p className="experiences-title">{item.title}</p>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -753,8 +886,8 @@ export default function Creative() {
                 fontSize: "11px",
                 color: "#FAFAF8",
                 letterSpacing: "0.15em",
-                marginBottom: "16px",
-                }}>
+                marginBottom: "16px"
+              }}>
                 CUSTOM COMPONENTS
               </p>
               <h3 style={{
@@ -797,36 +930,6 @@ export default function Creative() {
           </div>
 
           {/* ═══════════════════════════════════════════════════════════ */}
-          {/* 3D ARCHITECTURE VISUALIZATION */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-
-          <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
-            <p style={{
-              fontSize: "11px",
-              color: "#FAFAF8",
-              letterSpacing: "0.15em",
-              textAlign: "center",
-              marginBottom: "clamp(24px, 4vh, 32px)",
-              }}>
-              3D ARCHITECTURE VISUALIZATION
-            </p>
-
-            <Trade69Architecture />
-
-            <p style={{
-              fontSize: "clamp(13px, 1.5vw, 15px)",
-              color: "#FAFAF8",
-              lineHeight: 1.9,
-              fontWeight: 300,
-              textAlign: "left",
-              maxWidth: "500px",
-              margin: "clamp(24px, 4vh, 32px) auto 0"
-            }}>
-              A creative way to display the Mermaid diagram for the Trade69 project.
-            </p>
-          </div>
-
-          {/* ═══════════════════════════════════════════════════════════ */}
           {/* 3D WORK ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
@@ -840,8 +943,8 @@ export default function Creative() {
                 fontSize: "11px",
                 color: "#FAFAF8",
                 letterSpacing: "0.15em",
-                marginBottom: "16px",
-                }}>
+                marginBottom: "16px"
+              }}>
                 3D VISUALIZATIONS
               </p>
               <h3 style={{
@@ -1053,6 +1156,103 @@ export default function Creative() {
           </Link>
         </div>
 
+      </div>
+
+      {/* Experiences Expanded Overlay */}
+      <div
+        className={`experiences-overlay ${expandedExperience ? 'active' : ''}`}
+        onClick={closeExperience}
+      >
+        <div className="experiences-close" onClick={closeExperience}>×</div>
+        {expandedExperienceItem && (
+          <div className="experiences-expanded-content" onClick={(e) => e.stopPropagation()}>
+            <div className="experiences-expanded-preview">
+              {expandedExperience === "sphere" && (
+                <div style={{
+                  width: "100%",
+                  maxWidth: "500px",
+                  display: "flex",
+                  justifyContent: "center"
+                }}>
+                  <QuantumSphere initialExpanded={false} />
+                </div>
+              )}
+              {expandedExperience === "manifold" && (
+                <div style={{
+                  width: "100%",
+                  maxWidth: "800px",
+                  height: "300px",
+                  position: "relative",
+                  overflow: "hidden",
+                  borderRadius: "4px"
+                }}>
+                  <div style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: "60px",
+                    background: "linear-gradient(to bottom, rgba(10,10,10,0.98), transparent)",
+                    zIndex: 2,
+                    pointerEvents: "none"
+                  }} />
+                  <QuantumManifold />
+                  <div style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: "60px",
+                    background: "linear-gradient(to top, rgba(10,10,10,0.98), transparent)",
+                    zIndex: 2,
+                    pointerEvents: "none"
+                  }} />
+                </div>
+              )}
+              {expandedExperience === "metatron-genesis" && (
+                <div style={{
+                  width: "100%",
+                  maxWidth: "600px"
+                }}>
+                  <div style={{
+                    position: "relative",
+                    backgroundColor: "#000000",
+                    borderRadius: "4px",
+                    overflow: "hidden"
+                  }}>
+                    <VideoPlayer src="/videos/metatrondemo1.mov" />
+                  </div>
+                </div>
+              )}
+              {expandedExperience === "architecture" && (
+                <div style={{
+                  width: "100%",
+                  maxWidth: "600px",
+                  display: "flex",
+                  justifyContent: "center"
+                }}>
+                  <Trade69Architecture />
+                </div>
+              )}
+            </div>
+            <h3 className="experiences-expanded-title">{expandedExperienceItem.title}</h3>
+            <p className="experiences-expanded-desc">{expandedExperienceItem.description}</p>
+            <p className="experiences-expanded-tech">{expandedExperienceItem.tech}</p>
+            {expandedExperienceItem.link && (
+              <Link
+                href={expandedExperienceItem.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="experiences-expanded-link"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <span>Experience Live</span>
+                <span>→</span>
+              </Link>
+            )}
+          </div>
+        )}
+        <p className="experiences-tap-hint">tap anywhere to close</p>
       </div>
 
       {/* Sacred Geometry Expanded Overlay */}
