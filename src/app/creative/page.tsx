@@ -45,11 +45,174 @@ export default function Creative() {
       <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "0 24px clamp(80px, 12vh, 120px)" }}>
 
         {/* ═══════════════════════════════════════════════════════════ */}
+        {/* QUANTUM SPHERE - First Visual Impact */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+
+        <div style={{ marginBottom: "clamp(60px, 10vh, 80px)" }}>
+          {/* Title & Description */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginBottom: "clamp(20px, 3vh, 28px)"
+          }}>
+            <h3 style={{
+              fontSize: "clamp(16px, 2vw, 20px)",
+              fontWeight: 200,
+              color: "#FAFAF8",
+              marginBottom: "10px",
+              letterSpacing: "0.02em"
+            }}>
+              Quantum Sphere
+            </h3>
+            <p style={{
+              fontSize: "clamp(12px, 1.5vw, 14px)",
+              color: "#FAFAF8",
+              lineHeight: 1.8,
+              fontWeight: 300,
+              textAlign: "center",
+              maxWidth: "500px"
+            }}>
+              A living geodesic structure pulsing with quantum energy. Multi-layered icosahedral shells breathe and deform through simplex noise fields.
+            </p>
+          </div>
+
+          {/* Sphere Container */}
+          <div style={{
+            position: "relative",
+            maxWidth: "700px",
+            margin: "0 auto",
+            padding: "clamp(12px, 2vw, 24px)"
+          }}>
+            {/* Ambient glow */}
+            <div style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "70%",
+              height: "70%",
+              background: "radial-gradient(ellipse at center, rgba(100, 140, 200, 0.06) 0%, rgba(60, 100, 160, 0.02) 40%, transparent 70%)",
+              borderRadius: "50%",
+              pointerEvents: "none",
+              zIndex: 0
+            }} />
+
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <QuantumSphere initialExpanded={false} />
+            </div>
+          </div>
+
+          {/* Tech Stack */}
+          <p style={{
+            fontSize: "10px",
+            color: "#FAFAF8",
+            letterSpacing: "0.1em",
+            fontFamily: "monospace",
+            textAlign: "center",
+            marginTop: "clamp(16px, 2.5vh, 24px)"
+          }}>
+            Three.js · WebGL · GLSL Shaders · Simplex Noise · Interactive
+          </p>
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* QUANTUM MANIFOLD - Seamless Flow */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+
+        <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
+          {/* Title */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginBottom: "clamp(16px, 2.5vh, 24px)"
+          }}>
+            <h3 style={{
+              fontSize: "clamp(16px, 2vw, 20px)",
+              fontWeight: 200,
+              color: "#FAFAF8",
+              marginBottom: "10px",
+              letterSpacing: "0.02em"
+            }}>
+              Quantum Manifold
+            </h3>
+            <p style={{
+              fontSize: "clamp(12px, 1.5vw, 14px)",
+              color: "#FAFAF8",
+              lineHeight: 1.8,
+              fontWeight: 300,
+              textAlign: "center",
+              maxWidth: "500px"
+            }}>
+              A field of infinite possibility. The manifold ripples with quantum fluctuations, each wave representing probability amplitudes in superposition.
+            </p>
+          </div>
+
+          {/* Full-width Manifold */}
+          <div style={{
+            position: "relative",
+            width: "100vw",
+            marginLeft: "calc(-50vw + 50%)",
+            overflow: "hidden"
+          }}>
+            {/* Top fade */}
+            <div style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "40px",
+              background: "linear-gradient(to bottom, #0A0A0A, transparent)",
+              zIndex: 2,
+              pointerEvents: "none"
+            }} />
+
+            <QuantumManifold />
+
+            {/* Bottom fade */}
+            <div style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "40px",
+              background: "linear-gradient(to top, #0A0A0A, transparent)",
+              zIndex: 2,
+              pointerEvents: "none"
+            }} />
+          </div>
+
+          {/* Tech Stack */}
+          <p style={{
+            fontSize: "10px",
+            color: "#FAFAF8",
+            letterSpacing: "0.1em",
+            fontFamily: "monospace",
+            textAlign: "center",
+            marginTop: "clamp(16px, 2.5vh, 24px)"
+          }}>
+            Three.js · WebGL · GLSL Shaders · Simplex Noise · Interactive
+          </p>
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
         {/* METATRON GENESIS */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
 
-          {/* Video Container - Smaller */}
+        <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
+          {/* Section Label */}
+          <p style={{
+            fontSize: "11px",
+            color: "#FAFAF8",
+            letterSpacing: "0.15em",
+            textAlign: "center",
+            marginBottom: "clamp(32px, 5vh, 40px)"
+          }}>
+            Metatron Genesis
+          </p>
+
+          {/* Video Container */}
           <div style={{
             position: "relative",
             maxWidth: "700px",
@@ -131,7 +294,7 @@ export default function Creative() {
               The frontend is also tricky and contains complex architecture. Well, it was for me anyway.
             </p>
 
-            {/* Tech Stack - Natural format */}
+            {/* Tech Stack */}
             <p style={{
               fontSize: "10px",
               color: "#FAFAF8",
@@ -191,7 +354,8 @@ export default function Creative() {
               textAlign: "left",
               maxWidth: "500px"
             }}>
-              The blueprint of creation. Thirteen circles containing all five Platonic solids. Used as the central orchestrator in the agent network, coordinating information flow between all subsystems.</p>
+              The blueprint of creation. Thirteen circles containing all five Platonic solids. Used as the central orchestrator in the agent network, coordinating information flow between all subsystems.
+            </p>
             <p style={{
               fontSize: "10px",
               color: "#FAFAF8",
@@ -235,7 +399,16 @@ export default function Creative() {
               textAlign: "left",
               maxWidth: "500px"
             }}>
-              Nature's perfect ratio, φ = 1.618. The Fibonacci sequence made visible. Represents the memory retrieval system, spiraling outward from recent to distant memories with logarithmic efficiency.</p>            <p style={{              fontSize: "10px",              color: "#FAFAF8",              letterSpacing: "0.1em",              marginTop: "12px",              fontFamily: "monospace"            }}>              React · SVG · Fibonacci sequence · Golden ratio calculations
+              Nature's perfect ratio, φ = 1.618. The Fibonacci sequence made visible. Represents the memory retrieval system, spiraling outward from recent to distant memories with logarithmic efficiency.
+            </p>
+            <p style={{
+              fontSize: "10px",
+              color: "#FAFAF8",
+              letterSpacing: "0.1em",
+              marginTop: "12px",
+              fontFamily: "monospace"
+            }}>
+              React · SVG · Fibonacci sequence · Golden ratio calculations
             </p>
           </div>
 
@@ -271,7 +444,8 @@ export default function Creative() {
               textAlign: "left",
               maxWidth: "500px"
             }}>
-              Nineteen overlapping circles creating the pattern of genesis. Each petal represents a specialized processing unit, interconnected through shared boundaries for parallel computation.</p>
+              Nineteen overlapping circles creating the pattern of genesis. Each petal represents a specialized processing unit, interconnected through shared boundaries for parallel computation.
+            </p>
             <p style={{
               fontSize: "10px",
               color: "#FAFAF8",
@@ -283,7 +457,7 @@ export default function Creative() {
             </p>
           </div>
 
-          {/* Infinity Divider */}
+          {/* Lemniscate */}
           <div style={{
             display: "flex",
             flexDirection: "column",
@@ -314,7 +488,8 @@ export default function Creative() {
               textAlign: "left",
               maxWidth: "500px"
             }}>
-              The infinity symbol. Continuous flow without beginning or end. Represents the feedback loops in the system, where output becomes input in an eternal cycle of refinement.</p>
+              The infinity symbol. Continuous flow without beginning or end. Represents the feedback loops in the system, where output becomes input in an eternal cycle of refinement.
+            </p>
             <p style={{
               fontSize: "10px",
               color: "#FAFAF8",
@@ -323,183 +498,6 @@ export default function Creative() {
               fontFamily: "monospace"
             }}>
               React · SVG · Bezier curves · Linear gradients
-            </p>
-          </div>
-        </div>
-
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/* QUANTUM SPHERE - INTERACTIVE 3D */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-
-        <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
-          {/* Section Label */}
-          <p style={{
-            fontSize: "11px",
-            color: "#FAFAF8",
-            letterSpacing: "0.15em",
-            textAlign: "center",
-            marginBottom: "clamp(32px, 5vh, 40px)"
-          }}>
-            Interactive Visualizations
-          </p>
-
-          {/* Title & Description */}
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginBottom: "clamp(24px, 4vh, 32px)"
-          }}>
-            <h3 style={{
-              fontSize: "clamp(16px, 2vw, 20px)",
-              fontWeight: 200,
-              color: "#FAFAF8",
-              marginBottom: "12px",
-              letterSpacing: "0.02em"
-            }}>
-              Quantum Sphere
-            </h3>
-            <p style={{
-              fontSize: "clamp(12px, 1.5vw, 14px)",
-              color: "#FAFAF8",
-              lineHeight: 1.8,
-              fontWeight: 300,
-              textAlign: "center",
-              maxWidth: "500px"
-            }}>
-              A living geodesic structure pulsing with quantum energy. Multi-layered icosahedral shells breathe and deform through simplex noise fields. Drag to rotate, click to expand into full presence.
-            </p>
-          </div>
-
-          {/* Sphere Container - Centered with subtle glow */}
-          <div style={{
-            position: "relative",
-            maxWidth: "700px",
-            margin: "0 auto",
-            padding: "clamp(16px, 3vw, 32px)"
-          }}>
-            {/* Ambient glow behind sphere */}
-            <div style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "80%",
-              height: "80%",
-              background: "radial-gradient(ellipse at center, rgba(100, 140, 200, 0.08) 0%, rgba(60, 100, 160, 0.03) 40%, transparent 70%)",
-              borderRadius: "50%",
-              pointerEvents: "none",
-              zIndex: 0
-            }} />
-
-            {/* The Sphere */}
-            <div style={{ position: "relative", zIndex: 1 }}>
-              <QuantumSphere initialExpanded={false} />
-            </div>
-          </div>
-
-          {/* Tech Stack */}
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginTop: "clamp(20px, 3vh, 28px)"
-          }}>
-            <p style={{
-              fontSize: "10px",
-              color: "#FAFAF8",
-              letterSpacing: "0.1em",
-              fontFamily: "monospace",
-              textAlign: "center"
-            }}>
-              Three.js · WebGL · GLSL Shaders · Icosahedral Geometry · Simplex Noise · Interactive
-            </p>
-          </div>
-        </div>
-
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/* QUANTUM MANIFOLD - TIGHT FLOATING PRESENTATION */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-
-        <div style={{ marginBottom: "clamp(60px, 10vh, 80px)" }}>
-          {/* Title - Tighter spacing */}
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginBottom: "clamp(16px, 2.5vh, 24px)"
-          }}>
-            <h3 style={{
-              fontSize: "clamp(16px, 2vw, 20px)",
-              fontWeight: 200,
-              color: "#FAFAF8",
-              marginBottom: "10px",
-              letterSpacing: "0.02em"
-            }}>
-              Quantum Manifold
-            </h3>
-            <p style={{
-              fontSize: "clamp(12px, 1.5vw, 14px)",
-              color: "#FAFAF8",
-              lineHeight: 1.8,
-              fontWeight: 300,
-              textAlign: "center",
-              maxWidth: "500px"
-            }}>
-              A field of infinite possibility. The manifold ripples with quantum fluctuations, each wave representing probability amplitudes in superposition.
-            </p>
-          </div>
-
-          {/* Floating Container - Full width, seamless */}
-          <div style={{
-            position: "relative",
-            width: "100vw",
-            marginLeft: "calc(-50vw + 50%)",
-            overflow: "hidden"
-          }}>
-            {/* Top fade - shorter */}
-            <div style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              height: "40px",
-              background: "linear-gradient(to bottom, #0A0A0A, transparent)",
-              zIndex: 2,
-              pointerEvents: "none"
-            }} />
-
-            {/* The Manifold */}
-            <QuantumManifold />
-
-            {/* Bottom fade - shorter */}
-            <div style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: "40px",
-              background: "linear-gradient(to top, #0A0A0A, transparent)",
-              zIndex: 2,
-              pointerEvents: "none"
-            }} />
-          </div>
-
-          {/* Tech info - tighter */}
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginTop: "clamp(16px, 2.5vh, 24px)"
-          }}>
-            <p style={{
-              fontSize: "10px",
-              color: "#FAFAF8",
-              letterSpacing: "0.1em",
-              fontFamily: "monospace",
-              textAlign: "center"
-            }}>
-              Three.js · WebGL · GLSL Shaders · Simplex Noise · Interactive
             </p>
           </div>
         </div>
@@ -530,14 +528,7 @@ export default function Creative() {
             maxWidth: "500px",
             margin: "clamp(24px, 4vh, 32px) auto 0"
           }}>
-            I needed a creative way to display the Mermaid diagram for the Trade69 project.</p>
-            <p style={{
-              fontSize: "10px",
-              color: "#FAFAF8",
-              letterSpacing: "0.1em",
-              marginTop: "12px",
-              fontFamily: "monospace"
-            }}>
+            I needed a creative way to display the Mermaid diagram for the Trade69 project.
           </p>
         </div>
 
@@ -622,8 +613,8 @@ export default function Creative() {
         </div>
 
         {/* ═══════════════════════════════════════════════════════════ */}
-
         {/* GALLERY & SKETCHES */}
+        {/* ═══════════════════════════════════════════════════════════ */}
         <CreativeGallery />
 
       </div>
