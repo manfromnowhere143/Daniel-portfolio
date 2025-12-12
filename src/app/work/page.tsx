@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Trade69Icon, MegaAgentIcon, OctopusIcon, OvermindIcon } from "@/components/WorkIcons";
+import { Trade69Icon3D, MegaAgentIcon3D, OctopusIcon3D, OvermindIcon3D } from "@/components/WorkIcons";
 
 export default function Work() {
   const projects = [
-    { name: "Trade69", href: "/work/trade69", icon: <Trade69Icon /> },
-    { name: "MegaAgent", href: "/work/megaagent", icon: <MegaAgentIcon /> },
-    { name: "Octopus", href: "/work/octopus", icon: <OctopusIcon /> },
-    { name: "Overmind", href: "/work/overmind", icon: <OvermindIcon /> }
+    { name: "Trade69", href: "/work/trade69", icon: <Trade69Icon3D size={70} /> },
+    { name: "MegaAgent", href: "/work/megaagent", icon: <MegaAgentIcon3D size={70} /> },
+    { name: "Octopus", href: "/work/octopus", icon: <OctopusIcon3D size={70} /> },
+    { name: "Overmind", href: "/work/overmind", icon: <OvermindIcon3D size={70} /> }
   ];
 
   return (
@@ -18,49 +18,36 @@ export default function Work() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 36px;
+          gap: 32px;
         }
         .work-item {
           padding: 0;
         }
         .work-icon {
-          transform: scale(1);
-          padding: 0;
-          background: none;
-          margin-bottom: 4px;
+          margin-bottom: 0;
         }
         .work-title {
-          font-size: 18px;
-          margin-top: 4px;
+          font-size: 16px;
+          margin-top: 0;
           margin-bottom: 2px;
-        }
-        .work-arrow {
-          opacity: 1;
         }
         
         @media (min-width: 600px) {
           .work-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 64px;
+            gap: 56px;
           }
           .work-item {
-            padding: 32px;
+            padding: 24px;
           }
           .work-icon {
-            transform: scale(1.4);
-            padding: 20px;
-            background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%);
-            border-radius: 50%;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
           }
           .work-title {
             font-size: 18px;
             margin-top: 0;
             margin-bottom: 6px;
-          }
-          .work-arrow {
-            opacity: 0.6;
           }
         }
       `}</style>
@@ -91,8 +78,6 @@ export default function Work() {
                   borderRadius: "2px",
                   transition: "opacity 0.3s ease"
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = "0.7"}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
               >
                 <div className="work-icon">
                   {project.icon}
@@ -109,15 +94,6 @@ export default function Work() {
                 >
                   {project.name}
                 </h2>
-                <span
-                  className="work-arrow"
-                  style={{
-                    fontSize: "12px",
-                    color: "#FAFAF8"
-                  }}
-                >
-                  →
-                </span>
               </Link>
             ))}
           </div>
