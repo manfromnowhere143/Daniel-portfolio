@@ -315,16 +315,16 @@ export default function Creative() {
         /* Experiences Gallery */
         .experiences-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
-          max-width: 500px;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
+          max-width: 340px;
           margin: 0 auto;
         }
         .experiences-item {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 20px 14px;
+          padding: 8px 4px;
           cursor: pointer;
           transition: transform 0.2s ease;
         }
@@ -332,15 +332,15 @@ export default function Creative() {
           transform: scale(0.96);
         }
         .experiences-preview {
-          width: 80px;
-          height: 80px;
+          width: 55px;
+          height: 55px;
           display: flex;
           align-items: center;
           justify-content: center;
         }
         .experiences-preview svg {
-          width: 80px;
-          height: 80px;
+          width: 55px;
+          height: 55px;
         }
 
         /* Experiences Expanded Overlay */
@@ -356,7 +356,7 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 60px 24px;
+          padding: 50px 16px;
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.3s ease;
@@ -382,17 +382,17 @@ export default function Creative() {
         }
         .experiences-expanded-preview {
           width: 100%;
-          margin-bottom: 32px;
+          margin-bottom: 24px;
           display: flex;
           justify-content: center;
           align-items: center;
         }
         .experiences-expanded-title {
-          font-size: 22px;
+          font-size: 20px;
           font-weight: 200;
           color: #FAFAF8;
           letter-spacing: 0.03em;
-          margin-bottom: 20px;
+          margin-bottom: 16px;
           text-align: center;
           width: 100%;
           opacity: 0;
@@ -404,15 +404,15 @@ export default function Creative() {
           transform: translateY(0);
         }
         .experiences-expanded-desc {
-          font-size: 14px;
+          font-size: 12px;
           color: #FAFAF8;
-          line-height: 1.9;
+          line-height: 1.7;
           font-weight: 300;
           text-align: left;
           opacity: 0;
           transform: translateY(10px);
           transition: all 0.3s ease 0.2s;
-          padding: 0 16px;
+          padding: 0 12px;
           max-width: 500px;
         }
         .experiences-overlay.active .experiences-expanded-desc {
@@ -424,7 +424,7 @@ export default function Creative() {
           color: #FAFAF8;
           letter-spacing: 0.1em;
           font-family: monospace;
-          margin-top: 24px;
+          margin-top: 16px;
           opacity: 0;
           transition: opacity 0.3s ease 0.25s;
         }
@@ -432,7 +432,7 @@ export default function Creative() {
           opacity: 0.6;
         }
         .experiences-expanded-link {
-          margin-top: 20px;
+          margin-top: 14px;
           font-size: 11px;
           color: #FAFAF8;
           letter-spacing: 0.12em;
@@ -469,16 +469,16 @@ export default function Creative() {
         /* Geometry Gallery */
         .geometry-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
-          max-width: 500px;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
+          max-width: 340px;
           margin: 0 auto;
         }
         .geometry-item {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 20px 14px;
+          padding: 8px 4px;
           cursor: pointer;
           transition: transform 0.2s ease;
         }
@@ -486,8 +486,8 @@ export default function Creative() {
           transform: scale(0.96);
         }
         .geometry-preview {
-          width: 80px;
-          height: 80px;
+          width: 55px;
+          height: 55px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -600,16 +600,16 @@ export default function Creative() {
         /* 3D Icons Gallery */
         .icons3d-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
-          max-width: 500px;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
+          max-width: 340px;
           margin: 0 auto;
         }
         .icons3d-item {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 14px 10px;
+          padding: 8px 4px;
           cursor: pointer;
           transition: transform 0.2s ease;
         }
@@ -617,9 +617,27 @@ export default function Creative() {
           transform: scale(0.96);
         }
         .icons3d-preview {
+          width: 55px;
+          height: 55px;
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+
+        /* SVG 2D Icons Grid */
+        .svg-icons-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
+          max-width: 340px;
+          margin: 0 auto;
+        }
+        .svg-icon-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px;
+          transform: scale(0.9);
         }
 
         /* 3D Icons Expanded Overlay */
@@ -734,9 +752,24 @@ export default function Creative() {
           }
           .experiences-expanded-title {
             font-size: 26px;
+            margin-bottom: 20px;
           }
           .experiences-expanded-desc {
             font-size: 15px;
+            line-height: 1.9;
+            padding: 0 16px;
+          }
+          .experiences-overlay {
+            padding: 60px 24px;
+          }
+          .experiences-expanded-preview {
+            margin-bottom: 32px;
+          }
+          .experiences-expanded-tech {
+            margin-top: 24px;
+          }
+          .experiences-expanded-link {
+            margin-top: 20px;
           }
           .geometry-grid {
             grid-template-columns: repeat(4, 1fr);
@@ -774,13 +807,17 @@ export default function Creative() {
             max-width: 700px;
           }
           .icons3d-item {
-            padding: 18px 14px;
+            padding: 24px 18px;
           }
           .icons3d-item:hover {
             transform: scale(1.02);
           }
           .icons3d-item:active {
             transform: scale(0.98);
+          }
+          .icons3d-preview {
+            width: 100px;
+            height: 100px;
           }
           .icons3d-expanded-preview {
             margin-bottom: 32px;
@@ -791,23 +828,30 @@ export default function Creative() {
           .icons3d-expanded-desc {
             font-size: 14px;
           }
+          .svg-icons-grid {
+            gap: 24px;
+            max-width: 700px;
+          }
+          .svg-icon-wrapper {
+            transform: scale(1.5);
+          }
         }
       `}</style>
 
-      <div className={`creative-page ${isLoaded ? 'loaded' : ''}`} style={{ paddingTop: "32px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+      <div className={`creative-page ${isLoaded ? 'loaded' : ''}`} style={{ paddingTop: "24px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
 
         {/* Main Content */}
         <div style={{
           maxWidth: "900px",
           margin: "0 auto",
-          padding: "clamp(24px, 4vh, 36px) 24px clamp(80px, 12vh, 120px)"
+          padding: "clamp(16px, 3vh, 24px) 20px clamp(60px, 10vh, 80px)"
         }}>
 
           {/* ═══════════════════════════════════════════════════════════ */}
           {/* 3D EXPERIENCES - Unified Gallery */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div className="load-section" style={{ marginBottom: "clamp(36px, 6vh, 52px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
             {/* Gallery Grid */}
             <div className="experiences-grid">
               {experiencesItems.map((item) => (
@@ -828,7 +872,7 @@ export default function Creative() {
           {/* SACRED GEOMETRY COMPONENTS - Gallery Style */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div className="load-section" style={{ marginBottom: "clamp(36px, 6vh, 52px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
             {/* Gallery Grid */}
             <div className="geometry-grid">
               {sacredGeometryItems.map((item) => {
@@ -852,7 +896,7 @@ export default function Creative() {
           {/* 3D WORK ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div className="load-section" style={{ marginBottom: "clamp(36px, 6vh, 52px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
             {/* Gallery Grid */}
             <div className="icons3d-grid">
               {workIcons3DItems.map((item) => (
@@ -873,7 +917,7 @@ export default function Creative() {
           {/* 3D SERVICE ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div className="load-section" style={{ marginBottom: "clamp(36px, 6vh, 52px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
             {/* Gallery Grid */}
             <div className="icons3d-grid">
               {serviceIcons3DItems.map((item) => (
@@ -894,47 +938,35 @@ export default function Creative() {
           {/* SVG ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div className="load-section" style={{ marginBottom: "clamp(36px, 6vh, 52px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
             {/* Work Icons Grid */}
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "clamp(24px, 4vw, 40px)",
-              maxWidth: "700px",
-              margin: "0 auto clamp(36px, 6vh, 52px)"
-            }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div className="svg-icons-grid">
+              <div className="svg-icon-wrapper">
                 <Trade69Icon />
               </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div className="svg-icon-wrapper">
                 <MegaAgentIcon />
               </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div className="svg-icon-wrapper">
                 <OctopusIcon />
               </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div className="svg-icon-wrapper">
                 <OvermindIcon />
               </div>
             </div>
 
             {/* Service Icons Grid */}
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "clamp(24px, 4vw, 40px)",
-              maxWidth: "700px",
-              margin: "0 auto"
-            }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div className="svg-icons-grid" style={{ marginTop: "clamp(20px, 3vh, 28px)" }}>
+              <div className="svg-icon-wrapper">
                 <WebsiteIcon />
               </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div className="svg-icon-wrapper">
                 <DashboardIcon />
               </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div className="svg-icon-wrapper">
                 <APIIcon />
               </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div className="svg-icon-wrapper">
                 <LLMIcon />
               </div>
             </div>
@@ -1023,13 +1055,15 @@ export default function Creative() {
               {expandedExperience === "metatron-genesis" && (
                 <div style={{
                   width: "100%",
-                  maxWidth: "600px"
+                  maxWidth: "min(600px, calc(100vw - 48px))",
+                  padding: "0 12px"
                 }}>
                   <div style={{
                     position: "relative",
                     backgroundColor: "#000000",
                     borderRadius: "4px",
-                    overflow: "hidden"
+                    overflow: "hidden",
+                    maxHeight: "50vh"
                   }}>
                     <VideoPlayer src="/videos/metatrondemo1.mov" />
                   </div>

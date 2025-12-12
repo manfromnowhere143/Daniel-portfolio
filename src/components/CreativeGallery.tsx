@@ -70,9 +70,9 @@ export default function CreativeGallery() {
         /* Gallery Grid */
         .gallery-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
-          max-width: 500px;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
+          max-width: 340px;
           margin: 0 auto;
         }
         .gallery-item {
@@ -92,8 +92,8 @@ export default function CreativeGallery() {
         .sketch-grid {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
-          gap: 12px;
-          max-width: 600px;
+          gap: 4px;
+          max-width: 340px;
           margin: 0 auto;
         }
         .sketch-item {
@@ -244,7 +244,7 @@ export default function CreativeGallery() {
       `}</style>
 
       {/* GALLERY */}
-      <div style={{ marginBottom: "clamp(36px, 6vh, 52px)" }}>
+      <div style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
         <div className="gallery-grid">
           {galleryItems.map((item, i) => (
             <div
