@@ -11,6 +11,7 @@ import { WebsiteIcon, DashboardIcon, APIIcon, LLMIcon } from "@/components/Servi
 import Trade69Architecture from "@/components/Trade69Architecture";
 import CreativeGallery from "@/components/CreativeGallery";
 import QuantumManifold from "@/components/QuantumManifold";
+import QuantumSphere from "@/components/QuantumSphere";
 
 export const metadata: Metadata = {
   title: "Creative Work | Daniel Wahnich",
@@ -327,6 +328,96 @@ export default function Creative() {
         </div>
 
         {/* ═══════════════════════════════════════════════════════════ */}
+        {/* QUANTUM SPHERE - INTERACTIVE 3D */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+
+        <div style={{ marginBottom: "clamp(80px, 12vh, 100px)" }}>
+          {/* Section Label */}
+          <p style={{
+            fontSize: "11px",
+            color: "#FAFAF8",
+            letterSpacing: "0.15em",
+            textAlign: "center",
+            marginBottom: "clamp(32px, 5vh, 40px)"
+          }}>
+            Interactive Visualizations
+          </p>
+
+          {/* Title & Description */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginBottom: "clamp(24px, 4vh, 32px)"
+          }}>
+            <h3 style={{
+              fontSize: "clamp(16px, 2vw, 20px)",
+              fontWeight: 200,
+              color: "#FAFAF8",
+              marginBottom: "12px",
+              letterSpacing: "0.02em"
+            }}>
+              Quantum Sphere
+            </h3>
+            <p style={{
+              fontSize: "clamp(12px, 1.5vw, 14px)",
+              color: "#FAFAF8",
+              lineHeight: 1.8,
+              fontWeight: 300,
+              textAlign: "center",
+              maxWidth: "500px"
+            }}>
+              A living geodesic structure pulsing with quantum energy. Multi-layered icosahedral shells breathe and deform through simplex noise fields. Drag to rotate, click to expand into full presence.
+            </p>
+          </div>
+
+          {/* Sphere Container - Centered with subtle glow */}
+          <div style={{
+            position: "relative",
+            maxWidth: "700px",
+            margin: "0 auto",
+            padding: "clamp(16px, 3vw, 32px)"
+          }}>
+            {/* Ambient glow behind sphere */}
+            <div style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "80%",
+              height: "80%",
+              background: "radial-gradient(ellipse at center, rgba(100, 140, 200, 0.08) 0%, rgba(60, 100, 160, 0.03) 40%, transparent 70%)",
+              borderRadius: "50%",
+              pointerEvents: "none",
+              zIndex: 0
+            }} />
+
+            {/* The Sphere */}
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <QuantumSphere initialExpanded={false} />
+            </div>
+          </div>
+
+          {/* Tech Stack */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: "clamp(20px, 3vh, 28px)"
+          }}>
+            <p style={{
+              fontSize: "10px",
+              color: "#FAFAF8",
+              letterSpacing: "0.1em",
+              fontFamily: "monospace",
+              textAlign: "center"
+            }}>
+              Three.js · WebGL · GLSL Shaders · Icosahedral Geometry · Simplex Noise · Interactive
+            </p>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
         {/* QUANTUM MANIFOLD - TIGHT FLOATING PRESENTATION */}
         {/* ═══════════════════════════════════════════════════════════ */}
 
@@ -352,7 +443,7 @@ export default function Creative() {
               color: "#FAFAF8",
               lineHeight: 1.8,
               fontWeight: 300,
-              textAlign: "left",
+              textAlign: "center",
               maxWidth: "500px"
             }}>
               A field of infinite possibility. The manifold ripples with quantum fluctuations, each wave representing probability amplitudes in superposition.
