@@ -324,7 +324,7 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 24px 16px;
+          padding: 16px 12px;
           cursor: pointer;
           transition: transform 0.2s ease;
         }
@@ -478,7 +478,7 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 24px 16px;
+          padding: 16px 12px;
           cursor: pointer;
           transition: transform 0.2s ease;
         }
@@ -609,7 +609,7 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 16px 8px;
+          padding: 12px 8px;
           cursor: pointer;
           transition: transform 0.2s ease;
         }
@@ -716,7 +716,7 @@ export default function Creative() {
             max-width: 700px;
           }
           .experiences-item {
-            padding: 32px 20px;
+            padding: 20px 16px;
           }
           .experiences-item:hover {
             transform: scale(1.02);
@@ -744,7 +744,7 @@ export default function Creative() {
             max-width: 700px;
           }
           .geometry-item {
-            padding: 32px 20px;
+            padding: 20px 16px;
             cursor: pointer;
           }
           .geometry-item:hover {
@@ -774,7 +774,7 @@ export default function Creative() {
             max-width: 700px;
           }
           .icons3d-item {
-            padding: 20px 16px;
+            padding: 16px 12px;
           }
           .icons3d-item:hover {
             transform: scale(1.02);
@@ -794,20 +794,20 @@ export default function Creative() {
         }
       `}</style>
 
-      <div className={`creative-page ${isLoaded ? 'loaded' : ''}`} style={{ paddingTop: "40px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+      <div className={`creative-page ${isLoaded ? 'loaded' : ''}`} style={{ paddingTop: "20px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
 
         {/* Main Content */}
         <div style={{
           maxWidth: "900px",
           margin: "0 auto",
-          padding: "clamp(40px, 6vh, 60px) 24px clamp(80px, 12vh, 120px)"
+          padding: "clamp(16px, 3vh, 24px) 24px clamp(80px, 12vh, 120px)"
         }}>
 
           {/* ═══════════════════════════════════════════════════════════ */}
           {/* 3D EXPERIENCES - Unified Gallery */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div className="load-section" style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(32px, 5vh, 48px)" }}>
             {/* Gallery Grid */}
             <div className="experiences-grid">
               {experiencesItems.map((item) => (
@@ -828,7 +828,7 @@ export default function Creative() {
           {/* SACRED GEOMETRY COMPONENTS - Gallery Style */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div className="load-section" style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(32px, 5vh, 48px)" }}>
             {/* Gallery Grid */}
             <div className="geometry-grid">
               {sacredGeometryItems.map((item) => {
@@ -852,7 +852,7 @@ export default function Creative() {
           {/* 3D WORK ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div className="load-section" style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(32px, 5vh, 48px)" }}>
             {/* Gallery Grid */}
             <div className="icons3d-grid">
               {workIcons3DItems.map((item) => (
@@ -873,7 +873,7 @@ export default function Creative() {
           {/* 3D SERVICE ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div className="load-section" style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(32px, 5vh, 48px)" }}>
             {/* Gallery Grid */}
             <div className="icons3d-grid">
               {serviceIcons3DItems.map((item) => (
@@ -894,14 +894,14 @@ export default function Creative() {
           {/* SVG ICONS */}
           {/* ═══════════════════════════════════════════════════════════ */}
 
-          <div className="load-section" style={{ marginBottom: "clamp(48px, 8vh, 64px)" }}>
+          <div className="load-section" style={{ marginBottom: "clamp(32px, 5vh, 48px)" }}>
             {/* Work Icons Grid */}
             <div style={{
               display: "grid",
               gridTemplateColumns: "repeat(4, 1fr)",
               gap: "clamp(24px, 4vw, 40px)",
               maxWidth: "700px",
-              margin: "0 auto clamp(48px, 7vh, 64px)"
+              margin: "0 auto clamp(32px, 5vh, 48px)"
             }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Trade69Icon />
