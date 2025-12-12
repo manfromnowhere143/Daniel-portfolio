@@ -236,6 +236,7 @@ export default function Creative() {
           letter-spacing: 0.03em;
           margin-bottom: 20px;
           text-align: center;
+          width: 100%;
           opacity: 0;
           transform: translateY(10px);
           transition: all 0.3s ease 0.15s;
@@ -249,10 +250,11 @@ export default function Creative() {
           color: #FAFAF8;
           line-height: 1.9;
           font-weight: 300;
-          text-align: center;
+          text-align: left;
           opacity: 0;
           transform: translateY(10px);
           transition: all 0.3s ease 0.2s;
+          padding: 0 16px;
         }
         .geometry-overlay.active .geometry-expanded-desc {
           opacity: 1;
@@ -360,6 +362,7 @@ export default function Creative() {
           letter-spacing: 0.03em;
           margin-bottom: 20px;
           text-align: center;
+          width: 100%;
           opacity: 0;
           transform: translateY(10px);
           transition: all 0.3s ease 0.15s;
@@ -373,7 +376,7 @@ export default function Creative() {
           color: #FAFAF8;
           line-height: 1.9;
           font-weight: 300;
-          text-align: center;
+          text-align: left;
           opacity: 0;
           transform: translateY(10px);
           transition: all 0.3s ease 0.2s;
