@@ -327,11 +327,12 @@ export default function Creative() {
           justify-content: center;
           cursor: pointer;
           transition: transform 0.2s ease;
-          background: rgba(250, 250, 248, 0.95);
+          background: rgba(30, 30, 30, 0.95);
           border-radius: 16px;
           width: 72px;
           height: 72px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+          border: 1px solid rgba(255,255,255,0.08);
         }
         .experiences-item:active {
           transform: scale(0.92);
@@ -346,12 +347,6 @@ export default function Creative() {
         .experiences-preview svg {
           width: 48px;
           height: 48px;
-        }
-        .experiences-preview svg * {
-          stroke: #1a1a1a !important;
-        }
-        .experiences-preview svg circle[fill] {
-          fill: #1a1a1a !important;
         }
 
         /* Experiences Expanded Overlay */
@@ -492,11 +487,12 @@ export default function Creative() {
           justify-content: center;
           cursor: pointer;
           transition: transform 0.2s ease;
-          background: rgba(250, 250, 248, 0.95);
+          background: rgba(30, 30, 30, 0.95);
           border-radius: 16px;
           width: 72px;
           height: 72px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+          border: 1px solid rgba(255,255,255,0.08);
         }
         .geometry-item:active {
           transform: scale(0.92);
@@ -629,11 +625,12 @@ export default function Creative() {
           padding: 8px;
           cursor: pointer;
           transition: transform 0.2s ease;
-          background: rgba(250, 250, 248, 0.95);
+          background: rgba(30, 30, 30, 0.95);
           border-radius: 16px;
           width: 72px;
           height: 72px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+          border: 1px solid rgba(255,255,255,0.08);
         }
         .icons3d-item:active {
           transform: scale(0.92);
@@ -763,6 +760,7 @@ export default function Creative() {
             background: transparent;
             border-radius: 0;
             box-shadow: none;
+            border: none;
             width: auto;
             height: auto;
           }
@@ -779,12 +777,6 @@ export default function Creative() {
           .experiences-preview svg {
             width: 100px;
             height: 100px;
-          }
-          .experiences-preview svg * {
-            stroke: #FAFAF8 !important;
-          }
-          .experiences-preview svg circle[fill] {
-            fill: #FAFAF8 !important;
           }
           .experiences-expanded-title {
             font-size: 26px;
@@ -818,6 +810,7 @@ export default function Creative() {
             background: transparent;
             border-radius: 0;
             box-shadow: none;
+            border: none;
             width: auto;
             height: auto;
             cursor: pointer;
@@ -854,6 +847,7 @@ export default function Creative() {
             background: transparent;
             border-radius: 0;
             box-shadow: none;
+            border: none;
             width: auto;
             height: auto;
           }
