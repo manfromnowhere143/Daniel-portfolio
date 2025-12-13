@@ -217,8 +217,9 @@ export default function Services() {
           background: #0A0A0A;
           z-index: 1000;
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: center;
+          padding-top: 12vh;
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.3s ease;
@@ -231,21 +232,18 @@ export default function Services() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
           text-align: center;
           padding: 0 24px;
           width: 100%;
           max-width: 360px;
-          max-height: 90vh;
-          overflow: hidden;
         }
         .expanded-preview {
-          width: 180px;
-          height: 180px;
+          width: 200px;
+          height: 200px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 24px;
+          margin-bottom: 20px;
           overflow: hidden;
         }
         .expanded-preview canvas {
@@ -403,7 +401,7 @@ export default function Services() {
           {expandedIndex !== null && (
             <div className="expanded-content" key={`expanded-${expandedIndex}`} onClick={(e) => e.stopPropagation()}>
               <div className="expanded-preview">
-                {renderIcon(services[expandedIndex].key, isMobile ? 160 : 200, true)}
+                {renderIcon(services[expandedIndex].key, isMobile ? 180 : 220, true)}
               </div>
               <h2 className="expanded-title">{services[expandedIndex].title}</h2>
               <p className="expanded-desc">{services[expandedIndex].description}</p>

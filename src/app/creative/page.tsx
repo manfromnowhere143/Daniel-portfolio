@@ -436,8 +436,9 @@ export default function Creative() {
           background: #0A0A0A;
           z-index: 1000;
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: center;
+          padding-top: 12vh;
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.3s ease;
@@ -452,13 +453,10 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
           text-align: center;
           padding: 0 24px;
           width: 100%;
           max-width: 400px;
-          max-height: 90vh;
-          overflow: hidden;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -470,59 +468,58 @@ export default function Creative() {
           align-items: center;
           justify-content: center;
           overflow: hidden;
-          position: relative;
         }
         
         .expanded-preview-sphere {
-          width: 280px;
-          height: 220px;
-          margin-bottom: 20px;
+          width: 300px;
+          height: 260px;
+          margin-bottom: 16px;
         }
         
         .expanded-preview-manifold {
-          width: 320px;
-          height: 160px;
-          margin-bottom: 24px;
+          width: 340px;
+          height: 200px;
+          margin-bottom: 16px;
         }
         
         .expanded-preview-video {
-          width: 85vw;
-          max-width: 300px;
-          height: 48vw;
-          max-height: 180px;
+          width: 90vw;
+          max-width: 320px;
+          height: 52vw;
+          max-height: 200px;
           border-radius: 8px;
           overflow: hidden;
-          margin-bottom: 20px;
+          margin-bottom: 16px;
         }
         
         .expanded-preview-architecture {
-          width: 300px;
-          height: 180px;
+          width: 320px;
+          height: 220px;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
-          margin-bottom: 20px;
+          margin-bottom: 16px;
         }
         
         .expanded-preview-geometry {
+          width: 200px;
+          height: 200px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          margin-bottom: 16px;
+        }
+        
+        .expanded-preview-icon {
           width: 180px;
           height: 180px;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
-          margin-bottom: 20px;
-        }
-        
-        .expanded-preview-icon {
-          width: 160px;
-          height: 160px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          margin-bottom: 20px;
+          margin-bottom: 16px;
         }
         
         .expanded-preview-3d canvas,
@@ -833,7 +830,7 @@ export default function Creative() {
         {expandedWorkItem && (
           <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
             <div className="expanded-preview-icon">
-              {renderWorkIcon(expandedWork!, 145)}
+              {renderWorkIcon(expandedWork!, 160)}
             </div>
             <p className="expanded-title">{expandedWorkItem.title}</p>
             <p className="expanded-desc">{expandedWorkItem.description}</p>
@@ -847,7 +844,7 @@ export default function Creative() {
         {expandedServiceItem && (
           <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
             <div className="expanded-preview-icon">
-              {renderServiceIcon(expandedService!, 145, true)}
+              {renderServiceIcon(expandedService!, 160, true)}
             </div>
             <p className="expanded-title">{expandedServiceItem.title}</p>
             <p className="expanded-desc">{expandedServiceItem.description}</p>
