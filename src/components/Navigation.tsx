@@ -271,8 +271,7 @@ export default function Navigation() {
               fontSize: "10px",
               fontWeight: 300,
               letterSpacing: "0.12em",
-              color: "#FAFAF8",
-              opacity: 0.6
+              color: "#FAFAF8"
             }}>
               {formatDate(time)}
             </span>
@@ -323,11 +322,10 @@ export default function Navigation() {
             >
               <span style={{
                 fontSize: "11px",
-                fontWeight: 200,
+                fontWeight: item.isActive ? 400 : 300,
                 letterSpacing: "0.12em",
                 color: "#FAFAF8",
-                textTransform: "uppercase",
-                opacity: item.isActive ? 1 : 0.6
+                textTransform: "uppercase"
               }}>
                 {item.label}
               </span>
