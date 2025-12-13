@@ -205,7 +205,7 @@ export default function Services() {
           margin-top: 48px;
         }
 
-        /* Expanded overlay - ONE SCREEN ONLY */
+        /* Expanded overlay - STATE OF THE ART */
         .expanded-overlay {
           position: fixed;
           top: 0;
@@ -231,38 +231,47 @@ export default function Services() {
           display: flex;
           flex-direction: column;
           align-items: center;
+          justify-content: center;
           text-align: center;
+          padding: 0 24px;
+          width: 100%;
+          max-width: 400px;
         }
-        .expanded-icon {
-          width: 140px;
-          height: 140px;
+        .expanded-preview {
+          width: 200px;
+          height: 200px;
           display: flex;
           align-items: center;
           justify-content: center;
+          margin-bottom: 24px;
+        }
+        .expanded-preview canvas {
+          background: transparent !important;
         }
         .expanded-title {
-          margin-top: 10px;
-          font-size: 16px;
-          font-weight: 300;
+          font-size: 18px;
+          font-weight: 200;
           color: #FAFAF8;
-          letter-spacing: 0.04em;
+          letter-spacing: 0.06em;
+          margin: 0;
+          padding: 0;
         }
         .expanded-desc {
-          margin-top: 8px;
-          font-size: 11px;
+          margin-top: 12px;
+          font-size: 12px;
           font-weight: 300;
-          color: rgba(250, 250, 248, 0.6);
-          line-height: 1.5;
-          max-width: 280px;
-          padding: 0 16px;
+          color: rgba(250, 250, 248, 0.55);
+          line-height: 1.7;
+          max-width: 300px;
+          text-align: center;
         }
         .expanded-close {
           position: absolute;
           top: 50%;
           right: 20px;
           transform: translateY(-50%);
-          width: 40px;
-          height: 40px;
+          width: 44px;
+          height: 44px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -346,16 +355,21 @@ export default function Services() {
           .services-contact {
             margin-top: clamp(64px, 10vh, 90px);
           }
-          .expanded-icon {
-            width: 180px;
-            height: 180px;
+          .expanded-preview {
+            width: 280px;
+            height: 280px;
+            margin-bottom: 32px;
           }
           .expanded-title {
-            font-size: 20px;
+            font-size: 22px;
           }
           .expanded-desc {
             font-size: 13px;
-            max-width: 340px;
+            max-width: 380px;
+            margin-top: 16px;
+          }
+          .expanded-content {
+            max-width: 500px;
           }
         }
       `}</style>
@@ -390,11 +404,11 @@ export default function Services() {
         >
           <div className="expanded-close">×</div>
           {expandedIndex !== null && (
-            <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
-              <div className="expanded-icon">
-                {renderIcon(services[expandedIndex].key, 140, true)}
+            <div className="expanded-content" key={`expanded-${expandedIndex}`} onClick={(e) => e.stopPropagation()}>
+              <div className="expanded-preview">
+                {renderIcon(services[expandedIndex].key, isMobile ? 180 : 240, true)}
               </div>
-              <p className="expanded-title">{services[expandedIndex].title}</p>
+              <h2 className="expanded-title">{services[expandedIndex].title}</h2>
               <p className="expanded-desc">{services[expandedIndex].description}</p>
             </div>
           )}
