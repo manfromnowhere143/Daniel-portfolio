@@ -287,7 +287,6 @@ export default function Navigation() {
           bottom: 0,
           left: 0,
           right: 0,
-          height: "80px",
           zIndex: 200,
           background: "rgba(10, 10, 10, 0.98)",
           backdropFilter: "blur(20px)",
@@ -296,19 +295,17 @@ export default function Navigation() {
           opacity: isOpen ? 1 : 0,
           transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease",
           pointerEvents: isOpen ? "auto" : "none",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
           paddingBottom: "env(safe-area-inset-bottom, 0)"
         }}
       >
         <div style={{
+          height: "70px",
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: "24px"
+          gap: "28px",
+          width: "100%"
         }}>
           {navItems.map((item) => (
             <Link
@@ -317,7 +314,7 @@ export default function Navigation() {
               onClick={() => setTimeout(() => setIsOpen(false), 150)}
               style={{
                 textDecoration: "none",
-                padding: "8px 2px"
+                padding: "12px 4px"
               }}
             >
               <span style={{
