@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useRef, useEffect, ReactNode } from "react";
+import { useState, useRef, useEffect, ReactNode, useCallback } from "react";
 
 const PAGES = ["/", "/work", "/creative", "/services"];
 
@@ -12,14 +12,22 @@ interface SwipeNavigationProps {
 export default function SwipeNavigation({ children }: SwipeNavigationProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const [isMobile, setIsMobile] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [exitDirection, setExitDirection] = useState<"left" | "right" | null>(null);
+  const [isEntering, setIsEntering] = useState(true);
 
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
-  const touchEndX = useRef(0);
-  const touchEndY = useRef(0);
+  const touchCurrentX = useRef(0);
+  const velocity = useRef(0);
+  const lastTouchTime = useRef(0);
+  const lastTouchX = useRef(0);
+  const isValidSwipe = useRef(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 600);
@@ -28,80 +36,170 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // Reset transition state when pathname changes
+  // Page enter animation
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsTransitioning(false);
-      setSlideDirection(null);
-    }, 400);
+    setIsEntering(true);
+    setExitDirection(null);
+    setIsNavigating(false);
+    setDragOffset(0);
+    const timer = setTimeout(() => setIsEntering(false), 450);
     return () => clearTimeout(timer);
   }, [pathname]);
 
-  const getCurrentPageIndex = () => {
-    // Handle sub-routes like /work/trade69
+  const getCurrentPageIndex = useCallback(() => {
     if (pathname.startsWith("/work/")) return 1;
     return PAGES.indexOf(pathname);
-  };
+  }, [pathname]);
+
+  const canGoNext = useCallback(() => {
+    const idx = getCurrentPageIndex();
+    return idx !== -1 && idx < PAGES.length - 1;
+  }, [getCurrentPageIndex]);
+
+  const canGoPrev = useCallback(() => {
+    const idx = getCurrentPageIndex();
+    return idx > 0;
+  }, [getCurrentPageIndex]);
 
   const isOverlayOpen = () => {
-    // Check if any overlay/modal is open (sidebar, expanded cards, etc)
-    const overlays = document.querySelectorAll('[style*="z-index: 200"], [style*="z-index: 150"], [style*="z-index: 1000"]');
-    for (const overlay of overlays) {
-      const style = window.getComputedStyle(overlay);
-      if (style.opacity !== '0' && style.pointerEvents !== 'none') {
-        return true;
-      }
-    }
-    return false;
+    const sidebarOpen = document.querySelector('[style*="translateY(0)"][style*="z-index: 200"]');
+    const overlayVisible = document.querySelector('[style*="opacity: 1"][style*="z-index: 150"]');
+    return !!(sidebarOpen || overlayVisible);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    if (!isMobile) return;
+    if (!isMobile || isNavigating) return;
 
-    // Ignore touches in hamburger zone (top-right corner)
     const touch = e.touches[0];
-    const isHamburgerZone = touch.clientX > window.innerWidth - 80 && touch.clientY < 80;
-    if (isHamburgerZone) return;
 
-    touchStartX.current = e.touches[0].clientX;
-    touchStartY.current = e.touches[0].clientY;
-    touchEndX.current = e.touches[0].clientX;
-    touchEndY.current = e.touches[0].clientY;
+    // Ignore hamburger zone
+    if (touch.clientX > window.innerWidth - 80 && touch.clientY < 80) return;
+
+    // Ignore if overlay is open
+    if (isOverlayOpen()) return;
+
+    touchStartX.current = touch.clientX;
+    touchStartY.current = touch.clientY;
+    touchCurrentX.current = touch.clientX;
+    lastTouchX.current = touch.clientX;
+    lastTouchTime.current = Date.now();
+    velocity.current = 0;
+    isValidSwipe.current = false;
+    setIsDragging(true);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isMobile) return;
-    touchEndX.current = e.touches[0].clientX;
-    touchEndY.current = e.touches[0].clientY;
+    if (!isMobile || !isDragging || isNavigating) return;
+
+    const touch = e.touches[0];
+    const deltaX = touch.clientX - touchStartX.current;
+    const deltaY = Math.abs(touch.clientY - touchStartY.current);
+
+    // Calculate velocity
+    const now = Date.now();
+    const dt = now - lastTouchTime.current;
+    if (dt > 0) {
+      velocity.current = (touch.clientX - lastTouchX.current) / dt;
+    }
+    lastTouchX.current = touch.clientX;
+    lastTouchTime.current = now;
+
+    // Determine if horizontal swipe after 10px movement
+    if (!isValidSwipe.current && Math.abs(deltaX) > 10) {
+      isValidSwipe.current = Math.abs(deltaX) > deltaY;
+    }
+
+    if (!isValidSwipe.current) return;
+
+    // Apply resistance at edges
+    let offset = deltaX;
+    if ((deltaX > 0 && !canGoPrev()) || (deltaX < 0 && !canGoNext())) {
+      offset = deltaX * 0.2; // Rubber band effect
+    }
+
+    touchCurrentX.current = touch.clientX;
+    setDragOffset(offset);
   };
 
   const handleTouchEnd = () => {
-    if (!isMobile || isTransitioning) return;
+    if (!isMobile || !isDragging) return;
 
-    // Don't swipe if an overlay is open
-    if (isOverlayOpen()) return;
+    setIsDragging(false);
 
-    const deltaX = touchStartX.current - touchEndX.current;
-    const deltaY = Math.abs(touchStartY.current - touchEndY.current);
-    const minSwipeDistance = 80;
-
-    // Only trigger if horizontal swipe is dominant (not scrolling)
-    if (Math.abs(deltaX) < minSwipeDistance || deltaY > Math.abs(deltaX)) return;
-
-    const currentIndex = getCurrentPageIndex();
-    if (currentIndex === -1) return;
-
-    if (deltaX > 0 && currentIndex < PAGES.length - 1) {
-      // Swipe left - go to next page
-      setSlideDirection("left");
-      setIsTransitioning(true);
-      setTimeout(() => router.push(PAGES[currentIndex + 1]), 50);
-    } else if (deltaX < 0 && currentIndex > 0) {
-      // Swipe right - go to previous page
-      setSlideDirection("right");
-      setIsTransitioning(true);
-      setTimeout(() => router.push(PAGES[currentIndex - 1]), 50);
+    if (!isValidSwipe.current) {
+      setDragOffset(0);
+      return;
     }
+
+    const deltaX = touchCurrentX.current - touchStartX.current;
+    const screenWidth = window.innerWidth;
+    const threshold = screenWidth * 0.25;
+    const velocityThreshold = 0.5;
+
+    // Check if should navigate based on distance or velocity
+    const shouldNavigate = Math.abs(deltaX) > threshold || Math.abs(velocity.current) > velocityThreshold;
+
+    if (shouldNavigate) {
+      const currentIndex = getCurrentPageIndex();
+
+      if (deltaX < 0 && canGoNext()) {
+        // Swipe left - next page
+        setExitDirection("left");
+        setIsNavigating(true);
+        setDragOffset(-screenWidth);
+        setTimeout(() => {
+          router.push(PAGES[currentIndex + 1]);
+        }, 280);
+      } else if (deltaX > 0 && canGoPrev()) {
+        // Swipe right - previous page
+        setExitDirection("right");
+        setIsNavigating(true);
+        setDragOffset(screenWidth);
+        setTimeout(() => {
+          router.push(PAGES[currentIndex - 1]);
+        }, 280);
+      } else {
+        // Snap back
+        setDragOffset(0);
+      }
+    } else {
+      // Snap back with animation
+      setDragOffset(0);
+    }
+
+    isValidSwipe.current = false;
+  };
+
+  const getTransformStyle = () => {
+    if (isNavigating && exitDirection) {
+      return {
+        transform: `translateX(${dragOffset}px)`,
+        transition: "transform 0.28s cubic-bezier(0.25, 0.1, 0.25, 1)",
+        opacity: 1 - Math.abs(dragOffset) / window.innerWidth * 0.4
+      };
+    }
+
+    if (isDragging && isValidSwipe.current) {
+      return {
+        transform: `translateX(${dragOffset}px)`,
+        transition: "none",
+        opacity: 1 - Math.abs(dragOffset) / window.innerWidth * 0.2
+      };
+    }
+
+    if (dragOffset !== 0) {
+      return {
+        transform: "translateX(0)",
+        transition: "transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.35s ease",
+        opacity: 1
+      };
+    }
+
+    return {
+      transform: "translateX(0)",
+      transition: "none",
+      opacity: 1
+    };
   };
 
   return (
@@ -110,59 +208,61 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
         .swipe-container {
           min-height: 100vh;
           position: relative;
+          overflow-x: hidden;
+          -webkit-overflow-scrolling: touch;
         }
         
-        .page-content {
-          animation: pageIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .page-wrapper {
+          min-height: 100vh;
+          will-change: transform, opacity;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+          transform-style: preserve-3d;
+          -webkit-transform-style: preserve-3d;
         }
         
-        .page-content.slide-left {
-          animation: slideOutLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        .page-wrapper.entering {
+          animation: pageEnter 0.45s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
         }
         
-        .page-content.slide-right {
-          animation: slideOutRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        
-        @keyframes pageIn {
-          from {
+        @keyframes pageEnter {
+          0% {
             opacity: 0;
+            transform: translateX(60px);
           }
-          to {
-            opacity: 1;
-          }
-        }
-        
-        @keyframes slideOutLeft {
-          from {
+          100% {
             opacity: 1;
             transform: translateX(0);
           }
-          to {
-            opacity: 0;
-            transform: translateX(-40px);
-          }
         }
         
-        @keyframes slideOutRight {
-          from {
+        .page-wrapper.entering-reverse {
+          animation: pageEnterReverse 0.45s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+        }
+        
+        @keyframes pageEnterReverse {
+          0% {
+            opacity: 0;
+            transform: translateX(-60px);
+          }
+          100% {
             opacity: 1;
             transform: translateX(0);
-          }
-          to {
-            opacity: 0;
-            transform: translateX(40px);
           }
         }
       `}</style>
 
       <div
+        ref={containerRef}
         className="swipe-container"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div className={`page-content ${slideDirection ? `slide-${slideDirection}` : ''}`}>
+        <div
+          className={`page-wrapper ${isEntering ? (exitDirection === 'right' ? 'entering-reverse' : 'entering') : ''}`}
+          style={getTransformStyle()}
+        >
           {children}
         </div>
       </div>
