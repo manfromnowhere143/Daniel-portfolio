@@ -6,6 +6,9 @@ import { useState, useRef, useEffect, ReactNode, useCallback } from "react";
 // Order matches sidebar: About -> Work -> Creative -> Services
 const PAGES = ["/", "/work", "/creative", "/services"];
 
+// Work detail pages order: Trade69 -> MegaAgent -> Octopus -> Overmind -> About
+const WORK_PAGES = ["/work/trade69", "/work/megaagent", "/work/octopus", "/work/overmind"];
+
 interface SwipeNavigationProps {
   children: ReactNode;
 }
@@ -37,6 +40,31 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  // Prevent pinch zoom on iOS
+  useEffect(() => {
+    const preventZoom = (e: TouchEvent) => {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    };
+
+    const preventGestureZoom = (e: Event) => {
+      e.preventDefault();
+    };
+
+    document.addEventListener('touchmove', preventZoom, { passive: false });
+    document.addEventListener('gesturestart', preventGestureZoom);
+    document.addEventListener('gesturechange', preventGestureZoom);
+    document.addEventListener('gestureend', preventGestureZoom);
+
+    return () => {
+      document.removeEventListener('touchmove', preventZoom);
+      document.removeEventListener('gesturestart', preventGestureZoom);
+      document.removeEventListener('gesturechange', preventGestureZoom);
+      document.removeEventListener('gestureend', preventGestureZoom);
+    };
+  }, []);
+
   // Page enter animation
   useEffect(() => {
     setIsEntering(true);
@@ -47,24 +75,61 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
     return () => clearTimeout(timer);
   }, [pathname]);
 
+  // Check if on work detail page
+  const isWorkDetailPage = useCallback(() => {
+    return WORK_PAGES.includes(pathname);
+  }, [pathname]);
+
   const getCurrentPageIndex = useCallback(() => {
-    // Handle work detail pages
-    if (pathname.startsWith("/work/")) return 1;
     // Handle about page (also maps to /)
     if (pathname === "/about") return 0;
     const idx = PAGES.indexOf(pathname);
     return idx >= 0 ? idx : 0;
   }, [pathname]);
 
+  const getWorkPageIndex = useCallback(() => {
+    return WORK_PAGES.indexOf(pathname);
+  }, [pathname]);
+
   const canGoNext = useCallback(() => {
+    if (isWorkDetailPage()) {
+      // Work pages can always go next (last one goes to About)
+      return true;
+    }
     const idx = getCurrentPageIndex();
     return idx >= 0 && idx < PAGES.length - 1;
-  }, [getCurrentPageIndex]);
+  }, [getCurrentPageIndex, isWorkDetailPage]);
 
   const canGoPrev = useCallback(() => {
+    if (isWorkDetailPage()) {
+      // Can go prev if not on first work page
+      return getWorkPageIndex() > 0;
+    }
     const idx = getCurrentPageIndex();
     return idx > 0;
-  }, [getCurrentPageIndex]);
+  }, [getCurrentPageIndex, isWorkDetailPage, getWorkPageIndex]);
+
+  const getNextPage = useCallback(() => {
+    if (isWorkDetailPage()) {
+      const workIdx = getWorkPageIndex();
+      if (workIdx < WORK_PAGES.length - 1) {
+        return WORK_PAGES[workIdx + 1];
+      }
+      // Last work page goes to About
+      return "/";
+    }
+    const idx = getCurrentPageIndex();
+    return PAGES[idx + 1];
+  }, [isWorkDetailPage, getWorkPageIndex, getCurrentPageIndex]);
+
+  const getPrevPage = useCallback(() => {
+    if (isWorkDetailPage()) {
+      const workIdx = getWorkPageIndex();
+      return WORK_PAGES[workIdx - 1];
+    }
+    const idx = getCurrentPageIndex();
+    return PAGES[idx - 1];
+  }, [isWorkDetailPage, getWorkPageIndex, getCurrentPageIndex]);
 
   const isOverlayOpen = () => {
     // Check for sidebar menu (hamburger open)
@@ -162,15 +227,13 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
     const shouldNavigate = Math.abs(deltaX) > threshold || Math.abs(velocity.current) > velocityThreshold;
 
     if (shouldNavigate) {
-      const currentIndex = getCurrentPageIndex();
-
       if (deltaX < 0 && canGoNext()) {
         // Swipe left - next page
         setExitDirection("left");
         setIsNavigating(true);
         setDragOffset(-screenWidth);
         setTimeout(() => {
-          router.push(PAGES[currentIndex + 1]);
+          router.push(getNextPage());
         }, 280);
       } else if (deltaX > 0 && canGoPrev()) {
         // Swipe right - previous page
@@ -178,7 +241,7 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
         setIsNavigating(true);
         setDragOffset(screenWidth);
         setTimeout(() => {
-          router.push(PAGES[currentIndex - 1]);
+          router.push(getPrevPage());
         }, 280);
       } else {
         // Snap back
@@ -227,11 +290,18 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
   return (
     <>
       <style>{`
+        /* Disable pinch zoom on mobile */
+        html, body {
+          touch-action: pan-x pan-y;
+          -ms-touch-action: pan-x pan-y;
+        }
+        
         .swipe-container {
           min-height: 100vh;
           position: relative;
           overflow-x: hidden;
           -webkit-overflow-scrolling: touch;
+          touch-action: pan-y;
         }
         
         .page-wrapper {
