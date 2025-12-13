@@ -453,6 +453,7 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           text-align: center;
+          padding: 0 16px;
         }
         
         .expanded-icon {
@@ -461,40 +462,88 @@ export default function Creative() {
           display: flex;
           align-items: center;
           justify-content: center;
+          margin-bottom: 12px;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════ */
+        /* PREMIUM 3D PREVIEW - SPHERE & MANIFOLD - EDGE OF ELEGANCE */
+        /* ═══════════════════════════════════════════════════════════ */
+        
+        .expanded-preview-3d {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 16px;
+          border-radius: 16px;
+          overflow: visible;
+          position: relative;
+        }
+        
+        .expanded-preview-sphere {
+          width: 88vw;
+          max-width: 340px;
+          height: 50vh;
+          max-height: 300px;
+        }
+        
+        .expanded-preview-manifold {
+          width: 94vw;
+          max-width: 380px;
+          height: 40vh;
+          max-height: 220px;
+        }
+        
+        .expanded-preview-video {
+          width: 88vw;
+          max-width: 340px;
+          height: 50vw;
+          max-height: 220px;
+          border-radius: 12px;
+          overflow: hidden;
+          margin-bottom: 16px;
+        }
+        
+        .expanded-preview-3d canvas {
+          background: transparent !important;
         }
         
         .expanded-title {
-          margin-top: 8px;
-          font-size: 15px;
-          font-weight: 300;
+          margin-top: 0;
+          font-size: 16px;
+          font-weight: 200;
           color: #FAFAF8;
-          letter-spacing: 0.04em;
+          letter-spacing: 0.06em;
         }
         
         .expanded-desc {
-          margin-top: 6px;
-          font-size: 10px;
+          margin-top: 8px;
+          font-size: 11px;
           font-weight: 300;
-          color: rgba(250, 250, 248, 0.6);
-          line-height: 1.5;
-          max-width: 260px;
-          padding: 0 16px;
+          color: rgba(250, 250, 248, 0.55);
+          line-height: 1.6;
+          max-width: 300px;
         }
         
         .expanded-tech {
-          margin-top: 4px;
-          font-size: 7px;
-          color: rgba(250, 250, 248, 0.3);
+          margin-top: 6px;
+          font-size: 8px;
+          color: rgba(250, 250, 248, 0.25);
           font-family: monospace;
+          letter-spacing: 0.02em;
         }
         
         .expanded-link {
-          margin-top: 6px;
-          font-size: 8px;
-          color: rgba(250, 250, 248, 0.5);
+          margin-top: 8px;
+          font-size: 9px;
+          color: rgba(250, 250, 248, 0.45);
           text-decoration: none;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.08em;
+          transition: color 0.2s ease;
+        }
+        
+        .expanded-link:hover {
+          color: rgba(250, 250, 248, 0.7);
         }
         
         .expanded-close {
@@ -506,10 +555,15 @@ export default function Creative() {
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255, 255, 255, 0.3);
+          color: rgba(255, 255, 255, 0.25);
           font-size: 18px;
           font-weight: 200;
           cursor: pointer;
+          transition: color 0.2s ease;
+        }
+        
+        .expanded-close:hover {
+          color: rgba(255, 255, 255, 0.5);
         }
 
         /* ========== DESKTOP ========== */
@@ -569,12 +623,41 @@ export default function Creative() {
             height: 160px;
           }
           .expanded-title {
-            font-size: 18px;
-            margin-top: 10px;
+            font-size: 20px;
+            margin-top: 4px;
           }
           .expanded-desc {
-            font-size: 11px;
-            max-width: 320px;
+            font-size: 12px;
+            max-width: 400px;
+            margin-top: 10px;
+          }
+          .expanded-tech {
+            font-size: 9px;
+            margin-top: 8px;
+          }
+          .expanded-link {
+            font-size: 10px;
+            margin-top: 10px;
+          }
+          
+          /* Desktop 3D previews - premium elegance */
+          .expanded-preview-sphere {
+            width: 420px;
+            max-width: 420px;
+            height: 340px;
+            max-height: 340px;
+          }
+          .expanded-preview-manifold {
+            width: 520px;
+            max-width: 520px;
+            height: 260px;
+            max-height: 260px;
+          }
+          .expanded-preview-video {
+            width: 440px;
+            max-width: 440px;
+            height: 260px;
+            max-height: 260px;
           }
         }
       `}</style>
@@ -661,12 +744,29 @@ export default function Creative() {
         <div className="expanded-close" onClick={closeExperience}>×</div>
         {expandedExperienceItem && (
           <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
-            <div className="expanded-icon">
-              {expandedExperience === "sphere" && <QuantumSphere initialExpanded={false} />}
-              {expandedExperience === "manifold" && <QuantumManifold />}
-              {expandedExperience === "metatron-genesis" && <VideoPlayer src="/videos/metatrondemo1.mov" />}
-              {expandedExperience === "architecture" && <Trade69Architecture />}
-            </div>
+            {/* 3D Preview - ABOVE text */}
+            {expandedExperience === "sphere" && (
+              <div className="expanded-preview-3d expanded-preview-sphere">
+                <QuantumSphere initialExpanded={false} />
+              </div>
+            )}
+            {expandedExperience === "manifold" && (
+              <div className="expanded-preview-3d expanded-preview-manifold">
+                <QuantumManifold />
+              </div>
+            )}
+            {expandedExperience === "metatron-genesis" && (
+              <div className="expanded-preview-video">
+                <VideoPlayer src="/videos/metatrondemo1.mov" />
+              </div>
+            )}
+            {expandedExperience === "architecture" && (
+              <div className="expanded-icon">
+                <Trade69Architecture />
+              </div>
+            )}
+
+            {/* Text - BELOW preview */}
             <p className="expanded-title">{expandedExperienceItem.title}</p>
             <p className="expanded-desc">{expandedExperienceItem.description}</p>
             <p className="expanded-tech">{expandedExperienceItem.tech}</p>
