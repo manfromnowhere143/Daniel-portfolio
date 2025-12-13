@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
+import SwipeNavigation from "@/components/SwipeNavigation";
 
 const inter = Inter({ subsets: ["latin"] });
 const playfair = Playfair_Display({ subsets: ["latin"] });
@@ -56,7 +57,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className} style={{ backgroundColor: "#0A0A0A" }}>
         <Navigation />
-        {children}
+        <SwipeNavigation>
+          {children}
+        </SwipeNavigation>
       </body>
     </html>
   );
