@@ -222,32 +222,15 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
         }
         
         .page-wrapper.entering {
-          animation: pageEnter 0.45s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+          animation: pageEnter 0.35s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
         }
         
         @keyframes pageEnter {
           0% {
             opacity: 0;
-            transform: translateX(60px);
           }
           100% {
             opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        
-        .page-wrapper.entering-reverse {
-          animation: pageEnterReverse 0.45s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-        }
-        
-        @keyframes pageEnterReverse {
-          0% {
-            opacity: 0;
-            transform: translateX(-60px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0);
           }
         }
       `}</style>
@@ -260,7 +243,7 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
         onTouchEnd={handleTouchEnd}
       >
         <div
-          className={`page-wrapper ${isEntering ? (exitDirection === 'right' ? 'entering-reverse' : 'entering') : ''}`}
+          className={`page-wrapper ${isEntering ? 'entering' : ''}`}
           style={getTransformStyle()}
         >
           {children}
