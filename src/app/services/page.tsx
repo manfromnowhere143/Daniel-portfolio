@@ -57,7 +57,7 @@ export default function Services() {
     setExpandedIndex(null);
   };
 
-  const iconSize = isMobile ? 110 : 160;
+  const iconSize = isMobile ? 85 : 160;
 
   return (
     <>
@@ -66,7 +66,7 @@ export default function Services() {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 16px;
-          max-width: 340px;
+          max-width: 260px;
           margin: 0 auto;
         }
         
@@ -74,9 +74,9 @@ export default function Services() {
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 24px;
-          width: 140px;
-          height: 140px;
+          border-radius: 20px;
+          width: 110px;
+          height: 110px;
           margin: 0 auto;
           cursor: pointer;
           transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -209,15 +209,6 @@ export default function Services() {
           border-radius: 50%;
           background: rgba(255,255,255,0.05);
         }
-        .expanded-tap-hint {
-          position: absolute;
-          bottom: 50px;
-          font-size: 10px;
-          color: #FAFAF8;
-          opacity: 0.3;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-        }
         
         @media (min-width: 600px) {
           .services-grid {
@@ -308,7 +299,6 @@ export default function Services() {
               <p className="expanded-desc">{services[expandedIndex].description}</p>
             </div>
           )}
-          <p className="expanded-tap-hint">{isMobile ? 'tap anywhere to close' : 'click anywhere to close'}</p>
         </div>
 
         {/* Also Seeking Section */}

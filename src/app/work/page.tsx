@@ -14,7 +14,7 @@ export default function Work() {
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  const iconSize = isMobile ? 110 : 160;
+  const iconSize = isMobile ? 85 : 160;
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function Work() {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 16px;
-          max-width: 340px;
+          max-width: 260px;
           margin: 0 auto;
         }
         
@@ -31,9 +31,9 @@ export default function Work() {
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 24px;
-          width: 140px;
-          height: 140px;
+          border-radius: 20px;
+          width: 110px;
+          height: 110px;
           margin: 0 auto;
           transition: transform 0.2s ease, box-shadow 0.2s ease;
           text-decoration: none;
