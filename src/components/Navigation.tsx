@@ -75,24 +75,21 @@ export default function Navigation() {
         /* Mobile top bar - slides in from top */
         .mobile-top-bar {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 80px;
+          top: 24px;
+          left: 24px;
           display: flex;
+          flex-direction: row;
           align-items: center;
-          justify-content: space-between;
-          padding: 0 24px;
+          gap: 12px;
           z-index: 200;
-          background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.8) 70%, transparent 100%);
-          transform: translateY(-100%);
+          transform: translateX(-120%);
           opacity: 0;
           transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
                       opacity 0.3s ease;
           pointer-events: none;
         }
         .mobile-top-bar.active {
-          transform: translateY(0);
+          transform: translateX(0);
           opacity: 1;
           pointer-events: auto;
         }
@@ -105,13 +102,15 @@ export default function Navigation() {
           right: 0;
           height: 85px;
           display: flex;
+          flex-direction: row;
           align-items: center;
-          justify-content: space-around;
-          padding: 0 16px;
+          justify-content: center;
+          gap: 32px;
+          padding: 0 24px;
           padding-bottom: env(safe-area-inset-bottom, 0);
           z-index: 200;
-          background: rgba(28, 28, 30, 0.98);
-          border-top: 0.5px solid rgba(255,255,255,0.1);
+          background: rgba(10, 10, 10, 0.98);
+          border-top: 0.5px solid rgba(255,255,255,0.08);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           transform: translateY(100%);
@@ -334,19 +333,14 @@ export default function Navigation() {
         onClick={() => setIsOpen(false)}
       />
 
-      {/* Mobile Top Bar - Time/Date slides in */}
+      {/* Mobile Top Bar - Time/Date slides in from left, aligned with X */}
       <div className={`mobile-top-bar ${isOpen ? 'active' : ''} ${styles.mobileOnly}`}>
         {time && (
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            gap: "2px"
-          }}>
+          <>
             <span style={{
-              fontSize: "15px",
+              fontSize: "14px",
               fontWeight: 300,
-              letterSpacing: "0.1em",
+              letterSpacing: "0.08em",
               color: "#FAFAF8",
               fontVariantNumeric: "tabular-nums"
             }}>
@@ -355,28 +349,13 @@ export default function Navigation() {
             <span style={{
               fontSize: "10px",
               fontWeight: 300,
-              letterSpacing: "0.15em",
+              letterSpacing: "0.12em",
               color: "#FAFAF8",
-              opacity: 0.7
+              opacity: 0.6
             }}>
               {formatDate(time)}
             </span>
-          </div>
-        )}
-
-        {/* Age on right side */}
-        {age !== null && (
-          <span style={{
-            fontSize: "9px",
-            fontWeight: 300,
-            letterSpacing: "0.02em",
-            color: "#FAFAF8",
-            fontVariantNumeric: "tabular-nums",
-            fontFamily: "ui-monospace, SFMono-Regular, monospace",
-            opacity: 0.6
-          }}>
-            {formatAge(age)}
-          </span>
+          </>
         )}
       </div>
 
