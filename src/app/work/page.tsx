@@ -6,12 +6,19 @@ import { Trade69Icon3D, MegaAgentIcon3D, OctopusIcon3D, OvermindIcon3D } from "@
 
 export default function Work() {
   const [isMobile, setIsMobile] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 600);
     check();
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
+  }, []);
+
+  useEffect(() => {
+    // Small delay for smooth entrance
+    const timer = setTimeout(() => setIsLoaded(true), 50);
+    return () => clearTimeout(timer);
   }, []);
 
   const iconSize = isMobile ? 85 : 160;
@@ -35,8 +42,13 @@ export default function Work() {
           width: 110px;
           height: 110px;
           margin: 0 auto;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.4s ease;
           text-decoration: none;
+          opacity: 0;
+        }
+        
+        .work-item.loaded {
+          opacity: 1;
         }
         
         .work-item:active {
@@ -114,16 +126,16 @@ export default function Work() {
         paddingRight: "16px"
       }}>
         <div className="work-grid">
-          <Link href="/work/trade69" className="work-item trade69">
+          <Link href="/work/trade69" className={`work-item trade69 ${isLoaded ? 'loaded' : ''}`}>
             <Trade69Icon3D size={iconSize} />
           </Link>
-          <Link href="/work/megaagent" className="work-item megaagent">
+          <Link href="/work/megaagent" className={`work-item megaagent ${isLoaded ? 'loaded' : ''}`}>
             <MegaAgentIcon3D size={iconSize} />
           </Link>
-          <Link href="/work/octopus" className="work-item octopus">
+          <Link href="/work/octopus" className={`work-item octopus ${isLoaded ? 'loaded' : ''}`}>
             <OctopusIcon3D size={iconSize} />
           </Link>
-          <Link href="/work/overmind" className="work-item overmind">
+          <Link href="/work/overmind" className={`work-item overmind ${isLoaded ? 'loaded' : ''}`}>
             <OvermindIcon3D size={iconSize} />
           </Link>
         </div>
