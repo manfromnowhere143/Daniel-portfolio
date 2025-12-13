@@ -453,7 +453,7 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          text-align: center;
+          text-align: left;
           padding: 0 24px;
           width: 100%;
           max-width: 400px;
@@ -542,20 +542,15 @@ export default function Creative() {
           margin-top: 8px;
           font-size: 11px;
           font-weight: 300;
-          color: rgba(250, 250, 248, 0.5);
+          color: #FAFAF8;
           line-height: 1.5;
           max-width: 280px;
-          max-height: 80px;
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-line-clamp: 4;
-          -webkit-box-orient: vertical;
         }
         
         .expanded-tech {
           margin-top: 6px;
           font-size: 8px;
-          color: rgba(250, 250, 248, 0.25);
+          color: rgba(250, 250, 248, 0.7);
           font-family: monospace;
           letter-spacing: 0.02em;
         }
@@ -563,7 +558,7 @@ export default function Creative() {
         .expanded-link {
           margin-top: 8px;
           font-size: 9px;
-          color: rgba(250, 250, 248, 0.4);
+          color: #FAFAF8;
           text-decoration: none;
           text-transform: uppercase;
           letter-spacing: 0.06em;
@@ -650,8 +645,6 @@ export default function Creative() {
             font-size: 12px;
             max-width: 360px;
             margin-top: 12px;
-            max-height: 120px;
-            -webkit-line-clamp: 6;
           }
           .expanded-tech {
             font-size: 9px;

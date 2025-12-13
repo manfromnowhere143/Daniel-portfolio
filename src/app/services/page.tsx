@@ -232,7 +232,7 @@ export default function Services() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          text-align: center;
+          text-align: left;
           padding: 0 24px;
           width: 100%;
           max-width: 360px;
@@ -260,10 +260,9 @@ export default function Services() {
           margin-top: 12px;
           font-size: 12px;
           font-weight: 300;
-          color: rgba(250, 250, 248, 0.55);
+          color: #FAFAF8;
           line-height: 1.6;
           max-width: 300px;
-          text-align: center;
         }
         .expanded-close {
           position: absolute;
