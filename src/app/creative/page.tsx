@@ -316,28 +316,28 @@ export default function Creative() {
         
         /* Experiences Gallery - Mobile */
         .experiences-grid {
-          display: flex;
-          justify-content: center;
-          gap: 10px;
-          max-width: 340px;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+          max-width: 260px;
           margin: 0 auto;
         }
         .experiences-item {
           display: flex;
-          flex-direction: column;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: transform 0.2s ease;
-          background: rgba(28, 28, 30, 0.95);
-          border-radius: 18px;
-          width: 76px;
-          height: 76px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-          border: 1px solid rgba(255,255,255,0.1);
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          background: linear-gradient(145deg, rgba(45, 55, 72, 0.9), rgba(30, 38, 52, 0.95));
+          border-radius: 20px;
+          width: 110px;
+          height: 110px;
+          margin: 0 auto;
+          box-shadow: 0 4px 20px rgba(45, 55, 72, 0.4);
+          border: 1px solid rgba(160, 180, 220, 0.15);
         }
         .experiences-item:active {
-          transform: scale(0.92);
+          transform: scale(0.95);
         }
         .experiences-preview {
           width: 56px;
@@ -353,33 +353,33 @@ export default function Creative() {
 
         /* Geometry Gallery - Mobile */
         .geometry-grid {
-          display: flex;
-          justify-content: center;
-          gap: 10px;
-          max-width: 340px;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+          max-width: 260px;
           margin: 0 auto;
         }
         .geometry-item {
           display: flex;
-          flex-direction: column;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: transform 0.2s ease;
-          background: rgba(28, 28, 30, 0.95);
-          border-radius: 18px;
-          width: 76px;
-          height: 76px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-          border: 1px solid rgba(255,255,255,0.1);
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          background: linear-gradient(145deg, rgba(72, 52, 85, 0.9), rgba(52, 35, 62, 0.95));
+          border-radius: 20px;
+          width: 110px;
+          height: 110px;
+          margin: 0 auto;
+          box-shadow: 0 4px 20px rgba(72, 52, 85, 0.4);
+          border: 1px solid rgba(200, 160, 220, 0.15);
           overflow: hidden;
         }
         .geometry-item:active {
-          transform: scale(0.92);
+          transform: scale(0.95);
         }
         .geometry-preview {
-          width: 55px;
-          height: 55px;
+          width: 65px;
+          height: 65px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -391,32 +391,32 @@ export default function Creative() {
 
         /* 3D Icons Gallery - Mobile */
         .icons3d-grid {
-          display: flex;
-          justify-content: center;
-          gap: 10px;
-          max-width: 340px;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+          max-width: 260px;
           margin: 0 auto;
         }
         .icons3d-item {
           display: flex;
-          flex-direction: column;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: transform 0.2s ease;
-          background: rgba(28, 28, 30, 0.95);
-          border-radius: 18px;
-          width: 76px;
-          height: 76px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-          border: 1px solid rgba(255,255,255,0.1);
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          background: linear-gradient(145deg, rgba(55, 75, 70, 0.9), rgba(38, 55, 50, 0.95));
+          border-radius: 20px;
+          width: 110px;
+          height: 110px;
+          margin: 0 auto;
+          box-shadow: 0 4px 20px rgba(55, 75, 70, 0.4);
+          border: 1px solid rgba(140, 200, 180, 0.15);
         }
         .icons3d-item:active {
-          transform: scale(0.92);
+          transform: scale(0.95);
         }
         .icons3d-preview {
-          width: 55px;
-          height: 55px;
+          width: 70px;
+          height: 70px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -751,34 +751,34 @@ export default function Creative() {
         /* ========== DESKTOP: APP-LIKE BUT LARGER ========== */
         @media (min-width: 600px) {
           .experiences-grid {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            max-width: 700px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            max-width: 500px;
           }
           .experiences-item {
-            background: rgba(28, 28, 30, 0.95);
-            border-radius: 22px;
-            width: 120px;
-            height: 120px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: linear-gradient(145deg, rgba(45, 55, 72, 0.9), rgba(30, 38, 52, 0.95));
+            border-radius: 32px;
+            width: 200px;
+            height: 200px;
+            box-shadow: 0 4px 20px rgba(45, 55, 72, 0.4);
+            border: 1px solid rgba(160, 180, 220, 0.15);
             padding: 0;
           }
           .experiences-item:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 32px rgba(45, 55, 72, 0.6);
           }
           .experiences-item:active {
             transform: scale(0.98);
           }
           .experiences-preview {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
           }
           .experiences-preview svg {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
           }
           .experiences-expanded-title {
             font-size: 26px;
@@ -802,31 +802,31 @@ export default function Creative() {
             margin-top: 20px;
           }
           .geometry-grid {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            max-width: 700px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            max-width: 500px;
           }
           .geometry-item {
-            background: rgba(28, 28, 30, 0.95);
-            border-radius: 22px;
-            width: 120px;
-            height: 120px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: linear-gradient(145deg, rgba(72, 52, 85, 0.9), rgba(52, 35, 62, 0.95));
+            border-radius: 32px;
+            width: 200px;
+            height: 200px;
+            box-shadow: 0 4px 20px rgba(72, 52, 85, 0.4);
+            border: 1px solid rgba(200, 160, 220, 0.15);
             padding: 0;
             overflow: hidden;
           }
           .geometry-item:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 32px rgba(72, 52, 85, 0.6);
           }
           .geometry-item:active {
             transform: scale(0.98);
           }
           .geometry-preview {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
           }
           .geometry-expanded-preview {
             width: 240px;
@@ -840,30 +840,30 @@ export default function Creative() {
             font-size: 15px;
           }
           .icons3d-grid {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            max-width: 700px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            max-width: 500px;
           }
           .icons3d-item {
-            background: rgba(28, 28, 30, 0.95);
-            border-radius: 22px;
-            width: 120px;
-            height: 120px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: linear-gradient(145deg, rgba(55, 75, 70, 0.9), rgba(38, 55, 50, 0.95));
+            border-radius: 32px;
+            width: 200px;
+            height: 200px;
+            box-shadow: 0 4px 20px rgba(55, 75, 70, 0.4);
+            border: 1px solid rgba(140, 200, 180, 0.15);
             padding: 0;
           }
           .icons3d-item:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 32px rgba(55, 75, 70, 0.6);
           }
           .icons3d-item:active {
             transform: scale(0.98);
           }
           .icons3d-preview {
-            width: 90px;
-            height: 90px;
+            width: 120px;
+            height: 120px;
           }
           .icons3d-expanded-preview {
             margin-bottom: 32px;
