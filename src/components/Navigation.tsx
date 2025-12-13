@@ -288,10 +288,10 @@ export default function Navigation() {
           bottom: 0,
           left: 0,
           right: 0,
-          height: "85px",
+          height: "90px",
           zIndex: 200,
           background: "rgba(10, 10, 10, 0.98)",
-          borderTop: "0.5px solid rgba(255,255,255,0.08)",
+          borderTop: "0.5px solid rgba(255,255,255,0.06)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           transform: isOpen ? "translateY(0)" : "translateY(100%)",
@@ -302,31 +302,39 @@ export default function Navigation() {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: "28px",
           paddingBottom: "env(safe-area-inset-bottom, 0)"
         }}
       >
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={() => setTimeout(() => setIsOpen(false), 150)}
-            style={{
-              textDecoration: "none",
-              padding: "12px 8px"
-            }}
-          >
-            <span style={{
-              fontSize: "11px",
-              fontWeight: item.isActive ? 400 : 300,
-              letterSpacing: "0.1em",
-              color: "#FAFAF8",
-              textTransform: "uppercase"
-            }}>
-              {item.label}
-            </span>
-          </Link>
-        ))}
+        <div style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "36px"
+        }}>
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setTimeout(() => setIsOpen(false), 150)}
+              style={{
+                textDecoration: "none",
+                padding: "12px 4px"
+              }}
+            >
+              <span style={{
+                fontSize: "12px",
+                fontWeight: 200,
+                letterSpacing: "0.15em",
+                color: "#FAFAF8",
+                textTransform: "uppercase",
+                opacity: item.isActive ? 1 : 0.7
+              }}>
+                {item.label}
+              </span>
+            </Link>
+          ))}
+        </div>
 
         {/* Home indicator line like iOS */}
         <div style={{
@@ -336,7 +344,7 @@ export default function Navigation() {
           transform: "translateX(-50%)",
           width: "134px",
           height: "5px",
-          background: "rgba(255,255,255,0.3)",
+          background: "rgba(255,255,255,0.2)",
           borderRadius: "3px"
         }} />
       </div>
