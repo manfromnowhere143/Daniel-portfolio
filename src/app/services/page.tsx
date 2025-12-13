@@ -205,17 +205,16 @@ export default function Services() {
           margin-top: 48px;
         }
 
-        /* Expanded overlay */
+        /* Expanded overlay - ONE SCREEN ONLY */
         .expanded-overlay {
           position: fixed;
           top: 0;
           left: 0;
-          right: 0;
-          bottom: 0;
+          width: 100vw;
+          height: 100vh;
           background: rgba(10, 10, 10, 0.98);
           z-index: 1000;
           display: flex;
-          flex-direction: column;
           align-items: center;
           justify-content: center;
           opacity: 0;
@@ -223,8 +222,6 @@ export default function Services() {
           transition: opacity 0.3s ease;
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          padding: 40px 24px;
-          overflow: hidden;
         }
         .expanded-overlay.active {
           opacity: 1;
@@ -234,64 +231,44 @@ export default function Services() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          max-width: 400px;
+          text-align: center;
         }
         .expanded-icon {
-          transform: scale(0.7);
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .expanded-overlay.active .expanded-icon {
-          transform: scale(1);
-        }
-        .expanded-title {
-          margin-top: 20px;
-          font-size: 20px;
-          font-weight: 200;
-          color: #FAFAF8;
-          letter-spacing: 0.08em;
-          text-align: center;
-          width: 100%;
-          opacity: 0;
-          transform: translateY(15px);
-          transition: all 0.4s ease 0.15s;
-        }
-        .expanded-overlay.active .expanded-title {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .expanded-desc {
-          margin-top: 16px;
-          font-size: 13px;
-          font-weight: 300;
-          color: #FAFAF8;
-          line-height: 1.9;
-          text-align: left;
-          opacity: 0;
-          transform: translateY(15px);
-          transition: all 0.4s ease 0.25s;
-          padding: 0 16px;
-        }
-        .expanded-overlay.active .expanded-desc {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .expanded-close {
-          position: absolute;
-          top: 16px;
-          left: 16px;
-          width: 40px;
-          height: 40px;
+          width: 140px;
+          height: 140px;
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+        .expanded-title {
+          margin-top: 10px;
+          font-size: 16px;
+          font-weight: 300;
           color: #FAFAF8;
-          opacity: 0.5;
-          font-size: 24px;
+          letter-spacing: 0.04em;
+        }
+        .expanded-desc {
+          margin-top: 8px;
+          font-size: 11px;
+          font-weight: 300;
+          color: rgba(250, 250, 248, 0.6);
+          line-height: 1.5;
+          max-width: 280px;
+          padding: 0 16px;
+        }
+        .expanded-close {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          width: 28px;
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgba(255, 255, 255, 0.3);
+          font-size: 18px;
           font-weight: 200;
           cursor: pointer;
-          transition: opacity 0.2s;
-          border-radius: 50%;
-          background: rgba(255,255,255,0.05);
         }
         
         @media (min-width: 600px) {
@@ -361,14 +338,16 @@ export default function Services() {
           .services-contact {
             margin-top: clamp(64px, 10vh, 90px);
           }
-          .expanded-content {
-            max-width: 500px;
+          .expanded-icon {
+            width: 180px;
+            height: 180px;
           }
           .expanded-title {
-            font-size: 24px;
+            font-size: 20px;
           }
           .expanded-desc {
-            font-size: 15px;
+            font-size: 13px;
+            max-width: 340px;
           }
         }
       `}</style>
@@ -404,8 +383,8 @@ export default function Services() {
           <div className="expanded-close">×</div>
           {expandedIndex !== null && (
             <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
-              <div className="expanded-icon" key={`expanded-${expandedIndex}`}>
-                {renderIcon(services[expandedIndex].key, isMobile ? 280 : 320, true)}
+              <div className="expanded-icon">
+                {renderIcon(services[expandedIndex].key, 140, true)}
               </div>
               <p className="expanded-title">{services[expandedIndex].title}</p>
               <p className="expanded-desc">{services[expandedIndex].description}</p>

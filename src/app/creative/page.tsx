@@ -1,19 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import dynamic from "next/dynamic";
 import VideoPlayer from "@/components/VideoPlayer";
 import Link from "next/link";
 import MetatronCube from "@/components/MetatronCube";
 import GoldenSpiral from "@/components/GoldenSpiral";
 import FlowerOfLife from "@/components/FlowerOfLife";
 import GeometricDivider from "@/components/GeometricDivider";
-import { Trade69Icon, MegaAgentIcon, OctopusIcon, OvermindIcon, Trade69Icon3D, MegaAgentIcon3D, OctopusIcon3D, OvermindIcon3D } from "@/components/WorkIcons";
-import { WebsiteIcon3D, DashboardIcon3D, APIIcon3D, LLMIcon3D } from "@/components/ServiceIcons3D";
+import { Trade69Icon, MegaAgentIcon, OctopusIcon, OvermindIcon } from "@/components/WorkIcons";
 import { WebsiteIcon, DashboardIcon, APIIcon, LLMIcon } from "@/components/ServiceIcons";
-import Trade69Architecture from "@/components/Trade69Architecture";
 import CreativeGallery from "@/components/CreativeGallery";
-import QuantumManifold from "@/components/QuantumManifold";
-import QuantumSphere from "@/components/QuantumSphere";
+
+// Dynamic imports for 3D components to prevent SSR issues and flash
+const Trade69Icon3D = dynamic(() => import("@/components/WorkIcons").then(mod => ({ default: mod.Trade69Icon3D })), { ssr: false });
+const MegaAgentIcon3D = dynamic(() => import("@/components/WorkIcons").then(mod => ({ default: mod.MegaAgentIcon3D })), { ssr: false });
+const OctopusIcon3D = dynamic(() => import("@/components/WorkIcons").then(mod => ({ default: mod.OctopusIcon3D })), { ssr: false });
+const OvermindIcon3D = dynamic(() => import("@/components/WorkIcons").then(mod => ({ default: mod.OvermindIcon3D })), { ssr: false });
+const WebsiteIcon3D = dynamic(() => import("@/components/ServiceIcons3D").then(mod => ({ default: mod.WebsiteIcon3D })), { ssr: false });
+const DashboardIcon3D = dynamic(() => import("@/components/ServiceIcons3D").then(mod => ({ default: mod.DashboardIcon3D })), { ssr: false });
+const APIIcon3D = dynamic(() => import("@/components/ServiceIcons3D").then(mod => ({ default: mod.APIIcon3D })), { ssr: false });
+const LLMIcon3D = dynamic(() => import("@/components/ServiceIcons3D").then(mod => ({ default: mod.LLMIcon3D })), { ssr: false });
+const Trade69Architecture = dynamic(() => import("@/components/Trade69Architecture"), { ssr: false });
+const QuantumManifold = dynamic(() => import("@/components/QuantumManifold"), { ssr: false });
+const QuantumSphere = dynamic(() => import("@/components/QuantumSphere"), { ssr: false });
 
 // 3D Experiences Gallery Data
 const experiencesItems = [
@@ -130,9 +140,16 @@ export default function Creative() {
   const [expandedWork, setExpandedWork] = useState<string | null>(null);
   const [expandedService, setExpandedService] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [icons3DReady, setIcons3DReady] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Delay 3D icons slightly to prevent white flash
+  useEffect(() => {
+    const timer = setTimeout(() => setIcons3DReady(true), 200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -155,6 +172,7 @@ export default function Creative() {
   const expandedServiceItem = serviceIcons3DItems.find(item => item.id === expandedService);
 
   const renderWorkIcon = (id: string, size: number) => {
+    if (!icons3DReady) return null;
     switch (id) {
       case "trade69": return <Trade69Icon3D size={size} />;
       case "megaagent": return <MegaAgentIcon3D size={size} />;
@@ -165,6 +183,7 @@ export default function Creative() {
   };
 
   const renderServiceIcon = (id: string, size: number, forceAnimate: boolean = false) => {
+    if (!icons3DReady) return null;
     switch (id) {
       case "website": return <WebsiteIcon3D size={size} forceAnimate={forceAnimate} />;
       case "dashboard": return <DashboardIcon3D size={size} forceAnimate={forceAnimate} />;
@@ -247,6 +266,20 @@ export default function Creative() {
           opacity: 1;
         }
 
+        /* Prevent white flash on 3D icons */
+        .experiences-item,
+        .geometry-item,
+        .icons3d-item {
+          background-color: transparent;
+        }
+        
+        .experiences-item canvas,
+        .geometry-item canvas,
+        .icons3d-item canvas,
+        .expanded-icon canvas {
+          background: transparent !important;
+        }
+
         /* ========== iOS-STYLE ICON GRIDS - 4 PER ROW ========== */
         
         .experiences-grid, .geometry-grid, .icons3d-grid {
@@ -321,7 +354,7 @@ export default function Creative() {
           transform: scale(0.92);
         }
         
-        .experiences-preview, .geometry-preview {
+        .experiences-preview {
           position: relative;
           z-index: 2;
           width: 55px;
@@ -336,6 +369,24 @@ export default function Creative() {
           height: 55px;
         }
         
+        .geometry-preview {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transform: scale(0.55);
+        }
+        
+        .geometry-preview svg,
+        .geometry-preview > div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
         .icons3d-preview {
           position: relative;
           z-index: 2;
@@ -344,6 +395,15 @@ export default function Creative() {
           display: flex;
           align-items: center;
           justify-content: center;
+          overflow: hidden;
+          border-radius: 8px;
+        }
+        
+        /* Prevent canvas flash/blink */
+        .icons3d-preview canvas,
+        .experiences-preview canvas,
+        .geometry-preview canvas {
+          background: transparent !important;
         }
 
         .svg-icons-grid {
@@ -362,15 +422,15 @@ export default function Creative() {
         }
 
         /* ═══════════════════════════════════════════════════════════ */
-        /* EXPANDED OVERLAY - ULTRA COMPACT, ONE SCREEN */
+        /* EXPANDED OVERLAY - ONE SCREEN ONLY, NO SCROLL */
         /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-overlay {
           position: fixed;
           top: 0;
           left: 0;
-          right: 0;
-          bottom: 0;
+          width: 100vw;
+          height: 100vh;
           background: rgba(10, 10, 10, 0.98);
           z-index: 1000;
           display: flex;
@@ -381,7 +441,6 @@ export default function Creative() {
           transition: opacity 0.3s ease;
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          overflow: hidden;
         }
         
         .expanded-overlay.active {
@@ -393,83 +452,64 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          width: 100%;
-          max-width: 300px;
+          text-align: center;
         }
         
         .expanded-icon {
-          transform: scale(0.8);
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        .expanded-overlay.active .expanded-icon {
-          transform: scale(1);
+          width: 120px;
+          height: 120px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         
         .expanded-title {
           margin-top: 8px;
-          font-size: 16px;
-          font-weight: 200;
+          font-size: 15px;
+          font-weight: 300;
           color: #FAFAF8;
-          letter-spacing: 0.05em;
-          text-align: center;
-          opacity: 0;
-          transition: opacity 0.3s ease 0.1s;
-        }
-        
-        .expanded-overlay.active .expanded-title {
-          opacity: 1;
+          letter-spacing: 0.04em;
         }
         
         .expanded-desc {
           margin-top: 6px;
           font-size: 10px;
           font-weight: 300;
-          color: rgba(250, 250, 248, 0.7);
+          color: rgba(250, 250, 248, 0.6);
           line-height: 1.5;
-          text-align: center;
-          opacity: 0;
-          transition: opacity 0.3s ease 0.15s;
-          padding: 0 12px;
-        }
-        
-        .expanded-overlay.active .expanded-desc {
-          opacity: 1;
+          max-width: 260px;
+          padding: 0 16px;
         }
         
         .expanded-tech {
           margin-top: 4px;
           font-size: 7px;
-          color: rgba(250, 250, 248, 0.35);
-          letter-spacing: 0.05em;
+          color: rgba(250, 250, 248, 0.3);
           font-family: monospace;
-          text-align: center;
         }
         
         .expanded-link {
           margin-top: 6px;
           font-size: 8px;
           color: rgba(250, 250, 248, 0.5);
-          letter-spacing: 0.06em;
           text-decoration: none;
           text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
         
         .expanded-close {
           position: absolute;
-          top: 10px;
-          left: 10px;
-          width: 32px;
-          height: 32px;
+          top: 12px;
+          left: 12px;
+          width: 28px;
+          height: 28px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #FAFAF8;
-          opacity: 0.35;
-          font-size: 20px;
+          color: rgba(255, 255, 255, 0.3);
+          font-size: 18px;
           font-weight: 200;
           cursor: pointer;
-          border-radius: 50%;
         }
 
         /* ========== DESKTOP ========== */
@@ -497,7 +537,7 @@ export default function Creative() {
             transform: scale(1.04) translateY(-2px);
           }
           
-          .experiences-preview, .geometry-preview {
+          .experiences-preview {
             width: 85px;
             height: 85px;
           }
@@ -505,6 +545,10 @@ export default function Creative() {
           .experiences-preview svg {
             width: 85px;
             height: 85px;
+          }
+          
+          .geometry-preview {
+            transform: scale(0.7);
           }
           
           .icons3d-preview {
@@ -520,22 +564,17 @@ export default function Creative() {
             transform: scale(1.5);
           }
           
-          .expanded-content {
-            max-width: 380px;
+          .expanded-icon {
+            width: 160px;
+            height: 160px;
           }
           .expanded-title {
-            font-size: 20px;
-            margin-top: 12px;
+            font-size: 18px;
+            margin-top: 10px;
           }
           .expanded-desc {
-            font-size: 12px;
-            margin-top: 8px;
-          }
-          .expanded-tech {
-            font-size: 8px;
-          }
-          .expanded-link {
-            font-size: 9px;
+            font-size: 11px;
+            max-width: 320px;
           }
         }
       `}</style>
@@ -622,11 +661,11 @@ export default function Creative() {
         <div className="expanded-close" onClick={closeExperience}>×</div>
         {expandedExperienceItem && (
           <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
-            <div className="expanded-icon" key={`exp-${expandedExperience}`}>
-              {expandedExperience === "sphere" && <div style={{ width: "140px", height: "140px" }}><QuantumSphere initialExpanded={false} /></div>}
-              {expandedExperience === "manifold" && <div style={{ width: "200px", height: "100px", overflow: "hidden", borderRadius: "4px" }}><QuantumManifold /></div>}
-              {expandedExperience === "metatron-genesis" && <div style={{ width: "200px", height: "120px", overflow: "hidden", borderRadius: "4px" }}><VideoPlayer src="/videos/metatrondemo1.mov" /></div>}
-              {expandedExperience === "architecture" && <div style={{ width: "140px", height: "140px" }}><Trade69Architecture /></div>}
+            <div className="expanded-icon">
+              {expandedExperience === "sphere" && <QuantumSphere initialExpanded={false} />}
+              {expandedExperience === "manifold" && <QuantumManifold />}
+              {expandedExperience === "metatron-genesis" && <VideoPlayer src="/videos/metatrondemo1.mov" />}
+              {expandedExperience === "architecture" && <Trade69Architecture />}
             </div>
             <p className="expanded-title">{expandedExperienceItem.title}</p>
             <p className="expanded-desc">{expandedExperienceItem.description}</p>
@@ -645,7 +684,7 @@ export default function Creative() {
         <div className="expanded-close" onClick={closeGeometry}>×</div>
         {expandedGeometryItem && ExpandedGeometryComponent && (
           <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
-            <div className="expanded-icon" style={{ width: "120px", height: "120px" }}>
+            <div className="expanded-icon">
               <ExpandedGeometryComponent />
             </div>
             <p className="expanded-title">{expandedGeometryItem.title}</p>
@@ -659,8 +698,8 @@ export default function Creative() {
         <div className="expanded-close" onClick={closeWork}>×</div>
         {expandedWorkItem && (
           <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
-            <div className="expanded-icon" key={`work-${expandedWork}`}>
-              {renderWorkIcon(expandedWork!, 140)}
+            <div className="expanded-icon">
+              {renderWorkIcon(expandedWork!, 120)}
             </div>
             <p className="expanded-title">{expandedWorkItem.title}</p>
             <p className="expanded-desc">{expandedWorkItem.description}</p>
@@ -673,8 +712,8 @@ export default function Creative() {
         <div className="expanded-close" onClick={closeService}>×</div>
         {expandedServiceItem && (
           <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
-            <div className="expanded-icon" key={`service-${expandedService}`}>
-              {renderServiceIcon(expandedService!, 140, true)}
+            <div className="expanded-icon">
+              {renderServiceIcon(expandedService!, 120, true)}
             </div>
             <p className="expanded-title">{expandedServiceItem.title}</p>
             <p className="expanded-desc">{expandedServiceItem.description}</p>

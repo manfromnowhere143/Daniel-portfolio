@@ -3,7 +3,8 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect, ReactNode, useCallback } from "react";
 
-const PAGES = ["/", "/work", "/services", "/creative", "/about"];
+// Order matches sidebar: About -> Work -> Creative -> Services
+const PAGES = ["/", "/work", "/creative", "/services"];
 
 interface SwipeNavigationProps {
   children: ReactNode;
@@ -47,13 +48,17 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
   }, [pathname]);
 
   const getCurrentPageIndex = useCallback(() => {
+    // Handle work detail pages
     if (pathname.startsWith("/work/")) return 1;
-    return PAGES.indexOf(pathname);
+    // Handle about page (also maps to /)
+    if (pathname === "/about") return 0;
+    const idx = PAGES.indexOf(pathname);
+    return idx >= 0 ? idx : 0;
   }, [pathname]);
 
   const canGoNext = useCallback(() => {
     const idx = getCurrentPageIndex();
-    return idx !== -1 && idx < PAGES.length - 1;
+    return idx >= 0 && idx < PAGES.length - 1;
   }, [getCurrentPageIndex]);
 
   const canGoPrev = useCallback(() => {
@@ -62,14 +67,18 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
   }, [getCurrentPageIndex]);
 
   const isOverlayOpen = () => {
-    // Check for sidebar menu
+    // Check for sidebar menu (hamburger open)
     const sidebarOpen = document.querySelector('[style*="translateY(0)"][style*="z-index: 200"]');
     const overlayVisible = document.querySelector('[style*="opacity: 1"][style*="z-index: 150"]');
 
-    // Check for expanded cards/overlays (they have .active class and z-index: 1000)
-    const expandedCard = document.querySelector('.expanded-overlay.active, .experiences-overlay.active, .geometry-overlay.active, .icons3d-overlay.active');
+    // Check for expanded overlays on services/creative pages
+    const expandedOverlay = document.querySelector('.expanded-overlay.active');
+    const cardOverlay = document.querySelector('.card-overlay.active');
 
-    return !!(sidebarOpen || overlayVisible || expandedCard);
+    // Check for work page expanded state
+    const workDetailOverlay = document.querySelector('.work-expanded-overlay.active');
+
+    return !!(sidebarOpen || overlayVisible || expandedOverlay || cardOverlay || workDetailOverlay);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
