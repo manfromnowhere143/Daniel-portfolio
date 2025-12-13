@@ -312,11 +312,13 @@ export default function Creative() {
         .creative-page.loaded .load-section:nth-child(6) { transition-delay: 0.6s; }
         .creative-page.loaded .load-section:nth-child(7) { transition-delay: 0.7s; }
 
-        /* Experiences Gallery */
+        /* ========== MOBILE: APP-LIKE ICONS ========== */
+        
+        /* Experiences Gallery - Mobile */
         .experiences-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 6px;
+          display: flex;
+          justify-content: center;
+          gap: 10px;
           max-width: 340px;
           margin: 0 auto;
         }
@@ -324,23 +326,116 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 8px 4px;
+          justify-content: center;
           cursor: pointer;
           transition: transform 0.2s ease;
+          background: rgba(28, 28, 30, 0.95);
+          border-radius: 18px;
+          width: 76px;
+          height: 76px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+          border: 1px solid rgba(255,255,255,0.1);
         }
         .experiences-item:active {
-          transform: scale(0.96);
+          transform: scale(0.92);
         }
         .experiences-preview {
+          width: 56px;
+          height: 56px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .experiences-preview svg {
+          width: 56px;
+          height: 56px;
+        }
+
+        /* Geometry Gallery - Mobile */
+        .geometry-grid {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          max-width: 340px;
+          margin: 0 auto;
+        }
+        .geometry-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: transform 0.2s ease;
+          background: rgba(28, 28, 30, 0.95);
+          border-radius: 18px;
+          width: 76px;
+          height: 76px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+          border: 1px solid rgba(255,255,255,0.1);
+          overflow: hidden;
+        }
+        .geometry-item:active {
+          transform: scale(0.92);
+        }
+        .geometry-preview {
           width: 55px;
           height: 55px;
           display: flex;
           align-items: center;
           justify-content: center;
         }
-        .experiences-preview svg {
+        .geometry-preview svg {
+          max-width: 100%;
+          max-height: 100%;
+        }
+
+        /* 3D Icons Gallery - Mobile */
+        .icons3d-grid {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          max-width: 340px;
+          margin: 0 auto;
+        }
+        .icons3d-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: transform 0.2s ease;
+          background: rgba(28, 28, 30, 0.95);
+          border-radius: 18px;
+          width: 76px;
+          height: 76px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+          border: 1px solid rgba(255,255,255,0.1);
+        }
+        .icons3d-item:active {
+          transform: scale(0.92);
+        }
+        .icons3d-preview {
           width: 55px;
           height: 55px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* SVG 2D Icons Grid */
+        .svg-icons-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
+          max-width: 340px;
+          margin: 0 auto;
+        }
+        .svg-icon-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px;
+          transform: scale(0.9);
         }
 
         /* Experiences Expanded Overlay */
@@ -466,37 +561,6 @@ export default function Creative() {
           z-index: 1001;
         }
 
-        /* Geometry Gallery */
-        .geometry-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 6px;
-          max-width: 340px;
-          margin: 0 auto;
-        }
-        .geometry-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding: 8px 4px;
-          cursor: pointer;
-          transition: transform 0.2s ease;
-        }
-        .geometry-item:active {
-          transform: scale(0.96);
-        }
-        .geometry-preview {
-          width: 55px;
-          height: 55px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .geometry-preview svg {
-          max-width: 100%;
-          max-height: 100%;
-        }
-
         /* Geometry Expanded overlay */
         .geometry-overlay {
           position: fixed;
@@ -597,49 +661,6 @@ export default function Creative() {
           background: rgba(255,255,255,0.05);
         }
 
-        /* 3D Icons Gallery */
-        .icons3d-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 6px;
-          max-width: 340px;
-          margin: 0 auto;
-        }
-        .icons3d-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding: 8px 4px;
-          cursor: pointer;
-          transition: transform 0.2s ease;
-        }
-        .icons3d-item:active {
-          transform: scale(0.96);
-        }
-        .icons3d-preview {
-          width: 55px;
-          height: 55px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        /* SVG 2D Icons Grid */
-        .svg-icons-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 6px;
-          max-width: 340px;
-          margin: 0 auto;
-        }
-        .svg-icon-wrapper {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 8px;
-          transform: scale(0.9);
-        }
-
         /* 3D Icons Expanded Overlay */
         .icons3d-overlay {
           position: fixed;
@@ -727,14 +748,22 @@ export default function Creative() {
           background: rgba(255,255,255,0.05);
         }
 
+        /* ========== DESKTOP: ORIGINAL STYLING ========== */
         @media (min-width: 600px) {
           .experiences-grid {
+            display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
             max-width: 700px;
           }
           .experiences-item {
             padding: 24px 18px;
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            border: none;
+            width: auto;
+            height: auto;
           }
           .experiences-item:hover {
             transform: scale(1.02);
@@ -772,13 +801,21 @@ export default function Creative() {
             margin-top: 20px;
           }
           .geometry-grid {
+            display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
             max-width: 700px;
           }
           .geometry-item {
             padding: 24px 18px;
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            border: none;
+            width: auto;
+            height: auto;
             cursor: pointer;
+            overflow: visible;
           }
           .geometry-item:hover {
             transform: scale(1.02);
@@ -802,12 +839,19 @@ export default function Creative() {
             font-size: 15px;
           }
           .icons3d-grid {
+            display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
             max-width: 700px;
           }
           .icons3d-item {
             padding: 24px 18px;
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            border: none;
+            width: auto;
+            height: auto;
           }
           .icons3d-item:hover {
             transform: scale(1.02);
