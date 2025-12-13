@@ -288,29 +288,11 @@ export default function Creative() {
         /* Page Load Animation */
         .creative-page {
           opacity: 0;
-          transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: opacity 0.4s ease;
         }
         .creative-page.loaded {
           opacity: 1;
         }
-        
-        .load-section {
-          opacity: 0;
-          transform: translateY(20px);
-          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-                      transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .creative-page.loaded .load-section {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .creative-page.loaded .load-section:nth-child(1) { transition-delay: 0.1s; }
-        .creative-page.loaded .load-section:nth-child(2) { transition-delay: 0.2s; }
-        .creative-page.loaded .load-section:nth-child(3) { transition-delay: 0.3s; }
-        .creative-page.loaded .load-section:nth-child(4) { transition-delay: 0.4s; }
-        .creative-page.loaded .load-section:nth-child(5) { transition-delay: 0.5s; }
-        .creative-page.loaded .load-section:nth-child(6) { transition-delay: 0.6s; }
-        .creative-page.loaded .load-section:nth-child(7) { transition-delay: 0.7s; }
 
         /* ========== MOBILE: PREMIUM iOS-STYLE ICONS ========== */
         
@@ -374,15 +356,15 @@ export default function Creative() {
         .experiences-preview {
           position: relative;
           z-index: 2;
-          width: 70px;
-          height: 70px;
+          width: 85px;
+          height: 85px;
           display: flex;
           align-items: center;
           justify-content: center;
         }
         .experiences-preview svg {
-          width: 70px;
-          height: 70px;
+          width: 85px;
+          height: 85px;
         }
 
         /* Geometry Gallery - Mobile */
@@ -445,8 +427,8 @@ export default function Creative() {
         .geometry-preview {
           position: relative;
           z-index: 2;
-          width: 72px;
-          height: 72px;
+          width: 85px;
+          height: 85px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -516,8 +498,8 @@ export default function Creative() {
         .icons3d-preview {
           position: relative;
           z-index: 2;
-          width: 80px;
-          height: 80px;
+          width: 95px;
+          height: 95px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -854,12 +836,12 @@ export default function Creative() {
             transform: scale(0.98);
           }
           .experiences-preview {
-            width: 120px;
-            height: 120px;
+            width: 150px;
+            height: 150px;
           }
           .experiences-preview svg {
-            width: 120px;
-            height: 120px;
+            width: 150px;
+            height: 150px;
           }
           .experiences-expanded-desc {
             font-size: 14px;
@@ -925,8 +907,8 @@ export default function Creative() {
             transform: scale(0.98);
           }
           .geometry-preview {
-            width: 115px;
-            height: 115px;
+            width: 150px;
+            height: 150px;
           }
           .geometry-expanded-preview {
             width: 180px;
@@ -980,8 +962,8 @@ export default function Creative() {
             transform: scale(0.98);
           }
           .icons3d-preview {
-            width: 140px;
-            height: 140px;
+            width: 160px;
+            height: 160px;
           }
           .icons3d-expanded-preview {
             width: 240px;

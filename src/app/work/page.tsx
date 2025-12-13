@@ -22,7 +22,7 @@ export default function Work() {
   }, []);
 
   // Larger icons - fill more of the container like iOS
-  const iconSize = isMobile ? 92 : 170;
+  const iconSize = isMobile ? 100 : 180;
 
   return (
     <>

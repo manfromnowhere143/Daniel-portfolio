@@ -6,7 +6,7 @@ import { WebsiteIcon3D, DashboardIcon3D, APIIcon3D, LLMIcon3D } from "@/componen
 
 export default function Services() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function Services() {
     setExpandedIndex(null);
   };
 
-  const iconSize = isMobile ? 92 : 170;
+  const iconSize = isMobile ? 100 : 180;
 
   return (
     <>
