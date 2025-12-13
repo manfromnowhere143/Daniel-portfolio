@@ -464,8 +464,9 @@ export default function Creative() {
           pointer-events: auto;
         }
         .experiences-expanded-content {
-          transform: scale(0.95) translateY(20px);
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform: scale(0.92);
+          opacity: 0;
+          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -473,14 +474,17 @@ export default function Creative() {
           max-width: 900px;
         }
         .experiences-overlay.active .experiences-expanded-content {
-          transform: scale(1) translateY(0);
+          transform: scale(1);
+          opacity: 1;
         }
         .experiences-expanded-preview {
-          width: 100%;
+          width: 280px;
+          height: 280px;
           margin-bottom: 24px;
           display: flex;
           justify-content: center;
           align-items: center;
+          flex-shrink: 0;
         }
         .experiences-expanded-title {
           font-size: 20px;
@@ -587,19 +591,21 @@ export default function Creative() {
           pointer-events: auto;
         }
         .geometry-expanded-content {
-          transform: scale(0.9) translateY(20px);
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform: scale(0.92);
+          opacity: 0;
+          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
           display: flex;
           flex-direction: column;
           align-items: center;
           max-width: 500px;
         }
         .geometry-overlay.active .geometry-expanded-content {
-          transform: scale(1) translateY(0);
+          transform: scale(1);
+          opacity: 1;
         }
         .geometry-expanded-preview {
-          width: 180px;
-          height: 180px;
+          width: 200px;
+          height: 200px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -607,6 +613,7 @@ export default function Creative() {
           background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%);
           border-radius: 50%;
           padding: 30px;
+          flex-shrink: 0;
         }
         .geometry-expanded-preview svg {
           max-width: 100%;
@@ -686,8 +693,9 @@ export default function Creative() {
           pointer-events: auto;
         }
         .icons3d-expanded-content {
-          transform: scale(0.8);
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform: scale(0.92);
+          opacity: 0;
+          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -695,9 +703,16 @@ export default function Creative() {
         }
         .icons3d-overlay.active .icons3d-expanded-content {
           transform: scale(1);
+          opacity: 1;
         }
         .icons3d-expanded-preview {
+          width: 280px;
+          height: 280px;
           margin-bottom: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
         }
         .icons3d-expanded-title {
           font-size: 20px;
@@ -793,6 +808,8 @@ export default function Creative() {
             padding: 60px 24px;
           }
           .experiences-expanded-preview {
+            width: 360px;
+            height: 360px;
             margin-bottom: 32px;
           }
           .experiences-expanded-tech {
@@ -866,6 +883,8 @@ export default function Creative() {
             height: 120px;
           }
           .icons3d-expanded-preview {
+            width: 360px;
+            height: 360px;
             margin-bottom: 32px;
           }
           .icons3d-expanded-title {

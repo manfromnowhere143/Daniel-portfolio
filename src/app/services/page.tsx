@@ -7,12 +7,19 @@ import { WebsiteIcon3D, DashboardIcon3D, APIIcon3D, LLMIcon3D } from "@/componen
 export default function Services() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 600);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    // Small delay for smooth entrance
+    const timer = setTimeout(() => setIsLoaded(true), 50);
+    return () => clearTimeout(timer);
   }, []);
 
   const services = [
@@ -79,7 +86,12 @@ export default function Services() {
           height: 110px;
           margin: 0 auto;
           cursor: pointer;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.4s ease;
+          opacity: 0;
+        }
+        
+        .services-item.loaded {
+          opacity: 1;
         }
         
         .services-item:active {
@@ -276,7 +288,7 @@ export default function Services() {
           {services.map((item, i) => (
             <div
               key={i}
-              className={`services-item ${item.key}`}
+              className={`services-item ${item.key} ${isLoaded ? 'loaded' : ''}`}
               onClick={() => handleClick(i)}
             >
               {renderIcon(item.key, iconSize)}
