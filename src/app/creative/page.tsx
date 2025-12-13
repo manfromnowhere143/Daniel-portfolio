@@ -748,36 +748,37 @@ export default function Creative() {
           background: rgba(255,255,255,0.05);
         }
 
-        /* ========== DESKTOP: ORIGINAL STYLING ========== */
+        /* ========== DESKTOP: APP-LIKE BUT LARGER ========== */
         @media (min-width: 600px) {
           .experiences-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
             max-width: 700px;
           }
           .experiences-item {
-            padding: 24px 18px;
-            background: transparent;
-            border-radius: 0;
-            box-shadow: none;
-            border: none;
-            width: auto;
-            height: auto;
+            background: rgba(28, 28, 30, 0.95);
+            border-radius: 22px;
+            width: 120px;
+            height: 120px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0;
           }
           .experiences-item:hover {
-            transform: scale(1.02);
+            transform: scale(1.05);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.5);
           }
           .experiences-item:active {
             transform: scale(0.98);
           }
           .experiences-preview {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
           }
           .experiences-preview svg {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
           }
           .experiences-expanded-title {
             font-size: 26px;
@@ -801,31 +802,31 @@ export default function Creative() {
             margin-top: 20px;
           }
           .geometry-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
             max-width: 700px;
           }
           .geometry-item {
-            padding: 24px 18px;
-            background: transparent;
-            border-radius: 0;
-            box-shadow: none;
-            border: none;
-            width: auto;
-            height: auto;
-            cursor: pointer;
-            overflow: visible;
+            background: rgba(28, 28, 30, 0.95);
+            border-radius: 22px;
+            width: 120px;
+            height: 120px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0;
+            overflow: hidden;
           }
           .geometry-item:hover {
-            transform: scale(1.02);
+            transform: scale(1.05);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.5);
           }
           .geometry-item:active {
             transform: scale(0.98);
           }
           .geometry-preview {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
           }
           .geometry-expanded-preview {
             width: 240px;
@@ -839,29 +840,30 @@ export default function Creative() {
             font-size: 15px;
           }
           .icons3d-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
             max-width: 700px;
           }
           .icons3d-item {
-            padding: 24px 18px;
-            background: transparent;
-            border-radius: 0;
-            box-shadow: none;
-            border: none;
-            width: auto;
-            height: auto;
+            background: rgba(28, 28, 30, 0.95);
+            border-radius: 22px;
+            width: 120px;
+            height: 120px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0;
           }
           .icons3d-item:hover {
-            transform: scale(1.02);
+            transform: scale(1.05);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.5);
           }
           .icons3d-item:active {
             transform: scale(0.98);
           }
           .icons3d-preview {
-            width: 100px;
-            height: 100px;
+            width: 90px;
+            height: 90px;
           }
           .icons3d-expanded-preview {
             margin-bottom: 32px;
