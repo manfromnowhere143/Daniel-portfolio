@@ -71,114 +71,6 @@ export default function Navigation() {
 
   return (
     <>
-      <style>{`
-        /* Mobile top bar - slides in from top */
-        .mobile-top-bar {
-          position: fixed;
-          top: 24px;
-          left: 24px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 12px;
-          z-index: 200;
-          transform: translateX(-120%);
-          opacity: 0;
-          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                      opacity 0.3s ease;
-          pointer-events: none;
-        }
-        .mobile-top-bar.active {
-          transform: translateX(0);
-          opacity: 1;
-          pointer-events: auto;
-        }
-
-        /* Mobile bottom nav bar - slides up from bottom */
-        .mobile-bottom-bar {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 85px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-          gap: 32px;
-          padding: 0 24px;
-          padding-bottom: env(safe-area-inset-bottom, 0);
-          z-index: 200;
-          background: rgba(10, 10, 10, 0.98);
-          border-top: 0.5px solid rgba(255,255,255,0.08);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          transform: translateY(100%);
-          opacity: 0;
-          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                      opacity 0.3s ease;
-          pointer-events: none;
-        }
-        .mobile-bottom-bar.active {
-          transform: translateY(0);
-          opacity: 1;
-          pointer-events: auto;
-        }
-
-        /* Nav items in bottom bar */
-        .bottom-nav-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 4px;
-          text-decoration: none;
-          padding: 8px 12px;
-          transition: opacity 0.2s ease;
-        }
-        .bottom-nav-item:active {
-          opacity: 0.5;
-        }
-        .bottom-nav-label {
-          font-size: 10px;
-          font-weight: 400;
-          letter-spacing: 0.04em;
-          color: #FAFAF8;
-        }
-        .bottom-nav-label.active {
-          font-weight: 500;
-        }
-
-        /* Subtle overlay when open */
-        .nav-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0,0,0,0.3);
-          z-index: 150;
-          opacity: 0;
-          pointer-events: none;
-          transition: opacity 0.3s ease;
-        }
-        .nav-overlay.active {
-          opacity: 1;
-          pointer-events: auto;
-        }
-
-        /* Home indicator line */
-        .home-indicator {
-          position: absolute;
-          bottom: 8px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 134px;
-          height: 5px;
-          background: rgba(255,255,255,0.3);
-          border-radius: 3px;
-        }
-      `}</style>
-
       {/* Desktop Navigation - Floating Vertical Sidebar */}
       <nav className={styles.desktopOnly} style={{
         position: "fixed",
@@ -329,14 +221,43 @@ export default function Navigation() {
 
       {/* Subtle Overlay */}
       <div
-        className={`nav-overlay ${isOpen ? 'active' : ''}`}
+        className={styles.mobileOnly}
         onClick={() => setIsOpen(false)}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(0,0,0,0.3)",
+          zIndex: 150,
+          opacity: isOpen ? 1 : 0,
+          pointerEvents: isOpen ? "auto" : "none",
+          transition: "opacity 0.3s ease"
+        }}
       />
 
-      {/* Mobile Top Bar - Time/Date slides in from left, aligned with X */}
-      <div className={`mobile-top-bar ${isOpen ? 'active' : ''} ${styles.mobileOnly}`}>
+      {/* Mobile Top Bar - Time/Date slides in from left */}
+      <div
+        className={styles.mobileOnly}
+        style={{
+          position: "fixed",
+          top: "28px",
+          left: "24px",
+          zIndex: 200,
+          transform: isOpen ? "translateX(0)" : "translateX(-150%)",
+          opacity: isOpen ? 1 : 0,
+          transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease",
+          pointerEvents: isOpen ? "auto" : "none"
+        }}
+      >
         {time && (
-          <>
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            gap: "3px"
+          }}>
             <span style={{
               fontSize: "14px",
               fontWeight: 300,
@@ -355,27 +276,69 @@ export default function Navigation() {
             }}>
               {formatDate(time)}
             </span>
-          </>
+          </div>
         )}
       </div>
 
       {/* Mobile Bottom Bar - Nav slides up */}
-      <div className={`mobile-bottom-bar ${isOpen ? 'active' : ''} ${styles.mobileOnly}`}>
+      <div
+        className={styles.mobileOnly}
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: "85px",
+          zIndex: 200,
+          background: "rgba(10, 10, 10, 0.98)",
+          borderTop: "0.5px solid rgba(255,255,255,0.08)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          transform: isOpen ? "translateY(0)" : "translateY(100%)",
+          opacity: isOpen ? 1 : 0,
+          transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease",
+          pointerEvents: isOpen ? "auto" : "none",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "28px",
+          paddingBottom: "env(safe-area-inset-bottom, 0)"
+        }}
+      >
         {navItems.map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className="bottom-nav-item"
             onClick={() => setTimeout(() => setIsOpen(false), 150)}
+            style={{
+              textDecoration: "none",
+              padding: "12px 8px"
+            }}
           >
-            <span className={`bottom-nav-label ${item.isActive ? 'active' : ''}`}>
+            <span style={{
+              fontSize: "11px",
+              fontWeight: item.isActive ? 400 : 300,
+              letterSpacing: "0.1em",
+              color: "#FAFAF8",
+              textTransform: "uppercase"
+            }}>
               {item.label}
             </span>
           </Link>
         ))}
 
         {/* Home indicator line like iOS */}
-        <div className="home-indicator" />
+        <div style={{
+          position: "absolute",
+          bottom: "8px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "134px",
+          height: "5px",
+          background: "rgba(255,255,255,0.3)",
+          borderRadius: "3px"
+        }} />
       </div>
     </>
   );
