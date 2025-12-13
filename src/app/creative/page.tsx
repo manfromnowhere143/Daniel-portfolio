@@ -30,27 +30,27 @@ const experiencesItems = [
   {
     id: "sphere",
     title: "Quantum Sphere",
-    description: "A living geodesic structure pulsing with quantum energy. Multi-layered icosahedral shells breathe and deform through simplex noise fields.",
-    tech: "Three.js · WebGL · GLSL Shaders · Simplex Noise"
+    description: "A living geodesic structure pulsing with quantum energy. Breathes through simplex noise fields.",
+    tech: "Three.js · WebGL · GLSL"
   },
   {
     id: "manifold",
     title: "Quantum Manifold",
-    description: "A field of infinite possibility. The manifold ripples with quantum fluctuations, each wave representing probability amplitudes in superposition.",
-    tech: "Three.js · WebGL · GLSL Shaders · Simplex Noise"
+    description: "A field of infinite possibility rippling with quantum fluctuations and probability waves.",
+    tech: "Three.js · WebGL · GLSL"
   },
   {
     id: "metatron-genesis",
     title: "Metatron Genesis",
-    description: "Back in May I was probably smoking too much weed and started building a cognitive network based on sacred geometry. I tried to visualize it. While this was totally a figment of imagination, to me it looked like a beautiful aligned structure. I built the backend and gave each agent (a sacred geometry shape) a role. Basically a regular structure of memory agents, operative agents, and orchestration, but all based on the principles of each geometry shape.",
-    tech: "Next.js · Three.js · WebGL · Multi-Agent Architecture",
+    description: "Cognitive network based on sacred geometry. Each agent shape has a role in the system.",
+    tech: "Next.js · Three.js · WebGL",
     link: "https://metatron-genesis369.vercel.app"
   },
   {
     id: "architecture",
     title: "System Architecture",
-    description: "A creative way to display the Mermaid diagram for the Trade69 project. Interactive 3D visualization of system components and data flow.",
-    tech: "Three.js · WebGL · Interactive 3D"
+    description: "Interactive 3D visualization of the Trade69 system. Components and data flow.",
+    tech: "Three.js · WebGL · 3D"
   }
 ];
 
@@ -59,22 +59,22 @@ const sacredGeometryItems = [
   {
     id: "metatron",
     title: "Metatron's Cube",
-    description: "The blueprint of creation. Thirteen circles containing all five Platonic solids. Used as the central orchestrator in the agent network, coordinating information flow between all subsystems."
+    description: "The blueprint of creation. Thirteen circles containing all five Platonic solids. Central orchestrator in the agent network."
   },
   {
     id: "spiral",
     title: "Golden Spiral",
-    description: "Nature's perfect ratio, φ = 1.618. The Fibonacci sequence made visible. Represents the memory retrieval system, spiraling outward from recent to distant memories with logarithmic efficiency."
+    description: "Nature's perfect ratio, φ = 1.618. The Fibonacci sequence made visible. Represents memory retrieval spiraling from recent to distant."
   },
   {
     id: "flower",
     title: "Flower of Life",
-    description: "Nineteen overlapping circles creating the pattern of genesis. Each petal represents a specialized processing unit, interconnected through shared boundaries for parallel computation."
+    description: "Nineteen overlapping circles creating the pattern of genesis. Each petal represents a specialized processing unit."
   },
   {
     id: "lemniscate",
     title: "Lemniscate",
-    description: "The infinity symbol. Continuous flow without beginning or end. Represents the feedback loops in the system, where output becomes input in an eternal cycle of refinement."
+    description: "The infinity symbol. Continuous flow without beginning or end. Represents feedback loops in eternal refinement."
   }
 ];
 
@@ -83,22 +83,22 @@ const workIcons3DItems = [
   {
     id: "trade69",
     title: "Trade69",
-    description: "Holographic trading terminal with 3D candlesticks, flowing trend lines, and rising data particles. Visualizes algorithmic trading in an elegant, futuristic interface."
+    description: "Holographic trading terminal with 3D candlesticks and flowing trend lines. Visualizes algorithmic trading in an elegant interface."
   },
   {
     id: "megaagent",
     title: "MegaAgent",
-    description: "Quantum neural network with holographic core, orbital rings, and interconnected agent nodes. Data packets flow through the network representing multi-agent coordination."
+    description: "Quantum neural network with holographic core and orbital rings. Data packets flow representing multi-agent coordination."
   },
   {
     id: "octopus",
     title: "Octopus",
-    description: "Bioluminescent cognitive entity with organic mantle, flowing tentacles, and neural patterns. Represents the adaptive, multi-armed nature of the cognitive framework."
+    description: "Bioluminescent cognitive entity with organic mantle and flowing tentacles. Represents the adaptive cognitive framework."
   },
   {
     id: "overmind",
     title: "Overmind",
-    description: "Sacred geometry cosmic consciousness featuring Merkaba star tetrahedron, icosahedral shell, and orbital energy ring. The all-seeing eye at its core pulses with awareness."
+    description: "Sacred geometry cosmic consciousness with Merkaba star tetrahedron. The all-seeing eye pulses with awareness."
   }
 ];
 
@@ -107,22 +107,22 @@ const serviceIcons3DItems = [
   {
     id: "website",
     title: "Web Applications",
-    description: "Holographic floating layers with scanline effects, grid patterns, and flowing content layers. Represents modern web architecture with depth and dimension."
+    description: "Holographic floating layers with scanline effects and grid patterns. Represents modern web architecture with depth."
   },
   {
     id: "dashboard",
     title: "Dashboards",
-    description: "Circular HUD with concentric arcs, energy flow, radar sweep, and animated data bars. Visualizes real-time data monitoring and analytics interfaces."
+    description: "Circular HUD with concentric arcs, energy flow, and animated data bars. Visualizes real-time monitoring interfaces."
   },
   {
     id: "api",
     title: "API Development",
-    description: "Constellation network with interconnected nodes, flowing data packets, and hexagonal boundary. Represents the architecture of modern API systems."
+    description: "Constellation network with interconnected nodes and flowing data packets. Represents modern API system architecture."
   },
   {
     id: "llm",
     title: "LLM Middleware",
-    description: "Neural brain with synaptic firing, thought particles, and organic pulsing. Visualizes the complexity of large language model integration."
+    description: "Neural brain with synaptic firing and thought particles. Visualizes large language model integration."
   }
 ];
 
@@ -452,96 +452,104 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          text-align: center;
-          padding: 0 16px;
-        }
-        
-        .expanded-icon {
-          width: 120px;
-          height: 120px;
-          display: flex;
-          align-items: center;
           justify-content: center;
-          margin-bottom: 12px;
+          text-align: center;
+          padding: 0 20px;
+          max-height: 100vh;
+          overflow: hidden;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* PREMIUM 3D PREVIEW - SPHERE & MANIFOLD - EDGE OF ELEGANCE */
+        /* UNIFIED CARD PREVIEW - ALL CARDS FIT ONE SCREEN */
         /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-preview-3d {
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 16px;
-          border-radius: 16px;
+          margin-bottom: 12px;
           overflow: visible;
-          position: relative;
         }
         
         .expanded-preview-sphere {
-          width: 88vw;
-          max-width: 340px;
-          height: 50vh;
-          max-height: 300px;
+          width: 85vw;
+          max-width: 320px;
+          height: 42vh;
+          max-height: 260px;
         }
         
         .expanded-preview-manifold {
-          width: 94vw;
-          max-width: 380px;
-          height: 40vh;
-          max-height: 220px;
+          width: 90vw;
+          max-width: 340px;
+          height: 32vh;
+          max-height: 180px;
         }
         
         .expanded-preview-video {
-          width: 88vw;
-          max-width: 340px;
-          height: 50vw;
-          max-height: 220px;
-          border-radius: 12px;
+          width: 85vw;
+          max-width: 300px;
+          height: 48vw;
+          max-height: 180px;
+          border-radius: 8px;
           overflow: hidden;
-          margin-bottom: 16px;
+          margin-bottom: 12px;
         }
         
         .expanded-preview-architecture {
-          width: 90vw;
-          max-width: 360px;
-          height: 55vw;
-          max-height: 260px;
+          width: 88vw;
+          max-width: 320px;
+          height: 45vw;
+          max-height: 180px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 16px;
+          margin-bottom: 12px;
         }
         
         .expanded-preview-geometry {
-          width: 200px;
-          height: 200px;
+          width: 160px;
+          height: 160px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 20px;
+          margin-bottom: 12px;
         }
         
-        .expanded-preview-3d canvas {
+        .expanded-preview-icon {
+          width: 140px;
+          height: 140px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 12px;
+        }
+        
+        .expanded-preview-3d canvas,
+        .expanded-preview-icon canvas,
+        .expanded-preview-geometry canvas {
           background: transparent !important;
         }
         
         .expanded-title {
-          margin-top: 0;
-          font-size: 16px;
+          margin: 0;
+          font-size: 15px;
           font-weight: 200;
           color: #FAFAF8;
-          letter-spacing: 0.06em;
+          letter-spacing: 0.05em;
         }
         
         .expanded-desc {
           margin-top: 8px;
           font-size: 11px;
           font-weight: 300;
-          color: rgba(250, 250, 248, 0.55);
-          line-height: 1.6;
-          max-width: 300px;
+          color: rgba(250, 250, 248, 0.5);
+          line-height: 1.5;
+          max-width: 280px;
+          max-height: 80px;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
         }
         
         .expanded-tech {
@@ -555,39 +563,32 @@ export default function Creative() {
         .expanded-link {
           margin-top: 8px;
           font-size: 9px;
-          color: rgba(250, 250, 248, 0.45);
+          color: rgba(250, 250, 248, 0.4);
           text-decoration: none;
           text-transform: uppercase;
-          letter-spacing: 0.08em;
-          transition: color 0.2s ease;
-        }
-        
-        .expanded-link:hover {
-          color: rgba(250, 250, 248, 0.7);
+          letter-spacing: 0.06em;
         }
         
         .expanded-close {
           position: absolute;
           top: 50%;
-          right: 20px;
+          right: 16px;
           transform: translateY(-50%);
           width: 40px;
           height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255, 255, 255, 0.7);
-          font-size: 28px;
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 26px;
           font-weight: 200;
           cursor: pointer;
-          transition: color 0.2s ease, transform 0.2s ease;
-          border-radius: 50%;
+          transition: color 0.2s ease;
           z-index: 10;
         }
         
         .expanded-close:hover {
-          color: rgba(255, 255, 255, 1);
-          transform: translateY(-50%) scale(1.1);
+          color: rgba(255, 255, 255, 0.9);
         }
 
         /* ========== DESKTOP ========== */
@@ -642,18 +643,15 @@ export default function Creative() {
             transform: scale(1.5);
           }
           
-          .expanded-icon {
-            width: 160px;
-            height: 160px;
-          }
           .expanded-title {
-            font-size: 20px;
-            margin-top: 4px;
+            font-size: 18px;
           }
           .expanded-desc {
             font-size: 12px;
-            max-width: 400px;
-            margin-top: 10px;
+            max-width: 360px;
+            margin-top: 12px;
+            max-height: 120px;
+            -webkit-line-clamp: 6;
           }
           .expanded-tech {
             font-size: 9px;
@@ -664,34 +662,38 @@ export default function Creative() {
             margin-top: 10px;
           }
           
-          /* Desktop 3D previews - premium elegance */
+          /* Desktop previews */
           .expanded-preview-sphere {
-            width: 420px;
-            max-width: 420px;
-            height: 340px;
-            max-height: 340px;
+            width: 380px;
+            max-width: 380px;
+            height: 300px;
+            max-height: 300px;
           }
           .expanded-preview-manifold {
-            width: 520px;
-            max-width: 520px;
-            height: 260px;
-            max-height: 260px;
+            width: 460px;
+            max-width: 460px;
+            height: 220px;
+            max-height: 220px;
           }
           .expanded-preview-video {
-            width: 440px;
-            max-width: 440px;
-            height: 260px;
-            max-height: 260px;
+            width: 400px;
+            max-width: 400px;
+            height: 230px;
+            max-height: 230px;
           }
           .expanded-preview-architecture {
-            width: 480px;
-            max-width: 480px;
-            height: 320px;
-            max-height: 320px;
+            width: 440px;
+            max-width: 440px;
+            height: 280px;
+            max-height: 280px;
           }
           .expanded-preview-geometry {
-            width: 260px;
-            height: 260px;
+            width: 220px;
+            height: 220px;
+          }
+          .expanded-preview-icon {
+            width: 180px;
+            height: 180px;
           }
         }
       `}</style>
@@ -766,11 +768,6 @@ export default function Creative() {
           <div><CreativeGallery /></div>
 
         </div>
-
-        {/* Navigation */}
-        <div style={{ padding: "clamp(60px, 10vh, 80px) 24px", textAlign: "center" }}>
-          <Link href="/" style={{ fontSize: "11px", color: "#FAFAF8", textDecoration: "none", letterSpacing: "0.12em" }}>← About</Link>
-        </div>
       </div>
 
       {/* EXPERIENCES OVERLAY */}
@@ -832,8 +829,8 @@ export default function Creative() {
         <div className="expanded-close" onClick={closeWork}>×</div>
         {expandedWorkItem && (
           <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
-            <div className="expanded-icon">
-              {renderWorkIcon(expandedWork!, 120)}
+            <div className="expanded-preview-icon">
+              {renderWorkIcon(expandedWork!, 130)}
             </div>
             <p className="expanded-title">{expandedWorkItem.title}</p>
             <p className="expanded-desc">{expandedWorkItem.description}</p>
@@ -846,8 +843,8 @@ export default function Creative() {
         <div className="expanded-close" onClick={closeService}>×</div>
         {expandedServiceItem && (
           <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
-            <div className="expanded-icon">
-              {renderServiceIcon(expandedService!, 120, true)}
+            <div className="expanded-preview-icon">
+              {renderServiceIcon(expandedService!, 130, true)}
             </div>
             <p className="expanded-title">{expandedServiceItem.title}</p>
             <p className="expanded-desc">{expandedServiceItem.description}</p>

@@ -26,22 +26,22 @@ export default function Services() {
     {
       title: "Web Applications",
       key: "website",
-      description: "Full-stack applications with modern frameworks. SEO optimization, responsive design, authentication, databases, and deployment infrastructure."
+      description: "Full-stack applications with modern frameworks. SEO, responsive design, authentication, and deployment."
     },
     {
       title: "Dashboards",
       key: "dashboard",
-      description: "Real-time data visualization and monitoring interfaces. Custom analytics, interactive charts, and live data streams for informed decision-making."
+      description: "Real-time data visualization and monitoring. Custom analytics and interactive charts."
     },
     {
       title: "API Development",
       key: "api",
-      description: "RESTful and GraphQL APIs with robust architecture. Authentication, rate limiting, documentation, and seamless third-party integrations."
+      description: "RESTful and GraphQL APIs with robust architecture. Authentication and third-party integrations."
     },
     {
       title: "LLM Middleware",
       key: "llm",
-      description: "Custom AI integrations and agent systems. Prompt engineering, context management, tool orchestration, and multi-model pipelines."
+      description: "Custom AI integrations and agent systems. Prompt engineering and multi-model pipelines."
     }
   ];
 
@@ -205,7 +205,7 @@ export default function Services() {
           margin-top: 48px;
         }
 
-        /* Expanded overlay - STATE OF THE ART */
+        /* Expanded overlay - STATE OF THE ART - ONE SCREEN */
         .expanded-overlay {
           position: fixed;
           top: 0;
@@ -233,59 +233,61 @@ export default function Services() {
           align-items: center;
           justify-content: center;
           text-align: center;
-          padding: 0 24px;
-          width: 100%;
-          max-width: 400px;
+          padding: 0 20px;
+          max-height: 100vh;
+          overflow: hidden;
         }
         .expanded-preview {
-          width: 200px;
-          height: 200px;
+          width: 160px;
+          height: 160px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 24px;
+          margin-bottom: 16px;
         }
         .expanded-preview canvas {
           background: transparent !important;
         }
         .expanded-title {
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 200;
           color: #FAFAF8;
-          letter-spacing: 0.06em;
+          letter-spacing: 0.05em;
           margin: 0;
-          padding: 0;
         }
         .expanded-desc {
-          margin-top: 12px;
-          font-size: 12px;
+          margin-top: 10px;
+          font-size: 11px;
           font-weight: 300;
-          color: rgba(250, 250, 248, 0.55);
-          line-height: 1.7;
-          max-width: 300px;
+          color: rgba(250, 250, 248, 0.5);
+          line-height: 1.5;
+          max-width: 280px;
           text-align: center;
+          max-height: 80px;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
         }
         .expanded-close {
           position: absolute;
           top: 50%;
-          right: 20px;
+          right: 16px;
           transform: translateY(-50%);
-          width: 44px;
-          height: 44px;
+          width: 40px;
+          height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255, 255, 255, 0.7);
-          font-size: 28px;
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 26px;
           font-weight: 200;
           cursor: pointer;
-          transition: color 0.2s ease, transform 0.2s ease;
-          border-radius: 50%;
+          transition: color 0.2s ease;
           z-index: 10;
         }
         .expanded-close:hover {
-          color: rgba(255, 255, 255, 1);
-          transform: translateY(-50%) scale(1.1);
+          color: rgba(255, 255, 255, 0.9);
         }
         
         @media (min-width: 600px) {
@@ -356,20 +358,19 @@ export default function Services() {
             margin-top: clamp(64px, 10vh, 90px);
           }
           .expanded-preview {
-            width: 280px;
-            height: 280px;
-            margin-bottom: 32px;
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
           }
           .expanded-title {
-            font-size: 22px;
+            font-size: 18px;
           }
           .expanded-desc {
-            font-size: 13px;
-            max-width: 380px;
-            margin-top: 16px;
-          }
-          .expanded-content {
-            max-width: 500px;
+            font-size: 12px;
+            max-width: 340px;
+            margin-top: 12px;
+            max-height: 100px;
+            -webkit-line-clamp: 5;
           }
         }
       `}</style>
@@ -406,7 +407,7 @@ export default function Services() {
           {expandedIndex !== null && (
             <div className="expanded-content" key={`expanded-${expandedIndex}`} onClick={(e) => e.stopPropagation()}>
               <div className="expanded-preview">
-                {renderIcon(services[expandedIndex].key, isMobile ? 180 : 240, true)}
+                {renderIcon(services[expandedIndex].key, isMobile ? 150 : 180, true)}
               </div>
               <h2 className="expanded-title">{services[expandedIndex].title}</h2>
               <p className="expanded-desc">{services[expandedIndex].description}</p>
@@ -460,20 +461,6 @@ export default function Services() {
           >
             cogitoergosum143@gmail.com
           </a>
-
-          <div style={{ marginTop: "24px" }}>
-            <Link
-              href="/"
-              style={{
-                fontSize: "11px",
-                color: "#FAFAF8",
-                textDecoration: "none",
-                letterSpacing: "0.12em"
-              }}
-            >
-              ← About
-            </Link>
-          </div>
         </div>
 
       </div>
