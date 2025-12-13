@@ -288,10 +288,9 @@ export default function Navigation() {
           bottom: 0,
           left: 0,
           right: 0,
-          height: "90px",
+          height: "80px",
           zIndex: 200,
           background: "rgba(10, 10, 10, 0.98)",
-          borderTop: "0.5px solid rgba(255,255,255,0.06)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           transform: isOpen ? "translateY(0)" : "translateY(100%)",
@@ -310,7 +309,7 @@ export default function Navigation() {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: "36px"
+          gap: "24px"
         }}>
           {navItems.map((item) => (
             <Link
@@ -319,34 +318,22 @@ export default function Navigation() {
               onClick={() => setTimeout(() => setIsOpen(false), 150)}
               style={{
                 textDecoration: "none",
-                padding: "12px 4px"
+                padding: "8px 2px"
               }}
             >
               <span style={{
-                fontSize: "12px",
+                fontSize: "11px",
                 fontWeight: 200,
-                letterSpacing: "0.15em",
+                letterSpacing: "0.12em",
                 color: "#FAFAF8",
                 textTransform: "uppercase",
-                opacity: item.isActive ? 1 : 0.7
+                opacity: item.isActive ? 1 : 0.6
               }}>
                 {item.label}
               </span>
             </Link>
           ))}
         </div>
-
-        {/* Home indicator line like iOS */}
-        <div style={{
-          position: "absolute",
-          bottom: "8px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "134px",
-          height: "5px",
-          background: "rgba(255,255,255,0.2)",
-          borderRadius: "3px"
-        }} />
       </div>
     </>
   );
