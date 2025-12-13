@@ -312,74 +312,141 @@ export default function Creative() {
         .creative-page.loaded .load-section:nth-child(6) { transition-delay: 0.6s; }
         .creative-page.loaded .load-section:nth-child(7) { transition-delay: 0.7s; }
 
-        /* ========== MOBILE: APP-LIKE ICONS ========== */
+        /* ========== MOBILE: PREMIUM iOS-STYLE ICONS ========== */
         
         /* Experiences Gallery - Mobile */
         .experiences-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
+          gap: 18px;
           max-width: 260px;
           margin: 0 auto;
         }
         .experiences-item {
+          position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-          background: linear-gradient(145deg, rgba(45, 55, 72, 0.9), rgba(30, 38, 52, 0.95));
-          border-radius: 20px;
-          width: 110px;
-          height: 110px;
+          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease;
+          background: 
+            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(160, 180, 220, 0.15) 0%, transparent 50%),
+            linear-gradient(165deg, rgba(52, 65, 85, 0.95) 0%, rgba(28, 35, 48, 0.98) 100%);
+          border-radius: 24px;
+          width: 115px;
+          height: 115px;
           margin: 0 auto;
-          box-shadow: 0 4px 20px rgba(45, 55, 72, 0.4);
-          border: 1px solid rgba(160, 180, 220, 0.15);
+          box-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            0 8px 24px rgba(45, 55, 72, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1),
+            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+          border: 1px solid rgba(160, 180, 220, 0.2);
+          overflow: hidden;
+        }
+        .experiences-item::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 55%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 100%);
+          border-radius: 24px 24px 50% 50%;
+          pointer-events: none;
+          z-index: 1;
+        }
+        .experiences-item::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 40%;
+          background: linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, transparent 100%);
+          border-radius: 0 0 24px 24px;
+          pointer-events: none;
+          z-index: 1;
         }
         .experiences-item:active {
-          transform: scale(0.95);
+          transform: scale(0.92);
         }
         .experiences-preview {
-          width: 56px;
-          height: 56px;
+          position: relative;
+          z-index: 2;
+          width: 70px;
+          height: 70px;
           display: flex;
           align-items: center;
           justify-content: center;
         }
         .experiences-preview svg {
-          width: 56px;
-          height: 56px;
+          width: 70px;
+          height: 70px;
         }
 
         /* Geometry Gallery - Mobile */
         .geometry-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
+          gap: 18px;
           max-width: 260px;
           margin: 0 auto;
         }
         .geometry-item {
+          position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-          background: linear-gradient(145deg, rgba(72, 52, 85, 0.9), rgba(52, 35, 62, 0.95));
-          border-radius: 20px;
-          width: 110px;
-          height: 110px;
+          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease;
+          background: 
+            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(200, 160, 220, 0.15) 0%, transparent 50%),
+            linear-gradient(165deg, rgba(82, 60, 95, 0.95) 0%, rgba(45, 32, 55, 0.98) 100%);
+          border-radius: 24px;
+          width: 115px;
+          height: 115px;
           margin: 0 auto;
-          box-shadow: 0 4px 20px rgba(72, 52, 85, 0.4);
-          border: 1px solid rgba(200, 160, 220, 0.15);
+          box-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            0 8px 24px rgba(72, 52, 85, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1),
+            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+          border: 1px solid rgba(200, 160, 220, 0.2);
           overflow: hidden;
         }
+        .geometry-item::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 55%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 100%);
+          border-radius: 24px 24px 50% 50%;
+          pointer-events: none;
+          z-index: 1;
+        }
+        .geometry-item::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 40%;
+          background: linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, transparent 100%);
+          border-radius: 0 0 24px 24px;
+          pointer-events: none;
+          z-index: 1;
+        }
         .geometry-item:active {
-          transform: scale(0.95);
+          transform: scale(0.92);
         }
         .geometry-preview {
-          width: 65px;
-          height: 65px;
+          position: relative;
+          z-index: 2;
+          width: 72px;
+          height: 72px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -393,30 +460,64 @@ export default function Creative() {
         .icons3d-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
+          gap: 18px;
           max-width: 260px;
           margin: 0 auto;
         }
         .icons3d-item {
+          position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-          background: linear-gradient(145deg, rgba(55, 75, 70, 0.9), rgba(38, 55, 50, 0.95));
-          border-radius: 20px;
-          width: 110px;
-          height: 110px;
+          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease;
+          background: 
+            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(140, 200, 180, 0.15) 0%, transparent 50%),
+            linear-gradient(165deg, rgba(62, 88, 80, 0.95) 0%, rgba(35, 50, 45, 0.98) 100%);
+          border-radius: 24px;
+          width: 115px;
+          height: 115px;
           margin: 0 auto;
-          box-shadow: 0 4px 20px rgba(55, 75, 70, 0.4);
-          border: 1px solid rgba(140, 200, 180, 0.15);
+          box-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            0 8px 24px rgba(55, 75, 70, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1),
+            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+          border: 1px solid rgba(140, 200, 180, 0.2);
+          overflow: hidden;
+        }
+        .icons3d-item::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 55%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 100%);
+          border-radius: 24px 24px 50% 50%;
+          pointer-events: none;
+          z-index: 1;
+        }
+        .icons3d-item::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 40%;
+          background: linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, transparent 100%);
+          border-radius: 0 0 24px 24px;
+          pointer-events: none;
+          z-index: 1;
         }
         .icons3d-item:active {
-          transform: scale(0.95);
+          transform: scale(0.92);
         }
         .icons3d-preview {
-          width: 70px;
-          height: 70px;
+          position: relative;
+          z-index: 2;
+          width: 80px;
+          height: 80px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -711,41 +812,54 @@ export default function Creative() {
           background: rgba(255,255,255,0.05);
         }
 
-        /* ========== DESKTOP: APP-LIKE BUT LARGER ========== */
+        /* ========== DESKTOP: PREMIUM iOS-STYLE ========== */
         @media (min-width: 600px) {
           .experiences-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 28px;
-            max-width: 500px;
+            gap: 32px;
+            max-width: 480px;
           }
           .experiences-item {
-            background: linear-gradient(145deg, rgba(45, 55, 72, 0.9), rgba(30, 38, 52, 0.95));
-            border-radius: 32px;
+            background: 
+              radial-gradient(ellipse 120% 80% at 50% -20%, rgba(160, 180, 220, 0.15) 0%, transparent 50%),
+              linear-gradient(165deg, rgba(52, 65, 85, 0.95) 0%, rgba(28, 35, 48, 0.98) 100%);
+            border-radius: 40px;
             width: 200px;
             height: 200px;
-            box-shadow: 0 4px 20px rgba(45, 55, 72, 0.4);
-            border: 1px solid rgba(160, 180, 220, 0.15);
+            box-shadow: 
+              0 2px 4px rgba(0, 0, 0, 0.2),
+              0 8px 24px rgba(45, 55, 72, 0.5),
+              inset 0 1px 1px rgba(255, 255, 255, 0.1),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(160, 180, 220, 0.2);
             padding: 0;
           }
+          .experiences-item::before {
+            border-radius: 40px 40px 50% 50%;
+          }
+          .experiences-item::after {
+            border-radius: 0 0 40px 40px;
+          }
           .experiences-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 32px rgba(45, 55, 72, 0.6);
+            transform: scale(1.04) translateY(-2px);
+            box-shadow: 
+              0 4px 8px rgba(0, 0, 0, 0.15),
+              0 16px 48px rgba(45, 55, 72, 0.6),
+              0 0 40px rgba(160, 180, 220, 0.15),
+              inset 0 1px 1px rgba(255, 255, 255, 0.15),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
           .experiences-item:active {
             transform: scale(0.98);
           }
           .experiences-preview {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
           }
           .experiences-preview svg {
-            width: 100px;
-            height: 100px;
-          }
-          .experiences-expanded-title {
-            font-size: 26px;
-            margin-bottom: 20px;
+            width: 120px;
+            height: 120px;
           }
           .experiences-expanded-desc {
             font-size: 14px;
@@ -773,29 +887,46 @@ export default function Creative() {
           .geometry-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 28px;
-            max-width: 500px;
+            gap: 32px;
+            max-width: 480px;
           }
           .geometry-item {
-            background: linear-gradient(145deg, rgba(72, 52, 85, 0.9), rgba(52, 35, 62, 0.95));
-            border-radius: 32px;
+            background: 
+              radial-gradient(ellipse 120% 80% at 50% -20%, rgba(200, 160, 220, 0.15) 0%, transparent 50%),
+              linear-gradient(165deg, rgba(82, 60, 95, 0.95) 0%, rgba(45, 32, 55, 0.98) 100%);
+            border-radius: 40px;
             width: 200px;
             height: 200px;
-            box-shadow: 0 4px 20px rgba(72, 52, 85, 0.4);
-            border: 1px solid rgba(200, 160, 220, 0.15);
+            box-shadow: 
+              0 2px 4px rgba(0, 0, 0, 0.2),
+              0 8px 24px rgba(72, 52, 85, 0.5),
+              inset 0 1px 1px rgba(255, 255, 255, 0.1),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(200, 160, 220, 0.2);
             padding: 0;
             overflow: hidden;
           }
+          .geometry-item::before {
+            border-radius: 40px 40px 50% 50%;
+          }
+          .geometry-item::after {
+            border-radius: 0 0 40px 40px;
+          }
           .geometry-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 32px rgba(72, 52, 85, 0.6);
+            transform: scale(1.04) translateY(-2px);
+            box-shadow: 
+              0 4px 8px rgba(0, 0, 0, 0.15),
+              0 16px 48px rgba(72, 52, 85, 0.6),
+              0 0 40px rgba(200, 160, 220, 0.15),
+              inset 0 1px 1px rgba(255, 255, 255, 0.15),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
           .geometry-item:active {
             transform: scale(0.98);
           }
           .geometry-preview {
-            width: 100px;
-            height: 100px;
+            width: 115px;
+            height: 115px;
           }
           .geometry-expanded-preview {
             width: 180px;
@@ -812,28 +943,45 @@ export default function Creative() {
           .icons3d-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 28px;
-            max-width: 500px;
+            gap: 32px;
+            max-width: 480px;
           }
           .icons3d-item {
-            background: linear-gradient(145deg, rgba(55, 75, 70, 0.9), rgba(38, 55, 50, 0.95));
-            border-radius: 32px;
+            background: 
+              radial-gradient(ellipse 120% 80% at 50% -20%, rgba(140, 200, 180, 0.15) 0%, transparent 50%),
+              linear-gradient(165deg, rgba(62, 88, 80, 0.95) 0%, rgba(35, 50, 45, 0.98) 100%);
+            border-radius: 40px;
             width: 200px;
             height: 200px;
-            box-shadow: 0 4px 20px rgba(55, 75, 70, 0.4);
-            border: 1px solid rgba(140, 200, 180, 0.15);
+            box-shadow: 
+              0 2px 4px rgba(0, 0, 0, 0.2),
+              0 8px 24px rgba(55, 75, 70, 0.5),
+              inset 0 1px 1px rgba(255, 255, 255, 0.1),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(140, 200, 180, 0.2);
             padding: 0;
           }
+          .icons3d-item::before {
+            border-radius: 40px 40px 50% 50%;
+          }
+          .icons3d-item::after {
+            border-radius: 0 0 40px 40px;
+          }
           .icons3d-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 32px rgba(55, 75, 70, 0.6);
+            transform: scale(1.04) translateY(-2px);
+            box-shadow: 
+              0 4px 8px rgba(0, 0, 0, 0.15),
+              0 16px 48px rgba(55, 75, 70, 0.6),
+              0 0 40px rgba(140, 200, 180, 0.15),
+              inset 0 1px 1px rgba(255, 255, 255, 0.15),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
           .icons3d-item:active {
             transform: scale(0.98);
           }
           .icons3d-preview {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
           }
           .icons3d-expanded-preview {
             width: 240px;

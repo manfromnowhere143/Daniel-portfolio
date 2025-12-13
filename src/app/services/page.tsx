@@ -64,7 +64,7 @@ export default function Services() {
     setExpandedIndex(null);
   };
 
-  const iconSize = isMobile ? 85 : 160;
+  const iconSize = isMobile ? 92 : 170;
 
   return (
     <>
@@ -72,22 +72,63 @@ export default function Services() {
         .services-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
+          gap: 18px;
           max-width: 260px;
           margin: 0 auto;
         }
         
         .services-item {
+          position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 20px;
-          width: 110px;
-          height: 110px;
+          border-radius: 24px;
+          width: 115px;
+          height: 115px;
           margin: 0 auto;
           cursor: pointer;
-          transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.4s ease;
+          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                      box-shadow 0.25s ease, 
+                      opacity 0.4s ease;
           opacity: 0;
+          overflow: hidden;
+        }
+        
+        /* Premium inner lighting effect */
+        .services-item::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 55%;
+          background: linear-gradient(
+            180deg, 
+            rgba(255, 255, 255, 0.12) 0%, 
+            rgba(255, 255, 255, 0.04) 40%,
+            transparent 100%
+          );
+          border-radius: 24px 24px 50% 50%;
+          pointer-events: none;
+          z-index: 1;
+        }
+        
+        /* Subtle bottom shadow for depth */
+        .services-item::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 40%;
+          background: linear-gradient(
+            0deg, 
+            rgba(0, 0, 0, 0.25) 0%, 
+            transparent 100%
+          );
+          border-radius: 0 0 24px 24px;
+          pointer-events: none;
+          z-index: 1;
         }
         
         .services-item.loaded {
@@ -95,35 +136,65 @@ export default function Services() {
         }
         
         .services-item:active {
-          transform: scale(0.95);
+          transform: scale(0.92);
         }
         
-        /* Website - Soft indigo/blue */
+        /* Website - Premium indigo */
         .services-item.website {
-          background: linear-gradient(145deg, rgba(55, 48, 107, 0.9), rgba(38, 32, 78, 0.95));
-          box-shadow: 0 4px 20px rgba(55, 48, 107, 0.4);
-          border: 1px solid rgba(165, 180, 252, 0.15);
+          background: 
+            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(165, 180, 252, 0.15) 0%, transparent 50%),
+            linear-gradient(165deg, rgba(65, 55, 120, 0.95) 0%, rgba(35, 28, 70, 0.98) 100%);
+          box-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            0 8px 24px rgba(55, 48, 107, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1),
+            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+          border: 1px solid rgba(165, 180, 252, 0.2);
         }
         
-        /* Dashboard - Soft rose/pink */
+        /* Dashboard - Premium rose */
         .services-item.dashboard {
-          background: linear-gradient(145deg, rgba(112, 45, 75, 0.9), rgba(82, 30, 55, 0.95));
-          box-shadow: 0 4px 20px rgba(112, 45, 75, 0.4);
-          border: 1px solid rgba(251, 182, 206, 0.15);
+          background: 
+            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(251, 182, 206, 0.15) 0%, transparent 50%),
+            linear-gradient(165deg, rgba(125, 52, 85, 0.95) 0%, rgba(72, 28, 50, 0.98) 100%);
+          box-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            0 8px 24px rgba(112, 45, 75, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1),
+            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+          border: 1px solid rgba(251, 182, 206, 0.2);
         }
         
-        /* API - Soft mint/green */
+        /* API - Premium mint */
         .services-item.api {
-          background: linear-gradient(145deg, rgba(32, 90, 70, 0.9), rgba(22, 65, 52, 0.95));
-          box-shadow: 0 4px 20px rgba(32, 90, 70, 0.4);
-          border: 1px solid rgba(134, 239, 172, 0.15);
+          background: 
+            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(134, 239, 172, 0.15) 0%, transparent 50%),
+            linear-gradient(165deg, rgba(38, 105, 80, 0.95) 0%, rgba(18, 58, 45, 0.98) 100%);
+          box-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            0 8px 24px rgba(32, 90, 70, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1),
+            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+          border: 1px solid rgba(134, 239, 172, 0.2);
         }
         
-        /* LLM - Soft coral/orange */
+        /* LLM - Premium coral */
         .services-item.llm {
-          background: linear-gradient(145deg, rgba(124, 58, 45, 0.9), rgba(92, 40, 30, 0.95));
-          box-shadow: 0 4px 20px rgba(124, 58, 45, 0.4);
-          border: 1px solid rgba(253, 186, 140, 0.15);
+          background: 
+            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(253, 186, 140, 0.15) 0%, transparent 50%),
+            linear-gradient(165deg, rgba(140, 68, 52, 0.95) 0%, rgba(82, 38, 28, 0.98) 100%);
+          box-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            0 8px 24px rgba(124, 58, 45, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1),
+            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+          border: 1px solid rgba(253, 186, 140, 0.2);
+        }
+        
+        /* Icon wrapper for z-index above lighting effects */
+        .services-item > * {
+          position: relative;
+          z-index: 2;
         }
 
         .services-seeking {
@@ -224,34 +295,62 @@ export default function Services() {
         
         @media (min-width: 600px) {
           .services-grid {
-            gap: 28px;
-            max-width: 500px;
+            gap: 32px;
+            max-width: 480px;
           }
           
           .services-item {
             width: 200px;
             height: 200px;
-            border-radius: 32px;
+            border-radius: 40px;
+          }
+          
+          .services-item::before {
+            border-radius: 40px 40px 50% 50%;
+          }
+          
+          .services-item::after {
+            border-radius: 0 0 40px 40px;
           }
           
           .services-item:hover {
-            transform: scale(1.05);
+            transform: scale(1.04) translateY(-2px);
           }
           
           .services-item.website:hover {
-            box-shadow: 0 8px 32px rgba(55, 48, 107, 0.6);
+            box-shadow: 
+              0 4px 8px rgba(0, 0, 0, 0.15),
+              0 16px 48px rgba(55, 48, 107, 0.6),
+              0 0 40px rgba(165, 180, 252, 0.15),
+              inset 0 1px 1px rgba(255, 255, 255, 0.15),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
           
           .services-item.dashboard:hover {
-            box-shadow: 0 8px 32px rgba(112, 45, 75, 0.6);
+            box-shadow: 
+              0 4px 8px rgba(0, 0, 0, 0.15),
+              0 16px 48px rgba(112, 45, 75, 0.6),
+              0 0 40px rgba(251, 182, 206, 0.15),
+              inset 0 1px 1px rgba(255, 255, 255, 0.15),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
           
           .services-item.api:hover {
-            box-shadow: 0 8px 32px rgba(32, 90, 70, 0.6);
+            box-shadow: 
+              0 4px 8px rgba(0, 0, 0, 0.15),
+              0 16px 48px rgba(32, 90, 70, 0.6),
+              0 0 40px rgba(134, 239, 172, 0.15),
+              inset 0 1px 1px rgba(255, 255, 255, 0.15),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
           
           .services-item.llm:hover {
-            box-shadow: 0 8px 32px rgba(124, 58, 45, 0.6);
+            box-shadow: 
+              0 4px 8px rgba(0, 0, 0, 0.15),
+              0 16px 48px rgba(124, 58, 45, 0.6),
+              0 0 40px rgba(253, 186, 140, 0.15),
+              inset 0 1px 1px rgba(255, 255, 255, 0.15),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
 
           .services-seeking {
