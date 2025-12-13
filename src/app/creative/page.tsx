@@ -429,9 +429,11 @@ export default function Creative() {
           position: fixed;
           top: 0;
           left: 0;
-          width: 100vw;
-          height: 100vh;
-          background: rgba(10, 10, 10, 0.98);
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          background: #0A0A0A;
           z-index: 1000;
           display: flex;
           align-items: center;
@@ -439,8 +441,6 @@ export default function Creative() {
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.3s ease;
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
         }
         
         .expanded-overlay.active {
@@ -454,8 +454,10 @@ export default function Creative() {
           align-items: center;
           justify-content: center;
           text-align: center;
-          padding: 0 20px;
-          max-height: 100vh;
+          padding: 0 24px;
+          width: 100%;
+          max-width: 400px;
+          max-height: 90vh;
           overflow: hidden;
         }
         
@@ -467,22 +469,20 @@ export default function Creative() {
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 12px;
-          overflow: visible;
+          overflow: hidden;
+          position: relative;
         }
         
         .expanded-preview-sphere {
-          width: 85vw;
-          max-width: 320px;
-          height: 42vh;
-          max-height: 260px;
+          width: 280px;
+          height: 220px;
+          margin-bottom: 20px;
         }
         
         .expanded-preview-manifold {
-          width: 90vw;
-          max-width: 340px;
-          height: 32vh;
-          max-height: 180px;
+          width: 320px;
+          height: 160px;
+          margin-bottom: 24px;
         }
         
         .expanded-preview-video {
@@ -492,41 +492,44 @@ export default function Creative() {
           max-height: 180px;
           border-radius: 8px;
           overflow: hidden;
-          margin-bottom: 12px;
+          margin-bottom: 20px;
         }
         
         .expanded-preview-architecture {
-          width: 88vw;
-          max-width: 320px;
-          height: 45vw;
-          max-height: 180px;
+          width: 300px;
+          height: 180px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 12px;
+          overflow: hidden;
+          margin-bottom: 20px;
         }
         
         .expanded-preview-geometry {
+          width: 180px;
+          height: 180px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          margin-bottom: 20px;
+        }
+        
+        .expanded-preview-icon {
           width: 160px;
           height: 160px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 12px;
-        }
-        
-        .expanded-preview-icon {
-          width: 140px;
-          height: 140px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 12px;
+          overflow: hidden;
+          margin-bottom: 20px;
         }
         
         .expanded-preview-3d canvas,
         .expanded-preview-icon canvas,
-        .expanded-preview-geometry canvas {
+        .expanded-preview-geometry canvas,
+        .expanded-preview-video canvas,
+        .expanded-preview-architecture canvas {
           background: transparent !important;
         }
         
@@ -664,36 +667,36 @@ export default function Creative() {
           
           /* Desktop previews */
           .expanded-preview-sphere {
-            width: 380px;
-            max-width: 380px;
-            height: 300px;
-            max-height: 300px;
+            width: 360px;
+            height: 280px;
+            margin-bottom: 24px;
           }
           .expanded-preview-manifold {
-            width: 460px;
-            max-width: 460px;
-            height: 220px;
-            max-height: 220px;
+            width: 420px;
+            height: 200px;
+            margin-bottom: 28px;
           }
           .expanded-preview-video {
             width: 400px;
             max-width: 400px;
             height: 230px;
             max-height: 230px;
+            margin-bottom: 24px;
           }
           .expanded-preview-architecture {
-            width: 440px;
-            max-width: 440px;
-            height: 280px;
-            max-height: 280px;
+            width: 420px;
+            height: 260px;
+            margin-bottom: 24px;
           }
           .expanded-preview-geometry {
             width: 220px;
             height: 220px;
+            margin-bottom: 24px;
           }
           .expanded-preview-icon {
             width: 180px;
             height: 180px;
+            margin-bottom: 24px;
           }
         }
       `}</style>
@@ -830,7 +833,7 @@ export default function Creative() {
         {expandedWorkItem && (
           <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
             <div className="expanded-preview-icon">
-              {renderWorkIcon(expandedWork!, 130)}
+              {renderWorkIcon(expandedWork!, 145)}
             </div>
             <p className="expanded-title">{expandedWorkItem.title}</p>
             <p className="expanded-desc">{expandedWorkItem.description}</p>
@@ -844,7 +847,7 @@ export default function Creative() {
         {expandedServiceItem && (
           <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
             <div className="expanded-preview-icon">
-              {renderServiceIcon(expandedService!, 130, true)}
+              {renderServiceIcon(expandedService!, 145, true)}
             </div>
             <p className="expanded-title">{expandedServiceItem.title}</p>
             <p className="expanded-desc">{expandedServiceItem.description}</p>

@@ -210,9 +210,11 @@ export default function Services() {
           position: fixed;
           top: 0;
           left: 0;
-          width: 100vw;
-          height: 100vh;
-          background: rgba(10, 10, 10, 0.98);
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          background: #0A0A0A;
           z-index: 1000;
           display: flex;
           align-items: center;
@@ -220,8 +222,6 @@ export default function Services() {
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.3s ease;
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
         }
         .expanded-overlay.active {
           opacity: 1;
@@ -233,41 +233,39 @@ export default function Services() {
           align-items: center;
           justify-content: center;
           text-align: center;
-          padding: 0 20px;
-          max-height: 100vh;
+          padding: 0 24px;
+          width: 100%;
+          max-width: 360px;
+          max-height: 90vh;
           overflow: hidden;
         }
         .expanded-preview {
-          width: 160px;
-          height: 160px;
+          width: 180px;
+          height: 180px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 16px;
+          margin-bottom: 24px;
+          overflow: hidden;
         }
         .expanded-preview canvas {
           background: transparent !important;
         }
         .expanded-title {
-          font-size: 16px;
+          font-size: 17px;
           font-weight: 200;
           color: #FAFAF8;
           letter-spacing: 0.05em;
           margin: 0;
         }
         .expanded-desc {
-          margin-top: 10px;
-          font-size: 11px;
+          margin-top: 12px;
+          font-size: 12px;
           font-weight: 300;
-          color: rgba(250, 250, 248, 0.5);
-          line-height: 1.5;
-          max-width: 280px;
+          color: rgba(250, 250, 248, 0.55);
+          line-height: 1.6;
+          max-width: 300px;
           text-align: center;
-          max-height: 80px;
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-line-clamp: 4;
-          -webkit-box-orient: vertical;
         }
         .expanded-close {
           position: absolute;
@@ -358,9 +356,9 @@ export default function Services() {
             margin-top: clamp(64px, 10vh, 90px);
           }
           .expanded-preview {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 20px;
+            width: 220px;
+            height: 220px;
+            margin-bottom: 28px;
           }
           .expanded-title {
             font-size: 18px;
@@ -368,9 +366,7 @@ export default function Services() {
           .expanded-desc {
             font-size: 12px;
             max-width: 340px;
-            margin-top: 12px;
-            max-height: 100px;
-            -webkit-line-clamp: 5;
+            margin-top: 14px;
           }
         }
       `}</style>
@@ -407,7 +403,7 @@ export default function Services() {
           {expandedIndex !== null && (
             <div className="expanded-content" key={`expanded-${expandedIndex}`} onClick={(e) => e.stopPropagation()}>
               <div className="expanded-preview">
-                {renderIcon(services[expandedIndex].key, isMobile ? 150 : 180, true)}
+                {renderIcon(services[expandedIndex].key, isMobile ? 160 : 200, true)}
               </div>
               <h2 className="expanded-title">{services[expandedIndex].title}</h2>
               <p className="expanded-desc">{services[expandedIndex].description}</p>
