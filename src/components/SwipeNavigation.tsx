@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect, ReactNode, useCallback } from "react";
 
-const PAGES = ["/", "/work", "/creative", "/services"];
+const PAGES = ["/", "/work", "/services", "/creative", "/about"];
 
 interface SwipeNavigationProps {
   children: ReactNode;
@@ -62,9 +62,14 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
   }, [getCurrentPageIndex]);
 
   const isOverlayOpen = () => {
+    // Check for sidebar menu
     const sidebarOpen = document.querySelector('[style*="translateY(0)"][style*="z-index: 200"]');
     const overlayVisible = document.querySelector('[style*="opacity: 1"][style*="z-index: 150"]');
-    return !!(sidebarOpen || overlayVisible);
+
+    // Check for expanded cards/overlays (they have .active class and z-index: 1000)
+    const expandedCard = document.querySelector('.expanded-overlay.active, .experiences-overlay.active, .geometry-overlay.active, .icons3d-overlay.active');
+
+    return !!(sidebarOpen || overlayVisible || expandedCard);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -90,6 +95,14 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isMobile || !isDragging || isNavigating) return;
+
+    // Stop if overlay opened during drag
+    if (isOverlayOpen()) {
+      setIsDragging(false);
+      setDragOffset(0);
+      isValidSwipe.current = false;
+      return;
+    }
 
     const touch = e.touches[0];
     const deltaX = touch.clientX - touchStartX.current;

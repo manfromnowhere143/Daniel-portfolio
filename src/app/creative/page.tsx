@@ -132,7 +132,6 @@ export default function Creative() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Small delay for smooth entrance - identical to work/services
     const timer = setTimeout(() => setIsLoaded(true), 50);
     return () => clearTimeout(timer);
   }, []);
@@ -155,7 +154,6 @@ export default function Creative() {
   const expandedWorkItem = workIcons3DItems.find(item => item.id === expandedWork);
   const expandedServiceItem = serviceIcons3DItems.find(item => item.id === expandedService);
 
-  // Render 3D Work Icon
   const renderWorkIcon = (id: string, size: number) => {
     switch (id) {
       case "trade69": return <Trade69Icon3D size={size} />;
@@ -166,7 +164,6 @@ export default function Creative() {
     }
   };
 
-  // Render 3D Service Icon
   const renderServiceIcon = (id: string, size: number, forceAnimate: boolean = false) => {
     switch (id) {
       case "website": return <WebsiteIcon3D size={size} forceAnimate={forceAnimate} />;
@@ -177,25 +174,17 @@ export default function Creative() {
     }
   };
 
-  // Render Experience Thumbnail - Elegant SVG icons
   const renderExperienceThumbnail = (id: string) => {
     switch (id) {
       case "sphere":
         return (
           <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            {/* Geodesic sphere */}
             <circle cx="40" cy="40" r="28" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.4" />
             <circle cx="40" cy="40" r="20" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.6" />
             <circle cx="40" cy="40" r="12" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.8" />
-            {/* Horizontal ellipses */}
             <ellipse cx="40" cy="40" rx="28" ry="10" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.5" />
             <ellipse cx="40" cy="40" rx="28" ry="18" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.35" />
-            {/* Vertical ellipse */}
             <ellipse cx="40" cy="40" rx="10" ry="28" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.5" />
-            {/* Diagonal cross */}
-            <ellipse cx="40" cy="40" rx="28" ry="10" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.3" transform="rotate(45 40 40)" />
-            <ellipse cx="40" cy="40" rx="28" ry="10" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.3" transform="rotate(-45 40 40)" />
-            {/* Center glow */}
             <circle cx="40" cy="40" r="4" fill="#FAFAF8" opacity="0.5" />
             <circle cx="40" cy="40" r="2" fill="#FAFAF8" opacity="0.9" />
           </svg>
@@ -203,72 +192,37 @@ export default function Creative() {
       case "manifold":
         return (
           <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            {/* Wave grid - more prominent */}
             <path d="M8 55 Q24 42, 40 55 T72 55" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.3" fill="none" />
             <path d="M8 48 Q24 35, 40 48 T72 48" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.4" fill="none" />
             <path d="M8 41 Q24 28, 40 41 T72 41" stroke="#FAFAF8" strokeWidth="0.7" opacity="0.7" fill="none" />
             <path d="M8 34 Q24 21, 40 34 T72 34" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.4" fill="none" />
             <path d="M8 27 Q24 14, 40 27 T72 27" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.3" fill="none" />
-            {/* Cross lines for depth */}
-            <path d="M15 20 L15 60" stroke="#FAFAF8" strokeWidth="0.3" opacity="0.2" />
-            <path d="M27 16 L27 62" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.3" />
-            <path d="M40 14 L40 64" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
-            <path d="M53 16 L53 62" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.3" />
-            <path d="M65 20 L65 60" stroke="#FAFAF8" strokeWidth="0.3" opacity="0.2" />
-            {/* Glow points */}
             <circle cx="40" cy="41" r="3" fill="#FAFAF8" opacity="0.6" />
-            <circle cx="27" cy="34" r="1.5" fill="#FAFAF8" opacity="0.3" />
-            <circle cx="53" cy="34" r="1.5" fill="#FAFAF8" opacity="0.3" />
           </svg>
         );
       case "metatron-genesis":
         return (
           <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            {/* Outer circle */}
             <circle cx="40" cy="40" r="28" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
-            {/* Inner circles - Fruit of Life pattern */}
             <circle cx="40" cy="40" r="14" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.6" />
             <circle cx="40" cy="26" r="14" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.4" />
             <circle cx="40" cy="54" r="14" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.4" />
             <circle cx="52" cy="33" r="14" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.4" />
-            <circle cx="52" cy="47" r="14" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.4" />
             <circle cx="28" cy="33" r="14" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.4" />
-            <circle cx="28" cy="47" r="14" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.4" />
-            {/* Metatron lines */}
-            <line x1="40" y1="26" x2="52" y2="33" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
-            <line x1="52" y1="33" x2="52" y2="47" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
-            <line x1="52" y1="47" x2="40" y2="54" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
-            <line x1="40" y1="54" x2="28" y2="47" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
-            <line x1="28" y1="47" x2="28" y2="33" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
-            <line x1="28" y1="33" x2="40" y2="26" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
-            {/* Cross lines */}
-            <line x1="40" y1="26" x2="40" y2="54" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
-            <line x1="28" y1="33" x2="52" y2="47" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
-            <line x1="28" y1="47" x2="52" y2="33" stroke="#FAFAF8" strokeWidth="0.4" opacity="0.5" />
-            {/* Center */}
             <circle cx="40" cy="40" r="3" fill="#FAFAF8" opacity="0.6" />
           </svg>
         );
       case "architecture":
         return (
           <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            {/* Central node */}
             <circle cx="40" cy="40" r="10" stroke="#FAFAF8" strokeWidth="0.8" opacity="0.7" />
             <circle cx="40" cy="40" r="4" fill="#FAFAF8" opacity="0.6" />
-            {/* Orbiting nodes */}
             <circle cx="40" cy="12" r="6" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.5" />
-            <circle cx="40" cy="12" r="2" fill="#FAFAF8" opacity="0.4" />
             <circle cx="64" cy="26" r="6" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.5" />
-            <circle cx="64" cy="26" r="2" fill="#FAFAF8" opacity="0.4" />
             <circle cx="64" cy="54" r="6" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.5" />
-            <circle cx="64" cy="54" r="2" fill="#FAFAF8" opacity="0.4" />
             <circle cx="40" cy="68" r="6" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.5" />
-            <circle cx="40" cy="68" r="2" fill="#FAFAF8" opacity="0.4" />
             <circle cx="16" cy="54" r="6" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.5" />
-            <circle cx="16" cy="54" r="2" fill="#FAFAF8" opacity="0.4" />
             <circle cx="16" cy="26" r="6" stroke="#FAFAF8" strokeWidth="0.6" opacity="0.5" />
-            <circle cx="16" cy="26" r="2" fill="#FAFAF8" opacity="0.4" />
-            {/* Connection lines */}
             <line x1="40" y1="30" x2="40" y2="18" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
             <line x1="49" y1="34" x2="58" y2="26" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
             <line x1="49" y1="46" x2="58" y2="54" stroke="#FAFAF8" strokeWidth="0.5" opacity="0.4" />
@@ -285,7 +239,6 @@ export default function Creative() {
   return (
     <>
       <style>{`
-        /* Page Load Animation */
         .creative-page {
           opacity: 0;
           transition: opacity 0.4s ease;
@@ -294,218 +247,105 @@ export default function Creative() {
           opacity: 1;
         }
 
-        /* ========== MOBILE: PREMIUM iOS-STYLE ICONS ========== */
+        /* ========== iOS-STYLE ICON GRIDS - 4 PER ROW ========== */
         
-        /* Experiences Gallery - Mobile */
-        .experiences-grid {
+        .experiences-grid, .geometry-grid, .icons3d-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 18px;
-          max-width: 260px;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 12px;
+          max-width: 340px;
           margin: 0 auto;
         }
+        
+        .experiences-item, .geometry-item, .icons3d-item {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease;
+          border-radius: 16px;
+          width: 72px;
+          height: 72px;
+          margin: 0 auto;
+          overflow: hidden;
+        }
+        
         .experiences-item {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease;
-          background: 
-            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(160, 180, 220, 0.15) 0%, transparent 50%),
+          background: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(160, 180, 220, 0.15) 0%, transparent 50%),
             linear-gradient(165deg, rgba(52, 65, 85, 0.95) 0%, rgba(28, 35, 48, 0.98) 100%);
-          border-radius: 24px;
-          width: 115px;
-          height: 115px;
-          margin: 0 auto;
-          box-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.2),
-            0 8px 24px rgba(45, 55, 72, 0.5),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1),
-            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 16px rgba(45, 55, 72, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -2px 4px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(160, 180, 220, 0.2);
-          overflow: hidden;
         }
-        .experiences-item::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 55%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 100%);
-          border-radius: 24px 24px 50% 50%;
-          pointer-events: none;
-          z-index: 1;
-        }
-        .experiences-item::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 40%;
-          background: linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, transparent 100%);
-          border-radius: 0 0 24px 24px;
-          pointer-events: none;
-          z-index: 1;
-        }
-        .experiences-item:active {
-          transform: scale(0.92);
-        }
-        .experiences-preview {
-          position: relative;
-          z-index: 2;
-          width: 85px;
-          height: 85px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .experiences-preview svg {
-          width: 85px;
-          height: 85px;
-        }
-
-        /* Geometry Gallery - Mobile */
-        .geometry-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 18px;
-          max-width: 260px;
-          margin: 0 auto;
-        }
+        
         .geometry-item {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease;
-          background: 
-            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(200, 160, 220, 0.15) 0%, transparent 50%),
+          background: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(200, 160, 220, 0.15) 0%, transparent 50%),
             linear-gradient(165deg, rgba(82, 60, 95, 0.95) 0%, rgba(45, 32, 55, 0.98) 100%);
-          border-radius: 24px;
-          width: 115px;
-          height: 115px;
-          margin: 0 auto;
-          box-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.2),
-            0 8px 24px rgba(72, 52, 85, 0.5),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1),
-            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 16px rgba(72, 52, 85, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -2px 4px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(200, 160, 220, 0.2);
-          overflow: hidden;
         }
-        .geometry-item::before {
+        
+        .icons3d-item {
+          background: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(140, 200, 180, 0.15) 0%, transparent 50%),
+            linear-gradient(165deg, rgba(62, 88, 80, 0.95) 0%, rgba(35, 50, 45, 0.98) 100%);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 16px rgba(55, 75, 70, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+          border: 1px solid rgba(140, 200, 180, 0.2);
+        }
+        
+        .experiences-item::before, .geometry-item::before, .icons3d-item::before {
           content: '';
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
+          top: 0; left: 0; right: 0;
           height: 55%;
           background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 100%);
-          border-radius: 24px 24px 50% 50%;
+          border-radius: 16px 16px 50% 50%;
           pointer-events: none;
           z-index: 1;
         }
-        .geometry-item::after {
+        
+        .experiences-item::after, .geometry-item::after, .icons3d-item::after {
           content: '';
           position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
+          bottom: 0; left: 0; right: 0;
           height: 40%;
           background: linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, transparent 100%);
-          border-radius: 0 0 24px 24px;
+          border-radius: 0 0 16px 16px;
           pointer-events: none;
           z-index: 1;
         }
-        .geometry-item:active {
+        
+        .experiences-item:active, .geometry-item:active, .icons3d-item:active {
           transform: scale(0.92);
         }
-        .geometry-preview {
+        
+        .experiences-preview, .geometry-preview {
           position: relative;
           z-index: 2;
-          width: 85px;
-          height: 85px;
+          width: 55px;
+          height: 55px;
           display: flex;
           align-items: center;
           justify-content: center;
         }
-        .geometry-preview svg {
-          max-width: 100%;
-          max-height: 100%;
+        
+        .experiences-preview svg {
+          width: 55px;
+          height: 55px;
         }
-
-        /* 3D Icons Gallery - Mobile */
-        .icons3d-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 18px;
-          max-width: 260px;
-          margin: 0 auto;
-        }
-        .icons3d-item {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease;
-          background: 
-            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(140, 200, 180, 0.15) 0%, transparent 50%),
-            linear-gradient(165deg, rgba(62, 88, 80, 0.95) 0%, rgba(35, 50, 45, 0.98) 100%);
-          border-radius: 24px;
-          width: 115px;
-          height: 115px;
-          margin: 0 auto;
-          box-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.2),
-            0 8px 24px rgba(55, 75, 70, 0.5),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1),
-            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
-          border: 1px solid rgba(140, 200, 180, 0.2);
-          overflow: hidden;
-        }
-        .icons3d-item::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 55%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 100%);
-          border-radius: 24px 24px 50% 50%;
-          pointer-events: none;
-          z-index: 1;
-        }
-        .icons3d-item::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 40%;
-          background: linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, transparent 100%);
-          border-radius: 0 0 24px 24px;
-          pointer-events: none;
-          z-index: 1;
-        }
-        .icons3d-item:active {
-          transform: scale(0.92);
-        }
+        
         .icons3d-preview {
           position: relative;
           z-index: 2;
-          width: 95px;
-          height: 95px;
+          width: 60px;
+          height: 60px;
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
-        /* SVG 2D Icons Grid */
         .svg-icons-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
@@ -521,8 +361,11 @@ export default function Creative() {
           transform: scale(0.9);
         }
 
-        /* Experiences Expanded Overlay */
-        .experiences-overlay {
+        /* ═══════════════════════════════════════════════════════════ */
+        /* EXPANDED OVERLAY - ULTRA COMPACT, ONE SCREEN */
+        /* ═══════════════════════════════════════════════════════════ */
+        
+        .expanded-overlay {
           position: fixed;
           top: 0;
           left: 0;
@@ -531,452 +374,144 @@ export default function Creative() {
           background: rgba(10, 10, 10, 0.98);
           z-index: 1000;
           display: flex;
-          flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 20px 16px;
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.3s ease;
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
+          overflow: hidden;
         }
-        .experiences-overlay.active {
+        
+        .expanded-overlay.active {
           opacity: 1;
           pointer-events: auto;
         }
-        .experiences-expanded-content {
-          transform: scale(0.92);
-          opacity: 0;
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+        
+        .expanded-content {
           display: flex;
           flex-direction: column;
           align-items: center;
           width: 100%;
-          max-width: 400px;
+          max-width: 300px;
         }
-        .experiences-overlay.active .experiences-expanded-content {
+        
+        .expanded-icon {
+          transform: scale(0.8);
+          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .expanded-overlay.active .expanded-icon {
           transform: scale(1);
-          opacity: 1;
         }
-        .experiences-expanded-preview {
-          width: 160px;
-          height: 160px;
-          margin-bottom: 16px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-shrink: 0;
-        }
-        .experiences-expanded-title {
-          font-size: 18px;
+        
+        .expanded-title {
+          margin-top: 8px;
+          font-size: 16px;
           font-weight: 200;
           color: #FAFAF8;
-          letter-spacing: 0.03em;
-          margin-bottom: 10px;
+          letter-spacing: 0.05em;
           text-align: center;
-          width: 100%;
+          opacity: 0;
+          transition: opacity 0.3s ease 0.1s;
         }
-        .experiences-expanded-desc {
-          font-size: 12px;
-          color: #FAFAF8;
-          line-height: 1.6;
-          font-weight: 300;
-          text-align: center;
-          padding: 0 16px;
-          max-width: 340px;
+        
+        .expanded-overlay.active .expanded-title {
+          opacity: 1;
         }
-        .experiences-expanded-tech {
-          font-size: 9px;
-          color: #FAFAF8;
-          letter-spacing: 0.08em;
-          font-family: monospace;
-          margin-top: 12px;
-          opacity: 0.5;
-        }
-        .experiences-expanded-link {
-          margin-top: 10px;
+        
+        .expanded-desc {
+          margin-top: 6px;
           font-size: 10px;
-          color: #FAFAF8;
-          letter-spacing: 0.1em;
+          font-weight: 300;
+          color: rgba(250, 250, 248, 0.7);
+          line-height: 1.5;
+          text-align: center;
+          opacity: 0;
+          transition: opacity 0.3s ease 0.15s;
+          padding: 0 12px;
+        }
+        
+        .expanded-overlay.active .expanded-desc {
+          opacity: 1;
+        }
+        
+        .expanded-tech {
+          margin-top: 4px;
+          font-size: 7px;
+          color: rgba(250, 250, 248, 0.35);
+          letter-spacing: 0.05em;
+          font-family: monospace;
+          text-align: center;
+        }
+        
+        .expanded-link {
+          margin-top: 6px;
+          font-size: 8px;
+          color: rgba(250, 250, 248, 0.5);
+          letter-spacing: 0.06em;
           text-decoration: none;
           text-transform: uppercase;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
         }
-        .experiences-close {
+        
+        .expanded-close {
           position: absolute;
-          top: 16px;
-          left: 16px;
-          width: 40px;
-          height: 40px;
+          top: 10px;
+          left: 10px;
+          width: 32px;
+          height: 32px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: #FAFAF8;
-          opacity: 0.5;
-          font-size: 24px;
+          opacity: 0.35;
+          font-size: 20px;
           font-weight: 200;
           cursor: pointer;
           border-radius: 50%;
-          background: rgba(255,255,255,0.05);
         }
 
-        /* Geometry Expanded overlay */
-        .geometry-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(10, 10, 10, 0.98);
-          z-index: 1000;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: 20px 16px;
-          opacity: 0;
-          pointer-events: none;
-          transition: opacity 0.3s ease;
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-        }
-        .geometry-overlay.active {
-          opacity: 1;
-          pointer-events: auto;
-        }
-        .geometry-expanded-content {
-          transform: scale(0.92);
-          opacity: 0;
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          max-width: 400px;
-        }
-        .geometry-overlay.active .geometry-expanded-content {
-          transform: scale(1);
-          opacity: 1;
-        }
-        .geometry-expanded-preview {
-          width: 140px;
-          height: 140px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 16px;
-          background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%);
-          border-radius: 50%;
-          padding: 20px;
-          flex-shrink: 0;
-        }
-        .geometry-expanded-preview svg {
-          max-width: 100%;
-          max-height: 100%;
-        }
-        .geometry-expanded-title {
-          font-size: 18px;
-          font-weight: 200;
-          color: #FAFAF8;
-          letter-spacing: 0.03em;
-          margin-bottom: 10px;
-          text-align: center;
-          width: 100%;
-        }
-        .geometry-expanded-desc {
-          font-size: 12px;
-          color: #FAFAF8;
-          line-height: 1.6;
-          font-weight: 300;
-          text-align: center;
-          padding: 0 16px;
-          max-width: 340px;
-        }
-        .geometry-close {
-          position: absolute;
-          top: 16px;
-          left: 16px;
-          width: 40px;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #FAFAF8;
-          opacity: 0.5;
-          font-size: 24px;
-          font-weight: 200;
-          cursor: pointer;
-          border-radius: 50%;
-          background: rgba(255,255,255,0.05);
-        }
-
-        /* 3D Icons Expanded Overlay */
-        .icons3d-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(10, 10, 10, 0.98);
-          z-index: 1000;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: 20px 16px;
-          opacity: 0;
-          pointer-events: none;
-          transition: opacity 0.3s ease;
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-        }
-        .icons3d-overlay.active {
-          opacity: 1;
-          pointer-events: auto;
-        }
-        .icons3d-expanded-content {
-          transform: scale(0.92);
-          opacity: 0;
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          max-width: 400px;
-        }
-        .icons3d-overlay.active .icons3d-expanded-content {
-          transform: scale(1);
-          opacity: 1;
-        }
-        .icons3d-expanded-preview {
-          width: 160px;
-          height: 160px;
-          margin-bottom: 16px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-        .icons3d-expanded-title {
-          font-size: 18px;
-          font-weight: 200;
-          color: #FAFAF8;
-          letter-spacing: 0.03em;
-          margin-bottom: 10px;
-          text-align: center;
-          width: 100%;
-        }
-        .icons3d-expanded-desc {
-          font-size: 12px;
-          color: #FAFAF8;
-          line-height: 1.6;
-          font-weight: 300;
-          text-align: center;
-          padding: 0 16px;
-          max-width: 340px;
-        }
-        .icons3d-close {
-          position: absolute;
-          top: 16px;
-          left: 16px;
-          width: 40px;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #FAFAF8;
-          opacity: 0.5;
-          font-size: 24px;
-          font-weight: 200;
-          cursor: pointer;
-          border-radius: 50%;
-          background: rgba(255,255,255,0.05);
-        }
-
-        /* ========== DESKTOP: PREMIUM iOS-STYLE ========== */
+        /* ========== DESKTOP ========== */
         @media (min-width: 600px) {
-          .experiences-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
-            max-width: 480px;
+          .experiences-grid, .geometry-grid, .icons3d-grid {
+            gap: 20px;
+            max-width: 520px;
           }
-          .experiences-item {
-            background: 
-              radial-gradient(ellipse 120% 80% at 50% -20%, rgba(160, 180, 220, 0.15) 0%, transparent 50%),
-              linear-gradient(165deg, rgba(52, 65, 85, 0.95) 0%, rgba(28, 35, 48, 0.98) 100%);
-            border-radius: 40px;
-            width: 200px;
-            height: 200px;
-            box-shadow: 
-              0 2px 4px rgba(0, 0, 0, 0.2),
-              0 8px 24px rgba(45, 55, 72, 0.5),
-              inset 0 1px 1px rgba(255, 255, 255, 0.1),
-              inset 0 -2px 4px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(160, 180, 220, 0.2);
-            padding: 0;
+          
+          .experiences-item, .geometry-item, .icons3d-item {
+            border-radius: 24px;
+            width: 110px;
+            height: 110px;
           }
-          .experiences-item::before {
-            border-radius: 40px 40px 50% 50%;
+          
+          .experiences-item::before, .geometry-item::before, .icons3d-item::before {
+            border-radius: 24px 24px 50% 50%;
           }
-          .experiences-item::after {
-            border-radius: 0 0 40px 40px;
+          
+          .experiences-item::after, .geometry-item::after, .icons3d-item::after {
+            border-radius: 0 0 24px 24px;
           }
-          .experiences-item:hover {
+          
+          .experiences-item:hover, .geometry-item:hover, .icons3d-item:hover {
             transform: scale(1.04) translateY(-2px);
-            box-shadow: 
-              0 4px 8px rgba(0, 0, 0, 0.15),
-              0 16px 48px rgba(45, 55, 72, 0.6),
-              0 0 40px rgba(160, 180, 220, 0.15),
-              inset 0 1px 1px rgba(255, 255, 255, 0.15),
-              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
-          .experiences-item:active {
-            transform: scale(0.98);
+          
+          .experiences-preview, .geometry-preview {
+            width: 85px;
+            height: 85px;
           }
-          .experiences-preview {
-            width: 150px;
-            height: 150px;
-          }
+          
           .experiences-preview svg {
-            width: 150px;
-            height: 150px;
+            width: 85px;
+            height: 85px;
           }
-          .experiences-expanded-desc {
-            font-size: 14px;
-            line-height: 1.7;
-            padding: 0 20px;
-            max-width: 450px;
-          }
-          .experiences-overlay {
-            padding: 40px 24px;
-          }
-          .experiences-expanded-preview {
-            width: 240px;
-            height: 240px;
-            margin-bottom: 20px;
-          }
-          .experiences-expanded-title {
-            font-size: 22px;
-          }
-          .experiences-expanded-tech {
-            margin-top: 16px;
-          }
-          .experiences-expanded-link {
-            margin-top: 14px;
-          }
-          .geometry-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
-            max-width: 480px;
-          }
-          .geometry-item {
-            background: 
-              radial-gradient(ellipse 120% 80% at 50% -20%, rgba(200, 160, 220, 0.15) 0%, transparent 50%),
-              linear-gradient(165deg, rgba(82, 60, 95, 0.95) 0%, rgba(45, 32, 55, 0.98) 100%);
-            border-radius: 40px;
-            width: 200px;
-            height: 200px;
-            box-shadow: 
-              0 2px 4px rgba(0, 0, 0, 0.2),
-              0 8px 24px rgba(72, 52, 85, 0.5),
-              inset 0 1px 1px rgba(255, 255, 255, 0.1),
-              inset 0 -2px 4px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(200, 160, 220, 0.2);
-            padding: 0;
-            overflow: hidden;
-          }
-          .geometry-item::before {
-            border-radius: 40px 40px 50% 50%;
-          }
-          .geometry-item::after {
-            border-radius: 0 0 40px 40px;
-          }
-          .geometry-item:hover {
-            transform: scale(1.04) translateY(-2px);
-            box-shadow: 
-              0 4px 8px rgba(0, 0, 0, 0.15),
-              0 16px 48px rgba(72, 52, 85, 0.6),
-              0 0 40px rgba(200, 160, 220, 0.15),
-              inset 0 1px 1px rgba(255, 255, 255, 0.15),
-              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
-          }
-          .geometry-item:active {
-            transform: scale(0.98);
-          }
-          .geometry-preview {
-            width: 150px;
-            height: 150px;
-          }
-          .geometry-expanded-preview {
-            width: 180px;
-            height: 180px;
-            padding: 30px;
-          }
-          .geometry-expanded-title {
-            font-size: 22px;
-          }
-          .geometry-expanded-desc {
-            font-size: 14px;
-            max-width: 450px;
-          }
-          .icons3d-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
-            max-width: 480px;
-          }
-          .icons3d-item {
-            background: 
-              radial-gradient(ellipse 120% 80% at 50% -20%, rgba(140, 200, 180, 0.15) 0%, transparent 50%),
-              linear-gradient(165deg, rgba(62, 88, 80, 0.95) 0%, rgba(35, 50, 45, 0.98) 100%);
-            border-radius: 40px;
-            width: 200px;
-            height: 200px;
-            box-shadow: 
-              0 2px 4px rgba(0, 0, 0, 0.2),
-              0 8px 24px rgba(55, 75, 70, 0.5),
-              inset 0 1px 1px rgba(255, 255, 255, 0.1),
-              inset 0 -2px 4px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(140, 200, 180, 0.2);
-            padding: 0;
-          }
-          .icons3d-item::before {
-            border-radius: 40px 40px 50% 50%;
-          }
-          .icons3d-item::after {
-            border-radius: 0 0 40px 40px;
-          }
-          .icons3d-item:hover {
-            transform: scale(1.04) translateY(-2px);
-            box-shadow: 
-              0 4px 8px rgba(0, 0, 0, 0.15),
-              0 16px 48px rgba(55, 75, 70, 0.6),
-              0 0 40px rgba(140, 200, 180, 0.15),
-              inset 0 1px 1px rgba(255, 255, 255, 0.15),
-              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
-          }
-          .icons3d-item:active {
-            transform: scale(0.98);
-          }
+          
           .icons3d-preview {
-            width: 160px;
-            height: 160px;
+            width: 90px;
+            height: 90px;
           }
-          .icons3d-expanded-preview {
-            width: 240px;
-            height: 240px;
-            margin-bottom: 20px;
-          }
-          .icons3d-expanded-title {
-            font-size: 22px;
-          }
-          .icons3d-expanded-desc {
-            font-size: 14px;
-            max-width: 450px;
-          }
+          
           .svg-icons-grid {
             gap: 24px;
             max-width: 700px;
@@ -984,317 +519,165 @@ export default function Creative() {
           .svg-icon-wrapper {
             transform: scale(1.5);
           }
+          
+          .expanded-content {
+            max-width: 380px;
+          }
+          .expanded-title {
+            font-size: 20px;
+            margin-top: 12px;
+          }
+          .expanded-desc {
+            font-size: 12px;
+            margin-top: 8px;
+          }
+          .expanded-tech {
+            font-size: 8px;
+          }
+          .expanded-link {
+            font-size: 9px;
+          }
         }
       `}</style>
 
       <div className={`creative-page ${isLoaded ? 'loaded' : ''}`} style={{ minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto", padding: "clamp(80px, 12vh, 140px) 20px clamp(60px, 10vh, 80px)" }}>
 
-        {/* Main Content */}
-        <div style={{
-          maxWidth: "900px",
-          margin: "0 auto",
-          padding: "clamp(80px, 12vh, 140px) 20px clamp(60px, 10vh, 80px)"
-        }}>
-
-          {/* ═══════════════════════════════════════════════════════════ */}
-          {/* 3D EXPERIENCES - Unified Gallery */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-
-          <div className="load-section" style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
-            {/* Gallery Grid */}
+          {/* 3D EXPERIENCES */}
+          <div style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
             <div className="experiences-grid">
               {experiencesItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="experiences-item"
-                  onClick={() => openExperience(item.id)}
-                >
-                  <div className="experiences-preview">
-                    {renderExperienceThumbnail(item.id)}
-                  </div>
+                <div key={item.id} className="experiences-item" onClick={() => openExperience(item.id)}>
+                  <div className="experiences-preview">{renderExperienceThumbnail(item.id)}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* ═══════════════════════════════════════════════════════════ */}
-          {/* SACRED GEOMETRY COMPONENTS - Gallery Style */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-
-          <div className="load-section" style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
-            {/* Gallery Grid */}
+          {/* SACRED GEOMETRY */}
+          <div style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
             <div className="geometry-grid">
               {sacredGeometryItems.map((item) => {
                 const Component = geometryComponents[item.id];
                 return (
-                  <div
-                    key={item.id}
-                    className="geometry-item"
-                    onClick={() => openGeometry(item.id)}
-                  >
-                    <div className="geometry-preview">
-                      <Component />
-                    </div>
+                  <div key={item.id} className="geometry-item" onClick={() => openGeometry(item.id)}>
+                    <div className="geometry-preview"><Component /></div>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          {/* ═══════════════════════════════════════════════════════════ */}
           {/* 3D WORK ICONS */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-
-          <div className="load-section" style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
-            {/* Gallery Grid */}
+          <div style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
             <div className="icons3d-grid">
               {workIcons3DItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="icons3d-item"
-                  onClick={() => openWork(item.id)}
-                >
-                  <div className="icons3d-preview">
-                    {renderWorkIcon(item.id, 100)}
-                  </div>
+                <div key={item.id} className="icons3d-item" onClick={() => openWork(item.id)}>
+                  <div className="icons3d-preview">{renderWorkIcon(item.id, 60)}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* ═══════════════════════════════════════════════════════════ */}
           {/* 3D SERVICE ICONS */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-
-          <div className="load-section" style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
-            {/* Gallery Grid */}
+          <div style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
             <div className="icons3d-grid">
               {serviceIcons3DItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="icons3d-item"
-                  onClick={() => openService(item.id)}
-                >
-                  <div className="icons3d-preview">
-                    {renderServiceIcon(item.id, 100)}
-                  </div>
+                <div key={item.id} className="icons3d-item" onClick={() => openService(item.id)}>
+                  <div className="icons3d-preview">{renderServiceIcon(item.id, 60)}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* ═══════════════════════════════════════════════════════════ */}
           {/* SVG ICONS */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-
-          <div className="load-section" style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
-            {/* Work Icons Grid */}
+          <div style={{ marginBottom: "clamp(20px, 3vh, 28px)" }}>
             <div className="svg-icons-grid">
-              <div className="svg-icon-wrapper">
-                <Trade69Icon />
-              </div>
-              <div className="svg-icon-wrapper">
-                <MegaAgentIcon />
-              </div>
-              <div className="svg-icon-wrapper">
-                <OctopusIcon />
-              </div>
-              <div className="svg-icon-wrapper">
-                <OvermindIcon />
-              </div>
+              <div className="svg-icon-wrapper"><Trade69Icon /></div>
+              <div className="svg-icon-wrapper"><MegaAgentIcon /></div>
+              <div className="svg-icon-wrapper"><OctopusIcon /></div>
+              <div className="svg-icon-wrapper"><OvermindIcon /></div>
             </div>
-
-            {/* Service Icons Grid */}
             <div className="svg-icons-grid" style={{ marginTop: "clamp(20px, 3vh, 28px)" }}>
-              <div className="svg-icon-wrapper">
-                <WebsiteIcon />
-              </div>
-              <div className="svg-icon-wrapper">
-                <DashboardIcon />
-              </div>
-              <div className="svg-icon-wrapper">
-                <APIIcon />
-              </div>
-              <div className="svg-icon-wrapper">
-                <LLMIcon />
-              </div>
+              <div className="svg-icon-wrapper"><WebsiteIcon /></div>
+              <div className="svg-icon-wrapper"><DashboardIcon /></div>
+              <div className="svg-icon-wrapper"><APIIcon /></div>
+              <div className="svg-icon-wrapper"><LLMIcon /></div>
             </div>
           </div>
 
-          {/* ═══════════════════════════════════════════════════════════ */}
-          {/* GALLERY & SKETCHES */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-          <div className="load-section">
-            <CreativeGallery />
-          </div>
+          {/* GALLERY */}
+          <div><CreativeGallery /></div>
 
         </div>
 
         {/* Navigation */}
-        <div className="load-section" style={{
-          padding: "clamp(60px, 10vh, 80px) 24px",
-          textAlign: "center"
-        }}>
-          <Link
-            href="/"
-            style={{
-              fontSize: "11px",
-              color: "#FAFAF8",
-              textDecoration: "none",
-              letterSpacing: "0.12em"
-            }}
-          >
-            ← About
-          </Link>
+        <div style={{ padding: "clamp(60px, 10vh, 80px) 24px", textAlign: "center" }}>
+          <Link href="/" style={{ fontSize: "11px", color: "#FAFAF8", textDecoration: "none", letterSpacing: "0.12em" }}>← About</Link>
         </div>
-
       </div>
 
-      {/* Experiences Expanded Overlay */}
-      <div
-        className={`experiences-overlay ${expandedExperience ? 'active' : ''}`}
-        onClick={closeExperience}
-      >
-        <div className="experiences-close" onClick={closeExperience}>×</div>
+      {/* EXPERIENCES OVERLAY */}
+      <div className={`expanded-overlay ${expandedExperience ? 'active' : ''}`} onClick={closeExperience}>
+        <div className="expanded-close" onClick={closeExperience}>×</div>
         {expandedExperienceItem && (
-          <div className="experiences-expanded-content" onClick={(e) => e.stopPropagation()}>
-            <div className="experiences-expanded-preview">
-              {expandedExperience === "sphere" && (
-                <div style={{
-                  width: "100%",
-                  maxWidth: "500px",
-                  display: "flex",
-                  justifyContent: "center"
-                }}>
-                  <QuantumSphere initialExpanded={false} />
-                </div>
-              )}
-              {expandedExperience === "manifold" && (
-                <div style={{
-                  width: "100%",
-                  maxWidth: "800px",
-                  height: "300px",
-                  position: "relative",
-                  overflow: "hidden",
-                  borderRadius: "4px"
-                }}>
-                  <div style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: "60px",
-                    background: "linear-gradient(to bottom, rgba(10,10,10,0.98), transparent)",
-                    zIndex: 2,
-                    pointerEvents: "none"
-                  }} />
-                  <QuantumManifold />
-                  <div style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: "60px",
-                    background: "linear-gradient(to top, rgba(10,10,10,0.98), transparent)",
-                    zIndex: 2,
-                    pointerEvents: "none"
-                  }} />
-                </div>
-              )}
-              {expandedExperience === "metatron-genesis" && (
-                <div style={{
-                  width: "100%",
-                  maxWidth: "min(600px, calc(100vw - 48px))",
-                  padding: "0 12px"
-                }}>
-                  <div style={{
-                    position: "relative",
-                    backgroundColor: "#000000",
-                    borderRadius: "4px",
-                    overflow: "hidden",
-                    maxHeight: "50vh"
-                  }}>
-                    <VideoPlayer src="/videos/metatrondemo1.mov" />
-                  </div>
-                </div>
-              )}
-              {expandedExperience === "architecture" && (
-                <div style={{
-                  width: "100%",
-                  maxWidth: "600px",
-                  display: "flex",
-                  justifyContent: "center"
-                }}>
-                  <Trade69Architecture />
-                </div>
-              )}
+          <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
+            <div className="expanded-icon" key={`exp-${expandedExperience}`}>
+              {expandedExperience === "sphere" && <div style={{ width: "140px", height: "140px" }}><QuantumSphere initialExpanded={false} /></div>}
+              {expandedExperience === "manifold" && <div style={{ width: "200px", height: "100px", overflow: "hidden", borderRadius: "4px" }}><QuantumManifold /></div>}
+              {expandedExperience === "metatron-genesis" && <div style={{ width: "200px", height: "120px", overflow: "hidden", borderRadius: "4px" }}><VideoPlayer src="/videos/metatrondemo1.mov" /></div>}
+              {expandedExperience === "architecture" && <div style={{ width: "140px", height: "140px" }}><Trade69Architecture /></div>}
             </div>
-            <h3 className="experiences-expanded-title">{expandedExperienceItem.title}</h3>
-            <p className="experiences-expanded-desc">{expandedExperienceItem.description}</p>
-            <p className="experiences-expanded-tech">{expandedExperienceItem.tech}</p>
+            <p className="expanded-title">{expandedExperienceItem.title}</p>
+            <p className="expanded-desc">{expandedExperienceItem.description}</p>
+            <p className="expanded-tech">{expandedExperienceItem.tech}</p>
             {expandedExperienceItem.link && (
-              <Link
-                href={expandedExperienceItem.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="experiences-expanded-link"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <span>Experience Live</span>
-                <span>→</span>
+              <Link href={expandedExperienceItem.link} target="_blank" rel="noopener noreferrer" className="expanded-link" onClick={(e) => e.stopPropagation()}>
+                Experience Live →
               </Link>
             )}
           </div>
         )}
       </div>
 
-      {/* Sacred Geometry Expanded Overlay */}
-      <div
-        className={`geometry-overlay ${expandedGeometry ? 'active' : ''}`}
-        onClick={closeGeometry}
-      >
-        <div className="geometry-close">×</div>
+      {/* GEOMETRY OVERLAY */}
+      <div className={`expanded-overlay ${expandedGeometry ? 'active' : ''}`} onClick={closeGeometry}>
+        <div className="expanded-close" onClick={closeGeometry}>×</div>
         {expandedGeometryItem && ExpandedGeometryComponent && (
-          <div className="geometry-expanded-content" onClick={(e) => e.stopPropagation()}>
-            <div className="geometry-expanded-preview">
+          <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
+            <div className="expanded-icon" style={{ width: "120px", height: "120px" }}>
               <ExpandedGeometryComponent />
             </div>
-            <h3 className="geometry-expanded-title">{expandedGeometryItem.title}</h3>
-            <p className="geometry-expanded-desc">{expandedGeometryItem.description}</p>
+            <p className="expanded-title">{expandedGeometryItem.title}</p>
+            <p className="expanded-desc">{expandedGeometryItem.description}</p>
           </div>
         )}
       </div>
 
-      {/* Work Icons 3D Expanded Overlay */}
-      <div
-        className={`icons3d-overlay ${expandedWork ? 'active' : ''}`}
-        onClick={closeWork}
-      >
-        <div className="icons3d-close" onClick={closeWork}>×</div>
+      {/* WORK ICONS OVERLAY */}
+      <div className={`expanded-overlay ${expandedWork ? 'active' : ''}`} onClick={closeWork}>
+        <div className="expanded-close" onClick={closeWork}>×</div>
         {expandedWorkItem && (
-          <div className="icons3d-expanded-content" onClick={(e) => e.stopPropagation()}>
-            <div className="icons3d-expanded-preview" key={`work-expanded-${expandedWork}`}>
-              {renderWorkIcon(expandedWork!, 280)}
+          <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
+            <div className="expanded-icon" key={`work-${expandedWork}`}>
+              {renderWorkIcon(expandedWork!, 140)}
             </div>
-            <h3 className="icons3d-expanded-title">{expandedWorkItem.title}</h3>
-            <p className="icons3d-expanded-desc">{expandedWorkItem.description}</p>
+            <p className="expanded-title">{expandedWorkItem.title}</p>
+            <p className="expanded-desc">{expandedWorkItem.description}</p>
           </div>
         )}
       </div>
 
-      {/* Service Icons 3D Expanded Overlay */}
-      <div
-        className={`icons3d-overlay ${expandedService ? 'active' : ''}`}
-        onClick={closeService}
-      >
-        <div className="icons3d-close" onClick={closeService}>×</div>
+      {/* SERVICE ICONS OVERLAY */}
+      <div className={`expanded-overlay ${expandedService ? 'active' : ''}`} onClick={closeService}>
+        <div className="expanded-close" onClick={closeService}>×</div>
         {expandedServiceItem && (
-          <div className="icons3d-expanded-content" onClick={(e) => e.stopPropagation()}>
-            <div className="icons3d-expanded-preview" key={`service-expanded-${expandedService}`}>
-              {renderServiceIcon(expandedService!, 280, true)}
+          <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
+            <div className="expanded-icon" key={`service-${expandedService}`}>
+              {renderServiceIcon(expandedService!, 140, true)}
             </div>
-            <h3 className="icons3d-expanded-title">{expandedServiceItem.title}</h3>
-            <p className="icons3d-expanded-desc">{expandedServiceItem.description}</p>
+            <p className="expanded-title">{expandedServiceItem.title}</p>
+            <p className="expanded-desc">{expandedServiceItem.description}</p>
           </div>
         )}
       </div>

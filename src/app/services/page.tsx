@@ -224,6 +224,7 @@ export default function Services() {
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           padding: 40px 24px;
+          overflow: hidden;
         }
         .expanded-overlay.active {
           opacity: 1;
