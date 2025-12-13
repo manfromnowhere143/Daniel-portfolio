@@ -205,16 +205,16 @@ export default function Services() {
         }
         .expanded-close {
           position: absolute;
-          top: 20px;
-          right: 20px;
-          width: 44px;
-          height: 44px;
+          top: 16px;
+          left: 16px;
+          width: 40px;
+          height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: #FAFAF8;
           opacity: 0.5;
-          font-size: 28px;
+          font-size: 24px;
           font-weight: 200;
           cursor: pointer;
           transition: opacity 0.2s;

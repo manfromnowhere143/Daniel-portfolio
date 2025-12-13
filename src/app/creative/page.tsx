@@ -132,8 +132,8 @@ export default function Creative() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Trigger load animation
-    const timer = setTimeout(() => setIsLoaded(true), 100);
+    // Small delay for smooth entrance - identical to work/services
+    const timer = setTimeout(() => setIsLoaded(true), 50);
     return () => clearTimeout(timer);
   }, []);
 
@@ -451,13 +451,12 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 50px 16px;
+          padding: 20px 16px;
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.3s ease;
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          overflow-y: auto;
         }
         .experiences-overlay.active {
           opacity: 1;
@@ -471,98 +470,74 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           width: 100%;
-          max-width: 900px;
+          max-width: 400px;
         }
         .experiences-overlay.active .experiences-expanded-content {
           transform: scale(1);
           opacity: 1;
         }
         .experiences-expanded-preview {
-          width: 280px;
-          height: 280px;
-          margin-bottom: 24px;
+          width: 160px;
+          height: 160px;
+          margin-bottom: 16px;
           display: flex;
           justify-content: center;
           align-items: center;
           flex-shrink: 0;
         }
         .experiences-expanded-title {
-          font-size: 20px;
+          font-size: 18px;
           font-weight: 200;
           color: #FAFAF8;
           letter-spacing: 0.03em;
-          margin-bottom: 16px;
+          margin-bottom: 10px;
           text-align: center;
           width: 100%;
-          opacity: 0;
-          transform: translateY(10px);
-          transition: all 0.3s ease 0.15s;
-        }
-        .experiences-overlay.active .experiences-expanded-title {
-          opacity: 1;
-          transform: translateY(0);
         }
         .experiences-expanded-desc {
           font-size: 12px;
           color: #FAFAF8;
-          line-height: 1.7;
+          line-height: 1.6;
           font-weight: 300;
-          text-align: left;
-          opacity: 0;
-          transform: translateY(10px);
-          transition: all 0.3s ease 0.2s;
-          padding: 0 12px;
-          max-width: 500px;
-        }
-        .experiences-overlay.active .experiences-expanded-desc {
-          opacity: 1;
-          transform: translateY(0);
+          text-align: center;
+          padding: 0 16px;
+          max-width: 340px;
         }
         .experiences-expanded-tech {
+          font-size: 9px;
+          color: #FAFAF8;
+          letter-spacing: 0.08em;
+          font-family: monospace;
+          margin-top: 12px;
+          opacity: 0.5;
+        }
+        .experiences-expanded-link {
+          margin-top: 10px;
           font-size: 10px;
           color: #FAFAF8;
           letter-spacing: 0.1em;
-          font-family: monospace;
-          margin-top: 16px;
-          opacity: 0;
-          transition: opacity 0.3s ease 0.25s;
-        }
-        .experiences-overlay.active .experiences-expanded-tech {
-          opacity: 0.6;
-        }
-        .experiences-expanded-link {
-          margin-top: 14px;
-          font-size: 11px;
-          color: #FAFAF8;
-          letter-spacing: 0.12em;
           text-decoration: none;
           text-transform: uppercase;
-          opacity: 0;
-          transition: opacity 0.3s ease 0.3s;
           display: inline-flex;
           align-items: center;
-          gap: 8px;
-        }
-        .experiences-overlay.active .experiences-expanded-link {
-          opacity: 1;
+          gap: 6px;
         }
         .experiences-close {
           position: absolute;
-          top: 20px;
-          right: 20px;
-          width: 44px;
-          height: 44px;
+          top: 16px;
+          left: 16px;
+          width: 40px;
+          height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: #FAFAF8;
           opacity: 0.5;
-          font-size: 28px;
+          font-size: 24px;
           font-weight: 200;
           cursor: pointer;
           border-radius: 50%;
           background: rgba(255,255,255,0.05);
-          z-index: 1001;
         }
 
         /* Geometry Expanded overlay */
@@ -578,13 +553,12 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 40px 24px;
+          padding: 20px 16px;
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.3s ease;
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          overflow-y: auto;
         }
         .geometry-overlay.active {
           opacity: 1;
@@ -597,22 +571,22 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          max-width: 500px;
+          max-width: 400px;
         }
         .geometry-overlay.active .geometry-expanded-content {
           transform: scale(1);
           opacity: 1;
         }
         .geometry-expanded-preview {
-          width: 200px;
-          height: 200px;
+          width: 140px;
+          height: 140px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 32px;
+          margin-bottom: 16px;
           background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%);
           border-radius: 50%;
-          padding: 30px;
+          padding: 20px;
           flex-shrink: 0;
         }
         .geometry-expanded-preview svg {
@@ -620,48 +594,35 @@ export default function Creative() {
           max-height: 100%;
         }
         .geometry-expanded-title {
-          font-size: 22px;
+          font-size: 18px;
           font-weight: 200;
           color: #FAFAF8;
           letter-spacing: 0.03em;
-          margin-bottom: 20px;
+          margin-bottom: 10px;
           text-align: center;
           width: 100%;
-          opacity: 0;
-          transform: translateY(10px);
-          transition: all 0.3s ease 0.15s;
-        }
-        .geometry-overlay.active .geometry-expanded-title {
-          opacity: 1;
-          transform: translateY(0);
         }
         .geometry-expanded-desc {
-          font-size: 14px;
+          font-size: 12px;
           color: #FAFAF8;
-          line-height: 1.9;
+          line-height: 1.6;
           font-weight: 300;
-          text-align: left;
-          opacity: 0;
-          transform: translateY(10px);
-          transition: all 0.3s ease 0.2s;
+          text-align: center;
           padding: 0 16px;
-        }
-        .geometry-overlay.active .geometry-expanded-desc {
-          opacity: 1;
-          transform: translateY(0);
+          max-width: 340px;
         }
         .geometry-close {
           position: absolute;
-          top: 20px;
-          right: 20px;
-          width: 44px;
-          height: 44px;
+          top: 16px;
+          left: 16px;
+          width: 40px;
+          height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: #FAFAF8;
           opacity: 0.5;
-          font-size: 28px;
+          font-size: 24px;
           font-weight: 200;
           cursor: pointer;
           border-radius: 50%;
@@ -681,7 +642,7 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 40px 24px;
+          padding: 20px 16px;
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.3s ease;
@@ -699,64 +660,51 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          max-width: 500px;
+          max-width: 400px;
         }
         .icons3d-overlay.active .icons3d-expanded-content {
           transform: scale(1);
           opacity: 1;
         }
         .icons3d-expanded-preview {
-          width: 280px;
-          height: 280px;
-          margin-bottom: 24px;
+          width: 160px;
+          height: 160px;
+          margin-bottom: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
         }
         .icons3d-expanded-title {
-          font-size: 20px;
+          font-size: 18px;
           font-weight: 200;
           color: #FAFAF8;
           letter-spacing: 0.03em;
-          margin-bottom: 20px;
+          margin-bottom: 10px;
           text-align: center;
           width: 100%;
-          opacity: 0;
-          transform: translateY(10px);
-          transition: all 0.3s ease 0.15s;
-        }
-        .icons3d-overlay.active .icons3d-expanded-title {
-          opacity: 1;
-          transform: translateY(0);
         }
         .icons3d-expanded-desc {
-          font-size: 13px;
+          font-size: 12px;
           color: #FAFAF8;
-          line-height: 1.9;
+          line-height: 1.6;
           font-weight: 300;
-          text-align: left;
-          opacity: 0;
-          transform: translateY(10px);
-          transition: all 0.3s ease 0.2s;
-          padding: 0 20px;
-        }
-        .icons3d-overlay.active .icons3d-expanded-desc {
-          opacity: 1;
-          transform: translateY(0);
+          text-align: center;
+          padding: 0 16px;
+          max-width: 340px;
         }
         .icons3d-close {
           position: absolute;
-          top: 20px;
-          right: 20px;
-          width: 44px;
-          height: 44px;
+          top: 16px;
+          left: 16px;
+          width: 40px;
+          height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: #FAFAF8;
           opacity: 0.5;
-          font-size: 28px;
+          font-size: 24px;
           font-weight: 200;
           cursor: pointer;
           border-radius: 50%;
@@ -800,23 +748,27 @@ export default function Creative() {
             margin-bottom: 20px;
           }
           .experiences-expanded-desc {
-            font-size: 15px;
-            line-height: 1.9;
-            padding: 0 16px;
+            font-size: 14px;
+            line-height: 1.7;
+            padding: 0 20px;
+            max-width: 450px;
           }
           .experiences-overlay {
-            padding: 60px 24px;
+            padding: 40px 24px;
           }
           .experiences-expanded-preview {
-            width: 360px;
-            height: 360px;
-            margin-bottom: 32px;
+            width: 240px;
+            height: 240px;
+            margin-bottom: 20px;
+          }
+          .experiences-expanded-title {
+            font-size: 22px;
           }
           .experiences-expanded-tech {
-            margin-top: 24px;
+            margin-top: 16px;
           }
           .experiences-expanded-link {
-            margin-top: 20px;
+            margin-top: 14px;
           }
           .geometry-grid {
             display: grid;
@@ -846,15 +798,16 @@ export default function Creative() {
             height: 100px;
           }
           .geometry-expanded-preview {
-            width: 240px;
-            height: 240px;
-            padding: 40px;
+            width: 180px;
+            height: 180px;
+            padding: 30px;
           }
           .geometry-expanded-title {
-            font-size: 26px;
+            font-size: 22px;
           }
           .geometry-expanded-desc {
-            font-size: 15px;
+            font-size: 14px;
+            max-width: 450px;
           }
           .icons3d-grid {
             display: grid;
@@ -883,15 +836,16 @@ export default function Creative() {
             height: 120px;
           }
           .icons3d-expanded-preview {
-            width: 360px;
-            height: 360px;
-            margin-bottom: 32px;
+            width: 240px;
+            height: 240px;
+            margin-bottom: 20px;
           }
           .icons3d-expanded-title {
-            font-size: 24px;
+            font-size: 22px;
           }
           .icons3d-expanded-desc {
             font-size: 14px;
+            max-width: 450px;
           }
           .svg-icons-grid {
             gap: 24px;
@@ -903,13 +857,13 @@ export default function Creative() {
         }
       `}</style>
 
-      <div className={`creative-page ${isLoaded ? 'loaded' : ''}`} style={{ paddingTop: "40px", minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
+      <div className={`creative-page ${isLoaded ? 'loaded' : ''}`} style={{ minHeight: "100vh", backgroundColor: "#0A0A0A" }}>
 
         {/* Main Content */}
         <div style={{
           maxWidth: "900px",
           margin: "0 auto",
-          padding: "clamp(16px, 3vh, 24px) 20px clamp(60px, 10vh, 80px)"
+          padding: "clamp(80px, 12vh, 140px) 20px clamp(60px, 10vh, 80px)"
         }}>
 
           {/* ═══════════════════════════════════════════════════════════ */}
