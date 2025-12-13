@@ -39,14 +39,14 @@ export default function About() {
         <div style={{
           maxWidth: "900px",
           margin: "0 auto",
-          padding: "clamp(20px, 4vh, 40px) 24px clamp(32px, 5vh, 48px)",
+          padding: "0 24px clamp(20px, 3vh, 32px)",
           textAlign: "center"
         }}>
           <h1 style={{
             fontSize: "clamp(28px, 4vw, 40px)",
             fontWeight: 200,
             color: "#FAFAF8",
-            marginBottom: "clamp(16px, 2vh, 20px)",
+            marginBottom: "clamp(12px, 1.5vh, 16px)",
             letterSpacing: "0.02em",
             lineHeight: 1.1
           }}>
@@ -64,7 +64,7 @@ export default function About() {
         </div>
 
         {/* Golden Spiral */}
-        <div style={{ margin: "0 auto clamp(16px, 2vh, 24px)" }}>
+        <div style={{ margin: "0 auto clamp(12px, 1.5vh, 20px)" }}>
           <GoldenSpiral />
         </div>
 
@@ -72,7 +72,7 @@ export default function About() {
         <div style={{
           maxWidth: "720px",
           margin: "0 auto",
-          padding: "clamp(60px, 10vh, 80px) 24px clamp(40px, 6vh, 60px)"
+          padding: "clamp(40px, 6vh, 60px) 24px clamp(40px, 6vh, 60px)"
         }}>
 
           <div style={{
