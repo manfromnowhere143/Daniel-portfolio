@@ -57,30 +57,63 @@ export default function Services() {
     setExpandedIndex(null);
   };
 
+  const iconSize = isMobile ? 70 : 100;
+
   return (
     <>
       <style>{`
         .services-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 20px;
+          gap: 16px;
           max-width: 340px;
           margin: 0 auto;
         }
+        
         .services-item {
-          padding: 8px;
           display: flex;
-          flex-direction: column;
           align-items: center;
+          justify-content: center;
+          border-radius: 24px;
+          width: 140px;
+          height: 140px;
+          margin: 0 auto;
           cursor: pointer;
-          transition: transform 0.2s ease;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+        
         .services-item:active {
           transform: scale(0.95);
         }
-        .services-icon {
-          /* No margin needed without title */
+        
+        /* Website - Soft indigo/blue */
+        .services-item.website {
+          background: linear-gradient(145deg, rgba(55, 48, 107, 0.9), rgba(38, 32, 78, 0.95));
+          box-shadow: 0 4px 20px rgba(55, 48, 107, 0.4);
+          border: 1px solid rgba(165, 180, 252, 0.15);
         }
+        
+        /* Dashboard - Soft rose/pink */
+        .services-item.dashboard {
+          background: linear-gradient(145deg, rgba(112, 45, 75, 0.9), rgba(82, 30, 55, 0.95));
+          box-shadow: 0 4px 20px rgba(112, 45, 75, 0.4);
+          border: 1px solid rgba(251, 182, 206, 0.15);
+        }
+        
+        /* API - Soft mint/green */
+        .services-item.api {
+          background: linear-gradient(145deg, rgba(32, 90, 70, 0.9), rgba(22, 65, 52, 0.95));
+          box-shadow: 0 4px 20px rgba(32, 90, 70, 0.4);
+          border: 1px solid rgba(134, 239, 172, 0.15);
+        }
+        
+        /* LLM - Soft coral/orange */
+        .services-item.llm {
+          background: linear-gradient(145deg, rgba(124, 58, 45, 0.9), rgba(92, 40, 30, 0.95));
+          box-shadow: 0 4px 20px rgba(124, 58, 45, 0.4);
+          border: 1px solid rgba(253, 186, 140, 0.15);
+        }
+
         .services-seeking {
           font-size: 14px;
           margin-top: 48px;
@@ -89,7 +122,7 @@ export default function Services() {
           margin-top: 48px;
         }
 
-        /* Expanded overlay - mobile only */
+        /* Expanded overlay */
         .expanded-overlay {
           position: fixed;
           top: 0;
@@ -188,23 +221,36 @@ export default function Services() {
         
         @media (min-width: 600px) {
           .services-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 48px;
-            max-width: 480px;
+            gap: 28px;
+            max-width: 500px;
           }
+          
           .services-item {
-            padding: 16px;
-            cursor: pointer;
+            width: 200px;
+            height: 200px;
+            border-radius: 32px;
           }
-          .services-item:active {
-            transform: scale(0.98);
+          
+          .services-item:hover {
+            transform: scale(1.05);
           }
-          .services-item:hover .services-icon {
-            transform: scale(1.04);
+          
+          .services-item.website:hover {
+            box-shadow: 0 8px 32px rgba(55, 48, 107, 0.6);
           }
-          .services-icon {
-            transition: transform 0.3s ease;
+          
+          .services-item.dashboard:hover {
+            box-shadow: 0 8px 32px rgba(112, 45, 75, 0.6);
           }
+          
+          .services-item.api:hover {
+            box-shadow: 0 8px 32px rgba(32, 90, 70, 0.6);
+          }
+          
+          .services-item.llm:hover {
+            box-shadow: 0 8px 32px rgba(124, 58, 45, 0.6);
+          }
+
           .services-seeking {
             font-size: 16px;
             margin-top: clamp(64px, 10vh, 100px);
@@ -239,12 +285,10 @@ export default function Services() {
           {services.map((item, i) => (
             <div
               key={i}
-              className="services-item"
+              className={`services-item ${item.key}`}
               onClick={() => handleClick(i)}
             >
-              <div className="services-icon">
-                {renderIcon(item.key, isMobile ? 140 : 170)}
-              </div>
+              {renderIcon(item.key, iconSize)}
             </div>
           ))}
         </div>
