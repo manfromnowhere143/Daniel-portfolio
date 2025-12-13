@@ -57,7 +57,7 @@ export default function Services() {
     setExpandedIndex(null);
   };
 
-  const iconSize = isMobile ? 70 : 100;
+  const iconSize = isMobile ? 110 : 160;
 
   return (
     <>

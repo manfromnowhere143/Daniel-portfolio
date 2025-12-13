@@ -14,7 +14,7 @@ export default function Work() {
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  const iconSize = isMobile ? 70 : 100;
+  const iconSize = isMobile ? 110 : 160;
 
   return (
     <>
