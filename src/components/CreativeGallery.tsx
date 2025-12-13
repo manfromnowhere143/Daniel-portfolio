@@ -10,51 +10,42 @@ export default function CreativeGallery() {
   const galleryItems = [
     {
       src: "/images/art4.png",
-      name: "Neural Architecture",
-      description: "A visual exploration of artificial neural networks, depicting the intricate pathways of machine cognition through layered geometric abstraction."
+      name: "Neural Architecture"
     },
     {
       src: "/images/art3.jpg",
-      name: "Emergence",
-      description: "Complex patterns arising from simple rules. An investigation into how order spontaneously manifests from chaos through iterative processes."
+      name: "Emergence"
     },
     {
       src: "/images/art2.JPEG",
-      name: "Layers",
-      description: "Depth through transparency. Multiple planes of existence coexisting in a single frame, each revealing and concealing simultaneously."
+      name: "Layers"
     },
     {
       src: "/images/art1.JPEG",
-      name: "Geometric Abstractions",
-      description: "Pure form distilled to its essence. The fundamental shapes that underlie all visual perception, stripped of ornament."
+      name: "Geometric Abstractions"
     }
   ];
 
   const sketchItems = [
     {
       src: "/images/homework1.jpg",
-      name: "Study I",
-      description: "Preliminary exploration of form and negative space. Graphite on paper."
+      name: "Study I"
     },
     {
       src: "/images/neural-timeline.jpg",
-      name: "Study II",
-      description: "Temporal mapping of neural activation patterns. Mixed media."
+      name: "Study II"
     },
     {
       src: "/images/homework36.jpg",
-      name: "Study III",
-      description: "Iterative refinement of geometric principles. Ink and wash."
+      name: "Study III"
     },
     {
       src: "/images/homework4.jpg",
-      name: "Study IV",
-      description: "Light and shadow as structural elements. Charcoal study."
+      name: "Study IV"
     },
     {
       src: "/images/homework5.jpg",
-      name: "Study V",
-      description: "Final synthesis of form studies. Combined techniques."
+      name: "Study V"
     }
   ];
 
@@ -109,7 +100,7 @@ export default function CreativeGallery() {
           transform: scale(0.98);
         }
 
-        /* Expanded Overlay - Matches other card overlays */
+        /* Expanded Overlay - Exactly matches other card overlays */
         .gallery-overlay {
           position: fixed;
           top: 0;
@@ -119,11 +110,11 @@ export default function CreativeGallery() {
           width: 100%;
           height: 100%;
           background: #0A0A0A;
-          z-index: 1000;
+          z-index: 9999;
           display: flex;
-          flex-direction: column;
-          align-items: center;
+          align-items: flex-start;
           justify-content: center;
+          padding-top: 12vh;
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.3s ease;
@@ -156,18 +147,15 @@ export default function CreativeGallery() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
           text-align: center;
           padding: 0 24px;
           width: 100%;
           max-width: 400px;
-          max-height: 90vh;
-          overflow: hidden;
         }
         .gallery-expanded-preview {
           width: 100%;
-          max-width: 280px;
-          margin-bottom: 20px;
+          max-width: 320px;
+          margin-bottom: 16px;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -175,26 +163,17 @@ export default function CreativeGallery() {
         }
         .gallery-expanded-image {
           max-width: 100%;
-          max-height: 45vh;
+          max-height: 50vh;
           border-radius: 4px;
           object-fit: contain;
         }
         .gallery-expanded-title {
-          font-size: 16px;
+          font-size: 15px;
           font-weight: 200;
           color: #FAFAF8;
           letter-spacing: 0.05em;
-          margin: 0 0 12px 0;
-          text-align: center;
-        }
-        .gallery-expanded-desc {
-          font-size: 11px;
-          font-weight: 300;
-          color: rgba(250, 250, 248, 0.55);
-          line-height: 1.6;
-          text-align: center;
-          max-width: 300px;
           margin: 0;
+          text-align: center;
         }
 
         @media (min-width: 600px) {
@@ -225,11 +204,6 @@ export default function CreativeGallery() {
           }
           .gallery-expanded-title {
             font-size: 18px;
-            margin-bottom: 14px;
-          }
-          .gallery-expanded-desc {
-            font-size: 12px;
-            max-width: 400px;
           }
         }
       `}</style>
@@ -292,7 +266,6 @@ export default function CreativeGallery() {
               />
             </div>
             <h3 className="gallery-expanded-title">{expandedGalleryItem.name}</h3>
-            <p className="gallery-expanded-desc">{expandedGalleryItem.description}</p>
           </div>
         )}
       </div>
@@ -313,7 +286,6 @@ export default function CreativeGallery() {
               />
             </div>
             <h3 className="gallery-expanded-title">{expandedSketchItem.name}</h3>
-            <p className="gallery-expanded-desc">{expandedSketchItem.description}</p>
           </div>
         )}
       </div>
