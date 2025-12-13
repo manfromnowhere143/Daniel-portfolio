@@ -258,17 +258,24 @@ export default function Services() {
         }
         .expanded-close {
           position: absolute;
-          top: 12px;
-          left: 12px;
-          width: 28px;
-          height: 28px;
+          top: 60px;
+          left: 16px;
+          width: 36px;
+          height: 36px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255, 255, 255, 0.3);
-          font-size: 18px;
+          color: rgba(255, 255, 255, 0.85);
+          font-size: 24px;
           font-weight: 200;
           cursor: pointer;
+          transition: color 0.2s ease, transform 0.2s ease;
+          background: rgba(255, 255, 255, 0.08);
+          border-radius: 50%;
+        }
+        .expanded-close:hover {
+          color: rgba(255, 255, 255, 1);
+          transform: scale(1.1);
         }
         
         @media (min-width: 600px) {

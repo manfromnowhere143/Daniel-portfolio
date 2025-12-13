@@ -377,7 +377,7 @@ export default function Creative() {
           display: flex;
           align-items: center;
           justify-content: center;
-          transform: scale(0.55);
+          transform: scale(0.48);
         }
         
         .geometry-preview svg,
@@ -503,6 +503,26 @@ export default function Creative() {
           margin-bottom: 16px;
         }
         
+        .expanded-preview-architecture {
+          width: 90vw;
+          max-width: 360px;
+          height: 55vw;
+          max-height: 260px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 16px;
+        }
+        
+        .expanded-preview-geometry {
+          width: 200px;
+          height: 200px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 20px;
+        }
+        
         .expanded-preview-3d canvas {
           background: transparent !important;
         }
@@ -548,22 +568,25 @@ export default function Creative() {
         
         .expanded-close {
           position: absolute;
-          top: 12px;
-          left: 12px;
-          width: 28px;
-          height: 28px;
+          top: 60px;
+          left: 16px;
+          width: 36px;
+          height: 36px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255, 255, 255, 0.25);
-          font-size: 18px;
+          color: rgba(255, 255, 255, 0.85);
+          font-size: 24px;
           font-weight: 200;
           cursor: pointer;
-          transition: color 0.2s ease;
+          transition: color 0.2s ease, transform 0.2s ease;
+          background: rgba(255, 255, 255, 0.08);
+          border-radius: 50%;
         }
         
         .expanded-close:hover {
-          color: rgba(255, 255, 255, 0.5);
+          color: rgba(255, 255, 255, 1);
+          transform: scale(1.1);
         }
 
         /* ========== DESKTOP ========== */
@@ -602,7 +625,7 @@ export default function Creative() {
           }
           
           .geometry-preview {
-            transform: scale(0.7);
+            transform: scale(0.6);
           }
           
           .icons3d-preview {
@@ -658,6 +681,16 @@ export default function Creative() {
             max-width: 440px;
             height: 260px;
             max-height: 260px;
+          }
+          .expanded-preview-architecture {
+            width: 480px;
+            max-width: 480px;
+            height: 320px;
+            max-height: 320px;
+          }
+          .expanded-preview-geometry {
+            width: 260px;
+            height: 260px;
           }
         }
       `}</style>
@@ -761,7 +794,7 @@ export default function Creative() {
               </div>
             )}
             {expandedExperience === "architecture" && (
-              <div className="expanded-icon">
+              <div className="expanded-preview-3d expanded-preview-architecture">
                 <Trade69Architecture />
               </div>
             )}
@@ -784,7 +817,7 @@ export default function Creative() {
         <div className="expanded-close" onClick={closeGeometry}>×</div>
         {expandedGeometryItem && ExpandedGeometryComponent && (
           <div className="expanded-content" onClick={(e) => e.stopPropagation()}>
-            <div className="expanded-icon">
+            <div className="expanded-preview-geometry">
               <ExpandedGeometryComponent />
             </div>
             <p className="expanded-title">{expandedGeometryItem.title}</p>
