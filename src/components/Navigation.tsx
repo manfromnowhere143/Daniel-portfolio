@@ -42,17 +42,6 @@ export default function Navigation() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
-
   const navItems = [
     { href: "/", label: "About", isActive: pathname === "/" },
     { href: "/work", label: "Work", isActive: pathname === "/work" || pathname.startsWith("/work/") },
@@ -82,6 +71,115 @@ export default function Navigation() {
 
   return (
     <>
+      <style>{`
+        /* Mobile top bar - slides in from top */
+        .mobile-top-bar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 80px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 24px;
+          z-index: 200;
+          background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.8) 70%, transparent 100%);
+          transform: translateY(-100%);
+          opacity: 0;
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                      opacity 0.3s ease;
+          pointer-events: none;
+        }
+        .mobile-top-bar.active {
+          transform: translateY(0);
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        /* Mobile bottom nav bar - slides up from bottom */
+        .mobile-bottom-bar {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 85px;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          padding: 0 16px;
+          padding-bottom: env(safe-area-inset-bottom, 0);
+          z-index: 200;
+          background: rgba(28, 28, 30, 0.98);
+          border-top: 0.5px solid rgba(255,255,255,0.1);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          transform: translateY(100%);
+          opacity: 0;
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                      opacity 0.3s ease;
+          pointer-events: none;
+        }
+        .mobile-bottom-bar.active {
+          transform: translateY(0);
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        /* Nav items in bottom bar */
+        .bottom-nav-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+          text-decoration: none;
+          padding: 8px 12px;
+          transition: opacity 0.2s ease;
+        }
+        .bottom-nav-item:active {
+          opacity: 0.5;
+        }
+        .bottom-nav-label {
+          font-size: 10px;
+          font-weight: 400;
+          letter-spacing: 0.04em;
+          color: #FAFAF8;
+        }
+        .bottom-nav-label.active {
+          font-weight: 500;
+        }
+
+        /* Subtle overlay when open */
+        .nav-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0,0,0,0.3);
+          z-index: 150;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.3s ease;
+        }
+        .nav-overlay.active {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        /* Home indicator line */
+        .home-indicator {
+          position: absolute;
+          bottom: 8px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 134px;
+          height: 5px;
+          background: rgba(255,255,255,0.3);
+          border-radius: 3px;
+        }
+      `}</style>
+
       {/* Desktop Navigation - Floating Vertical Sidebar */}
       <nav className={styles.desktopOnly} style={{
         position: "fixed",
@@ -190,149 +288,115 @@ export default function Navigation() {
           border: "none",
           cursor: "pointer",
           padding: "12px",
-          zIndex: 102,
-          opacity: isOpen ? 0 : 1,
-          pointerEvents: isOpen ? "none" : "auto",
-          transition: "opacity 0.3s ease"
+          zIndex: 201,
+          transition: "opacity 0.2s ease"
         }}
         aria-label="Menu"
       >
+        {/* Animated hamburger to X */}
         <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
-          <line x1="0" y1="1" x2="24" y2="1" stroke={hamburgerColor} strokeWidth="1.5"/>
-          <line x1="0" y1="9" x2="24" y2="9" stroke={hamburgerColor} strokeWidth="1.5"/>
-          <line x1="0" y1="17" x2="24" y2="17" stroke={hamburgerColor} strokeWidth="1.5"/>
+          <line
+            x1={isOpen ? "4" : "0"}
+            y1={isOpen ? "1" : "1"}
+            x2={isOpen ? "20" : "24"}
+            y2={isOpen ? "17" : "1"}
+            stroke={isOpen ? "#FAFAF8" : hamburgerColor}
+            strokeWidth="1.5"
+            style={{ transition: "all 0.3s ease" }}
+          />
+          <line
+            x1="0"
+            y1="9"
+            x2="24"
+            y2="9"
+            stroke={isOpen ? "#FAFAF8" : hamburgerColor}
+            strokeWidth="1.5"
+            style={{
+              opacity: isOpen ? 0 : 1,
+              transition: "opacity 0.2s ease"
+            }}
+          />
+          <line
+            x1={isOpen ? "4" : "0"}
+            y1={isOpen ? "17" : "17"}
+            x2={isOpen ? "20" : "24"}
+            y2={isOpen ? "1" : "17"}
+            stroke={isOpen ? "#FAFAF8" : hamburgerColor}
+            strokeWidth="1.5"
+            style={{ transition: "all 0.3s ease" }}
+          />
         </svg>
       </button>
 
-      {/* Mobile Sidebar */}
+      {/* Subtle Overlay */}
       <div
-        className={styles.mobileSidebar}
-        style={{
-          position: "fixed",
-          top: 0,
-          right: 0,
-          width: "100%",
-          height: "100vh",
-          backgroundColor: "#0A0A0A",
-          zIndex: 101,
-          transform: isOpen ? "translateX(0)" : "translateX(100%)",
-          transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-          overflow: "hidden"
-        }}
-      >
-        {/* Top Left - Time, Date & Age */}
+        className={`nav-overlay ${isOpen ? 'active' : ''}`}
+        onClick={() => setIsOpen(false)}
+      />
+
+      {/* Mobile Top Bar - Time/Date slides in */}
+      <div className={`mobile-top-bar ${isOpen ? 'active' : ''} ${styles.mobileOnly}`}>
         {time && (
           <div style={{
-            position: "absolute",
-            top: "28px",
-            left: "28px",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
             gap: "2px"
           }}>
             <span style={{
-              fontSize: "13px",
+              fontSize: "15px",
               fontWeight: 300,
-              letterSpacing: "0.12em",
+              letterSpacing: "0.1em",
               color: "#FAFAF8",
               fontVariantNumeric: "tabular-nums"
             }}>
               {formatTime(time)}
             </span>
             <span style={{
-              fontSize: "9px",
+              fontSize: "10px",
               fontWeight: 300,
-              letterSpacing: "0.2em",
-              color: "#FAFAF8"
+              letterSpacing: "0.15em",
+              color: "#FAFAF8",
+              opacity: 0.7
             }}>
               {formatDate(time)}
             </span>
-            {/* Age Clock - Live Ticking */}
-            {age !== null && (
-              <span style={{
-                fontSize: "8px",
-                fontWeight: 300,
-                letterSpacing: "0.02em",
-                color: "#FAFAF8",
-                fontVariantNumeric: "tabular-nums",
-                marginTop: "6px",
-                fontFamily: "ui-monospace, SFMono-Regular, monospace"
-              }}>
-                {formatAge(age)}
-              </span>
-            )}
           </div>
         )}
 
-        {/* Close button */}
-        <button
-          onClick={() => setTimeout(() => setIsOpen(false), 150)}
-          style={{
-            position: "absolute",
-            top: "24px",
-            right: "24px",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: "8px",
-            zIndex: 102
-          }}
-          aria-label="Close"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <line x1="4" y1="4" x2="20" y2="20" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round"/>
-            <line x1="20" y1="4" x2="4" y2="20" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round"/>
-          </svg>
-        </button>
+        {/* Age on right side */}
+        {age !== null && (
+          <span style={{
+            fontSize: "9px",
+            fontWeight: 300,
+            letterSpacing: "0.02em",
+            color: "#FAFAF8",
+            fontVariantNumeric: "tabular-nums",
+            fontFamily: "ui-monospace, SFMono-Regular, monospace",
+            opacity: 0.6
+          }}>
+            {formatAge(age)}
+          </span>
+        )}
+      </div>
 
-        {/* Exact Center - Navigation */}
-        <div style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -70%)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "28px"
-        }}>
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setTimeout(() => setIsOpen(false), 150)}
-              style={{
-                textDecoration: "none"
-              }}
-            >
-              <span style={{
-                fontWeight: 200,
-                fontSize: "22px",
-                letterSpacing: "0.04em",
-                color: "#FAFAF8"
-              }}>
-                {item.label}
-              </span>
-            </Link>
-          ))}
-        </div>
+      {/* Mobile Bottom Bar - Nav slides up */}
+      <div className={`mobile-bottom-bar ${isOpen ? 'active' : ''} ${styles.mobileOnly}`}>
+        {navItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="bottom-nav-item"
+            onClick={() => setTimeout(() => setIsOpen(false), 150)}
+          >
+            <span className={`bottom-nav-label ${item.isActive ? 'active' : ''}`}>
+              {item.label}
+            </span>
+          </Link>
+        ))}
 
-        {/* Name at bottom center */}
-        <p style={{
-          position: "absolute",
-          bottom: "32px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          fontSize: "9px",
-          fontWeight: 300,
-          letterSpacing: "0.3em",
-          textTransform: "uppercase",
-          color: "#FAFAF8",
-          opacity: 0.5
-        }}>
-          Daniel Wahnich
-        </p>
+        {/* Home indicator line like iOS */}
+        <div className="home-indicator" />
       </div>
     </>
   );
