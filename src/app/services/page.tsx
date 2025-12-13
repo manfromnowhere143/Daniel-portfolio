@@ -64,7 +64,7 @@ export default function Services() {
     setExpandedIndex(null);
   };
 
-  const iconSize = isMobile ? 100 : 180;
+  const iconSize = isMobile ? 72 : 130;
 
   return (
     <>
@@ -72,8 +72,8 @@ export default function Services() {
         .services-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 18px;
-          max-width: 260px;
+          gap: 14px;
+          max-width: 190px;
           margin: 0 auto;
         }
         
@@ -82,9 +82,9 @@ export default function Services() {
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 24px;
-          width: 115px;
-          height: 115px;
+          border-radius: 18px;
+          width: 85px;
+          height: 85px;
           margin: 0 auto;
           cursor: pointer;
           transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
@@ -108,7 +108,7 @@ export default function Services() {
             rgba(255, 255, 255, 0.04) 40%,
             transparent 100%
           );
-          border-radius: 24px 24px 50% 50%;
+          border-radius: 18px 18px 50% 50%;
           pointer-events: none;
           z-index: 1;
         }
@@ -126,7 +126,7 @@ export default function Services() {
             rgba(0, 0, 0, 0.25) 0%, 
             transparent 100%
           );
-          border-radius: 0 0 24px 24px;
+          border-radius: 0 0 18px 18px;
           pointer-events: none;
           z-index: 1;
         }
@@ -146,7 +146,7 @@ export default function Services() {
             linear-gradient(165deg, rgba(65, 55, 120, 0.95) 0%, rgba(35, 28, 70, 0.98) 100%);
           box-shadow: 
             0 2px 4px rgba(0, 0, 0, 0.2),
-            0 8px 24px rgba(55, 48, 107, 0.5),
+            0 6px 18px rgba(55, 48, 107, 0.5),
             inset 0 1px 1px rgba(255, 255, 255, 0.1),
             inset 0 -2px 4px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(165, 180, 252, 0.2);
@@ -159,7 +159,7 @@ export default function Services() {
             linear-gradient(165deg, rgba(125, 52, 85, 0.95) 0%, rgba(72, 28, 50, 0.98) 100%);
           box-shadow: 
             0 2px 4px rgba(0, 0, 0, 0.2),
-            0 8px 24px rgba(112, 45, 75, 0.5),
+            0 6px 18px rgba(112, 45, 75, 0.5),
             inset 0 1px 1px rgba(255, 255, 255, 0.1),
             inset 0 -2px 4px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(251, 182, 206, 0.2);
@@ -172,7 +172,7 @@ export default function Services() {
             linear-gradient(165deg, rgba(38, 105, 80, 0.95) 0%, rgba(18, 58, 45, 0.98) 100%);
           box-shadow: 
             0 2px 4px rgba(0, 0, 0, 0.2),
-            0 8px 24px rgba(32, 90, 70, 0.5),
+            0 6px 18px rgba(32, 90, 70, 0.5),
             inset 0 1px 1px rgba(255, 255, 255, 0.1),
             inset 0 -2px 4px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(134, 239, 172, 0.2);
@@ -185,7 +185,7 @@ export default function Services() {
             linear-gradient(165deg, rgba(140, 68, 52, 0.95) 0%, rgba(82, 38, 28, 0.98) 100%);
           box-shadow: 
             0 2px 4px rgba(0, 0, 0, 0.2),
-            0 8px 24px rgba(124, 58, 45, 0.5),
+            0 6px 18px rgba(124, 58, 45, 0.5),
             inset 0 1px 1px rgba(255, 255, 255, 0.1),
             inset 0 -2px 4px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(253, 186, 140, 0.2);
@@ -258,44 +258,45 @@ export default function Services() {
         }
         .expanded-close {
           position: absolute;
-          top: 60px;
-          left: 16px;
-          width: 36px;
-          height: 36px;
+          top: 50%;
+          right: 20px;
+          transform: translateY(-50%);
+          width: 40px;
+          height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255, 255, 255, 0.85);
-          font-size: 24px;
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 28px;
           font-weight: 200;
           cursor: pointer;
           transition: color 0.2s ease, transform 0.2s ease;
-          background: rgba(255, 255, 255, 0.08);
           border-radius: 50%;
+          z-index: 10;
         }
         .expanded-close:hover {
           color: rgba(255, 255, 255, 1);
-          transform: scale(1.1);
+          transform: translateY(-50%) scale(1.1);
         }
         
         @media (min-width: 600px) {
           .services-grid {
-            gap: 32px;
-            max-width: 480px;
+            gap: 24px;
+            max-width: 340px;
           }
           
           .services-item {
-            width: 200px;
-            height: 200px;
-            border-radius: 40px;
+            width: 150px;
+            height: 150px;
+            border-radius: 32px;
           }
           
           .services-item::before {
-            border-radius: 40px 40px 50% 50%;
+            border-radius: 32px 32px 50% 50%;
           }
           
           .services-item::after {
-            border-radius: 0 0 40px 40px;
+            border-radius: 0 0 32px 32px;
           }
           
           .services-item:hover {
@@ -305,8 +306,8 @@ export default function Services() {
           .services-item.website:hover {
             box-shadow: 
               0 4px 8px rgba(0, 0, 0, 0.15),
-              0 16px 48px rgba(55, 48, 107, 0.6),
-              0 0 40px rgba(165, 180, 252, 0.15),
+              0 12px 36px rgba(55, 48, 107, 0.6),
+              0 0 30px rgba(165, 180, 252, 0.12),
               inset 0 1px 1px rgba(255, 255, 255, 0.15),
               inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
@@ -314,8 +315,8 @@ export default function Services() {
           .services-item.dashboard:hover {
             box-shadow: 
               0 4px 8px rgba(0, 0, 0, 0.15),
-              0 16px 48px rgba(112, 45, 75, 0.6),
-              0 0 40px rgba(251, 182, 206, 0.15),
+              0 12px 36px rgba(112, 45, 75, 0.6),
+              0 0 30px rgba(251, 182, 206, 0.12),
               inset 0 1px 1px rgba(255, 255, 255, 0.15),
               inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
@@ -323,8 +324,8 @@ export default function Services() {
           .services-item.api:hover {
             box-shadow: 
               0 4px 8px rgba(0, 0, 0, 0.15),
-              0 16px 48px rgba(32, 90, 70, 0.6),
-              0 0 40px rgba(134, 239, 172, 0.15),
+              0 12px 36px rgba(32, 90, 70, 0.6),
+              0 0 30px rgba(134, 239, 172, 0.12),
               inset 0 1px 1px rgba(255, 255, 255, 0.15),
               inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
@@ -332,8 +333,8 @@ export default function Services() {
           .services-item.llm:hover {
             box-shadow: 
               0 4px 8px rgba(0, 0, 0, 0.15),
-              0 16px 48px rgba(124, 58, 45, 0.6),
-              0 0 40px rgba(253, 186, 140, 0.15),
+              0 12px 36px rgba(124, 58, 45, 0.6),
+              0 0 30px rgba(253, 186, 140, 0.12),
               inset 0 1px 1px rgba(255, 255, 255, 0.15),
               inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }

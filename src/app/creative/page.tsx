@@ -568,25 +568,26 @@ export default function Creative() {
         
         .expanded-close {
           position: absolute;
-          top: 60px;
-          left: 16px;
-          width: 36px;
-          height: 36px;
+          top: 50%;
+          right: 20px;
+          transform: translateY(-50%);
+          width: 40px;
+          height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255, 255, 255, 0.85);
-          font-size: 24px;
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 28px;
           font-weight: 200;
           cursor: pointer;
           transition: color 0.2s ease, transform 0.2s ease;
-          background: rgba(255, 255, 255, 0.08);
           border-radius: 50%;
+          z-index: 10;
         }
         
         .expanded-close:hover {
           color: rgba(255, 255, 255, 1);
-          transform: scale(1.1);
+          transform: translateY(-50%) scale(1.1);
         }
 
         /* ========== DESKTOP ========== */

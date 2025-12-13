@@ -16,13 +16,12 @@ export default function Work() {
   }, []);
 
   useEffect(() => {
-    // Small delay for smooth entrance
     const timer = setTimeout(() => setIsLoaded(true), 50);
     return () => clearTimeout(timer);
   }, []);
 
-  // Larger icons - fill more of the container like iOS
-  const iconSize = isMobile ? 100 : 180;
+  // Icon fills ~88% of container for tight, professional look
+  const iconSize = isMobile ? 72 : 130;
 
   return (
     <>
@@ -30,8 +29,8 @@ export default function Work() {
         .work-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 18px;
-          max-width: 260px;
+          gap: 14px;
+          max-width: 190px;
           margin: 0 auto;
         }
         
@@ -40,9 +39,9 @@ export default function Work() {
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 24px;
-          width: 115px;
-          height: 115px;
+          border-radius: 18px;
+          width: 85px;
+          height: 85px;
           margin: 0 auto;
           transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
                       box-shadow 0.25s ease, 
@@ -66,7 +65,7 @@ export default function Work() {
             rgba(255, 255, 255, 0.04) 40%,
             transparent 100%
           );
-          border-radius: 24px 24px 50% 50%;
+          border-radius: 18px 18px 50% 50%;
           pointer-events: none;
           z-index: 1;
         }
@@ -84,7 +83,7 @@ export default function Work() {
             rgba(0, 0, 0, 0.25) 0%, 
             transparent 100%
           );
-          border-radius: 0 0 24px 24px;
+          border-radius: 0 0 18px 18px;
           pointer-events: none;
           z-index: 1;
         }
@@ -104,7 +103,7 @@ export default function Work() {
             linear-gradient(165deg, rgba(20, 95, 85, 0.95) 0%, rgba(10, 60, 55, 0.98) 100%);
           box-shadow: 
             0 2px 4px rgba(0, 0, 0, 0.2),
-            0 8px 24px rgba(16, 78, 70, 0.5),
+            0 6px 18px rgba(16, 78, 70, 0.5),
             inset 0 1px 1px rgba(255, 255, 255, 0.1),
             inset 0 -2px 4px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(94, 234, 212, 0.2);
@@ -117,7 +116,7 @@ export default function Work() {
             linear-gradient(165deg, rgba(88, 55, 130, 0.95) 0%, rgba(45, 28, 75, 0.98) 100%);
           box-shadow: 
             0 2px 4px rgba(0, 0, 0, 0.2),
-            0 8px 24px rgba(76, 46, 112, 0.5),
+            0 6px 18px rgba(76, 46, 112, 0.5),
             inset 0 1px 1px rgba(255, 255, 255, 0.1),
             inset 0 -2px 4px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(192, 132, 252, 0.2);
@@ -130,7 +129,7 @@ export default function Work() {
             linear-gradient(165deg, rgba(28, 95, 120, 0.95) 0%, rgba(12, 50, 70, 0.98) 100%);
           box-shadow: 
             0 2px 4px rgba(0, 0, 0, 0.2),
-            0 8px 24px rgba(22, 78, 99, 0.5),
+            0 6px 18px rgba(22, 78, 99, 0.5),
             inset 0 1px 1px rgba(255, 255, 255, 0.1),
             inset 0 -2px 4px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(103, 232, 249, 0.2);
@@ -143,7 +142,7 @@ export default function Work() {
             linear-gradient(165deg, rgba(140, 90, 25, 0.95) 0%, rgba(80, 50, 10, 0.98) 100%);
           box-shadow: 
             0 2px 4px rgba(0, 0, 0, 0.2),
-            0 8px 24px rgba(120, 75, 20, 0.5),
+            0 6px 18px rgba(120, 75, 20, 0.5),
             inset 0 1px 1px rgba(255, 255, 255, 0.1),
             inset 0 -2px 4px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(252, 211, 77, 0.2);
@@ -157,22 +156,22 @@ export default function Work() {
         
         @media (min-width: 600px) {
           .work-grid {
-            gap: 32px;
-            max-width: 480px;
+            gap: 24px;
+            max-width: 340px;
           }
           
           .work-item {
-            width: 200px;
-            height: 200px;
-            border-radius: 40px;
+            width: 150px;
+            height: 150px;
+            border-radius: 32px;
           }
           
           .work-item::before {
-            border-radius: 40px 40px 50% 50%;
+            border-radius: 32px 32px 50% 50%;
           }
           
           .work-item::after {
-            border-radius: 0 0 40px 40px;
+            border-radius: 0 0 32px 32px;
           }
           
           .work-item:hover {
@@ -182,8 +181,8 @@ export default function Work() {
           .work-item.trade69:hover {
             box-shadow: 
               0 4px 8px rgba(0, 0, 0, 0.15),
-              0 16px 48px rgba(16, 78, 70, 0.6),
-              0 0 40px rgba(94, 234, 212, 0.15),
+              0 12px 36px rgba(16, 78, 70, 0.6),
+              0 0 30px rgba(94, 234, 212, 0.12),
               inset 0 1px 1px rgba(255, 255, 255, 0.15),
               inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
@@ -191,8 +190,8 @@ export default function Work() {
           .work-item.megaagent:hover {
             box-shadow: 
               0 4px 8px rgba(0, 0, 0, 0.15),
-              0 16px 48px rgba(76, 46, 112, 0.6),
-              0 0 40px rgba(192, 132, 252, 0.15),
+              0 12px 36px rgba(76, 46, 112, 0.6),
+              0 0 30px rgba(192, 132, 252, 0.12),
               inset 0 1px 1px rgba(255, 255, 255, 0.15),
               inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
@@ -200,8 +199,8 @@ export default function Work() {
           .work-item.octopus:hover {
             box-shadow: 
               0 4px 8px rgba(0, 0, 0, 0.15),
-              0 16px 48px rgba(22, 78, 99, 0.6),
-              0 0 40px rgba(103, 232, 249, 0.15),
+              0 12px 36px rgba(22, 78, 99, 0.6),
+              0 0 30px rgba(103, 232, 249, 0.12),
               inset 0 1px 1px rgba(255, 255, 255, 0.15),
               inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
@@ -209,8 +208,8 @@ export default function Work() {
           .work-item.overmind:hover {
             box-shadow: 
               0 4px 8px rgba(0, 0, 0, 0.15),
-              0 16px 48px rgba(120, 75, 20, 0.6),
-              0 0 40px rgba(252, 211, 77, 0.15),
+              0 12px 36px rgba(120, 75, 20, 0.6),
+              0 0 30px rgba(252, 211, 77, 0.12),
               inset 0 1px 1px rgba(255, 255, 255, 0.15),
               inset 0 -2px 4px rgba(0, 0, 0, 0.1);
           }
