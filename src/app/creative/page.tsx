@@ -314,9 +314,9 @@ export default function Creative() {
 
         /* Experiences Gallery */
         .experiences-grid {
-          display: flex;
-          justify-content: center;
-          gap: 12px;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
           max-width: 340px;
           margin: 0 auto;
         }
@@ -324,29 +324,23 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          padding: 8px 4px;
           cursor: pointer;
           transition: transform 0.2s ease;
-          background: rgba(30, 30, 30, 0.95);
-          border-radius: 16px;
-          width: 72px;
-          height: 72px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-          border: 1px solid rgba(255,255,255,0.08);
         }
         .experiences-item:active {
-          transform: scale(0.92);
+          transform: scale(0.96);
         }
         .experiences-preview {
-          width: 48px;
-          height: 48px;
+          width: 55px;
+          height: 55px;
           display: flex;
           align-items: center;
           justify-content: center;
         }
         .experiences-preview svg {
-          width: 48px;
-          height: 48px;
+          width: 55px;
+          height: 55px;
         }
 
         /* Experiences Expanded Overlay */
@@ -474,9 +468,9 @@ export default function Creative() {
 
         /* Geometry Gallery */
         .geometry-grid {
-          display: flex;
-          justify-content: center;
-          gap: 12px;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
           max-width: 340px;
           margin: 0 auto;
         }
@@ -484,22 +478,16 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          padding: 8px 4px;
           cursor: pointer;
           transition: transform 0.2s ease;
-          background: rgba(30, 30, 30, 0.95);
-          border-radius: 16px;
-          width: 72px;
-          height: 72px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-          border: 1px solid rgba(255,255,255,0.08);
         }
         .geometry-item:active {
-          transform: scale(0.92);
+          transform: scale(0.96);
         }
         .geometry-preview {
-          width: 48px;
-          height: 48px;
+          width: 55px;
+          height: 55px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -611,9 +599,9 @@ export default function Creative() {
 
         /* 3D Icons Gallery */
         .icons3d-grid {
-          display: flex;
-          justify-content: center;
-          gap: 12px;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
           max-width: 340px;
           margin: 0 auto;
         }
@@ -621,28 +609,19 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
-          padding: 8px;
+          padding: 8px 4px;
           cursor: pointer;
           transition: transform 0.2s ease;
-          background: rgba(30, 30, 30, 0.95);
-          border-radius: 16px;
-          width: 72px;
-          height: 72px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-          border: 1px solid rgba(255,255,255,0.08);
         }
         .icons3d-item:active {
-          transform: scale(0.92);
+          transform: scale(0.96);
         }
         .icons3d-preview {
-          width: 52px;
-          height: 52px;
+          width: 55px;
+          height: 55px;
           display: flex;
           align-items: center;
           justify-content: center;
-          transform: scale(0.52);
-          transform-origin: center;
         }
 
         /* SVG 2D Icons Grid */
@@ -750,19 +729,12 @@ export default function Creative() {
 
         @media (min-width: 600px) {
           .experiences-grid {
-            display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
             max-width: 700px;
           }
           .experiences-item {
             padding: 24px 18px;
-            background: transparent;
-            border-radius: 0;
-            box-shadow: none;
-            border: none;
-            width: auto;
-            height: auto;
           }
           .experiences-item:hover {
             transform: scale(1.02);
@@ -800,19 +772,12 @@ export default function Creative() {
             margin-top: 20px;
           }
           .geometry-grid {
-            display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
             max-width: 700px;
           }
           .geometry-item {
             padding: 24px 18px;
-            background: transparent;
-            border-radius: 0;
-            box-shadow: none;
-            border: none;
-            width: auto;
-            height: auto;
             cursor: pointer;
           }
           .geometry-item:hover {
@@ -837,19 +802,12 @@ export default function Creative() {
             font-size: 15px;
           }
           .icons3d-grid {
-            display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
             max-width: 700px;
           }
           .icons3d-item {
             padding: 24px 18px;
-            background: transparent;
-            border-radius: 0;
-            box-shadow: none;
-            border: none;
-            width: auto;
-            height: auto;
           }
           .icons3d-item:hover {
             transform: scale(1.02);
@@ -860,7 +818,6 @@ export default function Creative() {
           .icons3d-preview {
             width: 100px;
             height: 100px;
-            transform: scale(1);
           }
           .icons3d-expanded-preview {
             margin-bottom: 32px;
