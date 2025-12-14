@@ -122,28 +122,28 @@ export default function Creative() {
     }
   };
 
-  // Render mini icons for folder preview - bigger to fill
+  // Render mini icons for folder preview - fill the space
   const renderFolderPreview = () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 4, padding: 8 }}>
-      <div style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'scale(0.7)' }}><Trade69Icon /></div>
-      <div style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'scale(0.7)' }}><MegaAgentIcon /></div>
-      <div style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'scale(0.7)' }}><WebsiteIcon /></div>
-      <div style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'scale(0.7)' }}><APIIcon /></div>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 6, padding: 12 }}>
+      <div style={{ width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'scale(0.85)' }}><Trade69Icon /></div>
+      <div style={{ width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'scale(0.85)' }}><MegaAgentIcon /></div>
+      <div style={{ width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'scale(0.85)' }}><WebsiteIcon /></div>
+      <div style={{ width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'scale(0.85)' }}><APIIcon /></div>
     </div>
   );
 
-  // App icon thumbnail - bigger 3D icons to fill container
+  // App icon thumbnail - 3D fills ~90-95% of container (98px)
   const renderAppThumbnail = (id: string) => {
     switch (id) {
       case 'work3d':
-        return icons3DReady ? <Trade69Icon3D size={75} /> : <div style={{ width: 75, height: 75 }} />;
+        return icons3DReady ? <Trade69Icon3D size={90} /> : <div style={{ width: 90, height: 90 }} />;
       case 'services3d':
-        return icons3DReady ? <WebsiteIcon3D size={75} /> : <div style={{ width: 75, height: 75 }} />;
+        return icons3DReady ? <WebsiteIcon3D size={90} /> : <div style={{ width: 90, height: 90 }} />;
       case 'geometry':
-        return <div style={{ transform: 'scale(0.42)' }}><MetatronCube /></div>;
+        return <div style={{ transform: 'scale(0.55)' }}><MetatronCube /></div>;
       case 'experiences':
         return (
-          <svg width="60" height="60" viewBox="0 0 48 48" fill="none">
+          <svg width="75" height="75" viewBox="0 0 48 48" fill="none">
             <circle cx="24" cy="24" r="16" stroke="white" strokeWidth="1" opacity="0.8"/>
             <circle cx="24" cy="24" r="8" stroke="white" strokeWidth="0.5" opacity="0.6"/>
             <circle cx="24" cy="24" r="3" fill="white" opacity="0.9"/>
@@ -820,7 +820,7 @@ export default function Creative() {
           {work3DItems.map(item => (
             <div key={item.id} className="item-card" onClick={() => setExpandedItem(`work3d-${item.id}`)}>
               <div className="item-icon work3d">
-                {renderWork3D(item.id, 60)}
+                {renderWork3D(item.id, 65)}
               </div>
               <span className="item-name">{item.name}</span>
             </div>
@@ -840,7 +840,7 @@ export default function Creative() {
           {service3DItems.map(item => (
             <div key={item.id} className="item-card" onClick={() => setExpandedItem(`services3d-${item.id}`)}>
               <div className="item-icon services3d">
-                {renderService3D(item.id, 60)}
+                {renderService3D(item.id, 65)}
               </div>
               <span className="item-name">{item.name}</span>
             </div>
@@ -860,7 +860,7 @@ export default function Creative() {
           {geometryItems.map(item => (
             <div key={item.id} className="item-card" onClick={() => setExpandedItem(`geometry-${item.id}`)}>
               <div className="item-icon geometry">
-                <div style={{ transform: 'scale(0.42)' }}>{renderGeometry(item.id)}</div>
+                <div style={{ transform: 'scale(0.48)' }}>{renderGeometry(item.id)}</div>
               </div>
               <span className="item-name">{item.name}</span>
             </div>
@@ -880,7 +880,7 @@ export default function Creative() {
           {experienceItems.map(item => (
             <div key={item.id} className="item-card" onClick={() => item.link ? window.open(item.link, '_blank') : setExpandedItem(`experiences-${item.id}`)}>
               <div className="item-icon experiences">
-                <svg width="52" height="52" viewBox="0 0 48 48" fill="none">
+                <svg width="58" height="58" viewBox="0 0 48 48" fill="none">
                   <circle cx="24" cy="24" r="14" stroke="white" strokeWidth="1" opacity="0.9"/>
                   <circle cx="24" cy="24" r="6" stroke="white" strokeWidth="0.5" opacity="0.6"/>
                   <circle cx="24" cy="24" r="2" fill="white" opacity="1"/>
