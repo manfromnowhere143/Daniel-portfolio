@@ -78,42 +78,37 @@ export default function Creative() {
   // Refs for cleanup
   const folderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const expandedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const rafRef = useRef<number | null>(null);
-  const rafRef2 = useRef<number | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
-  // Cleanup timeouts and rafs on unmount
+  // Cleanup timeouts on unmount
   useEffect(() => {
     return () => {
       if (folderTimeoutRef.current) clearTimeout(folderTimeoutRef.current);
       if (expandedTimeoutRef.current) clearTimeout(expandedTimeoutRef.current);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      if (rafRef2.current) cancelAnimationFrame(rafRef2.current);
     };
   }, []);
 
-  // STATE OF THE ART - Flash-free folder open with triple-buffered animation
+  // STATE OF THE ART - Apple-style folder open with proper sequencing
   const handleOpenFolder = useCallback((appId: string) => {
     if (folderAnimState !== 'idle') return;
 
-    // Phase 1: Set content and entering state (element is display:flex but opacity:0)
+    // Phase 1: Set content, start entering
     setOpenApp(appId);
     setFolderAnimState('entering');
 
-    // Phase 2: Wait for browser to paint the transparent state, then trigger active
-    // Using double RAF ensures the DOM has been painted before transitioning
-    rafRef.current = requestAnimationFrame(() => {
-      rafRef2.current = requestAnimationFrame(() => {
+    // Phase 2: After a frame, trigger active state for CSS transitions
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
         setFolderAnimState('active');
       });
     });
   }, [folderAnimState]);
 
-  // STATE OF THE ART - Flash-free folder close
+  // STATE OF THE ART - Apple-style folder close with proper sequencing
   const handleCloseFolder = useCallback(() => {
     if (folderAnimState !== 'active') return;
 
@@ -124,24 +119,24 @@ export default function Creative() {
     folderTimeoutRef.current = setTimeout(() => {
       setOpenApp(null);
       setFolderAnimState('idle');
-    }, 350);
+    }, 350); // Match CSS transition duration
   }, [folderAnimState]);
 
-  // STATE OF THE ART - Flash-free expanded view open
+  // STATE OF THE ART - Apple-style expanded view open
   const handleOpenExpanded = useCallback((itemId: string) => {
     if (expandedAnimState !== 'idle') return;
 
     setExpandedItem(itemId);
     setExpandedAnimState('entering');
 
-    rafRef.current = requestAnimationFrame(() => {
-      rafRef2.current = requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
         setExpandedAnimState('active');
       });
     });
   }, [expandedAnimState]);
 
-  // STATE OF THE ART - Flash-free expanded view close
+  // STATE OF THE ART - Apple-style expanded view close
   const handleCloseExpanded = useCallback(() => {
     if (expandedAnimState !== 'active') return;
 
@@ -150,7 +145,7 @@ export default function Creative() {
     expandedTimeoutRef.current = setTimeout(() => {
       setExpandedItem(null);
       setExpandedAnimState('idle');
-    }, 400);
+    }, 400); // Match CSS transition duration
   }, [expandedAnimState]);
 
   // Prevent touch move function - only blocks swipe, not tap
@@ -437,7 +432,7 @@ export default function Creative() {
       <style>{`
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - iOS FOLDER SYSTEM                        */
-        /* Flash-free transitions with triple-buffered animation       */
+        /* Apple-style transitions with proper animation sequencing    */
         /* ═══════════════════════════════════════════════════════════ */
         
         .creative-page {
@@ -499,9 +494,6 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
-          /* Prevent tap highlight flash */
-          -webkit-tap-highlight-color: transparent;
-          -webkit-touch-callout: none;
         }
         
         .folder-icon::before {
@@ -603,7 +595,7 @@ export default function Creative() {
         
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - iOS FOLDER OVERLAY                       */
-        /* Flash-free animation using display + opacity technique      */
+        /* Proper 3-phase animation: entering -> active -> exiting     */
         /* ═══════════════════════════════════════════════════════════ */
         
         .folder-overlay {
@@ -613,12 +605,14 @@ export default function Creative() {
           right: 0;
           bottom: 0;
           z-index: 1000;
-          display: none;
+          display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
           padding-top: clamp(100px, 18vh, 180px);
+          /* Hidden by default */
           opacity: 0;
+          visibility: hidden;
           pointer-events: none;
           touch-action: manipulation;
           -webkit-touch-callout: none;
@@ -626,38 +620,34 @@ export default function Creative() {
           overscroll-behavior: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          will-change: opacity, visibility;
           transform: translateZ(0);
-          /* Ensure no background flash */
-          background: transparent;
-          -webkit-tap-highlight-color: transparent;
         }
         
-        /* Phase 1: ENTERING - Render at opacity 0 before transition */
+        /* Phase 1: ENTERING - Make visible, start at 0 opacity */
         .folder-overlay.entering {
-          display: flex;
+          visibility: visible;
           pointer-events: auto;
           opacity: 0;
-          will-change: opacity;
         }
         
-        /* Phase 2: ACTIVE - Smooth fade in */
+        /* Phase 2: ACTIVE - Fully visible with transitions */
         .folder-overlay.active {
-          display: flex;
+          visibility: visible;
           pointer-events: auto;
           opacity: 1;
           transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-          will-change: auto;
         }
         
         /* Phase 3: EXITING - Fade out */
         .folder-overlay.exiting {
-          display: flex;
+          visibility: visible;
           pointer-events: none;
           opacity: 0;
           transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1);
         }
         
-        /* Blurred background - animates separately for smoothness */
+        /* Blurred background */
         .folder-overlay-bg {
           position: absolute;
           top: 0;
@@ -671,7 +661,6 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
-          -webkit-tap-highlight-color: transparent;
         }
         
         /* Folder title */
@@ -703,7 +692,7 @@ export default function Creative() {
           transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
-        /* White frosted container - no flash */
+        /* White frosted container */
         .folder-container {
           position: relative;
           z-index: 2;
@@ -724,7 +713,6 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-overlay.active .folder-container {
@@ -758,8 +746,6 @@ export default function Creative() {
           transition: none;
           border: none;
           touch-action: manipulation;
-          -webkit-tap-highlight-color: transparent;
-          outline: none;
         }
         
         .folder-overlay.active .folder-close {
@@ -799,7 +785,7 @@ export default function Creative() {
           grid-template-columns: repeat(4, 1fr);
         }
         
-        /* Each app inside folder - flash-free */
+        /* Each app inside folder */
         .folder-app {
           display: flex;
           flex-direction: column;
@@ -812,7 +798,6 @@ export default function Creative() {
           touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-overlay.active .folder-app {
@@ -848,7 +833,7 @@ export default function Creative() {
         .folder-overlay.exiting .folder-app:nth-child(2) { transition-delay: 90ms; }
         .folder-overlay.exiting .folder-app:nth-child(1) { transition-delay: 105ms; }
         
-        /* App icons with alive lighting - flash-free */
+        /* App icons with alive lighting */
         .folder-app-icon {
           width: 70px;
           height: 70px;
@@ -868,10 +853,6 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
-          -webkit-tap-highlight-color: transparent;
-          /* Prevent any flash on tap */
-          -webkit-touch-callout: none;
-          outline: none;
         }
         
         .folder-app-icon::before {
@@ -910,7 +891,7 @@ export default function Creative() {
         
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - EXPANDED ITEM VIEW                       */
-        /* Flash-free animation with display + opacity technique       */
+        /* Proper 3-phase animation for smooth transitions             */
         /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-view {
@@ -919,13 +900,15 @@ export default function Creative() {
           left: 0;
           right: 0;
           bottom: 0;
+          background: #0A0A0A;
           z-index: 2000;
-          display: none;
+          display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
           padding-top: clamp(80px, 15vh, 150px);
           opacity: 0;
+          visibility: hidden;
           pointer-events: none;
           touch-action: manipulation;
           -webkit-touch-callout: none;
@@ -933,37 +916,30 @@ export default function Creative() {
           overscroll-behavior: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          will-change: opacity, visibility;
           transform: translateZ(0);
-          /* Start with transparent bg, animate to black */
-          background: transparent;
-          -webkit-tap-highlight-color: transparent;
         }
         
-        /* Phase 1: ENTERING - render invisible */
+        /* Phase 1: ENTERING */
         .expanded-view.entering {
-          display: flex;
+          visibility: visible;
           pointer-events: auto;
           opacity: 0;
-          background: #0A0A0A;
-          will-change: opacity;
         }
         
-        /* Phase 2: ACTIVE - fade in */
+        /* Phase 2: ACTIVE */
         .expanded-view.active {
-          display: flex;
+          visibility: visible;
           pointer-events: auto;
           opacity: 1;
-          background: #0A0A0A;
           transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
-          will-change: auto;
         }
         
         /* Phase 3: EXITING */
         .expanded-view.exiting {
-          display: flex;
+          visibility: visible;
           pointer-events: none;
           opacity: 0;
-          background: #0A0A0A;
           transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
         }
         
@@ -1051,8 +1027,6 @@ export default function Creative() {
           opacity: 0;
           transform: scale(0.5);
           transition: none;
-          -webkit-tap-highlight-color: transparent;
-          outline: none;
         }
         
         .expanded-view.active .expanded-close {
@@ -1074,24 +1048,6 @@ export default function Creative() {
         
         .expanded-close:active {
           transform: scale(0.85);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════ */
-        /* GLOBAL FLASH PREVENTION                                     */
-        /* ═══════════════════════════════════════════════════════════ */
-        
-        * {
-          -webkit-tap-highlight-color: transparent;
-        }
-        
-        button, [role="button"], .folder-icon, .folder-app, .folder-app-icon, .folder-close, .expanded-close {
-          -webkit-tap-highlight-color: transparent;
-          -webkit-touch-callout: none;
-          outline: none;
-        }
-        
-        button:focus, [role="button"]:focus, .folder-icon:focus, .folder-app:focus, .folder-app-icon:focus, .folder-close:focus, .expanded-close:focus {
-          outline: none;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
