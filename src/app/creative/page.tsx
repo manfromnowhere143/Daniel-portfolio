@@ -98,6 +98,230 @@ export default function Creative() {
     };
   }, [openApp, expandedItem]);
 
+  // Elegant Work SVG Icons - instant load, state-of-the-art design
+  const renderWorkIcon = (id: string, size: number = 85) => {
+    switch (id) {
+      case 'trade69':
+        // Trading chart with ascending trend
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            {/* Grid lines */}
+            <line x1="10" y1="15" x2="10" y2="50" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            <line x1="25" y1="15" x2="25" y2="50" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            <line x1="40" y1="15" x2="40" y2="50" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            <line x1="10" y1="25" x2="55" y2="25" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            <line x1="10" y1="37" x2="55" y2="37" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            {/* Candlesticks */}
+            <rect x="12" y="32" width="4" height="12" fill="white" opacity="0.6"/>
+            <line x1="14" y1="28" x2="14" y2="48" stroke="white" strokeWidth="1" opacity="0.6"/>
+            <rect x="20" y="28" width="4" height="8" fill="white" opacity="0.7"/>
+            <line x1="22" y1="24" x2="22" y2="40" stroke="white" strokeWidth="1" opacity="0.7"/>
+            <rect x="28" y="22" width="4" height="10" fill="white" opacity="0.8"/>
+            <line x1="30" y1="18" x2="30" y2="36" stroke="white" strokeWidth="1" opacity="0.8"/>
+            <rect x="36" y="18" width="4" height="8" fill="white" opacity="0.9"/>
+            <line x1="38" y1="14" x2="38" y2="30" stroke="white" strokeWidth="1" opacity="0.9"/>
+            <rect x="44" y="12" width="4" height="10" fill="white" opacity="1"/>
+            <line x1="46" y1="8" x2="46" y2="26" stroke="white" strokeWidth="1" opacity="1"/>
+            {/* Trend line */}
+            <path d="M12 42 L22 34 L30 28 L38 22 L46 14" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.9"/>
+            {/* Arrow tip */}
+            <path d="M44 16 L48 12 L46 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.9"/>
+          </svg>
+        );
+
+      case 'megaagent':
+        // Multi-agent network hub
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            {/* Central hub */}
+            <circle cx="30" cy="30" r="8" stroke="white" strokeWidth="1.5" fill="none" opacity="0.9"/>
+            <circle cx="30" cy="30" r="3" fill="white" opacity="1"/>
+            {/* Agent nodes */}
+            <circle cx="30" cy="10" r="5" stroke="white" strokeWidth="1" fill="none" opacity="0.8"/>
+            <circle cx="30" cy="10" r="2" fill="white" opacity="0.8"/>
+            <circle cx="50" cy="20" r="5" stroke="white" strokeWidth="1" fill="none" opacity="0.7"/>
+            <circle cx="50" cy="20" r="2" fill="white" opacity="0.7"/>
+            <circle cx="50" cy="40" r="5" stroke="white" strokeWidth="1" fill="none" opacity="0.6"/>
+            <circle cx="50" cy="40" r="2" fill="white" opacity="0.6"/>
+            <circle cx="30" cy="50" r="5" stroke="white" strokeWidth="1" fill="none" opacity="0.7"/>
+            <circle cx="30" cy="50" r="2" fill="white" opacity="0.7"/>
+            <circle cx="10" cy="40" r="5" stroke="white" strokeWidth="1" fill="none" opacity="0.6"/>
+            <circle cx="10" cy="40" r="2" fill="white" opacity="0.6"/>
+            <circle cx="10" cy="20" r="5" stroke="white" strokeWidth="1" fill="none" opacity="0.7"/>
+            <circle cx="10" cy="20" r="2" fill="white" opacity="0.7"/>
+            {/* Connections */}
+            <line x1="30" y1="22" x2="30" y2="15" stroke="white" strokeWidth="1" opacity="0.5"/>
+            <line x1="37" y1="25" x2="45" y2="20" stroke="white" strokeWidth="1" opacity="0.5"/>
+            <line x1="37" y1="35" x2="45" y2="40" stroke="white" strokeWidth="1" opacity="0.5"/>
+            <line x1="30" y1="38" x2="30" y2="45" stroke="white" strokeWidth="1" opacity="0.5"/>
+            <line x1="23" y1="35" x2="15" y2="40" stroke="white" strokeWidth="1" opacity="0.5"/>
+            <line x1="23" y1="25" x2="15" y2="20" stroke="white" strokeWidth="1" opacity="0.5"/>
+            {/* Orbit ring */}
+            <circle cx="30" cy="30" r="22" stroke="white" strokeWidth="0.5" strokeDasharray="3 3" opacity="0.3"/>
+          </svg>
+        );
+
+      case 'octopus':
+        // Cognitive octopus - tentacles reaching out
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            {/* Head */}
+            <ellipse cx="30" cy="24" rx="12" ry="10" stroke="white" strokeWidth="1.5" fill="none" opacity="0.9"/>
+            <circle cx="26" cy="22" r="2" fill="white" opacity="0.8"/>
+            <circle cx="34" cy="22" r="2" fill="white" opacity="0.8"/>
+            {/* Tentacles - flowing curves */}
+            <path d="M22 32 Q12 38 8 50" stroke="white" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.7"/>
+            <path d="M25 33 Q18 42 14 52" stroke="white" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.6"/>
+            <path d="M28 34 Q26 44 24 54" stroke="white" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.5"/>
+            <path d="M32 34 Q34 44 36 54" stroke="white" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.5"/>
+            <path d="M35 33 Q42 42 46 52" stroke="white" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.6"/>
+            <path d="M38 32 Q48 38 52 50" stroke="white" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.7"/>
+            {/* Suction cups */}
+            <circle cx="8" cy="50" r="2" fill="white" opacity="0.6"/>
+            <circle cx="52" cy="50" r="2" fill="white" opacity="0.6"/>
+            <circle cx="24" cy="54" r="1.5" fill="white" opacity="0.4"/>
+            <circle cx="36" cy="54" r="1.5" fill="white" opacity="0.4"/>
+          </svg>
+        );
+
+      case 'overmind':
+        // Cosmic consciousness - all-seeing eye
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            {/* Outer aura rings */}
+            <circle cx="30" cy="30" r="26" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            <circle cx="30" cy="30" r="22" stroke="white" strokeWidth="0.5" opacity="0.25"/>
+            <circle cx="30" cy="30" r="18" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            {/* Eye shape */}
+            <path d="M6 30 Q30 10 54 30 Q30 50 6 30" stroke="white" strokeWidth="1.5" fill="none" opacity="0.8"/>
+            {/* Iris */}
+            <circle cx="30" cy="30" r="10" stroke="white" strokeWidth="1" fill="none" opacity="0.9"/>
+            {/* Pupil */}
+            <circle cx="30" cy="30" r="5" fill="white" opacity="0.95"/>
+            {/* Inner light */}
+            <circle cx="28" cy="28" r="1.5" fill="white" opacity="0.5"/>
+            {/* Radiating lines */}
+            <line x1="30" y1="4" x2="30" y2="10" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            <line x1="30" y1="50" x2="30" y2="56" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            <line x1="4" y1="30" x2="10" y2="30" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            <line x1="50" y1="30" x2="56" y2="30" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+          </svg>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  // Elegant Service SVG Icons - instant load, state-of-the-art design
+  const renderServiceIcon = (id: string, size: number = 85) => {
+    switch (id) {
+      case 'website':
+        // Floating browser layers
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            {/* Back layer */}
+            <rect x="14" y="10" width="32" height="24" rx="3" stroke="white" strokeWidth="0.8" opacity="0.3"/>
+            {/* Middle layer */}
+            <rect x="10" y="16" width="32" height="24" rx="3" stroke="white" strokeWidth="1" opacity="0.5"/>
+            <line x1="10" y1="24" x2="42" y2="24" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            {/* Front layer */}
+            <rect x="6" y="22" width="32" height="24" rx="3" stroke="white" strokeWidth="1.5" opacity="0.9"/>
+            <line x1="6" y1="30" x2="38" y2="30" stroke="white" strokeWidth="1" opacity="0.7"/>
+            {/* Browser dots */}
+            <circle cx="11" cy="26" r="1.5" fill="white" opacity="0.8"/>
+            <circle cx="16" cy="26" r="1.5" fill="white" opacity="0.8"/>
+            <circle cx="21" cy="26" r="1.5" fill="white" opacity="0.8"/>
+            {/* Content */}
+            <line x1="10" y1="36" x2="26" y2="36" stroke="white" strokeWidth="1" opacity="0.5"/>
+            <line x1="10" y1="42" x2="20" y2="42" stroke="white" strokeWidth="1" opacity="0.4"/>
+          </svg>
+        );
+
+      case 'dashboard':
+        // Circular data HUD
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            {/* Outer ring */}
+            <circle cx="30" cy="30" r="24" stroke="white" strokeWidth="0.8" opacity="0.3"/>
+            {/* Data arcs */}
+            <path d="M30 8 A22 22 0 0 1 52 30" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.8"/>
+            <path d="M52 30 A22 22 0 0 1 38 50" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.6"/>
+            <path d="M38 50 A22 22 0 0 1 10 38" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+            {/* Inner rings */}
+            <circle cx="30" cy="30" r="14" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <circle cx="30" cy="30" r="8" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            {/* Center */}
+            <circle cx="30" cy="30" r="3" fill="white" opacity="0.9"/>
+            {/* Data points */}
+            <circle cx="30" cy="8" r="2" fill="white" opacity="0.8"/>
+            <circle cx="52" cy="30" r="2" fill="white" opacity="0.7"/>
+            <circle cx="38" cy="50" r="2" fill="white" opacity="0.6"/>
+          </svg>
+        );
+
+      case 'api':
+        // Constellation endpoints
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            {/* Connection lines */}
+            <line x1="30" y1="12" x2="30" y2="30" stroke="white" strokeWidth="1" opacity="0.4"/>
+            <line x1="30" y1="30" x2="14" y2="44" stroke="white" strokeWidth="1" opacity="0.4"/>
+            <line x1="30" y1="30" x2="46" y2="44" stroke="white" strokeWidth="1" opacity="0.4"/>
+            <line x1="14" y1="44" x2="46" y2="44" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            {/* Glow rings */}
+            <circle cx="30" cy="12" r="8" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            <circle cx="14" cy="44" r="8" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            <circle cx="46" cy="44" r="8" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            {/* Endpoints */}
+            <circle cx="30" cy="12" r="5" fill="white" opacity="0.9"/>
+            <circle cx="14" cy="44" r="5" fill="white" opacity="0.9"/>
+            <circle cx="46" cy="44" r="5" fill="white" opacity="0.9"/>
+            {/* Center hub */}
+            <circle cx="30" cy="30" r="4" fill="white" opacity="0.7"/>
+            <circle cx="30" cy="30" r="8" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            {/* Brackets */}
+            <path d="M22 28 L18 30 L22 32" stroke="white" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
+            <path d="M38 28 L42 30 L38 32" stroke="white" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
+          </svg>
+        );
+
+      case 'llm':
+        // Neural brain network
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            {/* Brain outline */}
+            <ellipse cx="30" cy="30" rx="24" ry="20" stroke="white" strokeWidth="0.8" opacity="0.25"/>
+            {/* Neural connections */}
+            <line x1="18" y1="16" x2="30" y2="26" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="42" y1="16" x2="30" y2="26" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="30" y1="26" x2="18" y2="36" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="30" y1="26" x2="42" y2="36" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="18" y1="36" x2="30" y2="46" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="42" y1="36" x2="30" y2="46" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="18" y1="16" x2="42" y2="16" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            <line x1="18" y1="36" x2="42" y2="36" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            {/* Input layer */}
+            <circle cx="18" cy="16" r="4" fill="white" opacity="0.7"/>
+            <circle cx="42" cy="16" r="4" fill="white" opacity="0.7"/>
+            {/* Hidden layer */}
+            <circle cx="30" cy="26" r="5" fill="white" opacity="0.9"/>
+            <circle cx="18" cy="36" r="4" fill="white" opacity="0.7"/>
+            <circle cx="42" cy="36" r="4" fill="white" opacity="0.7"/>
+            {/* Output layer */}
+            <circle cx="30" cy="46" r="5" fill="white" opacity="0.9"/>
+            {/* Pulse rings */}
+            <circle cx="30" cy="26" r="9" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            <circle cx="30" cy="46" r="9" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+          </svg>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  // Keep 3D for expanded views only
   const renderWork3D = (id: string, size: number) => {
     switch (id) {
       case 'trade69': return <Trade69Icon3D size={size} />;
@@ -108,6 +332,7 @@ export default function Creative() {
     }
   };
 
+  // Keep 3D for expanded views only
   const renderService3D = (id: string, size: number) => {
     switch (id) {
       case 'website': return <WebsiteIcon3D size={size} />;
@@ -147,13 +372,15 @@ export default function Creative() {
     </div>
   );
 
-  // App icon thumbnail - 3D fills ~90-95% of container (98px)
+  // App icon thumbnail - elegant SVG shapes for instant load
   const renderAppThumbnail = (id: string) => {
     switch (id) {
       case 'work3d':
-        return <Trade69Icon3D size={90} />;
+        // Show Trade69 icon as preview for Work 3D folder
+        return renderWorkIcon('trade69', 85);
       case 'services3d':
-        return <WebsiteIcon3D size={90} />;
+        // Show Website icon as preview for Services 3D folder
+        return renderServiceIcon('website', 85);
       case 'geometry':
         return <div style={{ transform: 'scale(0.55)' }}><MetatronCube /></div>;
       case 'experiences':
@@ -409,24 +636,26 @@ export default function Creative() {
         .app-container:nth-child(5) .app-name { transition-delay: 470ms; }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* OPENED APP OVERLAY - iOS FOLDER STYLE                       */
+        /* OPENED APP OVERLAY - SEAMLESS TRANSITION                    */
         /* ═══════════════════════════════════════════════════════════ */
         
         .app-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(0, 0, 0, 0.85);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          background: rgba(0, 0, 0, 0.92);
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
           z-index: 1000;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
-          padding-top: 10vh;
+          padding-top: clamp(100px, 15vh, 160px);
+          padding-left: 20px;
+          padding-right: 20px;
           opacity: 0;
           pointer-events: none;
-          transition: opacity 0.25s ease;
+          transition: opacity 0.35s ease;
         }
         
         .app-overlay.active {
@@ -434,26 +663,20 @@ export default function Creative() {
           pointer-events: auto;
         }
         
-        .app-overlay-title {
-          font-size: 24px;
-          font-weight: 300;
-          color: #FAFAF8;
-          margin-bottom: 28px;
-          letter-spacing: 0.03em;
-          text-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.3),
-            0 2px 8px rgba(0, 0, 0, 0.5);
-        }
-        
         .app-overlay-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 28px 32px;
-          padding: 28px;
-          background: rgba(255, 255, 255, 0.06);
-          border-radius: 28px;
-          max-width: 300px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          gap: 32px 28px;
+          max-width: 240px;
+          padding: 0 10px;
+          opacity: 0;
+          transform: scale(0.92);
+          transition: opacity 0.35s ease 0.05s, transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.05s;
+        }
+        
+        .app-overlay.active .app-overlay-grid {
+          opacity: 1;
+          transform: scale(1);
         }
         
         .app-overlay-close {
@@ -489,15 +712,15 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 10px;
+          gap: 12px;
           cursor: pointer;
         }
         
         .item-icon {
           position: relative;
-          width: 72px;
-          height: 72px;
-          border-radius: 18px;
+          width: 98px;
+          height: 98px;
+          border-radius: 24px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -515,65 +738,86 @@ export default function Creative() {
           height: 50%;
           background: linear-gradient(
             180deg, 
-            rgba(255, 255, 255, 0.18) 0%, 
-            rgba(255, 255, 255, 0.06) 40%,
+            rgba(255, 255, 255, 0.22) 0%, 
+            rgba(255, 255, 255, 0.08) 40%,
             transparent 100%
           );
-          border-radius: 18px 18px 50% 50%;
+          border-radius: 24px 24px 60% 60%;
           pointer-events: none;
           z-index: 3;
+        }
+        
+        /* Inner glow overlay for depth */
+        .item-icon::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 24px;
+          box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.08);
+          pointer-events: none;
+          z-index: 2;
         }
         
         .item-icon:active { transform: scale(0.95); }
         
         /* Work 3D items - Emerald */
         .item-icon.work3d {
-          background: linear-gradient(145deg, #1f6b5e 0%, #0d3d35 100%);
+          background: linear-gradient(145deg, #1f6b5e 0%, #124a42 50%, #0a3530 100%);
           box-shadow: 
-            0 0 20px rgba(94, 234, 212, 0.2),
-            0 4px 12px rgba(0, 0, 0, 0.3),
-            0 8px 20px rgba(13, 61, 53, 0.4);
-          border: 1px solid rgba(94, 234, 212, 0.15);
+            0 0 25px rgba(94, 234, 212, 0.2),
+            0 4px 15px rgba(0, 0, 0, 0.4),
+            0 10px 30px rgba(18, 74, 66, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(94, 234, 212, 0.18);
         }
         
         /* Service 3D items - Cyan */
         .item-icon.services3d {
-          background: linear-gradient(145deg, #1f6880 0%, #0d3d4d 100%);
+          background: linear-gradient(145deg, #1f6880 0%, #124858 50%, #0a3340 100%);
           box-shadow: 
-            0 0 20px rgba(103, 232, 249, 0.2),
-            0 4px 12px rgba(0, 0, 0, 0.3),
-            0 8px 20px rgba(13, 61, 77, 0.4);
-          border: 1px solid rgba(103, 232, 249, 0.15);
+            0 0 25px rgba(103, 232, 249, 0.2),
+            0 4px 15px rgba(0, 0, 0, 0.4),
+            0 10px 30px rgba(18, 72, 88, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(103, 232, 249, 0.18);
         }
         
         /* Geometry items - Violet */
         .item-icon.geometry {
-          background: linear-gradient(145deg, #5a3d7a 0%, #2a1845 100%);
+          background: linear-gradient(145deg, #6b4a8f 0%, #4a2d70 50%, #351f52 100%);
           box-shadow: 
-            0 0 20px rgba(192, 132, 252, 0.2),
-            0 4px 12px rgba(0, 0, 0, 0.3),
-            0 8px 20px rgba(42, 24, 69, 0.4);
-          border: 1px solid rgba(192, 132, 252, 0.15);
+            0 0 25px rgba(192, 132, 252, 0.2),
+            0 4px 15px rgba(0, 0, 0, 0.4),
+            0 10px 30px rgba(74, 45, 112, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(192, 132, 252, 0.18);
         }
         
         /* Experience items - Amber */
         .item-icon.experiences {
-          background: linear-gradient(145deg, #8a5a28 0%, #4a3010 100%);
+          background: linear-gradient(145deg, #9a7228 0%, #6b4f1a 50%, #4a3510 100%);
           box-shadow: 
-            0 0 20px rgba(252, 211, 77, 0.2),
-            0 4px 12px rgba(0, 0, 0, 0.3),
-            0 8px 20px rgba(74, 48, 16, 0.4);
-          border: 1px solid rgba(252, 211, 77, 0.15);
+            0 0 25px rgba(252, 211, 77, 0.2),
+            0 4px 15px rgba(0, 0, 0, 0.4),
+            0 10px 30px rgba(107, 79, 26, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(252, 211, 77, 0.18);
         }
         
         /* Icons folder items - Gray */
         .item-icon.icons {
-          background: linear-gradient(145deg, #3a3a3a 0%, #1a1a1a 100%);
+          background: linear-gradient(145deg, #3a3a3a 0%, #2a2a2a 50%, #1a1a1a 100%);
           box-shadow: 
-            0 0 15px rgba(150, 150, 150, 0.1),
-            0 4px 12px rgba(0, 0, 0, 0.3),
-            0 8px 20px rgba(26, 26, 26, 0.4);
-          border: 1px solid rgba(150, 150, 150, 0.1);
+            0 0 20px rgba(180, 180, 180, 0.15),
+            0 4px 15px rgba(0, 0, 0, 0.4),
+            0 10px 30px rgba(40, 40, 40, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(180, 180, 180, 0.12);
         }
         
         .item-name {
@@ -584,7 +828,6 @@ export default function Creative() {
           text-shadow: 
             0 0 10px rgba(255, 255, 255, 0.3),
             0 2px 4px rgba(0, 0, 0, 0.5);
-          opacity: 0.95;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -620,7 +863,7 @@ export default function Creative() {
         
         .expanded-desc {
           font-size: 13px;
-          color: rgba(250, 250, 248, 0.6);
+          color: #FAFAF8;
           margin-bottom: 24px;
           text-align: center;
           max-width: 280px;
@@ -682,11 +925,17 @@ export default function Creative() {
         .icons-folder-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 12px 16px;
-          padding: 20px;
-          background: rgba(255, 255, 255, 0.06);
-          border-radius: 20px;
-          max-width: 300px;
+          gap: 16px 12px;
+          max-width: 240px;
+          padding: 0 10px;
+          opacity: 0;
+          transform: scale(0.92);
+          transition: opacity 0.35s ease 0.05s, transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.05s;
+        }
+        
+        .app-overlay.active .icons-folder-grid {
+          opacity: 1;
+          transform: scale(1);
         }
         
         .icon-2d-item {
@@ -709,7 +958,7 @@ export default function Creative() {
         
         .icon-2d-name {
           font-size: 9px;
-          color: rgba(250, 250, 248, 0.7);
+          color: #FAFAF8;
           text-align: center;
         }
         
@@ -876,7 +1125,7 @@ export default function Creative() {
           {work3DItems.map(item => (
             <div key={item.id} className="item-card" onClick={() => setExpandedItem(`work3d-${item.id}`)}>
               <div className="item-icon work3d">
-                {renderWork3D(item.id, 65)}
+                {renderWorkIcon(item.id, 85)}
               </div>
               <span className="item-name">{item.name}</span>
             </div>
@@ -895,7 +1144,7 @@ export default function Creative() {
           {service3DItems.map(item => (
             <div key={item.id} className="item-card" onClick={() => setExpandedItem(`services3d-${item.id}`)}>
               <div className="item-icon services3d">
-                {renderService3D(item.id, 65)}
+                {renderServiceIcon(item.id, 85)}
               </div>
               <span className="item-name">{item.name}</span>
             </div>
@@ -914,7 +1163,7 @@ export default function Creative() {
           {geometryItems.map(item => (
             <div key={item.id} className="item-card" onClick={() => setExpandedItem(`geometry-${item.id}`)}>
               <div className="item-icon geometry">
-                <div style={{ transform: 'scale(0.48)' }}>{renderGeometry(item.id)}</div>
+                <div style={{ transform: 'scale(0.55)' }}>{renderGeometry(item.id)}</div>
               </div>
               <span className="item-name">{item.name}</span>
             </div>
@@ -933,10 +1182,14 @@ export default function Creative() {
           {experienceItems.map(item => (
             <div key={item.id} className="item-card" onClick={() => item.link ? window.open(item.link, '_blank') : setExpandedItem(`experiences-${item.id}`)}>
               <div className="item-icon experiences">
-                <svg width="58" height="58" viewBox="0 0 48 48" fill="none">
-                  <circle cx="24" cy="24" r="14" stroke="white" strokeWidth="1" opacity="0.9"/>
-                  <circle cx="24" cy="24" r="6" stroke="white" strokeWidth="0.5" opacity="0.6"/>
-                  <circle cx="24" cy="24" r="2" fill="white" opacity="1"/>
+                <svg width="75" height="75" viewBox="0 0 60 60" fill="none">
+                  {/* Outer orbital ring */}
+                  <ellipse cx="30" cy="30" rx="22" ry="8" stroke="white" strokeWidth="0.5" opacity="0.3" transform="rotate(-20 30 30)"/>
+                  <ellipse cx="30" cy="30" rx="22" ry="8" stroke="white" strokeWidth="0.5" opacity="0.3" transform="rotate(40 30 30)"/>
+                  {/* Main sphere */}
+                  <circle cx="30" cy="30" r="14" stroke="white" strokeWidth="1" opacity="0.6"/>
+                  {/* Core */}
+                  <circle cx="30" cy="30" r="5" fill="white" opacity="0.9"/>
                 </svg>
               </div>
               <span className="item-name">{item.name}</span>
