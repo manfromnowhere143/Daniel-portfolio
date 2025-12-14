@@ -661,15 +661,15 @@ export default function Services() {
           background: rgba(255, 255, 255, 0.98);
           backdrop-filter: blur(25px);
           -webkit-backdrop-filter: blur(25px);
-          border-radius: 26px;
-          padding: 22px;
+          border-radius: 28px;
+          padding: 24px;
           opacity: 0;
           transform: translateZ(0) scale(0.8);
           transition: none;
           box-shadow: 
-            0 0 50px rgba(255, 255, 255, 0.1),
-            0 18px 50px rgba(0, 0, 0, 0.35),
-            0 6px 20px rgba(0, 0, 0, 0.25),
+            0 0 60px rgba(255, 255, 255, 0.15),
+            0 20px 60px rgba(0, 0, 0, 0.4),
+            0 8px 25px rgba(0, 0, 0, 0.3),
             inset 0 1px 1px rgba(255, 255, 255, 0.8);
           touch-action: manipulation;
           -webkit-backface-visibility: hidden;
@@ -694,9 +694,9 @@ export default function Services() {
         .folder-close {
           position: relative;
           z-index: 2;
-          margin-top: 22px;
-          width: 44px;
-          height: 44px;
+          margin-top: 24px;
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
           background: transparent;
           display: flex;
@@ -725,7 +725,7 @@ export default function Services() {
         }
         
         .folder-close svg {
-          filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
         }
         
         .folder-close:active {
@@ -735,7 +735,7 @@ export default function Services() {
         .social-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
+          gap: 18px;
           touch-action: manipulation;
           -webkit-tap-highlight-color: transparent;
         }
@@ -782,20 +782,20 @@ export default function Services() {
         .folder-overlay.exiting .social-item:nth-child(1) { transition-delay: 45ms; }
         
         .social-icon {
-          width: 56px;
-          height: 56px;
-          border-radius: 14px;
+          width: 70px;
+          height: 70px;
+          border-radius: 17px;
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
           transition: transform 0.15s ease, box-shadow 0.15s ease;
           box-shadow: 
-            0 0 15px rgba(255, 255, 255, 0.08),
-            0 4px 12px rgba(0, 0, 0, 0.35),
-            0 8px 24px rgba(0, 0, 0, 0.18),
-            inset 0 1px 1px rgba(255, 255, 255, 0.25),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+            0 0 25px rgba(255, 255, 255, 0.12),
+            0 6px 20px rgba(0, 0, 0, 0.45),
+            0 12px 40px rgba(0, 0, 0, 0.25),
+            inset 0 1px 1px rgba(255, 255, 255, 0.4),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
@@ -806,22 +806,22 @@ export default function Services() {
           content: '';
           position: absolute;
           top: 0;
-          left: 10%;
-          right: 10%;
-          height: 42%;
+          left: 8%;
+          right: 8%;
+          height: 45%;
           background: linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.22) 0%,
-            rgba(255, 255, 255, 0.06) 50%,
+            rgba(255, 255, 255, 0.35) 0%,
+            rgba(255, 255, 255, 0.1) 50%,
             transparent 100%
           );
-          border-radius: 14px 14px 50% 50%;
+          border-radius: 17px 17px 50% 50%;
           pointer-events: none;
           z-index: 5;
         }
         
         .social-icon:active {
-          transform: scale(0.92);
+          transform: scale(0.9);
         }
         
         .social-icon.github {
@@ -842,7 +842,7 @@ export default function Services() {
         
         .social-name {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 400;
           color: #1a1a1a;
           text-align: center;
@@ -911,7 +911,7 @@ export default function Services() {
           }
           
           .folder-container {
-            padding: 26px;
+            padding: 28px;
             border-radius: 28px;
           }
           
@@ -920,21 +920,27 @@ export default function Services() {
           }
           
           .social-icon {
-            width: 66px;
-            height: 66px;
-            border-radius: 16px;
+            width: 80px;
+            height: 80px;
+            border-radius: 18px;
           }
           
           .social-icon::before {
-            border-radius: 16px 16px 50% 50%;
+            border-radius: 18px 18px 50% 50%;
           }
           
           .social-icon:hover {
-            transform: scale(1.05);
+            transform: scale(1.06);
+            box-shadow: 
+              0 6px 24px rgba(0, 0, 0, 0.4),
+              0 12px 40px rgba(0, 0, 0, 0.25),
+              0 0 30px rgba(255, 255, 255, 0.12),
+              inset 0 1px 0 rgba(255, 255, 255, 0.25);
           }
           
           .social-name {
             font-size: 12px;
+            max-width: 85px;
           }
         }
         
@@ -977,6 +983,28 @@ export default function Services() {
             font-size: 16px;
             max-width: 420px;
             line-height: 1.85;
+          }
+          
+          .folder-container {
+            padding: 36px;
+          }
+          
+          .social-grid {
+            gap: 26px;
+          }
+          
+          .social-icon {
+            width: 95px;
+            height: 95px;
+            border-radius: 22px;
+          }
+          
+          .social-icon::before {
+            border-radius: 22px 22px 50% 50%;
+          }
+          
+          .social-name {
+            font-size: 13px;
           }
         }
       `}</style>
