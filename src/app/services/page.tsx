@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 
 // App data - Dark matte colors with alive lighting
@@ -25,7 +25,6 @@ export default function Services() {
   const [socialOpen, setSocialOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
-  const scrollbarWidthRef = useRef(0);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 600);
@@ -51,35 +50,27 @@ export default function Services() {
     e.preventDefault();
   }, []);
 
-  // STATE OF THE ART: Flash-free scroll lock
+  // Lock body scroll when overlay is open
   useEffect(() => {
     if (expandedIndex !== null || socialOpen) {
-      // Calculate scrollbar width ONCE
-      scrollbarWidthRef.current = window.innerWidth - document.documentElement.clientWidth;
-
-      // Apply styles in a single frame to prevent flash
-      requestAnimationFrame(() => {
-        document.body.style.cssText = `
-          overflow: hidden;
-          padding-right: ${scrollbarWidthRef.current}px;
-          touch-action: none;
-        `;
-        document.documentElement.style.touchAction = 'none';
-      });
-
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollBarWidth}px`;
+      document.body.style.touchAction = 'pan-y';
+      document.documentElement.style.touchAction = 'pan-y';
       document.addEventListener('touchmove', preventTouchMove, { passive: false });
     } else {
-      // Remove styles in a single frame
-      requestAnimationFrame(() => {
-        document.body.style.cssText = '';
-        document.documentElement.style.touchAction = '';
-      });
-
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      document.body.style.touchAction = '';
+      document.documentElement.style.touchAction = '';
       document.removeEventListener('touchmove', preventTouchMove);
     }
 
     return () => {
-      document.body.style.cssText = '';
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      document.body.style.touchAction = '';
       document.documentElement.style.touchAction = '';
       document.removeEventListener('touchmove', preventTouchMove);
     };
@@ -198,22 +189,20 @@ export default function Services() {
   return (
     <>
       <style>{`
-        /* ═══════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - FLASH-FREE SERVICES PAGE                    */
-        /* ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - SERVICES PAGE                            */
+        /* ═══════════════════════════════════════════════════════════ */
         
         .services-page {
-          overscroll-behavior: contain;
+          overscroll-behavior: none;
           -webkit-overflow-scrolling: touch;
-          /* Contain prevents layout thrash affecting overlays */
-          contain: layout style;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .services-page.overlay-open {
           touch-action: none;
           overflow: hidden;
-          /* Strict containment when overlay active */
-          contain: strict;
         }
         
         .services-grid {
@@ -231,9 +220,9 @@ export default function Services() {
           gap: 12px;
         }
         
-        /* ═══════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - APP ICONS WITH ALIVE LIGHTING               */
-        /* ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - APP ICONS WITH ALIVE LIGHTING            */
+        /* ═══════════════════════════════════════════════════════════ */
         
         .app-icon {
           position: relative;
@@ -268,9 +257,9 @@ export default function Services() {
         .app-container:nth-child(4) .app-icon { transition-delay: 180ms; }
         .app-container:nth-child(5) .app-icon { transition-delay: 240ms; }
         
-        /* ═══════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - TOP SHINE REFLECTION                        */
-        /* ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - TOP SHINE REFLECTION                     */
+        /* ═══════════════════════════════════════════════════════════ */
         
         .app-icon::before {
           content: '';
@@ -315,9 +304,9 @@ export default function Services() {
           filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
         
-        /* ═══════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - FLOATING GLOWING TEXT                       */
-        /* ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - FLOATING GLOWING TEXT                    */
+        /* ═══════════════════════════════════════════════════════════ */
         
         .app-name {
           font-size: 12px;
@@ -345,14 +334,9 @@ export default function Services() {
         .app-container:nth-child(4) .app-name { transition-delay: 280ms; }
         .app-container:nth-child(5) .app-name { transition-delay: 340ms; }
         
-        /* ═══════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - FLASH-FREE EXPANDED VIEW                    */
-        /* Key techniques:                                                 */
-        /* 1. contain: layout style paint - Isolates rendering             */
-        /* 2. isolation: isolate - New stacking context                    */
-        /* 3. Pre-rendered GPU layer                                       */
-        /* 4. Matched opacity/visibility timing                            */
-        /* ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════ */
+        /* EXPANDED VIEW - MATCHING CREATIVE PAGE                      */
+        /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-view {
           position: fixed;
@@ -367,62 +351,35 @@ export default function Services() {
           align-items: center;
           justify-content: flex-start;
           padding-top: clamp(80px, 15vh, 150px);
-          
-          /* FLASH PREVENTION */
-          contain: layout style paint;
-          isolation: isolate;
-          
-          /* Initial state */
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          
-          /* GPU layer - created BEFORE animation */
-          transform: translateZ(0);
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          
-          /* MATCHED timing - same duration for opacity/visibility */
-          transition: 
-            opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-            visibility 0s linear 0.35s;
-          
-          will-change: opacity;
-          
+          transition: opacity 0.4s ease, visibility 0s linear 0.4s;
           touch-action: manipulation;
           -webkit-touch-callout: none;
           user-select: none;
-          overscroll-behavior: contain;
+          overscroll-behavior: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: opacity;
+          transform: translateZ(0);
         }
         
         .expanded-view.active {
           opacity: 1;
           visibility: visible;
           pointer-events: auto;
-          /* Remove visibility delay on OPEN */
-          transition: 
-            opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-            visibility 0s linear 0s;
+          transition: opacity 0.4s ease, visibility 0s linear 0s;
         }
         
         .expanded-inner {
           display: flex;
           flex-direction: column;
           align-items: center;
-          
-          /* Initial */
+          touch-action: manipulation;
           opacity: 0;
           transform: translateZ(0) scale(0.92);
-          
-          /* GPU */
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          contain: layout style;
-          
-          /* Delayed spring animation - starts AFTER parent begins */
-          transition: 
-            opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.08s,
-            transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
+          transition: opacity 0.35s ease 0.1s, transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s;
         }
         
         .expanded-view.active .expanded-inner {
@@ -458,18 +415,12 @@ export default function Services() {
           margin-bottom: 16px;
           filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) 
                   drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
-          
-          /* Initial */
+          touch-action: manipulation;
           opacity: 0;
           transform: translateZ(0);
-          
-          /* GPU */
+          transition: opacity 0.5s ease 0.2s;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          
-          /* Delayed fade */
-          transition: opacity 0.4s ease 0.15s;
-          touch-action: manipulation;
         }
         
         .expanded-view.active .expanded-content {
@@ -486,28 +437,10 @@ export default function Services() {
           align-items: center;
           justify-content: center;
           cursor: pointer;
+          transition: transform 0.15s ease;
           border: none;
-          z-index: 10;
-          
-          /* Initial */
-          opacity: 0;
-          transform: translateZ(0) scale(0.5);
-          
-          /* GPU */
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          
-          /* Delayed animation */
-          transition: 
-            opacity 0.25s ease 0.2s,
-            transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s;
-          
           touch-action: manipulation;
-        }
-        
-        .expanded-view.active .expanded-close {
-          opacity: 1;
-          transform: translateZ(0) scale(1);
+          z-index: 10;
         }
         
         .expanded-close svg {
@@ -515,13 +448,12 @@ export default function Services() {
         }
         
         .expanded-close:active {
-          transform: translateZ(0) scale(0.85);
-          transition: transform 0.1s ease;
+          transform: scale(0.85);
         }
         
-        /* ═══════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - FLASH-FREE FOLDER OVERLAY                   */
-        /* ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════ */
+        /* SOCIAL FOLDER OVERLAY - MATCHING CREATIVE PAGE              */
+        /* ═══════════════════════════════════════════════════════════ */
         
         .folder-overlay {
           position: fixed;
@@ -535,70 +467,40 @@ export default function Services() {
           align-items: center;
           justify-content: flex-start;
           padding-top: clamp(100px, 18vh, 180px);
-          
-          /* FLASH PREVENTION */
-          contain: layout style paint;
-          isolation: isolate;
-          
-          /* Initial state */
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          
-          /* GPU layer */
-          transform: translateZ(0);
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          
-          /* MATCHED timing */
-          transition: 
-            opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-            visibility 0s linear 0.35s;
-          
-          will-change: opacity;
-          background: transparent;
-          
+          transition: opacity 0.4s ease, visibility 0s linear 0.4s;
           touch-action: manipulation;
           -webkit-touch-callout: none;
           user-select: none;
-          overscroll-behavior: contain;
+          overscroll-behavior: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: opacity;
+          background: transparent;
         }
         
         .folder-overlay.active {
           opacity: 1;
           visibility: visible;
           pointer-events: auto;
-          transition: 
-            opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-            visibility 0s linear 0s;
+          transition: opacity 0.3s ease, visibility 0s linear 0s;
         }
         
-        /* FLASH-FREE backdrop - Pre-rendered blur state */
         .folder-overlay-bg {
           position: absolute;
-          inset: 0;
-          
-          /* Initial - blur at 0 but filter APPLIED (no flash on transition) */
-          background: rgba(20, 20, 20, 0);
-          backdrop-filter: blur(0px);
-          -webkit-backdrop-filter: blur(0px);
-          
-          /* GPU */
-          transform: translateZ(0);
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          
-          /* Smooth blur transition */
-          transition: 
-            background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-            backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-            -webkit-backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .folder-overlay.active .folder-overlay-bg {
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translateZ(0);
         }
         
         .folder-container {
@@ -609,26 +511,19 @@ export default function Services() {
           -webkit-backdrop-filter: blur(25px);
           border-radius: 28px;
           padding: 24px;
-          
-          /* Initial */
           opacity: 0;
-          transform: translateZ(0) scale(0.85);
-          
-          /* GPU */
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          contain: layout style;
-          
+          transform: scale(0.85);
+          transition: opacity 0.35s ease 0.05s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
           box-shadow: 
             0 0 60px rgba(255, 255, 255, 0.15),
             0 20px 60px rgba(0, 0, 0, 0.4),
             0 8px 25px rgba(0, 0, 0, 0.3),
             inset 0 1px 1px rgba(255, 255, 255, 0.8);
-          
-          /* Delayed spring animation */
-          transition: 
-            opacity 0.3s ease 0.05s,
-            transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
+          transform: translateZ(0) scale(0.85);
         }
         
         .folder-overlay.active .folder-container {
@@ -648,27 +543,16 @@ export default function Services() {
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          border: none;
-          
-          /* Initial */
           opacity: 0;
-          transform: translateZ(0) scale(0.5);
-          
-          /* GPU */
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          
-          /* Delayed animation */
-          transition: 
-            opacity 0.25s ease 0.15s,
-            transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s;
-          
+          transform: scale(0.5);
+          transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s;
+          border: none;
           touch-action: manipulation;
         }
         
         .folder-overlay.active .folder-close {
           opacity: 1;
-          transform: translateZ(0) scale(1);
+          transform: scale(1);
         }
         
         .folder-close svg {
@@ -676,8 +560,7 @@ export default function Services() {
         }
         
         .folder-close:active {
-          transform: translateZ(0) scale(0.85);
-          transition: transform 0.1s ease;
+          transform: scale(0.85);
         }
         
         .social-grid {
@@ -687,7 +570,6 @@ export default function Services() {
           touch-action: manipulation;
         }
         
-        /* FLASH-FREE staggered items */
         .social-item {
           display: flex;
           flex-direction: column;
@@ -695,21 +577,12 @@ export default function Services() {
           gap: 8px;
           cursor: pointer;
           text-decoration: none;
-          
-          /* Initial */
           opacity: 0;
           transform: translateZ(0) scale(0.8) translateY(8px);
-          
-          /* GPU */
+          transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+          touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          
-          /* Base transition */
-          transition: 
-            opacity 0.3s ease,
-            transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
-          
-          touch-action: manipulation;
         }
         
         .folder-overlay.active .social-item {
@@ -717,34 +590,28 @@ export default function Services() {
           transform: translateZ(0) scale(1) translateY(0);
         }
         
-        /* Staggered delays */
-        .folder-overlay.active .social-item:nth-child(1) { transition-delay: 0.08s; }
-        .folder-overlay.active .social-item:nth-child(2) { transition-delay: 0.11s; }
-        .folder-overlay.active .social-item:nth-child(3) { transition-delay: 0.14s; }
-        .folder-overlay.active .social-item:nth-child(4) { transition-delay: 0.17s; }
+        .folder-overlay.active .social-item:nth-child(1) { transition-delay: 0.06s; }
+        .folder-overlay.active .social-item:nth-child(2) { transition-delay: 0.09s; }
+        .folder-overlay.active .social-item:nth-child(3) { transition-delay: 0.12s; }
+        .folder-overlay.active .social-item:nth-child(4) { transition-delay: 0.15s; }
         
         .social-icon {
-          position: relative;
           width: 60px;
           height: 60px;
           border-radius: 15px;
           display: flex;
           align-items: center;
           justify-content: center;
-          
-          /* GPU */
-          transform: translateZ(0);
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          
           transition: transform 0.15s ease;
-          
           box-shadow: 
             0 0 20px rgba(255, 255, 255, 0.1),
             0 5px 15px rgba(0, 0, 0, 0.4),
             0 10px 30px rgba(0, 0, 0, 0.2),
             inset 0 1px 1px rgba(255, 255, 255, 0.3),
             inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translateZ(0);
         }
         
         .social-icon::before {
@@ -766,7 +633,7 @@ export default function Services() {
         }
         
         .social-icon:active {
-          transform: translateZ(0) scale(0.9);
+          transform: scale(0.9);
         }
         
         .social-icon.github {
@@ -792,9 +659,9 @@ export default function Services() {
           text-align: center;
         }
         
-        /* ═══════════════════════════════════════════════════════════════ */
-        /* DESKTOP STYLES                                                  */
-        /* ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════ */
+        /* DESKTOP STYLES                                              */
+        /* ═══════════════════════════════════════════════════════════ */
         
         @media (min-width: 600px) {
           .services-grid {
@@ -858,7 +725,7 @@ export default function Services() {
           }
           
           .social-icon:hover {
-            transform: translateZ(0) scale(1.06);
+            transform: scale(1.06);
           }
           
           .social-name {
