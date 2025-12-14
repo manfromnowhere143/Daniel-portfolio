@@ -151,11 +151,11 @@ export default function Creative() {
             className="folder-mini-icon"
             style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}
           >
-            {type === 'work3d' && renderWork3D(item.id, 22)}
-            {type === 'services3d' && renderService3D(item.id, 22)}
-            {type === 'geometry' && <div style={{ transform: 'scale(0.16)' }}>{renderGeometry(item.id)}</div>}
+            {type === 'work3d' && renderWork3D(item.id, 26)}
+            {type === 'services3d' && renderService3D(item.id, 26)}
+            {type === 'geometry' && <div style={{ transform: 'scale(0.20)' }}>{renderGeometry(item.id)}</div>}
             {type === 'experiences' && (
-              <svg width="16" height="16" viewBox="0 0 60 60" fill="none">
+              <svg width="18" height="18" viewBox="0 0 60 60" fill="none">
                 <circle cx="30" cy="30" r="14" stroke="white" strokeWidth="3" opacity="0.9"/>
                 <circle cx="30" cy="30" r="5" fill="white" opacity="0.9"/>
               </svg>
@@ -170,16 +170,16 @@ export default function Creative() {
   const renderIconsFolderPreview = () => (
     <div className="folder-preview">
       <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a5040, #0d2820)' }}>
-        <div style={{ transform: 'scale(0.6)' }}><Trade69Icon /></div>
+        <div style={{ transform: 'scale(0.7)' }}><Trade69Icon /></div>
       </div>
       <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #3d4a8f, #1e2550)' }}>
-        <div style={{ transform: 'scale(0.6)' }}><MegaAgentIcon /></div>
+        <div style={{ transform: 'scale(0.7)' }}><MegaAgentIcon /></div>
       </div>
       <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #2a2845, #151228)' }}>
-        <div style={{ transform: 'scale(0.6)' }}><WebsiteIcon /></div>
+        <div style={{ transform: 'scale(0.7)' }}><WebsiteIcon /></div>
       </div>
       <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a3530, #0d1a18)' }}>
-        <div style={{ transform: 'scale(0.6)' }}><APIIcon /></div>
+        <div style={{ transform: 'scale(0.7)' }}><APIIcon /></div>
       </div>
     </div>
   );
@@ -197,14 +197,14 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* MAIN GRID - STANDARD iPHONE SIZE                            */
+        /* MAIN GRID - CENTERED ON SCREEN                              */
         /* ═══════════════════════════════════════════════════════════ */
         
         .creative-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 28px 24px;
-          max-width: 240px;
+          gap: 32px 28px;
+          max-width: 280px;
           margin: 0 auto;
         }
         
@@ -212,19 +212,19 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* FOLDER ICON - STANDARD iPHONE SIZE WITH FLOATING GLOW       */
+        /* FOLDER ICON - REAL iPHONE SIZE (60pt = ~90px)               */
         /* ═══════════════════════════════════════════════════════════ */
         
         .folder-icon {
           position: relative;
-          width: 82px;
-          height: 82px;
-          border-radius: 20px;
-          background: rgba(160, 160, 160, 0.20);
+          width: 90px;
+          height: 90px;
+          border-radius: 22px;
+          background: rgba(150, 150, 150, 0.22);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           display: flex;
@@ -234,11 +234,12 @@ export default function Creative() {
           opacity: 0;
           transform: scale(0.8);
           transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-          /* Floating effect - subtle outer glow */
+          /* Floating effect - icons look alive */
           box-shadow: 
-            0 4px 20px rgba(0, 0, 0, 0.3),
-            0 8px 40px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2),
+            0 6px 24px rgba(0, 0, 0, 0.35),
+            0 12px 48px rgba(0, 0, 0, 0.2),
+            0 0 20px rgba(255, 255, 255, 0.06),
+            inset 0 1px 0 rgba(255, 255, 255, 0.25),
             inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }
         
@@ -258,39 +259,39 @@ export default function Creative() {
         .app-container:nth-child(4) .folder-icon { transition-delay: 150ms; }
         .app-container:nth-child(5) .folder-icon { transition-delay: 200ms; }
         
-        /* 4 mini icons grid inside folder - tight, no padding */
+        /* 4 mini icons grid inside folder */
         .folder-preview {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 4px;
-          width: 68px;
-          height: 68px;
+          gap: 5px;
+          width: 76px;
+          height: 76px;
         }
         
         .folder-mini-icon {
-          width: 32px;
-          height: 32px;
-          border-radius: 8px;
+          width: 35px;
+          height: 35px;
+          border-radius: 9px;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
           /* Mini floating glow */
           box-shadow: 
-            0 2px 8px rgba(0, 0, 0, 0.3),
-            0 0 12px rgba(255, 255, 255, 0.05);
+            0 3px 10px rgba(0, 0, 0, 0.35),
+            0 0 8px rgba(255, 255, 255, 0.05);
         }
         
         /* Folder name */
         .folder-name {
-          font-size: 12px;
+          font-size: 13px;
           font-weight: 400;
           color: #FAFAF8;
           text-align: center;
           opacity: 0;
           transform: translateY(5px);
           transition: opacity 0.4s ease, transform 0.4s ease;
-          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
         }
         
         .folder-name.loaded {
@@ -310,7 +311,10 @@ export default function Creative() {
         
         .folder-overlay {
           position: fixed;
-          inset: 0;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
           z-index: 1000;
           display: flex;
           flex-direction: column;
@@ -329,21 +333,24 @@ export default function Creative() {
         /* Blurred background - click to close */
         .folder-overlay-bg {
           position: absolute;
-          inset: 0;
-          background: rgba(60, 60, 60, 0.4);
-          backdrop-filter: blur(30px);
-          -webkit-backdrop-filter: blur(30px);
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(50, 50, 50, 0.45);
+          backdrop-filter: blur(35px);
+          -webkit-backdrop-filter: blur(35px);
         }
         
         /* Folder title above container */
         .folder-overlay-title {
           position: relative;
           z-index: 2;
-          font-size: 22px;
+          font-size: 24px;
           font-weight: 300;
           color: #FAFAF8;
-          margin-bottom: 14px;
-          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+          margin-bottom: 16px;
+          text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
           opacity: 0;
           transform: translateY(-12px);
           transition: opacity 0.25s ease 0.08s, transform 0.25s ease 0.08s;
@@ -358,18 +365,18 @@ export default function Creative() {
         .folder-container {
           position: relative;
           z-index: 2;
-          background: rgba(255, 255, 255, 0.92);
+          background: rgba(255, 255, 255, 0.93);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border-radius: 24px;
-          padding: 20px;
+          border-radius: 26px;
+          padding: 22px;
           opacity: 0;
           transform: scale(0.4);
           transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
           /* Floating container glow */
           box-shadow: 
-            0 10px 40px rgba(0, 0, 0, 0.3),
-            0 0 80px rgba(255, 255, 255, 0.1);
+            0 15px 50px rgba(0, 0, 0, 0.35),
+            0 0 60px rgba(255, 255, 255, 0.08);
         }
         
         .folder-overlay.active .folder-container {
@@ -381,11 +388,11 @@ export default function Creative() {
         .folder-close {
           position: relative;
           z-index: 2;
-          margin-top: 20px;
-          width: 44px;
-          height: 44px;
+          margin-top: 24px;
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.15);
+          background: rgba(255, 255, 255, 0.18);
           backdrop-filter: blur(10px);
           display: flex;
           align-items: center;
@@ -394,7 +401,7 @@ export default function Creative() {
           opacity: 0;
           transform: scale(0.5);
           transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s, background 0.15s ease;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.25);
         }
         
         .folder-overlay.active .folder-close {
@@ -403,7 +410,7 @@ export default function Creative() {
         }
         
         .folder-close:active {
-          background: rgba(255, 255, 255, 0.25);
+          background: rgba(255, 255, 255, 0.3);
           transform: scale(0.9);
         }
         
@@ -411,7 +418,7 @@ export default function Creative() {
         .folder-apps-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 14px;
+          gap: 16px;
         }
         
         .folder-apps-grid.grid-3 {
@@ -427,7 +434,7 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 6px;
+          gap: 7px;
           cursor: pointer;
           opacity: 0;
           transform: scale(0.3) translateY(10px);
@@ -450,9 +457,9 @@ export default function Creative() {
         .folder-overlay.active .folder-app:nth-child(8) { transition-delay: 0.27s; }
         
         .folder-app-icon {
-          width: 60px;
-          height: 60px;
-          border-radius: 14px;
+          width: 64px;
+          height: 64px;
+          border-radius: 15px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -460,10 +467,10 @@ export default function Creative() {
           overflow: hidden;
           /* FLOATING GLOW - makes icons look alive */
           box-shadow: 
-            0 4px 16px rgba(0, 0, 0, 0.35),
-            0 8px 32px rgba(0, 0, 0, 0.2),
-            0 0 20px rgba(255, 255, 255, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            0 5px 18px rgba(0, 0, 0, 0.4),
+            0 10px 36px rgba(0, 0, 0, 0.2),
+            0 0 24px rgba(255, 255, 255, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.25);
         }
         
         .folder-app-icon:active {
@@ -475,16 +482,19 @@ export default function Creative() {
           font-weight: 400;
           color: #1a1a1a;
           text-align: center;
-          max-width: 68px;
+          max-width: 72px;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* EXPANDED ITEM VIEW - CENTERED WITH X BELOW                  */
+        /* EXPANDED ITEM VIEW - PERFECTLY CENTERED                     */
         /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-view {
           position: fixed;
-          inset: 0;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
           background: #0A0A0A;
           z-index: 2000;
           display: flex;
@@ -508,45 +518,46 @@ export default function Creative() {
         }
         
         .expanded-title {
-          font-size: 20px;
+          font-size: 22px;
           font-weight: 300;
           color: #FAFAF8;
-          margin-bottom: 4px;
+          margin-bottom: 6px;
+          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
         
         .expanded-desc {
-          font-size: 11px;
-          color: rgba(255,255,255,0.45);
-          margin-bottom: 16px;
+          font-size: 12px;
+          color: rgba(255,255,255,0.5);
+          margin-bottom: 20px;
         }
         
         .expanded-content {
-          width: 220px;
-          height: 220px;
+          width: 240px;
+          height: 240px;
           display: flex;
           align-items: center;
           justify-content: center;
-          /* Floating 3D effect */
-          filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+          /* 3D floating effect */
+          filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.6));
         }
         
         /* X close button - below 3D content */
         .expanded-close {
-          margin-top: 24px;
-          width: 44px;
-          height: 44px;
+          margin-top: 28px;
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.12);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           transition: background 0.15s ease, transform 0.15s ease;
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.18);
         }
         
         .expanded-close:active {
-          background: rgba(255, 255, 255, 0.2);
+          background: rgba(255, 255, 255, 0.22);
           transform: scale(0.9);
         }
         
@@ -701,10 +712,8 @@ export default function Creative() {
       <div className="creative-page" style={{
         minHeight: "100vh",
         backgroundColor: "#0A0A0A",
-        paddingTop: "clamp(100px, 15vh, 160px)",
-        paddingBottom: "100px",
         display: "flex",
-        alignItems: "flex-start",
+        alignItems: "center",
         justifyContent: "center"
       }}>
         {/* Main Folder Grid */}
@@ -732,7 +741,7 @@ export default function Creative() {
             {work3DItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`work3d-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {renderWork3D(item.id, 44)}
+                  {renderWork3D(item.id, 48)}
                 </div>
                 <span className="folder-app-name">{item.name}</span>
               </div>
@@ -755,7 +764,7 @@ export default function Creative() {
             {service3DItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`services3d-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {renderService3D(item.id, 44)}
+                  {renderService3D(item.id, 48)}
                 </div>
                 <span className="folder-app-name">{item.name}</span>
               </div>
