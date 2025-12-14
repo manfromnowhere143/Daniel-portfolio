@@ -125,7 +125,6 @@ export function OvermindIcon() {
   const cx = size / 2;
   const cy = size / 2;
 
-  // Pre-calculated chain link positions to avoid hydration mismatch from floating point
   const chainLinks = [
     { x: 16, y: 6, rotation: 45, opacity: 0.5 },
     { x: 20.66, y: 7.34, rotation: 75, opacity: 0.65 },
@@ -166,7 +165,7 @@ export function OvermindIcon() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// 3D ANIMATED ICONS - STATE OF THE ART - ALL WHITE
+// 3D ANIMATED ICONS - PURE WHITE & BRIGHT
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface WorkIcon3DProps {
@@ -214,7 +213,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     const materials: THREE.ShaderMaterial[] = [];
 
     // ═══════════════════════════════════════════════════════════════════════
-    // TRADE69 - Holographic Trading Terminal - WHITE
+    // TRADE69 - Holographic Trading Terminal - BRIGHT WHITE
     // ═══════════════════════════════════════════════════════════════════════
     if (type === 'trade69') {
 
@@ -247,8 +246,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying float vH;
           void main() {
             float yNorm = (vPos.y + 0.35) / vH;
-            float alpha = (0.4 + yNorm * 0.4) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
+            float alpha = (0.7 + yNorm * 0.3) * (1.0 + uHover * 0.3);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -265,7 +264,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         mainGroup.add(mesh);
 
         const wickGeo = new THREE.CylinderGeometry(0.004, 0.004, c.h * 0.3, 4);
-        const wickMat = new THREE.MeshBasicMaterial({ color: 0xfafaf8, transparent: true, opacity: 0.4 });
+        const wickMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 });
         const wick = new THREE.Mesh(wickGeo, wickMat);
         wick.position.set(c.x, -0.35 + c.h + c.h * 0.15, 0);
         mainGroup.add(wick);
@@ -288,8 +287,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying float vProg;
           void main() {
             float energy = sin(vProg * 15.0 - uTime * 1.2) * 0.5 + 0.5;
-            float alpha = (0.3 + energy * 0.5) * (1.0 + uHover * 0.3);
-            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
+            float alpha = (0.6 + energy * 0.4) * (1.0 + uHover * 0.3);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -320,9 +319,9 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             vec3 pos = position;
             pos.y = mod(pos.y + uTime * aSpeed * 0.15, 1.0) - 0.5;
-            vAlpha = 0.3 + sin(uTime * 2.0 + aPhase) * 0.2;
+            vAlpha = 0.5 + sin(uTime * 2.0 + aPhase) * 0.3;
             vec4 mv = modelViewMatrix * vec4(pos * (1.0 + uHover * 0.1), 1.0);
-            gl_PointSize = (3.0 + uHover * 1.5) / -mv.z;
+            gl_PointSize = (4.0 + uHover * 2.0) / -mv.z;
             gl_Position = projectionMatrix * mv;
           }
         `,
@@ -331,7 +330,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float d = length(gl_PointCoord - 0.5);
             if (d > 0.5) discard;
-            gl_FragColor = vec4(0.98, 0.98, 0.96, smoothstep(0.5, 0.0, d) * vAlpha);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, smoothstep(0.5, 0.0, d) * vAlpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -361,7 +360,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         vertexShader: `void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
         fragmentShader: `
           uniform float uHover;
-          void main() { gl_FragColor = vec4(0.98, 0.98, 0.96, 0.12 * (1.0 + uHover * 0.3)); }
+          void main() { gl_FragColor = vec4(1.0, 1.0, 1.0, 0.25 * (1.0 + uHover * 0.3)); }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
       });
@@ -376,7 +375,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // MEGAAGENT - Neural Network - WHITE
+    // MEGAAGENT - Neural Network - BRIGHT WHITE
     // ═══════════════════════════════════════════════════════════════════════
     else if (type === 'megaagent') {
 
@@ -401,8 +400,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.5);
             float scan = sin(vPos.y * 40.0 - uTime * 2.0) * 0.5 + 0.5;
-            float alpha = (0.2 + fresnel * 0.5 + scan * 0.15) * (1.0 + uHover * 0.5);
-            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
+            float alpha = (0.5 + fresnel * 0.4 + scan * 0.2) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -425,8 +424,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         fragmentShader: `
           uniform float uTime, uHover;
           void main() {
-            float glow = 0.7 + sin(uTime * 2.0) * 0.2;
-            gl_FragColor = vec4(0.98, 0.98, 0.96, glow * (1.0 + uHover * 0.3));
+            float glow = 0.9 + sin(uTime * 2.0) * 0.1;
+            gl_FragColor = vec4(1.0, 1.0, 1.0, glow * (1.0 + uHover * 0.2));
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -451,8 +450,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying float vAngle;
           void main() {
             float energy = sin(vAngle * 6.0 - uTime * 1.5) * 0.5 + 0.5;
-            float alpha = (0.2 + energy * 0.4) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
+            float alpha = (0.4 + energy * 0.5) * (1.0 + uHover * 0.3);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -499,8 +498,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying vec3 vNormal;
           void main() {
             float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.0);
-            float alpha = (0.3 + fresnel * 0.4) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
+            float alpha = (0.6 + fresnel * 0.4) * (1.0 + uHover * 0.3);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -532,8 +531,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           fragmentShader: `
             uniform float uTime, uHover;
             void main() {
-              float glow = 0.6 + sin(uTime * 2.0) * 0.2;
-              gl_FragColor = vec4(0.98, 0.98, 0.96, glow * (1.0 + uHover * 0.3));
+              float glow = 0.85 + sin(uTime * 2.0) * 0.15;
+              gl_FragColor = vec4(1.0, 1.0, 1.0, glow * (1.0 + uHover * 0.2));
             }
           `,
           transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -564,8 +563,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
             float p1 = smoothstep(0.08, 0.0, abs(fract(vProg - uTime * 0.25) - 0.1));
             float p2 = smoothstep(0.08, 0.0, abs(fract(vProg - uTime * 0.25 + 0.5) - 0.1));
             float packets = max(p1, p2);
-            float alpha = (0.08 + packets * 0.6) * (1.0 + uHover * 0.5);
-            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
+            float alpha = (0.2 + packets * 0.8) * (1.0 + uHover * 0.4);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -597,9 +596,9 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
             vec3 pos = position;
             pos.x += cos(angle) * 0.03;
             pos.y += sin(angle * 1.3) * 0.03;
-            vAlpha = 0.3 + sin(uTime * 1.5 + aPhase * 5.0) * 0.2;
+            vAlpha = 0.5 + sin(uTime * 1.5 + aPhase * 5.0) * 0.3;
             vec4 mv = modelViewMatrix * vec4(pos * (1.0 + uHover * 0.1), 1.0);
-            gl_PointSize = (2.5 + uHover * 1.5) / -mv.z;
+            gl_PointSize = (3.5 + uHover * 2.0) / -mv.z;
             gl_Position = projectionMatrix * mv;
           }
         `,
@@ -608,7 +607,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float d = length(gl_PointCoord - 0.5);
             if (d > 0.5) discard;
-            gl_FragColor = vec4(0.98, 0.98, 0.96, smoothstep(0.5, 0.0, d) * vAlpha);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, smoothstep(0.5, 0.0, d) * vAlpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -634,7 +633,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // OCTOPUS - Organic Entity - WHITE
+    // OCTOPUS - Organic Entity - BRIGHT WHITE
     // ═══════════════════════════════════════════════════════════════════════
     else if (type === 'octopus') {
 
@@ -658,8 +657,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.2);
             float pattern = sin(vPos.x * 15.0 + vPos.y * 10.0 - uTime * 0.8) * 0.5 + 0.5;
-            float alpha = (0.3 + fresnel * 0.4 + pattern * 0.15) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
+            float alpha = (0.55 + fresnel * 0.35 + pattern * 0.2) * (1.0 + uHover * 0.35);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -691,8 +690,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         fragmentShader: `
           uniform float uTime, uHover;
           void main() {
-            float pulse = 0.8 + sin(uTime * 1.5) * 0.15;
-            gl_FragColor = vec4(0.98, 0.98, 0.96, pulse * (1.0 + uHover * 0.3));
+            float pulse = 0.9 + sin(uTime * 1.5) * 0.1;
+            gl_FragColor = vec4(1.0, 1.0, 1.0, pulse * (1.0 + uHover * 0.2));
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -725,8 +724,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float energy = sin(vProg * 8.0 - uTime * 1.0) * 0.5 + 0.5;
             float tip = smoothstep(0.7, 1.0, vProg);
-            float alpha = (0.3 + energy * 0.3 - tip * 0.2) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
+            float alpha = (0.55 + energy * 0.35 - tip * 0.15) * (1.0 + uHover * 0.35);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -769,9 +768,9 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             vec3 pos = position;
             pos += vec3(sin(uTime * 0.3 + aPhase), cos(uTime * 0.25 + aPhase * 1.3), sin(uTime * 0.2 + aPhase * 0.7)) * 0.02;
-            vAlpha = 0.3 + sin(uTime * 2.0 + aPhase * 3.0) * 0.2;
+            vAlpha = 0.5 + sin(uTime * 2.0 + aPhase * 3.0) * 0.3;
             vec4 mv = modelViewMatrix * vec4(pos * (1.0 + uHover * 0.1), 1.0);
-            gl_PointSize = (2.0 + uHover * 1.2) / -mv.z;
+            gl_PointSize = (3.0 + uHover * 1.5) / -mv.z;
             gl_Position = projectionMatrix * mv;
           }
         `,
@@ -780,7 +779,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float d = length(gl_PointCoord - 0.5);
             if (d > 0.5) discard;
-            gl_FragColor = vec4(0.98, 0.98, 0.96, smoothstep(0.5, 0.0, d) * vAlpha);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, smoothstep(0.5, 0.0, d) * vAlpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -807,11 +806,11 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    // OVERMIND - Simplified Sacred Geometry - WHITE
+    // OVERMIND - Sacred Geometry - BRIGHT WHITE
     // ═══════════════════════════════════════════════════════════════════════
     else if (type === 'overmind') {
 
-      // Simple outer sphere wireframe
+      // Outer sphere wireframe
       const sphereMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
@@ -828,8 +827,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying vec3 vNormal;
           void main() {
             float fresnel = pow(1.0 - abs(dot(normalize(vNormal), vec3(0,0,1))), 2.0);
-            float alpha = (0.15 + fresnel * 0.25) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
+            float alpha = (0.35 + fresnel * 0.35) * (1.0 + uHover * 0.35);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -837,7 +836,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
       materials.push(sphereMat);
       mainGroup.add(new THREE.Mesh(new THREE.IcosahedronGeometry(0.32, 1), sphereMat));
 
-      // Inner tetrahedron (pointing up)
+      // Inner tetrahedrons
       const tetraMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
@@ -854,8 +853,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying vec3 vPos;
           void main() {
             float energy = sin(length(vPos) * 20.0 - uTime * 1.5) * 0.5 + 0.5;
-            float alpha = (0.25 + energy * 0.3) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
+            float alpha = (0.5 + energy * 0.4) * (1.0 + uHover * 0.35);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
           }
         `,
         transparent: true, wireframe: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -870,7 +869,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
       tetra2.rotation.x = Math.PI;
       mainGroup.add(tetra2);
 
-      // Single orbital ring
+      // Orbital ring
       const ringMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
@@ -887,8 +886,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           varying float vAngle;
           void main() {
             float energy = sin(vAngle * 6.0 - uTime * 1.0) * 0.5 + 0.5;
-            float alpha = (0.2 + energy * 0.4) * (1.0 + uHover * 0.4);
-            gl_FragColor = vec4(0.98, 0.98, 0.96, alpha);
+            float alpha = (0.4 + energy * 0.5) * (1.0 + uHover * 0.35);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -922,8 +921,8 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
         fragmentShader: `
           uniform float uTime, uHover;
           void main() {
-            float glow = 0.85 + sin(uTime * 1.5) * 0.1;
-            gl_FragColor = vec4(0.98, 0.98, 0.96, glow * (1.0 + uHover * 0.2));
+            float glow = 0.95 + sin(uTime * 1.5) * 0.05;
+            gl_FragColor = vec4(1.0, 1.0, 1.0, glow * (1.0 + uHover * 0.15));
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
@@ -931,7 +930,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
       materials.push(eyeMat);
       mainGroup.add(new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 16), eyeMat));
 
-      // Floating particles
+      // Particles
       const starMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 }, uHover: { value: 0 } },
         vertexShader: `
@@ -943,9 +942,9 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
             float angle = uTime * 0.05 + aPhase;
             pos.x += cos(angle) * 0.015;
             pos.z += sin(angle) * 0.015;
-            vAlpha = 0.25 + sin(uTime * 2.0 + aPhase * 5.0) * 0.2;
+            vAlpha = 0.45 + sin(uTime * 2.0 + aPhase * 5.0) * 0.3;
             vec4 mv = modelViewMatrix * vec4(pos * (1.0 + uHover * 0.08), 1.0);
-            gl_PointSize = (2.0 + sin(uTime * 2.0 + aPhase) * 0.6 + uHover * 1.0) / -mv.z;
+            gl_PointSize = (3.0 + sin(uTime * 2.0 + aPhase) * 0.8 + uHover * 1.5) / -mv.z;
             gl_Position = projectionMatrix * mv;
           }
         `,
@@ -954,7 +953,7 @@ function WorkIcon3D({ type, size = 90 }: WorkIcon3DProps) {
           void main() {
             float d = length(gl_PointCoord - 0.5);
             if (d > 0.5) discard;
-            gl_FragColor = vec4(0.98, 0.98, 0.96, smoothstep(0.5, 0.0, d) * vAlpha);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, smoothstep(0.5, 0.0, d) * vAlpha);
           }
         `,
         transparent: true, depthWrite: false, blending: THREE.AdditiveBlending

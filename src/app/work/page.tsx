@@ -16,12 +16,20 @@ export default function Work() {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 50);
+    const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
-  // Icon fills ~88% of container for tight, professional look
-  const iconSize = isMobile ? 72 : 130;
+  // MOBILE: Bigger icons since 3D is static - need more impact
+  // Fill ~98% of container for maximum presence
+  const iconSize = isMobile ? 88 : 145;
+
+  const apps = [
+    { id: 'trade69', name: 'Trade69', href: '/work/trade69', Icon: Trade69Icon3D },
+    { id: 'megaagent', name: 'MegaAgent', href: '/work/megaagent', Icon: MegaAgentIcon3D },
+    { id: 'octopus', name: 'Octopus', href: '/work/octopus', Icon: OctopusIcon3D },
+    { id: 'overmind', name: 'Overmind', href: '/work/overmind', Icon: OvermindIcon3D },
+  ];
 
   return (
     <>
@@ -29,189 +37,284 @@ export default function Work() {
         .work-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 14px;
-          max-width: 190px;
+          gap: 32px 28px;
+          max-width: 240px;
           margin: 0 auto;
+          padding: 0 10px;
         }
         
-        .work-item {
+        .app-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+        }
+        
+        .app-icon {
           position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 18px;
-          width: 85px;
-          height: 85px;
-          margin: 0 auto;
-          transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                      box-shadow 0.25s ease, 
-                      opacity 0.4s ease;
+          border-radius: 24px;
+          width: 98px;
+          height: 98px;
+          transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                      box-shadow 0.3s ease,
+                      opacity 0.5s ease;
           text-decoration: none;
           opacity: 0;
-          overflow: hidden;
+          transform: scale(0.8) translateY(20px);
+          overflow: visible;
         }
         
-        /* Premium inner lighting effect */
-        .work-item::before {
+        .app-icon.loaded {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+        
+        /* Staggered animation */
+        .app-container:nth-child(1) .app-icon { transition-delay: 0ms; }
+        .app-container:nth-child(2) .app-icon { transition-delay: 80ms; }
+        .app-container:nth-child(3) .app-icon { transition-delay: 160ms; }
+        .app-container:nth-child(4) .app-icon { transition-delay: 240ms; }
+        
+        /* Premium glass shine - top highlight */
+        .app-icon::before {
           content: '';
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
-          height: 55%;
+          height: 50%;
           background: linear-gradient(
             180deg, 
-            rgba(255, 255, 255, 0.12) 0%, 
-            rgba(255, 255, 255, 0.04) 40%,
+            rgba(255, 255, 255, 0.22) 0%, 
+            rgba(255, 255, 255, 0.08) 40%,
             transparent 100%
           );
-          border-radius: 18px 18px 50% 50%;
+          border-radius: 24px 24px 60% 60%;
           pointer-events: none;
-          z-index: 1;
+          z-index: 3;
         }
         
-        /* Subtle bottom shadow for depth */
-        .work-item::after {
+        /* Inner glow overlay for depth */
+        .app-icon::after {
           content: '';
           position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 40%;
-          background: linear-gradient(
-            0deg, 
-            rgba(0, 0, 0, 0.25) 0%, 
-            transparent 100%
-          );
-          border-radius: 0 0 18px 18px;
+          inset: 0;
+          border-radius: 24px;
+          box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.08);
           pointer-events: none;
-          z-index: 1;
-        }
-        
-        .work-item.loaded {
-          opacity: 1;
-        }
-        
-        .work-item:active {
-          transform: scale(0.92);
-        }
-        
-        /* Trade69 - Premium emerald */
-        .work-item.trade69 {
-          background: 
-            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(94, 234, 212, 0.15) 0%, transparent 50%),
-            linear-gradient(165deg, rgba(20, 95, 85, 0.95) 0%, rgba(10, 60, 55, 0.98) 100%);
-          box-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.2),
-            0 6px 18px rgba(16, 78, 70, 0.5),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1),
-            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
-          border: 1px solid rgba(94, 234, 212, 0.2);
-        }
-        
-        /* MegaAgent - Premium violet */
-        .work-item.megaagent {
-          background: 
-            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(192, 132, 252, 0.15) 0%, transparent 50%),
-            linear-gradient(165deg, rgba(88, 55, 130, 0.95) 0%, rgba(45, 28, 75, 0.98) 100%);
-          box-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.2),
-            0 6px 18px rgba(76, 46, 112, 0.5),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1),
-            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
-          border: 1px solid rgba(192, 132, 252, 0.2);
-        }
-        
-        /* Octopus - Premium cyan */
-        .work-item.octopus {
-          background: 
-            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(103, 232, 249, 0.15) 0%, transparent 50%),
-            linear-gradient(165deg, rgba(28, 95, 120, 0.95) 0%, rgba(12, 50, 70, 0.98) 100%);
-          box-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.2),
-            0 6px 18px rgba(22, 78, 99, 0.5),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1),
-            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
-          border: 1px solid rgba(103, 232, 249, 0.2);
-        }
-        
-        /* Overmind - Premium amber */
-        .work-item.overmind {
-          background: 
-            radial-gradient(ellipse 120% 80% at 50% -20%, rgba(252, 211, 77, 0.15) 0%, transparent 50%),
-            linear-gradient(165deg, rgba(140, 90, 25, 0.95) 0%, rgba(80, 50, 10, 0.98) 100%);
-          box-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.2),
-            0 6px 18px rgba(120, 75, 20, 0.5),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1),
-            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
-          border: 1px solid rgba(252, 211, 77, 0.2);
-        }
-        
-        /* Icon wrapper for z-index above lighting effects */
-        .work-item > * {
-          position: relative;
           z-index: 2;
         }
         
+        .app-icon:active {
+          transform: scale(0.92);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════ */
+        /* ALIVE MATTE COLORS WITH OUTER GLOW                         */
+        /* ═══════════════════════════════════════════════════════════ */
+        
+        /* Trade69 - Emerald with glow */
+        .app-icon.trade69 {
+          background: linear-gradient(145deg, 
+            #1f6b5e 0%, 
+            #124a42 50%,
+            #0a3530 100%);
+          box-shadow: 
+            0 0 25px rgba(94, 234, 212, 0.2),
+            0 4px 15px rgba(0, 0, 0, 0.4),
+            0 10px 30px rgba(18, 74, 66, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(94, 234, 212, 0.18);
+        }
+        
+        /* MegaAgent - Violet with glow */
+        .app-icon.megaagent {
+          background: linear-gradient(145deg, 
+            #6b4a8f 0%, 
+            #4a2d70 50%,
+            #351f52 100%);
+          box-shadow: 
+            0 0 25px rgba(192, 132, 252, 0.2),
+            0 4px 15px rgba(0, 0, 0, 0.4),
+            0 10px 30px rgba(74, 45, 112, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(192, 132, 252, 0.18);
+        }
+        
+        /* Octopus - Cyan with glow */
+        .app-icon.octopus {
+          background: linear-gradient(145deg, 
+            #1f6880 0%, 
+            #124858 50%,
+            #0a3340 100%);
+          box-shadow: 
+            0 0 25px rgba(103, 232, 249, 0.2),
+            0 4px 15px rgba(0, 0, 0, 0.4),
+            0 10px 30px rgba(18, 72, 88, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(103, 232, 249, 0.18);
+        }
+        
+        /* Overmind - Gold with glow */
+        .app-icon.overmind {
+          background: linear-gradient(145deg, 
+            #9a7228 0%, 
+            #6b4f1a 50%,
+            #4a3510 100%);
+          box-shadow: 
+            0 0 25px rgba(252, 211, 77, 0.2),
+            0 4px 15px rgba(0, 0, 0, 0.4),
+            0 10px 30px rgba(107, 79, 26, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(252, 211, 77, 0.18);
+        }
+        
+        /* Icon wrapper - centered */
+        .icon-wrapper {
+          position: relative;
+          z-index: 4;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════ */
+        /* FLOATING GLOWING TEXT                                       */
+        /* ═══════════════════════════════════════════════════════════ */
+        
+        .app-name {
+          font-size: 12px;
+          font-weight: 500;
+          color: #FAFAF8;
+          letter-spacing: 0.03em;
+          text-align: center;
+          opacity: 0;
+          transform: translateY(10px);
+          transition: opacity 0.4s ease, transform 0.4s ease;
+          text-shadow: 
+            0 0 10px rgba(255, 255, 255, 0.4),
+            0 0 20px rgba(255, 255, 255, 0.2),
+            0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .app-name.loaded {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
+        /* Color-matched text glow */
+        .app-container:nth-child(1) .app-name {
+          text-shadow: 
+            0 0 12px rgba(94, 234, 212, 0.5),
+            0 0 25px rgba(94, 234, 212, 0.25),
+            0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        
+        .app-container:nth-child(2) .app-name {
+          text-shadow: 
+            0 0 12px rgba(192, 132, 252, 0.5),
+            0 0 25px rgba(192, 132, 252, 0.25),
+            0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        
+        .app-container:nth-child(3) .app-name {
+          text-shadow: 
+            0 0 12px rgba(103, 232, 249, 0.5),
+            0 0 25px rgba(103, 232, 249, 0.25),
+            0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        
+        .app-container:nth-child(4) .app-name {
+          text-shadow: 
+            0 0 12px rgba(252, 211, 77, 0.5),
+            0 0 25px rgba(252, 211, 77, 0.25),
+            0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        
+        /* Staggered name animation */
+        .app-container:nth-child(1) .app-name { transition-delay: 150ms; }
+        .app-container:nth-child(2) .app-name { transition-delay: 230ms; }
+        .app-container:nth-child(3) .app-name { transition-delay: 310ms; }
+        .app-container:nth-child(4) .app-name { transition-delay: 390ms; }
+        
+        /* ═══════════════════════════════════════════════════════════ */
+        /* DESKTOP STYLES                                              */
+        /* ═══════════════════════════════════════════════════════════ */
+        
         @media (min-width: 600px) {
           .work-grid {
-            gap: 24px;
-            max-width: 340px;
+            gap: 40px 36px;
+            max-width: 420px;
           }
           
-          .work-item {
-            width: 150px;
-            height: 150px;
-            border-radius: 32px;
+          .app-container {
+            gap: 16px;
           }
           
-          .work-item::before {
-            border-radius: 32px 32px 50% 50%;
+          .app-icon {
+            width: 165px;
+            height: 165px;
+            border-radius: 38px;
           }
           
-          .work-item::after {
-            border-radius: 0 0 32px 32px;
+          .app-icon::before {
+            border-radius: 38px 38px 60% 60%;
           }
           
-          .work-item:hover {
-            transform: scale(1.04) translateY(-2px);
+          .app-icon::after {
+            border-radius: 38px;
           }
           
-          .work-item.trade69:hover {
+          .app-icon:hover {
+            transform: scale(1.06) translateY(-6px);
+          }
+          
+          .app-icon.trade69:hover {
             box-shadow: 
-              0 4px 8px rgba(0, 0, 0, 0.15),
-              0 12px 36px rgba(16, 78, 70, 0.6),
-              0 0 30px rgba(94, 234, 212, 0.12),
-              inset 0 1px 1px rgba(255, 255, 255, 0.15),
-              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+              0 0 40px rgba(94, 234, 212, 0.3),
+              0 8px 25px rgba(0, 0, 0, 0.3),
+              0 20px 50px rgba(18, 74, 66, 0.6),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2),
+              inset 0 -3px 8px rgba(0, 0, 0, 0.2);
           }
           
-          .work-item.megaagent:hover {
+          .app-icon.megaagent:hover {
             box-shadow: 
-              0 4px 8px rgba(0, 0, 0, 0.15),
-              0 12px 36px rgba(76, 46, 112, 0.6),
-              0 0 30px rgba(192, 132, 252, 0.12),
-              inset 0 1px 1px rgba(255, 255, 255, 0.15),
-              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+              0 0 40px rgba(192, 132, 252, 0.3),
+              0 8px 25px rgba(0, 0, 0, 0.3),
+              0 20px 50px rgba(74, 45, 112, 0.6),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2),
+              inset 0 -3px 8px rgba(0, 0, 0, 0.2);
           }
           
-          .work-item.octopus:hover {
+          .app-icon.octopus:hover {
             box-shadow: 
-              0 4px 8px rgba(0, 0, 0, 0.15),
-              0 12px 36px rgba(22, 78, 99, 0.6),
-              0 0 30px rgba(103, 232, 249, 0.12),
-              inset 0 1px 1px rgba(255, 255, 255, 0.15),
-              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+              0 0 40px rgba(103, 232, 249, 0.3),
+              0 8px 25px rgba(0, 0, 0, 0.3),
+              0 20px 50px rgba(18, 72, 88, 0.6),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2),
+              inset 0 -3px 8px rgba(0, 0, 0, 0.2);
           }
           
-          .work-item.overmind:hover {
+          .app-icon.overmind:hover {
             box-shadow: 
-              0 4px 8px rgba(0, 0, 0, 0.15),
-              0 12px 36px rgba(120, 75, 20, 0.6),
-              0 0 30px rgba(252, 211, 77, 0.12),
-              inset 0 1px 1px rgba(255, 255, 255, 0.15),
-              inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+              0 0 40px rgba(252, 211, 77, 0.3),
+              0 8px 25px rgba(0, 0, 0, 0.3),
+              0 20px 50px rgba(107, 79, 26, 0.6),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2),
+              inset 0 -3px 8px rgba(0, 0, 0, 0.2);
+          }
+          
+          .app-name {
+            font-size: 14px;
+            font-weight: 500;
           }
         }
       `}</style>
@@ -219,24 +322,27 @@ export default function Work() {
       <div style={{
         minHeight: "100vh",
         backgroundColor: "#0A0A0A",
-        paddingTop: "clamp(80px, 12vh, 140px)",
-        paddingBottom: "60px",
-        paddingLeft: "16px",
-        paddingRight: "16px"
+        paddingTop: "clamp(100px, 15vh, 160px)",
+        paddingBottom: "80px",
+        paddingLeft: "20px",
+        paddingRight: "20px",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "center"
       }}>
         <div className="work-grid">
-          <Link href="/work/trade69" className={`work-item trade69 ${isLoaded ? 'loaded' : ''}`}>
-            <Trade69Icon3D size={iconSize} />
-          </Link>
-          <Link href="/work/megaagent" className={`work-item megaagent ${isLoaded ? 'loaded' : ''}`}>
-            <MegaAgentIcon3D size={iconSize} />
-          </Link>
-          <Link href="/work/octopus" className={`work-item octopus ${isLoaded ? 'loaded' : ''}`}>
-            <OctopusIcon3D size={iconSize} />
-          </Link>
-          <Link href="/work/overmind" className={`work-item overmind ${isLoaded ? 'loaded' : ''}`}>
-            <OvermindIcon3D size={iconSize} />
-          </Link>
+          {apps.map((app) => (
+            <div key={app.id} className="app-container">
+              <Link href={app.href} className={`app-icon ${app.id} ${isLoaded ? 'loaded' : ''}`}>
+                <div className="icon-wrapper">
+                  <app.Icon size={iconSize} />
+                </div>
+              </Link>
+              <span className={`app-name ${isLoaded ? 'loaded' : ''}`}>
+                {app.name}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </>
