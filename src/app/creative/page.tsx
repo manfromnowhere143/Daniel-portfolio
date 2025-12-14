@@ -528,11 +528,11 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
-          padding-top: clamp(80px, 12vh, 120px);
+          padding-top: clamp(100px, 18vh, 180px);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+          transition: opacity 0.4s ease, visibility 0s linear 0.4s;
           /* Allow taps, block swipes */
           touch-action: manipulation;
           -webkit-touch-callout: none;
@@ -542,6 +542,8 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity;
+          /* Ensure dark background renders first */
+          background: transparent;
         }
         
         .folder-overlay.active {
@@ -551,20 +553,22 @@ export default function Creative() {
           transition: opacity 0.3s ease, visibility 0s linear 0s;
         }
         
-        /* Blurred background - SMOOTH */
+        /* Blurred background - SMOOTH, NO FLASH */
         .folder-overlay-bg {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(40, 40, 40, 0.5);
+          background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
           touch-action: manipulation;
           /* Prevent flash */
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          /* Render on GPU */
+          transform: translateZ(0);
         }
         
         /* Folder title above container */
@@ -588,7 +592,7 @@ export default function Creative() {
           transform: translateY(0);
         }
         
-        /* White frosted glass container - STATE OF THE ART */
+        /* White frosted glass container - STATE OF THE ART, NO FLASH */
         .folder-container {
           position: relative;
           z-index: 2;
@@ -598,8 +602,8 @@ export default function Creative() {
           border-radius: 28px;
           padding: 24px;
           opacity: 0;
-          transform: scale(0.4);
-          transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform: scale(0.85);
+          transition: opacity 0.35s ease 0.05s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
           /* STATE OF THE ART - Container lighting */
           box-shadow: 
             /* Outer glow */
@@ -613,14 +617,16 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
+          /* GPU rendering */
+          transform: translateZ(0) scale(0.85);
         }
         
         .folder-overlay.active .folder-container {
           opacity: 1;
-          transform: scale(1);
+          transform: translateZ(0) scale(1);
         }
         
-        /* X close button - STATE OF THE ART */
+        /* X close button - FLOATING, NO BACKGROUND */
         .folder-close {
           position: relative;
           z-index: 2;
@@ -628,21 +634,16 @@ export default function Creative() {
           width: 48px;
           height: 48px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(15px);
+          background: transparent;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           opacity: 0;
           transform: scale(0.5);
-          transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s, background 0.15s ease, box-shadow 0.15s ease;
-          border: 1px solid rgba(255, 255, 255, 0.3);
+          transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s;
+          border: none;
           touch-action: manipulation;
-          /* Glow effect */
-          box-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.15),
-            0 4px 15px rgba(0, 0, 0, 0.3);
         }
         
         .folder-overlay.active .folder-close {
@@ -650,12 +651,12 @@ export default function Creative() {
           transform: scale(1);
         }
         
+        .folder-close svg {
+          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+        }
+        
         .folder-close:active {
-          background: rgba(255, 255, 255, 0.35);
-          transform: scale(0.9);
-          box-shadow: 
-            0 0 30px rgba(255, 255, 255, 0.25),
-            0 2px 10px rgba(0, 0, 0, 0.2);
+          transform: scale(0.85);
         }
         
         /* Grid of apps inside folder */
@@ -682,14 +683,16 @@ export default function Creative() {
           gap: 8px;
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.3) translateY(10px);
-          transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform: translateZ(0) scale(0.8) translateY(8px);
+          transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
           touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .folder-overlay.active .folder-app {
           opacity: 1;
-          transform: scale(1) translateY(0);
+          transform: translateZ(0) scale(1) translateY(0);
         }
         
         /* Staggered pop-in */
@@ -723,6 +726,10 @@ export default function Creative() {
             /* Inner reflections */
             inset 0 1px 1px rgba(255, 255, 255, 0.4),
             inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          /* GPU rendering - prevents flash */
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translateZ(0);
         }
         
         /* Top shine reflection */
@@ -761,7 +768,7 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* EXPANDED ITEM VIEW - NO FLASH, SWIPE LOCKED                 */
+        /* EXPANDED ITEM VIEW - STATE OF THE ART, NO FLASH             */
         /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-view {
@@ -776,11 +783,11 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
-          padding-top: clamp(60px, 8vh, 90px);
+          padding-top: clamp(80px, 15vh, 150px);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+          transition: opacity 0.4s ease, visibility 0s linear 0.4s;
           /* Allow taps, block swipes via JS */
           touch-action: manipulation;
           -webkit-touch-callout: none;
@@ -789,13 +796,15 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity;
+          /* GPU rendering to prevent flash */
+          transform: translateZ(0);
         }
         
         .expanded-view.active {
           opacity: 1;
           visibility: visible;
           pointer-events: auto;
-          transition: opacity 0.3s ease, visibility 0s linear 0s;
+          transition: opacity 0.4s ease, visibility 0s linear 0s;
         }
         
         .expanded-inner {
@@ -803,6 +812,14 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           touch-action: manipulation;
+          opacity: 0;
+          transform: translateZ(0) scale(0.92);
+          transition: opacity 0.35s ease 0.1s, transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s;
+        }
+        
+        .expanded-view.active .expanded-inner {
+          opacity: 1;
+          transform: translateZ(0) scale(1);
         }
         
         .expanded-title {
@@ -830,36 +847,42 @@ export default function Creative() {
           /* STATE OF THE ART - 3D floating with glow */
           filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) 
                   drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
-          /* LOCK SWIPE - Allow interaction with content */
-          touch-action: manipulation !important;
+          touch-action: manipulation;
+          /* Smooth fade in - NO FLASH */
+          opacity: 0;
+          transform: translateZ(0);
+          transition: opacity 0.5s ease 0.2s;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
-        /* X close button - MOVED DOWN, BELOW CONTENT */
+        .expanded-view.active .expanded-content {
+          opacity: 1;
+        }
+        
+        /* X close button - FLOATING, NO BACKGROUND */
         .expanded-close {
           margin-top: 40px;
           width: 52px;
           height: 52px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.15);
+          background: transparent;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
-          border: 1px solid rgba(255, 255, 255, 0.25);
+          transition: transform 0.15s ease;
+          border: none;
           touch-action: manipulation;
-          box-shadow: 
-            0 0 25px rgba(255, 255, 255, 0.12),
-            0 4px 20px rgba(0, 0, 0, 0.4);
           z-index: 10;
         }
         
+        .expanded-close svg {
+          filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
+        }
+        
         .expanded-close:active {
-          background: rgba(255, 255, 255, 0.28);
-          transform: scale(0.9);
-          box-shadow: 
-            0 0 35px rgba(255, 255, 255, 0.2),
-            0 2px 10px rgba(0, 0, 0, 0.2);
+          transform: scale(0.85);
         }
         
         /* ═══════════════════════════════════════════════════════════ */
