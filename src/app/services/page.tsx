@@ -350,10 +350,10 @@ export default function Services() {
         
         /* Staggered animation */
         .app-container:nth-child(1) .app-icon { transition-delay: 0ms; }
-        .app-container:nth-child(2) .app-icon { transition-delay: 60ms; }
-        .app-container:nth-child(3) .app-icon { transition-delay: 120ms; }
-        .app-container:nth-child(4) .app-icon { transition-delay: 180ms; }
-        .app-container:nth-child(5) .app-icon { transition-delay: 240ms; }
+        .app-container:nth-child(2) .app-icon { transition-delay: 50ms; }
+        .app-container:nth-child(3) .app-icon { transition-delay: 100ms; }
+        .app-container:nth-child(4) .app-icon { transition-delay: 150ms; }
+        .app-container:nth-child(5) .app-icon { transition-delay: 200ms; }
         
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - SUBTLE TOP SHINE                         */
@@ -426,12 +426,12 @@ export default function Services() {
           transform: translateY(0);
         }
         
-        /* Staggered name animation */
-        .app-container:nth-child(1) .app-name { transition-delay: 100ms; }
-        .app-container:nth-child(2) .app-name { transition-delay: 160ms; }
-        .app-container:nth-child(3) .app-name { transition-delay: 220ms; }
-        .app-container:nth-child(4) .app-name { transition-delay: 280ms; }
-        .app-container:nth-child(5) .app-name { transition-delay: 340ms; }
+        /* Staggered name animation - synced with icons */
+        .app-container:nth-child(1) .app-name { transition-delay: 50ms; }
+        .app-container:nth-child(2) .app-name { transition-delay: 100ms; }
+        .app-container:nth-child(3) .app-name { transition-delay: 150ms; }
+        .app-container:nth-child(4) .app-name { transition-delay: 200ms; }
+        .app-container:nth-child(5) .app-name { transition-delay: 250ms; }
         
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - EXPANDED VIEW                            */
@@ -490,23 +490,37 @@ export default function Services() {
           flex-direction: column;
           align-items: center;
           touch-action: manipulation;
-          opacity: 0;
-          transform: translateZ(0) scale(0.88);
-          transition: none;
           -webkit-tap-highlight-color: transparent;
         }
         
         .expanded-view.active .expanded-inner {
-          opacity: 1;
-          transform: translateZ(0) scale(1);
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, 
-                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
+          animation: expandedFadeIn 0.5s cubic-bezier(0.32, 0.72, 0, 1) forwards;
         }
         
         .expanded-view.exiting .expanded-inner {
-          opacity: 0;
-          transform: translateZ(0) scale(0.92);
-          transition: opacity 0.25s ease, transform 0.3s ease;
+          animation: expandedFadeOut 0.3s ease forwards;
+        }
+        
+        @keyframes expandedFadeIn {
+          0% {
+            opacity: 0;
+            transform: translateZ(0) scale(0.92);
+          }
+          100% {
+            opacity: 1;
+            transform: translateZ(0) scale(1);
+          }
+        }
+        
+        @keyframes expandedFadeOut {
+          0% {
+            opacity: 1;
+            transform: translateZ(0) scale(1);
+          }
+          100% {
+            opacity: 0;
+            transform: translateZ(0) scale(0.95);
+          }
         }
         
         /* Icon comes FIRST - centered prominently */
@@ -520,80 +534,35 @@ export default function Services() {
           filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.08)) 
                   drop-shadow(0 15px 40px rgba(0, 0, 0, 0.5));
           touch-action: manipulation;
-          opacity: 0;
-          transform: translateZ(0) scale(0.9);
-          transition: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           -webkit-tap-highlight-color: transparent;
         }
         
-        .expanded-view.active .expanded-content {
-          opacity: 1;
-          transform: translateZ(0) scale(1);
-          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.08s, 
-                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
-        }
-        
-        .expanded-view.exiting .expanded-content {
-          opacity: 0;
-          transform: translateZ(0) scale(0.95);
-          transition: opacity 0.2s ease, transform 0.25s ease;
-        }
-        
-        /* Title comes AFTER icon */
+        /* Title - STATE OF THE ART elegant typography */
         .expanded-title {
-          font-size: 20px;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+          font-size: 22px;
           font-weight: 300;
-          color: #FAFAF8;
-          margin-bottom: 12px;
-          letter-spacing: 0.02em;
+          color: #FFFFFF;
+          margin-bottom: 14px;
+          letter-spacing: 0.03em;
           text-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.15),
-            0 1px 4px rgba(0, 0, 0, 0.4);
-          opacity: 0;
-          transform: translateY(10px);
-          transition: none;
+            0 0 25px rgba(255, 255, 255, 0.2),
+            0 1px 4px rgba(0, 0, 0, 0.3);
         }
         
-        .expanded-view.active .expanded-title {
-          opacity: 1;
-          transform: translateY(0);
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, 
-                      transform 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.15s;
-        }
-        
-        .expanded-view.exiting .expanded-title {
-          opacity: 0;
-          transform: translateY(5px);
-          transition: opacity 0.15s ease, transform 0.2s ease;
-        }
-        
-        /* Description comes last */
+        /* Description - elegant, readable, WHITE */
         .expanded-desc {
-          font-size: 13px;
-          color: rgba(250, 250, 248, 0.7);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+          font-size: 14px;
+          font-weight: 300;
+          color: #FFFFFF;
           margin-bottom: 0;
-          max-width: 280px;
+          max-width: 300px;
           text-align: center;
-          line-height: 1.7;
+          line-height: 1.75;
           letter-spacing: 0.01em;
-          opacity: 0;
-          transform: translateY(10px);
-          transition: none;
-        }
-        
-        .expanded-view.active .expanded-desc {
-          opacity: 1;
-          transform: translateY(0);
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.2s, 
-                      transform 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.2s;
-        }
-        
-        .expanded-view.exiting .expanded-desc {
-          opacity: 0;
-          transform: translateY(5px);
-          transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
         .expanded-close {
@@ -609,23 +578,7 @@ export default function Services() {
           border: none;
           touch-action: manipulation;
           z-index: 10;
-          opacity: 0;
-          transform: scale(0.5);
-          transition: none;
           -webkit-tap-highlight-color: transparent;
-        }
-        
-        .expanded-view.active .expanded-close {
-          opacity: 1;
-          transform: scale(1);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.25s, 
-                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s;
-        }
-        
-        .expanded-view.exiting .expanded-close {
-          opacity: 0;
-          transform: scale(0.7);
-          transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
         .expanded-close svg {
@@ -888,10 +841,12 @@ export default function Services() {
         }
         
         .social-name {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
           font-size: 11px;
           font-weight: 400;
           color: #1a1a1a;
           text-align: center;
+          letter-spacing: 0.01em;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -945,13 +900,14 @@ export default function Services() {
           }
           
           .expanded-title {
-            font-size: 24px;
+            font-size: 26px;
+            margin-bottom: 16px;
           }
           
           .expanded-desc {
-            font-size: 14px;
-            max-width: 340px;
-            line-height: 1.75;
+            font-size: 15px;
+            max-width: 360px;
+            line-height: 1.8;
           }
           
           .folder-container {
@@ -1013,12 +969,14 @@ export default function Services() {
           }
           
           .expanded-title {
-            font-size: 26px;
+            font-size: 28px;
+            margin-bottom: 18px;
           }
           
           .expanded-desc {
-            font-size: 15px;
-            max-width: 380px;
+            font-size: 16px;
+            max-width: 420px;
+            line-height: 1.85;
           }
         }
       `}</style>
