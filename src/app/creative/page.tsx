@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import MetatronCube from "@/components/MetatronCube";
 import GoldenSpiral from "@/components/GoldenSpiral";
@@ -72,7 +72,21 @@ export default function Creative() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Lock body scroll when overlay or expanded view is open - NO JUMP
+  // Prevent touch move function - defined outside useEffect
+  const preventTouchMove = useCallback((e: TouchEvent) => {
+    // Allow interaction with close button
+    const target = e.target as HTMLElement;
+    if (target.closest('.expanded-close') || target.closest('.folder-close')) {
+      return;
+    }
+    // Block horizontal swipes completely
+    if (e.touches.length === 1) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, []);
+
+  // Lock body scroll when overlay or expanded view is open - NO JUMP, NO SWIPE
   useEffect(() => {
     if (openApp || expandedItem) {
       // Prevent scroll without position change (no jump)
@@ -80,27 +94,35 @@ export default function Creative() {
       document.body.style.overflow = 'hidden';
       document.body.style.paddingRight = `${scrollBarWidth}px`;
       document.body.style.touchAction = 'none';
-      // Prevent all touch events on body
-      document.body.addEventListener('touchmove', preventTouch, { passive: false });
+      document.documentElement.style.touchAction = 'none';
+
+      // Block ALL touch movement on document
+      document.addEventListener('touchmove', preventTouchMove, { passive: false, capture: true });
+      document.addEventListener('touchstart', preventTouchMove, { passive: false, capture: true });
+
+      // Also block on window
+      window.addEventListener('touchmove', preventTouchMove, { passive: false });
     } else {
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
       document.body.style.touchAction = '';
-      document.body.removeEventListener('touchmove', preventTouch);
+      document.documentElement.style.touchAction = '';
+
+      document.removeEventListener('touchmove', preventTouchMove, { capture: true } as EventListenerOptions);
+      document.removeEventListener('touchstart', preventTouchMove, { capture: true } as EventListenerOptions);
+      window.removeEventListener('touchmove', preventTouchMove);
     }
 
     return () => {
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
       document.body.style.touchAction = '';
-      document.body.removeEventListener('touchmove', preventTouch);
+      document.documentElement.style.touchAction = '';
+      document.removeEventListener('touchmove', preventTouchMove, { capture: true } as EventListenerOptions);
+      document.removeEventListener('touchstart', preventTouchMove, { capture: true } as EventListenerOptions);
+      window.removeEventListener('touchmove', preventTouchMove);
     };
-  }, [openApp, expandedItem]);
-
-  // Prevent touch move
-  const preventTouch = (e: TouchEvent) => {
-    e.preventDefault();
-  };
+  }, [openApp, expandedItem, preventTouchMove]);
 
   const renderWork3D = (id: string, size: number) => {
     switch (id) {
@@ -578,7 +600,7 @@ export default function Creative() {
         .folder-container {
           position: relative;
           z-index: 2;
-          background: rgba(255, 255, 255, 0.92);
+          background: rgba(255, 255, 255, 0.98);
           backdrop-filter: blur(25px);
           -webkit-backdrop-filter: blur(25px);
           border-radius: 28px;
@@ -747,7 +769,7 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* EXPANDED ITEM VIEW - NO FLASH, SMOOTH                       */
+        /* EXPANDED ITEM VIEW - NO FLASH, SWIPE LOCKED                 */
         /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-view {
@@ -762,16 +784,18 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
-          padding-top: clamp(70px, 10vh, 110px);
+          padding-top: clamp(60px, 8vh, 90px);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
           transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-          touch-action: none;
-          -webkit-touch-callout: none;
-          -webkit-user-select: none;
-          user-select: none;
-          overscroll-behavior: none;
+          /* CRITICAL: LOCK ALL SWIPE/TOUCH NAVIGATION */
+          touch-action: none !important;
+          -webkit-touch-callout: none !important;
+          -webkit-user-select: none !important;
+          user-select: none !important;
+          overscroll-behavior: none !important;
+          -webkit-overflow-scrolling: none !important;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity;
@@ -788,7 +812,10 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          touch-action: none;
+          /* LOCK SWIPE */
+          touch-action: none !important;
+          -webkit-user-select: none !important;
+          user-select: none !important;
         }
         
         .expanded-title {
@@ -804,45 +831,47 @@ export default function Creative() {
         .expanded-desc {
           font-size: 12px;
           color: rgba(255,255,255,0.5);
-          margin-bottom: 20px;
+          margin-bottom: 16px;
         }
         
         .expanded-content {
-          width: 240px;
-          height: 240px;
+          width: 260px;
+          height: 260px;
           display: flex;
           align-items: center;
           justify-content: center;
           /* STATE OF THE ART - 3D floating with glow */
           filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) 
                   drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
-          touch-action: none;
+          /* LOCK SWIPE - Allow interaction with content */
+          touch-action: manipulation !important;
         }
         
-        /* X close button */
+        /* X close button - MOVED DOWN, BELOW CONTENT */
         .expanded-close {
-          margin-top: 28px;
-          width: 48px;
-          height: 48px;
+          margin-top: 40px;
+          width: 52px;
+          height: 52px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.12);
+          background: rgba(255, 255, 255, 0.15);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.25);
           touch-action: manipulation;
           box-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.1),
-            0 4px 15px rgba(0, 0, 0, 0.3);
+            0 0 25px rgba(255, 255, 255, 0.12),
+            0 4px 20px rgba(0, 0, 0, 0.4);
+          z-index: 10;
         }
         
         .expanded-close:active {
-          background: rgba(255, 255, 255, 0.25);
+          background: rgba(255, 255, 255, 0.28);
           transform: scale(0.9);
           box-shadow: 
-            0 0 30px rgba(255, 255, 255, 0.2),
+            0 0 35px rgba(255, 255, 255, 0.2),
             0 2px 10px rgba(0, 0, 0, 0.2);
         }
         
@@ -1251,18 +1280,28 @@ export default function Creative() {
         </div>
       ))}
 
-      {/* Expanded Views for Experiences */}
+      {/* Expanded Views for Experiences - INTERACTIVE */}
       {experienceItems.map(item => (
-        <div key={item.id} className={`expanded-view ${expandedItem === `experiences-${item.id}` ? 'active' : ''}`}>
+        <div
+          key={item.id}
+          className={`expanded-view ${expandedItem === `experiences-${item.id}` ? 'active' : ''}`}
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+        >
           <div className="expanded-inner">
             <div className="expanded-title">{item.name}</div>
             <div className="expanded-desc">{item.desc}</div>
-            <div className="expanded-content">
+            <div
+              className="expanded-content"
+              style={{ touchAction: 'manipulation' }}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+            >
               {expandedItem === `experiences-${item.id}` && renderExperience(item.id)}
             </div>
             <div className="expanded-close" onClick={() => setExpandedItem(null)}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
             </div>
           </div>
