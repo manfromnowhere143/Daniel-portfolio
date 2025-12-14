@@ -350,10 +350,10 @@ export default function Services() {
         
         /* Staggered animation */
         .app-container:nth-child(1) .app-icon { transition-delay: 0ms; }
-        .app-container:nth-child(2) .app-icon { transition-delay: 50ms; }
-        .app-container:nth-child(3) .app-icon { transition-delay: 100ms; }
-        .app-container:nth-child(4) .app-icon { transition-delay: 150ms; }
-        .app-container:nth-child(5) .app-icon { transition-delay: 200ms; }
+        .app-container:nth-child(2) .app-icon { transition-delay: 60ms; }
+        .app-container:nth-child(3) .app-icon { transition-delay: 120ms; }
+        .app-container:nth-child(4) .app-icon { transition-delay: 180ms; }
+        .app-container:nth-child(5) .app-icon { transition-delay: 240ms; }
         
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - SUBTLE TOP SHINE                         */
@@ -426,12 +426,12 @@ export default function Services() {
           transform: translateY(0);
         }
         
-        /* Staggered name animation - synced with icons */
-        .app-container:nth-child(1) .app-name { transition-delay: 50ms; }
-        .app-container:nth-child(2) .app-name { transition-delay: 100ms; }
-        .app-container:nth-child(3) .app-name { transition-delay: 150ms; }
-        .app-container:nth-child(4) .app-name { transition-delay: 200ms; }
-        .app-container:nth-child(5) .app-name { transition-delay: 250ms; }
+        /* Staggered name animation */
+        .app-container:nth-child(1) .app-name { transition-delay: 100ms; }
+        .app-container:nth-child(2) .app-name { transition-delay: 160ms; }
+        .app-container:nth-child(3) .app-name { transition-delay: 220ms; }
+        .app-container:nth-child(4) .app-name { transition-delay: 280ms; }
+        .app-container:nth-child(5) .app-name { transition-delay: 340ms; }
         
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - EXPANDED VIEW                            */
@@ -531,8 +531,8 @@ export default function Services() {
         .expanded-view.active .expanded-content {
           opacity: 1;
           transform: translateZ(0) scale(1);
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, 
-                      transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) 0.05s;
+          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.08s, 
+                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
         }
         
         .expanded-view.exiting .expanded-content {
@@ -541,17 +541,16 @@ export default function Services() {
           transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
-        /* Title - STATE OF THE ART elegant typography */
+        /* Title comes AFTER icon */
         .expanded-title {
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-          font-size: 22px;
+          font-size: 20px;
           font-weight: 300;
-          color: #FFFFFF;
-          margin-bottom: 14px;
-          letter-spacing: 0.03em;
+          color: #FAFAF8;
+          margin-bottom: 12px;
+          letter-spacing: 0.02em;
           text-shadow: 
-            0 0 25px rgba(255, 255, 255, 0.2),
-            0 1px 4px rgba(0, 0, 0, 0.3);
+            0 0 20px rgba(255, 255, 255, 0.15),
+            0 1px 4px rgba(0, 0, 0, 0.4);
           opacity: 0;
           transform: translateY(10px);
           transition: none;
@@ -560,8 +559,8 @@ export default function Services() {
         .expanded-view.active .expanded-title {
           opacity: 1;
           transform: translateY(0);
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.1s, 
-                      transform 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.1s;
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, 
+                      transform 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.15s;
         }
         
         .expanded-view.exiting .expanded-title {
@@ -570,16 +569,14 @@ export default function Services() {
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        /* Description - elegant, readable, WHITE */
+        /* Description comes last */
         .expanded-desc {
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
-          font-size: 14px;
-          font-weight: 300;
-          color: #FFFFFF;
+          font-size: 13px;
+          color: rgba(250, 250, 248, 0.7);
           margin-bottom: 0;
-          max-width: 300px;
+          max-width: 280px;
           text-align: center;
-          line-height: 1.75;
+          line-height: 1.7;
           letter-spacing: 0.01em;
           opacity: 0;
           transform: translateY(10px);
@@ -587,10 +584,10 @@ export default function Services() {
         }
         
         .expanded-view.active .expanded-desc {
-          opacity: 0.9;
+          opacity: 1;
           transform: translateY(0);
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, 
-                      transform 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.15s;
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.2s, 
+                      transform 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.2s;
         }
         
         .expanded-view.exiting .expanded-desc {
@@ -621,8 +618,8 @@ export default function Services() {
         .expanded-view.active .expanded-close {
           opacity: 1;
           transform: scale(1);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.2s, 
-                      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.25s, 
+                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s;
         }
         
         .expanded-view.exiting .expanded-close {
@@ -891,12 +888,10 @@ export default function Services() {
         }
         
         .social-name {
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
           font-size: 11px;
           font-weight: 400;
           color: #1a1a1a;
           text-align: center;
-          letter-spacing: 0.01em;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -950,13 +945,13 @@ export default function Services() {
           }
           
           .expanded-title {
-            font-size: 26px;
+            font-size: 24px;
           }
           
           .expanded-desc {
-            font-size: 15px;
-            max-width: 360px;
-            line-height: 1.8;
+            font-size: 14px;
+            max-width: 340px;
+            line-height: 1.75;
           }
           
           .folder-container {
@@ -1018,12 +1013,12 @@ export default function Services() {
           }
           
           .expanded-title {
-            font-size: 28px;
+            font-size: 26px;
           }
           
           .expanded-desc {
-            font-size: 16px;
-            max-width: 400px;
+            font-size: 15px;
+            max-width: 380px;
           }
         }
       `}</style>
