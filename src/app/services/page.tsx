@@ -21,10 +21,10 @@ const serviceDescriptions: Record<string, string> = {
 
 // Social links
 const socialLinks = [
-  { id: 'github', name: 'GitHub', url: 'https://github.com/danielwanich' },
+  { id: 'github', name: 'GitHub', url: 'https://github.com/manfromnowhere143' },
   { id: 'x', name: 'X', url: 'https://x.com/satori936' },
   { id: 'instagram', name: 'Instagram', url: 'https://instagram.com/overmind143' },
-  { id: 'tiktok', name: 'TikTok', url: 'https://tiktok.com/@danielwanich' },
+  { id: 'tiktok', name: 'TikTok', url: 'https://www.tiktok.com/@danielwahnich' },
 ];
 
 export default function Services() {
@@ -488,7 +488,7 @@ export default function Services() {
         
         .expanded-close {
           position: absolute;
-          top: 60px;
+          top: 45px;
           left: 50%;
           transform: translateX(-50%);
           width: 44px;
@@ -648,7 +648,7 @@ export default function Services() {
         
         .app-overlay-close {
           position: absolute;
-          top: 60px;
+          top: 45px;
           left: 50%;
           transform: translateX(-50%);
           width: 44px;

@@ -427,7 +427,7 @@ export default function Creative() {
         
         .app-overlay-close {
           position: absolute;
-          top: 60px;
+          top: 45px;
           left: 50%;
           transform: translateX(-50%);
           width: 44px;
@@ -608,7 +608,7 @@ export default function Creative() {
         
         .expanded-close {
           position: absolute;
-          top: 60px;
+          top: 45px;
           left: 50%;
           transform: translateX(-50%);
           width: 44px;
