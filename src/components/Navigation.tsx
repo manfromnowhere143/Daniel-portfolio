@@ -279,7 +279,7 @@ export default function Navigation() {
         )}
       </div>
 
-      {/* Mobile Bottom Bar - Nav slides up */}
+      {/* Mobile Bottom Bar - Nav slides up with elegant icons */}
       <div
         className={styles.mobileOnly}
         style={{
@@ -299,35 +299,155 @@ export default function Navigation() {
         }}
       >
         <div style={{
-          height: "70px",
+          height: "80px",
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: "28px",
+          gap: "36px",
           width: "100%"
         }}>
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setTimeout(() => setIsOpen(false), 150)}
-              style={{
-                textDecoration: "none",
-                padding: "12px 4px"
-              }}
-            >
-              <span style={{
-                fontSize: "11px",
-                fontWeight: item.isActive ? 400 : 300,
-                letterSpacing: "0.12em",
-                color: "#FAFAF8",
-                textTransform: "uppercase"
-              }}>
-                {item.label}
-              </span>
-            </Link>
-          ))}
+          {/* About - Human silhouette */}
+          <Link
+            href="/"
+            onClick={() => setTimeout(() => setIsOpen(false), 150)}
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "6px",
+              opacity: pathname === "/" ? 1 : 0.6,
+              transition: "opacity 0.2s ease"
+            }}
+          >
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+              {/* Head */}
+              <circle cx="13" cy="7" r="4.5" stroke="#FAFAF8" strokeWidth="1.5" fill="none"/>
+              {/* Body - elegant curved torso */}
+              <path
+                d="M6 24C6 24 7 16 13 16C19 16 20 24 20 24"
+                stroke="#FAFAF8"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                fill="none"
+              />
+            </svg>
+            <span style={{
+              fontSize: "9px",
+              fontWeight: 300,
+              letterSpacing: "0.1em",
+              color: "#FAFAF8",
+              textTransform: "uppercase"
+            }}>About</span>
+          </Link>
+
+          {/* Work - Stacked layers/cards representing projects */}
+          <Link
+            href="/work"
+            onClick={() => setTimeout(() => setIsOpen(false), 150)}
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "6px",
+              opacity: pathname === "/work" || pathname.startsWith("/work/") ? 1 : 0.6,
+              transition: "opacity 0.2s ease"
+            }}
+          >
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+              {/* Back card */}
+              <rect x="6" y="4" width="14" height="10" rx="2" stroke="#FAFAF8" strokeWidth="1" opacity="0.4"/>
+              {/* Middle card */}
+              <rect x="4" y="8" width="14" height="10" rx="2" stroke="#FAFAF8" strokeWidth="1.2" opacity="0.7"/>
+              {/* Front card */}
+              <rect x="8" y="12" width="14" height="10" rx="2" stroke="#FAFAF8" strokeWidth="1.5"/>
+              {/* Dot detail */}
+              <circle cx="15" cy="17" r="1.5" fill="#FAFAF8" opacity="0.8"/>
+            </svg>
+            <span style={{
+              fontSize: "9px",
+              fontWeight: 300,
+              letterSpacing: "0.1em",
+              color: "#FAFAF8",
+              textTransform: "uppercase"
+            }}>Work</span>
+          </Link>
+
+          {/* Creative - Abstract geometric spark/burst */}
+          <Link
+            href="/creative"
+            onClick={() => setTimeout(() => setIsOpen(false), 150)}
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "6px",
+              opacity: pathname === "/creative" ? 1 : 0.6,
+              transition: "opacity 0.2s ease"
+            }}
+          >
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+              {/* Center diamond */}
+              <path d="M13 6L17 13L13 20L9 13L13 6Z" stroke="#FAFAF8" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
+              {/* Radiating lines - creative burst */}
+              <line x1="13" y1="2" x2="13" y2="5" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round" opacity="0.7"/>
+              <line x1="13" y1="21" x2="13" y2="24" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round" opacity="0.7"/>
+              <line x1="5" y1="9" x2="8" y2="11" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
+              <line x1="18" y1="11" x2="21" y2="9" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
+              <line x1="5" y1="17" x2="8" y2="15" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
+              <line x1="18" y1="15" x2="21" y2="17" stroke="#FAFAF8" strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
+              {/* Inner glow point */}
+              <circle cx="13" cy="13" r="1.5" fill="#FAFAF8" opacity="0.9"/>
+            </svg>
+            <span style={{
+              fontSize: "9px",
+              fontWeight: 300,
+              letterSpacing: "0.1em",
+              color: "#FAFAF8",
+              textTransform: "uppercase"
+            }}>Creative</span>
+          </Link>
+
+          {/* Services - Interconnected nodes/network */}
+          <Link
+            href="/services"
+            onClick={() => setTimeout(() => setIsOpen(false), 150)}
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "6px",
+              opacity: pathname === "/services" ? 1 : 0.6,
+              transition: "opacity 0.2s ease"
+            }}
+          >
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+              {/* Connection lines */}
+              <line x1="7" y1="7" x2="13" y2="13" stroke="#FAFAF8" strokeWidth="1" opacity="0.5"/>
+              <line x1="19" y1="7" x2="13" y2="13" stroke="#FAFAF8" strokeWidth="1" opacity="0.5"/>
+              <line x1="7" y1="19" x2="13" y2="13" stroke="#FAFAF8" strokeWidth="1" opacity="0.5"/>
+              <line x1="19" y1="19" x2="13" y2="13" stroke="#FAFAF8" strokeWidth="1" opacity="0.5"/>
+              {/* Corner nodes */}
+              <circle cx="7" cy="7" r="3" stroke="#FAFAF8" strokeWidth="1.2" fill="none"/>
+              <circle cx="19" cy="7" r="3" stroke="#FAFAF8" strokeWidth="1.2" fill="none"/>
+              <circle cx="7" cy="19" r="3" stroke="#FAFAF8" strokeWidth="1.2" fill="none"/>
+              <circle cx="19" cy="19" r="3" stroke="#FAFAF8" strokeWidth="1.2" fill="none"/>
+              {/* Center hub - larger, filled */}
+              <circle cx="13" cy="13" r="3.5" stroke="#FAFAF8" strokeWidth="1.5" fill="none"/>
+              <circle cx="13" cy="13" r="1.5" fill="#FAFAF8"/>
+            </svg>
+            <span style={{
+              fontSize: "9px",
+              fontWeight: 300,
+              letterSpacing: "0.1em",
+              color: "#FAFAF8",
+              textTransform: "uppercase"
+            }}>Services</span>
+          </Link>
         </div>
       </div>
     </>
