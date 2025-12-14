@@ -3,13 +3,13 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 
-// App data - Dark matte colors with alive lighting
+// App data - Dark matte colors with subtle alive lighting
 const services = [
-  { id: 'website', name: 'Web Apps', color: ['#3d2860', '#1e1438'], glow: 'rgba(165, 130, 252, 0.25)', glowInner: 'rgba(165, 130, 252, 0.15)', desc: 'Full-stack applications with modern frameworks. SEO, responsive design, authentication, databases, and deployment.' },
-  { id: 'dashboard', name: 'Dashboards', color: ['#602848', '#381428'], glow: 'rgba(251, 130, 180, 0.25)', glowInner: 'rgba(251, 130, 180, 0.15)', desc: 'Real-time data visualization and analytics. Interactive charts, live data streams, and beautiful interfaces.' },
-  { id: 'api', name: 'API', color: ['#1a4038', '#0d2420'], glow: 'rgba(134, 239, 172, 0.25)', glowInner: 'rgba(134, 239, 172, 0.15)', desc: 'REST and GraphQL APIs. Authentication, rate limiting, documentation, and third-party integrations.' },
-  { id: 'llm', name: 'LLM', color: ['#604028', '#382010'], glow: 'rgba(253, 186, 140, 0.25)', glowInner: 'rgba(253, 186, 140, 0.15)', desc: 'AI integrations and middleware. Prompt engineering, tool orchestration, and multi-model pipelines.' },
-  { id: 'social', name: 'Social', color: ['#2a2a2a', '#1a1a1a'], glow: 'rgba(180, 180, 180, 0.2)', glowInner: 'rgba(180, 180, 180, 0.1)', desc: '' },
+  { id: 'website', name: 'Web Apps', color: ['#3d2860', '#1e1438'], glow: 'rgba(165, 130, 252, 0.18)', glowInner: 'rgba(165, 130, 252, 0.08)', desc: 'Full-stack applications with modern frameworks. SEO, responsive design, authentication, databases, and deployment.' },
+  { id: 'dashboard', name: 'Dashboards', color: ['#602848', '#381428'], glow: 'rgba(251, 130, 180, 0.18)', glowInner: 'rgba(251, 130, 180, 0.08)', desc: 'Real-time data visualization and analytics. Interactive charts, live data streams, and beautiful interfaces.' },
+  { id: 'api', name: 'API', color: ['#1a4038', '#0d2420'], glow: 'rgba(134, 239, 172, 0.18)', glowInner: 'rgba(134, 239, 172, 0.08)', desc: 'REST and GraphQL APIs. Authentication, rate limiting, documentation, and third-party integrations.' },
+  { id: 'llm', name: 'LLM', color: ['#604028', '#382010'], glow: 'rgba(253, 186, 140, 0.18)', glowInner: 'rgba(253, 186, 140, 0.08)', desc: 'AI integrations and middleware. Prompt engineering, tool orchestration, and multi-model pipelines.' },
+  { id: 'social', name: 'Social', color: ['#2a2a2a', '#1a1a1a'], glow: 'rgba(180, 180, 180, 0.12)', glowInner: 'rgba(180, 180, 180, 0.06)', desc: '' },
 ];
 
 // Social links
@@ -81,7 +81,7 @@ export default function Services() {
     expandedTimeoutRef.current = setTimeout(() => {
       setExpandedIndex(null);
       setExpandedAnimState('idle');
-    }, 400); // Match CSS transition duration
+    }, 400);
   }, [expandedAnimState]);
 
   // STATE OF THE ART - Apple-style social folder open
@@ -107,10 +107,10 @@ export default function Services() {
     socialTimeoutRef.current = setTimeout(() => {
       setSocialOpen(false);
       setSocialAnimState('idle');
-    }, 350); // Match CSS transition duration
+    }, 350);
   }, [socialAnimState]);
 
-  // Prevent touch move function - only blocks swipe, not tap
+  // Prevent touch move function
   const preventTouchMove = useCallback((e: TouchEvent) => {
     const target = e.target as HTMLElement;
     if (target.closest('.expanded-close') ||
@@ -279,14 +279,14 @@ export default function Services() {
     }
   };
 
-  const iconSize = isMobile ? 48 : 60;
+  const iconSize = isMobile ? 40 : 52;
 
   return (
     <>
       <style>{`
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - SERVICES PAGE                            */
-        /* Apple-style transitions with proper animation sequencing    */
+        /* Refined elegance with subtle sophistication                 */
         /* ═══════════════════════════════════════════════════════════ */
         
         .services-page {
@@ -304,8 +304,8 @@ export default function Services() {
         .services-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 36px 32px;
-          max-width: 260px;
+          gap: 32px 28px;
+          max-width: 240px;
           margin: 0 auto;
         }
         
@@ -313,11 +313,12 @@ export default function Services() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 12px;
+          gap: 10px;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - APP ICONS WITH ALIVE LIGHTING            */
+        /* STATE OF THE ART - ELEGANT APP ICONS                        */
+        /* Refined, smaller, subtle lighting                           */
         /* ═══════════════════════════════════════════════════════════ */
         
         .app-icon {
@@ -325,9 +326,9 @@ export default function Services() {
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 22px;
-          width: 88px;
-          height: 88px;
+          border-radius: 20px;
+          width: 76px;
+          height: 76px;
           cursor: pointer;
           overflow: visible;
           opacity: 0;
@@ -339,6 +340,7 @@ export default function Services() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .app-icon.loaded {
@@ -354,23 +356,24 @@ export default function Services() {
         .app-container:nth-child(5) .app-icon { transition-delay: 240ms; }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - TOP SHINE REFLECTION                     */
+        /* STATE OF THE ART - SUBTLE TOP SHINE                         */
+        /* Refined, less aggressive reflection                         */
         /* ═══════════════════════════════════════════════════════════ */
         
         .app-icon::before {
           content: '';
           position: absolute;
           top: 0;
-          left: 8%;
-          right: 8%;
-          height: 45%;
+          left: 10%;
+          right: 10%;
+          height: 42%;
           background: linear-gradient(
             180deg, 
-            rgba(255, 255, 255, 0.32) 0%, 
-            rgba(255, 255, 255, 0.12) 40%,
+            rgba(255, 255, 255, 0.22) 0%, 
+            rgba(255, 255, 255, 0.06) 50%,
             transparent 100%
           );
-          border-radius: 22px 22px 50% 50%;
+          border-radius: 20px 20px 50% 50%;
           pointer-events: none;
           z-index: 10;
         }
@@ -379,16 +382,16 @@ export default function Services() {
           content: '';
           position: absolute;
           inset: 0;
-          border-radius: 22px;
+          border-radius: 20px;
           box-shadow: 
-            inset 0 0 25px rgba(255, 255, 255, 0.08),
-            inset 0 -2px 10px rgba(0, 0, 0, 0.2);
+            inset 0 0 15px rgba(255, 255, 255, 0.04),
+            inset 0 -1px 6px rgba(0, 0, 0, 0.15);
           pointer-events: none;
           z-index: 2;
         }
         
         .app-icon:active {
-          transform: translateZ(0) scale(0.92);
+          transform: translateZ(0) scale(0.94);
         }
         
         .icon-wrapper {
@@ -397,11 +400,11 @@ export default function Services() {
           display: flex;
           align-items: center;
           justify-content: center;
-          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - FLOATING GLOWING TEXT                    */
+        /* STATE OF THE ART - ELEGANT TEXT                             */
         /* ═══════════════════════════════════════════════════════════ */
         
         .app-name {
@@ -414,8 +417,8 @@ export default function Services() {
           transform: translateY(8px);
           transition: opacity 0.4s ease, transform 0.4s ease;
           text-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.3),
-            0 2px 4px rgba(0, 0, 0, 0.8);
+            0 0 15px rgba(255, 255, 255, 0.2),
+            0 1px 3px rgba(0, 0, 0, 0.6);
         }
         
         .app-name.loaded {
@@ -432,7 +435,7 @@ export default function Services() {
         
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - EXPANDED VIEW                            */
-        /* Proper 3-phase animation: entering -> active -> exiting     */
+        /* Professional layout: Icon first, then text                  */
         /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-view {
@@ -447,7 +450,7 @@ export default function Services() {
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
-          padding-top: clamp(80px, 15vh, 150px);
+          padding-top: clamp(100px, 18vh, 180px);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -459,16 +462,15 @@ export default function Services() {
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
         }
         
-        /* Phase 1: ENTERING - Make visible, start at 0 opacity */
         .expanded-view.entering {
           visibility: visible;
           pointer-events: auto;
           opacity: 0;
         }
         
-        /* Phase 2: ACTIVE - Fully visible with transitions */
         .expanded-view.active {
           visibility: visible;
           pointer-events: auto;
@@ -476,7 +478,6 @@ export default function Services() {
           transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
         }
         
-        /* Phase 3: EXITING - Fade out */
         .expanded-view.exiting {
           visibility: visible;
           pointer-events: none;
@@ -492,6 +493,7 @@ export default function Services() {
           opacity: 0;
           transform: translateZ(0) scale(0.88);
           transition: none;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .expanded-view.active .expanded-inner {
@@ -507,47 +509,30 @@ export default function Services() {
           transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
-        .expanded-title {
-          font-size: 22px;
-          font-weight: 300;
-          color: #FAFAF8;
-          margin-bottom: 6px;
-          text-shadow: 
-            0 0 30px rgba(255, 255, 255, 0.3),
-            0 2px 8px rgba(0, 0, 0, 0.5);
-        }
-        
-        .expanded-desc {
-          font-size: 13px;
-          color: #FAFAF8;
-          margin-bottom: 20px;
-          max-width: 280px;
-          text-align: left;
-          line-height: 1.6;
-        }
-        
+        /* Icon comes FIRST - centered prominently */
         .expanded-content {
-          width: 200px;
-          height: 200px;
+          width: 140px;
+          height: 140px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 16px;
-          filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) 
-                  drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
+          margin-bottom: 28px;
+          filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.08)) 
+                  drop-shadow(0 15px 40px rgba(0, 0, 0, 0.5));
           touch-action: manipulation;
           opacity: 0;
           transform: translateZ(0) scale(0.9);
           transition: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .expanded-view.active .expanded-content {
           opacity: 1;
           transform: translateZ(0) scale(1);
-          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, 
-                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
+          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.08s, 
+                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
         }
         
         .expanded-view.exiting .expanded-content {
@@ -556,10 +541,65 @@ export default function Services() {
           transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
+        /* Title comes AFTER icon */
+        .expanded-title {
+          font-size: 20px;
+          font-weight: 300;
+          color: #FAFAF8;
+          margin-bottom: 12px;
+          letter-spacing: 0.02em;
+          text-shadow: 
+            0 0 20px rgba(255, 255, 255, 0.15),
+            0 1px 4px rgba(0, 0, 0, 0.4);
+          opacity: 0;
+          transform: translateY(10px);
+          transition: none;
+        }
+        
+        .expanded-view.active .expanded-title {
+          opacity: 1;
+          transform: translateY(0);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, 
+                      transform 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.15s;
+        }
+        
+        .expanded-view.exiting .expanded-title {
+          opacity: 0;
+          transform: translateY(5px);
+          transition: opacity 0.15s ease, transform 0.2s ease;
+        }
+        
+        /* Description comes last */
+        .expanded-desc {
+          font-size: 13px;
+          color: rgba(250, 250, 248, 0.7);
+          margin-bottom: 0;
+          max-width: 280px;
+          text-align: center;
+          line-height: 1.7;
+          letter-spacing: 0.01em;
+          opacity: 0;
+          transform: translateY(10px);
+          transition: none;
+        }
+        
+        .expanded-view.active .expanded-desc {
+          opacity: 1;
+          transform: translateY(0);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.2s, 
+                      transform 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.2s;
+        }
+        
+        .expanded-view.exiting .expanded-desc {
+          opacity: 0;
+          transform: translateY(5px);
+          transition: opacity 0.15s ease, transform 0.2s ease;
+        }
+        
         .expanded-close {
-          margin-top: 24px;
-          width: 52px;
-          height: 52px;
+          margin-top: 36px;
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
           background: transparent;
           display: flex;
@@ -572,13 +612,14 @@ export default function Services() {
           opacity: 0;
           transform: scale(0.5);
           transition: none;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .expanded-view.active .expanded-close {
           opacity: 1;
           transform: scale(1);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, 
-                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.25s, 
+                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s;
         }
         
         .expanded-view.exiting .expanded-close {
@@ -588,7 +629,7 @@ export default function Services() {
         }
         
         .expanded-close svg {
-          filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
+          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
         }
         
         .expanded-close:active {
@@ -597,7 +638,6 @@ export default function Services() {
         
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - SOCIAL FOLDER OVERLAY                    */
-        /* Proper 3-phase animation: entering -> active -> exiting     */
         /* ═══════════════════════════════════════════════════════════ */
         
         .folder-overlay {
@@ -612,7 +652,6 @@ export default function Services() {
           align-items: center;
           justify-content: flex-start;
           padding-top: clamp(100px, 18vh, 180px);
-          /* Hidden by default */
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -624,16 +663,15 @@ export default function Services() {
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
         }
         
-        /* Phase 1: ENTERING - Make visible, start at 0 opacity */
         .folder-overlay.entering {
           visibility: visible;
           pointer-events: auto;
           opacity: 0;
         }
         
-        /* Phase 2: ACTIVE - Fully visible with transitions */
         .folder-overlay.active {
           visibility: visible;
           pointer-events: auto;
@@ -641,7 +679,6 @@ export default function Services() {
           transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
         }
         
-        /* Phase 3: EXITING - Fade out */
         .folder-overlay.exiting {
           visibility: visible;
           pointer-events: none;
@@ -662,6 +699,7 @@ export default function Services() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-container {
@@ -670,20 +708,21 @@ export default function Services() {
           background: rgba(255, 255, 255, 0.98);
           backdrop-filter: blur(25px);
           -webkit-backdrop-filter: blur(25px);
-          border-radius: 28px;
-          padding: 24px;
+          border-radius: 26px;
+          padding: 22px;
           opacity: 0;
           transform: translateZ(0) scale(0.8);
           transition: none;
           box-shadow: 
-            0 0 60px rgba(255, 255, 255, 0.15),
-            0 20px 60px rgba(0, 0, 0, 0.4),
-            0 8px 25px rgba(0, 0, 0, 0.3),
+            0 0 50px rgba(255, 255, 255, 0.1),
+            0 18px 50px rgba(0, 0, 0, 0.35),
+            0 6px 20px rgba(0, 0, 0, 0.25),
             inset 0 1px 1px rgba(255, 255, 255, 0.8);
           touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-overlay.active .folder-container {
@@ -702,9 +741,9 @@ export default function Services() {
         .folder-close {
           position: relative;
           z-index: 2;
-          margin-top: 24px;
-          width: 48px;
-          height: 48px;
+          margin-top: 22px;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
           background: transparent;
           display: flex;
@@ -716,6 +755,7 @@ export default function Services() {
           transition: none;
           border: none;
           touch-action: manipulation;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-overlay.active .folder-close {
@@ -732,7 +772,7 @@ export default function Services() {
         }
         
         .folder-close svg {
-          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+          filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
         }
         
         .folder-close:active {
@@ -742,8 +782,9 @@ export default function Services() {
         .social-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 18px;
+          gap: 16px;
           touch-action: manipulation;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .social-item {
@@ -759,6 +800,7 @@ export default function Services() {
           touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-overlay.active .social-item {
@@ -780,52 +822,53 @@ export default function Services() {
         .folder-overlay.active .social-item:nth-child(3) { transition-delay: 0.10s; }
         .folder-overlay.active .social-item:nth-child(4) { transition-delay: 0.13s; }
         
-        /* Staggered exit (reverse, faster) */
+        /* Staggered exit */
         .folder-overlay.exiting .social-item:nth-child(4) { transition-delay: 0ms; }
         .folder-overlay.exiting .social-item:nth-child(3) { transition-delay: 15ms; }
         .folder-overlay.exiting .social-item:nth-child(2) { transition-delay: 30ms; }
         .folder-overlay.exiting .social-item:nth-child(1) { transition-delay: 45ms; }
         
         .social-icon {
-          width: 60px;
-          height: 60px;
-          border-radius: 15px;
+          width: 56px;
+          height: 56px;
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
           transition: transform 0.15s ease, box-shadow 0.15s ease;
           box-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.1),
-            0 5px 15px rgba(0, 0, 0, 0.4),
-            0 10px 30px rgba(0, 0, 0, 0.2),
-            inset 0 1px 1px rgba(255, 255, 255, 0.3),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+            0 0 15px rgba(255, 255, 255, 0.08),
+            0 4px 12px rgba(0, 0, 0, 0.35),
+            0 8px 24px rgba(0, 0, 0, 0.18),
+            inset 0 1px 1px rgba(255, 255, 255, 0.25),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.15);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
         }
         
         .social-icon::before {
           content: '';
           position: absolute;
           top: 0;
-          left: 8%;
-          right: 8%;
-          height: 45%;
+          left: 10%;
+          right: 10%;
+          height: 42%;
           background: linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.3) 0%,
-            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0.22) 0%,
+            rgba(255, 255, 255, 0.06) 50%,
             transparent 100%
           );
-          border-radius: 15px 15px 50% 50%;
+          border-radius: 14px 14px 50% 50%;
           pointer-events: none;
           z-index: 5;
         }
         
         .social-icon:active {
-          transform: scale(0.9);
+          transform: scale(0.92);
         }
         
         .social-icon.github {
@@ -845,10 +888,18 @@ export default function Services() {
         }
         
         .social-name {
-          font-size: 12px;
+          font-size: 11px;
           font-weight: 400;
           color: #1a1a1a;
           text-align: center;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════ */
+        /* GLOBAL TAP HIGHLIGHT REMOVAL                                */
+        /* ═══════════════════════════════════════════════════════════ */
+        
+        * {
+          -webkit-tap-highlight-color: transparent;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -857,40 +908,108 @@ export default function Services() {
         
         @media (min-width: 600px) {
           .services-grid {
-            gap: 45px 40px;
-            max-width: 400px;
+            gap: 40px 36px;
+            max-width: 340px;
           }
           
           .app-container {
-            gap: 14px;
+            gap: 12px;
           }
           
           .app-icon {
-            width: 150px;
-            height: 150px;
-            border-radius: 34px;
+            width: 120px;
+            height: 120px;
+            border-radius: 28px;
           }
           
           .app-icon::before {
-            border-radius: 34px 34px 50% 50%;
+            border-radius: 28px 28px 50% 50%;
           }
           
           .app-icon::after {
-            border-radius: 34px;
+            border-radius: 28px;
           }
           
           .app-icon:hover {
-            transform: translateZ(0) scale(1.05) translateY(-5px);
+            transform: translateZ(0) scale(1.04) translateY(-3px);
           }
           
           .app-name {
             font-size: 13px;
-            font-weight: 400;
           }
           
           .expanded-content {
-            width: 260px;
-            height: 260px;
+            width: 180px;
+            height: 180px;
+            margin-bottom: 32px;
+          }
+          
+          .expanded-title {
+            font-size: 24px;
+          }
+          
+          .expanded-desc {
+            font-size: 14px;
+            max-width: 340px;
+            line-height: 1.75;
+          }
+          
+          .folder-container {
+            padding: 26px;
+            border-radius: 28px;
+          }
+          
+          .social-grid {
+            gap: 20px;
+          }
+          
+          .social-icon {
+            width: 66px;
+            height: 66px;
+            border-radius: 16px;
+          }
+          
+          .social-icon::before {
+            border-radius: 16px 16px 50% 50%;
+          }
+          
+          .social-icon:hover {
+            transform: scale(1.05);
+          }
+          
+          .social-name {
+            font-size: 12px;
+          }
+        }
+        
+        @media (min-width: 900px) {
+          .services-grid {
+            gap: 46px 42px;
+            max-width: 400px;
+          }
+          
+          .app-icon {
+            width: 140px;
+            height: 140px;
+            border-radius: 32px;
+          }
+          
+          .app-icon::before {
+            border-radius: 32px 32px 50% 50%;
+          }
+          
+          .app-icon::after {
+            border-radius: 32px;
+          }
+          
+          .app-name {
+            font-size: 14px;
+          }
+          
+          .expanded-content {
+            width: 220px;
+            height: 220px;
+            margin-bottom: 36px;
           }
           
           .expanded-title {
@@ -898,64 +1017,8 @@ export default function Services() {
           }
           
           .expanded-desc {
-            font-size: 14px;
-            max-width: 340px;
-          }
-          
-          .folder-container {
-            padding: 28px;
-          }
-          
-          .social-grid {
-            gap: 22px;
-          }
-          
-          .social-icon {
-            width: 72px;
-            height: 72px;
-            border-radius: 18px;
-          }
-          
-          .social-icon::before {
-            border-radius: 18px 18px 50% 50%;
-          }
-          
-          .social-icon:hover {
-            transform: scale(1.06);
-          }
-          
-          .social-name {
-            font-size: 13px;
-          }
-        }
-        
-        @media (min-width: 900px) {
-          .services-grid {
-            gap: 50px 45px;
-            max-width: 450px;
-          }
-          
-          .app-icon {
-            width: 170px;
-            height: 170px;
-            border-radius: 38px;
-          }
-          
-          .app-icon::before {
-            border-radius: 38px 38px 50% 50%;
-          }
-          
-          .app-icon::after {
-            border-radius: 38px;
-          }
-          
-          .app-name {
-            font-size: 14px;
-          }
-          
-          .expanded-content {
-            width: 320px;
-            height: 320px;
+            font-size: 15px;
+            max-width: 380px;
           }
         }
       `}</style>
@@ -980,14 +1043,14 @@ export default function Services() {
                 style={{
                   background: `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})`,
                   boxShadow: `
-                    0 0 35px ${service.glow},
-                    0 0 15px ${service.glowInner},
-                    0 8px 25px rgba(0, 0, 0, 0.45),
-                    0 15px 40px ${service.color[1]}88,
-                    inset 0 1px 1px rgba(255, 255, 255, 0.2),
-                    inset 0 -2px 6px rgba(0, 0, 0, 0.2)
+                    0 0 25px ${service.glow},
+                    0 0 10px ${service.glowInner},
+                    0 6px 20px rgba(0, 0, 0, 0.4),
+                    0 12px 32px ${service.color[1]}66,
+                    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+                    inset 0 -1px 4px rgba(0, 0, 0, 0.15)
                   `,
-                  border: `1px solid ${service.glow.replace('0.25', '0.15')}`
+                  border: `1px solid ${service.glow.replace('0.18', '0.08')}`
                 }}
               >
                 <div className="icon-wrapper">
@@ -998,9 +1061,9 @@ export default function Services() {
                 className={`app-name ${isLoaded ? 'loaded' : ''}`}
                 style={{
                   textShadow: `
-                    0 0 15px ${service.glow.replace('0.25', '0.5')},
-                    0 0 30px ${service.glow.replace('0.25', '0.2')},
-                    0 2px 4px rgba(0, 0, 0, 0.8)
+                    0 0 12px ${service.glow.replace('0.18', '0.35')},
+                    0 0 25px ${service.glow.replace('0.18', '0.15')},
+                    0 1px 3px rgba(0, 0, 0, 0.6)
                   `
                 }}
               >
@@ -1011,18 +1074,18 @@ export default function Services() {
         </div>
       </div>
 
-      {/* Expanded Views for Services */}
+      {/* Expanded Views for Services - Icon FIRST, then text */}
       {services.filter(s => s.id !== 'social').map((service, index) => (
         <div key={service.id} className={`expanded-view ${getExpandedAnimClass(index)}`}>
           <div className="expanded-inner">
+            <div className="expanded-content">
+              {expandedIndex === index && renderServiceIcon(service.id, isMobile ? 100 : 140)}
+            </div>
             <div className="expanded-title">{service.name}</div>
             <div className="expanded-desc">{service.desc}</div>
-            <div className="expanded-content">
-              {expandedIndex === index && renderServiceIcon(service.id, isMobile ? 120 : 160)}
-            </div>
             <div className="expanded-close" onClick={handleCloseExpanded}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
             </div>
           </div>
@@ -1045,7 +1108,7 @@ export default function Services() {
           </div>
         </div>
         <div className="folder-close" onClick={handleCloseSocial}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
         </div>
