@@ -1,13 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-
-// Dynamic imports for 3D - prevent SSR flash
-const WebsiteIcon3D = dynamic(() => import("@/components/ServiceIcons3D").then(mod => ({ default: mod.WebsiteIcon3D })), { ssr: false });
-const DashboardIcon3D = dynamic(() => import("@/components/ServiceIcons3D").then(mod => ({ default: mod.DashboardIcon3D })), { ssr: false });
-const APIIcon3D = dynamic(() => import("@/components/ServiceIcons3D").then(mod => ({ default: mod.APIIcon3D })), { ssr: false });
-const LLMIcon3D = dynamic(() => import("@/components/ServiceIcons3D").then(mod => ({ default: mod.LLMIcon3D })), { ssr: false });
 
 // App data - Dark matte colors matching Work/Creative
 const apps = [
@@ -35,7 +28,6 @@ const socialLinks = [
 
 export default function Services() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [icons3DReady, setIcons3DReady] = useState(false);
   const [openApp, setOpenApp] = useState<string | null>(null);
   const [expandedService, setExpandedService] = useState<string | null>(null);
 
@@ -44,25 +36,119 @@ export default function Services() {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIcons3DReady(true), 300);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const renderService3D = (id: string, size: number) => {
-    if (!icons3DReady) return <div style={{ width: size, height: size }} />;
+  // Render elegant service icon shapes
+  const renderServiceIcon = (id: string, size: number = 75) => {
     switch (id) {
-      case 'website': return <WebsiteIcon3D size={size} />;
-      case 'dashboard': return <DashboardIcon3D size={size} />;
-      case 'api': return <APIIcon3D size={size} />;
-      case 'llm': return <LLMIcon3D size={size} />;
-      default: return null;
+      case 'website':
+        // Floating layers / browser windows
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            {/* Back layer */}
+            <rect x="12" y="8" width="36" height="28" rx="3" stroke="white" strokeWidth="1" opacity="0.3"/>
+            {/* Middle layer */}
+            <rect x="8" y="14" width="36" height="28" rx="3" stroke="white" strokeWidth="1" opacity="0.5"/>
+            <line x1="8" y1="22" x2="44" y2="22" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            {/* Front layer - main */}
+            <rect x="4" y="20" width="36" height="28" rx="3" stroke="white" strokeWidth="1.5" opacity="0.9"/>
+            <line x1="4" y1="28" x2="40" y2="28" stroke="white" strokeWidth="1" opacity="0.7"/>
+            {/* Browser dots */}
+            <circle cx="9" cy="24" r="1.5" fill="white" opacity="0.8"/>
+            <circle cx="14" cy="24" r="1.5" fill="white" opacity="0.8"/>
+            <circle cx="19" cy="24" r="1.5" fill="white" opacity="0.8"/>
+            {/* Content lines */}
+            <line x1="8" y1="34" x2="28" y2="34" stroke="white" strokeWidth="1" opacity="0.5"/>
+            <line x1="8" y1="40" x2="22" y2="40" stroke="white" strokeWidth="1" opacity="0.4"/>
+          </svg>
+        );
+
+      case 'dashboard':
+        // Circular HUD with data arcs
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            {/* Outer ring */}
+            <circle cx="30" cy="30" r="24" stroke="white" strokeWidth="1" opacity="0.3"/>
+            {/* Data arcs */}
+            <path d="M30 8 A22 22 0 0 1 52 30" stroke="white" strokeWidth="2" opacity="0.8" strokeLinecap="round"/>
+            <path d="M52 30 A22 22 0 0 1 38 50" stroke="white" strokeWidth="2" opacity="0.6" strokeLinecap="round"/>
+            <path d="M38 50 A22 22 0 0 1 10 38" stroke="white" strokeWidth="2" opacity="0.4" strokeLinecap="round"/>
+            {/* Inner rings */}
+            <circle cx="30" cy="30" r="14" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <circle cx="30" cy="30" r="8" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            {/* Center dot */}
+            <circle cx="30" cy="30" r="3" fill="white" opacity="0.9"/>
+            {/* Data points */}
+            <circle cx="30" cy="8" r="2" fill="white" opacity="0.8"/>
+            <circle cx="52" cy="30" r="2" fill="white" opacity="0.7"/>
+            <circle cx="38" cy="50" r="2" fill="white" opacity="0.6"/>
+          </svg>
+        );
+
+      case 'api':
+        // Constellation network / connected endpoints
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            {/* Connection lines */}
+            <line x1="30" y1="10" x2="30" y2="30" stroke="white" strokeWidth="1" opacity="0.4"/>
+            <line x1="30" y1="30" x2="12" y2="42" stroke="white" strokeWidth="1" opacity="0.4"/>
+            <line x1="30" y1="30" x2="48" y2="42" stroke="white" strokeWidth="1" opacity="0.4"/>
+            <line x1="12" y1="42" x2="48" y2="42" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            <line x1="30" y1="10" x2="12" y2="42" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            <line x1="30" y1="10" x2="48" y2="42" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            {/* Endpoint glow rings */}
+            <circle cx="30" cy="10" r="8" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            <circle cx="12" cy="42" r="8" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            <circle cx="48" cy="42" r="8" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            {/* Main endpoints */}
+            <circle cx="30" cy="10" r="5" fill="white" opacity="0.9"/>
+            <circle cx="12" cy="42" r="5" fill="white" opacity="0.9"/>
+            <circle cx="48" cy="42" r="5" fill="white" opacity="0.9"/>
+            {/* Center hub */}
+            <circle cx="30" cy="30" r="4" fill="white" opacity="0.7"/>
+            <circle cx="30" cy="30" r="8" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            {/* API brackets */}
+            <path d="M22 28 L18 30 L22 32" stroke="white" strokeWidth="1" opacity="0.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M38 28 L42 30 L38 32" stroke="white" strokeWidth="1" opacity="0.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        );
+
+      case 'llm':
+        // Neural brain / thought nodes
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            {/* Neural connections */}
+            <line x1="20" y1="15" x2="30" y2="25" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="40" y1="15" x2="30" y2="25" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="30" y1="25" x2="20" y2="35" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="30" y1="25" x2="40" y2="35" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="20" y1="35" x2="30" y2="45" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="40" y1="35" x2="30" y2="45" stroke="white" strokeWidth="0.5" opacity="0.4"/>
+            <line x1="20" y1="15" x2="40" y2="15" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            <line x1="20" y1="35" x2="40" y2="35" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            {/* Brain outline */}
+            <ellipse cx="30" cy="30" rx="22" ry="18" stroke="white" strokeWidth="1" opacity="0.25"/>
+            {/* Neural nodes - input layer */}
+            <circle cx="20" cy="15" r="4" fill="white" opacity="0.7"/>
+            <circle cx="40" cy="15" r="4" fill="white" opacity="0.7"/>
+            {/* Hidden layer */}
+            <circle cx="30" cy="25" r="5" fill="white" opacity="0.9"/>
+            <circle cx="20" cy="35" r="4" fill="white" opacity="0.7"/>
+            <circle cx="40" cy="35" r="4" fill="white" opacity="0.7"/>
+            {/* Output layer */}
+            <circle cx="30" cy="45" r="5" fill="white" opacity="0.9"/>
+            {/* Pulse rings */}
+            <circle cx="30" cy="25" r="9" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            <circle cx="30" cy="45" r="9" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+          </svg>
+        );
+
+      default:
+        return null;
     }
   };
 
   // Render Social 3D icon - interconnected nodes
   const renderSocialIcon = () => (
-    <svg width="75" height="75" viewBox="0 0 60 60" fill="none">
+    <svg width="90" height="90" viewBox="0 0 60 60" fill="none">
       {/* Connection lines */}
       <line x1="15" y1="20" x2="30" y2="30" stroke="white" strokeWidth="1" opacity="0.4"/>
       <line x1="45" y1="20" x2="30" y2="30" stroke="white" strokeWidth="1" opacity="0.4"/>
@@ -82,10 +168,10 @@ export default function Services() {
     </svg>
   );
 
-  // App icon thumbnail
+  // App icon thumbnail - elegant SVG shapes
   const renderAppThumbnail = (id: string) => {
     if (id === 'social') return renderSocialIcon();
-    return icons3DReady ? renderService3D(id, 90) : <div style={{ width: 90, height: 90 }} />;
+    return renderServiceIcon(id, 90);
   };
 
   // TikTok icon
@@ -709,7 +795,7 @@ export default function Services() {
           <div className="expanded-title">{app.name}</div>
           <div className="expanded-desc">{serviceDescriptions[app.id]}</div>
           <div className="expanded-content">
-            {expandedService === app.id && renderService3D(app.id, 250)}
+            {expandedService === app.id && renderServiceIcon(app.id, 200)}
           </div>
           <div className="expanded-close" onClick={() => setExpandedService(null)}>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
