@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
 import MetatronCube from "@/components/MetatronCube";
 import GoldenSpiral from "@/components/GoldenSpiral";
@@ -62,19 +62,94 @@ const experienceItems = [
   { id: 'architecture', name: 'Architecture', desc: 'System visualization', color: ['#18405a', '#0c2230'] },
 ];
 
+// Animation states for Apple-style transitions
+type AnimationState = 'idle' | 'entering' | 'active' | 'exiting';
+
 export default function Creative() {
   const [isLoaded, setIsLoaded] = useState(false);
+
+  // STATE OF THE ART - Separate state for animation phases
   const [openApp, setOpenApp] = useState<string | null>(null);
+  const [folderAnimState, setFolderAnimState] = useState<AnimationState>('idle');
+
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const [expandedAnimState, setExpandedAnimState] = useState<AnimationState>('idle');
+
+  // Refs for cleanup
+  const folderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const expandedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
+  // Cleanup timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (folderTimeoutRef.current) clearTimeout(folderTimeoutRef.current);
+      if (expandedTimeoutRef.current) clearTimeout(expandedTimeoutRef.current);
+    };
+  }, []);
+
+  // STATE OF THE ART - Apple-style folder open with proper sequencing
+  const handleOpenFolder = useCallback((appId: string) => {
+    if (folderAnimState !== 'idle') return;
+
+    // Phase 1: Set content, start entering
+    setOpenApp(appId);
+    setFolderAnimState('entering');
+
+    // Phase 2: After a frame, trigger active state for CSS transitions
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setFolderAnimState('active');
+      });
+    });
+  }, [folderAnimState]);
+
+  // STATE OF THE ART - Apple-style folder close with proper sequencing
+  const handleCloseFolder = useCallback(() => {
+    if (folderAnimState !== 'active') return;
+
+    // Phase 1: Start exit animation
+    setFolderAnimState('exiting');
+
+    // Phase 2: After animation completes, cleanup
+    folderTimeoutRef.current = setTimeout(() => {
+      setOpenApp(null);
+      setFolderAnimState('idle');
+    }, 350); // Match CSS transition duration
+  }, [folderAnimState]);
+
+  // STATE OF THE ART - Apple-style expanded view open
+  const handleOpenExpanded = useCallback((itemId: string) => {
+    if (expandedAnimState !== 'idle') return;
+
+    setExpandedItem(itemId);
+    setExpandedAnimState('entering');
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setExpandedAnimState('active');
+      });
+    });
+  }, [expandedAnimState]);
+
+  // STATE OF THE ART - Apple-style expanded view close
+  const handleCloseExpanded = useCallback(() => {
+    if (expandedAnimState !== 'active') return;
+
+    setExpandedAnimState('exiting');
+
+    expandedTimeoutRef.current = setTimeout(() => {
+      setExpandedItem(null);
+      setExpandedAnimState('idle');
+    }, 400); // Match CSS transition duration
+  }, [expandedAnimState]);
+
   // Prevent touch move function - only blocks swipe, not tap
   const preventTouchMove = useCallback((e: TouchEvent) => {
-    // Allow interaction with buttons and clickable elements
     const target = e.target as HTMLElement;
     if (target.closest('.expanded-close') ||
         target.closest('.folder-close') ||
@@ -83,28 +158,25 @@ export default function Creative() {
         target.closest('.expanded-content')) {
       return;
     }
-    // Block swipes
     e.preventDefault();
   }, []);
 
-  // Lock body scroll when overlay or expanded view is open - NO JUMP, NO SWIPE
+  // Lock body scroll when overlay or expanded view is open
   useEffect(() => {
-    if (openApp || expandedItem) {
-      // Prevent scroll without position change (no jump)
+    const isOpen = folderAnimState !== 'idle' || expandedAnimState !== 'idle';
+
+    if (isOpen) {
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = 'hidden';
       document.body.style.paddingRight = `${scrollBarWidth}px`;
       document.body.style.touchAction = 'pan-y';
       document.documentElement.style.touchAction = 'pan-y';
-
-      // Block touch MOVE only (not touchstart - that breaks taps!)
       document.addEventListener('touchmove', preventTouchMove, { passive: false });
     } else {
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
       document.body.style.touchAction = '';
       document.documentElement.style.touchAction = '';
-
       document.removeEventListener('touchmove', preventTouchMove);
     }
 
@@ -115,7 +187,7 @@ export default function Creative() {
       document.documentElement.style.touchAction = '';
       document.removeEventListener('touchmove', preventTouchMove);
     };
-  }, [openApp, expandedItem, preventTouchMove]);
+  }, [folderAnimState, expandedAnimState, preventTouchMove]);
 
   const renderWork3D = (id: string, size: number) => {
     switch (id) {
@@ -294,7 +366,6 @@ export default function Creative() {
             <circle cx="12" cy="12" r="6" stroke="white" strokeWidth="1" opacity="0.6"/>
             <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="0.8" opacity="0.4"/>
             <circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9"/>
-            {/* Floating particles */}
             <circle cx="8" cy="8" r="1" fill="white" opacity="0.6"/>
             <circle cx="16" cy="8" r="1" fill="white" opacity="0.6"/>
             <circle cx="8" cy="16" r="1" fill="white" opacity="0.6"/>
@@ -335,29 +406,49 @@ export default function Creative() {
     </div>
   );
 
+  // Get animation class based on state
+  const getFolderAnimClass = (appId: string) => {
+    if (openApp !== appId) return '';
+    switch (folderAnimState) {
+      case 'entering': return 'entering';
+      case 'active': return 'active';
+      case 'exiting': return 'exiting';
+      default: return '';
+    }
+  };
+
+  const getExpandedAnimClass = (itemId: string) => {
+    if (expandedItem !== itemId) return '';
+    switch (expandedAnimState) {
+      case 'entering': return 'entering';
+      case 'active': return 'active';
+      case 'exiting': return 'exiting';
+      default: return '';
+    }
+  };
+
   return (
     <>
       <style>{`
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - iOS FOLDER SYSTEM                        */
+        /* Apple-style transitions with proper animation sequencing    */
         /* ═══════════════════════════════════════════════════════════ */
         
         .creative-page {
           overscroll-behavior: none;
           -webkit-overflow-scrolling: touch;
-          /* Prevent any flash */
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
         }
         
-        /* Block swipe when overlay open */
         .creative-page.overlay-open {
           touch-action: none;
           overflow: hidden;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* MAIN GRID - USE THE SPACE                                   */
+        /* MAIN GRID                                                   */
         /* ═══════════════════════════════════════════════════════════ */
         
         .creative-grid {
@@ -394,23 +485,17 @@ export default function Creative() {
           opacity: 0;
           transform: scale(0.8);
           transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-          /* STATE OF THE ART - Multi-layer lighting */
           box-shadow: 
-            /* Outer ambient glow */
             0 0 40px rgba(255, 255, 255, 0.08),
-            /* Deep shadow for depth */
             0 8px 32px rgba(0, 0, 0, 0.4),
             0 16px 48px rgba(0, 0, 0, 0.25),
-            /* Inner light reflection */
             inset 0 1px 1px rgba(255, 255, 255, 0.35),
             inset 0 -1px 1px rgba(0, 0, 0, 0.15);
-          /* Prevent flash */
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
         }
         
-        /* Top light reflection */
         .folder-icon::before {
           content: '';
           position: absolute;
@@ -438,14 +523,12 @@ export default function Creative() {
           transform: scale(0.92);
         }
         
-        /* Staggered load animation */
         .app-container:nth-child(1) .folder-icon { transition-delay: 0ms; }
         .app-container:nth-child(2) .folder-icon { transition-delay: 50ms; }
         .app-container:nth-child(3) .folder-icon { transition-delay: 100ms; }
         .app-container:nth-child(4) .folder-icon { transition-delay: 150ms; }
         .app-container:nth-child(5) .folder-icon { transition-delay: 200ms; }
         
-        /* 4 mini icons grid inside folder */
         .folder-preview {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -463,14 +546,12 @@ export default function Creative() {
           justify-content: center;
           overflow: hidden;
           position: relative;
-          /* STATE OF THE ART - Mini icon lighting */
           box-shadow: 
             0 0 15px rgba(255, 255, 255, 0.1),
             0 4px 12px rgba(0, 0, 0, 0.4),
             inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
         
-        /* Mini icon shine */
         .folder-mini-icon::before {
           content: '';
           position: absolute;
@@ -488,7 +569,6 @@ export default function Creative() {
           z-index: 5;
         }
         
-        /* Folder name */
         .folder-name {
           font-size: 13px;
           font-weight: 400;
@@ -514,7 +594,8 @@ export default function Creative() {
         .app-container:nth-child(5) .folder-name { transition-delay: 280ms; }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* iOS FOLDER OVERLAY - NO FLASH, SMOOTH                       */
+        /* STATE OF THE ART - iOS FOLDER OVERLAY                       */
+        /* Proper 3-phase animation: entering -> active -> exiting     */
         /* ═══════════════════════════════════════════════════════════ */
         
         .folder-overlay {
@@ -529,31 +610,44 @@ export default function Creative() {
           align-items: center;
           justify-content: flex-start;
           padding-top: clamp(100px, 18vh, 180px);
+          /* Hidden by default */
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          transition: opacity 0.4s ease, visibility 0s linear 0.4s;
-          /* Allow taps, block swipes */
           touch-action: manipulation;
           -webkit-touch-callout: none;
           user-select: none;
           overscroll-behavior: none;
-          /* Prevent flash */
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          will-change: opacity;
-          /* Ensure dark background renders first */
-          background: transparent;
+          will-change: opacity, visibility;
+          transform: translateZ(0);
         }
         
-        .folder-overlay.active {
-          opacity: 1;
+        /* Phase 1: ENTERING - Make visible, start at 0 opacity */
+        .folder-overlay.entering {
           visibility: visible;
           pointer-events: auto;
-          transition: opacity 0.3s ease, visibility 0s linear 0s;
+          opacity: 0;
         }
         
-        /* Blurred background - SMOOTH, NO FLASH */
+        /* Phase 2: ACTIVE - Fully visible with transitions */
+        .folder-overlay.active {
+          visibility: visible;
+          pointer-events: auto;
+          opacity: 1;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        
+        /* Phase 3: EXITING - Fade out */
+        .folder-overlay.exiting {
+          visibility: visible;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        
+        /* Blurred background */
         .folder-overlay-bg {
           position: absolute;
           top: 0;
@@ -564,14 +658,12 @@ export default function Creative() {
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
           touch-action: manipulation;
-          /* Prevent flash */
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          /* Render on GPU */
           transform: translateZ(0);
         }
         
-        /* Folder title above container */
+        /* Folder title */
         .folder-overlay-title {
           position: relative;
           z-index: 2;
@@ -583,16 +675,24 @@ export default function Creative() {
             0 0 30px rgba(255, 255, 255, 0.4),
             0 2px 8px rgba(0, 0, 0, 0.5);
           opacity: 0;
-          transform: translateY(-12px);
-          transition: opacity 0.25s ease 0.08s, transform 0.25s ease 0.08s;
+          transform: translateY(-15px) scale(0.95);
+          transition: none;
         }
         
         .folder-overlay.active .folder-overlay-title {
           opacity: 1;
-          transform: translateY(0);
+          transform: translateY(0) scale(1);
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, 
+                      transform 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s;
         }
         
-        /* White frosted glass container - STATE OF THE ART, NO FLASH */
+        .folder-overlay.exiting .folder-overlay-title {
+          opacity: 0;
+          transform: translateY(-10px) scale(0.98);
+          transition: opacity 0.2s ease, transform 0.25s ease;
+        }
+        
+        /* White frosted container */
         .folder-container {
           position: relative;
           z-index: 2;
@@ -602,31 +702,33 @@ export default function Creative() {
           border-radius: 28px;
           padding: 24px;
           opacity: 0;
-          transform: scale(0.85);
-          transition: opacity 0.35s ease 0.05s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
-          /* STATE OF THE ART - Container lighting */
+          transform: translateZ(0) scale(0.8);
+          transition: none;
           box-shadow: 
-            /* Outer glow */
             0 0 60px rgba(255, 255, 255, 0.15),
-            /* Deep shadows */
             0 20px 60px rgba(0, 0, 0, 0.4),
             0 8px 25px rgba(0, 0, 0, 0.3),
-            /* Inner light */
             inset 0 1px 1px rgba(255, 255, 255, 0.8);
           touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
-          /* GPU rendering */
-          transform: translateZ(0) scale(0.85);
         }
         
         .folder-overlay.active .folder-container {
           opacity: 1;
           transform: translateZ(0) scale(1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.02s, 
+                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.02s;
         }
         
-        /* X close button - FLOATING, NO BACKGROUND */
+        .folder-overlay.exiting .folder-container {
+          opacity: 0;
+          transform: translateZ(0) scale(0.9);
+          transition: opacity 0.25s ease, transform 0.3s ease;
+        }
+        
+        /* Close button */
         .folder-close {
           position: relative;
           z-index: 2;
@@ -641,7 +743,7 @@ export default function Creative() {
           cursor: pointer;
           opacity: 0;
           transform: scale(0.5);
-          transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s;
+          transition: none;
           border: none;
           touch-action: manipulation;
         }
@@ -649,6 +751,14 @@ export default function Creative() {
         .folder-overlay.active .folder-close {
           opacity: 1;
           transform: scale(1);
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, 
+                      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+        }
+        
+        .folder-overlay.exiting .folder-close {
+          opacity: 0;
+          transform: scale(0.8);
+          transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
         .folder-close svg {
@@ -683,8 +793,8 @@ export default function Creative() {
           gap: 8px;
           cursor: pointer;
           opacity: 0;
-          transform: translateZ(0) scale(0.8) translateY(8px);
-          transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+          transform: translateZ(0) scale(0.7) translateY(12px);
+          transition: none;
           touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -693,19 +803,37 @@ export default function Creative() {
         .folder-overlay.active .folder-app {
           opacity: 1;
           transform: translateZ(0) scale(1) translateY(0);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), 
+                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .folder-overlay.exiting .folder-app {
+          opacity: 0;
+          transform: translateZ(0) scale(0.85) translateY(5px);
+          transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
         /* Staggered pop-in */
-        .folder-overlay.active .folder-app:nth-child(1) { transition-delay: 0.06s; }
-        .folder-overlay.active .folder-app:nth-child(2) { transition-delay: 0.09s; }
-        .folder-overlay.active .folder-app:nth-child(3) { transition-delay: 0.12s; }
-        .folder-overlay.active .folder-app:nth-child(4) { transition-delay: 0.15s; }
-        .folder-overlay.active .folder-app:nth-child(5) { transition-delay: 0.18s; }
-        .folder-overlay.active .folder-app:nth-child(6) { transition-delay: 0.21s; }
-        .folder-overlay.active .folder-app:nth-child(7) { transition-delay: 0.24s; }
-        .folder-overlay.active .folder-app:nth-child(8) { transition-delay: 0.27s; }
+        .folder-overlay.active .folder-app:nth-child(1) { transition-delay: 0.04s; }
+        .folder-overlay.active .folder-app:nth-child(2) { transition-delay: 0.07s; }
+        .folder-overlay.active .folder-app:nth-child(3) { transition-delay: 0.10s; }
+        .folder-overlay.active .folder-app:nth-child(4) { transition-delay: 0.13s; }
+        .folder-overlay.active .folder-app:nth-child(5) { transition-delay: 0.16s; }
+        .folder-overlay.active .folder-app:nth-child(6) { transition-delay: 0.19s; }
+        .folder-overlay.active .folder-app:nth-child(7) { transition-delay: 0.22s; }
+        .folder-overlay.active .folder-app:nth-child(8) { transition-delay: 0.25s; }
         
-        /* STATE OF THE ART - App icons with alive lighting */
+        /* Staggered exit (reverse, faster) */
+        .folder-overlay.exiting .folder-app:nth-child(8) { transition-delay: 0ms; }
+        .folder-overlay.exiting .folder-app:nth-child(7) { transition-delay: 15ms; }
+        .folder-overlay.exiting .folder-app:nth-child(6) { transition-delay: 30ms; }
+        .folder-overlay.exiting .folder-app:nth-child(5) { transition-delay: 45ms; }
+        .folder-overlay.exiting .folder-app:nth-child(4) { transition-delay: 60ms; }
+        .folder-overlay.exiting .folder-app:nth-child(3) { transition-delay: 75ms; }
+        .folder-overlay.exiting .folder-app:nth-child(2) { transition-delay: 90ms; }
+        .folder-overlay.exiting .folder-app:nth-child(1) { transition-delay: 105ms; }
+        
+        /* App icons with alive lighting */
         .folder-app-icon {
           width: 70px;
           height: 70px;
@@ -716,23 +844,17 @@ export default function Creative() {
           transition: transform 0.15s ease, box-shadow 0.15s ease;
           overflow: visible;
           position: relative;
-          /* Multi-layer lighting */
           box-shadow: 
-            /* Outer ambient glow */
             0 0 25px rgba(255, 255, 255, 0.12),
-            /* Deep shadows for floating effect */
             0 6px 20px rgba(0, 0, 0, 0.45),
             0 12px 40px rgba(0, 0, 0, 0.25),
-            /* Inner reflections */
             inset 0 1px 1px rgba(255, 255, 255, 0.4),
             inset 0 -1px 1px rgba(0, 0, 0, 0.2);
-          /* GPU rendering - prevents flash */
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
         }
         
-        /* Top shine reflection */
         .folder-app-icon::before {
           content: '';
           position: absolute;
@@ -768,7 +890,8 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* EXPANDED ITEM VIEW - STATE OF THE ART, NO FLASH             */
+        /* STATE OF THE ART - EXPANDED ITEM VIEW                       */
+        /* Proper 3-phase animation for smooth transitions             */
         /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-view {
@@ -787,24 +910,37 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          transition: opacity 0.4s ease, visibility 0s linear 0.4s;
-          /* Allow taps, block swipes via JS */
           touch-action: manipulation;
           -webkit-touch-callout: none;
           user-select: none;
           overscroll-behavior: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          will-change: opacity;
-          /* GPU rendering to prevent flash */
+          will-change: opacity, visibility;
           transform: translateZ(0);
         }
         
-        .expanded-view.active {
-          opacity: 1;
+        /* Phase 1: ENTERING */
+        .expanded-view.entering {
           visibility: visible;
           pointer-events: auto;
-          transition: opacity 0.4s ease, visibility 0s linear 0s;
+          opacity: 0;
+        }
+        
+        /* Phase 2: ACTIVE */
+        .expanded-view.active {
+          visibility: visible;
+          pointer-events: auto;
+          opacity: 1;
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        
+        /* Phase 3: EXITING */
+        .expanded-view.exiting {
+          visibility: visible;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
         }
         
         .expanded-inner {
@@ -813,13 +949,21 @@ export default function Creative() {
           align-items: center;
           touch-action: manipulation;
           opacity: 0;
-          transform: translateZ(0) scale(0.92);
-          transition: opacity 0.35s ease 0.1s, transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s;
+          transform: translateZ(0) scale(0.88);
+          transition: none;
         }
         
         .expanded-view.active .expanded-inner {
           opacity: 1;
           transform: translateZ(0) scale(1);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, 
+                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
+        }
+        
+        .expanded-view.exiting .expanded-inner {
+          opacity: 0;
+          transform: translateZ(0) scale(0.92);
+          transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
         .expanded-title {
@@ -844,23 +988,29 @@ export default function Creative() {
           display: flex;
           align-items: center;
           justify-content: center;
-          /* STATE OF THE ART - 3D floating with glow */
           filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) 
                   drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
           touch-action: manipulation;
-          /* Smooth fade in - NO FLASH */
           opacity: 0;
-          transform: translateZ(0);
-          transition: opacity 0.5s ease 0.2s;
+          transform: translateZ(0) scale(0.9);
+          transition: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
         }
         
         .expanded-view.active .expanded-content {
           opacity: 1;
+          transform: translateZ(0) scale(1);
+          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, 
+                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
         }
         
-        /* X close button - FLOATING, NO BACKGROUND */
+        .expanded-view.exiting .expanded-content {
+          opacity: 0;
+          transform: translateZ(0) scale(0.95);
+          transition: opacity 0.2s ease, transform 0.25s ease;
+        }
+        
         .expanded-close {
           margin-top: 40px;
           width: 52px;
@@ -871,10 +1021,25 @@ export default function Creative() {
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: transform 0.15s ease;
           border: none;
           touch-action: manipulation;
           z-index: 10;
+          opacity: 0;
+          transform: scale(0.5);
+          transition: none;
+        }
+        
+        .expanded-view.active .expanded-close {
+          opacity: 1;
+          transform: scale(1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, 
+                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
+        }
+        
+        .expanded-view.exiting .expanded-close {
+          opacity: 0;
+          transform: scale(0.7);
+          transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
         .expanded-close svg {
@@ -886,7 +1051,7 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* DESKTOP - BIGGER                                            */
+        /* DESKTOP                                                     */
         /* ═══════════════════════════════════════════════════════════ */
         
         @media (min-width: 600px) {
@@ -979,7 +1144,6 @@ export default function Creative() {
           }
         }
         
-        /* Extra large screens */
         @media (min-width: 900px) {
           .creative-grid {
             gap: 50px 44px;
@@ -1033,7 +1197,7 @@ export default function Creative() {
         }
       `}</style>
 
-      <div className={`creative-page ${openApp || expandedItem ? 'overlay-open' : ''}`} style={{
+      <div className={`creative-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{
         minHeight: "100vh",
         backgroundColor: "#0A0A0A",
         paddingTop: "clamp(90px, 12vh, 140px)",
@@ -1048,7 +1212,7 @@ export default function Creative() {
             <div key={app.id} className="app-container">
               <div
                 className={`folder-icon ${isLoaded ? 'loaded' : ''}`}
-                onClick={() => setOpenApp(app.id)}
+                onClick={() => handleOpenFolder(app.id)}
               >
                 {app.id === 'icons' ? renderIconsFolderPreview() : renderFolderPreview(app.id)}
               </div>
@@ -1059,12 +1223,12 @@ export default function Creative() {
       </div>
 
       {/* Work 3D Folder Overlay */}
-      <div className={`folder-overlay ${openApp === 'work3d' ? 'active' : ''}`}>
-        <div className="folder-overlay-bg" onClick={() => setOpenApp(null)} />
+      <div className={`folder-overlay ${getFolderAnimClass('work3d')}`}>
+        <div className="folder-overlay-bg" onClick={handleCloseFolder} />
         <div className="folder-container">
           <div className="folder-apps-grid">
             {work3DItems.map(item => (
-              <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`work3d-${item.id}`)}>
+              <div key={item.id} className="folder-app" onClick={() => handleOpenExpanded(`work3d-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
                   {renderWork3D(item.id, 52)}
                 </div>
@@ -1073,7 +1237,7 @@ export default function Creative() {
             ))}
           </div>
         </div>
-        <div className="folder-close" onClick={() => setOpenApp(null)}>
+        <div className="folder-close" onClick={handleCloseFolder}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
@@ -1081,12 +1245,12 @@ export default function Creative() {
       </div>
 
       {/* Services 3D Folder Overlay */}
-      <div className={`folder-overlay ${openApp === 'services3d' ? 'active' : ''}`}>
-        <div className="folder-overlay-bg" onClick={() => setOpenApp(null)} />
+      <div className={`folder-overlay ${getFolderAnimClass('services3d')}`}>
+        <div className="folder-overlay-bg" onClick={handleCloseFolder} />
         <div className="folder-container">
           <div className="folder-apps-grid">
             {service3DItems.map(item => (
-              <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`services3d-${item.id}`)}>
+              <div key={item.id} className="folder-app" onClick={() => handleOpenExpanded(`services3d-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
                   {renderService3D(item.id, 52)}
                 </div>
@@ -1095,7 +1259,7 @@ export default function Creative() {
             ))}
           </div>
         </div>
-        <div className="folder-close" onClick={() => setOpenApp(null)}>
+        <div className="folder-close" onClick={handleCloseFolder}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
@@ -1103,12 +1267,12 @@ export default function Creative() {
       </div>
 
       {/* Geometry Folder Overlay */}
-      <div className={`folder-overlay ${openApp === 'geometry' ? 'active' : ''}`}>
-        <div className="folder-overlay-bg" onClick={() => setOpenApp(null)} />
+      <div className={`folder-overlay ${getFolderAnimClass('geometry')}`}>
+        <div className="folder-overlay-bg" onClick={handleCloseFolder} />
         <div className="folder-container">
           <div className="folder-apps-grid">
             {geometryItems.map(item => (
-              <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`geometry-${item.id}`)}>
+              <div key={item.id} className="folder-app" onClick={() => handleOpenExpanded(`geometry-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
                   <div style={{ transform: 'scale(0.40)' }}>{renderGeometry(item.id)}</div>
                 </div>
@@ -1117,7 +1281,7 @@ export default function Creative() {
             ))}
           </div>
         </div>
-        <div className="folder-close" onClick={() => setOpenApp(null)}>
+        <div className="folder-close" onClick={handleCloseFolder}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
@@ -1125,12 +1289,12 @@ export default function Creative() {
       </div>
 
       {/* Experiences Folder Overlay */}
-      <div className={`folder-overlay ${openApp === 'experiences' ? 'active' : ''}`}>
-        <div className="folder-overlay-bg" onClick={() => setOpenApp(null)} />
+      <div className={`folder-overlay ${getFolderAnimClass('experiences')}`}>
+        <div className="folder-overlay-bg" onClick={handleCloseFolder} />
         <div className="folder-container">
           <div className="folder-apps-grid grid-3">
             {experienceItems.map(item => (
-              <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`experiences-${item.id}`)}>
+              <div key={item.id} className="folder-app" onClick={() => handleOpenExpanded(`experiences-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
                   {item.id === 'sphere' && (
                     <svg width="42" height="42" viewBox="0 0 60 60" fill="none">
@@ -1178,7 +1342,7 @@ export default function Creative() {
             ))}
           </div>
         </div>
-        <div className="folder-close" onClick={() => setOpenApp(null)}>
+        <div className="folder-close" onClick={handleCloseFolder}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
@@ -1186,8 +1350,8 @@ export default function Creative() {
       </div>
 
       {/* Icons Folder Overlay */}
-      <div className={`folder-overlay ${openApp === 'icons' ? 'active' : ''}`}>
-        <div className="folder-overlay-bg" onClick={() => setOpenApp(null)} />
+      <div className={`folder-overlay ${getFolderAnimClass('icons')}`}>
+        <div className="folder-overlay-bg" onClick={handleCloseFolder} />
         <div className="folder-container">
           <div className="folder-apps-grid grid-4">
             <div className="folder-app">
@@ -1224,7 +1388,7 @@ export default function Creative() {
             </div>
           </div>
         </div>
-        <div className="folder-close" onClick={() => setOpenApp(null)}>
+        <div className="folder-close" onClick={handleCloseFolder}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
@@ -1233,14 +1397,14 @@ export default function Creative() {
 
       {/* Expanded Views for Work 3D */}
       {work3DItems.map(item => (
-        <div key={item.id} className={`expanded-view ${expandedItem === `work3d-${item.id}` ? 'active' : ''}`}>
+        <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`work3d-${item.id}`)}`}>
           <div className="expanded-inner">
             <div className="expanded-title">{item.name}</div>
             <div className="expanded-desc">{item.desc}</div>
             <div className="expanded-content">
               {expandedItem === `work3d-${item.id}` && renderWork3D(item.id, 200)}
             </div>
-            <div className="expanded-close" onClick={() => setExpandedItem(null)}>
+            <div className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
@@ -1251,14 +1415,14 @@ export default function Creative() {
 
       {/* Expanded Views for Services 3D */}
       {service3DItems.map(item => (
-        <div key={item.id} className={`expanded-view ${expandedItem === `services3d-${item.id}` ? 'active' : ''}`}>
+        <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`services3d-${item.id}`)}`}>
           <div className="expanded-inner">
             <div className="expanded-title">{item.name}</div>
             <div className="expanded-desc">{item.desc}</div>
             <div className="expanded-content">
               {expandedItem === `services3d-${item.id}` && renderService3D(item.id, 200)}
             </div>
-            <div className="expanded-close" onClick={() => setExpandedItem(null)}>
+            <div className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
@@ -1269,14 +1433,14 @@ export default function Creative() {
 
       {/* Expanded Views for Geometry */}
       {geometryItems.map(item => (
-        <div key={item.id} className={`expanded-view ${expandedItem === `geometry-${item.id}` ? 'active' : ''}`}>
+        <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`geometry-${item.id}`)}`}>
           <div className="expanded-inner">
             <div className="expanded-title">{item.name}</div>
             <div className="expanded-desc">{item.desc}</div>
             <div className="expanded-content">
               {expandedItem === `geometry-${item.id}` && renderGeometry(item.id)}
             </div>
-            <div className="expanded-close" onClick={() => setExpandedItem(null)}>
+            <div className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
@@ -1289,7 +1453,7 @@ export default function Creative() {
       {experienceItems.map(item => (
         <div
           key={item.id}
-          className={`expanded-view ${expandedItem === `experiences-${item.id}` ? 'active' : ''}`}
+          className={`expanded-view ${getExpandedAnimClass(`experiences-${item.id}`)}`}
           onTouchStart={(e) => e.stopPropagation()}
           onTouchMove={(e) => e.stopPropagation()}
         >
@@ -1304,7 +1468,7 @@ export default function Creative() {
             >
               {expandedItem === `experiences-${item.id}` && renderExperience(item.id)}
             </div>
-            <div className="expanded-close" onClick={() => setExpandedItem(null)}>
+            <div className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
