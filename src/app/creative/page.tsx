@@ -151,11 +151,11 @@ export default function Creative() {
             className="folder-mini-icon"
             style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}
           >
-            {type === 'work3d' && renderWork3D(item.id, 26)}
-            {type === 'services3d' && renderService3D(item.id, 26)}
-            {type === 'geometry' && <div style={{ transform: 'scale(0.20)' }}>{renderGeometry(item.id)}</div>}
+            {type === 'work3d' && renderWork3D(item.id, 30)}
+            {type === 'services3d' && renderService3D(item.id, 30)}
+            {type === 'geometry' && <div style={{ transform: 'scale(0.22)' }}>{renderGeometry(item.id)}</div>}
             {type === 'experiences' && (
-              <svg width="18" height="18" viewBox="0 0 60 60" fill="none">
+              <svg width="22" height="22" viewBox="0 0 60 60" fill="none">
                 <circle cx="30" cy="30" r="14" stroke="white" strokeWidth="3" opacity="0.9"/>
                 <circle cx="30" cy="30" r="5" fill="white" opacity="0.9"/>
               </svg>
@@ -170,16 +170,16 @@ export default function Creative() {
   const renderIconsFolderPreview = () => (
     <div className="folder-preview">
       <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a5040, #0d2820)' }}>
-        <div style={{ transform: 'scale(0.7)' }}><Trade69Icon /></div>
+        <div style={{ transform: 'scale(0.8)' }}><Trade69Icon /></div>
       </div>
       <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #3d4a8f, #1e2550)' }}>
-        <div style={{ transform: 'scale(0.7)' }}><MegaAgentIcon /></div>
+        <div style={{ transform: 'scale(0.8)' }}><MegaAgentIcon /></div>
       </div>
       <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #2a2845, #151228)' }}>
-        <div style={{ transform: 'scale(0.7)' }}><WebsiteIcon /></div>
+        <div style={{ transform: 'scale(0.8)' }}><WebsiteIcon /></div>
       </div>
       <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a3530, #0d1a18)' }}>
-        <div style={{ transform: 'scale(0.7)' }}><APIIcon /></div>
+        <div style={{ transform: 'scale(0.8)' }}><APIIcon /></div>
       </div>
     </div>
   );
@@ -197,14 +197,14 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* MAIN GRID - CENTERED ON SCREEN                              */
+        /* MAIN GRID - USE THE SPACE                                   */
         /* ═══════════════════════════════════════════════════════════ */
         
         .creative-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 32px 28px;
-          max-width: 280px;
+          gap: 36px 32px;
+          max-width: 300px;
           margin: 0 auto;
         }
         
@@ -216,14 +216,14 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* FOLDER ICON - REAL iPHONE SIZE (60pt = ~90px)               */
+        /* FOLDER ICON - BIGGER SIZE                                   */
         /* ═══════════════════════════════════════════════════════════ */
         
         .folder-icon {
           position: relative;
-          width: 90px;
-          height: 90px;
-          border-radius: 22px;
+          width: 100px;
+          height: 100px;
+          border-radius: 24px;
           background: rgba(150, 150, 150, 0.22);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
@@ -263,15 +263,15 @@ export default function Creative() {
         .folder-preview {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 5px;
-          width: 76px;
-          height: 76px;
+          gap: 6px;
+          width: 84px;
+          height: 84px;
         }
         
         .folder-mini-icon {
-          width: 35px;
-          height: 35px;
-          border-radius: 9px;
+          width: 39px;
+          height: 39px;
+          border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -368,8 +368,8 @@ export default function Creative() {
           background: rgba(255, 255, 255, 0.93);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border-radius: 26px;
-          padding: 22px;
+          border-radius: 28px;
+          padding: 24px;
           opacity: 0;
           transform: scale(0.4);
           transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -418,7 +418,7 @@ export default function Creative() {
         .folder-apps-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
+          gap: 18px;
         }
         
         .folder-apps-grid.grid-3 {
@@ -434,7 +434,7 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 7px;
+          gap: 8px;
           cursor: pointer;
           opacity: 0;
           transform: scale(0.3) translateY(10px);
@@ -457,9 +457,9 @@ export default function Creative() {
         .folder-overlay.active .folder-app:nth-child(8) { transition-delay: 0.27s; }
         
         .folder-app-icon {
-          width: 64px;
-          height: 64px;
-          border-radius: 15px;
+          width: 70px;
+          height: 70px;
+          border-radius: 17px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -478,11 +478,11 @@ export default function Creative() {
         }
         
         .folder-app-name {
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 400;
           color: #1a1a1a;
           text-align: center;
-          max-width: 72px;
+          max-width: 76px;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -712,8 +712,10 @@ export default function Creative() {
       <div className="creative-page" style={{
         minHeight: "100vh",
         backgroundColor: "#0A0A0A",
+        paddingTop: "clamp(90px, 12vh, 140px)",
+        paddingBottom: "100px",
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center"
       }}>
         {/* Main Folder Grid */}
@@ -741,7 +743,7 @@ export default function Creative() {
             {work3DItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`work3d-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {renderWork3D(item.id, 48)}
+                  {renderWork3D(item.id, 52)}
                 </div>
                 <span className="folder-app-name">{item.name}</span>
               </div>
@@ -764,7 +766,7 @@ export default function Creative() {
             {service3DItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`services3d-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {renderService3D(item.id, 48)}
+                  {renderService3D(item.id, 52)}
                 </div>
                 <span className="folder-app-name">{item.name}</span>
               </div>
@@ -787,7 +789,7 @@ export default function Creative() {
             {geometryItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`geometry-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  <div style={{ transform: 'scale(0.35)' }}>{renderGeometry(item.id)}</div>
+                  <div style={{ transform: 'scale(0.40)' }}>{renderGeometry(item.id)}</div>
                 </div>
                 <span className="folder-app-name">{item.name}</span>
               </div>
@@ -810,7 +812,7 @@ export default function Creative() {
             {experienceItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`experiences-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  <svg width="32" height="32" viewBox="0 0 60 60" fill="none">
+                  <svg width="38" height="38" viewBox="0 0 60 60" fill="none">
                     <circle cx="30" cy="30" r="14" stroke="white" strokeWidth="2.5" opacity="0.8"/>
                     <circle cx="30" cy="30" r="5" fill="white" opacity="0.9"/>
                   </svg>
