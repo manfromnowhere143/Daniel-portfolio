@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 
 // App data - Dark matte colors with alive lighting
@@ -20,11 +20,23 @@ const socialLinks = [
   { id: 'tiktok', name: 'TikTok', url: 'https://www.tiktok.com/@danielwahnich' },
 ];
 
+// Animation states for Apple-style transitions
+type AnimationState = 'idle' | 'entering' | 'active' | 'exiting';
+
 export default function Services() {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const [socialOpen, setSocialOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
+
+  // STATE OF THE ART - Separate state for animation phases
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [expandedAnimState, setExpandedAnimState] = useState<AnimationState>('idle');
+
+  const [socialOpen, setSocialOpen] = useState(false);
+  const [socialAnimState, setSocialAnimState] = useState<AnimationState>('idle');
+
+  // Refs for cleanup
+  const expandedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const socialTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 600);
@@ -37,6 +49,66 @@ export default function Services() {
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
+
+  // Cleanup timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (expandedTimeoutRef.current) clearTimeout(expandedTimeoutRef.current);
+      if (socialTimeoutRef.current) clearTimeout(socialTimeoutRef.current);
+    };
+  }, []);
+
+  // STATE OF THE ART - Apple-style expanded view open
+  const handleOpenExpanded = useCallback((index: number) => {
+    if (expandedAnimState !== 'idle') return;
+
+    setExpandedIndex(index);
+    setExpandedAnimState('entering');
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setExpandedAnimState('active');
+      });
+    });
+  }, [expandedAnimState]);
+
+  // STATE OF THE ART - Apple-style expanded view close
+  const handleCloseExpanded = useCallback(() => {
+    if (expandedAnimState !== 'active') return;
+
+    setExpandedAnimState('exiting');
+
+    expandedTimeoutRef.current = setTimeout(() => {
+      setExpandedIndex(null);
+      setExpandedAnimState('idle');
+    }, 400); // Match CSS transition duration
+  }, [expandedAnimState]);
+
+  // STATE OF THE ART - Apple-style social folder open
+  const handleOpenSocial = useCallback(() => {
+    if (socialAnimState !== 'idle') return;
+
+    setSocialOpen(true);
+    setSocialAnimState('entering');
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setSocialAnimState('active');
+      });
+    });
+  }, [socialAnimState]);
+
+  // STATE OF THE ART - Apple-style social folder close
+  const handleCloseSocial = useCallback(() => {
+    if (socialAnimState !== 'active') return;
+
+    setSocialAnimState('exiting');
+
+    socialTimeoutRef.current = setTimeout(() => {
+      setSocialOpen(false);
+      setSocialAnimState('idle');
+    }, 350); // Match CSS transition duration
+  }, [socialAnimState]);
 
   // Prevent touch move function - only blocks swipe, not tap
   const preventTouchMove = useCallback((e: TouchEvent) => {
@@ -52,7 +124,9 @@ export default function Services() {
 
   // Lock body scroll when overlay is open
   useEffect(() => {
-    if (expandedIndex !== null || socialOpen) {
+    const isOpen = expandedAnimState !== 'idle' || socialAnimState !== 'idle';
+
+    if (isOpen) {
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = 'hidden';
       document.body.style.paddingRight = `${scrollBarWidth}px`;
@@ -74,7 +148,7 @@ export default function Services() {
       document.documentElement.style.touchAction = '';
       document.removeEventListener('touchmove', preventTouchMove);
     };
-  }, [expandedIndex, socialOpen, preventTouchMove]);
+  }, [expandedAnimState, socialAnimState, preventTouchMove]);
 
   // Render service icons
   const renderServiceIcon = (id: string, size: number = 48) => {
@@ -184,6 +258,27 @@ export default function Services() {
     }
   };
 
+  // Get animation class based on state
+  const getExpandedAnimClass = (index: number) => {
+    if (expandedIndex !== index) return '';
+    switch (expandedAnimState) {
+      case 'entering': return 'entering';
+      case 'active': return 'active';
+      case 'exiting': return 'exiting';
+      default: return '';
+    }
+  };
+
+  const getSocialAnimClass = () => {
+    if (!socialOpen) return '';
+    switch (socialAnimState) {
+      case 'entering': return 'entering';
+      case 'active': return 'active';
+      case 'exiting': return 'exiting';
+      default: return '';
+    }
+  };
+
   const iconSize = isMobile ? 48 : 60;
 
   return (
@@ -191,6 +286,7 @@ export default function Services() {
       <style>{`
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - SERVICES PAGE                            */
+        /* Apple-style transitions with proper animation sequencing    */
         /* ═══════════════════════════════════════════════════════════ */
         
         .services-page {
@@ -335,7 +431,8 @@ export default function Services() {
         .app-container:nth-child(5) .app-name { transition-delay: 340ms; }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* EXPANDED VIEW - MATCHING CREATIVE PAGE                      */
+        /* STATE OF THE ART - EXPANDED VIEW                            */
+        /* Proper 3-phase animation: entering -> active -> exiting     */
         /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-view {
@@ -354,22 +451,37 @@ export default function Services() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          transition: opacity 0.4s ease, visibility 0s linear 0.4s;
           touch-action: manipulation;
           -webkit-touch-callout: none;
           user-select: none;
           overscroll-behavior: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          will-change: opacity;
+          will-change: opacity, visibility;
           transform: translateZ(0);
         }
         
-        .expanded-view.active {
-          opacity: 1;
+        /* Phase 1: ENTERING - Make visible, start at 0 opacity */
+        .expanded-view.entering {
           visibility: visible;
           pointer-events: auto;
-          transition: opacity 0.4s ease, visibility 0s linear 0s;
+          opacity: 0;
+        }
+        
+        /* Phase 2: ACTIVE - Fully visible with transitions */
+        .expanded-view.active {
+          visibility: visible;
+          pointer-events: auto;
+          opacity: 1;
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        
+        /* Phase 3: EXITING - Fade out */
+        .expanded-view.exiting {
+          visibility: visible;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
         }
         
         .expanded-inner {
@@ -378,13 +490,21 @@ export default function Services() {
           align-items: center;
           touch-action: manipulation;
           opacity: 0;
-          transform: translateZ(0) scale(0.92);
-          transition: opacity 0.35s ease 0.1s, transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s;
+          transform: translateZ(0) scale(0.88);
+          transition: none;
         }
         
         .expanded-view.active .expanded-inner {
           opacity: 1;
           transform: translateZ(0) scale(1);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, 
+                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
+        }
+        
+        .expanded-view.exiting .expanded-inner {
+          opacity: 0;
+          transform: translateZ(0) scale(0.92);
+          transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
         .expanded-title {
@@ -417,14 +537,23 @@ export default function Services() {
                   drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
           touch-action: manipulation;
           opacity: 0;
-          transform: translateZ(0);
-          transition: opacity 0.5s ease 0.2s;
+          transform: translateZ(0) scale(0.9);
+          transition: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
         }
         
         .expanded-view.active .expanded-content {
           opacity: 1;
+          transform: translateZ(0) scale(1);
+          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, 
+                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
+        }
+        
+        .expanded-view.exiting .expanded-content {
+          opacity: 0;
+          transform: translateZ(0) scale(0.95);
+          transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
         .expanded-close {
@@ -437,10 +566,25 @@ export default function Services() {
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: transform 0.15s ease;
           border: none;
           touch-action: manipulation;
           z-index: 10;
+          opacity: 0;
+          transform: scale(0.5);
+          transition: none;
+        }
+        
+        .expanded-view.active .expanded-close {
+          opacity: 1;
+          transform: scale(1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, 
+                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
+        }
+        
+        .expanded-view.exiting .expanded-close {
+          opacity: 0;
+          transform: scale(0.7);
+          transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
         .expanded-close svg {
@@ -452,7 +596,8 @@ export default function Services() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* SOCIAL FOLDER OVERLAY - MATCHING CREATIVE PAGE              */
+        /* STATE OF THE ART - SOCIAL FOLDER OVERLAY                    */
+        /* Proper 3-phase animation: entering -> active -> exiting     */
         /* ═══════════════════════════════════════════════════════════ */
         
         .folder-overlay {
@@ -467,25 +612,41 @@ export default function Services() {
           align-items: center;
           justify-content: flex-start;
           padding-top: clamp(100px, 18vh, 180px);
+          /* Hidden by default */
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          transition: opacity 0.4s ease, visibility 0s linear 0.4s;
           touch-action: manipulation;
           -webkit-touch-callout: none;
           user-select: none;
           overscroll-behavior: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          will-change: opacity;
-          background: transparent;
+          will-change: opacity, visibility;
+          transform: translateZ(0);
         }
         
-        .folder-overlay.active {
-          opacity: 1;
+        /* Phase 1: ENTERING - Make visible, start at 0 opacity */
+        .folder-overlay.entering {
           visibility: visible;
           pointer-events: auto;
-          transition: opacity 0.3s ease, visibility 0s linear 0s;
+          opacity: 0;
+        }
+        
+        /* Phase 2: ACTIVE - Fully visible with transitions */
+        .folder-overlay.active {
+          visibility: visible;
+          pointer-events: auto;
+          opacity: 1;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        
+        /* Phase 3: EXITING - Fade out */
+        .folder-overlay.exiting {
+          visibility: visible;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1);
         }
         
         .folder-overlay-bg {
@@ -512,8 +673,8 @@ export default function Services() {
           border-radius: 28px;
           padding: 24px;
           opacity: 0;
-          transform: scale(0.85);
-          transition: opacity 0.35s ease 0.05s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
+          transform: translateZ(0) scale(0.8);
+          transition: none;
           box-shadow: 
             0 0 60px rgba(255, 255, 255, 0.15),
             0 20px 60px rgba(0, 0, 0, 0.4),
@@ -523,12 +684,19 @@ export default function Services() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
-          transform: translateZ(0) scale(0.85);
         }
         
         .folder-overlay.active .folder-container {
           opacity: 1;
           transform: translateZ(0) scale(1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.02s, 
+                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.02s;
+        }
+        
+        .folder-overlay.exiting .folder-container {
+          opacity: 0;
+          transform: translateZ(0) scale(0.9);
+          transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
         .folder-close {
@@ -545,7 +713,7 @@ export default function Services() {
           cursor: pointer;
           opacity: 0;
           transform: scale(0.5);
-          transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s;
+          transition: none;
           border: none;
           touch-action: manipulation;
         }
@@ -553,6 +721,14 @@ export default function Services() {
         .folder-overlay.active .folder-close {
           opacity: 1;
           transform: scale(1);
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, 
+                      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+        }
+        
+        .folder-overlay.exiting .folder-close {
+          opacity: 0;
+          transform: scale(0.8);
+          transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
         .folder-close svg {
@@ -578,8 +754,8 @@ export default function Services() {
           cursor: pointer;
           text-decoration: none;
           opacity: 0;
-          transform: translateZ(0) scale(0.8) translateY(8px);
-          transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+          transform: translateZ(0) scale(0.7) translateY(12px);
+          transition: none;
           touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -588,12 +764,27 @@ export default function Services() {
         .folder-overlay.active .social-item {
           opacity: 1;
           transform: translateZ(0) scale(1) translateY(0);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), 
+                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
-        .folder-overlay.active .social-item:nth-child(1) { transition-delay: 0.06s; }
-        .folder-overlay.active .social-item:nth-child(2) { transition-delay: 0.09s; }
-        .folder-overlay.active .social-item:nth-child(3) { transition-delay: 0.12s; }
-        .folder-overlay.active .social-item:nth-child(4) { transition-delay: 0.15s; }
+        .folder-overlay.exiting .social-item {
+          opacity: 0;
+          transform: translateZ(0) scale(0.85) translateY(5px);
+          transition: opacity 0.15s ease, transform 0.2s ease;
+        }
+        
+        /* Staggered pop-in */
+        .folder-overlay.active .social-item:nth-child(1) { transition-delay: 0.04s; }
+        .folder-overlay.active .social-item:nth-child(2) { transition-delay: 0.07s; }
+        .folder-overlay.active .social-item:nth-child(3) { transition-delay: 0.10s; }
+        .folder-overlay.active .social-item:nth-child(4) { transition-delay: 0.13s; }
+        
+        /* Staggered exit (reverse, faster) */
+        .folder-overlay.exiting .social-item:nth-child(4) { transition-delay: 0ms; }
+        .folder-overlay.exiting .social-item:nth-child(3) { transition-delay: 15ms; }
+        .folder-overlay.exiting .social-item:nth-child(2) { transition-delay: 30ms; }
+        .folder-overlay.exiting .social-item:nth-child(1) { transition-delay: 45ms; }
         
         .social-icon {
           width: 60px;
@@ -602,7 +793,8 @@ export default function Services() {
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: transform 0.15s ease;
+          position: relative;
+          transition: transform 0.15s ease, box-shadow 0.15s ease;
           box-shadow: 
             0 0 20px rgba(255, 255, 255, 0.1),
             0 5px 15px rgba(0, 0, 0, 0.4),
@@ -724,6 +916,10 @@ export default function Services() {
             border-radius: 18px;
           }
           
+          .social-icon::before {
+            border-radius: 18px 18px 50% 50%;
+          }
+          
           .social-icon:hover {
             transform: scale(1.06);
           }
@@ -764,7 +960,7 @@ export default function Services() {
         }
       `}</style>
 
-      <div className={`services-page ${expandedIndex !== null || socialOpen ? 'overlay-open' : ''}`} style={{
+      <div className={`services-page ${expandedAnimState !== 'idle' || socialAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{
         minHeight: "100vh",
         backgroundColor: "#0A0A0A",
         paddingTop: "clamp(100px, 15vh, 160px)",
@@ -780,7 +976,7 @@ export default function Services() {
             <div key={service.id} className="app-container">
               <div
                 className={`app-icon ${isLoaded ? 'loaded' : ''}`}
-                onClick={() => service.id === 'social' ? setSocialOpen(true) : setExpandedIndex(index)}
+                onClick={() => service.id === 'social' ? handleOpenSocial() : handleOpenExpanded(index)}
                 style={{
                   background: `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})`,
                   boxShadow: `
@@ -817,14 +1013,14 @@ export default function Services() {
 
       {/* Expanded Views for Services */}
       {services.filter(s => s.id !== 'social').map((service, index) => (
-        <div key={service.id} className={`expanded-view ${expandedIndex === index ? 'active' : ''}`}>
+        <div key={service.id} className={`expanded-view ${getExpandedAnimClass(index)}`}>
           <div className="expanded-inner">
             <div className="expanded-title">{service.name}</div>
             <div className="expanded-desc">{service.desc}</div>
             <div className="expanded-content">
               {expandedIndex === index && renderServiceIcon(service.id, isMobile ? 120 : 160)}
             </div>
-            <div className="expanded-close" onClick={() => setExpandedIndex(null)}>
+            <div className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
@@ -834,8 +1030,8 @@ export default function Services() {
       ))}
 
       {/* Social Folder Overlay */}
-      <div className={`folder-overlay ${socialOpen ? 'active' : ''}`}>
-        <div className="folder-overlay-bg" onClick={() => setSocialOpen(false)} />
+      <div className={`folder-overlay ${getSocialAnimClass()}`}>
+        <div className="folder-overlay-bg" onClick={handleCloseSocial} />
         <div className="folder-container">
           <div className="social-grid">
             {socialLinks.map((link) => (
@@ -848,7 +1044,7 @@ export default function Services() {
             ))}
           </div>
         </div>
-        <div className="folder-close" onClick={() => setSocialOpen(false)}>
+        <div className="folder-close" onClick={handleCloseSocial}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
