@@ -427,8 +427,9 @@ export default function Creative() {
         
         .app-overlay-close {
           position: absolute;
-          top: 20px;
-          right: 20px;
+          top: 60px;
+          left: 50%;
+          transform: translateX(-50%);
           width: 44px;
           height: 44px;
           border-radius: 50%;
@@ -444,7 +445,7 @@ export default function Creative() {
         }
         
         .app-overlay-close:active {
-          transform: scale(0.95);
+          transform: translateX(-50%) scale(0.95);
           background: rgba(255, 255, 255, 0.15);
         }
         
@@ -607,8 +608,9 @@ export default function Creative() {
         
         .expanded-close {
           position: absolute;
-          top: 20px;
-          right: 20px;
+          top: 60px;
+          left: 50%;
+          transform: translateX(-50%);
           width: 44px;
           height: 44px;
           border-radius: 50%;
@@ -622,7 +624,7 @@ export default function Creative() {
           z-index: 10;
         }
         
-        .expanded-close:active { transform: scale(0.95); }
+        .expanded-close:active { transform: translateX(-50%) scale(0.95); }
         
         .expanded-link {
           margin-top: 16px;
