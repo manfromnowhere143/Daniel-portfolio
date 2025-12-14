@@ -494,6 +494,7 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-icon::before {
@@ -622,6 +623,7 @@ export default function Creative() {
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
         }
         
         /* Phase 1: ENTERING - Make visible, start at 0 opacity */
@@ -661,6 +663,7 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
         }
         
         /* Folder title */
@@ -713,6 +716,7 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-overlay.active .folder-container {
@@ -746,6 +750,7 @@ export default function Creative() {
           transition: none;
           border: none;
           touch-action: manipulation;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-overlay.active .folder-close {
@@ -775,6 +780,7 @@ export default function Creative() {
           grid-template-columns: repeat(2, 1fr);
           gap: 18px;
           touch-action: manipulation;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-apps-grid.grid-3 {
@@ -798,6 +804,8 @@ export default function Creative() {
           touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          -webkit-tap-highlight-color: transparent;
+          -webkit-touch-callout: none;
         }
         
         .folder-overlay.active .folder-app {
@@ -853,6 +861,7 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-app-icon::before {
@@ -918,6 +927,7 @@ export default function Creative() {
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
         }
         
         /* Phase 1: ENTERING */
@@ -951,6 +961,7 @@ export default function Creative() {
           opacity: 0;
           transform: translateZ(0) scale(0.88);
           transition: none;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .expanded-view.active .expanded-inner {
@@ -996,6 +1007,7 @@ export default function Creative() {
           transition: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .expanded-view.active .expanded-content {
@@ -1027,6 +1039,7 @@ export default function Creative() {
           opacity: 0;
           transform: scale(0.5);
           transition: none;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .expanded-view.active .expanded-close {
@@ -1194,6 +1207,14 @@ export default function Creative() {
             width: 420px;
             height: 420px;
           }
+        }
+        
+        /* ═══════════════════════════════════════════════════════════ */
+        /* GLOBAL TAP HIGHLIGHT REMOVAL                                */
+        /* ═══════════════════════════════════════════════════════════ */
+        
+        * {
+          -webkit-tap-highlight-color: transparent;
         }
       `}</style>
 
