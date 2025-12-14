@@ -31,35 +31,35 @@ const apps = [
   { id: 'icons', name: 'Icons' },
 ];
 
-// Work 3D items
+// Work 3D items - Darker elegant colors
 const work3DItems = [
-  { id: 'trade69', name: 'Trade69', desc: 'Holographic trading terminal', color: ['#2d8a6e', '#1a5c48'] },
-  { id: 'megaagent', name: 'MegaAgent', desc: 'Quantum neural network', color: ['#6366f1', '#4338ca'] },
-  { id: 'octopus', name: 'Octopus', desc: 'Bioluminescent entity', color: ['#f472b6', '#be185d'] },
-  { id: 'overmind', name: 'Overmind', desc: 'Cosmic consciousness', color: ['#8b5cf6', '#6d28d9'] },
+  { id: 'trade69', name: 'Trade69', desc: 'Holographic trading terminal', color: ['#1a5040', '#0d2820'] },
+  { id: 'megaagent', name: 'MegaAgent', desc: 'Quantum neural network', color: ['#3d4a8f', '#1e2550'] },
+  { id: 'octopus', name: 'Octopus', desc: 'Bioluminescent entity', color: ['#8f3d6b', '#501e3a'] },
+  { id: 'overmind', name: 'Overmind', desc: 'Cosmic consciousness', color: ['#5a3d8f', '#2e1e50'] },
 ];
 
-// Service 3D items
+// Service 3D items - Darker elegant colors
 const service3DItems = [
-  { id: 'website', name: 'Web Apps', desc: 'Holographic floating layers', color: ['#4a3d7a', '#2a1d52'] },
-  { id: 'dashboard', name: 'Dashboards', desc: 'Circular HUD with data arcs', color: ['#7a3d5a', '#521d3a'] },
-  { id: 'api', name: 'API', desc: 'Constellation network', color: ['#2a6a55', '#1a4035'] },
-  { id: 'llm', name: 'LLM', desc: 'Neural brain visualization', color: ['#8a5535', '#52301a'] },
+  { id: 'website', name: 'Web Apps', desc: 'Holographic floating layers', color: ['#2a2845', '#151228'] },
+  { id: 'dashboard', name: 'Dashboards', desc: 'Circular HUD with data arcs', color: ['#452838', '#281518'] },
+  { id: 'api', name: 'API', desc: 'Constellation network', color: ['#1a3530', '#0d1a18'] },
+  { id: 'llm', name: 'LLM', desc: 'Neural brain visualization', color: ['#453020', '#281a10'] },
 ];
 
-// Geometry items
+// Geometry items - Darker elegant colors
 const geometryItems = [
-  { id: 'metatron', name: 'Metatron', desc: 'Blueprint of creation', color: ['#6b4a8f', '#4a2d70'] },
-  { id: 'spiral', name: 'Spiral', desc: 'Nature\'s perfect ratio', color: ['#8f4a6b', '#702d4a'] },
-  { id: 'flower', name: 'Flower', desc: 'Pattern of genesis', color: ['#4a6b8f', '#2d4a70'] },
-  { id: 'lemniscate', name: 'Infinity', desc: 'Eternal symbol', color: ['#6b8f4a', '#4a702d'] },
+  { id: 'metatron', name: 'Metatron', desc: 'Blueprint of creation', color: ['#3a2855', '#1e1430'] },
+  { id: 'spiral', name: 'Spiral', desc: 'Nature\'s perfect ratio', color: ['#552838', '#301418'] },
+  { id: 'flower', name: 'Flower', desc: 'Pattern of genesis', color: ['#283855', '#141e30'] },
+  { id: 'lemniscate', name: 'Infinity', desc: 'Eternal symbol', color: ['#385528', '#1e3014'] },
 ];
 
-// Experience items
+// Experience items - Darker elegant colors
 const experienceItems = [
-  { id: 'sphere', name: 'Sphere', desc: 'Living geodesic structure', color: ['#9a7228', '#6b4f1a'] },
-  { id: 'manifold', name: 'Manifold', desc: 'Field of possibility', color: ['#7a9228', '#4f6b1a'] },
-  { id: 'architecture', name: 'Architecture', desc: 'System visualization', color: ['#28799a', '#1a4f6b'] },
+  { id: 'sphere', name: 'Sphere', desc: 'Living geodesic structure', color: ['#5a4018', '#30220c'] },
+  { id: 'manifold', name: 'Manifold', desc: 'Field of possibility', color: ['#405a18', '#22300c'] },
+  { id: 'architecture', name: 'Architecture', desc: 'System visualization', color: ['#18405a', '#0c2230'] },
 ];
 
 export default function Creative() {
@@ -166,19 +166,19 @@ export default function Creative() {
     );
   };
 
-  // Icons folder preview
+  // Icons folder preview - darker elegant colors
   const renderIconsFolderPreview = () => (
     <div className="folder-preview">
-      <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #2d8a6e, #1a5c48)' }}>
+      <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a5040, #0d2820)' }}>
         <div style={{ transform: 'scale(0.6)' }}><Trade69Icon /></div>
       </div>
-      <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #6366f1, #4338ca)' }}>
+      <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #3d4a8f, #1e2550)' }}>
         <div style={{ transform: 'scale(0.6)' }}><MegaAgentIcon /></div>
       </div>
-      <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #4a3d7a, #2a1d52)' }}>
+      <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #2a2845, #151228)' }}>
         <div style={{ transform: 'scale(0.6)' }}><WebsiteIcon /></div>
       </div>
-      <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #2a6a55, #1a4035)' }}>
+      <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a3530, #0d1a18)' }}>
         <div style={{ transform: 'scale(0.6)' }}><APIIcon /></div>
       </div>
     </div>
@@ -224,7 +224,7 @@ export default function Creative() {
           width: 70px;
           height: 70px;
           border-radius: 16px;
-          background: rgba(255, 255, 255, 0.22);
+          background: rgba(180, 180, 180, 0.18);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           display: flex;
@@ -235,9 +235,9 @@ export default function Creative() {
           transform: scale(0.8);
           transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
           box-shadow: 
-            0 2px 8px rgba(0, 0, 0, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+            0 2px 8px rgba(0, 0, 0, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.25),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }
         
         .folder-icon.loaded {
@@ -500,66 +500,138 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* DESKTOP                                                     */
+        /* DESKTOP - MUCH BIGGER                                       */
         /* ═══════════════════════════════════════════════════════════ */
         
         @media (min-width: 600px) {
           .creative-grid {
-            gap: 32px 28px;
-            max-width: 340px;
+            gap: 48px 40px;
+            max-width: 500px;
+          }
+          
+          .app-container {
+            gap: 12px;
           }
           
           .folder-icon {
-            width: 110px;
-            height: 110px;
-            border-radius: 26px;
+            width: 160px;
+            height: 160px;
+            border-radius: 36px;
           }
           
           .folder-preview {
-            width: 92px;
-            height: 92px;
-            gap: 5px;
+            width: 136px;
+            height: 136px;
+            gap: 8px;
           }
           
           .folder-mini-icon {
-            width: 43px;
-            height: 43px;
-            border-radius: 10px;
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
           }
           
           .folder-name {
-            font-size: 13px;
+            font-size: 15px;
           }
           
           .folder-icon:hover {
             transform: scale(1.05);
           }
           
+          .folder-overlay-title {
+            font-size: 32px;
+            margin-bottom: 20px;
+          }
+          
           .folder-container {
-            padding: 24px;
+            padding: 32px;
+            border-radius: 32px;
           }
           
           .folder-apps-grid {
-            gap: 18px;
+            gap: 24px;
           }
           
           .folder-app-icon {
-            width: 72px;
-            height: 72px;
-            border-radius: 17px;
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
           }
           
           .folder-app-icon:hover {
-            transform: scale(1.05);
+            transform: scale(1.06);
           }
           
           .folder-app-name {
-            font-size: 11px;
+            font-size: 13px;
+            max-width: 90px;
           }
           
           .expanded-content {
-            width: 380px;
-            height: 380px;
+            width: 450px;
+            height: 450px;
+          }
+          
+          .expanded-title {
+            font-size: 28px;
+          }
+          
+          .expanded-desc {
+            font-size: 14px;
+          }
+        }
+        
+        /* Extra large screens */
+        @media (min-width: 900px) {
+          .creative-grid {
+            gap: 56px 48px;
+            max-width: 600px;
+          }
+          
+          .folder-icon {
+            width: 180px;
+            height: 180px;
+            border-radius: 40px;
+          }
+          
+          .folder-preview {
+            width: 152px;
+            height: 152px;
+            gap: 10px;
+          }
+          
+          .folder-mini-icon {
+            width: 71px;
+            height: 71px;
+            border-radius: 16px;
+          }
+          
+          .folder-name {
+            font-size: 16px;
+          }
+          
+          .folder-container {
+            padding: 40px;
+          }
+          
+          .folder-apps-grid {
+            gap: 28px;
+          }
+          
+          .folder-app-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 24px;
+          }
+          
+          .folder-app-name {
+            font-size: 14px;
+          }
+          
+          .expanded-content {
+            width: 520px;
+            height: 520px;
           }
         }
       `}</style>
@@ -598,7 +670,7 @@ export default function Creative() {
             {work3DItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`work3d-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {renderWork3D(item.id, 40)}
+                  {renderWork3D(item.id, 48)}
                 </div>
                 <span className="folder-app-name">{item.name}</span>
               </div>
@@ -616,7 +688,7 @@ export default function Creative() {
             {service3DItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`services3d-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {renderService3D(item.id, 40)}
+                  {renderService3D(item.id, 48)}
                 </div>
                 <span className="folder-app-name">{item.name}</span>
               </div>
@@ -634,7 +706,7 @@ export default function Creative() {
             {geometryItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`geometry-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  <div style={{ transform: 'scale(0.30)' }}>{renderGeometry(item.id)}</div>
+                  <div style={{ transform: 'scale(0.35)' }}>{renderGeometry(item.id)}</div>
                 </div>
                 <span className="folder-app-name">{item.name}</span>
               </div>
@@ -652,7 +724,7 @@ export default function Creative() {
             {experienceItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`experiences-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  <svg width="30" height="30" viewBox="0 0 60 60" fill="none">
+                  <svg width="34" height="34" viewBox="0 0 60 60" fill="none">
                     <circle cx="30" cy="30" r="14" stroke="white" strokeWidth="2.5" opacity="0.8"/>
                     <circle cx="30" cy="30" r="5" fill="white" opacity="0.9"/>
                   </svg>
@@ -671,35 +743,35 @@ export default function Creative() {
         <div className="folder-container">
           <div className="folder-apps-grid grid-4">
             <div className="folder-app">
-              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #2d8a6e, #1a5c48)' }}><Trade69Icon /></div>
+              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #1a5040, #0d2820)' }}><Trade69Icon /></div>
               <span className="folder-app-name">Trade69</span>
             </div>
             <div className="folder-app">
-              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #6366f1, #4338ca)' }}><MegaAgentIcon /></div>
+              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #3d4a8f, #1e2550)' }}><MegaAgentIcon /></div>
               <span className="folder-app-name">MegaAgent</span>
             </div>
             <div className="folder-app">
-              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #f472b6, #be185d)' }}><OctopusIcon /></div>
+              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #8f3d6b, #501e3a)' }}><OctopusIcon /></div>
               <span className="folder-app-name">Octopus</span>
             </div>
             <div className="folder-app">
-              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #8b5cf6, #6d28d9)' }}><OvermindIcon /></div>
+              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #5a3d8f, #2e1e50)' }}><OvermindIcon /></div>
               <span className="folder-app-name">Overmind</span>
             </div>
             <div className="folder-app">
-              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #4a3d7a, #2a1d52)' }}><WebsiteIcon /></div>
+              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #2a2845, #151228)' }}><WebsiteIcon /></div>
               <span className="folder-app-name">Web</span>
             </div>
             <div className="folder-app">
-              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #7a3d5a, #521d3a)' }}><DashboardIcon /></div>
+              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #452838, #281518)' }}><DashboardIcon /></div>
               <span className="folder-app-name">Dashboard</span>
             </div>
             <div className="folder-app">
-              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #2a6a55, #1a4035)' }}><APIIcon /></div>
+              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #1a3530, #0d1a18)' }}><APIIcon /></div>
               <span className="folder-app-name">API</span>
             </div>
             <div className="folder-app">
-              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #8a5535, #52301a)' }}><LLMIcon /></div>
+              <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #453020, #281a10)' }}><LLMIcon /></div>
               <span className="folder-app-name">LLM</span>
             </div>
           </div>
