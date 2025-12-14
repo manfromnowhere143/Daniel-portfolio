@@ -551,6 +551,31 @@ export default function Creative() {
             0 0 15px rgba(255, 255, 255, 0.1),
             0 4px 12px rgba(0, 0, 0, 0.4),
             inset 0 1px 0 rgba(255, 255, 255, 0.3);
+          /* STATE OF THE ART - 3D stability on mobile */
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          -webkit-perspective: 1000px;
+          perspective: 1000px;
+          will-change: transform;
+          contain: layout style paint;
+        }
+        
+        /* STATE OF THE ART - Force GPU layer for 3D content */
+        .folder-mini-icon > * {
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        
+        .folder-mini-icon canvas {
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+          image-rendering: auto;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .folder-mini-icon::before {
@@ -862,6 +887,31 @@ export default function Creative() {
           backface-visibility: hidden;
           transform: translateZ(0);
           -webkit-tap-highlight-color: transparent;
+          /* STATE OF THE ART - 3D stability on mobile */
+          -webkit-perspective: 1000px;
+          perspective: 1000px;
+          will-change: transform;
+          contain: layout style paint;
+          isolation: isolate;
+        }
+        
+        /* STATE OF THE ART - Force GPU layer for 3D content in app icons */
+        .folder-app-icon > * {
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        
+        .folder-app-icon canvas {
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+          image-rendering: auto;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
         }
         
         .folder-app-icon::before {
@@ -994,8 +1044,8 @@ export default function Creative() {
         }
         
         .expanded-content {
-          width: 260px;
-          height: 260px;
+          width: 280px;
+          height: 280px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1008,6 +1058,31 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           -webkit-tap-highlight-color: transparent;
+          /* STATE OF THE ART - 3D stability on mobile */
+          -webkit-perspective: 1000px;
+          perspective: 1000px;
+          will-change: transform, opacity;
+          contain: layout style;
+          isolation: isolate;
+        }
+        
+        /* STATE OF THE ART - Force GPU layer for 3D content in expanded view */
+        .expanded-content > * {
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        
+        .expanded-content canvas {
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+          image-rendering: auto;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
         }
         
         .expanded-view.active .expanded-content {
@@ -1061,6 +1136,19 @@ export default function Creative() {
         
         .expanded-close:active {
           transform: scale(0.85);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════ */
+        /* EXPERIENCES - LARGER CONTENT, NO TEXT                       */
+        /* ═══════════════════════════════════════════════════════════ */
+        
+        .expanded-view.experiences-view .expanded-content {
+          width: 320px;
+          height: 320px;
+        }
+        
+        .expanded-view.experiences-view .expanded-inner {
+          padding-top: 20px;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -1143,8 +1231,13 @@ export default function Creative() {
           }
           
           .expanded-content {
-            width: 340px;
-            height: 340px;
+            width: 360px;
+            height: 360px;
+          }
+          
+          .expanded-view.experiences-view .expanded-content {
+            width: 400px;
+            height: 400px;
           }
           
           .expanded-title {
@@ -1204,8 +1297,13 @@ export default function Creative() {
           }
           
           .expanded-content {
-            width: 420px;
-            height: 420px;
+            width: 440px;
+            height: 440px;
+          }
+          
+          .expanded-view.experiences-view .expanded-content {
+            width: 500px;
+            height: 500px;
           }
         }
         
@@ -1215,6 +1313,47 @@ export default function Creative() {
         
         * {
           -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - WEBGL/THREE.JS MOBILE STABILITY          */
+        /* Prevents disappearing 3D shapes on mobile devices           */
+        /* ═══════════════════════════════════════════════════════════ */
+        
+        /* Force hardware acceleration for all canvas elements */
+        canvas {
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          image-rendering: auto;
+          image-rendering: -webkit-optimize-contrast;
+        }
+        
+        /* Prevent iOS Safari from culling offscreen content */
+        @supports (-webkit-touch-callout: none) {
+          .folder-mini-icon,
+          .folder-app-icon,
+          .expanded-content {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            -webkit-overflow-scrolling: touch;
+          }
+          
+          canvas {
+            -webkit-transform: translate3d(0, 0, 0) !important;
+            transform: translate3d(0, 0, 0) !important;
+          }
+        }
+        
+        /* Android Chrome stability */
+        @media screen and (max-width: 768px) {
+          .folder-mini-icon canvas,
+          .folder-app-icon canvas,
+          .expanded-content canvas {
+            will-change: transform;
+            contain: strict;
+          }
         }
       `}</style>
 
@@ -1470,17 +1609,15 @@ export default function Creative() {
         </div>
       ))}
 
-      {/* Expanded Views for Experiences - INTERACTIVE */}
+      {/* Expanded Views for Experiences - INTERACTIVE, NO TEXT */}
       {experienceItems.map(item => (
         <div
           key={item.id}
-          className={`expanded-view ${getExpandedAnimClass(`experiences-${item.id}`)}`}
+          className={`expanded-view experiences-view ${getExpandedAnimClass(`experiences-${item.id}`)}`}
           onTouchStart={(e) => e.stopPropagation()}
           onTouchMove={(e) => e.stopPropagation()}
         >
           <div className="expanded-inner">
-            <div className="expanded-title">{item.name}</div>
-            <div className="expanded-desc">{item.desc}</div>
             <div
               className="expanded-content"
               style={{ touchAction: 'manipulation' }}
