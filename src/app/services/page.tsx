@@ -493,18 +493,21 @@ export default function Services() {
           transform: translateX(-50%);
           width: 44px;
           height: 44px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.2);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: transform 0.15s ease;
+          transition: transform 0.15s ease, opacity 0.15s ease;
           z-index: 10;
+          background: transparent;
+          border: none;
         }
         
-        .expanded-close:active { transform: translateX(-50%) scale(0.95); }
+        .expanded-close:active { transform: translateX(-50%) scale(0.9); }
+        
+        .expanded-close svg {
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
         
         /* ═══════════════════════════════════════════════════════════ */
         /* SOCIAL FOLDER OVERLAY                                       */
@@ -653,21 +656,22 @@ export default function Services() {
           transform: translateX(-50%);
           width: 44px;
           height: 44px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.2);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: transform 0.15s ease, background 0.15s ease;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+          transition: transform 0.15s ease, opacity 0.15s ease;
           z-index: 10;
+          background: transparent;
+          border: none;
         }
         
         .app-overlay-close:active {
-          transform: translateX(-50%) scale(0.95);
-          background: rgba(255, 255, 255, 0.15);
+          transform: translateX(-50%) scale(0.9);
+        }
+        
+        .app-overlay-close svg {
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -819,8 +823,8 @@ export default function Services() {
             {expandedService === app.id && renderServiceIcon(app.id, 200)}
           </div>
           <div className="expanded-close" onClick={() => setExpandedService(null)}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M15 5L5 15M5 5L15 15" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.9"/>
             </svg>
           </div>
         </div>
@@ -849,8 +853,8 @@ export default function Services() {
           ))}
         </div>
         <div className="app-overlay-close" onClick={() => setOpenApp(null)}>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M15 5L5 15M5 5L15 15" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.9"/>
           </svg>
         </div>
       </div>

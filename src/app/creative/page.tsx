@@ -71,12 +71,13 @@ export default function Creative() {
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 50);
+    const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIcons3DReady(true), 300);
+    // Longer delay for 3D icons to ensure smooth loading
+    const timer = setTimeout(() => setIcons3DReady(true), 400);
     return () => clearTimeout(timer);
   }, []);
 
@@ -142,11 +143,25 @@ export default function Creative() {
       case 'geometry':
         return <div style={{ transform: 'scale(0.55)' }}><MetatronCube /></div>;
       case 'experiences':
+        // Elegant quantum sphere visualization
         return (
-          <svg width="75" height="75" viewBox="0 0 48 48" fill="none">
-            <circle cx="24" cy="24" r="16" stroke="white" strokeWidth="1" opacity="0.8"/>
-            <circle cx="24" cy="24" r="8" stroke="white" strokeWidth="0.5" opacity="0.6"/>
-            <circle cx="24" cy="24" r="3" fill="white" opacity="0.9"/>
+          <svg width="90" height="90" viewBox="0 0 60 60" fill="none">
+            {/* Outer orbital ring */}
+            <ellipse cx="30" cy="30" rx="24" ry="10" stroke="white" strokeWidth="0.5" opacity="0.3" transform="rotate(-20 30 30)"/>
+            <ellipse cx="30" cy="30" rx="24" ry="10" stroke="white" strokeWidth="0.5" opacity="0.3" transform="rotate(40 30 30)"/>
+            <ellipse cx="30" cy="30" rx="24" ry="10" stroke="white" strokeWidth="0.5" opacity="0.3" transform="rotate(100 30 30)"/>
+            {/* Main sphere outline */}
+            <circle cx="30" cy="30" r="18" stroke="white" strokeWidth="1" opacity="0.5"/>
+            <circle cx="30" cy="30" r="12" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+            {/* Glow ring */}
+            <circle cx="30" cy="30" r="22" stroke="white" strokeWidth="0.5" opacity="0.2"/>
+            {/* Core */}
+            <circle cx="30" cy="30" r="6" fill="white" opacity="0.9"/>
+            <circle cx="30" cy="30" r="3" fill="white" opacity="1"/>
+            {/* Orbital points */}
+            <circle cx="54" cy="30" r="2" fill="white" opacity="0.7"/>
+            <circle cx="6" cy="30" r="2" fill="white" opacity="0.7"/>
+            <circle cx="30" cy="8" r="2" fill="white" opacity="0.6"/>
           </svg>
         );
       case 'icons':
@@ -173,6 +188,16 @@ export default function Creative() {
           overscroll-behavior: contain;
           -webkit-overflow-scrolling: touch;
           touch-action: pan-y;
+        }
+        
+        /* Smooth icon content fade-in */
+        .icon-content {
+          opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+        
+        .icon-content.ready {
+          opacity: 1;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -432,21 +457,22 @@ export default function Creative() {
           transform: translateX(-50%);
           width: 44px;
           height: 44px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.2);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: transform 0.15s ease, background 0.15s ease;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+          transition: transform 0.15s ease, opacity 0.15s ease;
           z-index: 10;
+          background: transparent;
+          border: none;
         }
         
         .app-overlay-close:active {
-          transform: translateX(-50%) scale(0.95);
-          background: rgba(255, 255, 255, 0.15);
+          transform: translateX(-50%) scale(0.9);
+        }
+        
+        .app-overlay-close svg {
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -613,18 +639,21 @@ export default function Creative() {
           transform: translateX(-50%);
           width: 44px;
           height: 44px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.2);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: transform 0.15s ease;
+          transition: transform 0.15s ease, opacity 0.15s ease;
           z-index: 10;
+          background: transparent;
+          border: none;
         }
         
-        .expanded-close:active { transform: translateX(-50%) scale(0.95); }
+        .expanded-close:active { transform: translateX(-50%) scale(0.9); }
+        
+        .expanded-close svg {
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
         
         .expanded-link {
           margin-top: 16px;
@@ -823,11 +852,13 @@ export default function Creative() {
           {apps.map((app, i) => (
             <div key={app.id} className="app-container">
               <div
-                className={`app-icon ${isLoaded ? 'loaded' : ''}`}
+                className={`app-icon ${app.id} ${isLoaded ? 'loaded' : ''}`}
                 style={{ background: `linear-gradient(145deg, ${app.color[0]} 0%, ${app.color[1]} 100%)` }}
                 onClick={() => setOpenApp(app.id)}
               >
-                {renderAppThumbnail(app.id)}
+                <div className={`icon-content ${icons3DReady ? 'ready' : ''}`}>
+                  {renderAppThumbnail(app.id)}
+                </div>
               </div>
               <span className={`app-name ${isLoaded ? 'loaded' : ''}`}>{app.name}</span>
             </div>
@@ -849,8 +880,8 @@ export default function Creative() {
           ))}
         </div>
         <div className="app-overlay-close" onClick={() => setOpenApp(null)}>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M15 5L5 15M5 5L15 15" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.9"/>
           </svg>
         </div>
       </div>
@@ -869,8 +900,8 @@ export default function Creative() {
           ))}
         </div>
         <div className="app-overlay-close" onClick={() => setOpenApp(null)}>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M15 5L5 15M5 5L15 15" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.9"/>
           </svg>
         </div>
       </div>
@@ -889,8 +920,8 @@ export default function Creative() {
           ))}
         </div>
         <div className="app-overlay-close" onClick={() => setOpenApp(null)}>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M15 5L5 15M5 5L15 15" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.9"/>
           </svg>
         </div>
       </div>
@@ -913,8 +944,8 @@ export default function Creative() {
           ))}
         </div>
         <div className="app-overlay-close" onClick={() => setOpenApp(null)}>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M15 5L5 15M5 5L15 15" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.9"/>
           </svg>
         </div>
       </div>
@@ -959,8 +990,8 @@ export default function Creative() {
           </div>
         </div>
         <div className="app-overlay-close" onClick={() => setOpenApp(null)}>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M15 5L5 15M5 5L15 15" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.9"/>
           </svg>
         </div>
       </div>
@@ -974,8 +1005,8 @@ export default function Creative() {
             {expandedItem === `work3d-${item.id}` && renderWork3D(item.id, 280)}
           </div>
           <div className="expanded-close" onClick={() => setExpandedItem(null)}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M15 5L5 15M5 5L15 15" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.9"/>
             </svg>
           </div>
         </div>
@@ -990,8 +1021,8 @@ export default function Creative() {
             {expandedItem === `services3d-${item.id}` && renderService3D(item.id, 280)}
           </div>
           <div className="expanded-close" onClick={() => setExpandedItem(null)}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M15 5L5 15M5 5L15 15" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.9"/>
             </svg>
           </div>
         </div>
@@ -1006,8 +1037,8 @@ export default function Creative() {
             {expandedItem === `geometry-${item.id}` && renderGeometry(item.id)}
           </div>
           <div className="expanded-close" onClick={() => setExpandedItem(null)}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M15 5L5 15M5 5L15 15" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.9"/>
             </svg>
           </div>
         </div>
@@ -1022,8 +1053,8 @@ export default function Creative() {
             {expandedItem === `experiences-${item.id}` && renderExperience(item.id)}
           </div>
           <div className="expanded-close" onClick={() => setExpandedItem(null)}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M15 5L5 15M5 5L15 15" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.9"/>
             </svg>
           </div>
         </div>
