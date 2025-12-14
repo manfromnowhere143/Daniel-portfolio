@@ -165,17 +165,23 @@ export default function Navigation() {
           border-top: 1px solid rgba(255, 255, 255, 0.06);
           padding-bottom: env(safe-area-inset-bottom, 0);
           -webkit-tap-highlight-color: transparent;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         
         .mobile-nav-inner {
-          height: 72px;
+          height: 76px;
           display: flex;
           flex-direction: row;
           align-items: center;
           justify-content: center;
-          gap: 20px;
+          gap: 16px;
           width: 100%;
-          padding: 0 16px;
+          max-width: 100%;
+          margin: 0 auto;
+          padding: 0;
+          box-sizing: border-box;
         }
         
         .nav-link {
@@ -183,6 +189,7 @@ export default function Navigation() {
           display: flex;
           align-items: center;
           justify-content: center;
+          flex-shrink: 0;
         }
       `}</style>
 
