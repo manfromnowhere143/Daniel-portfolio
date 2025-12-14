@@ -21,9 +21,10 @@ const serviceDescriptions: Record<string, string> = {
 
 // Social links
 const socialLinks = [
-  { id: 'tiktok', name: 'TikTok', url: 'https://tiktok.com/@derp' },
-  { id: 'instagram', name: 'Instagram', url: 'https://instagram.com/derp' },
-  { id: 'x', name: 'X', url: 'https://x.com/derp' },
+  { id: 'github', name: 'GitHub', url: 'https://github.com/danielwanich' },
+  { id: 'x', name: 'X', url: 'https://x.com/satori936' },
+  { id: 'instagram', name: 'Instagram', url: 'https://instagram.com/overmind143' },
+  { id: 'tiktok', name: 'TikTok', url: 'https://tiktok.com/@danielwanich' },
 ];
 
 export default function Services() {
@@ -173,6 +174,13 @@ export default function Services() {
     if (id === 'social') return renderSocialIcon();
     return renderServiceIcon(id, 90);
   };
+
+  // GitHub icon
+  const GitHubIcon = () => (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <path fillRule="evenodd" clipRule="evenodd" d="M16 4C9.37 4 4 9.37 4 16C4 21.31 7.435 25.795 12.205 27.385C12.805 27.495 13.025 27.125 13.025 26.805C13.025 26.515 13.015 25.745 13.01 24.695C9.672 25.41 8.968 23.06 8.968 23.06C8.422 21.67 7.633 21.3 7.633 21.3C6.546 20.545 7.717 20.56 7.717 20.56C8.922 20.645 9.555 21.805 9.555 21.805C10.625 23.64 12.364 23.11 13.046 22.8C13.156 22 13.467 21.47 13.81 21.17C11.145 20.87 8.344 19.79 8.344 15.17C8.344 13.86 8.809 12.79 9.579 11.95C9.454 11.65 9.044 10.43 9.694 8.78C9.694 8.78 10.704 8.46 12.994 10.01C13.954 9.75 14.984 9.62 16.004 9.615C17.024 9.62 18.054 9.75 19.014 10.01C21.304 8.46 22.314 8.78 22.314 8.78C22.964 10.43 22.554 11.65 22.429 11.95C23.199 12.79 23.664 13.86 23.664 15.17C23.664 19.8 20.859 20.865 18.184 21.16C18.614 21.53 19.004 22.265 19.004 23.37C19.004 24.93 18.989 26.19 18.989 26.8C18.989 27.12 19.209 27.495 19.819 27.38C24.589 25.79 28.019 21.305 28.019 15.995C28.019 9.37 22.649 4 16.019 4H16Z" fill="white"/>
+    </svg>
+  );
 
   // TikTok icon
   const TikTokIcon = () => (
@@ -480,8 +488,9 @@ export default function Services() {
         
         .expanded-close {
           position: absolute;
-          top: 20px;
-          right: 20px;
+          top: 60px;
+          left: 50%;
+          transform: translateX(-50%);
           width: 44px;
           height: 44px;
           border-radius: 50%;
@@ -495,7 +504,7 @@ export default function Services() {
           z-index: 10;
         }
         
-        .expanded-close:active { transform: scale(0.95); }
+        .expanded-close:active { transform: translateX(-50%) scale(0.95); }
         
         /* ═══════════════════════════════════════════════════════════ */
         /* SOCIAL FOLDER OVERLAY                                       */
@@ -535,8 +544,9 @@ export default function Services() {
         }
         
         .social-grid {
-          display: flex;
-          gap: 24px;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px 28px;
           padding: 28px 36px;
           background: rgba(255, 255, 255, 0.06);
           border-radius: 28px;
@@ -585,6 +595,16 @@ export default function Services() {
         
         .social-icon:active { transform: scale(0.95); }
         
+        /* GitHub - Dark with purple glow */
+        .social-icon.github {
+          background: linear-gradient(145deg, #2d333b 0%, #161b22 100%);
+          box-shadow: 
+            0 0 20px rgba(139, 148, 158, 0.15),
+            0 4px 12px rgba(0, 0, 0, 0.4),
+            0 8px 20px rgba(22, 27, 34, 0.3);
+          border: 1px solid rgba(139, 148, 158, 0.2);
+        }
+        
         /* TikTok - Black/Dark */
         .social-icon.tiktok {
           background: linear-gradient(145deg, #1a1a1a 0%, #000000 100%);
@@ -628,8 +648,9 @@ export default function Services() {
         
         .app-overlay-close {
           position: absolute;
-          top: 20px;
-          right: 20px;
+          top: 60px;
+          left: 50%;
+          transform: translateX(-50%);
           width: 44px;
           height: 44px;
           border-radius: 50%;
@@ -645,7 +666,7 @@ export default function Services() {
         }
         
         .app-overlay-close:active {
-          transform: scale(0.95);
+          transform: translateX(-50%) scale(0.95);
           background: rgba(255, 255, 255, 0.15);
         }
         
@@ -737,7 +758,7 @@ export default function Services() {
           }
           
           .social-grid {
-            gap: 32px;
+            gap: 28px 36px;
             padding: 36px 48px;
           }
           
@@ -818,6 +839,7 @@ export default function Services() {
               className="social-item"
             >
               <div className={`social-icon ${social.id}`}>
+                {social.id === 'github' && <GitHubIcon />}
                 {social.id === 'tiktok' && <TikTokIcon />}
                 {social.id === 'instagram' && <InstagramIcon />}
                 {social.id === 'x' && <XIcon />}
