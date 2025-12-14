@@ -197,14 +197,14 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* MAIN GRID                                                   */
+        /* MAIN GRID - STANDARD iPHONE SIZE                            */
         /* ═══════════════════════════════════════════════════════════ */
         
         .creative-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 24px 20px;
-          max-width: 200px;
+          gap: 28px 24px;
+          max-width: 240px;
           margin: 0 auto;
         }
         
@@ -212,19 +212,19 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 6px;
+          gap: 8px;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* FOLDER ICON - iOS STYLE WITH 4 MINI ICONS                   */
+        /* FOLDER ICON - STANDARD iPHONE SIZE WITH FLOATING GLOW       */
         /* ═══════════════════════════════════════════════════════════ */
         
         .folder-icon {
           position: relative;
-          width: 70px;
-          height: 70px;
-          border-radius: 16px;
-          background: rgba(180, 180, 180, 0.18);
+          width: 82px;
+          height: 82px;
+          border-radius: 20px;
+          background: rgba(160, 160, 160, 0.20);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           display: flex;
@@ -234,9 +234,11 @@ export default function Creative() {
           opacity: 0;
           transform: scale(0.8);
           transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          /* Floating effect - subtle outer glow */
           box-shadow: 
-            0 2px 8px rgba(0, 0, 0, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.25),
+            0 4px 20px rgba(0, 0, 0, 0.3),
+            0 8px 40px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2),
             inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }
         
@@ -260,31 +262,35 @@ export default function Creative() {
         .folder-preview {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 3px;
-          width: 58px;
-          height: 58px;
+          gap: 4px;
+          width: 68px;
+          height: 68px;
         }
         
         .folder-mini-icon {
-          width: 27px;
-          height: 27px;
-          border-radius: 6px;
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
+          /* Mini floating glow */
+          box-shadow: 
+            0 2px 8px rgba(0, 0, 0, 0.3),
+            0 0 12px rgba(255, 255, 255, 0.05);
         }
         
         /* Folder name */
         .folder-name {
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 400;
           color: #FAFAF8;
           text-align: center;
           opacity: 0;
           transform: translateY(5px);
           transition: opacity 0.4s ease, transform 0.4s ease;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
         }
         
         .folder-name.loaded {
@@ -299,7 +305,7 @@ export default function Creative() {
         .app-container:nth-child(5) .folder-name { transition-delay: 280ms; }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* iOS FOLDER OVERLAY - PERFECT CENTERED EXPANSION             */
+        /* iOS FOLDER OVERLAY - PERFECTLY CENTERED                     */
         /* ═══════════════════════════════════════════════════════════ */
         
         .folder-overlay {
@@ -324,16 +330,16 @@ export default function Creative() {
         .folder-overlay-bg {
           position: absolute;
           inset: 0;
-          background: rgba(100, 100, 100, 0.35);
-          backdrop-filter: blur(25px);
-          -webkit-backdrop-filter: blur(25px);
+          background: rgba(60, 60, 60, 0.4);
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
         }
         
         /* Folder title above container */
         .folder-overlay-title {
           position: relative;
           z-index: 2;
-          font-size: 24px;
+          font-size: 22px;
           font-weight: 300;
           color: #FAFAF8;
           margin-bottom: 14px;
@@ -356,10 +362,14 @@ export default function Creative() {
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           border-radius: 24px;
-          padding: 18px;
+          padding: 20px;
           opacity: 0;
           transform: scale(0.4);
           transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          /* Floating container glow */
+          box-shadow: 
+            0 10px 40px rgba(0, 0, 0, 0.3),
+            0 0 80px rgba(255, 255, 255, 0.1);
         }
         
         .folder-overlay.active .folder-container {
@@ -367,11 +377,41 @@ export default function Creative() {
           transform: scale(1);
         }
         
+        /* X close button - below container */
+        .folder-close {
+          position: relative;
+          z-index: 2;
+          margin-top: 20px;
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(10px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          opacity: 0;
+          transform: scale(0.5);
+          transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s, background 0.15s ease;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .folder-overlay.active .folder-close {
+          opacity: 1;
+          transform: scale(1);
+        }
+        
+        .folder-close:active {
+          background: rgba(255, 255, 255, 0.25);
+          transform: scale(0.9);
+        }
+        
         /* Grid of apps inside folder */
         .folder-apps-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 12px;
+          gap: 14px;
         }
         
         .folder-apps-grid.grid-3 {
@@ -382,21 +422,21 @@ export default function Creative() {
           grid-template-columns: repeat(4, 1fr);
         }
         
-        /* Each app inside folder */
+        /* Each app inside folder - FLOATING WITH GLOW */
         .folder-app {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 5px;
+          gap: 6px;
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.3);
+          transform: scale(0.3) translateY(10px);
           transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
         .folder-overlay.active .folder-app {
           opacity: 1;
-          transform: scale(1);
+          transform: scale(1) translateY(0);
         }
         
         /* Staggered pop-in - fast and snappy */
@@ -410,14 +450,20 @@ export default function Creative() {
         .folder-overlay.active .folder-app:nth-child(8) { transition-delay: 0.27s; }
         
         .folder-app-icon {
-          width: 56px;
-          height: 56px;
-          border-radius: 13px;
+          width: 60px;
+          height: 60px;
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: transform 0.15s ease;
           overflow: hidden;
+          /* FLOATING GLOW - makes icons look alive */
+          box-shadow: 
+            0 4px 16px rgba(0, 0, 0, 0.35),
+            0 8px 32px rgba(0, 0, 0, 0.2),
+            0 0 20px rgba(255, 255, 255, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
         
         .folder-app-icon:active {
@@ -425,15 +471,15 @@ export default function Creative() {
         }
         
         .folder-app-name {
-          font-size: 10px;
+          font-size: 11px;
           font-weight: 400;
           color: #1a1a1a;
           text-align: center;
-          max-width: 64px;
+          max-width: 68px;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* EXPANDED ITEM VIEW                                          */
+        /* EXPANDED ITEM VIEW - CENTERED WITH X BELOW                  */
         /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-view {
@@ -455,183 +501,199 @@ export default function Creative() {
           pointer-events: auto;
         }
         
+        .expanded-inner {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        
         .expanded-title {
-          font-size: 22px;
+          font-size: 20px;
           font-weight: 300;
           color: #FAFAF8;
-          margin-bottom: 6px;
+          margin-bottom: 4px;
         }
         
         .expanded-desc {
-          font-size: 12px;
-          color: rgba(255,255,255,0.5);
-          margin-bottom: 20px;
+          font-size: 11px;
+          color: rgba(255,255,255,0.45);
+          margin-bottom: 16px;
         }
         
         .expanded-content {
-          width: 260px;
-          height: 260px;
+          width: 220px;
+          height: 220px;
           display: flex;
           align-items: center;
           justify-content: center;
+          /* Floating 3D effect */
+          filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
         }
         
+        /* X close button - below 3D content */
         .expanded-close {
-          position: absolute;
-          top: 45px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 36px;
-          height: 36px;
+          margin-top: 24px;
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.1);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          background: transparent;
-          border: none;
+          transition: background 0.15s ease, transform 0.15s ease;
+          border: 1px solid rgba(255, 255, 255, 0.15);
         }
         
         .expanded-close:active {
-          transform: translateX(-50%) scale(0.9);
-        }
-        
-        .expanded-close svg {
-          filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+          background: rgba(255, 255, 255, 0.2);
+          transform: scale(0.9);
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* DESKTOP - MUCH BIGGER                                       */
+        /* DESKTOP - BIGGER                                            */
         /* ═══════════════════════════════════════════════════════════ */
         
         @media (min-width: 600px) {
           .creative-grid {
-            gap: 48px 40px;
-            max-width: 500px;
+            gap: 40px 36px;
+            max-width: 400px;
           }
           
           .app-container {
-            gap: 12px;
+            gap: 10px;
           }
           
           .folder-icon {
-            width: 160px;
-            height: 160px;
-            border-radius: 36px;
-          }
-          
-          .folder-preview {
-            width: 136px;
-            height: 136px;
-            gap: 8px;
-          }
-          
-          .folder-mini-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 14px;
-          }
-          
-          .folder-name {
-            font-size: 15px;
-          }
-          
-          .folder-icon:hover {
-            transform: scale(1.05);
-          }
-          
-          .folder-overlay-title {
-            font-size: 32px;
-            margin-bottom: 20px;
-          }
-          
-          .folder-container {
-            padding: 32px;
+            width: 140px;
+            height: 140px;
             border-radius: 32px;
           }
           
+          .folder-preview {
+            width: 116px;
+            height: 116px;
+            gap: 6px;
+          }
+          
+          .folder-mini-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+          }
+          
+          .folder-name {
+            font-size: 14px;
+          }
+          
+          .folder-icon:hover {
+            transform: scale(1.04);
+            box-shadow: 
+              0 8px 30px rgba(0, 0, 0, 0.4),
+              0 12px 50px rgba(0, 0, 0, 0.25),
+              0 0 40px rgba(255, 255, 255, 0.08),
+              inset 0 1px 0 rgba(255, 255, 255, 0.25);
+          }
+          
+          .folder-overlay-title {
+            font-size: 28px;
+            margin-bottom: 18px;
+          }
+          
+          .folder-container {
+            padding: 28px;
+            border-radius: 28px;
+          }
+          
           .folder-apps-grid {
-            gap: 24px;
+            gap: 20px;
           }
           
           .folder-app-icon {
-            width: 90px;
-            height: 90px;
-            border-radius: 22px;
+            width: 80px;
+            height: 80px;
+            border-radius: 18px;
           }
           
           .folder-app-icon:hover {
             transform: scale(1.06);
+            box-shadow: 
+              0 6px 24px rgba(0, 0, 0, 0.4),
+              0 12px 40px rgba(0, 0, 0, 0.25),
+              0 0 30px rgba(255, 255, 255, 0.12),
+              inset 0 1px 0 rgba(255, 255, 255, 0.25);
           }
           
           .folder-app-name {
-            font-size: 13px;
-            max-width: 90px;
+            font-size: 12px;
+            max-width: 85px;
           }
           
           .expanded-content {
-            width: 450px;
-            height: 450px;
+            width: 340px;
+            height: 340px;
           }
           
           .expanded-title {
-            font-size: 28px;
+            font-size: 26px;
           }
           
           .expanded-desc {
-            font-size: 14px;
+            font-size: 13px;
+            margin-bottom: 20px;
           }
         }
         
         /* Extra large screens */
         @media (min-width: 900px) {
           .creative-grid {
-            gap: 56px 48px;
-            max-width: 600px;
+            gap: 50px 44px;
+            max-width: 520px;
           }
           
           .folder-icon {
-            width: 180px;
-            height: 180px;
-            border-radius: 40px;
+            width: 170px;
+            height: 170px;
+            border-radius: 38px;
           }
           
           .folder-preview {
-            width: 152px;
-            height: 152px;
-            gap: 10px;
+            width: 142px;
+            height: 142px;
+            gap: 8px;
           }
           
           .folder-mini-icon {
-            width: 71px;
-            height: 71px;
-            border-radius: 16px;
+            width: 67px;
+            height: 67px;
+            border-radius: 15px;
           }
           
           .folder-name {
-            font-size: 16px;
+            font-size: 15px;
           }
           
           .folder-container {
-            padding: 40px;
+            padding: 36px;
           }
           
           .folder-apps-grid {
-            gap: 28px;
+            gap: 26px;
           }
           
           .folder-app-icon {
-            width: 100px;
-            height: 100px;
-            border-radius: 24px;
+            width: 95px;
+            height: 95px;
+            border-radius: 22px;
           }
           
           .folder-app-name {
-            font-size: 14px;
+            font-size: 13px;
           }
           
           .expanded-content {
-            width: 520px;
-            height: 520px;
+            width: 420px;
+            height: 420px;
           }
         }
       `}</style>
@@ -670,12 +732,17 @@ export default function Creative() {
             {work3DItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`work3d-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {renderWork3D(item.id, 48)}
+                  {renderWork3D(item.id, 44)}
                 </div>
                 <span className="folder-app-name">{item.name}</span>
               </div>
             ))}
           </div>
+        </div>
+        <div className="folder-close" onClick={() => setOpenApp(null)}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
         </div>
       </div>
 
@@ -688,12 +755,17 @@ export default function Creative() {
             {service3DItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`services3d-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {renderService3D(item.id, 48)}
+                  {renderService3D(item.id, 44)}
                 </div>
                 <span className="folder-app-name">{item.name}</span>
               </div>
             ))}
           </div>
+        </div>
+        <div className="folder-close" onClick={() => setOpenApp(null)}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
         </div>
       </div>
 
@@ -713,6 +785,11 @@ export default function Creative() {
             ))}
           </div>
         </div>
+        <div className="folder-close" onClick={() => setOpenApp(null)}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        </div>
       </div>
 
       {/* Experiences Folder Overlay */}
@@ -724,7 +801,7 @@ export default function Creative() {
             {experienceItems.map(item => (
               <div key={item.id} className="folder-app" onClick={() => setExpandedItem(`experiences-${item.id}`)}>
                 <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  <svg width="34" height="34" viewBox="0 0 60 60" fill="none">
+                  <svg width="32" height="32" viewBox="0 0 60 60" fill="none">
                     <circle cx="30" cy="30" r="14" stroke="white" strokeWidth="2.5" opacity="0.8"/>
                     <circle cx="30" cy="30" r="5" fill="white" opacity="0.9"/>
                   </svg>
@@ -733,6 +810,11 @@ export default function Creative() {
               </div>
             ))}
           </div>
+        </div>
+        <div className="folder-close" onClick={() => setOpenApp(null)}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
         </div>
       </div>
 
@@ -776,20 +858,27 @@ export default function Creative() {
             </div>
           </div>
         </div>
+        <div className="folder-close" onClick={() => setOpenApp(null)}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        </div>
       </div>
 
       {/* Expanded Views for Work 3D */}
       {work3DItems.map(item => (
         <div key={item.id} className={`expanded-view ${expandedItem === `work3d-${item.id}` ? 'active' : ''}`}>
-          <div className="expanded-close" onClick={() => setExpandedItem(null)}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          </div>
-          <div className="expanded-title">{item.name}</div>
-          <div className="expanded-desc">{item.desc}</div>
-          <div className="expanded-content">
-            {expandedItem === `work3d-${item.id}` && renderWork3D(item.id, 240)}
+          <div className="expanded-inner">
+            <div className="expanded-title">{item.name}</div>
+            <div className="expanded-desc">{item.desc}</div>
+            <div className="expanded-content">
+              {expandedItem === `work3d-${item.id}` && renderWork3D(item.id, 200)}
+            </div>
+            <div className="expanded-close" onClick={() => setExpandedItem(null)}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </div>
           </div>
         </div>
       ))}
@@ -797,15 +886,17 @@ export default function Creative() {
       {/* Expanded Views for Services 3D */}
       {service3DItems.map(item => (
         <div key={item.id} className={`expanded-view ${expandedItem === `services3d-${item.id}` ? 'active' : ''}`}>
-          <div className="expanded-close" onClick={() => setExpandedItem(null)}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          </div>
-          <div className="expanded-title">{item.name}</div>
-          <div className="expanded-desc">{item.desc}</div>
-          <div className="expanded-content">
-            {expandedItem === `services3d-${item.id}` && renderService3D(item.id, 240)}
+          <div className="expanded-inner">
+            <div className="expanded-title">{item.name}</div>
+            <div className="expanded-desc">{item.desc}</div>
+            <div className="expanded-content">
+              {expandedItem === `services3d-${item.id}` && renderService3D(item.id, 200)}
+            </div>
+            <div className="expanded-close" onClick={() => setExpandedItem(null)}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </div>
           </div>
         </div>
       ))}
@@ -813,15 +904,17 @@ export default function Creative() {
       {/* Expanded Views for Geometry */}
       {geometryItems.map(item => (
         <div key={item.id} className={`expanded-view ${expandedItem === `geometry-${item.id}` ? 'active' : ''}`}>
-          <div className="expanded-close" onClick={() => setExpandedItem(null)}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          </div>
-          <div className="expanded-title">{item.name}</div>
-          <div className="expanded-desc">{item.desc}</div>
-          <div className="expanded-content">
-            {expandedItem === `geometry-${item.id}` && renderGeometry(item.id)}
+          <div className="expanded-inner">
+            <div className="expanded-title">{item.name}</div>
+            <div className="expanded-desc">{item.desc}</div>
+            <div className="expanded-content">
+              {expandedItem === `geometry-${item.id}` && renderGeometry(item.id)}
+            </div>
+            <div className="expanded-close" onClick={() => setExpandedItem(null)}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </div>
           </div>
         </div>
       ))}
@@ -829,15 +922,17 @@ export default function Creative() {
       {/* Expanded Views for Experiences */}
       {experienceItems.map(item => (
         <div key={item.id} className={`expanded-view ${expandedItem === `experiences-${item.id}` ? 'active' : ''}`}>
-          <div className="expanded-close" onClick={() => setExpandedItem(null)}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          </div>
-          <div className="expanded-title">{item.name}</div>
-          <div className="expanded-desc">{item.desc}</div>
-          <div className="expanded-content">
-            {expandedItem === `experiences-${item.id}` && renderExperience(item.id)}
+          <div className="expanded-inner">
+            <div className="expanded-title">{item.name}</div>
+            <div className="expanded-desc">{item.desc}</div>
+            <div className="expanded-content">
+              {expandedItem === `experiences-${item.id}` && renderExperience(item.id)}
+            </div>
+            <div className="expanded-close" onClick={() => setExpandedItem(null)}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </div>
           </div>
         </div>
       ))}
