@@ -66,7 +66,6 @@ const experienceItems = [
 
 export default function Creative() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [icons3DReady, setIcons3DReady] = useState(false);
   const [openApp, setOpenApp] = useState<string | null>(null);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
 
@@ -75,14 +74,31 @@ export default function Creative() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Lock body scroll when overlay or expanded view is open
   useEffect(() => {
-    // Longer delay for 3D icons to ensure smooth loading
-    const timer = setTimeout(() => setIcons3DReady(true), 400);
-    return () => clearTimeout(timer);
-  }, []);
+    if (openApp || expandedItem) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+    };
+  }, [openApp, expandedItem]);
 
   const renderWork3D = (id: string, size: number) => {
-    if (!icons3DReady) return <div style={{ width: size, height: size }} />;
     switch (id) {
       case 'trade69': return <Trade69Icon3D size={size} />;
       case 'megaagent': return <MegaAgentIcon3D size={size} />;
@@ -93,7 +109,6 @@ export default function Creative() {
   };
 
   const renderService3D = (id: string, size: number) => {
-    if (!icons3DReady) return <div style={{ width: size, height: size }} />;
     switch (id) {
       case 'website': return <WebsiteIcon3D size={size} />;
       case 'dashboard': return <DashboardIcon3D size={size} />;
@@ -114,7 +129,6 @@ export default function Creative() {
   };
 
   const renderExperience = (id: string) => {
-    if (!icons3DReady) return <div style={{ width: '100%', height: 300 }} />;
     switch (id) {
       case 'sphere': return <QuantumSphere />;
       case 'manifold': return <QuantumManifold />;
@@ -137,9 +151,9 @@ export default function Creative() {
   const renderAppThumbnail = (id: string) => {
     switch (id) {
       case 'work3d':
-        return icons3DReady ? <Trade69Icon3D size={90} /> : <div style={{ width: 90, height: 90 }} />;
+        return <Trade69Icon3D size={90} />;
       case 'services3d':
-        return icons3DReady ? <WebsiteIcon3D size={90} /> : <div style={{ width: 90, height: 90 }} />;
+        return <WebsiteIcon3D size={90} />;
       case 'geometry':
         return <div style={{ transform: 'scale(0.55)' }}><MetatronCube /></div>;
       case 'experiences':
@@ -187,17 +201,9 @@ export default function Creative() {
         .expanded-view {
           overscroll-behavior: contain;
           -webkit-overflow-scrolling: touch;
-          touch-action: pan-y;
-        }
-        
-        /* Smooth icon content fade-in */
-        .icon-content {
-          opacity: 0;
-          transition: opacity 0.4s ease;
-        }
-        
-        .icon-content.ready {
-          opacity: 1;
+          touch-action: none;
+          overflow: hidden;
+          position: fixed;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -629,7 +635,7 @@ export default function Creative() {
           justify-content: center;
           border-radius: 24px;
           overflow: hidden;
-          background: rgba(255, 255, 255, 0.03);
+          background: transparent;
         }
         
         .expanded-close {
@@ -856,9 +862,7 @@ export default function Creative() {
                 style={{ background: `linear-gradient(145deg, ${app.color[0]} 0%, ${app.color[1]} 100%)` }}
                 onClick={() => setOpenApp(app.id)}
               >
-                <div className={`icon-content ${icons3DReady ? 'ready' : ''}`}>
-                  {renderAppThumbnail(app.id)}
-                </div>
+                {renderAppThumbnail(app.id)}
               </div>
               <span className={`app-name ${isLoaded ? 'loaded' : ''}`}>{app.name}</span>
             </div>
@@ -868,7 +872,6 @@ export default function Creative() {
 
       {/* Work 3D Overlay */}
       <div className={`app-overlay ${openApp === 'work3d' ? 'active' : ''}`} onClick={() => setOpenApp(null)}>
-        <div className="app-overlay-title">Work 3D</div>
         <div className="app-overlay-grid" onClick={e => e.stopPropagation()}>
           {work3DItems.map(item => (
             <div key={item.id} className="item-card" onClick={() => setExpandedItem(`work3d-${item.id}`)}>
@@ -888,7 +891,6 @@ export default function Creative() {
 
       {/* Services 3D Overlay */}
       <div className={`app-overlay ${openApp === 'services3d' ? 'active' : ''}`} onClick={() => setOpenApp(null)}>
-        <div className="app-overlay-title">Services 3D</div>
         <div className="app-overlay-grid" onClick={e => e.stopPropagation()}>
           {service3DItems.map(item => (
             <div key={item.id} className="item-card" onClick={() => setExpandedItem(`services3d-${item.id}`)}>
@@ -908,7 +910,6 @@ export default function Creative() {
 
       {/* Geometry Overlay */}
       <div className={`app-overlay ${openApp === 'geometry' ? 'active' : ''}`} onClick={() => setOpenApp(null)}>
-        <div className="app-overlay-title">Sacred Geometry</div>
         <div className="app-overlay-grid" onClick={e => e.stopPropagation()}>
           {geometryItems.map(item => (
             <div key={item.id} className="item-card" onClick={() => setExpandedItem(`geometry-${item.id}`)}>
@@ -928,7 +929,6 @@ export default function Creative() {
 
       {/* Experiences Overlay */}
       <div className={`app-overlay ${openApp === 'experiences' ? 'active' : ''}`} onClick={() => setOpenApp(null)}>
-        <div className="app-overlay-title">3D Experiences</div>
         <div className="app-overlay-grid" onClick={e => e.stopPropagation()}>
           {experienceItems.map(item => (
             <div key={item.id} className="item-card" onClick={() => item.link ? window.open(item.link, '_blank') : setExpandedItem(`experiences-${item.id}`)}>
@@ -952,7 +952,6 @@ export default function Creative() {
 
       {/* Icons Folder Overlay */}
       <div className={`app-overlay ${openApp === 'icons' ? 'active' : ''}`} onClick={() => setOpenApp(null)}>
-        <div className="app-overlay-title">Icons</div>
         <div className="icons-folder-grid" onClick={e => e.stopPropagation()}>
           {/* Work Icons */}
           <div className="icon-2d-item">

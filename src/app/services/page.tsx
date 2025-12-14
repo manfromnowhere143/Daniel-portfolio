@@ -37,6 +37,30 @@ export default function Services() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Lock body scroll when overlay or expanded view is open
+  useEffect(() => {
+    if (openApp || expandedService) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+    };
+  }, [openApp, expandedService]);
+
   // Render elegant service icon shapes
   const renderServiceIcon = (id: string, size: number = 75) => {
     switch (id) {
@@ -229,7 +253,9 @@ export default function Services() {
         .expanded-view {
           overscroll-behavior: contain;
           -webkit-overflow-scrolling: touch;
-          touch-action: pan-y;
+          touch-action: none;
+          overflow: hidden;
+          position: fixed;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -483,7 +509,7 @@ export default function Services() {
           justify-content: center;
           border-radius: 24px;
           overflow: hidden;
-          background: rgba(255, 255, 255, 0.03);
+          background: transparent;
         }
         
         .expanded-close {
@@ -832,7 +858,6 @@ export default function Services() {
 
       {/* Social Folder Overlay */}
       <div className={`app-overlay ${openApp === 'social' ? 'active' : ''}`} onClick={() => setOpenApp(null)}>
-        <div className="app-overlay-title">Social</div>
         <div className="social-grid" onClick={e => e.stopPropagation()}>
           {socialLinks.map(social => (
             <a
