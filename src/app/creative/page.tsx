@@ -160,6 +160,22 @@ export default function Creative() {
     <>
       <style>{`
         /* ═══════════════════════════════════════════════════════════ */
+        /* SMOOTH SCROLL - PREVENT MOBILE BOUNCE/DISRUPTION           */
+        /* ═══════════════════════════════════════════════════════════ */
+        
+        .creative-page {
+          overscroll-behavior: none;
+          -webkit-overflow-scrolling: touch;
+        }
+        
+        .app-overlay,
+        .expanded-view {
+          overscroll-behavior: contain;
+          -webkit-overflow-scrolling: touch;
+          touch-action: pan-y;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════ */
         /* iOS-LEVEL ELEGANCE - MAIN GRID                              */
         /* ═══════════════════════════════════════════════════════════ */
         
@@ -411,9 +427,10 @@ export default function Creative() {
         
         .app-overlay-close {
           position: absolute;
-          bottom: 80px;
-          width: 50px;
-          height: 50px;
+          top: 20px;
+          right: 20px;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
           background: rgba(255, 255, 255, 0.1);
           border: 1px solid rgba(255, 255, 255, 0.2);
@@ -423,6 +440,7 @@ export default function Creative() {
           cursor: pointer;
           transition: transform 0.15s ease, background 0.15s ease;
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+          z-index: 10;
         }
         
         .app-overlay-close:active {
@@ -589,9 +607,10 @@ export default function Creative() {
         
         .expanded-close {
           position: absolute;
-          bottom: 80px;
-          width: 50px;
-          height: 50px;
+          top: 20px;
+          right: 20px;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
           background: rgba(255, 255, 255, 0.1);
           border: 1px solid rgba(255, 255, 255, 0.2);
@@ -600,6 +619,7 @@ export default function Creative() {
           justify-content: center;
           cursor: pointer;
           transition: transform 0.15s ease;
+          z-index: 10;
         }
         
         .expanded-close:active { transform: scale(0.95); }
@@ -785,7 +805,7 @@ export default function Creative() {
         }
       `}</style>
 
-      <div style={{
+      <div className="creative-page" style={{
         minHeight: "100vh",
         backgroundColor: "#0A0A0A",
         paddingTop: "clamp(100px, 15vh, 160px)",
