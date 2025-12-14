@@ -72,30 +72,35 @@ export default function Creative() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Lock body scroll when overlay or expanded view is open
+  // Lock body scroll when overlay or expanded view is open - NO JUMP
   useEffect(() => {
     if (openApp || expandedItem) {
-      const scrollY = window.scrollY;
+      // Prevent scroll without position change (no jump)
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
-      document.body.style.top = `-${scrollY}px`;
+      document.body.style.paddingRight = `${scrollBarWidth}px`;
+      document.body.style.touchAction = 'none';
+      // Prevent all touch events on body
+      document.body.addEventListener('touchmove', preventTouch, { passive: false });
     } else {
-      const scrollY = document.body.style.top;
       document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.top = '';
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      document.body.style.paddingRight = '';
+      document.body.style.touchAction = '';
+      document.body.removeEventListener('touchmove', preventTouch);
     }
 
     return () => {
       document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.top = '';
+      document.body.style.paddingRight = '';
+      document.body.style.touchAction = '';
+      document.body.removeEventListener('touchmove', preventTouch);
     };
   }, [openApp, expandedItem]);
+
+  // Prevent touch move
+  const preventTouch = (e: TouchEvent) => {
+    e.preventDefault();
+  };
 
   const renderWork3D = (id: string, size: number) => {
     switch (id) {
@@ -194,6 +199,12 @@ export default function Creative() {
         .creative-page {
           overscroll-behavior: none;
           -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Block swipe when overlay open */
+        .creative-page.overlay-open {
+          touch-action: none;
+          overflow: hidden;
         }
         
         /* ═══════════════════════════════════════════════════════════ */
@@ -306,7 +317,7 @@ export default function Creative() {
         .app-container:nth-child(5) .folder-name { transition-delay: 280ms; }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* iOS FOLDER OVERLAY - PERFECTLY CENTERED                     */
+        /* iOS FOLDER OVERLAY - BLOCK ALL SWIPE/NAVIGATION             */
         /* ═══════════════════════════════════════════════════════════ */
         
         .folder-overlay {
@@ -319,10 +330,17 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
+          padding-top: clamp(80px, 12vh, 120px);
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.25s ease;
+          /* BLOCK ALL SWIPE/TOUCH NAVIGATION */
+          touch-action: none;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          user-select: none;
+          overscroll-behavior: none;
         }
         
         .folder-overlay.active {
@@ -340,6 +358,8 @@ export default function Creative() {
           background: rgba(50, 50, 50, 0.45);
           backdrop-filter: blur(35px);
           -webkit-backdrop-filter: blur(35px);
+          /* Block touch on background too */
+          touch-action: none;
         }
         
         /* Folder title above container */
@@ -377,6 +397,8 @@ export default function Creative() {
           box-shadow: 
             0 15px 50px rgba(0, 0, 0, 0.35),
             0 0 60px rgba(255, 255, 255, 0.08);
+          /* Block touch events */
+          touch-action: none;
         }
         
         .folder-overlay.active .folder-container {
@@ -402,6 +424,7 @@ export default function Creative() {
           transform: scale(0.5);
           transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s, background 0.15s ease;
           border: 1px solid rgba(255, 255, 255, 0.25);
+          touch-action: manipulation;
         }
         
         .folder-overlay.active .folder-close {
@@ -419,6 +442,7 @@ export default function Creative() {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 18px;
+          touch-action: none;
         }
         
         .folder-apps-grid.grid-3 {
@@ -439,6 +463,7 @@ export default function Creative() {
           opacity: 0;
           transform: scale(0.3) translateY(10px);
           transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+          touch-action: manipulation;
         }
         
         .folder-overlay.active .folder-app {
@@ -486,7 +511,7 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* EXPANDED ITEM VIEW - PERFECTLY CENTERED                     */
+        /* EXPANDED ITEM VIEW - BLOCK ALL SWIPE/NAVIGATION             */
         /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-view {
@@ -500,10 +525,17 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
+          padding-top: clamp(70px, 10vh, 110px);
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.25s ease;
+          /* BLOCK ALL SWIPE/TOUCH NAVIGATION */
+          touch-action: none;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          user-select: none;
+          overscroll-behavior: none;
         }
         
         .expanded-view.active {
@@ -515,6 +547,7 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
+          touch-action: none;
         }
         
         .expanded-title {
@@ -539,6 +572,7 @@ export default function Creative() {
           justify-content: center;
           /* 3D floating effect */
           filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.6));
+          touch-action: none;
         }
         
         /* X close button - below 3D content */
@@ -554,6 +588,7 @@ export default function Creative() {
           cursor: pointer;
           transition: background 0.15s ease, transform 0.15s ease;
           border: 1px solid rgba(255, 255, 255, 0.18);
+          touch-action: manipulation;
         }
         
         .expanded-close:active {
@@ -709,7 +744,7 @@ export default function Creative() {
         }
       `}</style>
 
-      <div className="creative-page" style={{
+      <div className={`creative-page ${openApp || expandedItem ? 'overlay-open' : ''}`} style={{
         minHeight: "100vh",
         backgroundColor: "#0A0A0A",
         paddingTop: "clamp(90px, 12vh, 140px)",
