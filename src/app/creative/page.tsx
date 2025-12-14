@@ -72,18 +72,19 @@ export default function Creative() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Prevent touch move function - defined outside useEffect
+  // Prevent touch move function - only blocks swipe, not tap
   const preventTouchMove = useCallback((e: TouchEvent) => {
-    // Allow interaction with close button
+    // Allow interaction with buttons and clickable elements
     const target = e.target as HTMLElement;
-    if (target.closest('.expanded-close') || target.closest('.folder-close')) {
+    if (target.closest('.expanded-close') ||
+        target.closest('.folder-close') ||
+        target.closest('.folder-app') ||
+        target.closest('.folder-app-icon') ||
+        target.closest('.expanded-content')) {
       return;
     }
-    // Block horizontal swipes completely
-    if (e.touches.length === 1) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+    // Block swipes
+    e.preventDefault();
   }, []);
 
   // Lock body scroll when overlay or expanded view is open - NO JUMP, NO SWIPE
@@ -93,24 +94,18 @@ export default function Creative() {
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = 'hidden';
       document.body.style.paddingRight = `${scrollBarWidth}px`;
-      document.body.style.touchAction = 'none';
-      document.documentElement.style.touchAction = 'none';
+      document.body.style.touchAction = 'pan-y';
+      document.documentElement.style.touchAction = 'pan-y';
 
-      // Block ALL touch movement on document
-      document.addEventListener('touchmove', preventTouchMove, { passive: false, capture: true });
-      document.addEventListener('touchstart', preventTouchMove, { passive: false, capture: true });
-
-      // Also block on window
-      window.addEventListener('touchmove', preventTouchMove, { passive: false });
+      // Block touch MOVE only (not touchstart - that breaks taps!)
+      document.addEventListener('touchmove', preventTouchMove, { passive: false });
     } else {
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
       document.body.style.touchAction = '';
       document.documentElement.style.touchAction = '';
 
-      document.removeEventListener('touchmove', preventTouchMove, { capture: true } as EventListenerOptions);
-      document.removeEventListener('touchstart', preventTouchMove, { capture: true } as EventListenerOptions);
-      window.removeEventListener('touchmove', preventTouchMove);
+      document.removeEventListener('touchmove', preventTouchMove);
     }
 
     return () => {
@@ -118,9 +113,7 @@ export default function Creative() {
       document.body.style.paddingRight = '';
       document.body.style.touchAction = '';
       document.documentElement.style.touchAction = '';
-      document.removeEventListener('touchmove', preventTouchMove, { capture: true } as EventListenerOptions);
-      document.removeEventListener('touchstart', preventTouchMove, { capture: true } as EventListenerOptions);
-      window.removeEventListener('touchmove', preventTouchMove);
+      document.removeEventListener('touchmove', preventTouchMove);
     };
   }, [openApp, expandedItem, preventTouchMove]);
 
@@ -540,10 +533,9 @@ export default function Creative() {
           visibility: hidden;
           pointer-events: none;
           transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-          /* BLOCK ALL SWIPE/TOUCH NAVIGATION */
-          touch-action: none;
+          /* Allow taps, block swipes */
+          touch-action: manipulation;
           -webkit-touch-callout: none;
-          -webkit-user-select: none;
           user-select: none;
           overscroll-behavior: none;
           /* Prevent flash */
@@ -569,7 +561,7 @@ export default function Creative() {
           background: rgba(40, 40, 40, 0.5);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
-          touch-action: none;
+          touch-action: manipulation;
           /* Prevent flash */
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -617,7 +609,7 @@ export default function Creative() {
             0 8px 25px rgba(0, 0, 0, 0.3),
             /* Inner light */
             inset 0 1px 1px rgba(255, 255, 255, 0.8);
-          touch-action: none;
+          touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
@@ -671,7 +663,7 @@ export default function Creative() {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 18px;
-          touch-action: none;
+          touch-action: manipulation;
         }
         
         .folder-apps-grid.grid-3 {
@@ -789,13 +781,11 @@ export default function Creative() {
           visibility: hidden;
           pointer-events: none;
           transition: opacity 0.3s ease, visibility 0s linear 0.3s;
-          /* CRITICAL: LOCK ALL SWIPE/TOUCH NAVIGATION */
-          touch-action: none !important;
-          -webkit-touch-callout: none !important;
-          -webkit-user-select: none !important;
-          user-select: none !important;
-          overscroll-behavior: none !important;
-          -webkit-overflow-scrolling: none !important;
+          /* Allow taps, block swipes via JS */
+          touch-action: manipulation;
+          -webkit-touch-callout: none;
+          user-select: none;
+          overscroll-behavior: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity;
@@ -812,10 +802,7 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          /* LOCK SWIPE */
-          touch-action: none !important;
-          -webkit-user-select: none !important;
-          user-select: none !important;
+          touch-action: manipulation;
         }
         
         .expanded-title {
@@ -1051,7 +1038,6 @@ export default function Creative() {
       {/* Work 3D Folder Overlay */}
       <div className={`folder-overlay ${openApp === 'work3d' ? 'active' : ''}`}>
         <div className="folder-overlay-bg" onClick={() => setOpenApp(null)} />
-        <div className="folder-overlay-title">Work 3D</div>
         <div className="folder-container">
           <div className="folder-apps-grid">
             {work3DItems.map(item => (
@@ -1074,7 +1060,6 @@ export default function Creative() {
       {/* Services 3D Folder Overlay */}
       <div className={`folder-overlay ${openApp === 'services3d' ? 'active' : ''}`}>
         <div className="folder-overlay-bg" onClick={() => setOpenApp(null)} />
-        <div className="folder-overlay-title">Services 3D</div>
         <div className="folder-container">
           <div className="folder-apps-grid">
             {service3DItems.map(item => (
@@ -1097,7 +1082,6 @@ export default function Creative() {
       {/* Geometry Folder Overlay */}
       <div className={`folder-overlay ${openApp === 'geometry' ? 'active' : ''}`}>
         <div className="folder-overlay-bg" onClick={() => setOpenApp(null)} />
-        <div className="folder-overlay-title">Sacred Geometry</div>
         <div className="folder-container">
           <div className="folder-apps-grid">
             {geometryItems.map(item => (
@@ -1120,7 +1104,6 @@ export default function Creative() {
       {/* Experiences Folder Overlay */}
       <div className={`folder-overlay ${openApp === 'experiences' ? 'active' : ''}`}>
         <div className="folder-overlay-bg" onClick={() => setOpenApp(null)} />
-        <div className="folder-overlay-title">Experiences</div>
         <div className="folder-container">
           <div className="folder-apps-grid grid-3">
             {experienceItems.map(item => (
@@ -1182,7 +1165,6 @@ export default function Creative() {
       {/* Icons Folder Overlay */}
       <div className={`folder-overlay ${openApp === 'icons' ? 'active' : ''}`}>
         <div className="folder-overlay-bg" onClick={() => setOpenApp(null)} />
-        <div className="folder-overlay-title">Icons</div>
         <div className="folder-container">
           <div className="folder-apps-grid grid-4">
             <div className="folder-app">
