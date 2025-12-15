@@ -130,14 +130,14 @@ export default function About() {
     return () => clearInterval(typeInterval);
   }, [isLoaded]);
 
-  // Syntax highlighting for YAML - ALL WHITE with opacity variations
+  // Syntax highlighting for YAML - ALL WHITE elegant style
   const highlightLine = (line: string, index: number) => {
     if (!line) {
-      return <span style={{ opacity: 0.3 }}>{'\u00A0'}</span>;
+      return <span style={{ color: '#FAFAF8' }}>{'\u00A0'}</span>;
     }
 
     if (line.trim() === '') {
-      return <span style={{ opacity: 0.3 }}>{'\u00A0'}</span>;
+      return <span style={{ color: '#FAFAF8' }}>{'\u00A0'}</span>;
     }
 
     // Key-value patterns
@@ -145,25 +145,12 @@ export default function About() {
     if (keyMatch) {
       const [, indent, key, colon, value] = keyMatch;
 
-      let valueElement = null;
-      if (value.trim()) {
-        if (value.includes('|')) {
-          valueElement = <span style={{ color: '#FAFAF8', opacity: 0.5 }}>{value}</span>;
-        } else if (value.trim().match(/^[0-9\-]+$/)) {
-          valueElement = <span style={{ color: '#FAFAF8', opacity: 0.9 }}>{value}</span>;
-        } else if (value.trim() === 'true' || value.trim() === 'false' || value.trim() === 'none' || value.trim() === 'high' || value.trim() === 'acknowledged') {
-          valueElement = <span style={{ color: '#FAFAF8', opacity: 0.7 }}>{value}</span>;
-        } else {
-          valueElement = <span style={{ color: '#FAFAF8', opacity: 0.6 }}>{value}</span>;
-        }
-      }
-
       return (
         <>
-          <span style={{ opacity: 0.2 }}>{indent}</span>
-          <span style={{ color: '#FAFAF8', opacity: 1 }}>{key}</span>
-          <span style={{ color: '#FAFAF8', opacity: 0.4 }}>{colon}</span>
-          {valueElement}
+          <span style={{ color: '#FAFAF8' }}>{indent}</span>
+          <span style={{ color: '#FAFAF8' }}>{key}</span>
+          <span style={{ color: '#FAFAF8' }}>{colon}</span>
+          {value && <span style={{ color: '#FAFAF8' }}>{value}</span>}
         </>
       );
     }
@@ -174,25 +161,28 @@ export default function About() {
       const [, indent, dash, space, value] = arrayMatch;
       return (
         <>
-          <span style={{ opacity: 0.2 }}>{indent}</span>
-          <span style={{ color: '#FAFAF8', opacity: 0.35 }}>{dash}</span>
-          <span>{space}</span>
-          <span style={{ color: '#FAFAF8', opacity: 0.7 }}>{value}</span>
+          <span style={{ color: '#FAFAF8' }}>{indent}</span>
+          <span style={{ color: '#FAFAF8' }}>{dash}</span>
+          <span style={{ color: '#FAFAF8' }}>{space}</span>
+          <span style={{ color: '#FAFAF8' }}>{value}</span>
         </>
       );
     }
 
-    // Multiline string content
+    // Multiline string content (quotes)
     if (line.trim().startsWith('"') || line.trim().startsWith("'")) {
-      return <span style={{ color: '#FAFAF8', opacity: 0.6 }}>{line}</span>;
+      return <span style={{ color: '#FAFAF8' }}>{line}</span>;
     }
 
-    return <span style={{ color: '#FAFAF8', opacity: 0.8 }}>{line}</span>;
+    return <span style={{ color: '#FAFAF8' }}>{line}</span>;
   };
 
   return (
     <>
       <style>{`
+        /* Import elegant monospace font */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;300;400&display=swap');
+        
         .about-page {
           opacity: 0;
           transition: opacity 0.5s ease;
@@ -356,25 +346,29 @@ export default function About() {
           align-items: flex-start;
           padding: 0 20px;
           min-height: 21px;
-          font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+          font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Cascadia Code', monospace;
           font-size: clamp(11px, 1.4vw, 13px);
           line-height: 21px;
-          letter-spacing: 0.02em;
+          letter-spacing: 0.03em;
+          font-weight: 300;
+          font-feature-settings: 'liga' 1, 'calt' 1;
         }
         
         .line-number {
           min-width: 36px;
           padding-right: 16px;
           text-align: right;
-          color: rgba(255, 255, 255, 0.15);
+          color: rgba(250, 250, 248, 0.35);
           user-select: none;
           font-size: clamp(10px, 1.2vw, 11px);
+          font-weight: 300;
         }
         
         .line-content {
           flex: 1;
           white-space: pre-wrap;
           word-break: break-word;
+          color: #FAFAF8;
         }
         
         /* Cursor blink animation */
