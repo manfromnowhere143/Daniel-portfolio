@@ -206,12 +206,12 @@ export default function Navigation() {
         
         .nav-icon-container {
           position: relative;
-          width: 52px;
-          height: 52px;
+          width: 56px;
+          height: 56px;
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 16px;
+          border-radius: 18px;
           background: linear-gradient(
             165deg,
             rgba(255, 255, 255, 0.08) 0%,
@@ -245,7 +245,7 @@ export default function Navigation() {
           content: '';
           position: absolute;
           inset: -1px;
-          border-radius: 17px;
+          border-radius: 19px;
           padding: 1px;
           background: linear-gradient(
             135deg,
@@ -277,7 +277,7 @@ export default function Navigation() {
             rgba(255, 255, 255, 0.02) 60%,
             transparent 100%
           );
-          border-radius: 16px 16px 50% 50%;
+          border-radius: 18px 18px 50% 50%;
           pointer-events: none;
           z-index: 10;
         }
@@ -340,42 +340,98 @@ export default function Navigation() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - RIGHT SIDE VERTICAL DOCK                 */
-        /* Slides out from hamburger, stacked vertically               */
+        /* STATE OF THE ART - BOTTOM FLOATING DOCK                     */
+        /* Glass pill container with icons inside                      */
         /* ═══════════════════════════════════════════════════════════ */
         
-        .mobile-nav-dock {
+        .mobile-nav-bar {
           position: fixed;
-          top: 72px;
-          right: 24px;
+          bottom: 0;
+          left: 0;
+          right: 0;
           z-index: 200;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 12px;
-          padding: 16px 12px;
-          background: rgba(15, 15, 15, 0.6);
-          backdrop-filter: blur(30px);
-          -webkit-backdrop-filter: blur(30px);
-          border-radius: 24px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          box-shadow: 
-            0 0 40px rgba(0, 0, 0, 0.4),
-            0 20px 40px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+          background: transparent;
+          padding-bottom: env(safe-area-inset-bottom, 24px);
           -webkit-tap-highlight-color: transparent;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         
-        /* Subtle top shine */
-        .mobile-nav-dock::before {
+        /* STATE OF THE ART - Floating Glass Pill */
+        .mobile-nav-inner {
+          position: relative;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          gap: 14px;
+          padding: 12px 20px;
+          background: linear-gradient(
+            165deg,
+            rgba(30, 30, 30, 0.7) 0%,
+            rgba(15, 15, 15, 0.8) 50%,
+            rgba(10, 10, 10, 0.85) 100%
+          );
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
+          border-radius: 50px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          
+          /* 6-layer ethereal floating shadow */
+          box-shadow: 
+            /* Outer glow layers */
+            0 0 40px rgba(255, 255, 255, 0.08),
+            0 0 80px rgba(255, 255, 255, 0.04),
+            /* Depth shadows */
+            0 4px 8px rgba(0, 0, 0, 0.4),
+            0 12px 24px rgba(0, 0, 0, 0.35),
+            0 24px 48px rgba(0, 0, 0, 0.25),
+            /* Inner light */
+            inset 0 1px 1px rgba(255, 255, 255, 0.12);
+        }
+        
+        /* Animated gradient border using mask technique */
+        .mobile-nav-inner::before {
+          content: '';
+          position: absolute;
+          inset: -1px;
+          border-radius: 51px;
+          padding: 1px;
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.25) 0%,
+            rgba(255, 255, 255, 0.05) 25%,
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0.02) 75%,
+            rgba(255, 255, 255, 0.1) 100%
+          );
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          pointer-events: none;
+          opacity: 0.7;
+        }
+        
+        /* Curved glass reflection on top */
+        .mobile-nav-inner::after {
           content: '';
           position: absolute;
           top: 0;
-          left: 15%;
-          right: 15%;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          left: 10%;
+          right: 10%;
+          height: 50%;
+          background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0.08) 30%,
+            rgba(255, 255, 255, 0.02) 60%,
+            transparent 100%
+          );
+          border-radius: 50px 50px 50% 50%;
           pointer-events: none;
+          z-index: 1;
         }
         
         .nav-link {
@@ -384,12 +440,9 @@ export default function Navigation() {
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
+          position: relative;
+          z-index: 5;
         }
-        
-        /* Staggered animation for each icon */
-        .nav-link:nth-child(1) { transition-delay: 0ms; }
-        .nav-link:nth-child(2) { transition-delay: 50ms; }
-        .nav-link:nth-child(3) { transition-delay: 100ms; }
       `}</style>
 
       {/* STATE OF THE ART - Desktop Sidebar */}
