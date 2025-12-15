@@ -206,12 +206,12 @@ export default function Navigation() {
         
         .nav-icon-container {
           position: relative;
-          width: 56px;
-          height: 56px;
+          width: 52px;
+          height: 52px;
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 18px;
+          border-radius: 16px;
           background: linear-gradient(
             165deg,
             rgba(255, 255, 255, 0.08) 0%,
@@ -245,7 +245,7 @@ export default function Navigation() {
           content: '';
           position: absolute;
           inset: -1px;
-          border-radius: 19px;
+          border-radius: 17px;
           padding: 1px;
           background: linear-gradient(
             135deg,
@@ -277,7 +277,7 @@ export default function Navigation() {
             rgba(255, 255, 255, 0.02) 60%,
             transparent 100%
           );
-          border-radius: 18px 18px 50% 50%;
+          border-radius: 16px 16px 50% 50%;
           pointer-events: none;
           z-index: 10;
         }
@@ -339,34 +339,43 @@ export default function Navigation() {
           opacity: 0.75;
         }
         
-        /* Bottom bar container - TRANSPARENT, FLOATING */
-        .mobile-nav-bar {
+        /* ═══════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - RIGHT SIDE VERTICAL DOCK                 */
+        /* Slides out from hamburger, stacked vertically               */
+        /* ═══════════════════════════════════════════════════════════ */
+        
+        .mobile-nav-dock {
           position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
+          top: 72px;
+          right: 24px;
           z-index: 200;
-          background: transparent;
-          padding-bottom: env(safe-area-inset-bottom, 20px);
-          -webkit-tap-highlight-color: transparent;
           display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: center;
+          gap: 12px;
+          padding: 16px 12px;
+          background: rgba(15, 15, 15, 0.6);
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
+          border-radius: 24px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 
+            0 0 40px rgba(0, 0, 0, 0.4),
+            0 20px 40px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+          -webkit-tap-highlight-color: transparent;
         }
         
-        /* 3 icons centered with gap */
-        .mobile-nav-inner {
-          height: 80px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-          gap: 20px;
-          width: 100%;
-          max-width: 100%;
-          margin: 0 auto;
-          padding: 0 0 12px 0;
-          box-sizing: border-box;
+        /* Subtle top shine */
+        .mobile-nav-dock::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 15%;
+          right: 15%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          pointer-events: none;
         }
         
         .nav-link {
@@ -376,6 +385,11 @@ export default function Navigation() {
           justify-content: center;
           flex-shrink: 0;
         }
+        
+        /* Staggered animation for each icon */
+        .nav-link:nth-child(1) { transition-delay: 0ms; }
+        .nav-link:nth-child(2) { transition-delay: 50ms; }
+        .nav-link:nth-child(3) { transition-delay: 100ms; }
       `}</style>
 
       {/* STATE OF THE ART - Desktop Sidebar */}
@@ -538,140 +552,153 @@ export default function Navigation() {
         )}
       </div>
 
-      {/* STATE OF THE ART - Mobile Bottom Nav - 3 CENTERED ICONS */}
+      {/* STATE OF THE ART - Right Side Vertical Dock */}
       <div
-        className={`mobile-nav-bar ${styles.mobileOnly}`}
+        className={`mobile-nav-dock ${styles.mobileOnly}`}
         style={{
-          transform: isOpen ? "translateY(0)" : "translateY(100%)",
+          transform: isOpen ? "translateX(0) scale(1)" : "translateX(120%) scale(0.8)",
           opacity: isOpen ? 1 : 0,
-          transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease",
+          transition: "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease",
           pointerEvents: isOpen ? "auto" : "none"
         }}
       >
-        <div className="mobile-nav-inner">
-          {/* ABOUT - Ethereal Human Essence */}
-          <Link
-            href="/"
-            onClick={() => setTimeout(() => setIsOpen(false), 150)}
-            className="nav-link"
-          >
-            <div className={`nav-icon-container ${pathname === "/" ? "active" : ""}`}>
-              <svg className="nav-icon-svg" width="26" height="26" viewBox="0 0 32 32" fill="none">
-                {/* Subtle outer ring */}
-                <circle cx="16" cy="16" r="14" stroke="url(#aboutGradient)" strokeWidth="0.5" opacity="0.3"/>
+        {/* ABOUT - Ethereal Human Essence */}
+        <Link
+          href="/"
+          onClick={() => setTimeout(() => setIsOpen(false), 150)}
+          className="nav-link"
+          style={{
+            transform: isOpen ? "translateX(0)" : "translateX(20px)",
+            opacity: isOpen ? 1 : 0,
+            transition: "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0ms, opacity 0.3s ease 0ms"
+          }}
+        >
+          <div className={`nav-icon-container ${pathname === "/" ? "active" : ""}`}>
+            <svg className="nav-icon-svg" width="24" height="24" viewBox="0 0 32 32" fill="none">
+              {/* Subtle outer ring */}
+              <circle cx="16" cy="16" r="14" stroke="url(#aboutGradient)" strokeWidth="0.5" opacity="0.3"/>
 
-                {/* Head - perfect circle with inner glow */}
-                <circle cx="16" cy="10" r="5" stroke="white" strokeWidth="1.5" fill="none"/>
-                <circle cx="16" cy="10" r="2.5" fill="white" opacity="0.15"/>
+              {/* Head - perfect circle with inner glow */}
+              <circle cx="16" cy="10" r="5" stroke="white" strokeWidth="1.5" fill="none"/>
+              <circle cx="16" cy="10" r="2.5" fill="white" opacity="0.15"/>
 
-                {/* Body - elegant curved shoulders */}
-                <path
-                  d="M6 28C6 28 8 20 16 20C24 20 26 28 26 28"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  fill="none"
-                />
+              {/* Body - elegant curved shoulders */}
+              <path
+                d="M6 28C6 28 8 20 16 20C24 20 26 28 26 28"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                fill="none"
+              />
 
-                {/* Subtle center line */}
-                <line x1="16" y1="15" x2="16" y2="22" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+              {/* Subtle center line */}
+              <line x1="16" y1="15" x2="16" y2="22" stroke="white" strokeWidth="0.5" opacity="0.3"/>
 
-                {/* Gradient definition */}
-                <defs>
-                  <linearGradient id="aboutGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="white" stopOpacity="0.8"/>
-                    <stop offset="100%" stopColor="white" stopOpacity="0.2"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-          </Link>
+              {/* Gradient definition */}
+              <defs>
+                <linearGradient id="aboutGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="white" stopOpacity="0.8"/>
+                  <stop offset="100%" stopColor="white" stopOpacity="0.2"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </Link>
 
-          {/* WORK - Premium Briefcase */}
-          <Link
-            href="/work"
-            onClick={() => setTimeout(() => setIsOpen(false), 150)}
-            className="nav-link"
-          >
-            <div className={`nav-icon-container ${pathname === "/work" || pathname.startsWith("/work/") ? "active" : ""}`}>
-              <svg className="nav-icon-svg" width="26" height="26" viewBox="0 0 32 32" fill="none">
-                {/* Main briefcase body */}
-                <rect
-                  x="3" y="10"
-                  width="26" height="17"
-                  rx="3"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  fill="none"
-                />
+        {/* WORK - Premium Briefcase */}
+        <Link
+          href="/work"
+          onClick={() => setTimeout(() => setIsOpen(false), 150)}
+          className="nav-link"
+          style={{
+            transform: isOpen ? "translateX(0)" : "translateX(20px)",
+            opacity: isOpen ? 1 : 0,
+            transition: "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 50ms, opacity 0.3s ease 50ms"
+          }}
+        >
+          <div className={`nav-icon-container ${pathname === "/work" || pathname.startsWith("/work/") ? "active" : ""}`}>
+            <svg className="nav-icon-svg" width="24" height="24" viewBox="0 0 32 32" fill="none">
+              {/* Main briefcase body */}
+              <rect
+                x="3" y="10"
+                width="26" height="17"
+                rx="3"
+                stroke="white"
+                strokeWidth="1.5"
+                fill="none"
+              />
 
-                {/* Handle */}
-                <path
-                  d="M11 10V7C11 5.5 12 4.5 13.5 4.5H18.5C20 4.5 21 5.5 21 7V10"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  fill="none"
-                />
+              {/* Handle */}
+              <path
+                d="M11 10V7C11 5.5 12 4.5 13.5 4.5H18.5C20 4.5 21 5.5 21 7V10"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                fill="none"
+              />
 
-                {/* Center clasp/lock */}
-                <rect x="14" y="14" width="4" height="5" rx="1" stroke="white" strokeWidth="1" fill="none"/>
-                <circle cx="16" cy="16.5" r="0.75" fill="white" opacity="0.8"/>
+              {/* Center clasp/lock */}
+              <rect x="14" y="14" width="4" height="5" rx="1" stroke="white" strokeWidth="1" fill="none"/>
+              <circle cx="16" cy="16.5" r="0.75" fill="white" opacity="0.8"/>
 
-                {/* Horizontal divider line */}
-                <line x1="3" y1="18" x2="14" y2="18" stroke="white" strokeWidth="0.5" opacity="0.3"/>
-                <line x1="18" y1="18" x2="29" y2="18" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+              {/* Horizontal divider line */}
+              <line x1="3" y1="18" x2="14" y2="18" stroke="white" strokeWidth="0.5" opacity="0.3"/>
+              <line x1="18" y1="18" x2="29" y2="18" stroke="white" strokeWidth="0.5" opacity="0.3"/>
 
-                {/* Subtle corner accents */}
-                <circle cx="6" cy="13" r="0.5" fill="white" opacity="0.4"/>
-                <circle cx="26" cy="13" r="0.5" fill="white" opacity="0.4"/>
-              </svg>
-            </div>
-          </Link>
+              {/* Subtle corner accents */}
+              <circle cx="6" cy="13" r="0.5" fill="white" opacity="0.4"/>
+              <circle cx="26" cy="13" r="0.5" fill="white" opacity="0.4"/>
+            </svg>
+          </div>
+        </Link>
 
-          {/* CREATIVE - Luminous Diamond/Sparkle */}
-          <Link
-            href="/creative"
-            onClick={() => setTimeout(() => setIsOpen(false), 150)}
-            className="nav-link"
-          >
-            <div className={`nav-icon-container ${pathname === "/creative" ? "active" : ""}`}>
-              <svg className="nav-icon-svg" width="26" height="26" viewBox="0 0 32 32" fill="none">
-                {/* Main 4-point star - crisp and elegant */}
-                <path
-                  d="M16 2L18 13L29 16L18 19L16 30L14 19L3 16L14 13L16 2Z"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  strokeLinejoin="round"
-                  fill="none"
-                />
+        {/* CREATIVE - Luminous Diamond/Sparkle */}
+        <Link
+          href="/creative"
+          onClick={() => setTimeout(() => setIsOpen(false), 150)}
+          className="nav-link"
+          style={{
+            transform: isOpen ? "translateX(0)" : "translateX(20px)",
+            opacity: isOpen ? 1 : 0,
+            transition: "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 100ms, opacity 0.3s ease 100ms"
+          }}
+        >
+          <div className={`nav-icon-container ${pathname === "/creative" ? "active" : ""}`}>
+            <svg className="nav-icon-svg" width="24" height="24" viewBox="0 0 32 32" fill="none">
+              {/* Main 4-point star - crisp and elegant */}
+              <path
+                d="M16 2L18 13L29 16L18 19L16 30L14 19L3 16L14 13L16 2Z"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeLinejoin="round"
+                fill="none"
+              />
 
-                {/* Inner glow shape */}
-                <path
-                  d="M16 7L17 14L24 16L17 18L16 25L15 18L8 16L15 14L16 7Z"
-                  fill="white"
-                  opacity="0.12"
-                />
+              {/* Inner glow shape */}
+              <path
+                d="M16 7L17 14L24 16L17 18L16 25L15 18L8 16L15 14L16 7Z"
+                fill="white"
+                opacity="0.12"
+              />
 
-                {/* Center brilliant point */}
-                <circle cx="16" cy="16" r="2" fill="white" opacity="0.9"/>
-                <circle cx="16" cy="16" r="1" fill="white"/>
+              {/* Center brilliant point */}
+              <circle cx="16" cy="16" r="2" fill="white" opacity="0.9"/>
+              <circle cx="16" cy="16" r="1" fill="white"/>
 
-                {/* Diagonal accent rays */}
-                <line x1="6" y1="6" x2="9" y2="9" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
-                <line x1="26" y1="6" x2="23" y2="9" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
-                <line x1="6" y1="26" x2="9" y2="23" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
-                <line x1="26" y1="26" x2="23" y2="23" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
+              {/* Diagonal accent rays */}
+              <line x1="6" y1="6" x2="9" y2="9" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
+              <line x1="26" y1="6" x2="23" y2="9" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
+              <line x1="6" y1="26" x2="9" y2="23" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
+              <line x1="26" y1="26" x2="23" y2="23" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.5"/>
 
-                {/* Tiny accent dots at ray ends */}
-                <circle cx="5" cy="5" r="1" fill="white" opacity="0.6"/>
-                <circle cx="27" cy="5" r="1" fill="white" opacity="0.6"/>
-                <circle cx="5" cy="27" r="1" fill="white" opacity="0.6"/>
-                <circle cx="27" cy="27" r="1" fill="white" opacity="0.6"/>
-              </svg>
-            </div>
-          </Link>
-        </div>
+              {/* Tiny accent dots at ray ends */}
+              <circle cx="5" cy="5" r="1" fill="white" opacity="0.6"/>
+              <circle cx="27" cy="5" r="1" fill="white" opacity="0.6"/>
+              <circle cx="5" cy="27" r="1" fill="white" opacity="0.6"/>
+              <circle cx="27" cy="27" r="1" fill="white" opacity="0.6"/>
+            </svg>
+          </div>
+        </Link>
       </div>
     </>
   );
