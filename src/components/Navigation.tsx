@@ -19,7 +19,6 @@ export default function Navigation() {
                      pathname === "/work" ||
                      pathname === "/creative" ||
                      pathname === "/story" ||
-                     pathname === "/services" ||
                      pathname.startsWith("/work/");
 
   // Colors based on page background
@@ -42,11 +41,11 @@ export default function Navigation() {
     return () => clearInterval(interval);
   }, []);
 
+  // Desktop nav items - NO SERVICES
   const navItems = [
     { href: "/", label: "About", isActive: pathname === "/" },
     { href: "/work", label: "Work", isActive: pathname === "/work" || pathname.startsWith("/work/") },
     { href: "/creative", label: "Creative", isActive: pathname === "/creative" },
-    { href: "/services", label: "Services", isActive: pathname === "/services" },
   ];
 
   const formatTime = (date: Date) => {
@@ -170,13 +169,14 @@ export default function Navigation() {
           justify-content: center;
         }
         
+        /* 3 icons centered with bigger gap */
         .mobile-nav-inner {
           height: 76px;
           display: flex;
           flex-direction: row;
           align-items: center;
           justify-content: center;
-          gap: 16px;
+          gap: 28px;
           width: 100%;
           max-width: 100%;
           margin: 0 auto;
@@ -262,7 +262,7 @@ export default function Navigation() {
           </div>
         )}
 
-        {/* Navigation Links */}
+        {/* Navigation Links - NO SERVICES */}
         <div style={{
           display: "flex",
           flexDirection: "column",
@@ -403,7 +403,7 @@ export default function Navigation() {
         )}
       </div>
 
-      {/* STATE OF THE ART - Mobile Bottom Nav with Advanced Icons */}
+      {/* STATE OF THE ART - Mobile Bottom Nav - 3 CENTERED ICONS */}
       <div
         className={`mobile-nav-bar ${styles.mobileOnly}`}
         style={{
@@ -459,7 +459,7 @@ export default function Navigation() {
             </div>
           </Link>
 
-          {/* WORK - Layered Cards with Depth */}
+          {/* WORK - STATE OF THE ART Home Icon */}
           <Link
             href="/work"
             onClick={() => setTimeout(() => setIsOpen(false), 150)}
@@ -467,31 +467,58 @@ export default function Navigation() {
           >
             <div className={`nav-icon-container ${pathname === "/work" || pathname.startsWith("/work/") ? "active" : ""}`}>
               <svg className="nav-icon-svg" width="28" height="28" viewBox="0 0 40 40" fill="none">
-                {/* Back card - furthest */}
-                <rect x="10" y="6" width="18" height="13" rx="2.5" stroke="white" strokeWidth="0.8" opacity="0.25"/>
+                {/* Outer aura */}
+                <circle cx="20" cy="20" r="18" stroke="white" strokeWidth="0.5" opacity="0.1"/>
 
-                {/* Middle card */}
-                <rect x="7" y="11" width="18" height="13" rx="2.5" stroke="white" strokeWidth="1" opacity="0.5"/>
-                <rect x="9" y="13" width="8" height="2" rx="1" fill="white" opacity="0.2"/>
+                {/* Roof - elegant triangular shape */}
+                <path
+                  d="M20 6L35 18H5L20 6Z"
+                  stroke="white"
+                  strokeWidth="1.5"
+                  strokeLinejoin="round"
+                  fill="none"
+                  opacity="0.9"
+                />
 
-                {/* Front card - prominent */}
-                <rect x="14" y="17" width="18" height="13" rx="2.5" stroke="white" strokeWidth="1.5" opacity="0.9"/>
+                {/* Inner roof glow */}
+                <path
+                  d="M20 10L30 18H10L20 10Z"
+                  stroke="white"
+                  strokeWidth="0.6"
+                  strokeLinejoin="round"
+                  fill="none"
+                  opacity="0.3"
+                />
 
-                {/* Card content lines */}
-                <rect x="17" y="20" width="10" height="1.5" rx="0.75" fill="white" opacity="0.6"/>
-                <rect x="17" y="23" width="7" height="1.5" rx="0.75" fill="white" opacity="0.4"/>
-                <rect x="17" y="26" width="5" height="1.5" rx="0.75" fill="white" opacity="0.25"/>
+                {/* House body */}
+                <rect x="8" y="18" width="24" height="16" stroke="white" strokeWidth="1.5" fill="none" opacity="0.9"/>
 
-                {/* Glow dot */}
-                <circle cx="28" cy="21" r="1.5" fill="white" opacity="0.7"/>
+                {/* Inner body glow */}
+                <rect x="11" y="20" width="18" height="12" stroke="white" strokeWidth="0.5" fill="none" opacity="0.2"/>
 
-                {/* Depth shadow hint */}
-                <path d="M14 30.5L32 30.5" stroke="white" strokeWidth="0.5" opacity="0.15"/>
+                {/* Door */}
+                <rect x="16" y="24" width="8" height="10" rx="1" stroke="white" strokeWidth="1.2" fill="none" opacity="0.8"/>
+
+                {/* Door handle */}
+                <circle cx="22" cy="29" r="1" fill="white" opacity="0.7"/>
+
+                {/* Windows */}
+                <rect x="10" y="21" width="4" height="4" rx="0.5" fill="white" opacity="0.4"/>
+                <rect x="26" y="21" width="4" height="4" rx="0.5" fill="white" opacity="0.4"/>
+
+                {/* Chimney */}
+                <rect x="27" y="8" width="4" height="8" stroke="white" strokeWidth="1" fill="none" opacity="0.6"/>
+
+                {/* Chimney glow */}
+                <circle cx="29" cy="7" r="1.5" fill="white" opacity="0.3"/>
+
+                {/* Foundation line */}
+                <path d="M5 34h30" stroke="white" strokeWidth="0.5" opacity="0.2"/>
               </svg>
             </div>
           </Link>
 
-          {/* CREATIVE - Sacred Geometry Diamond */}
+          {/* CREATIVE - STATE OF THE ART Entertainment/Star Icon */}
           <Link
             href="/creative"
             onClick={() => setTimeout(() => setIsOpen(false), 150)}
@@ -500,11 +527,11 @@ export default function Navigation() {
             <div className={`nav-icon-container ${pathname === "/creative" ? "active" : ""}`}>
               <svg className="nav-icon-svg" width="28" height="28" viewBox="0 0 40 40" fill="none">
                 {/* Outer energy ring */}
-                <circle cx="20" cy="20" r="17" stroke="white" strokeWidth="0.5" opacity="0.15"/>
+                <circle cx="20" cy="20" r="18" stroke="white" strokeWidth="0.5" opacity="0.15"/>
 
-                {/* Main diamond shape */}
+                {/* Main star - 4 point sparkle */}
                 <path
-                  d="M20 5L30 20L20 35L10 20L20 5Z"
+                  d="M20 4L22 16L34 18L22 20L20 32L18 20L6 18L18 16L20 4Z"
                   stroke="white"
                   strokeWidth="1.5"
                   strokeLinejoin="round"
@@ -512,83 +539,35 @@ export default function Navigation() {
                   opacity="0.9"
                 />
 
-                {/* Inner diamond */}
+                {/* Inner star glow */}
                 <path
-                  d="M20 10L26 20L20 30L14 20L20 10Z"
-                  stroke="white"
-                  strokeWidth="0.8"
-                  strokeLinejoin="round"
-                  fill="none"
-                  opacity="0.4"
+                  d="M20 10L21 17L28 18L21 19L20 26L19 19L12 18L19 17L20 10Z"
+                  fill="white"
+                  opacity="0.3"
                 />
 
-                {/* Radiating lines - creative burst */}
-                <line x1="20" y1="2" x2="20" y2="4" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.6"/>
-                <line x1="20" y1="36" x2="20" y2="38" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.6"/>
-                <line x1="2" y1="20" x2="4" y2="20" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.4"/>
-                <line x1="36" y1="20" x2="38" y2="20" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.4"/>
+                {/* Diagonal sparkle rays */}
+                <line x1="8" y1="8" x2="12" y2="12" stroke="white" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+                <line x1="32" y1="8" x2="28" y2="12" stroke="white" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+                <line x1="8" y1="32" x2="12" y2="28" stroke="white" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+                <line x1="32" y1="32" x2="28" y2="28" stroke="white" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
 
-                {/* Diagonal rays */}
-                <line x1="6" y1="8" x2="8" y2="10" stroke="white" strokeWidth="0.8" strokeLinecap="round" opacity="0.3"/>
-                <line x1="32" y1="10" x2="34" y2="8" stroke="white" strokeWidth="0.8" strokeLinecap="round" opacity="0.3"/>
-                <line x1="6" y1="32" x2="8" y2="30" stroke="white" strokeWidth="0.8" strokeLinecap="round" opacity="0.3"/>
-                <line x1="32" y1="30" x2="34" y2="32" stroke="white" strokeWidth="0.8" strokeLinecap="round" opacity="0.3"/>
+                {/* Small accent stars */}
+                <circle cx="10" cy="10" r="1.5" fill="white" opacity="0.5"/>
+                <circle cx="30" cy="10" r="1.5" fill="white" opacity="0.5"/>
+                <circle cx="10" cy="30" r="1.5" fill="white" opacity="0.5"/>
+                <circle cx="30" cy="30" r="1.5" fill="white" opacity="0.5"/>
 
-                {/* Center core - glowing */}
-                <circle cx="20" cy="20" r="3" fill="white" opacity="0.8"/>
-                <circle cx="20" cy="20" r="1.5" fill="white" opacity="1"/>
+                {/* Center core - bright glowing */}
+                <circle cx="20" cy="18" r="4" fill="white" opacity="0.6"/>
+                <circle cx="20" cy="18" r="2" fill="white" opacity="0.9"/>
+                <circle cx="20" cy="18" r="1" fill="white" opacity="1"/>
 
-                {/* Corner energy points */}
-                <circle cx="20" cy="5" r="1" fill="white" opacity="0.5"/>
-                <circle cx="20" cy="35" r="1" fill="white" opacity="0.5"/>
-                <circle cx="10" cy="20" r="1" fill="white" opacity="0.5"/>
-                <circle cx="30" cy="20" r="1" fill="white" opacity="0.5"/>
-              </svg>
-            </div>
-          </Link>
-
-          {/* SERVICES - Neural Network */}
-          <Link
-            href="/services"
-            onClick={() => setTimeout(() => setIsOpen(false), 150)}
-            className="nav-link"
-          >
-            <div className={`nav-icon-container ${pathname === "/services" ? "active" : ""}`}>
-              <svg className="nav-icon-svg" width="28" height="28" viewBox="0 0 40 40" fill="none">
-                {/* Outer boundary */}
-                <circle cx="20" cy="20" r="17" stroke="white" strokeWidth="0.5" opacity="0.1"/>
-
-                {/* Connection lines - neural paths */}
-                <line x1="10" y1="10" x2="20" y2="20" stroke="white" strokeWidth="1" opacity="0.4"/>
-                <line x1="30" y1="10" x2="20" y2="20" stroke="white" strokeWidth="1" opacity="0.4"/>
-                <line x1="10" y1="30" x2="20" y2="20" stroke="white" strokeWidth="1" opacity="0.4"/>
-                <line x1="30" y1="30" x2="20" y2="20" stroke="white" strokeWidth="1" opacity="0.4"/>
-
-                {/* Secondary connections */}
-                <line x1="10" y1="10" x2="30" y2="10" stroke="white" strokeWidth="0.5" opacity="0.2"/>
-                <line x1="10" y1="30" x2="30" y2="30" stroke="white" strokeWidth="0.5" opacity="0.2"/>
-                <line x1="10" y1="10" x2="10" y2="30" stroke="white" strokeWidth="0.5" opacity="0.2"/>
-                <line x1="30" y1="10" x2="30" y2="30" stroke="white" strokeWidth="0.5" opacity="0.2"/>
-
-                {/* Corner nodes - outer */}
-                <circle cx="10" cy="10" r="4" stroke="white" strokeWidth="1.2" fill="none" opacity="0.7"/>
-                <circle cx="30" cy="10" r="4" stroke="white" strokeWidth="1.2" fill="none" opacity="0.7"/>
-                <circle cx="10" cy="30" r="4" stroke="white" strokeWidth="1.2" fill="none" opacity="0.7"/>
-                <circle cx="30" cy="30" r="4" stroke="white" strokeWidth="1.2" fill="none" opacity="0.7"/>
-
-                {/* Corner node cores */}
-                <circle cx="10" cy="10" r="1.5" fill="white" opacity="0.6"/>
-                <circle cx="30" cy="10" r="1.5" fill="white" opacity="0.6"/>
-                <circle cx="10" cy="30" r="1.5" fill="white" opacity="0.6"/>
-                <circle cx="30" cy="30" r="1.5" fill="white" opacity="0.6"/>
-
-                {/* Center hub - main node */}
-                <circle cx="20" cy="20" r="6" stroke="white" strokeWidth="1.5" fill="none" opacity="0.9"/>
-                <circle cx="20" cy="20" r="3.5" stroke="white" strokeWidth="0.8" fill="none" opacity="0.4"/>
-                <circle cx="20" cy="20" r="2" fill="white" opacity="0.9"/>
-
-                {/* Pulse rings */}
-                <circle cx="20" cy="20" r="10" stroke="white" strokeWidth="0.5" opacity="0.15"/>
+                {/* Outer sparkle dots */}
+                <circle cx="20" cy="4" r="1" fill="white" opacity="0.7"/>
+                <circle cx="20" cy="32" r="1" fill="white" opacity="0.7"/>
+                <circle cx="6" cy="18" r="1" fill="white" opacity="0.7"/>
+                <circle cx="34" cy="18" r="1" fill="white" opacity="0.7"/>
               </svg>
             </div>
           </Link>
