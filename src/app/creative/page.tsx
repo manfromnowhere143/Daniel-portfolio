@@ -106,6 +106,46 @@ export default function Creative() {
     return () => window.removeEventListener('resize', check);
   }, []);
 
+  // STATE OF THE ART - Smooth overscroll prevention
+  useEffect(() => {
+    // Apply overscroll behavior to document
+    document.documentElement.style.overscrollBehavior = 'none';
+    document.body.style.overscrollBehavior = 'none';
+
+    // Prevent bounce on iOS Safari
+    let lastY = 0;
+    const handleTouchStart = (e: TouchEvent) => {
+      lastY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const currentY = e.touches[0].clientY;
+      const scrollTop = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = window.innerHeight;
+
+      // At top of page, scrolling up
+      if (scrollTop <= 0 && currentY > lastY) {
+        e.preventDefault();
+      }
+      // At bottom of page, scrolling down
+      if (scrollTop + clientHeight >= scrollHeight && currentY < lastY) {
+        e.preventDefault();
+      }
+      lastY = currentY;
+    };
+
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+    return () => {
+      document.documentElement.style.overscrollBehavior = '';
+      document.body.style.overscrollBehavior = '';
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, []);
+
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
@@ -548,16 +588,45 @@ export default function Creative() {
           -webkit-tap-highlight-color: transparent;
         }
         
+        /* STATE OF THE ART - Smooth scroll behavior on html/body */
+        html {
+          scroll-behavior: smooth;
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+          -webkit-overflow-scrolling: touch;
+        }
+        
+        body {
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+        }
+        
         .creative-page {
           overscroll-behavior: none;
+          overscroll-behavior-y: none;
           -webkit-overflow-scrolling: touch;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          scroll-behavior: smooth;
+          /* Prevent rubber-banding on iOS */
+          position: relative;
+          min-height: 100vh;
+          /* Smooth momentum scrolling */
+          -webkit-scroll-behavior: smooth;
         }
         
         .creative-page.overlay-open {
           touch-action: none;
           overflow: hidden;
+        }
+        
+        /* STATE OF THE ART - Prevent overscroll bounce globally */
+        @supports (-webkit-touch-callout: none) {
+          /* iOS specific fixes */
+          .creative-page {
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: none;
+          }
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -1475,7 +1544,10 @@ export default function Creative() {
             >
               {expandedItem === `exp-${app.id}` && renderExperience(app.id)}
             </div>
-            <button className="expanded-close" onClick={handleCloseExpanded}>
+            <button
+              className="expanded-close"
+              onClick={handleCloseExpanded}
+            >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
