@@ -13,6 +13,7 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState<Date | null>(null);
   const [age, setAge] = useState<number | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   // Determine if current page has dark background
   const isDarkPage = pathname === "/" ||
@@ -71,6 +72,162 @@ export default function Navigation() {
   return (
     <>
       <style>{`
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - DESKTOP SIDEBAR                                          */
+        /* Refined glass morphism, elegant typography, subtle alive effects           */
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        
+        .desktop-sidebar {
+          position: fixed;
+          left: 32px;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 50;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 28px 24px;
+          background: rgba(20, 20, 20, 0.4);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          box-shadow: 
+            0 0 40px rgba(0, 0, 0, 0.3),
+            0 20px 40px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .desktop-sidebar:hover {
+          background: rgba(25, 25, 25, 0.5);
+          border-color: rgba(255, 255, 255, 0.1);
+          box-shadow: 
+            0 0 60px rgba(0, 0, 0, 0.4),
+            0 25px 50px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Subtle top edge shine */
+        .desktop-sidebar::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 20%;
+          right: 20%;
+          height: 1px;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.15),
+            transparent
+          );
+          pointer-events: none;
+        }
+        
+        /* Geometric Logo */
+        .sidebar-logo {
+          width: 32px;
+          height: 36px;
+          margin-bottom: 24px;
+          opacity: 0.7;
+          transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .desktop-sidebar:hover .sidebar-logo {
+          opacity: 0.9;
+          transform: scale(1.05);
+        }
+        
+        /* Time Display */
+        .sidebar-time-container {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          margin-bottom: 28px;
+          padding-bottom: 20px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          width: 100%;
+        }
+        
+        .sidebar-time {
+          font-size: 15px;
+          font-weight: 300;
+          letter-spacing: 0.1em;
+          font-variant-numeric: tabular-nums;
+          opacity: 0.9;
+        }
+        
+        .sidebar-date {
+          font-size: 10px;
+          font-weight: 300;
+          letter-spacing: 0.2em;
+          opacity: 0.5;
+        }
+        
+        .sidebar-age {
+          font-size: 10px;
+          font-weight: 300;
+          letter-spacing: 0.02em;
+          font-variant-numeric: tabular-nums;
+          margin-top: 10px;
+          font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+          opacity: 0.35;
+          transition: opacity 0.3s ease;
+        }
+        
+        .desktop-sidebar:hover .sidebar-age {
+          opacity: 0.6;
+        }
+        
+        /* Navigation Links */
+        .sidebar-nav {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          width: 100%;
+        }
+        
+        .sidebar-nav-link {
+          position: relative;
+          font-size: 12px;
+          font-weight: 300;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          text-decoration: none;
+          padding: 10px 14px;
+          margin: 0 -14px;
+          border-radius: 10px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          opacity: 0.5;
+        }
+        
+        .sidebar-nav-link:hover {
+          opacity: 0.9;
+          background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .sidebar-nav-link.active {
+          opacity: 1;
+          font-weight: 400;
+          background: rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Active indicator dot */
+        .sidebar-nav-link.active::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 3px;
+          height: 3px;
+          border-radius: 50%;
+          background: currentColor;
+          opacity: 0.8;
+          box-shadow: 0 0 8px currentColor;
+        }
+        
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - MOBILE NAV ICONS                         */
         /* Advanced lighting, depth, and glass effects                 */
@@ -84,14 +241,13 @@ export default function Navigation() {
           align-items: center;
           justify-content: center;
           border-radius: 14px;
-          background: linear-gradient(145deg, rgba(60, 60, 60, 0.5), rgba(25, 25, 25, 0.7));
+          background: linear-gradient(145deg, rgba(50, 50, 50, 0.6), rgba(20, 20, 20, 0.8));
           box-shadow: 
-            0 0 30px rgba(255, 255, 255, 0.15),
-            0 0 60px rgba(255, 255, 255, 0.08),
-            0 4px 20px rgba(0, 0, 0, 0.5),
-            0 8px 32px rgba(0, 0, 0, 0.4),
-            inset 0 1px 1px rgba(255, 255, 255, 0.2),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+            0 0 25px rgba(255, 255, 255, 0.08),
+            0 4px 16px rgba(0, 0, 0, 0.5),
+            0 8px 28px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
           transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
                       box-shadow 0.2s ease;
           -webkit-tap-highlight-color: transparent;
@@ -101,7 +257,7 @@ export default function Navigation() {
           overflow: hidden;
         }
         
-        /* STATE OF THE ART - Top shine reflection */
+        /* Matte top shine reflection */
         .nav-icon-container::before {
           content: '';
           position: absolute;
@@ -111,8 +267,8 @@ export default function Navigation() {
           height: 45%;
           background: linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.25) 0%,
-            rgba(255, 255, 255, 0.08) 50%,
+            rgba(255, 255, 255, 0.12) 0%,
+            rgba(255, 255, 255, 0.04) 50%,
             transparent 100%
           );
           border-radius: 14px 14px 50% 50%;
@@ -120,17 +276,16 @@ export default function Navigation() {
           z-index: 10;
         }
         
-        /* Active state glow - ENHANCED WHITE GLOW */
+        /* Active state glow */
         .nav-icon-container.active {
-          background: linear-gradient(145deg, rgba(80, 80, 80, 0.6), rgba(40, 40, 40, 0.8));
+          background: linear-gradient(145deg, rgba(60, 60, 60, 0.7), rgba(30, 30, 30, 0.9));
           box-shadow: 
-            0 0 40px rgba(255, 255, 255, 0.25),
-            0 0 80px rgba(255, 255, 255, 0.12),
-            0 0 120px rgba(255, 255, 255, 0.06),
-            0 4px 20px rgba(0, 0, 0, 0.5),
-            0 8px 32px rgba(0, 0, 0, 0.4),
-            inset 0 1px 1px rgba(255, 255, 255, 0.3),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+            0 0 35px rgba(255, 255, 255, 0.15),
+            0 0 60px rgba(255, 255, 255, 0.06),
+            0 4px 16px rgba(0, 0, 0, 0.5),
+            0 8px 28px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
         }
         
         .nav-icon-container:active {
@@ -192,22 +347,14 @@ export default function Navigation() {
         }
       `}</style>
 
-      {/* Desktop Navigation - Floating Vertical Sidebar */}
-      <nav className={styles.desktopOnly} style={{
-        position: "fixed",
-        left: "40px",
-        top: "40px",
-        zIndex: 50,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start"
-      }}>
+      {/* STATE OF THE ART - Desktop Sidebar */}
+      <nav
+        className={`desktop-sidebar ${styles.desktopOnly}`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         {/* Geometric accent - hexagon outline */}
-        <div style={{
-          width: "28px",
-          height: "32px",
-          marginBottom: "28px"
-        }}>
+        <div className="sidebar-logo">
           <svg viewBox="0 0 28 32" fill="none" style={{ width: "100%", height: "100%" }}>
             <path
               d="M14 1L26 8.5V23.5L14 31L2 23.5V8.5L14 1Z"
@@ -215,72 +362,35 @@ export default function Navigation() {
               strokeWidth="0.75"
               fill="none"
             />
-            <circle cx="14" cy="16" r="3" stroke={textColor} strokeWidth="0.5" fill="none" opacity="0.6"/>
+            <circle cx="14" cy="16" r="3" stroke={textColor} strokeWidth="0.5" fill="none" opacity="0.5"/>
           </svg>
         </div>
 
         {/* Time, Date & Age Display */}
         {time && (
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "4px",
-            marginBottom: "28px"
-          }}>
-            <span style={{
-              fontSize: "13px",
-              fontWeight: 300,
-              letterSpacing: "0.12em",
-              color: textColor,
-              fontVariantNumeric: "tabular-nums"
-            }}>
+          <div className="sidebar-time-container">
+            <span className="sidebar-time" style={{ color: textColor }}>
               {formatTime(time)}
             </span>
-            <span style={{
-              fontSize: "10px",
-              fontWeight: 300,
-              letterSpacing: "0.2em",
-              color: textColor
-            }}>
+            <span className="sidebar-date" style={{ color: textColor }}>
               {formatDate(time)}
             </span>
-            {/* Age Clock - Live Ticking */}
             {age !== null && (
-              <span style={{
-                fontSize: "9px",
-                fontWeight: 300,
-                letterSpacing: "0.02em",
-                color: textColor,
-                fontVariantNumeric: "tabular-nums",
-                marginTop: "8px",
-                fontFamily: "ui-monospace, SFMono-Regular, monospace"
-              }}>
+              <span className="sidebar-age" style={{ color: textColor }}>
                 {formatAge(age)}
               </span>
             )}
           </div>
         )}
 
-        {/* Navigation Links - NO SERVICES */}
-        <div style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "18px"
-        }}>
+        {/* Navigation Links */}
+        <div className="sidebar-nav">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={styles.navLink}
-              style={{
-                fontSize: "12px",
-                fontWeight: item.isActive ? 400 : 300,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                color: textColor,
-                textDecoration: "none",
-                transition: "opacity 0.3s ease"
-              }}
+              className={`sidebar-nav-link ${item.isActive ? 'active' : ''}`}
+              style={{ color: textColor }}
             >
               {item.label}
             </Link>
