@@ -84,12 +84,13 @@ export default function Navigation() {
           align-items: center;
           justify-content: center;
           border-radius: 14px;
-          background: linear-gradient(145deg, rgba(60, 60, 60, 0.4), rgba(25, 25, 25, 0.6));
+          background: linear-gradient(145deg, rgba(60, 60, 60, 0.5), rgba(25, 25, 25, 0.7));
           box-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.06),
-            0 4px 12px rgba(0, 0, 0, 0.4),
-            0 8px 24px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.15),
+            0 0 30px rgba(255, 255, 255, 0.15),
+            0 0 60px rgba(255, 255, 255, 0.08),
+            0 4px 20px rgba(0, 0, 0, 0.5),
+            0 8px 32px rgba(0, 0, 0, 0.4),
+            inset 0 1px 1px rgba(255, 255, 255, 0.2),
             inset 0 -1px 1px rgba(0, 0, 0, 0.2);
           transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
                       box-shadow 0.2s ease;
@@ -119,15 +120,16 @@ export default function Navigation() {
           z-index: 10;
         }
         
-        /* Active state glow */
+        /* Active state glow - ENHANCED WHITE GLOW */
         .nav-icon-container.active {
-          background: linear-gradient(145deg, rgba(80, 80, 80, 0.5), rgba(35, 35, 35, 0.7));
+          background: linear-gradient(145deg, rgba(80, 80, 80, 0.6), rgba(40, 40, 40, 0.8));
           box-shadow: 
-            0 0 25px rgba(255, 255, 255, 0.12),
-            0 0 40px rgba(255, 255, 255, 0.06),
-            0 4px 12px rgba(0, 0, 0, 0.4),
-            0 8px 24px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.2),
+            0 0 40px rgba(255, 255, 255, 0.25),
+            0 0 80px rgba(255, 255, 255, 0.12),
+            0 0 120px rgba(255, 255, 255, 0.06),
+            0 4px 20px rgba(0, 0, 0, 0.5),
+            0 8px 32px rgba(0, 0, 0, 0.4),
+            inset 0 1px 1px rgba(255, 255, 255, 0.3),
             inset 0 -1px 1px rgba(0, 0, 0, 0.2);
         }
         
@@ -151,18 +153,15 @@ export default function Navigation() {
           opacity: 0.9;
         }
         
-        /* Bottom bar container */
+        /* Bottom bar container - TRANSPARENT, FLOATING */
         .mobile-nav-bar {
           position: fixed;
           bottom: 0;
           left: 0;
           right: 0;
           z-index: 200;
-          background: rgba(10, 10, 10, 0.95);
-          backdrop-filter: blur(30px);
-          -webkit-backdrop-filter: blur(30px);
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
-          padding-bottom: env(safe-area-inset-bottom, 0);
+          background: transparent;
+          padding-bottom: env(safe-area-inset-bottom, 20px);
           -webkit-tap-highlight-color: transparent;
           display: flex;
           align-items: center;
@@ -180,7 +179,7 @@ export default function Navigation() {
           width: 100%;
           max-width: 100%;
           margin: 0 auto;
-          padding: 0;
+          padding: 0 0 10px 0;
           box-sizing: border-box;
         }
         
