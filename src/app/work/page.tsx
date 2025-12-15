@@ -543,9 +543,9 @@ export default function Work() {
         
         .folder-icon {
           position: relative;
-          width: 100px;
-          height: 100px;
-          border-radius: 24px;
+          width: 115px;
+          height: 115px;
+          border-radius: 28px;
           background: rgba(120, 120, 120, 0.18);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
@@ -583,7 +583,7 @@ export default function Work() {
             rgba(255, 255, 255, 0.08) 40%,
             transparent 100%
           );
-          border-radius: 24px 24px 50% 50%;
+          border-radius: 28px 28px 50% 50%;
           pointer-events: none;
           z-index: 10;
         }
@@ -611,9 +611,9 @@ export default function Work() {
         .folder-preview {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 5px;
-          width: 82px;
-          height: 82px;
+          gap: 6px;
+          width: 95px;
+          height: 95px;
           position: relative;
           z-index: 5;
         }
@@ -627,9 +627,9 @@ export default function Work() {
         }
         
         .folder-mini-icon {
-          width: 38px;
-          height: 38px;
-          border-radius: 9px;
+          width: 44px;
+          height: 44px;
+          border-radius: 11px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -656,7 +656,7 @@ export default function Work() {
             rgba(255, 255, 255, 0.1) 50%,
             transparent 100%
           );
-          border-radius: 9px 9px 50% 50%;
+          border-radius: 11px 11px 50% 50%;
           pointer-events: none;
           z-index: 5;
         }
@@ -1410,14 +1410,14 @@ export default function Work() {
         
         @media (min-width: 600px) {
           .folders-grid {
-            gap: 44px 40px;
-            max-width: 360px;
+            gap: 48px 44px;
+            max-width: 400px;
           }
           
           .folder-icon {
-            width: 130px;
-            height: 130px;
-            border-radius: 30px;
+            width: 145px;
+            height: 145px;
+            border-radius: 32px;
           }
           
           .folder-icon:hover {
@@ -1425,15 +1425,15 @@ export default function Work() {
           }
           
           .folder-preview {
-            width: 106px;
-            height: 106px;
-            gap: 6px;
+            width: 120px;
+            height: 120px;
+            gap: 7px;
           }
           
           .folder-mini-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            width: 56px;
+            height: 56px;
+            border-radius: 13px;
           }
           
           .folder-name {
@@ -1505,26 +1505,26 @@ export default function Work() {
         
         @media (min-width: 900px) {
           .folders-grid {
-            gap: 50px 46px;
-            max-width: 440px;
+            gap: 54px 50px;
+            max-width: 480px;
           }
           
           .folder-icon {
-            width: 160px;
-            height: 160px;
-            border-radius: 36px;
+            width: 175px;
+            height: 175px;
+            border-radius: 38px;
           }
           
           .folder-preview {
-            width: 132px;
-            height: 132px;
+            width: 145px;
+            height: 145px;
             gap: 8px;
           }
           
           .folder-mini-icon {
-            width: 62px;
-            height: 62px;
-            border-radius: 14px;
+            width: 68px;
+            height: 68px;
+            border-radius: 15px;
           }
           
           .folder-name {
