@@ -196,9 +196,22 @@ export default function About() {
         .about-page {
           opacity: 0;
           transition: opacity 0.5s ease;
+          /* Smooth overscroll - no disruption */
+          overscroll-behavior: smooth;
+          overscroll-behavior-y: contain;
         }
         .about-page.loaded {
           opacity: 1;
+        }
+        
+        /* Global smooth scrolling */
+        html {
+          scroll-behavior: smooth;
+          overscroll-behavior: none;
+        }
+        
+        body {
+          overscroll-behavior-y: none;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -258,24 +271,6 @@ export default function About() {
           z-index: 20;
         }
         
-        /* Secondary inner glow */
-        .terminal-window::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 10%;
-          right: 10%;
-          height: 50%;
-          background: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.04) 0%,
-            transparent 100%
-          );
-          pointer-events: none;
-          border-radius: 16px 16px 0 0;
-          z-index: 1;
-        }
-        
         .terminal-header {
           position: relative;
           display: flex;
@@ -306,24 +301,25 @@ export default function About() {
         }
         
         .terminal-dot.red { 
-          background: linear-gradient(135deg, #FF5F56, #c44840);
-          box-shadow: 0 0 8px rgba(255, 95, 86, 0.4);
+          background: linear-gradient(135deg, #4a3533, #2d1f1e);
+          box-shadow: 0 0 6px rgba(74, 53, 51, 0.3);
         }
         .terminal-dot.yellow { 
-          background: linear-gradient(135deg, #FFBD2E, #c4962a);
-          box-shadow: 0 0 8px rgba(255, 189, 46, 0.4);
+          background: linear-gradient(135deg, #4a4433, #2d2a1e);
+          box-shadow: 0 0 6px rgba(74, 68, 51, 0.3);
         }
         .terminal-dot.green { 
-          background: linear-gradient(135deg, #27CA40, #1f9e34);
-          box-shadow: 0 0 8px rgba(39, 202, 64, 0.4);
+          background: linear-gradient(135deg, #334a38, #1e2d22);
+          box-shadow: 0 0 6px rgba(51, 74, 56, 0.3);
         }
         
         .terminal-filename {
           margin-left: 12px;
           font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
           font-size: 12px;
-          color: rgba(255, 255, 255, 0.4);
+          color: rgba(255, 255, 255, 0.7);
           letter-spacing: 0.03em;
+          text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
         
         .terminal-content {
@@ -447,13 +443,13 @@ export default function About() {
           transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
                       box-shadow 0.3s ease;
           
-          /* Multi-layer shadows */
+          /* Matte finish with subtle depth */
           box-shadow: 
-            0 0 30px var(--glow-color, rgba(255,255,255,0.1)),
-            0 8px 24px rgba(0, 0, 0, 0.4),
-            0 4px 12px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.2),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+            0 0 20px rgba(255, 255, 255, 0.06),
+            0 6px 20px rgba(0, 0, 0, 0.4),
+            0 3px 10px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
           
           -webkit-tap-highlight-color: transparent;
           -webkit-backface-visibility: hidden;
@@ -461,18 +457,18 @@ export default function About() {
           transform: translateZ(0);
         }
         
-        /* Top shine reflection */
+        /* Subtle top shine - more matte */
         .contact-icon::before {
           content: '';
           position: absolute;
           top: 0;
           left: 10%;
           right: 10%;
-          height: 50%;
+          height: 45%;
           background: linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.3) 0%,
-            rgba(255, 255, 255, 0.1) 40%,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 255, 255, 0.05) 40%,
             transparent 100%
           );
           border-radius: 16px 16px 50% 50%;
@@ -481,17 +477,17 @@ export default function About() {
         }
         
         .contact-icon:hover {
-          transform: translateZ(0) scale(1.08) translateY(-3px);
+          transform: translateZ(0) scale(1.06) translateY(-2px);
           box-shadow: 
-            0 0 50px var(--glow-color, rgba(255,255,255,0.15)),
-            0 12px 32px rgba(0, 0, 0, 0.5),
-            0 6px 16px rgba(0, 0, 0, 0.4),
-            inset 0 1px 1px rgba(255, 255, 255, 0.25),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+            0 0 30px rgba(255, 255, 255, 0.1),
+            0 10px 28px rgba(0, 0, 0, 0.5),
+            0 5px 14px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
         }
         
         .contact-icon:active {
-          transform: translateZ(0) scale(0.95);
+          transform: translateZ(0) scale(0.96);
         }
         
         .contact-icon-svg {
@@ -505,6 +501,25 @@ export default function About() {
           font-weight: 300;
           color: rgba(255, 255, 255, 0.5);
           letter-spacing: 0.05em;
+        }
+        
+        /* STATE OF THE ART - Gmail icon matte finish */
+        .gmail-icon {
+          box-shadow: 
+            0 0 25px rgba(255, 255, 255, 0.08),
+            0 6px 20px rgba(0, 0, 0, 0.45),
+            0 3px 10px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+        }
+        
+        .gmail-icon:hover {
+          box-shadow: 
+            0 0 35px rgba(255, 255, 255, 0.12),
+            0 10px 28px rgba(0, 0, 0, 0.5),
+            0 5px 14px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.25);
         }
         
         /* Mobile adjustments */
@@ -656,16 +671,16 @@ export default function About() {
             <span className="contact-icon-name">GitHub</span>
           </a>
 
-          {/* Gmail */}
+          {/* Gmail - STATE OF THE ART White/Black with alive lighting */}
           <a
             href="mailto:cogitoergosum143@gmail.com"
             className="contact-icon-wrapper"
           >
             <div
-              className="contact-icon"
+              className="contact-icon gmail-icon"
               style={{
-                background: 'linear-gradient(145deg, #EA4335, #B31412)',
-                '--glow-color': 'rgba(234, 67, 53, 0.25)'
+                background: 'linear-gradient(145deg, #2a2a2a, #0a0a0a)',
+                '--glow-color': 'rgba(255, 255, 255, 0.2)'
               } as React.CSSProperties}
             >
               <svg className="contact-icon-svg" width="28" height="28" viewBox="0 0 24 24" fill="none">
