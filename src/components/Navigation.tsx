@@ -224,7 +224,7 @@ export default function Navigation() {
           -webkit-tap-highlight-color: transparent;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          transform: translateY(-8px) translateZ(0) scale(1);
+          transform: translateZ(0) scale(1);
           overflow: hidden;
           border: 1px solid rgba(255, 255, 255, 0.12);
         }
@@ -291,7 +291,7 @@ export default function Navigation() {
             /* Inner light - brighter */
             inset 0 1px 2px rgba(255, 255, 255, 0.3),
             inset 0 -1px 1px rgba(0, 0, 0, 0.2);
-          transform: translateY(-10px) translateZ(0) scale(1.04);
+          transform: translateZ(0) scale(1.04);
         }
         
         .nav-icon-container.active::after {
@@ -306,7 +306,7 @@ export default function Navigation() {
         
         /* Tap state - bouncy spring */
         .nav-icon-container:active {
-          transform: translateY(-4px) translateZ(0) scale(0.94);
+          transform: translateZ(0) scale(0.92);
           transition: transform 0.1s ease;
         }
         
@@ -327,8 +327,8 @@ export default function Navigation() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - FLOATING GLASS HEADER BAR                                */
-        /* Apple Dynamic Island inspired - icons float ABOVE this surface              */
+        /* STATE OF THE ART - FLOATING ICONS ONLY                                      */
+        /* No background container - pure floating icons                               */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .mobile-nav-bar {
@@ -338,88 +338,21 @@ export default function Navigation() {
           right: 0;
           z-index: 200;
           background: transparent;
-          padding-bottom: env(safe-area-inset-bottom, 20px);
+          padding-bottom: env(safe-area-inset-bottom, 28px);
           -webkit-tap-highlight-color: transparent;
           display: flex;
           align-items: flex-end;
           justify-content: center;
         }
         
-        /* The floating glass header - rounded pill */
+        /* Just a flex container - NO visual styling */
         .mobile-nav-inner {
-          position: relative;
           display: flex;
           flex-direction: row;
           align-items: center;
           justify-content: center;
-          gap: 20px;
-          padding: 20px 28px 16px 28px;
-          margin-bottom: 8px;
-          background: linear-gradient(
-            180deg,
-            rgba(40, 40, 40, 0.65) 0%,
-            rgba(20, 20, 20, 0.8) 50%,
-            rgba(10, 10, 10, 0.9) 100%
-          );
-          backdrop-filter: blur(50px) saturate(180%);
-          -webkit-backdrop-filter: blur(50px) saturate(180%);
-          border-radius: 36px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          
-          /* 6-layer ethereal depth */
-          box-shadow: 
-            /* Outer glow - alive */
-            0 0 50px rgba(255, 255, 255, 0.1),
-            0 0 100px rgba(255, 255, 255, 0.05),
-            /* Depth cascade */
-            0 4px 12px rgba(0, 0, 0, 0.5),
-            0 12px 28px rgba(0, 0, 0, 0.4),
-            0 28px 56px rgba(0, 0, 0, 0.3),
-            /* Inner highlight */
-            inset 0 1px 2px rgba(255, 255, 255, 0.15);
-        }
-        
-        /* Animated gradient border - Apple mask technique */
-        .mobile-nav-inner::before {
-          content: '';
-          position: absolute;
-          inset: -1px;
-          border-radius: 37px;
-          padding: 1px;
-          background: linear-gradient(
-            145deg,
-            rgba(255, 255, 255, 0.35) 0%,
-            rgba(255, 255, 255, 0.08) 20%,
-            rgba(255, 255, 255, 0.2) 40%,
-            rgba(255, 255, 255, 0.03) 60%,
-            rgba(255, 255, 255, 0.15) 80%,
-            rgba(255, 255, 255, 0.05) 100%
-          );
-          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          pointer-events: none;
-        }
-        
-        /* Curved glass reflection on top */
-        .mobile-nav-inner::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 8%;
-          right: 8%;
-          height: 55%;
-          background: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.22) 0%,
-            rgba(255, 255, 255, 0.1) 25%,
-            rgba(255, 255, 255, 0.03) 50%,
-            transparent 100%
-          );
-          border-radius: 36px 36px 60% 60%;
-          pointer-events: none;
-          z-index: 0;
+          gap: 24px;
+          padding: 12px 0;
         }
         
         .nav-link {
@@ -428,8 +361,6 @@ export default function Navigation() {
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          position: relative;
-          z-index: 10;
         }
       `}</style>
 
