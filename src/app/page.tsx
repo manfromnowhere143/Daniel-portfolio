@@ -325,7 +325,7 @@ export default function About() {
         .terminal-content {
           position: relative;
           padding: 20px 0;
-          overflow-x: auto;
+          overflow-x: hidden;
           overflow-y: auto;
           max-height: 62vh;
           scrollbar-width: thin;
@@ -373,7 +373,8 @@ export default function About() {
         
         .line-content {
           flex: 1;
-          white-space: pre;
+          white-space: pre-wrap;
+          word-break: break-word;
         }
         
         /* Cursor blink animation */
