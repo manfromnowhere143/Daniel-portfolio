@@ -3,8 +3,8 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect, ReactNode, useCallback } from "react";
 
-// Order matches sidebar: About -> Work -> Creative -> Services
-const PAGES = ["/", "/work", "/creative", "/services"];
+// Order matches sidebar: About -> Work -> Creative (NO SERVICES)
+const PAGES = ["/", "/work", "/creative"];
 
 // Work detail pages order: Trade69 -> MegaAgent -> Octopus -> Overmind -> About
 const WORK_PAGES = ["/work/trade69", "/work/megaagent", "/work/octopus", "/work/overmind"];
@@ -136,7 +136,7 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
     const sidebarOpen = document.querySelector('[style*="translateY(0)"][style*="z-index: 200"]');
     const overlayVisible = document.querySelector('[style*="opacity: 1"][style*="z-index: 150"]');
 
-    // Check for expanded overlays on services/creative pages
+    // Check for expanded overlays on creative pages
     const expandedOverlay = document.querySelector('.expanded-overlay.active');
     const cardOverlay = document.querySelector('.card-overlay.active');
 
