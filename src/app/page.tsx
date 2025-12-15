@@ -3,8 +3,13 @@
 import { useState, useEffect } from "react";
 import GoldenSpiral from "@/components/GoldenSpiral";
 
-// The persona configuration - displayed as code
-const personaYAML = `persona_id: unfolding_builder_v1
+// Birthday - March 9, 1988
+const BIRTHDAY = new Date("1988-03-09T00:00:00");
+
+// The persona configuration - displayed as code (age will be injected dynamically)
+const getPersonaYAML = (age: string) => `age: ${age}
+
+persona_id: unfolding_builder_v1
 
 identity:
   self_description:
@@ -104,6 +109,30 @@ export default function About() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [displayedLines, setDisplayedLines] = useState<string[]>([]);
   const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const [age, setAge] = useState<string>("36.00000000");
+
+  // Real-time age calculation - updates every 50ms for smooth ticking
+  useEffect(() => {
+    const updateAge = () => {
+      const now = new Date();
+      const diffMs = now.getTime() - BIRTHDAY.getTime();
+      const years = diffMs / (1000 * 60 * 60 * 24 * 365.2425);
+      setAge(years.toFixed(8));
+    };
+
+    updateAge();
+    const interval = setInterval(updateAge, 50);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Update persona lines when age changes (only the first line)
+  useEffect(() => {
+    if (isTypingComplete && displayedLines.length > 0) {
+      const newLines = [...displayedLines];
+      newLines[0] = `age: ${age}`;
+      setDisplayedLines(newLines);
+    }
+  }, [age, isTypingComplete]);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 50);
@@ -114,7 +143,7 @@ export default function About() {
   useEffect(() => {
     if (!isLoaded) return;
 
-    const lines = personaYAML.split('\n');
+    const lines = getPersonaYAML(age).split('\n');
     let currentLine = 0;
 
     const typeInterval = setInterval(() => {
@@ -138,6 +167,25 @@ export default function About() {
 
     if (line.trim() === '') {
       return <span style={{ color: '#FAFAF8' }}>{'\u00A0'}</span>;
+    }
+
+    // Special handling for the age line - make the number glow
+    if (index === 0 && line.startsWith('age:')) {
+      const parts = line.split(': ');
+      return (
+        <>
+          <span style={{ color: '#FAFAF8' }}>{parts[0]}: </span>
+          <span
+            style={{
+              color: '#FAFAF8',
+              fontVariantNumeric: 'tabular-nums',
+              textShadow: '0 0 12px rgba(255, 255, 255, 0.4), 0 0 24px rgba(255, 255, 255, 0.2)'
+            }}
+          >
+            {parts[1]}
+          </span>
+        </>
+      );
     }
 
     // Key-value patterns
