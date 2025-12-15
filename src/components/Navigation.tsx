@@ -473,7 +473,9 @@ export default function Navigation() {
           zIndex: 150,
           opacity: isOpen ? 1 : 0,
           pointerEvents: isOpen ? "auto" : "none",
-          transition: "opacity 0.3s ease",
+          transition: isOpen
+            ? "opacity 0.3s ease-out"
+            : "opacity 0.25s ease-in",
           WebkitTapHighlightColor: "transparent"
         }}
       />
@@ -486,9 +488,11 @@ export default function Navigation() {
           top: "28px",
           left: "24px",
           zIndex: 200,
-          transform: isOpen ? "translateX(0)" : "translateX(-150%)",
+          transform: isOpen ? "translateX(0)" : "translateX(-120%)",
           opacity: isOpen ? 1 : 0,
-          transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease",
+          transition: isOpen
+            ? "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease-out"
+            : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease-in",
           pointerEvents: isOpen ? "auto" : "none"
         }}
       >
@@ -520,13 +524,15 @@ export default function Navigation() {
         )}
       </div>
 
-      {/* STATE OF THE ART - Bottom Floating Dock with Glass Header */}
+      {/* STATE OF THE ART - Bottom Floating Dock */}
       <div
         className={`mobile-nav-bar ${styles.mobileOnly}`}
         style={{
-          transform: isOpen ? "translateY(0)" : "translateY(120%)",
+          transform: isOpen ? "translateY(0)" : "translateY(100%)",
           opacity: isOpen ? 1 : 0,
-          transition: "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease",
+          transition: isOpen
+            ? "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease-out"
+            : "transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease-in",
           pointerEvents: isOpen ? "auto" : "none"
         }}
       >
