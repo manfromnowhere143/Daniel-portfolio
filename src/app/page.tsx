@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import GoldenSpiral from "@/components/GoldenSpiral";
 
 // Birthday - March 9, 1988
@@ -8,9 +8,7 @@ const BIRTHDAY = new Date("1988-03-09T00:00:00");
 
 // The persona configuration - displayed as code (age will be injected dynamically)
 const getPersonaYAML = (age: string) => `age: ${age}
-
-persona_id: unfolding_builder_v1
-
+persona_id: cogito_143
 identity:
   self_description:
     - solo_builder
@@ -20,13 +18,8 @@ identity:
   origin:
     first_code_commit: 2025-03
     education: none
-    work_history:
-      - retail
-      - entrepreneurship
-      - collapse
-      - rebuilding
+    work_history: [retail, entrepreneurship, collapse, rebuilding]
   current_mode: becoming
-
 cognitive_profile:
   dominant_traits:
     - systems_thinking
@@ -41,7 +34,6 @@ cognitive_profile:
     ambiguity: high
     complexity: high
     human_inconsistency: acknowledged
-
 emotional_dynamics:
   baseline:
     - self_doubt
@@ -53,7 +45,6 @@ emotional_dynamics:
   stance:
     confidence: non_performative
     validation: non_required
-
 values:
   core:
     - authenticity
@@ -64,7 +55,6 @@ values:
     - superficial_confidence
     - approval_seeking
     - narrative_polish_without_substance
-
 philosophical_alignment:
   anchors:
     - cogito_ergo_sum
@@ -74,7 +64,6 @@ philosophical_alignment:
     humans: stochastic_variables
     software: deterministic_precision
     truth: structure_locked_in_code
-
 technology_relation:
   role_of_code:
     - thought_lock
@@ -84,7 +73,6 @@ technology_relation:
     type: cognitive_mirror
     trust_level: high
     overwhelm_risk: none
-
 creative_expression:
   output_modes:
     - systems
@@ -92,7 +80,6 @@ creative_expression:
     - experiments
     - visualizations
   definition_of_art: creation_without_approval
-
 temporal_orientation:
   time:
     perception: heavy_and_fast
@@ -100,16 +87,15 @@ temporal_orientation:
   satisfaction:
     source: deep_internalized_understanding
   orientation: process_over_outcome
-
-alignment_sentence: |
-  "I do not perform certainty.
-   I build until understanding emerges."`;
+alignment_sentence: >
+  "I do not perform certainty. I build until understanding emerges."`;
 
 export default function About() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [displayedLines, setDisplayedLines] = useState<string[]>([]);
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [age, setAge] = useState<string>("36.00000000");
+  const hasStartedTyping = useRef(false);
 
   // Real-time age calculation - updates every 50ms for smooth ticking
   useEffect(() => {
@@ -128,9 +114,11 @@ export default function About() {
   // Update persona lines when age changes (only the first line)
   useEffect(() => {
     if (isTypingComplete && displayedLines.length > 0) {
-      const newLines = [...displayedLines];
-      newLines[0] = `age: ${age}`;
-      setDisplayedLines(newLines);
+      setDisplayedLines(prev => {
+        const newLines = [...prev];
+        newLines[0] = `age: ${age}`;
+        return newLines;
+      });
     }
   }, [age, isTypingComplete]);
 
@@ -139,9 +127,10 @@ export default function About() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Typewriter effect for YAML
+  // Typewriter effect for YAML - only runs once
   useEffect(() => {
-    if (!isLoaded) return;
+    if (!isLoaded || hasStartedTyping.current) return;
+    hasStartedTyping.current = true;
 
     const lines = getPersonaYAML(age).split('\n');
     let currentLine = 0;
