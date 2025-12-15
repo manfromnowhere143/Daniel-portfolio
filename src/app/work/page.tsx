@@ -618,6 +618,14 @@ export default function Work() {
           z-index: 5;
         }
         
+        /* 2-item variant - single row centered */
+        .folder-preview-2 {
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: 1fr;
+          height: auto;
+          align-content: center;
+        }
+        
         .folder-mini-icon {
           width: 38px;
           height: 38px;
@@ -1133,9 +1141,9 @@ export default function Work() {
         .media-overlay.active .media-item:nth-child(5) { transition-delay: 0.16s; }
         
         .media-item-icon {
-          width: 70px;
-          height: 70px;
-          border-radius: 17px;
+          width: 80px;
+          height: 80px;
+          border-radius: 18px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1166,7 +1174,7 @@ export default function Work() {
             rgba(255, 255, 255, 0.1) 50%,
             transparent 100%
           );
-          border-radius: 17px 17px 50% 50%;
+          border-radius: 18px 18px 50% 50%;
           pointer-events: none;
           z-index: 10;
         }
@@ -1319,9 +1327,9 @@ export default function Work() {
         }
         
         .image-expanded-content {
-          width: 240px;
-          height: 240px;
-          border-radius: 20px;
+          width: 280px;
+          height: 280px;
+          border-radius: 22px;
           overflow: hidden;
           display: flex;
           align-items: center;
@@ -1451,13 +1459,13 @@ export default function Work() {
           }
           
           .media-grid {
-            gap: 20px;
+            gap: 24px;
           }
           
           .media-item-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 18px;
+            width: 90px;
+            height: 90px;
+            border-radius: 20px;
           }
           
           .media-item-icon:hover {
@@ -1465,23 +1473,19 @@ export default function Work() {
           }
           
           .media-item-name {
-            font-size: 12px;
-            max-width: 85px;
+            font-size: 13px;
+            max-width: 95px;
           }
           
           .media-container {
-            padding: 28px;
-            border-radius: 28px;
+            padding: 32px;
+            border-radius: 30px;
           }
           
           .image-expanded-content {
-            width: 300px;
-            height: 300px;
-            border-radius: 24px;
-          }
-          
-          .image-expanded-title {
-            font-size: 26px;
+            width: 340px;
+            height: 340px;
+            border-radius: 26px;
           }
           
           .service-expanded-icon {
@@ -1609,7 +1613,7 @@ export default function Work() {
               className={`folder-icon ${isLoaded ? 'loaded' : ''}`}
               onClick={() => handleOpenFolder('entertainment')}
             >
-              <div className="folder-preview">
+              <div className="folder-preview folder-preview-2">
                 {/* Gallery mini */}
                 <div
                   className="folder-mini-icon"
@@ -1637,9 +1641,6 @@ export default function Work() {
                     <path d="M8 7h8M8 11h6M8 15h4" stroke="#B45309" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
                   </svg>
                 </div>
-                {/* Empty slots */}
-                <div className="folder-mini-icon" style={{ background: 'rgba(255,255,255,0.03)' }} />
-                <div className="folder-mini-icon" style={{ background: 'rgba(255,255,255,0.03)' }} />
               </div>
             </div>
             <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>Media</span>
@@ -1880,7 +1881,6 @@ export default function Work() {
       {expandedImage && (
         <div className={`image-expanded ${getImageAnimClass()}`}>
           <div className="image-expanded-inner">
-            <div className="image-expanded-title">{expandedImage.name}</div>
             <div className="image-expanded-content">
               <img src={expandedImage.src} alt={expandedImage.name} />
             </div>
