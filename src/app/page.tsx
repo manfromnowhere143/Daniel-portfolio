@@ -6,138 +6,131 @@ import GoldenSpiral from "@/components/GoldenSpiral";
 // Birthday - March 9, 1988
 const BIRTHDAY = new Date("1988-03-09T00:00:00");
 
-// The persona configuration - displayed as code (age will be injected dynamically)
-const getPersonaYAML = (age: string) => `age: ${age}
-persona_id: cogito_143
-identity:
-  self_description:
-    - solo_builder
-    - self_taught
-    - artist_engineer
-    - non_linear_path
-  origin:
-    first_code_commit: 2025-03
-    education: none
-    work_history: [retail, entrepreneurship, collapse, rebuilding]
-  current_mode: becoming
-cognitive_profile:
-  dominant_traits:
-    - systems_thinking
-    - abstraction_to_structure
-    - precision_seeking
-    - fast_learning
-  reasoning_style:
-    - architectural
-    - visual_first
-    - pattern_compressive
-  tolerance:
-    ambiguity: high
-    complexity: high
-    human_inconsistency: acknowledged
-emotional_dynamics:
-  baseline:
-    - self_doubt
-    - intensity
-    - curiosity
-  regulation:
-    method: creation
-    medium: code
-  stance:
-    confidence: non_performative
-    validation: non_required
-values:
-  core:
-    - authenticity
-    - commitment
-    - clarity
-    - freedom_to_build
-  rejected:
-    - superficial_confidence
-    - approval_seeking
-    - narrative_polish_without_substance
-philosophical_alignment:
-  anchors:
-    - cogito_ergo_sum
-    - art_is_intelligence_having_fun
-    - manipulation_as_transformation
-  worldview:
-    humans: stochastic_variables
-    software: deterministic_precision
-    truth: structure_locked_in_code
-technology_relation:
-  role_of_code:
-    - thought_lock
-    - truth_preserver
-    - compression_of_life_experience
-  llm_relationship:
-    type: cognitive_mirror
-    trust_level: high
-    overwhelm_risk: none
-creative_expression:
-  output_modes:
-    - systems
-    - architectures
-    - experiments
-    - visualizations
-  definition_of_art: creation_without_approval
-temporal_orientation:
-  time:
-    perception: heavy_and_fast
-    emotional_effect: motivating_fear
-  satisfaction:
-    source: deep_internalized_understanding
-  orientation: process_over_outcome
-alignment_sentence: >
-  "I do not perform certainty. I build until understanding emerges."`;
+// Calculate age
+const getAge = () => {
+  const now = new Date();
+  const diffMs = now.getTime() - BIRTHDAY.getTime();
+  return (diffMs / (1000 * 60 * 60 * 24 * 365.2425)).toFixed(8);
+};
+
+// The persona configuration lines (without age - that's handled separately)
+const personaLines = [
+  "persona_id: cogito_143",
+  "identity:",
+  "  self_description:",
+  "    - solo_builder",
+  "    - self_taught",
+  "    - artist_engineer",
+  "    - non_linear_path",
+  "  origin:",
+  "    first_code_commit: 2025-03",
+  "    education: none",
+  "    work_history: [retail, entrepreneurship, collapse, rebuilding]",
+  "  current_mode: becoming",
+  "cognitive_profile:",
+  "  dominant_traits:",
+  "    - systems_thinking",
+  "    - abstraction_to_structure",
+  "    - precision_seeking",
+  "    - fast_learning",
+  "  reasoning_style:",
+  "    - architectural",
+  "    - visual_first",
+  "    - pattern_compressive",
+  "  tolerance:",
+  "    ambiguity: high",
+  "    complexity: high",
+  "    human_inconsistency: acknowledged",
+  "emotional_dynamics:",
+  "  baseline:",
+  "    - self_doubt",
+  "    - intensity",
+  "    - curiosity",
+  "  regulation:",
+  "    method: creation",
+  "    medium: code",
+  "  stance:",
+  "    confidence: non_performative",
+  "    validation: non_required",
+  "values:",
+  "  core:",
+  "    - authenticity",
+  "    - commitment",
+  "    - clarity",
+  "    - freedom_to_build",
+  "  rejected:",
+  "    - superficial_confidence",
+  "    - approval_seeking",
+  "    - narrative_polish_without_substance",
+  "philosophical_alignment:",
+  "  anchors:",
+  "    - cogito_ergo_sum",
+  "    - art_is_intelligence_having_fun",
+  "    - manipulation_as_transformation",
+  "  worldview:",
+  "    humans: stochastic_variables",
+  "    software: deterministic_precision",
+  "    truth: structure_locked_in_code",
+  "technology_relation:",
+  "  role_of_code:",
+  "    - thought_lock",
+  "    - truth_preserver",
+  "    - compression_of_life_experience",
+  "  llm_relationship:",
+  "    type: cognitive_mirror",
+  "    trust_level: high",
+  "    overwhelm_risk: none",
+  "creative_expression:",
+  "  output_modes:",
+  "    - systems",
+  "    - architectures",
+  "    - experiments",
+  "    - visualizations",
+  "  definition_of_art: creation_without_approval",
+  "temporal_orientation:",
+  "  time:",
+  "    perception: heavy_and_fast",
+  "    emotional_effect: motivating_fear",
+  "  satisfaction:",
+  "    source: deep_internalized_understanding",
+  "  orientation: process_over_outcome",
+  "alignment_sentence: >",
+  '  "I do not perform certainty. I build until understanding emerges."'
+];
 
 export default function About() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [displayedLines, setDisplayedLines] = useState<string[]>([]);
+  const [visibleLineCount, setVisibleLineCount] = useState(0);
   const [isTypingComplete, setIsTypingComplete] = useState(false);
-  const [age, setAge] = useState<string>("36.00000000");
-  const hasStartedTyping = useRef(false);
+  const [age, setAge] = useState(getAge);
+  const typingStarted = useRef(false);
 
-  // Real-time age calculation - updates every 50ms for smooth ticking
+  // Real-time age calculation - updates every 50ms
   useEffect(() => {
-    const updateAge = () => {
-      const now = new Date();
-      const diffMs = now.getTime() - BIRTHDAY.getTime();
-      const years = diffMs / (1000 * 60 * 60 * 24 * 365.2425);
-      setAge(years.toFixed(8));
-    };
-
-    updateAge();
-    const interval = setInterval(updateAge, 50);
+    const interval = setInterval(() => {
+      setAge(getAge());
+    }, 50);
     return () => clearInterval(interval);
   }, []);
 
-  // Update persona lines when age changes (only the first line)
-  useEffect(() => {
-    if (isTypingComplete && displayedLines.length > 0) {
-      setDisplayedLines(prev => {
-        const newLines = [...prev];
-        newLines[0] = `age: ${age}`;
-        return newLines;
-      });
-    }
-  }, [age, isTypingComplete]);
-
+  // Page load
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 50);
     return () => clearTimeout(timer);
   }, []);
 
-  // Typewriter effect for YAML - only runs once
+  // Typewriter effect - just increment visible line count
   useEffect(() => {
-    if (!isLoaded || hasStartedTyping.current) return;
-    hasStartedTyping.current = true;
+    if (!isLoaded || typingStarted.current) return;
+    typingStarted.current = true;
 
-    const lines = getPersonaYAML(age).split('\n');
+    // Total lines = 1 (age) + personaLines.length
+    const totalLines = 1 + personaLines.length;
     let currentLine = 0;
 
     const typeInterval = setInterval(() => {
-      if (currentLine < lines.length) {
-        setDisplayedLines(prev => [...prev, lines[currentLine]]);
+      if (currentLine < totalLines) {
+        setVisibleLineCount(currentLine + 1);
         currentLine++;
       } else {
         clearInterval(typeInterval);
@@ -148,13 +141,13 @@ export default function About() {
     return () => clearInterval(typeInterval);
   }, [isLoaded]);
 
-  // Syntax highlighting for YAML - ALL WHITE elegant style
+  // Build the lines to display
+  const allLines = [`age: ${age}`, ...personaLines];
+  const displayedLines = allLines.slice(0, visibleLineCount);
+
+  // Syntax highlighting for YAML
   const highlightLine = (line: string, index: number) => {
     if (!line) {
-      return <span style={{ color: '#FAFAF8' }}>{'\u00A0'}</span>;
-    }
-
-    if (line.trim() === '') {
       return <span style={{ color: '#FAFAF8' }}>{'\u00A0'}</span>;
     }
 
@@ -181,7 +174,6 @@ export default function About() {
     const keyMatch = line.match(/^(\s*)([a-z_]+)(:)(.*)$/);
     if (keyMatch) {
       const [, indent, key, colon, value] = keyMatch;
-
       return (
         <>
           <span style={{ color: '#FAFAF8' }}>{indent}</span>
@@ -206,24 +198,17 @@ export default function About() {
       );
     }
 
-    // Multiline string content (quotes)
-    if (line.trim().startsWith('"') || line.trim().startsWith("'")) {
-      return <span style={{ color: '#FAFAF8' }}>{line}</span>;
-    }
-
     return <span style={{ color: '#FAFAF8' }}>{line}</span>;
   };
 
   return (
     <>
       <style>{`
-        /* Import elegant monospace font */
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;300;400&display=swap');
         
         .about-page {
           opacity: 0;
           transition: opacity 0.5s ease;
-          /* Smooth overscroll - no disruption */
           overscroll-behavior: smooth;
           overscroll-behavior-y: contain;
         }
@@ -231,7 +216,6 @@ export default function About() {
           opacity: 1;
         }
         
-        /* Global smooth scrolling */
         html {
           scroll-behavior: smooth;
           overscroll-behavior: none;
@@ -240,11 +224,6 @@ export default function About() {
         body {
           overscroll-behavior-y: none;
         }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - FLOATING TERMINAL                                        */
-        /* Advanced glass morphism, multi-layer shadows, alive lighting               */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .terminal-container {
           position: relative;
@@ -261,26 +240,19 @@ export default function About() {
           border-radius: 16px;
           border: 1px solid rgba(255, 255, 255, 0.1);
           overflow: hidden;
-          
-          /* STATE OF THE ART - Multi-layer floating shadow */
           box-shadow: 
-            /* Outer white glow - floating effect */
             0 0 60px rgba(255, 255, 255, 0.08),
             0 0 100px rgba(255, 255, 255, 0.04),
-            /* Depth shadows */
             0 25px 50px rgba(0, 0, 0, 0.6),
             0 15px 30px rgba(0, 0, 0, 0.4),
             0 5px 15px rgba(0, 0, 0, 0.3),
-            /* Inner glow */
             inset 0 1px 0 rgba(255, 255, 255, 0.1),
             inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-          
           transform: translateZ(0);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
         }
         
-        /* STATE OF THE ART - Top reflection shine */
         .terminal-window::before {
           content: '';
           position: absolute;
@@ -288,12 +260,7 @@ export default function About() {
           left: 5%;
           right: 5%;
           height: 1px;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.4),
-            transparent
-          );
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
           pointer-events: none;
           z-index: 20;
         }
@@ -374,10 +341,6 @@ export default function About() {
           border-radius: 3px;
         }
         
-        .terminal-content::-webkit-scrollbar-thumb:hover {
-          background: rgba(255,255,255,0.12);
-        }
-        
         .code-line {
           display: flex;
           align-items: flex-start;
@@ -408,7 +371,6 @@ export default function About() {
           color: #FAFAF8;
         }
         
-        /* Cursor blink animation */
         .cursor {
           display: inline-block;
           width: 2px;
@@ -424,27 +386,6 @@ export default function About() {
           0%, 45% { opacity: 1; }
           50%, 100% { opacity: 0; }
         }
-        
-        /* Line appear animation */
-        .code-line {
-          opacity: 0;
-          animation: lineAppear 0.12s ease forwards;
-        }
-        
-        @keyframes lineAppear {
-          from {
-            opacity: 0;
-            transform: translateX(-5px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - CONTACT APP ICONS                                        */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .contact-icons {
           display: flex;
@@ -472,24 +413,19 @@ export default function About() {
           justify-content: center;
           cursor: pointer;
           overflow: hidden;
-          transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-                      box-shadow 0.3s ease;
-          
-          /* Matte finish with subtle depth */
+          transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
           box-shadow: 
             0 0 20px rgba(255, 255, 255, 0.06),
             0 6px 20px rgba(0, 0, 0, 0.4),
             0 3px 10px rgba(0, 0, 0, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.1),
             inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-          
           -webkit-tap-highlight-color: transparent;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
         }
         
-        /* Subtle top shine - more matte */
         .contact-icon::before {
           content: '';
           position: absolute;
@@ -497,12 +433,7 @@ export default function About() {
           left: 10%;
           right: 10%;
           height: 45%;
-          background: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.15) 0%,
-            rgba(255, 255, 255, 0.05) 40%,
-            transparent 100%
-          );
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 100%);
           border-radius: 16px 16px 50% 50%;
           pointer-events: none;
           z-index: 10;
@@ -535,7 +466,6 @@ export default function About() {
           letter-spacing: 0.05em;
         }
         
-        /* STATE OF THE ART - Gmail icon matte finish */
         .gmail-icon {
           box-shadow: 
             0 0 25px rgba(255, 255, 255, 0.08),
@@ -554,7 +484,6 @@ export default function About() {
             inset 0 -1px 0 rgba(0, 0, 0, 0.25);
         }
         
-        /* Mobile adjustments */
         @media (max-width: 600px) {
           .terminal-window {
             border-radius: 14px;
@@ -643,7 +572,7 @@ export default function About() {
           <GoldenSpiral />
         </div>
 
-        {/* STATE OF THE ART - Floating Terminal */}
+        {/* Terminal */}
         <div className="terminal-container">
           <div className="terminal-window">
             <div className="terminal-header">
@@ -654,11 +583,7 @@ export default function About() {
             </div>
             <div className="terminal-content">
               {displayedLines.map((line, index) => (
-                <div
-                  key={index}
-                  className="code-line"
-                  style={{ animationDelay: `${index * 0.008}s` }}
-                >
+                <div key={index} className="code-line">
                   <span className="line-number">{index + 1}</span>
                   <span className="line-content">
                     {highlightLine(line, index)}
@@ -680,9 +605,8 @@ export default function About() {
           </div>
         </div>
 
-        {/* STATE OF THE ART - Contact App Icons */}
+        {/* Contact Icons */}
         <div className="contact-icons">
-          {/* GitHub */}
           <a
             href="https://github.com/manfromnowhere143"
             target="_blank"
@@ -691,10 +615,7 @@ export default function About() {
           >
             <div
               className="contact-icon"
-              style={{
-                background: 'linear-gradient(145deg, #2d333b, #161b22)',
-                '--glow-color': 'rgba(255, 255, 255, 0.15)'
-              } as React.CSSProperties}
+              style={{ background: 'linear-gradient(145deg, #2d333b, #161b22)' }}
             >
               <svg className="contact-icon-svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
@@ -703,38 +624,18 @@ export default function About() {
             <span className="contact-icon-name">GitHub</span>
           </a>
 
-          {/* Gmail - STATE OF THE ART White/Black with alive lighting */}
           <a
             href="mailto:cogitoergosum143@gmail.com"
             className="contact-icon-wrapper"
           >
             <div
               className="contact-icon gmail-icon"
-              style={{
-                background: 'linear-gradient(145deg, #2a2a2a, #0a0a0a)',
-                '--glow-color': 'rgba(255, 255, 255, 0.2)'
-              } as React.CSSProperties}
+              style={{ background: 'linear-gradient(145deg, #2a2a2a, #0a0a0a)' }}
             >
               <svg className="contact-icon-svg" width="28" height="28" viewBox="0 0 24 24" fill="none">
-                {/* Envelope base */}
                 <rect x="2" y="4" width="20" height="16" rx="2" stroke="white" strokeWidth="1.5" fill="none"/>
-                {/* Envelope flap - V shape */}
-                <path
-                  d="M2 6l10 7 10-7"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                />
-                {/* Inner highlight */}
-                <path
-                  d="M2 18l6-5M22 18l-6-5"
-                  stroke="white"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  opacity="0.5"
-                />
+                <path d="M2 6l10 7 10-7" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                <path d="M2 18l6-5M22 18l-6-5" stroke="white" strokeWidth="1.2" strokeLinecap="round" opacity="0.5"/>
               </svg>
             </div>
             <span className="contact-icon-name">Email</span>
