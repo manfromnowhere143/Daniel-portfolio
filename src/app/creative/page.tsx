@@ -432,7 +432,7 @@ export default function Creative() {
       <style>{`
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - iOS FOLDER SYSTEM                        */
-        /* Apple-style transitions with proper animation sequencing    */
+        /* SIZES MATCHED TO WORK PAGE FOR CONSISTENCY                  */
         /* ═══════════════════════════════════════════════════════════ */
         
         .creative-page {
@@ -455,7 +455,7 @@ export default function Creative() {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 36px 32px;
-          max-width: 300px;
+          max-width: 320px;
           margin: 0 auto;
         }
         
@@ -467,30 +467,33 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* FOLDER ICON - STATE OF THE ART LIGHTING                     */
+        /* FOLDER ICON - MATCHING WORK PAGE SIZES                      */
+        /* Mobile: 115x115, Desktop 600+: 145x145, Desktop 900+: 175x175 */
         /* ═══════════════════════════════════════════════════════════ */
         
         .folder-icon {
           position: relative;
-          width: 100px;
-          height: 100px;
-          border-radius: 24px;
-          background: rgba(140, 140, 140, 0.25);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+          width: 115px;
+          height: 115px;
+          border-radius: 28px;
+          background: rgba(120, 120, 120, 0.18);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.8);
-          transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform: translateZ(0) scale(0.85) translateY(15px);
+          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                      box-shadow 0.4s ease, opacity 0.5s ease;
           box-shadow: 
-            0 0 40px rgba(255, 255, 255, 0.08),
-            0 8px 32px rgba(0, 0, 0, 0.4),
-            0 16px 48px rgba(0, 0, 0, 0.25),
-            inset 0 1px 1px rgba(255, 255, 255, 0.35),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+            0 0 50px rgba(255, 255, 255, 0.06),
+            0 8px 32px rgba(0, 0, 0, 0.5),
+            0 2px 8px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.2),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
@@ -501,57 +504,60 @@ export default function Creative() {
           content: '';
           position: absolute;
           top: 0;
-          left: 10%;
-          right: 10%;
-          height: 45%;
+          left: 8%;
+          right: 8%;
+          height: 50%;
           background: linear-gradient(
             180deg,
             rgba(255, 255, 255, 0.25) 0%,
-            rgba(255, 255, 255, 0.08) 50%,
+            rgba(255, 255, 255, 0.08) 40%,
             transparent 100%
           );
-          border-radius: 24px 24px 50% 50%;
+          border-radius: 28px 28px 50% 50%;
           pointer-events: none;
           z-index: 10;
         }
         
         .folder-icon.loaded {
           opacity: 1;
-          transform: scale(1);
+          transform: translateZ(0) scale(1) translateY(0);
         }
         
         .folder-icon:active {
-          transform: scale(0.92);
+          transform: translateZ(0) scale(0.94);
         }
         
         .app-container:nth-child(1) .folder-icon { transition-delay: 0ms; }
-        .app-container:nth-child(2) .folder-icon { transition-delay: 50ms; }
-        .app-container:nth-child(3) .folder-icon { transition-delay: 100ms; }
-        .app-container:nth-child(4) .folder-icon { transition-delay: 150ms; }
-        .app-container:nth-child(5) .folder-icon { transition-delay: 200ms; }
+        .app-container:nth-child(2) .folder-icon { transition-delay: 60ms; }
+        .app-container:nth-child(3) .folder-icon { transition-delay: 120ms; }
+        .app-container:nth-child(4) .folder-icon { transition-delay: 180ms; }
+        .app-container:nth-child(5) .folder-icon { transition-delay: 240ms; }
         
+        /* FOLDER PREVIEW - MATCHING WORK PAGE */
         .folder-preview {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 6px;
-          width: 84px;
-          height: 84px;
+          width: 95px;
+          height: 95px;
+          position: relative;
+          z-index: 5;
         }
         
+        /* FOLDER MINI ICON - MATCHING WORK PAGE */
         .folder-mini-icon {
-          width: 39px;
-          height: 39px;
-          border-radius: 10px;
+          width: 44px;
+          height: 44px;
+          border-radius: 11px;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
           position: relative;
           box-shadow: 
-            0 0 15px rgba(255, 255, 255, 0.1),
-            0 4px 12px rgba(0, 0, 0, 0.4),
+            0 0 12px rgba(255, 255, 255, 0.1),
+            0 3px 8px rgba(0, 0, 0, 0.4),
             inset 0 1px 0 rgba(255, 255, 255, 0.3);
-          /* STATE OF THE ART - 3D stability on mobile */
           -webkit-transform: translateZ(0);
           transform: translateZ(0);
           -webkit-backface-visibility: hidden;
@@ -562,7 +568,6 @@ export default function Creative() {
           contain: layout style paint;
         }
         
-        /* STATE OF THE ART - Force GPU layer for 3D content */
         .folder-mini-icon > * {
           -webkit-transform: translateZ(0);
           transform: translateZ(0);
@@ -590,13 +595,13 @@ export default function Creative() {
             rgba(255, 255, 255, 0.3) 0%,
             transparent 100%
           );
-          border-radius: 10px 10px 50% 50%;
+          border-radius: 11px 11px 50% 50%;
           pointer-events: none;
           z-index: 5;
         }
         
         .folder-name {
-          font-size: 13px;
+          font-size: 12px;
           font-weight: 400;
           color: #FAFAF8;
           text-align: center;
@@ -614,14 +619,13 @@ export default function Creative() {
         }
         
         .app-container:nth-child(1) .folder-name { transition-delay: 80ms; }
-        .app-container:nth-child(2) .folder-name { transition-delay: 130ms; }
-        .app-container:nth-child(3) .folder-name { transition-delay: 180ms; }
-        .app-container:nth-child(4) .folder-name { transition-delay: 230ms; }
-        .app-container:nth-child(5) .folder-name { transition-delay: 280ms; }
+        .app-container:nth-child(2) .folder-name { transition-delay: 140ms; }
+        .app-container:nth-child(3) .folder-name { transition-delay: 200ms; }
+        .app-container:nth-child(4) .folder-name { transition-delay: 260ms; }
+        .app-container:nth-child(5) .folder-name { transition-delay: 320ms; }
         
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - iOS FOLDER OVERLAY                       */
-        /* Proper 3-phase animation: entering -> active -> exiting     */
         /* ═══════════════════════════════════════════════════════════ */
         
         .folder-overlay {
@@ -636,7 +640,6 @@ export default function Creative() {
           align-items: center;
           justify-content: flex-start;
           padding-top: clamp(100px, 18vh, 180px);
-          /* Hidden by default */
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -651,14 +654,12 @@ export default function Creative() {
           -webkit-tap-highlight-color: transparent;
         }
         
-        /* Phase 1: ENTERING - Make visible, start at 0 opacity */
         .folder-overlay.entering {
           visibility: visible;
           pointer-events: auto;
           opacity: 0;
         }
         
-        /* Phase 2: ACTIVE - Fully visible with transitions */
         .folder-overlay.active {
           visibility: visible;
           pointer-events: auto;
@@ -666,7 +667,6 @@ export default function Creative() {
           transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
         }
         
-        /* Phase 3: EXITING - Fade out */
         .folder-overlay.exiting {
           visibility: visible;
           pointer-events: none;
@@ -674,7 +674,6 @@ export default function Creative() {
           transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1);
         }
         
-        /* Blurred background */
         .folder-overlay-bg {
           position: absolute;
           top: 0;
@@ -691,36 +690,6 @@ export default function Creative() {
           -webkit-tap-highlight-color: transparent;
         }
         
-        /* Folder title */
-        .folder-overlay-title {
-          position: relative;
-          z-index: 2;
-          font-size: 24px;
-          font-weight: 300;
-          color: #FAFAF8;
-          margin-bottom: 16px;
-          text-shadow: 
-            0 0 30px rgba(255, 255, 255, 0.4),
-            0 2px 8px rgba(0, 0, 0, 0.5);
-          opacity: 0;
-          transform: translateY(-15px) scale(0.95);
-          transition: none;
-        }
-        
-        .folder-overlay.active .folder-overlay-title {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, 
-                      transform 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s;
-        }
-        
-        .folder-overlay.exiting .folder-overlay-title {
-          opacity: 0;
-          transform: translateY(-10px) scale(0.98);
-          transition: opacity 0.2s ease, transform 0.25s ease;
-        }
-        
-        /* White frosted container */
         .folder-container {
           position: relative;
           z-index: 2;
@@ -757,7 +726,6 @@ export default function Creative() {
           transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
-        /* Close button */
         .folder-close {
           position: relative;
           z-index: 2;
@@ -799,7 +767,6 @@ export default function Creative() {
           transform: scale(0.85);
         }
         
-        /* Grid of apps inside folder */
         .folder-apps-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -816,7 +783,6 @@ export default function Creative() {
           grid-template-columns: repeat(4, 1fr);
         }
         
-        /* Each app inside folder */
         .folder-app {
           display: flex;
           flex-direction: column;
@@ -846,7 +812,6 @@ export default function Creative() {
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        /* Staggered pop-in */
         .folder-overlay.active .folder-app:nth-child(1) { transition-delay: 0.04s; }
         .folder-overlay.active .folder-app:nth-child(2) { transition-delay: 0.07s; }
         .folder-overlay.active .folder-app:nth-child(3) { transition-delay: 0.10s; }
@@ -856,7 +821,6 @@ export default function Creative() {
         .folder-overlay.active .folder-app:nth-child(7) { transition-delay: 0.22s; }
         .folder-overlay.active .folder-app:nth-child(8) { transition-delay: 0.25s; }
         
-        /* Staggered exit (reverse, faster) */
         .folder-overlay.exiting .folder-app:nth-child(8) { transition-delay: 0ms; }
         .folder-overlay.exiting .folder-app:nth-child(7) { transition-delay: 15ms; }
         .folder-overlay.exiting .folder-app:nth-child(6) { transition-delay: 30ms; }
@@ -866,7 +830,6 @@ export default function Creative() {
         .folder-overlay.exiting .folder-app:nth-child(2) { transition-delay: 90ms; }
         .folder-overlay.exiting .folder-app:nth-child(1) { transition-delay: 105ms; }
         
-        /* App icons with alive lighting */
         .folder-app-icon {
           width: 70px;
           height: 70px;
@@ -887,7 +850,6 @@ export default function Creative() {
           backface-visibility: hidden;
           transform: translateZ(0);
           -webkit-tap-highlight-color: transparent;
-          /* STATE OF THE ART - 3D stability on mobile */
           -webkit-perspective: 1000px;
           perspective: 1000px;
           will-change: transform;
@@ -895,7 +857,6 @@ export default function Creative() {
           isolation: isolate;
         }
         
-        /* STATE OF THE ART - Force GPU layer for 3D content in app icons */
         .folder-app-icon > * {
           -webkit-transform: translateZ(0);
           transform: translateZ(0);
@@ -950,7 +911,6 @@ export default function Creative() {
         
         /* ═══════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - EXPANDED ITEM VIEW                       */
-        /* Proper 3-phase animation for smooth transitions             */
         /* ═══════════════════════════════════════════════════════════ */
         
         .expanded-view {
@@ -980,14 +940,12 @@ export default function Creative() {
           -webkit-tap-highlight-color: transparent;
         }
         
-        /* Phase 1: ENTERING */
         .expanded-view.entering {
           visibility: visible;
           pointer-events: auto;
           opacity: 0;
         }
         
-        /* Phase 2: ACTIVE */
         .expanded-view.active {
           visibility: visible;
           pointer-events: auto;
@@ -995,7 +953,6 @@ export default function Creative() {
           transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
         }
         
-        /* Phase 3: EXITING */
         .expanded-view.exiting {
           visibility: visible;
           pointer-events: none;
@@ -1058,7 +1015,6 @@ export default function Creative() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           -webkit-tap-highlight-color: transparent;
-          /* STATE OF THE ART - 3D stability on mobile */
           -webkit-perspective: 1000px;
           perspective: 1000px;
           will-change: transform, opacity;
@@ -1066,7 +1022,6 @@ export default function Creative() {
           isolation: isolate;
         }
         
-        /* STATE OF THE ART - Force GPU layer for 3D content in expanded view */
         .expanded-content > * {
           -webkit-transform: translateZ(0);
           transform: translateZ(0);
@@ -1138,10 +1093,6 @@ export default function Creative() {
           transform: scale(0.85);
         }
         
-        /* ═══════════════════════════════════════════════════════════ */
-        /* EXPERIENCES - LARGER CONTENT, NO TEXT                       */
-        /* ═══════════════════════════════════════════════════════════ */
-        
         .expanded-view.experiences-view .expanded-content {
           width: 320px;
           height: 320px;
@@ -1152,12 +1103,12 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════ */
-        /* DESKTOP                                                     */
+        /* DESKTOP - MATCHING WORK PAGE SIZES                          */
         /* ═══════════════════════════════════════════════════════════ */
         
         @media (min-width: 600px) {
           .creative-grid {
-            gap: 40px 36px;
+            gap: 48px 44px;
             max-width: 400px;
           }
           
@@ -1166,39 +1117,29 @@ export default function Creative() {
           }
           
           .folder-icon {
-            width: 140px;
-            height: 140px;
+            width: 145px;
+            height: 145px;
             border-radius: 32px;
           }
           
+          .folder-icon:hover {
+            transform: translateZ(0) scale(1.04) translateY(-3px);
+          }
+          
           .folder-preview {
-            width: 116px;
-            height: 116px;
-            gap: 6px;
+            width: 120px;
+            height: 120px;
+            gap: 7px;
           }
           
           .folder-mini-icon {
-            width: 55px;
-            height: 55px;
-            border-radius: 12px;
+            width: 56px;
+            height: 56px;
+            border-radius: 13px;
           }
           
           .folder-name {
-            font-size: 14px;
-          }
-          
-          .folder-icon:hover {
-            transform: scale(1.04);
-            box-shadow: 
-              0 8px 30px rgba(0, 0, 0, 0.4),
-              0 12px 50px rgba(0, 0, 0, 0.25),
-              0 0 40px rgba(255, 255, 255, 0.08),
-              inset 0 1px 0 rgba(255, 255, 255, 0.25);
-          }
-          
-          .folder-overlay-title {
-            font-size: 28px;
-            margin-bottom: 18px;
+            font-size: 13px;
           }
           
           .folder-container {
@@ -1252,30 +1193,30 @@ export default function Creative() {
         
         @media (min-width: 900px) {
           .creative-grid {
-            gap: 50px 44px;
-            max-width: 520px;
+            gap: 54px 50px;
+            max-width: 480px;
           }
           
           .folder-icon {
-            width: 170px;
-            height: 170px;
+            width: 175px;
+            height: 175px;
             border-radius: 38px;
           }
           
           .folder-preview {
-            width: 142px;
-            height: 142px;
+            width: 145px;
+            height: 145px;
             gap: 8px;
           }
           
           .folder-mini-icon {
-            width: 67px;
-            height: 67px;
+            width: 68px;
+            height: 68px;
             border-radius: 15px;
           }
           
           .folder-name {
-            font-size: 15px;
+            font-size: 14px;
           }
           
           .folder-container {
@@ -1307,20 +1248,10 @@ export default function Creative() {
           }
         }
         
-        /* ═══════════════════════════════════════════════════════════ */
-        /* GLOBAL TAP HIGHLIGHT REMOVAL                                */
-        /* ═══════════════════════════════════════════════════════════ */
-        
         * {
           -webkit-tap-highlight-color: transparent;
         }
         
-        /* ═══════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - WEBGL/THREE.JS MOBILE STABILITY          */
-        /* Prevents disappearing 3D shapes on mobile devices           */
-        /* ═══════════════════════════════════════════════════════════ */
-        
-        /* Force hardware acceleration for all canvas elements */
         canvas {
           -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
@@ -1330,7 +1261,6 @@ export default function Creative() {
           image-rendering: -webkit-optimize-contrast;
         }
         
-        /* Prevent iOS Safari from culling offscreen content */
         @supports (-webkit-touch-callout: none) {
           .folder-mini-icon,
           .folder-app-icon,
@@ -1346,7 +1276,6 @@ export default function Creative() {
           }
         }
         
-        /* Android Chrome stability */
         @media screen and (max-width: 768px) {
           .folder-mini-icon canvas,
           .folder-app-icon canvas,
@@ -1360,13 +1289,14 @@ export default function Creative() {
       <div className={`creative-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{
         minHeight: "100vh",
         backgroundColor: "#0A0A0A",
-        paddingTop: "clamp(90px, 12vh, 140px)",
+        paddingTop: "clamp(100px, 15vh, 160px)",
         paddingBottom: "100px",
+        paddingLeft: "20px",
+        paddingRight: "20px",
         display: "flex",
         alignItems: "flex-start",
         justifyContent: "center"
       }}>
-        {/* Main Folder Grid */}
         <div className="creative-grid">
           {apps.map((app) => (
             <div key={app.id} className="app-container">
@@ -1609,7 +1539,7 @@ export default function Creative() {
         </div>
       ))}
 
-      {/* Expanded Views for Experiences - INTERACTIVE, NO TEXT */}
+      {/* Expanded Views for Experiences */}
       {experienceItems.map(item => (
         <div
           key={item.id}
