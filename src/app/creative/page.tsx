@@ -31,7 +31,7 @@ const mainFolders = [
   { id: 'interactive', name: '3D Interactive' },
 ];
 
-// Entertainment contains 3 gallery categories (shown as cards, not apps)
+// Entertainment contains 3 gallery categories
 const entertainmentCategories = [
   { id: '3dicons', name: '3D Icons' },
   { id: 'geometry', name: 'Geometry' },
@@ -81,6 +81,7 @@ type AnimationState = 'idle' | 'entering' | 'active' | 'exiting';
 
 export default function Creative() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
 
   // Folder overlay state (Entertainment or Interactive)
   const [openFolder, setOpenFolder] = useState<string | null>(null);
@@ -97,6 +98,13 @@ export default function Creative() {
   const folderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const galleryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const expandedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 600);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
@@ -250,221 +258,235 @@ export default function Creative() {
     }
   };
 
-  // Mini icon renderers for folder previews - MATCHING the actual content
-  const render3DIconMini = (id: string) => {
-    // These mini versions match what shows in expanded view
+  // Mini icon size based on device
+  const miniIconSize = isMobile ? 22 : 26;
+  const folderIconSize = isMobile ? 36 : 42;
+  const galleryIconSize = isMobile ? 38 : 44;
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // MINI ICON RENDERERS - BIGGER SYMBOLS
+  // ═══════════════════════════════════════════════════════════════════════════════
+
+  const render3DIconMini = (id: string, size: number = miniIconSize) => {
     switch (id) {
       case 'trade69':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 3L21 8v8l-9 5-9-5V8l9-5z" stroke="white" strokeWidth="1.2" opacity="0.8"/>
-            <path d="M12 3v18M3 8l9 5 9-5" stroke="white" strokeWidth="0.8" opacity="0.5"/>
-            <circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <path d="M3 17l6-6 4 4 8-8" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.95"/>
+            <path d="M17 7h4v4" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.8"/>
           </svg>
         );
       case 'megaagent':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="8" r="3" stroke="white" strokeWidth="1.2" opacity="0.8"/>
-            <circle cx="6" cy="16" r="2.5" stroke="white" strokeWidth="1" opacity="0.6"/>
-            <circle cx="18" cy="16" r="2.5" stroke="white" strokeWidth="1" opacity="0.6"/>
-            <path d="M12 11v2M9 14l-2 1M15 14l2 1" stroke="white" strokeWidth="1" opacity="0.7"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="7" r="4" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <circle cx="5" cy="17" r="3" stroke="white" strokeWidth="1.8" opacity="0.8"/>
+            <circle cx="19" cy="17" r="3" stroke="white" strokeWidth="1.8" opacity="0.8"/>
+            <path d="M12 11v3M8 14l-2 2M16 14l2 2" stroke="white" strokeWidth="1.8" opacity="0.6"/>
           </svg>
         );
       case 'octopus':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <ellipse cx="12" cy="10" rx="5" ry="4" stroke="white" strokeWidth="1.2" opacity="0.8"/>
-            <path d="M7 13c-1 2-2 5-1 6M10 14c0 2-1 5 0 6M14 14c0 2 1 5 0 6M17 13c1 2 2 5 1 6" stroke="white" strokeWidth="1" opacity="0.6" strokeLinecap="round"/>
-            <circle cx="10" cy="9" r="1" fill="white" opacity="0.9"/>
-            <circle cx="14" cy="9" r="1" fill="white" opacity="0.9"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <ellipse cx="12" cy="9" rx="6" ry="5" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <path d="M6 13c-1.5 2.5-2.5 5.5-1 6.5M9 14c0 3-1 5.5 0 6.5M15 14c0 3 1 5.5 0 6.5M18 13c1.5 2.5 2.5 5.5 1 6.5" stroke="white" strokeWidth="1.8" opacity="0.7" strokeLinecap="round"/>
+            <circle cx="9.5" cy="8" r="1.2" fill="white" opacity="0.95"/>
+            <circle cx="14.5" cy="8" r="1.2" fill="white" opacity="0.95"/>
           </svg>
         );
       case 'overmind':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="7" stroke="white" strokeWidth="1" opacity="0.6"/>
-            <circle cx="12" cy="12" r="4" stroke="white" strokeWidth="1" opacity="0.8"/>
-            <circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9"/>
-            <path d="M12 5v2M12 17v2M5 12h2M17 12h2" stroke="white" strokeWidth="1" opacity="0.5"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.8" opacity="0.6"/>
+            <circle cx="12" cy="12" r="5" stroke="white" strokeWidth="2" opacity="0.85"/>
+            <circle cx="12" cy="12" r="2" fill="white" opacity="0.95"/>
+            <path d="M12 1v4M12 19v4M1 12h4M19 12h4" stroke="white" strokeWidth="1.5" opacity="0.5"/>
           </svg>
         );
       case 'website':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="4" y="6" width="16" height="12" rx="2" stroke="white" strokeWidth="1.2" opacity="0.8"/>
-            <path d="M4 10h16" stroke="white" strokeWidth="0.8" opacity="0.5"/>
-            <circle cx="6.5" cy="8" r="0.8" fill="white" opacity="0.7"/>
-            <circle cx="9" cy="8" r="0.8" fill="white" opacity="0.7"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="4" width="20" height="15" rx="2.5" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <path d="M2 9h20" stroke="white" strokeWidth="1.5" opacity="0.6"/>
+            <circle cx="5" cy="6.5" r="1" fill="white" opacity="0.85"/>
+            <circle cx="8" cy="6.5" r="1" fill="white" opacity="0.85"/>
+            <circle cx="11" cy="6.5" r="1" fill="white" opacity="0.85"/>
           </svg>
         );
       case 'dashboard':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="4" y="4" width="7" height="7" rx="1.5" stroke="white" strokeWidth="1.2" opacity="0.8"/>
-            <rect x="13" y="4" width="7" height="4" rx="1" stroke="white" strokeWidth="1" opacity="0.6"/>
-            <rect x="13" y="10" width="7" height="7" rx="1.5" stroke="white" strokeWidth="1.2" opacity="0.8"/>
-            <rect x="4" y="13" width="7" height="4" rx="1" stroke="white" strokeWidth="1" opacity="0.6"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <circle cx="12" cy="12" r="6" stroke="white" strokeWidth="1.5" opacity="0.5"/>
+            <path d="M12 5v4M12 15v4M5 12h4M15 12h4" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.8"/>
+            <circle cx="12" cy="12" r="2.5" fill="white" opacity="0.95"/>
           </svg>
         );
       case 'api':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M8 6l-4 6 4 6M16 6l4 6-4 6" stroke="white" strokeWidth="1.2" strokeLinecap="round" opacity="0.8"/>
-            <path d="M14 4l-4 16" stroke="white" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="4" r="2.5" fill="white" opacity="0.95"/>
+            <circle cx="4" cy="12" r="2.5" fill="white" opacity="0.95"/>
+            <circle cx="20" cy="12" r="2.5" fill="white" opacity="0.95"/>
+            <circle cx="12" cy="20" r="2.5" fill="white" opacity="0.95"/>
+            <path d="M12 6.5v4M12 13.5v4M6.5 12h4M13.5 12h4" stroke="white" strokeWidth="2" opacity="0.7"/>
+            <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="2" opacity="0.9"/>
           </svg>
         );
       case 'llm':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="6" stroke="white" strokeWidth="1" opacity="0.6"/>
-            <circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/>
-            <path d="M12 6v2M12 16v2M6 12h2M16 12h2M8 8l1.5 1.5M14.5 14.5L16 16M8 16l1.5-1.5M14.5 9.5L16 8" stroke="white" strokeWidth="0.8" opacity="0.5"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <ellipse cx="12" cy="12" rx="10" ry="5" stroke="white" strokeWidth="1.5" opacity="0.5"/>
+            <ellipse cx="12" cy="12" rx="10" ry="5" stroke="white" strokeWidth="1.5" opacity="0.5" transform="rotate(60 12 12)"/>
+            <ellipse cx="12" cy="12" rx="10" ry="5" stroke="white" strokeWidth="1.5" opacity="0.5" transform="rotate(120 12 12)"/>
+            <circle cx="12" cy="12" r="4" fill="white" opacity="0.95"/>
           </svg>
         );
       default: return null;
     }
   };
 
-  const renderGeometryMini = (id: string) => {
+  const renderGeometryMini = (id: string, size: number = miniIconSize) => {
     switch (id) {
       case 'metatron':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="7" stroke="white" strokeWidth="1" opacity="0.6"/>
-            <circle cx="12" cy="5" r="1.5" fill="white" opacity="0.8"/>
-            <circle cx="12" cy="19" r="1.5" fill="white" opacity="0.8"/>
-            <circle cx="6" cy="8.5" r="1.5" fill="white" opacity="0.8"/>
-            <circle cx="18" cy="8.5" r="1.5" fill="white" opacity="0.8"/>
-            <circle cx="6" cy="15.5" r="1.5" fill="white" opacity="0.8"/>
-            <circle cx="18" cy="15.5" r="1.5" fill="white" opacity="0.8"/>
-            <circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.5" opacity="0.6"/>
+            <circle cx="12" cy="4" r="2" fill="white" opacity="0.9"/>
+            <circle cx="12" cy="20" r="2" fill="white" opacity="0.9"/>
+            <circle cx="5" cy="8" r="2" fill="white" opacity="0.9"/>
+            <circle cx="19" cy="8" r="2" fill="white" opacity="0.9"/>
+            <circle cx="5" cy="16" r="2" fill="white" opacity="0.9"/>
+            <circle cx="19" cy="16" r="2" fill="white" opacity="0.9"/>
+            <circle cx="12" cy="12" r="2.5" fill="white" opacity="1"/>
           </svg>
         );
       case 'spiral':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 12c0-2 1.5-3.5 3.5-3.5s3.5 1.5 3.5 3.5-1.5 3.5-3.5 3.5c-3 0-5.5-2.5-5.5-5.5s2.5-5.5 5.5-5.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/>
-            <circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <path d="M12 12c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5-2 4.5-4.5 4.5c-4 0-7-3-7-7s3-7 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.9"/>
+            <circle cx="12" cy="12" r="2" fill="white" opacity="1"/>
           </svg>
         );
       case 'flower':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="3.5" stroke="white" strokeWidth="1" opacity="0.9"/>
-            <circle cx="12" cy="6.5" r="2.5" stroke="white" strokeWidth="0.8" opacity="0.5"/>
-            <circle cx="12" cy="17.5" r="2.5" stroke="white" strokeWidth="0.8" opacity="0.5"/>
-            <circle cx="7.2" cy="9.3" r="2.5" stroke="white" strokeWidth="0.8" opacity="0.5"/>
-            <circle cx="16.8" cy="9.3" r="2.5" stroke="white" strokeWidth="0.8" opacity="0.5"/>
-            <circle cx="7.2" cy="14.7" r="2.5" stroke="white" strokeWidth="0.8" opacity="0.5"/>
-            <circle cx="16.8" cy="14.7" r="2.5" stroke="white" strokeWidth="0.8" opacity="0.5"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="4" stroke="white" strokeWidth="2" opacity="1"/>
+            <circle cx="12" cy="5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+            <circle cx="12" cy="19" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+            <circle cx="6" cy="8.5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+            <circle cx="18" cy="8.5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+            <circle cx="6" cy="15.5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+            <circle cx="18" cy="15.5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
           </svg>
         );
       case 'lemniscate':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 12c-2-2-5-2-5 1s3 3 5 1c2 2 5 2 5-1s-3-3-5-1z" stroke="white" strokeWidth="1.5" fill="none" opacity="0.9"/>
-            <circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <path d="M12 12c-2.5-2.5-6-2.5-6 1.5s4 4 6 1.5c2.5 2.5 6 2.5 6-1.5s-4-4-6-1.5z" stroke="white" strokeWidth="2" fill="none" opacity="0.95"/>
+            <circle cx="12" cy="12" r="2" fill="white" opacity="1"/>
           </svg>
         );
       default: return null;
     }
   };
 
-  const render2DIconMini = (id: string) => {
-    // Simplified mini versions for 2D icons
+  const render2DIconMini = (id: string, size: number = miniIconSize) => {
     switch (id) {
       case 'trade69-2d':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 3L21 8v8l-9 5-9-5V8l9-5z" stroke="white" strokeWidth="1.2" opacity="0.8"/>
-            <circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <path d="M3 17l6-6 4 4 8-8" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.95"/>
+            <circle cx="12" cy="12" r="2.5" fill="white" opacity="0.9"/>
           </svg>
         );
       case 'megaagent-2d':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="8" r="3" stroke="white" strokeWidth="1.2" opacity="0.8"/>
-            <circle cx="6" cy="16" r="2.5" stroke="white" strokeWidth="1" opacity="0.6"/>
-            <circle cx="18" cy="16" r="2.5" stroke="white" strokeWidth="1" opacity="0.6"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="7" r="4" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <circle cx="5" cy="17" r="3" stroke="white" strokeWidth="1.8" opacity="0.8"/>
+            <circle cx="19" cy="17" r="3" stroke="white" strokeWidth="1.8" opacity="0.8"/>
           </svg>
         );
       case 'octopus-2d':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <ellipse cx="12" cy="10" rx="5" ry="4" stroke="white" strokeWidth="1.2" opacity="0.8"/>
-            <path d="M7 13c-1 2-2 5-1 6M17 13c1 2 2 5 1 6" stroke="white" strokeWidth="1" opacity="0.6" strokeLinecap="round"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <ellipse cx="12" cy="9" rx="6" ry="5" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <path d="M6 13c-1.5 3-2.5 6-1 7M18 13c1.5 3 2.5 6 1 7" stroke="white" strokeWidth="1.8" opacity="0.7" strokeLinecap="round"/>
           </svg>
         );
       case 'overmind-2d':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="6" stroke="white" strokeWidth="1" opacity="0.7"/>
-            <circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.8" opacity="0.8"/>
+            <circle cx="12" cy="12" r="3" fill="white" opacity="0.95"/>
           </svg>
         );
       case 'website-2d':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="4" y="6" width="16" height="12" rx="2" stroke="white" strokeWidth="1.2" opacity="0.8"/>
-            <path d="M4 10h16" stroke="white" strokeWidth="0.8" opacity="0.5"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="4" width="20" height="15" rx="2.5" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <path d="M2 9h20" stroke="white" strokeWidth="1.5" opacity="0.6"/>
           </svg>
         );
       case 'dashboard-2d':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="4" y="4" width="7" height="7" rx="1.5" stroke="white" strokeWidth="1.2" opacity="0.8"/>
-            <rect x="13" y="10" width="7" height="7" rx="1.5" stroke="white" strokeWidth="1.2" opacity="0.8"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <circle cx="12" cy="12" r="2.5" fill="white" opacity="0.95"/>
           </svg>
         );
       case 'api-2d':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M8 6l-4 6 4 6M16 6l4 6-4 6" stroke="white" strokeWidth="1.2" strokeLinecap="round" opacity="0.8"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="4" r="2.5" fill="white" opacity="0.95"/>
+            <circle cx="4" cy="12" r="2.5" fill="white" opacity="0.95"/>
+            <circle cx="20" cy="12" r="2.5" fill="white" opacity="0.95"/>
+            <circle cx="12" cy="20" r="2.5" fill="white" opacity="0.95"/>
           </svg>
         );
       case 'llm-2d':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="6" stroke="white" strokeWidth="1" opacity="0.7"/>
-            <circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.5" opacity="0.7"/>
+            <circle cx="12" cy="12" r="4" fill="white" opacity="0.95"/>
           </svg>
         );
       default: return null;
     }
   };
 
-  const renderInteractiveMini = (id: string) => {
+  const renderInteractiveMini = (id: string, size: number = miniIconSize) => {
     switch (id) {
       case 'sphere':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1" opacity="0.7"/>
-            <ellipse cx="12" cy="12" rx="8" ry="3" stroke="white" strokeWidth="0.6" opacity="0.4"/>
-            <ellipse cx="12" cy="12" rx="3" ry="8" stroke="white" strokeWidth="0.6" opacity="0.4"/>
-            <circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.8" opacity="0.8"/>
+            <ellipse cx="12" cy="12" rx="9" ry="3.5" stroke="white" strokeWidth="1.2" opacity="0.5"/>
+            <ellipse cx="12" cy="12" rx="3.5" ry="9" stroke="white" strokeWidth="1.2" opacity="0.5"/>
+            <circle cx="12" cy="12" r="2.5" fill="white" opacity="1"/>
           </svg>
         );
       case 'manifold':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M4 12h16M12 4v16" stroke="white" strokeWidth="0.6" opacity="0.3"/>
-            <circle cx="12" cy="12" r="6" stroke="white" strokeWidth="0.8" opacity="0.5"/>
-            <circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9"/>
-            <circle cx="8" cy="8" r="1" fill="white" opacity="0.6"/>
-            <circle cx="16" cy="8" r="1" fill="white" opacity="0.6"/>
-            <circle cx="8" cy="16" r="1" fill="white" opacity="0.6"/>
-            <circle cx="16" cy="16" r="1" fill="white" opacity="0.6"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <path d="M3 12h18M12 3v18" stroke="white" strokeWidth="1" opacity="0.4"/>
+            <circle cx="12" cy="12" r="7" stroke="white" strokeWidth="1.5" opacity="0.6"/>
+            <circle cx="12" cy="12" r="2" fill="white" opacity="1"/>
+            <circle cx="7" cy="7" r="1.5" fill="white" opacity="0.75"/>
+            <circle cx="17" cy="7" r="1.5" fill="white" opacity="0.75"/>
+            <circle cx="7" cy="17" r="1.5" fill="white" opacity="0.75"/>
+            <circle cx="17" cy="17" r="1.5" fill="white" opacity="0.75"/>
           </svg>
         );
       case 'architecture':
         return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="4" y="8" width="6" height="10" rx="1" stroke="white" strokeWidth="1" opacity="0.7"/>
-            <rect x="14" y="6" width="6" height="12" rx="1" stroke="white" strokeWidth="1" opacity="0.7"/>
-            <path d="M10 13h4" stroke="white" strokeWidth="1.5" opacity="0.9"/>
-            <circle cx="7" cy="11" r="1" fill="white" opacity="0.8"/>
-            <circle cx="17" cy="10" r="1" fill="white" opacity="0.8"/>
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="7" width="7" height="12" rx="1.5" stroke="white" strokeWidth="1.8" opacity="0.85"/>
+            <rect x="14" y="5" width="7" height="14" rx="1.5" stroke="white" strokeWidth="1.8" opacity="0.85"/>
+            <path d="M10 13h4" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="1"/>
+            <circle cx="6.5" cy="10" r="1.5" fill="white" opacity="0.9"/>
+            <circle cx="17.5" cy="9" r="1.5" fill="white" opacity="0.9"/>
           </svg>
         );
       default: return null;
@@ -477,42 +499,38 @@ export default function Creative() {
   const getExpandedAnimClass = (itemId: string) => expandedItem === itemId ? expandedAnimState : '';
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // FOLDER PREVIEW - Shows actual mini icons that match expanded content
+  // FOLDER PREVIEW - Only 3 icons for Entertainment (no fake 4th)
   // ═══════════════════════════════════════════════════════════════════════════════
 
   const renderFolderPreview = (folderId: string) => {
     if (folderId === 'entertainment') {
-      // Show 4 representative items from the 3 categories
+      // Only 3 items - matching the 3 categories
       return (
-        <div className="folder-preview">
+        <div className="folder-preview folder-preview-3">
           <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a5040, #0d2820)' }}>
-            {render3DIconMini('trade69')}
+            {render3DIconMini('trade69', miniIconSize)}
           </div>
           <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #3a2855, #1e1430)' }}>
-            {renderGeometryMini('metatron')}
+            {renderGeometryMini('metatron', miniIconSize)}
           </div>
           <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #3d4a8f, #1e2550)' }}>
-            {render2DIconMini('megaagent-2d')}
-          </div>
-          <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #552838, #301418)' }}>
-            {renderGeometryMini('spiral')}
+            {render2DIconMini('megaagent-2d', miniIconSize)}
           </div>
         </div>
       );
     } else {
       // Interactive folder - show the 3 experiences
       return (
-        <div className="folder-preview">
+        <div className="folder-preview folder-preview-3">
           <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #2a2018, #15100a)' }}>
-            {renderInteractiveMini('sphere')}
+            {renderInteractiveMini('sphere', miniIconSize)}
           </div>
           <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a2820, #0a1510)' }}>
-            {renderInteractiveMini('manifold')}
+            {renderInteractiveMini('manifold', miniIconSize)}
           </div>
           <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #18202a, #0a1015)' }}>
-            {renderInteractiveMini('architecture')}
+            {renderInteractiveMini('architecture', miniIconSize)}
           </div>
-          <div className="folder-mini-icon folder-mini-empty" />
         </div>
       );
     }
@@ -523,8 +541,12 @@ export default function Creative() {
       <style>{`
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - CREATIVE PAGE                                                */
-        /* Gallery-style cards with premium animations                                      */
+        /* Matching Work page positioning, heights, fonts exactly                          */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        * {
+          -webkit-tap-highlight-color: transparent;
+        }
         
         .creative-page {
           overscroll-behavior: none;
@@ -539,14 +561,14 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* MAIN GRID - 2 FOLDERS                                                           */
+        /* MAIN GRID - 2 FOLDERS (matching Work page)                                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .creative-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 36px 32px;
-          max-width: 320px;
+          max-width: 280px;
           margin: 0 auto;
         }
         
@@ -558,7 +580,7 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* FOLDER ICON - Premium Glass Effect                                              */
+        /* FOLDER ICON - Premium Glass Effect (matching Work page)                         */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .folder-icon {
@@ -587,7 +609,6 @@ export default function Creative() {
           border: 1px solid rgba(255, 255, 255, 0.08);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-icon::before {
@@ -615,6 +636,10 @@ export default function Creative() {
         .folder-wrapper:nth-child(1) .folder-icon { transition-delay: 0ms; }
         .folder-wrapper:nth-child(2) .folder-icon { transition-delay: 60ms; }
         
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* FOLDER PREVIEW - 3 icons layout (no fake 4th)                                   */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .folder-preview {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -623,6 +648,17 @@ export default function Creative() {
           height: 95px;
           position: relative;
           z-index: 5;
+        }
+        
+        /* 3-item layout: 2 on top, 1 centered below */
+        .folder-preview-3 {
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: 1fr 1fr;
+        }
+        
+        .folder-preview-3 .folder-mini-icon:nth-child(3) {
+          grid-column: 1 / -1;
+          justify-self: center;
         }
         
         .folder-mini-icon {
@@ -637,7 +673,8 @@ export default function Creative() {
           box-shadow: 
             0 0 12px rgba(255, 255, 255, 0.1),
             0 3px 8px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            inset 0 1px 0 rgba(255, 255, 255, 0.3),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
           -webkit-transform: translateZ(0);
           transform: translateZ(0);
         }
@@ -649,30 +686,23 @@ export default function Creative() {
           left: 5%;
           right: 5%;
           height: 50%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
           border-radius: 11px 11px 50% 50%;
           pointer-events: none;
           z-index: 5;
         }
         
-        .folder-mini-empty {
-          background: transparent !important;
-          box-shadow: none !important;
-        }
-        
-        .folder-mini-empty::before {
-          display: none;
-        }
-        
         .folder-name {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 12px;
           font-weight: 400;
           color: #FAFAF8;
+          letter-spacing: 0.02em;
           text-align: center;
           opacity: 0;
-          transform: translateY(5px);
+          transform: translateY(8px);
           transition: opacity 0.4s ease, transform 0.4s ease;
-          text-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(0, 0, 0, 0.8);
+          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
         }
         
         .folder-name.loaded {
@@ -680,11 +710,11 @@ export default function Creative() {
           transform: translateY(0);
         }
         
-        .folder-wrapper:nth-child(1) .folder-name { transition-delay: 80ms; }
-        .folder-wrapper:nth-child(2) .folder-name { transition-delay: 140ms; }
+        .folder-wrapper:nth-child(1) .folder-name { transition-delay: 60ms; }
+        .folder-wrapper:nth-child(2) .folder-name { transition-delay: 120ms; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* FOLDER OVERLAY - Shows Category Cards                                           */
+        /* FOLDER OVERLAY - Matching Work page exactly                                     */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .folder-overlay {
@@ -706,7 +736,6 @@ export default function Creative() {
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
-          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
@@ -719,7 +748,6 @@ export default function Creative() {
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
-          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-container {
@@ -738,7 +766,6 @@ export default function Creative() {
             0 20px 60px rgba(0, 0, 0, 0.4),
             0 8px 25px rgba(0, 0, 0, 0.3),
             inset 0 1px 1px rgba(255, 255, 255, 0.8);
-          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-overlay.active .folder-container {
@@ -758,7 +785,6 @@ export default function Creative() {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 18px;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-card {
@@ -770,7 +796,6 @@ export default function Creative() {
           opacity: 0;
           transform: translateZ(0) scale(0.7) translateY(12px);
           transition: none;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-overlay.active .folder-card {
@@ -820,19 +845,11 @@ export default function Creative() {
         .folder-card-icon:active { transform: scale(0.92); }
         
         .folder-card-name {
-          font-size: 11px;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 12px;
           font-weight: 400;
           color: #1a1a1a;
           text-align: center;
-        }
-        
-        /* Empty card placeholder */
-        .folder-card-empty {
-          width: 70px;
-          height: 70px;
-          border-radius: 17px;
-          background: rgba(0, 0, 0, 0.03);
-          border: 1px dashed rgba(0, 0, 0, 0.08);
         }
         
         .folder-close {
@@ -851,7 +868,6 @@ export default function Creative() {
           transform: scale(0.5);
           transition: none;
           border: none;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .folder-overlay.active .folder-close {
@@ -871,7 +887,7 @@ export default function Creative() {
         .folder-close:active { transform: scale(0.85); }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* GALLERY OVERLAY - Card Grid for Items                                           */
+        /* GALLERY OVERLAY - Matching Work page media-overlay exactly                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .gallery-overlay {
@@ -882,15 +898,18 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
-          padding-top: clamp(80px, 14vh, 140px);
+          padding-top: clamp(100px, 18vh, 180px);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
+          touch-action: manipulation;
+          -webkit-touch-callout: none;
+          user-select: none;
+          overscroll-behavior: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
-          -webkit-tap-highlight-color: transparent;
         }
         
         .gallery-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
@@ -903,7 +922,10 @@ export default function Creative() {
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
-          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translateZ(0);
         }
         
         .gallery-container {
@@ -922,9 +944,10 @@ export default function Creative() {
             0 20px 60px rgba(0, 0, 0, 0.4),
             0 8px 25px rgba(0, 0, 0, 0.3),
             inset 0 1px 1px rgba(255, 255, 255, 0.8);
-          max-height: 70vh;
-          overflow-y: auto;
-          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
         }
         
         .gallery-overlay.active .gallery-container {
@@ -943,13 +966,12 @@ export default function Creative() {
         .gallery-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 14px;
-          -webkit-tap-highlight-color: transparent;
+          gap: 18px;
+          touch-action: manipulation;
         }
         
         .gallery-grid.grid-2 {
           grid-template-columns: repeat(2, 1fr);
-          gap: 18px;
         }
         
         .gallery-card {
@@ -961,7 +983,9 @@ export default function Creative() {
           opacity: 0;
           transform: translateZ(0) scale(0.7) translateY(12px);
           transition: none;
-          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .gallery-overlay.active .gallery-card {
@@ -977,31 +1001,32 @@ export default function Creative() {
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        .gallery-overlay.active .gallery-card:nth-child(1) { transition-delay: 0.03s; }
-        .gallery-overlay.active .gallery-card:nth-child(2) { transition-delay: 0.05s; }
-        .gallery-overlay.active .gallery-card:nth-child(3) { transition-delay: 0.07s; }
-        .gallery-overlay.active .gallery-card:nth-child(4) { transition-delay: 0.09s; }
-        .gallery-overlay.active .gallery-card:nth-child(5) { transition-delay: 0.11s; }
-        .gallery-overlay.active .gallery-card:nth-child(6) { transition-delay: 0.13s; }
-        .gallery-overlay.active .gallery-card:nth-child(7) { transition-delay: 0.15s; }
-        .gallery-overlay.active .gallery-card:nth-child(8) { transition-delay: 0.17s; }
+        .gallery-overlay.active .gallery-card:nth-child(1) { transition-delay: 0.04s; }
+        .gallery-overlay.active .gallery-card:nth-child(2) { transition-delay: 0.07s; }
+        .gallery-overlay.active .gallery-card:nth-child(3) { transition-delay: 0.10s; }
+        .gallery-overlay.active .gallery-card:nth-child(4) { transition-delay: 0.13s; }
+        .gallery-overlay.active .gallery-card:nth-child(5) { transition-delay: 0.16s; }
+        .gallery-overlay.active .gallery-card:nth-child(6) { transition-delay: 0.19s; }
+        .gallery-overlay.active .gallery-card:nth-child(7) { transition-delay: 0.22s; }
+        .gallery-overlay.active .gallery-card:nth-child(8) { transition-delay: 0.25s; }
         
         .gallery-card-icon {
-          width: 70px;
-          height: 70px;
-          border-radius: 16px;
+          width: 80px;
+          height: 80px;
+          border-radius: 18px;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
           position: relative;
           box-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.1),
-            0 5px 16px rgba(0, 0, 0, 0.4),
-            0 10px 32px rgba(0, 0, 0, 0.2),
-            inset 0 1px 1px rgba(255, 255, 255, 0.35),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.15);
-          -webkit-transform: translateZ(0);
+            0 0 25px rgba(255, 255, 255, 0.12),
+            0 6px 20px rgba(0, 0, 0, 0.45),
+            0 12px 40px rgba(0, 0, 0, 0.25),
+            inset 0 1px 1px rgba(255, 255, 255, 0.4),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
           transform: translateZ(0);
         }
         
@@ -1009,8 +1034,8 @@ export default function Creative() {
           content: '';
           position: absolute;
           top: 0; left: 8%; right: 8%; height: 45%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
-          border-radius: 16px 16px 50% 50%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+          border-radius: 18px 18px 50% 50%;
           pointer-events: none;
           z-index: 10;
         }
@@ -1018,11 +1043,12 @@ export default function Creative() {
         .gallery-card-icon:active { transform: scale(0.9); }
         
         .gallery-card-name {
-          font-size: 11px;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 12px;
           font-weight: 400;
           color: #1a1a1a;
           text-align: center;
-          max-width: 70px;
+          max-width: 76px;
         }
         
         .gallery-close {
@@ -1041,7 +1067,7 @@ export default function Creative() {
           transform: scale(0.5);
           transition: none;
           border: none;
-          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
         }
         
         .gallery-overlay.active .gallery-close {
@@ -1061,7 +1087,7 @@ export default function Creative() {
         .gallery-close:active { transform: scale(0.85); }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* EXPANDED VIEW - Fullscreen Experience                                           */
+        /* EXPANDED VIEW - Matching Work page image-expanded exactly                       */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .expanded-view {
@@ -1072,15 +1098,19 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
+          padding-top: clamp(80px, 15vh, 150px);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
+          touch-action: manipulation;
+          -webkit-touch-callout: none;
+          user-select: none;
+          overscroll-behavior: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
-          -webkit-tap-highlight-color: transparent;
         }
         
         .expanded-view.entering { visibility: visible; pointer-events: auto; opacity: 0; }
@@ -1091,6 +1121,7 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
+          touch-action: manipulation;
           opacity: 0;
           transform: translateZ(0) scale(0.88);
           transition: none;
@@ -1112,10 +1143,30 @@ export default function Creative() {
         .expanded-content {
           width: 280px;
           height: 280px;
+          border-radius: 22px;
           display: flex;
           align-items: center;
           justify-content: center;
           filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
+          touch-action: manipulation;
+          opacity: 0;
+          transform: translateZ(0) scale(0.9);
+          transition: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        
+        .expanded-view.active .expanded-content {
+          opacity: 1;
+          transform: translateZ(0) scale(1);
+          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, 
+                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
+        }
+        
+        .expanded-view.exiting .expanded-content {
+          opacity: 0;
+          transform: translateZ(0) scale(0.95);
+          transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
         .expanded-close {
@@ -1129,10 +1180,11 @@ export default function Creative() {
           justify-content: center;
           cursor: pointer;
           border: none;
+          touch-action: manipulation;
+          z-index: 10;
           opacity: 0;
           transform: scale(0.5);
           transition: none;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .expanded-view.active .expanded-close {
@@ -1152,7 +1204,7 @@ export default function Creative() {
         .expanded-close:active { transform: scale(0.85); }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* DESKTOP ENHANCEMENTS                                                            */
+        /* DESKTOP ENHANCEMENTS - Matching Work page exactly                               */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         @media (min-width: 600px) {
@@ -1166,14 +1218,12 @@ export default function Creative() {
           .folder-cards-grid { gap: 20px; }
           .folder-card-icon { width: 80px; height: 80px; border-radius: 18px; }
           .folder-card-icon:hover { transform: scale(1.06); }
-          .folder-card-name { font-size: 12px; }
-          .gallery-container { padding: 28px; }
-          .gallery-grid { gap: 16px; }
-          .gallery-grid.grid-2 { gap: 20px; }
-          .gallery-card-icon { width: 80px; height: 80px; border-radius: 18px; }
+          .gallery-container { padding: 32px; border-radius: 30px; }
+          .gallery-grid { gap: 24px; }
+          .gallery-card-icon { width: 90px; height: 90px; border-radius: 20px; }
           .gallery-card-icon:hover { transform: scale(1.06); }
-          .gallery-card-name { font-size: 12px; max-width: 80px; }
-          .expanded-content { width: 360px; height: 360px; }
+          .gallery-card-name { font-size: 13px; max-width: 95px; }
+          .expanded-content { width: 340px; height: 340px; border-radius: 26px; }
         }
         
         @media (min-width: 900px) {
@@ -1185,16 +1235,8 @@ export default function Creative() {
           .folder-container { padding: 36px; }
           .folder-cards-grid { gap: 26px; }
           .folder-card-icon { width: 95px; height: 95px; border-radius: 22px; }
-          .folder-card-name { font-size: 13px; }
-          .gallery-container { padding: 32px; }
-          .gallery-grid { gap: 20px; }
-          .gallery-grid.grid-2 { gap: 24px; }
-          .gallery-card-icon { width: 90px; height: 90px; border-radius: 20px; }
-          .gallery-card-name { font-size: 13px; max-width: 95px; }
-          .expanded-content { width: 440px; height: 440px; }
         }
         
-        * { -webkit-tap-highlight-color: transparent; }
         canvas { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
       `}</style>
 
@@ -1235,7 +1277,7 @@ export default function Creative() {
             {/* 3D Icons Category */}
             <div className="folder-card" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenGallery('3dicons'), 400); }}>
               <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #1a5040, #0d2820)' }}>
-                {render3DIconMini('trade69')}
+                {render3DIconMini('trade69', folderIconSize)}
               </div>
               <span className="folder-card-name">3D Icons</span>
             </div>
@@ -1243,7 +1285,7 @@ export default function Creative() {
             {/* Geometry Category */}
             <div className="folder-card" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenGallery('geometry'), 400); }}>
               <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #3a2855, #1e1430)' }}>
-                {renderGeometryMini('metatron')}
+                {renderGeometryMini('metatron', folderIconSize)}
               </div>
               <span className="folder-card-name">Geometry</span>
             </div>
@@ -1251,21 +1293,21 @@ export default function Creative() {
             {/* Icons Category */}
             <div className="folder-card" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenGallery('icons'), 400); }}>
               <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #3d4a8f, #1e2550)' }}>
-                {render2DIconMini('megaagent-2d')}
+                {render2DIconMini('megaagent-2d', folderIconSize)}
               </div>
               <span className="folder-card-name">Icons</span>
             </div>
           </div>
         </div>
-        <div className="folder-close" onClick={handleCloseFolder}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <button className="folder-close" onClick={handleCloseFolder}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
-        </div>
+        </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 3D INTERACTIVE FOLDER - Shows 3 Experience Cards + Empty Slot                   */}
+      {/* 3D INTERACTIVE FOLDER - Shows 3 Experience Cards                                */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`folder-overlay ${getFolderAnimClass('interactive')}`}>
         <div className="folder-overlay-bg" onClick={handleCloseFolder} />
@@ -1274,18 +1316,18 @@ export default function Creative() {
             {interactiveApps.map(app => (
               <div key={app.id} className="folder-card" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenExpanded(`exp-${app.id}`), 400); }}>
                 <div className="folder-card-icon" style={{ background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})` }}>
-                  {renderInteractiveMini(app.id)}
+                  {renderInteractiveMini(app.id, folderIconSize)}
                 </div>
                 <span className="folder-card-name">{app.name}</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="folder-close" onClick={handleCloseFolder}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <button className="folder-close" onClick={handleCloseFolder}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
-        </div>
+        </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
@@ -1298,18 +1340,18 @@ export default function Creative() {
             {icons3DItems.map(item => (
               <div key={item.id} className="gallery-card" onClick={() => handleOpenExpanded(`3d-${item.id}`)}>
                 <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {render3DIconMini(item.id)}
+                  {render3DIconMini(item.id, galleryIconSize)}
                 </div>
                 <span className="gallery-card-name">{item.name}</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="gallery-close" onClick={handleCloseGallery}>
+        <button className="gallery-close" onClick={handleCloseGallery}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
-        </div>
+        </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
@@ -1322,18 +1364,18 @@ export default function Creative() {
             {geometryItems.map(item => (
               <div key={item.id} className="gallery-card" onClick={() => handleOpenExpanded(`geo-${item.id}`)}>
                 <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {renderGeometryMini(item.id)}
+                  {renderGeometryMini(item.id, galleryIconSize)}
                 </div>
                 <span className="gallery-card-name">{item.name}</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="gallery-close" onClick={handleCloseGallery}>
+        <button className="gallery-close" onClick={handleCloseGallery}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
-        </div>
+        </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
@@ -1346,18 +1388,18 @@ export default function Creative() {
             {staticIconItems.map(item => (
               <div key={item.id} className="gallery-card" onClick={() => handleOpenExpanded(`2d-${item.id}`)}>
                 <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {render2DIconMini(item.id)}
+                  {render2DIconMini(item.id, galleryIconSize)}
                 </div>
                 <span className="gallery-card-name">{item.name}</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="gallery-close" onClick={handleCloseGallery}>
+        <button className="gallery-close" onClick={handleCloseGallery}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
-        </div>
+        </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
@@ -1369,11 +1411,11 @@ export default function Creative() {
             <div className="expanded-content">
               {expandedItem === `3d-${item.id}` && render3DIcon(item.id, 200)}
             </div>
-            <div className="expanded-close" onClick={handleCloseExpanded}>
+            <button className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
-            </div>
+            </button>
           </div>
         </div>
       ))}
@@ -1387,11 +1429,11 @@ export default function Creative() {
             <div className="expanded-content">
               {expandedItem === `geo-${item.id}` && renderGeometry(item.id)}
             </div>
-            <div className="expanded-close" onClick={handleCloseExpanded}>
+            <button className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
-            </div>
+            </button>
           </div>
         </div>
       ))}
@@ -1405,11 +1447,11 @@ export default function Creative() {
             <div className="expanded-content">
               {expandedItem === `2d-${item.id}` && render2DIcon(item.id, 3)}
             </div>
-            <div className="expanded-close" onClick={handleCloseExpanded}>
+            <button className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
-            </div>
+            </button>
           </div>
         </div>
       ))}
@@ -1433,11 +1475,11 @@ export default function Creative() {
             >
               {expandedItem === `exp-${app.id}` && renderExperience(app.id)}
             </div>
-            <div className="expanded-close" onClick={handleCloseExpanded}>
+            <button className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
-            </div>
+            </button>
           </div>
         </div>
       ))}
