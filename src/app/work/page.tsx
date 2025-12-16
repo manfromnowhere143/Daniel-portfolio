@@ -69,12 +69,15 @@ export default function Work() {
 
   const [expandedImage, setExpandedImage] = useState<{src: string, name: string} | null>(null);
   const [imageAnimState, setImageAnimState] = useState<AnimationState>('idle');
+  const [bridgePhase, setBridgePhase] = useState<'idle' | 'loading' | 'transitioning'>('idle');
+  const [pendingImage, setPendingImage] = useState<{src: string, name: string} | null>(null);
 
   const folderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const expandedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const galleryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const notesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const imageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const bridgeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 600);
@@ -95,6 +98,7 @@ export default function Work() {
       if (galleryTimeoutRef.current) clearTimeout(galleryTimeoutRef.current);
       if (notesTimeoutRef.current) clearTimeout(notesTimeoutRef.current);
       if (imageTimeoutRef.current) clearTimeout(imageTimeoutRef.current);
+      if (bridgeTimeoutRef.current) clearTimeout(bridgeTimeoutRef.current);
     };
   }, []);
 
@@ -103,7 +107,8 @@ export default function Work() {
   // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
     const isOpen = folderAnimState !== 'idle' || expandedAnimState !== 'idle' ||
-                   galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle';
+                   galleryAnimState !== 'idle' || notesAnimState !== 'idle' ||
+                   imageAnimState !== 'idle' || bridgePhase !== 'idle';
 
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -147,7 +152,7 @@ export default function Work() {
         delete (window as any).__workSolidRockCleanup;
       }
     }
-  }, [folderAnimState, expandedAnimState, galleryAnimState, notesAnimState, imageAnimState]);
+  }, [folderAnimState, expandedAnimState, galleryAnimState, notesAnimState, imageAnimState, bridgePhase]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // HANDLERS
@@ -225,14 +230,46 @@ export default function Work() {
     }, 350);
   }, [notesAnimState]);
 
+  // STATE OF THE ART - Bridge transition for image loading
   const handleOpenImage = useCallback((image: {src: string, name: string}) => {
-    if (imageAnimState !== 'idle') return;
-    setExpandedImage(image);
-    setImageAnimState('entering');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setImageAnimState('active'));
-    });
-  }, [imageAnimState]);
+    if (imageAnimState !== 'idle' || bridgePhase !== 'idle') return;
+
+    setPendingImage(image);
+    setBridgePhase('loading');
+
+    // Preload the image
+    const img = new Image();
+    img.onload = () => {
+      setBridgePhase('transitioning');
+      bridgeTimeoutRef.current = setTimeout(() => {
+        setExpandedImage(image);
+        setImageAnimState('entering');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setImageAnimState('active');
+            setBridgePhase('idle');
+            setPendingImage(null);
+          });
+        });
+      }, 400);
+    };
+    img.onerror = () => {
+      // Still show even if load fails
+      setBridgePhase('transitioning');
+      bridgeTimeoutRef.current = setTimeout(() => {
+        setExpandedImage(image);
+        setImageAnimState('entering');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setImageAnimState('active');
+            setBridgePhase('idle');
+            setPendingImage(null);
+          });
+        });
+      }, 400);
+    };
+    img.src = image.src;
+  }, [imageAnimState, bridgePhase]);
 
   const handleCloseImage = useCallback(() => {
     if (imageAnimState !== 'active') return;
@@ -1070,6 +1107,52 @@ export default function Work() {
         
         .image-expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
         
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - TRANSITION BRIDGE                                            */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .transition-bridge {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: #0A0A0A;
+          z-index: 2500;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: clamp(180px, 30vh, 280px);
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+          touch-action: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), visibility 0.35s;
+        }
+        
+        .transition-bridge.active {
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+        }
+        
+        .bridge-spinner {
+          width: 44px;
+          height: 44px;
+          border: 2.5px solid rgba(255, 255, 255, 0.12);
+          border-top-color: rgba(255, 255, 255, 0.9);
+          border-radius: 50%;
+          animation: bridgeSpin 0.9s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite;
+          filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
+        }
+        
+        @keyframes bridgeSpin {
+          to { transform: rotate(360deg); }
+        }
+        
         @media (min-width: 600px) {
           .folders-grid { gap: 48px 44px; max-width: 400px; }
           .folder-icon { width: 145px; height: 145px; border-radius: 32px; }
@@ -1161,8 +1244,8 @@ export default function Work() {
       {openFolder === 'apps' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
-          <div className="folder-container">
-            <div className="folder-apps-grid">
+          <div className="folder-container" onClick={handleCloseFolder}>
+            <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               {appsItems.map((app) => (
                 <Link key={app.id} href={app.href} className="folder-app">
                   <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})` }}>
@@ -1176,17 +1259,14 @@ export default function Work() {
               ))}
             </div>
           </div>
-          <button className="folder-close" onClick={handleCloseFolder}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
-          </button>
         </div>
       )}
 
       {openFolder === 'services' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
-          <div className="folder-container">
-            <div className="folder-apps-grid">
+          <div className="folder-container" onClick={handleCloseFolder}>
+            <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               {servicesItems.map((service, index) => (
                 <div key={service.id} className="folder-app" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenService(index), 400); }}>
                   <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})` }}>
@@ -1197,17 +1277,14 @@ export default function Work() {
               ))}
             </div>
           </div>
-          <button className="folder-close" onClick={handleCloseFolder}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
-          </button>
         </div>
       )}
 
       {openFolder === 'entertainment' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
-          <div className="folder-container">
-            <div className="folder-apps-grid">
+          <div className="folder-container" onClick={handleCloseFolder}>
+            <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               <div className="folder-app" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenGallery(), 400); }}>
                 <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #7C3AED, #4C1D95)' }}>
                   <svg width="36" height="36" viewBox="0 0 60 60" fill="none"><rect x="8" y="8" width="44" height="44" rx="4" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="20" cy="20" r="5" fill="white" opacity="0.8"/><path d="M8 42l12-12 10 10 12-12 10 10" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/></svg>
@@ -1222,17 +1299,14 @@ export default function Work() {
               </div>
             </div>
           </div>
-          <button className="folder-close" onClick={handleCloseFolder}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
-          </button>
         </div>
       )}
 
       {openFolder === 'social' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
-          <div className="folder-container">
-            <div className="folder-apps-grid">
+          <div className="folder-container" onClick={handleCloseFolder}>
+            <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               {socialLinks.map((social) => (
                 <Link key={social.id} href={social.url} target="_blank" rel="noopener noreferrer" className="folder-app">
                   <div className="folder-app-icon" style={{ background: social.id === 'instagram' ? 'linear-gradient(145deg, #833ab4, #fd1d1d, #fcb045)' : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})` }}>
@@ -1243,9 +1317,6 @@ export default function Work() {
               ))}
             </div>
           </div>
-          <button className="folder-close" onClick={handleCloseFolder}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
-          </button>
         </div>
       )}
 
@@ -1265,8 +1336,8 @@ export default function Work() {
       {galleryOpen && (
         <div className={`media-overlay ${getGalleryAnimClass()}`}>
           <div className="media-overlay-bg" onClick={handleCloseGallery} />
-          <div className="media-container">
-            <div className="media-grid">
+          <div className="media-container" onClick={handleCloseGallery}>
+            <div className="media-grid" onClick={(e) => e.stopPropagation()}>
               {galleryItems.map((item, i) => (
                 <div key={i} className="media-item" onClick={() => handleOpenImage(item)}>
                   <div className="media-item-icon"><img src={item.src} alt={item.name} /></div>
@@ -1275,17 +1346,14 @@ export default function Work() {
               ))}
             </div>
           </div>
-          <div className="media-close" onClick={handleCloseGallery}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
-          </div>
         </div>
       )}
 
       {notesOpen && (
         <div className={`media-overlay ${getNotesAnimClass()}`}>
           <div className="media-overlay-bg" onClick={handleCloseNotes} />
-          <div className="media-container">
-            <div className="media-grid">
+          <div className="media-container" onClick={handleCloseNotes}>
+            <div className="media-grid" onClick={(e) => e.stopPropagation()}>
               {notesItems.slice(0, 4).map((item, i) => (
                 <div key={i} className="media-item" onClick={() => handleOpenImage(item)}>
                   <div className="media-item-icon"><img src={item.src} alt={item.name} /></div>
@@ -1294,11 +1362,13 @@ export default function Work() {
               ))}
             </div>
           </div>
-          <div className="media-close" onClick={handleCloseNotes}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
-          </div>
         </div>
       )}
+
+      {/* STATE OF THE ART - Transition Bridge with Loading Spinner */}
+      <div className={`transition-bridge ${bridgePhase !== 'idle' ? 'active' : ''}`}>
+        <div className="bridge-spinner" />
+      </div>
 
       {expandedImage && (
         <div className={`image-expanded ${getImageAnimClass()}`}>
