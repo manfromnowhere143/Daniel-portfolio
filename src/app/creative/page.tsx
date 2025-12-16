@@ -166,8 +166,8 @@ export default function Creative() {
     };
   }, []);
 
-  // STATE OF THE ART - Complete scroll lock when overlay opens
-  // This prevents any page movement, allowing only gallery internal scroll
+  // STATE OF THE ART - COMPLETE SCROLL/SWIPE LOCK
+  // Prevents ALL page movement when overlay is open - stable engagement like Apple
   useEffect(() => {
     const isOpen = folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle' || bridgePhase !== 'idle';
 
@@ -176,60 +176,70 @@ export default function Creative() {
       const scrollY = window.scrollY;
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
 
-      // Lock body completely - iOS style
+      // Lock body AND html completely - iOS style
       document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollY}px`;
       document.body.style.left = '0';
       document.body.style.right = '0';
+      document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
       document.body.style.paddingRight = `${scrollBarWidth}px`;
+      document.body.style.touchAction = 'none';
       document.documentElement.style.overflow = 'hidden';
+      document.documentElement.style.position = 'fixed';
+      document.documentElement.style.width = '100%';
+      document.documentElement.style.height = '100%';
+      document.documentElement.style.touchAction = 'none';
 
-      // Prevent ALL touch moves on document - complete lock
-      const preventScroll = (e: TouchEvent) => {
+      // COMPLETE touch move prevention - blocks ALL swipes left/right/up/down
+      const preventAllTouch = (e: TouchEvent) => {
         const target = e.target as HTMLElement;
 
-        // Allow scroll ONLY inside gallery-scroll-wrapper
-        const scrollWrapper = target.closest('.gallery-scroll-wrapper');
-        if (scrollWrapper) {
-          // Only allow horizontal scroll, prevent vertical
+        // Only allow scroll inside gallery-scroll-wrapper (horizontal gallery scroll)
+        if (target.closest('.gallery-scroll-wrapper')) {
           return;
         }
 
-        // Allow interaction with 3D content (for rotation)
+        // Allow 3D canvas interaction (for rotation)
         if (target.closest('.expanded-content canvas')) {
           return;
         }
 
-        // Block everything else
+        // Block EVERYTHING else - no smart sliding
+        e.preventDefault();
+        e.stopPropagation();
+      };
+
+      // Block wheel events (desktop scrolling)
+      const preventWheel = (e: WheelEvent) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('.gallery-scroll-wrapper')) return;
         e.preventDefault();
       };
 
-      document.addEventListener('touchmove', preventScroll, { passive: false });
-
-      // Also prevent touchstart default on body to stop iOS bounce
-      const preventBounce = (e: TouchEvent) => {
-        const target = e.target as HTMLElement;
-        if (target.closest('.gallery-scroll-wrapper')) return;
-        if (target.closest('.expanded-content canvas')) return;
-      };
-
-      document.addEventListener('touchstart', preventBounce, { passive: true });
+      document.addEventListener('touchmove', preventAllTouch, { passive: false });
+      document.addEventListener('wheel', preventWheel, { passive: false });
 
       return () => {
-        document.removeEventListener('touchmove', preventScroll);
-        document.removeEventListener('touchstart', preventBounce);
+        document.removeEventListener('touchmove', preventAllTouch);
+        document.removeEventListener('wheel', preventWheel);
       };
     } else {
-      // Restore scroll position
+      // Restore everything
       const scrollY = document.body.style.top;
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.left = '';
       document.body.style.right = '';
+      document.body.style.width = '';
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
+      document.body.style.touchAction = '';
       document.documentElement.style.overflow = '';
+      document.documentElement.style.position = '';
+      document.documentElement.style.width = '';
+      document.documentElement.style.height = '';
+      document.documentElement.style.touchAction = '';
 
       if (scrollY) {
         window.scrollTo(0, parseInt(scrollY || '0') * -1);
@@ -1017,6 +1027,10 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
+          /* COMPLETE LOCK - no swipe/scroll */
+          touch-action: none;
+          overscroll-behavior: none;
+          -webkit-overflow-scrolling: auto;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity, visibility;
@@ -1033,6 +1047,10 @@ export default function Creative() {
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
+          /* COMPLETE LOCK - no swipe */
+          touch-action: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .folder-container {
@@ -1151,10 +1169,12 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
+          /* COMPLETE LOCK - no swipe/scroll */
           touch-action: none;
+          overscroll-behavior: none;
+          -webkit-overflow-scrolling: auto;
           -webkit-touch-callout: none;
           user-select: none;
-          overscroll-behavior: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity, visibility;
@@ -1171,7 +1191,8 @@ export default function Creative() {
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
-          touch-action: manipulation;
+          /* COMPLETE LOCK - no swipe */
+          touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
