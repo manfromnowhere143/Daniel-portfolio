@@ -183,16 +183,27 @@ export default function Creative() {
       document.body.style.paddingRight = `${scrollBarWidth}px`;
       document.documentElement.style.overflow = 'hidden';
 
-      // SOLID ROCK - Block ALL touch movement
+      // STATE OF THE ART - SOLID ROCK with 3D canvas exception
+      // Block ALL touch movement EXCEPT inside expanded-content (3D canvas area)
       const blockAllTouch = (e: TouchEvent) => {
-        // Block EVERYTHING - no exceptions for gallery scroll anymore
-        // This is a PRESENTATION - nothing moves
+        const target = e.target as HTMLElement;
+
+        // Allow touch ONLY inside expanded-content (where 3D Sphere/Manifold/Architecture live)
+        if (target.closest('.expanded-content')) {
+          return; // Let the 3D canvas handle this touch
+        }
+
+        // Block EVERYTHING else - SOLID ROCK
         e.preventDefault();
         e.stopPropagation();
       };
 
-      // Block wheel events (desktop)
+      // Block wheel events (desktop) - but allow inside expanded-content for 3D zoom
       const blockWheel = (e: WheelEvent) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('.expanded-content')) {
+          return; // Allow wheel for 3D zoom
+        }
         e.preventDefault();
         e.stopPropagation();
       };
@@ -897,10 +908,6 @@ export default function Creative() {
           transform: translateZ(0) scale(1) translateY(0);
         }
         
-        .folder-icon:active {
-          transform: translateZ(0) scale(0.94);
-        }
-        
         .folder-wrapper:nth-child(1) .folder-icon { transition-delay: 0ms; }
         .folder-wrapper:nth-child(2) .folder-icon { transition-delay: 60ms; }
         
@@ -1036,7 +1043,7 @@ export default function Creative() {
           border-radius: 28px;
           padding: 24px;
           opacity: 0;
-          transform: translateZ(0) scale(0.8);
+          transform: translateZ(0);
           transition: none;
           box-shadow: 
             0 0 60px rgba(255, 255, 255, 0.15),
@@ -1047,15 +1054,14 @@ export default function Creative() {
         
         .folder-overlay.active .folder-container {
           opacity: 1;
-          transform: translateZ(0) scale(1);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.02s, 
-                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.02s;
+          transform: translateZ(0);
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s;
         }
         
         .folder-overlay.exiting .folder-container {
           opacity: 0;
-          transform: translateZ(0) scale(0.9);
-          transition: opacity 0.25s ease, transform 0.3s ease;
+          transform: translateZ(0);
+          transition: opacity 0.25s ease;
         }
         
         .folder-cards-grid {
@@ -1118,8 +1124,6 @@ export default function Creative() {
           pointer-events: none;
           z-index: 5;
         }
-        
-        .folder-card-icon:active { transform: scale(0.92); }
         
         .folder-card-name {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
@@ -1301,8 +1305,6 @@ export default function Creative() {
           z-index: 10;
         }
         
-        .gallery-card-icon:active { transform: scale(0.9); }
-        
         .gallery-card-name {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 12px;
@@ -1392,7 +1394,10 @@ export default function Creative() {
           align-items: center;
           justify-content: center;
           filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
+          /* STATE OF THE ART - Allow touch for 3D rotation/interaction */
           touch-action: manipulation;
+          -webkit-user-select: none;
+          user-select: none;
           opacity: 0;
           transform: translateZ(0) scale(0.9);
           transition: none;
@@ -1413,8 +1418,9 @@ export default function Creative() {
           transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
-        /* Smooth 3D canvas loading */
+        /* STATE OF THE ART - 3D canvas touch enabled */
         .expanded-content canvas {
+          touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
         }
@@ -1481,10 +1487,6 @@ export default function Creative() {
           filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); 
         }
         
-        .expanded-close:active { 
-          transform: scale(0.85); 
-        }
-        
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* DESKTOP ENHANCEMENTS                                                            */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -1492,14 +1494,12 @@ export default function Creative() {
         @media (min-width: 600px) {
           .creative-grid { gap: 48px 44px; max-width: 400px; }
           .folder-icon { width: 145px; height: 145px; border-radius: 32px; }
-          .folder-icon:hover { transform: translateZ(0) scale(1.04) translateY(-3px); }
           .folder-preview { width: 120px; height: 120px; gap: 7px; }
           .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; }
           .folder-name { font-size: 13px; }
           .folder-container { padding: 28px; }
           .folder-cards-grid { gap: 20px; }
           .folder-card-icon { width: 80px; height: 80px; border-radius: 18px; }
-          .folder-card-icon:hover { transform: scale(1.06); }
           .gallery-container { 
             padding: 28px; 
             border-radius: 30px; 
@@ -1510,7 +1510,6 @@ export default function Creative() {
           }
           .gallery-grid.grid-2 { grid-template-columns: repeat(2, 90px); gap: 20px; }
           .gallery-card-icon { width: 72px; height: 72px; border-radius: 18px; }
-          .gallery-card-icon:hover { transform: scale(1.06); }
           .gallery-card-name { font-size: 12px; max-width: 80px; }
           .expanded-content { width: 340px; height: 340px; border-radius: 26px; }
         }
