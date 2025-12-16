@@ -143,7 +143,44 @@ export default function SwipeNavigation({ children }: SwipeNavigationProps) {
     // Check for work page expanded state
     const workDetailOverlay = document.querySelector('.work-expanded-overlay.active');
 
-    return !!(sidebarOpen || overlayVisible || expandedOverlay || cardOverlay || workDetailOverlay);
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // STATE OF THE ART - Check for Interactive 3D Experiences (Sphere, Manifold, Architecture)
+    // These need COMPLETE lock - no swipe navigation allowed
+    // ═══════════════════════════════════════════════════════════════════════════════
+    const interactiveExperience = document.querySelector('.interactive-experience.active');
+
+    // Check for any expanded view on Creative page (folders, galleries, showcases)
+    const expandedView = document.querySelector('.expanded-view.active');
+    const folderOverlay = document.querySelector('.folder-overlay.active');
+    const galleryOverlay = document.querySelector('.gallery-overlay.active');
+
+    // Check for sub-expanded views (geometry items, 3d icon items)
+    const subExpandedView = document.querySelector('.sub-expanded-view.active');
+
+    // Check for transition bridge (loading spinner)
+    const transitionBridge = document.querySelector('.transition-bridge.in, .transition-bridge.hold');
+
+    // Check if body has touch-action: none (IRON LOCK active)
+    const bodyLocked = document.body.style.touchAction === 'none';
+
+    // Check for overlay-open class on creative page
+    const creativeOverlayOpen = document.querySelector('.creative-page.overlay-open');
+
+    return !!(
+      sidebarOpen ||
+      overlayVisible ||
+      expandedOverlay ||
+      cardOverlay ||
+      workDetailOverlay ||
+      interactiveExperience ||
+      expandedView ||
+      folderOverlay ||
+      galleryOverlay ||
+      subExpandedView ||
+      transitionBridge ||
+      bodyLocked ||
+      creativeOverlayOpen
+    );
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {

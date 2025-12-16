@@ -905,17 +905,22 @@ export default function Creative() {
   // Elegant white/cream paper cards with large 2D symbols
   // Museum gallery presentation - clean, minimal, sophisticated
   // ═══════════════════════════════════════════════════════════════════════════════
-  const Icons2DShowcase = () => {
-    const [showIcons, setShowIcons] = useState(false);
+  const [icons2DShowReady, setIcons2DShowReady] = useState(false);
 
-    useEffect(() => {
-      const timer = setTimeout(() => setShowIcons(true), 80);
+  // Reset and trigger animation when icons-showcase becomes active
+  useEffect(() => {
+    if (expandedItem === 'icons-showcase' && expandedAnimState === 'active') {
+      const timer = setTimeout(() => setIcons2DShowReady(true), 50);
       return () => clearTimeout(timer);
-    }, []);
+    } else if (expandedItem !== 'icons-showcase') {
+      setIcons2DShowReady(false);
+    }
+  }, [expandedItem, expandedAnimState]);
 
+  const Icons2DShowcase = () => {
     return (
       <div className="icons-showcase">
-        <div className={`icons-showcase-grid ${showIcons ? 'visible' : ''}`}>
+        <div className={`icons-showcase-grid ${icons2DShowReady ? 'visible' : ''}`}>
           {staticIconItems.map((item, index) => (
             <div
               key={item.id}
