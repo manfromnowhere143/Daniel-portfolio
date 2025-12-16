@@ -375,7 +375,7 @@ export default function Creative() {
     setTimeout(() => {
       setSubExpandedItem(null);
       setSubExpandedAnimState('idle');
-    }, 350);
+    }, 250); // Faster exit - instant feel
   }, [subExpandedAnimState]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
@@ -1897,14 +1897,29 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
+          padding-bottom: 10vh; /* Push content slightly above center */
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
         }
         
-        .sub-expanded-view.entering { visibility: visible; pointer-events: auto; opacity: 0; }
-        .sub-expanded-view.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.35s ease; }
-        .sub-expanded-view.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s ease; }
+        .sub-expanded-view.entering { 
+          visibility: visible; 
+          pointer-events: auto; 
+          opacity: 0; 
+        }
+        .sub-expanded-view.active { 
+          visibility: visible; 
+          pointer-events: auto; 
+          opacity: 1; 
+          transition: opacity 0.25s ease; 
+        }
+        .sub-expanded-view.exiting { 
+          visibility: visible; 
+          pointer-events: none; 
+          opacity: 0; 
+          transition: opacity 0.2s ease; /* Fast exit */
+        }
         
         .sub-expanded-bg {
           position: absolute;
@@ -1918,7 +1933,7 @@ export default function Creative() {
           position: absolute;
           top: 0; left: 0; right: 0; bottom: 0;
           opacity: 0;
-          transition: opacity 0.6s ease 0.1s;
+          transition: opacity 0.4s ease 0.05s;
           pointer-events: none;
         }
         
@@ -1930,7 +1945,7 @@ export default function Creative() {
           position: relative;
           z-index: 2;
           width: 100%;
-          height: 100%;
+          height: auto;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -1945,8 +1960,8 @@ export default function Creative() {
           flex-direction: column;
           gap: 4px;
           opacity: 0;
-          transform: translateY(-10px);
-          transition: opacity 0.3s ease 0.05s, transform 0.4s ease 0.05s;
+          transform: translateY(-8px);
+          transition: opacity 0.25s ease 0.03s, transform 0.3s ease 0.03s;
         }
         
         .sub-expanded-view.active .sub-expanded-header {
@@ -1979,8 +1994,8 @@ export default function Creative() {
           align-items: center;
           justify-content: center;
           opacity: 0;
-          transform: scale(0.85);
-          transition: opacity 0.35s ease 0.08s, transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
+          transform: scale(0.9);
+          transition: opacity 0.25s ease 0.05s, transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1) 0.05s;
         }
         
         .sub-expanded-view.active .sub-expanded-content {
@@ -2014,8 +2029,8 @@ export default function Creative() {
           justify-content: center;
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.8);
-          transition: opacity 0.25s ease 0.1s, transform 0.3s ease 0.1s;
+          transform: scale(0.9);
+          transition: opacity 0.2s ease, transform 0.25s ease;
           z-index: 100;
           margin-top: 8px;
         }
@@ -2335,18 +2350,23 @@ export default function Creative() {
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - INTERACTIVE 3D EXPERIENCES                                   */
-        /* Full-screen immersive Three.js experiences with COMPLETE SCROLL LOCK            */
+        /* ABSOLUTE COMPLETE SCROLL LOCK - No scroll in ANY direction                      */
+        /* Perfect for Three.js interaction on mobile                                       */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .interactive-experience {
           background: radial-gradient(ellipse at center, #0d0d10 0%, #050507 100%);
-          touch-action: none;
-          overflow: hidden;
+          touch-action: none !important;
+          overflow: hidden !important;
+          overscroll-behavior: none !important;
+          -webkit-overflow-scrolling: none;
         }
         
         .interactive-experience.active {
-          position: fixed;
+          position: fixed !important;
           top: 0; left: 0; right: 0; bottom: 0;
+          touch-action: none !important;
+          overflow: hidden !important;
         }
         
         .interactive-ambient {
@@ -2365,12 +2385,17 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
+          justify-content: center;
           gap: 12px;
           padding: 16px;
+          padding-bottom: 8vh; /* Push content slightly above center */
           position: relative;
           z-index: 2;
-          touch-action: none;
-          overflow: hidden;
+          width: 100%;
+          height: 100%;
+          touch-action: none !important;
+          overflow: hidden !important;
+          overscroll-behavior: none !important;
         }
         
         .interactive-header {
@@ -2409,12 +2434,13 @@ export default function Creative() {
           width: 280px !important;
           height: 280px !important;
           border-radius: 20px;
-          overflow: hidden;
+          overflow: hidden !important;
           position: relative;
           opacity: 0;
           transform: scale(0.85);
           transition: opacity 0.5s ease 0.2s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s;
-          touch-action: none;
+          touch-action: none !important;
+          overscroll-behavior: none !important;
         }
         
         .interactive-experience.active .interactive-content {
@@ -2424,32 +2450,13 @@ export default function Creative() {
         
         .interactive-content canvas {
           touch-action: none !important;
-          -webkit-touch-callout: none;
-          -webkit-user-select: none;
-          user-select: none;
-        }
-        
-        .interactive-hint {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          opacity: 0;
-          transition: opacity 0.4s ease 0.35s;
-        }
-        
-        .interactive-experience.active .interactive-hint {
-          opacity: 1;
-        }
-        
-        .interactive-hint span {
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-          font-size: 11px;
-          font-weight: 500;
-          color: rgba(255, 255, 255, 0.4);
+          -webkit-touch-callout: none !important;
+          -webkit-user-select: none !important;
+          user-select: none !important;
         }
         
         .interactive-close {
-          margin-top: 8px !important;
+          margin-top: 12px !important;
         }
         
         @media (min-width: 600px) {
@@ -3016,7 +3023,7 @@ export default function Creative() {
       </div>
 
       {/* EXPANDED - 3D Interactive Experiences */}
-      {/* Mobile-optimized touch handling for Three.js canvas */}
+      {/* COMPLETE SCROLL LOCK - No scroll in any direction */}
       {interactiveApps.map(app => (
         <div
           key={app.id}
@@ -3037,13 +3044,6 @@ export default function Creative() {
               }}
             >
               {expandedItem === `exp-${app.id}` && renderExperience(app.id)}
-            </div>
-            <div className="interactive-hint">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="rgba(255,255,255,0.4)"/>
-                <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z" fill="rgba(255,255,255,0.4)"/>
-              </svg>
-              <span>Drag to rotate</span>
             </div>
             <button className="expanded-close interactive-close" onClick={handleCloseExpanded}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
