@@ -181,33 +181,55 @@ export default function Creative() {
   // ═══════════════════════════════════════════════════════════════════════════════
   // IRON LOCK - Complete lock for interactive 3D experiences
   // Prevents ALL scrolling/swiping on the page (left/right/up/down)
+  // ONLY canvas element can receive touch events
   // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
     const isInteractive = expandedItem?.startsWith('exp-');
 
     if (isInteractive && expandedAnimState === 'active') {
-      // IRON LOCK - prevent all touch events on body
+      // IRON LOCK - prevent ALL touch events except on canvas
       const preventAll = (e: TouchEvent) => {
-        // Only allow touch on the canvas itself
         const target = e.target as HTMLElement;
+        // ONLY allow touch on canvas - block everything else
         if (target.tagName === 'CANVAS') return;
         e.preventDefault();
+        e.stopPropagation();
+      };
+
+      // IRON LOCK - prevent ALL touch start except on canvas
+      const preventTouchStart = (e: TouchEvent) => {
+        const target = e.target as HTMLElement;
+        if (target.tagName === 'CANVAS') return;
+        // Don't prevent on close button
+        if (target.closest('.expanded-close') || target.closest('.interactive-close')) return;
       };
 
       document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
       document.body.style.width = '100%';
       document.body.style.height = '100%';
+      document.body.style.top = '0';
+      document.body.style.left = '0';
       document.body.style.touchAction = 'none';
-      document.addEventListener('touchmove', preventAll, { passive: false });
+      document.documentElement.style.overflow = 'hidden';
+      document.documentElement.style.touchAction = 'none';
+
+      // Capture phase to intercept before anything else
+      document.addEventListener('touchmove', preventAll, { passive: false, capture: true });
+      document.addEventListener('touchstart', preventTouchStart, { passive: true, capture: true });
 
       return () => {
         document.body.style.overflow = '';
         document.body.style.position = '';
         document.body.style.width = '';
         document.body.style.height = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
         document.body.style.touchAction = '';
-        document.removeEventListener('touchmove', preventAll);
+        document.documentElement.style.overflow = '';
+        document.documentElement.style.touchAction = '';
+        document.removeEventListener('touchmove', preventAll, { capture: true } as any);
+        document.removeEventListener('touchstart', preventTouchStart, { capture: true } as any);
       };
     }
   }, [expandedItem, expandedAnimState]);
@@ -217,6 +239,7 @@ export default function Creative() {
   // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
     const isOpen = folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle' || bridgePhase !== 'idle';
+    const isInteractive = expandedItem?.startsWith('exp-');
 
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -224,6 +247,17 @@ export default function Creative() {
 
       const blockAllTouch = (e: TouchEvent) => {
         const target = e.target as HTMLElement;
+
+        // For interactive 3D experiences - ONLY allow canvas
+        if (isInteractive) {
+          if (target.tagName === 'CANVAS') return;
+          if (target.closest('.expanded-close') || target.closest('.interactive-close')) return;
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+
+        // For other expanded content, allow touch inside
         if (target.closest('.expanded-content')) {
           return;
         }
@@ -256,7 +290,7 @@ export default function Creative() {
     } else {
       restoreScroll();
     }
-  }, [folderAnimState, galleryAnimState, expandedAnimState, bridgePhase]);
+  }, [folderAnimState, galleryAnimState, expandedAnimState, bridgePhase, expandedItem]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // FOLDER HANDLERS
@@ -322,8 +356,8 @@ export default function Creative() {
   const handleOpenExpandedFromFolder = useCallback((itemId: string) => {
     if (folderAnimState !== 'active') return;
 
-    // For all showcases, use direct crossfade (no bridge spinner)
-    if (itemId === 'icons-showcase' || itemId === '3dicons-showcase' || itemId === 'geometry-showcase') {
+    // For 2D Icons showcase only, use direct crossfade (no bridge spinner)
+    if (itemId === 'icons-showcase') {
       setFolderAnimState('exiting');
 
       setTimeout(() => {
@@ -341,7 +375,8 @@ export default function Creative() {
       return;
     }
 
-    // For other items, use bridge transition
+    // For 3D Icons, Geometry, and all other items - use bridge transition
+    // This prevents flash by keeping spinner visible until app is ready
     setBridgePhase('in');
 
     setTimeout(() => {
@@ -1573,40 +1608,6 @@ export default function Creative() {
         /* STATE OF THE ART - SMOOTH LOADING PULSE                                         */
         /* Elegant loading indicator that fades out when content is ready                  */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .showcase-loading {
-          position: absolute;
-          top: 0; left: 0; right: 0; bottom: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 10;
-          opacity: 1;
-          transition: opacity 0.4s ease;
-          pointer-events: none;
-        }
-        
-        .showcase-loading.hidden {
-          opacity: 0;
-        }
-        
-        .showcase-loading-pulse {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-          animation: showcaseLoadingPulse 1.2s ease-in-out infinite;
-        }
-        
-        .showcase-loading-pulse-white {
-          background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
-          box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
-        }
-        
-        @keyframes showcaseLoadingPulse {
-          0%, 100% { transform: scale(0.8); opacity: 0.4; }
-          50% { transform: scale(1.2); opacity: 0.8; }
-        }
         
         .showcase-app {
           width: 100%;
@@ -2954,10 +2955,6 @@ export default function Creative() {
       {/* STATE OF THE ART - 3D ICONS SHOWCASE APP                                        */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`expanded-view showcase-expanded showcase-3d-expanded ${getExpandedAnimClass('3dicons-showcase')}`}>
-        {/* Loading pulse - shows while content loads */}
-        <div className={`showcase-loading ${icons3DShowReady ? 'hidden' : ''}`}>
-          <div className="showcase-loading-pulse" />
-        </div>
         <div className="expanded-inner showcase-inner">
           <div className="expanded-content showcase-content">
             {expandedItem === '3dicons-showcase' && <Icons3DShowcase />}
@@ -2974,10 +2971,6 @@ export default function Creative() {
       {/* STATE OF THE ART - GEOMETRY SHOWCASE APP                                        */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`expanded-view showcase-expanded showcase-geometry-expanded ${getExpandedAnimClass('geometry-showcase')}`}>
-        {/* Loading pulse with white glow - shows while content loads */}
-        <div className={`showcase-loading showcase-loading-geometry ${geometryShowReady ? 'hidden' : ''}`}>
-          <div className="showcase-loading-pulse showcase-loading-pulse-white" />
-        </div>
         <div className="expanded-inner showcase-inner">
           <div className="expanded-content showcase-content">
             {expandedItem === 'geometry-showcase' && <GeometryShowcase />}
