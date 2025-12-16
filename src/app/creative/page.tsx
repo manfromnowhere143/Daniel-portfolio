@@ -23,7 +23,7 @@ const QuantumSphere = dynamic(() => import("@/components/QuantumSphere"), { ssr:
 const Trade69Architecture = dynamic(() => import("@/components/Trade69Architecture"), { ssr: false });
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// DATA STRUCTURES
+// 2 MAIN FOLDERS
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const mainFolders = [
@@ -31,18 +31,21 @@ const mainFolders = [
   { id: 'interactive', name: '3D Interactive' },
 ];
 
+// Entertainment contains 3 gallery categories
 const entertainmentCategories = [
   { id: '3dicons', name: '3D Icons' },
   { id: 'geometry', name: 'Geometry' },
   { id: 'icons', name: 'Icons' },
 ];
 
+// 3D Interactive contains 3 standalone experiences
 const interactiveApps = [
   { id: 'sphere', name: 'Sphere', color: ['#2a2018', '#15100a'] },
   { id: 'manifold', name: 'Manifold', color: ['#1a2820', '#0a1510'] },
   { id: 'architecture', name: 'Architecture', color: ['#18202a', '#0a1015'] },
 ];
 
+// 3D Icons gallery items (8 cards)
 const icons3DItems = [
   { id: 'trade69', name: 'Trade69', color: ['#1a5040', '#0d2820'] },
   { id: 'megaagent', name: 'MegaAgent', color: ['#3d4a8f', '#1e2550'] },
@@ -54,6 +57,7 @@ const icons3DItems = [
   { id: 'llm', name: 'LLM', color: ['#453020', '#281a10'] },
 ];
 
+// Geometry gallery items (4 cards)
 const geometryItems = [
   { id: 'metatron', name: 'Metatron', color: ['#3a2855', '#1e1430'] },
   { id: 'spiral', name: 'Spiral', color: ['#552838', '#301418'] },
@@ -61,6 +65,7 @@ const geometryItems = [
   { id: 'lemniscate', name: 'Infinity', color: ['#385528', '#1e3014'] },
 ];
 
+// Static Icons gallery items (8 cards)
 const staticIconItems = [
   { id: 'trade69-2d', name: 'Trade69', color: ['#1a5040', '#0d2820'] },
   { id: 'megaagent-2d', name: 'MegaAgent', color: ['#3d4a8f', '#1e2550'] },
@@ -72,25 +77,27 @@ const staticIconItems = [
   { id: 'llm-2d', name: 'LLM', color: ['#453020', '#281a10'] },
 ];
 
-type OverlayState = 'closed' | 'opening' | 'open' | 'closing';
+type AnimationState = 'idle' | 'entering' | 'active' | 'exiting';
 
 export default function Creative() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
 
-  // STATE OF THE ART - Single overlay system with stacked layers
-  // Instead of closing folder then opening gallery, we STACK them
-  const [folderState, setFolderState] = useState<OverlayState>('closed');
+  // Folder overlay state (Entertainment or Interactive)
   const [openFolder, setOpenFolder] = useState<string | null>(null);
+  const [folderAnimState, setFolderAnimState] = useState<AnimationState>('idle');
 
-  const [galleryState, setGalleryState] = useState<OverlayState>('closed');
+  // Gallery overlay state (3D Icons, Geometry, Icons galleries)
   const [openGallery, setOpenGallery] = useState<string | null>(null);
+  const [galleryAnimState, setGalleryAnimState] = useState<AnimationState>('idle');
 
-  const [expandedState, setExpandedState] = useState<OverlayState>('closed');
+  // Expanded view state (fullscreen view for any item)
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const [expandedAnimState, setExpandedAnimState] = useState<AnimationState>('idle');
 
-  // Scroll refs for horizontal scroll containers
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const folderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const galleryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const expandedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 600);
@@ -99,113 +106,206 @@ export default function Creative() {
     return () => window.removeEventListener('resize', check);
   }, []);
 
+  // STATE OF THE ART - Smooth overscroll prevention
+  useEffect(() => {
+    // Apply overscroll behavior to document
+    document.documentElement.style.overscrollBehavior = 'none';
+    document.body.style.overscrollBehavior = 'none';
+
+    // Prevent bounce on iOS Safari
+    let lastY = 0;
+    const handleTouchStart = (e: TouchEvent) => {
+      lastY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const currentY = e.touches[0].clientY;
+      const scrollTop = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = window.innerHeight;
+
+      // At top of page, scrolling up
+      if (scrollTop <= 0 && currentY > lastY) {
+        e.preventDefault();
+      }
+      // At bottom of page, scrolling down
+      if (scrollTop + clientHeight >= scrollHeight && currentY < lastY) {
+        e.preventDefault();
+      }
+      lastY = currentY;
+    };
+
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+    return () => {
+      document.documentElement.style.overscrollBehavior = '';
+      document.body.style.overscrollBehavior = '';
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, []);
+
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
-  // Lock body scroll when any overlay is open
   useEffect(() => {
-    const isAnyOpen = folderState !== 'closed' || galleryState !== 'closed' || expandedState !== 'closed';
-    if (isAnyOpen) {
+    return () => {
+      if (folderTimeoutRef.current) clearTimeout(folderTimeoutRef.current);
+      if (galleryTimeoutRef.current) clearTimeout(galleryTimeoutRef.current);
+      if (expandedTimeoutRef.current) clearTimeout(expandedTimeoutRef.current);
+    };
+  }, []);
+
+  // Folder handlers
+  const handleOpenFolder = useCallback((folderId: string) => {
+    if (folderAnimState !== 'idle') return;
+    setOpenFolder(folderId);
+    setFolderAnimState('entering');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setFolderAnimState('active'));
+    });
+  }, [folderAnimState]);
+
+  const handleCloseFolder = useCallback(() => {
+    if (folderAnimState !== 'active') return;
+    setFolderAnimState('exiting');
+    folderTimeoutRef.current = setTimeout(() => {
+      setOpenFolder(null);
+      setFolderAnimState('idle');
+    }, 350);
+  }, [folderAnimState]);
+
+  // Gallery handlers
+  const handleOpenGallery = useCallback((galleryId: string) => {
+    if (galleryAnimState !== 'idle') return;
+    setOpenGallery(galleryId);
+    setGalleryAnimState('entering');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setGalleryAnimState('active'));
+    });
+  }, [galleryAnimState]);
+
+  const handleCloseGallery = useCallback(() => {
+    if (galleryAnimState !== 'active') return;
+    setGalleryAnimState('exiting');
+    galleryTimeoutRef.current = setTimeout(() => {
+      setOpenGallery(null);
+      setGalleryAnimState('idle');
+    }, 350);
+  }, [galleryAnimState]);
+
+  // Expanded handlers
+  const handleOpenExpanded = useCallback((itemId: string) => {
+    if (expandedAnimState !== 'idle') return;
+    setExpandedItem(itemId);
+    setExpandedAnimState('entering');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setExpandedAnimState('active'));
+    });
+  }, [expandedAnimState]);
+
+  const handleCloseExpanded = useCallback(() => {
+    if (expandedAnimState !== 'active') return;
+    setExpandedAnimState('exiting');
+    expandedTimeoutRef.current = setTimeout(() => {
+      setExpandedItem(null);
+      setExpandedAnimState('idle');
+    }, 400);
+  }, [expandedAnimState]);
+
+  // Lock body scroll
+  const preventTouchMove = useCallback((e: TouchEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('.gallery-close') || target.closest('.expanded-close') ||
+        target.closest('.folder-close') || target.closest('.gallery-card') ||
+        target.closest('.folder-card') || target.closest('.expanded-content')) {
+      return;
+    }
+    e.preventDefault();
+  }, []);
+
+  useEffect(() => {
+    const isOpen = folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle';
+    if (isOpen) {
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollBarWidth}px`;
+      document.addEventListener('touchmove', preventTouchMove, { passive: false });
     } else {
       document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      document.removeEventListener('touchmove', preventTouchMove);
     }
-    return () => { document.body.style.overflow = ''; };
-  }, [folderState, galleryState, expandedState]);
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      document.removeEventListener('touchmove', preventTouchMove);
+    };
+  }, [folderAnimState, galleryAnimState, expandedAnimState, preventTouchMove]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // STATE OF THE ART - SMOOTH TRANSITION HANDLERS
-  // No setTimeout gaps - direct state transitions
+  // RENDERERS
   // ═══════════════════════════════════════════════════════════════════════════════
 
-  const openFolderOverlay = useCallback((folderId: string) => {
-    setOpenFolder(folderId);
-    setFolderState('opening');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setFolderState('open'));
-    });
-  }, []);
-
-  const closeFolderOverlay = useCallback(() => {
-    setFolderState('closing');
-    setTimeout(() => {
-      setFolderState('closed');
-      setOpenFolder(null);
-    }, 300);
-  }, []);
-
-  // STATE OF THE ART - Gallery opens ON TOP of folder (no close first)
-  const openGalleryOverlay = useCallback((galleryId: string) => {
-    setOpenGallery(galleryId);
-    setGalleryState('opening');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setGalleryState('open'));
-    });
-  }, []);
-
-  const closeGalleryOverlay = useCallback(() => {
-    setGalleryState('closing');
-    setTimeout(() => {
-      setGalleryState('closed');
-      setOpenGallery(null);
-    }, 300);
-  }, []);
-
-  // STATE OF THE ART - Expanded opens ON TOP of gallery (no close first)
-  const openExpandedView = useCallback((itemId: string) => {
-    setExpandedItem(itemId);
-    setExpandedState('opening');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setExpandedState('open'));
-    });
-  }, []);
-
-  const closeExpandedView = useCallback(() => {
-    setExpandedState('closing');
-    setTimeout(() => {
-      setExpandedState('closed');
-      setExpandedItem(null);
-    }, 350);
-  }, []);
-
-  // Close all overlays (back to home)
-  const closeAllOverlays = useCallback(() => {
-    if (expandedState !== 'closed') {
-      setExpandedState('closing');
-      setTimeout(() => {
-        setExpandedState('closed');
-        setExpandedItem(null);
-      }, 300);
+  const render3DIcon = (id: string, size: number) => {
+    switch (id) {
+      case 'trade69': return <Trade69Icon3D size={size} />;
+      case 'megaagent': return <MegaAgentIcon3D size={size} />;
+      case 'octopus': return <OctopusIcon3D size={size} />;
+      case 'overmind': return <OvermindIcon3D size={size} />;
+      case 'website': return <WebsiteIcon3D size={size} />;
+      case 'dashboard': return <DashboardIcon3D size={size} />;
+      case 'api': return <APIIcon3D size={size} />;
+      case 'llm': return <LLMIcon3D size={size} />;
+      default: return null;
     }
-    if (galleryState !== 'closed') {
-      setTimeout(() => {
-        setGalleryState('closing');
-        setTimeout(() => {
-          setGalleryState('closed');
-          setOpenGallery(null);
-        }, 250);
-      }, 50);
-    }
-    if (folderState !== 'closed') {
-      setTimeout(() => {
-        setFolderState('closing');
-        setTimeout(() => {
-          setFolderState('closed');
-          setOpenFolder(null);
-        }, 250);
-      }, 100);
-    }
-  }, [expandedState, galleryState, folderState]);
+  };
 
-  // ═══════════════════════════════════════════════════════════════════════════════
-  // MINI ICON RENDERERS
-  // ═══════════════════════════════════════════════════════════════════════════════
+  const render2DIcon = (id: string, scale: number = 1) => {
+    const style = { transform: `scale(${scale})` };
+    switch (id) {
+      case 'trade69-2d': return <div style={style}><Trade69Icon /></div>;
+      case 'megaagent-2d': return <div style={style}><MegaAgentIcon /></div>;
+      case 'octopus-2d': return <div style={style}><OctopusIcon /></div>;
+      case 'overmind-2d': return <div style={style}><OvermindIcon /></div>;
+      case 'website-2d': return <div style={style}><WebsiteIcon /></div>;
+      case 'dashboard-2d': return <div style={style}><DashboardIcon /></div>;
+      case 'api-2d': return <div style={style}><APIIcon /></div>;
+      case 'llm-2d': return <div style={style}><LLMIcon /></div>;
+      default: return null;
+    }
+  };
 
+  const renderGeometry = (id: string) => {
+    switch (id) {
+      case 'metatron': return <MetatronCube />;
+      case 'spiral': return <GoldenSpiral />;
+      case 'flower': return <FlowerOfLife />;
+      case 'lemniscate': return <GeometricDivider />;
+      default: return null;
+    }
+  };
+
+  const renderExperience = (id: string) => {
+    switch (id) {
+      case 'sphere': return <QuantumSphere />;
+      case 'manifold': return <QuantumManifold />;
+      case 'architecture': return <Trade69Architecture />;
+      default: return null;
+    }
+  };
+
+  // Mini icon size based on device
   const miniIconSize = isMobile ? 22 : 26;
   const folderIconSize = isMobile ? 36 : 42;
   const galleryIconSize = isMobile ? 38 : 44;
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // MINI ICON RENDERERS - BIGGER SYMBOLS
+  // ═══════════════════════════════════════════════════════════════════════════════
 
   const render3DIconMini = (id: string, size: number = miniIconSize) => {
     switch (id) {
@@ -240,6 +340,7 @@ export default function Creative() {
             <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.8" opacity="0.6"/>
             <circle cx="12" cy="12" r="5" stroke="white" strokeWidth="2" opacity="0.85"/>
             <circle cx="12" cy="12" r="2" fill="white" opacity="0.95"/>
+            <path d="M12 1v4M12 19v4M1 12h4M19 12h4" stroke="white" strokeWidth="1.5" opacity="0.5"/>
           </svg>
         );
       case 'website':
@@ -249,12 +350,15 @@ export default function Creative() {
             <path d="M2 9h20" stroke="white" strokeWidth="1.5" opacity="0.6"/>
             <circle cx="5" cy="6.5" r="1" fill="white" opacity="0.85"/>
             <circle cx="8" cy="6.5" r="1" fill="white" opacity="0.85"/>
+            <circle cx="11" cy="6.5" r="1" fill="white" opacity="0.85"/>
           </svg>
         );
       case 'dashboard':
         return (
           <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <circle cx="12" cy="12" r="6" stroke="white" strokeWidth="1.5" opacity="0.5"/>
+            <path d="M12 5v4M12 15v4M5 12h4M15 12h4" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.8"/>
             <circle cx="12" cy="12" r="2.5" fill="white" opacity="0.95"/>
           </svg>
         );
@@ -265,6 +369,7 @@ export default function Creative() {
             <circle cx="4" cy="12" r="2.5" fill="white" opacity="0.95"/>
             <circle cx="20" cy="12" r="2.5" fill="white" opacity="0.95"/>
             <circle cx="12" cy="20" r="2.5" fill="white" opacity="0.95"/>
+            <path d="M12 6.5v4M12 13.5v4M6.5 12h4M13.5 12h4" stroke="white" strokeWidth="2" opacity="0.7"/>
             <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="2" opacity="0.9"/>
           </svg>
         );
@@ -272,6 +377,8 @@ export default function Creative() {
         return (
           <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
             <ellipse cx="12" cy="12" rx="10" ry="5" stroke="white" strokeWidth="1.5" opacity="0.5"/>
+            <ellipse cx="12" cy="12" rx="10" ry="5" stroke="white" strokeWidth="1.5" opacity="0.5" transform="rotate(60 12 12)"/>
+            <ellipse cx="12" cy="12" rx="10" ry="5" stroke="white" strokeWidth="1.5" opacity="0.5" transform="rotate(120 12 12)"/>
             <circle cx="12" cy="12" r="4" fill="white" opacity="0.95"/>
           </svg>
         );
@@ -289,6 +396,8 @@ export default function Creative() {
             <circle cx="12" cy="20" r="2" fill="white" opacity="0.9"/>
             <circle cx="5" cy="8" r="2" fill="white" opacity="0.9"/>
             <circle cx="19" cy="8" r="2" fill="white" opacity="0.9"/>
+            <circle cx="5" cy="16" r="2" fill="white" opacity="0.9"/>
+            <circle cx="19" cy="16" r="2" fill="white" opacity="0.9"/>
             <circle cx="12" cy="12" r="2.5" fill="white" opacity="1"/>
           </svg>
         );
@@ -307,6 +416,8 @@ export default function Creative() {
             <circle cx="12" cy="19" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
             <circle cx="6" cy="8.5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
             <circle cx="18" cy="8.5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+            <circle cx="6" cy="15.5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+            <circle cx="18" cy="15.5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
           </svg>
         );
       case 'lemniscate':
@@ -392,12 +503,14 @@ export default function Creative() {
           <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.8" opacity="0.8"/>
             <ellipse cx="12" cy="12" rx="9" ry="3.5" stroke="white" strokeWidth="1.2" opacity="0.5"/>
+            <ellipse cx="12" cy="12" rx="3.5" ry="9" stroke="white" strokeWidth="1.2" opacity="0.5"/>
             <circle cx="12" cy="12" r="2.5" fill="white" opacity="1"/>
           </svg>
         );
       case 'manifold':
         return (
           <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <path d="M3 12h18M12 3v18" stroke="white" strokeWidth="1" opacity="0.4"/>
             <circle cx="12" cy="12" r="7" stroke="white" strokeWidth="1.5" opacity="0.6"/>
             <circle cx="12" cy="12" r="2" fill="white" opacity="1"/>
             <circle cx="7" cy="7" r="1.5" fill="white" opacity="0.75"/>
@@ -412,66 +525,28 @@ export default function Creative() {
             <rect x="3" y="7" width="7" height="12" rx="1.5" stroke="white" strokeWidth="1.8" opacity="0.85"/>
             <rect x="14" y="5" width="7" height="14" rx="1.5" stroke="white" strokeWidth="1.8" opacity="0.85"/>
             <path d="M10 13h4" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="1"/>
+            <circle cx="6.5" cy="10" r="1.5" fill="white" opacity="0.9"/>
+            <circle cx="17.5" cy="9" r="1.5" fill="white" opacity="0.9"/>
           </svg>
         );
       default: return null;
     }
   };
 
-  // Full renderers for expanded view
-  const render3DIcon = (id: string, size: number) => {
-    switch (id) {
-      case 'trade69': return <Trade69Icon3D size={size} />;
-      case 'megaagent': return <MegaAgentIcon3D size={size} />;
-      case 'octopus': return <OctopusIcon3D size={size} />;
-      case 'overmind': return <OvermindIcon3D size={size} />;
-      case 'website': return <WebsiteIcon3D size={size} />;
-      case 'dashboard': return <DashboardIcon3D size={size} />;
-      case 'api': return <APIIcon3D size={size} />;
-      case 'llm': return <LLMIcon3D size={size} />;
-      default: return null;
-    }
-  };
+  // Animation class getters
+  const getFolderAnimClass = (folderId: string) => openFolder === folderId ? folderAnimState : '';
+  const getGalleryAnimClass = (galleryId: string) => openGallery === galleryId ? galleryAnimState : '';
+  const getExpandedAnimClass = (itemId: string) => expandedItem === itemId ? expandedAnimState : '';
 
-  const render2DIcon = (id: string, scale: number = 1) => {
-    const style = { transform: `scale(${scale})` };
-    switch (id) {
-      case 'trade69-2d': return <div style={style}><Trade69Icon /></div>;
-      case 'megaagent-2d': return <div style={style}><MegaAgentIcon /></div>;
-      case 'octopus-2d': return <div style={style}><OctopusIcon /></div>;
-      case 'overmind-2d': return <div style={style}><OvermindIcon /></div>;
-      case 'website-2d': return <div style={style}><WebsiteIcon /></div>;
-      case 'dashboard-2d': return <div style={style}><DashboardIcon /></div>;
-      case 'api-2d': return <div style={style}><APIIcon /></div>;
-      case 'llm-2d': return <div style={style}><LLMIcon /></div>;
-      default: return null;
-    }
-  };
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // FOLDER PREVIEW - Only 3 icons for Entertainment (no fake 4th)
+  // ═══════════════════════════════════════════════════════════════════════════════
 
-  const renderGeometry = (id: string) => {
-    switch (id) {
-      case 'metatron': return <MetatronCube />;
-      case 'spiral': return <GoldenSpiral />;
-      case 'flower': return <FlowerOfLife />;
-      case 'lemniscate': return <GeometricDivider />;
-      default: return null;
-    }
-  };
-
-  const renderExperience = (id: string) => {
-    switch (id) {
-      case 'sphere': return <QuantumSphere />;
-      case 'manifold': return <QuantumManifold />;
-      case 'architecture': return <Trade69Architecture />;
-      default: return null;
-    }
-  };
-
-  // Folder preview - 3 mini icons
   const renderFolderPreview = (folderId: string) => {
     if (folderId === 'entertainment') {
+      // Only 3 items - matching the 3 categories
       return (
-        <div className="folder-preview">
+        <div className="folder-preview folder-preview-3">
           <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a5040, #0d2820)' }}>
             {render3DIconMini('trade69', miniIconSize)}
           </div>
@@ -484,8 +559,9 @@ export default function Creative() {
         </div>
       );
     } else {
+      // Interactive folder - show the 3 experiences
       return (
-        <div className="folder-preview">
+        <div className="folder-preview folder-preview-3">
           <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #2a2018, #15100a)' }}>
             {renderInteractiveMini('sphere', miniIconSize)}
           </div>
@@ -500,40 +576,61 @@ export default function Creative() {
     }
   };
 
-  // Get animation class based on state
-  const getAnimClass = (state: OverlayState) => {
-    switch (state) {
-      case 'opening': return 'entering';
-      case 'open': return 'active';
-      case 'closing': return 'exiting';
-      default: return '';
-    }
-  };
-
   return (
     <>
       <style>{`
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - CREATIVE PAGE                                                */
-        /* iOS-style overlays with horizontal scroll galleries                             */
+        /* Matching Work page positioning, heights, fonts exactly                          */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
-        * { -webkit-tap-highlight-color: transparent; }
+        * {
+          -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* STATE OF THE ART - Smooth scroll behavior on html/body */
+        html {
+          scroll-behavior: smooth;
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+          -webkit-overflow-scrolling: touch;
+        }
+        
+        body {
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+        }
         
         .creative-page {
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+          -webkit-overflow-scrolling: touch;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          scroll-behavior: smooth;
+          /* Prevent rubber-banding on iOS */
+          position: relative;
           min-height: 100vh;
-          background: #0A0A0A;
-          padding-top: clamp(100px, 15vh, 160px);
-          padding-bottom: 100px;
-          padding-left: 20px;
-          padding-right: 20px;
-          display: flex;
-          align-items: flex-start;
-          justify-content: center;
+          /* Smooth momentum scrolling */
+          -webkit-scroll-behavior: smooth;
+        }
+        
+        .creative-page.overlay-open {
+          touch-action: none;
+          overflow: hidden;
+        }
+        
+        /* STATE OF THE ART - Prevent overscroll bounce globally */
+        @supports (-webkit-touch-callout: none) {
+          /* iOS specific fixes */
+          .creative-page {
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: none;
+          }
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* MAIN GRID - 2 FOLDERS                                                           */
+        /* MAIN GRID - 2 FOLDERS (matching Work page)                                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .creative-grid {
@@ -551,6 +648,10 @@ export default function Creative() {
           gap: 10px;
         }
         
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* FOLDER ICON - Premium Glass Effect (matching Work page)                         */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .folder-icon {
           position: relative;
           width: 115px;
@@ -565,14 +666,18 @@ export default function Creative() {
           cursor: pointer;
           overflow: hidden;
           opacity: 0;
-          transform: scale(0.85) translateY(15px);
+          transform: translateZ(0) scale(0.85) translateY(15px);
           transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
                       box-shadow 0.4s ease, opacity 0.5s ease;
           box-shadow: 
             0 0 50px rgba(255, 255, 255, 0.06),
             0 8px 32px rgba(0, 0, 0, 0.5),
-            inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            0 2px 8px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.2),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.1);
           border: 1px solid rgba(255, 255, 255, 0.08);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .folder-icon::before {
@@ -590,19 +695,23 @@ export default function Creative() {
         
         .folder-icon.loaded {
           opacity: 1;
-          transform: scale(1) translateY(0);
+          transform: translateZ(0) scale(1) translateY(0);
         }
         
-        .folder-icon:active { transform: scale(0.94); }
+        .folder-icon:active {
+          transform: translateZ(0) scale(0.94);
+        }
         
         .folder-wrapper:nth-child(1) .folder-icon { transition-delay: 0ms; }
         .folder-wrapper:nth-child(2) .folder-icon { transition-delay: 60ms; }
         
-        /* Folder preview - 3 icons layout */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* FOLDER PREVIEW - 3 icons layout (no fake 4th)                                   */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .folder-preview {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          grid-template-rows: 1fr 1fr;
           gap: 6px;
           width: 95px;
           height: 95px;
@@ -610,7 +719,13 @@ export default function Creative() {
           z-index: 5;
         }
         
-        .folder-preview .folder-mini-icon:nth-child(3) {
+        /* 3-item layout: 2 on top, 1 centered below */
+        .folder-preview-3 {
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: 1fr 1fr;
+        }
+        
+        .folder-preview-3 .folder-mini-icon:nth-child(3) {
           grid-column: 1 / -1;
           justify-self: center;
         }
@@ -627,7 +742,10 @@ export default function Creative() {
           box-shadow: 
             0 0 12px rgba(255, 255, 255, 0.1),
             0 3px 8px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            inset 0 1px 0 rgba(255, 255, 255, 0.3),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
         }
         
         .folder-mini-icon::before {
@@ -637,7 +755,7 @@ export default function Creative() {
           left: 5%;
           right: 5%;
           height: 50%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, transparent 100%);
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
           border-radius: 11px 11px 50% 50%;
           pointer-events: none;
           z-index: 5;
@@ -648,6 +766,7 @@ export default function Creative() {
           font-size: 12px;
           font-weight: 400;
           color: #FAFAF8;
+          letter-spacing: 0.02em;
           text-align: center;
           opacity: 0;
           transform: translateY(8px);
@@ -655,22 +774,25 @@ export default function Creative() {
           text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
         }
         
-        .folder-name.loaded { opacity: 1; transform: translateY(0); }
+        .folder-name.loaded {
+          opacity: 1;
+          transform: translateY(0);
+        }
         
         .folder-wrapper:nth-child(1) .folder-name { transition-delay: 60ms; }
         .folder-wrapper:nth-child(2) .folder-name { transition-delay: 120ms; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - OVERLAY SYSTEM                                               */
-        /* Stacked layers - each opens on top without closing previous                     */
+        /* FOLDER OVERLAY - Matching Work page exactly                                     */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
-        .overlay {
+        .folder-overlay {
           position: fixed;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
+          z-index: 1000;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -679,191 +801,59 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          transition: opacity 0.3s ease, visibility 0.3s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: opacity, visibility;
+          transform: translateZ(0);
         }
         
-        .overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
-        .overlay.active { visibility: visible; pointer-events: auto; opacity: 1; }
-        .overlay.exiting { visibility: visible; pointer-events: none; opacity: 0; }
+        .folder-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .folder-overlay.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        .folder-overlay.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
         
-        .overlay-bg {
+        .folder-overlay-bg {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          top: 0; left: 0; right: 0; bottom: 0;
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
         }
         
-        /* Folder overlay - z-index 1000 */
-        .folder-overlay { z-index: 1000; }
-        
-        /* Gallery overlay - z-index 2000 (on top of folder) */
-        .gallery-overlay { z-index: 2000; }
-        
-        /* Expanded view - z-index 3000 (on top of all) */
-        .expanded-overlay {
-          z-index: 3000;
-          background: #0A0A0A;
-          padding-top: clamp(80px, 15vh, 150px);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* CONTAINER - iOS Style with spring animation                                     */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .overlay-container {
+        .folder-container {
           position: relative;
           z-index: 2;
           background: rgba(255, 255, 255, 0.98);
           backdrop-filter: blur(25px);
           -webkit-backdrop-filter: blur(25px);
           border-radius: 28px;
-          padding: 20px;
+          padding: 24px;
           opacity: 0;
-          transform: scale(0.8);
-          transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform: translateZ(0) scale(0.8);
+          transition: none;
           box-shadow: 
             0 0 60px rgba(255, 255, 255, 0.15),
             0 20px 60px rgba(0, 0, 0, 0.4),
+            0 8px 25px rgba(0, 0, 0, 0.3),
             inset 0 1px 1px rgba(255, 255, 255, 0.8);
-          max-width: 90vw;
         }
         
-        .overlay.active .overlay-container {
+        .folder-overlay.active .folder-container {
           opacity: 1;
-          transform: scale(1);
+          transform: translateZ(0) scale(1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.02s, 
+                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.02s;
         }
         
-        .overlay.exiting .overlay-container {
+        .folder-overlay.exiting .folder-container {
           opacity: 0;
-          transform: scale(0.9);
-          transition: opacity 0.2s ease, transform 0.25s ease;
+          transform: translateZ(0) scale(0.9);
+          transition: opacity 0.25s ease, transform 0.3s ease;
         }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - iOS HORIZONTAL SCROLL GALLERY                                */
-        /* Shows 4 icons at a time with smooth horizontal scroll                           */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .scroll-gallery {
-          display: flex;
-          gap: 16px;
-          overflow-x: auto;
-          overflow-y: hidden;
-          scroll-snap-type: x mandatory;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          padding: 4px 0;
-          /* Fixed width to show exactly 4 items */
-          width: calc(4 * 72px + 3 * 16px);
-          max-width: calc(100vw - 80px);
-        }
-        
-        .scroll-gallery::-webkit-scrollbar { display: none; }
-        
-        .scroll-gallery .gallery-card {
-          flex-shrink: 0;
-          scroll-snap-align: start;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 8px;
-          cursor: pointer;
-          opacity: 0;
-          transform: scale(0.7) translateY(12px);
-          transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        .overlay.active .scroll-gallery .gallery-card {
-          opacity: 1;
-          transform: scale(1) translateY(0);
-        }
-        
-        .overlay.active .scroll-gallery .gallery-card:nth-child(1) { transition-delay: 0.04s; }
-        .overlay.active .scroll-gallery .gallery-card:nth-child(2) { transition-delay: 0.07s; }
-        .overlay.active .scroll-gallery .gallery-card:nth-child(3) { transition-delay: 0.10s; }
-        .overlay.active .scroll-gallery .gallery-card:nth-child(4) { transition-delay: 0.13s; }
-        .overlay.active .scroll-gallery .gallery-card:nth-child(5) { transition-delay: 0.16s; }
-        .overlay.active .scroll-gallery .gallery-card:nth-child(6) { transition-delay: 0.19s; }
-        .overlay.active .scroll-gallery .gallery-card:nth-child(7) { transition-delay: 0.22s; }
-        .overlay.active .scroll-gallery .gallery-card:nth-child(8) { transition-delay: 0.25s; }
-        
-        .gallery-card-icon {
-          width: 72px;
-          height: 72px;
-          border-radius: 18px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          position: relative;
-          box-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.1),
-            0 6px 20px rgba(0, 0, 0, 0.4),
-            inset 0 1px 1px rgba(255, 255, 255, 0.4);
-          transition: transform 0.2s ease;
-        }
-        
-        .gallery-card-icon::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 8%;
-          right: 8%;
-          height: 45%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, transparent 100%);
-          border-radius: 18px 18px 50% 50%;
-          pointer-events: none;
-          z-index: 10;
-        }
-        
-        .gallery-card-icon:active { transform: scale(0.92); }
-        
-        .gallery-card-name {
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-          font-size: 11px;
-          font-weight: 400;
-          color: #1a1a1a;
-          text-align: center;
-          max-width: 72px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        
-        /* Scroll indicator dots */
-        .scroll-indicator {
-          display: flex;
-          gap: 6px;
-          justify-content: center;
-          margin-top: 12px;
-        }
-        
-        .scroll-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: rgba(0, 0, 0, 0.2);
-          transition: background 0.3s ease, transform 0.3s ease;
-        }
-        
-        .scroll-dot.active {
-          background: rgba(0, 0, 0, 0.6);
-          transform: scale(1.2);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* FOLDER CARDS GRID - 3 items                                                     */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .folder-cards-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 16px;
+          gap: 18px;
         }
         
         .folder-card {
@@ -873,22 +863,30 @@ export default function Creative() {
           gap: 8px;
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.7) translateY(12px);
-          transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform: translateZ(0) scale(0.7) translateY(12px);
+          transition: none;
         }
         
-        .overlay.active .folder-card {
+        .folder-overlay.active .folder-card {
           opacity: 1;
-          transform: scale(1) translateY(0);
+          transform: translateZ(0) scale(1) translateY(0);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), 
+                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
-        .overlay.active .folder-card:nth-child(1) { transition-delay: 0.04s; }
-        .overlay.active .folder-card:nth-child(2) { transition-delay: 0.07s; }
-        .overlay.active .folder-card:nth-child(3) { transition-delay: 0.10s; }
+        .folder-overlay.exiting .folder-card {
+          opacity: 0;
+          transform: translateZ(0) scale(0.85) translateY(5px);
+          transition: opacity 0.15s ease, transform 0.2s ease;
+        }
+        
+        .folder-overlay.active .folder-card:nth-child(1) { transition-delay: 0.04s; }
+        .folder-overlay.active .folder-card:nth-child(2) { transition-delay: 0.07s; }
+        .folder-overlay.active .folder-card:nth-child(3) { transition-delay: 0.10s; }
         
         .folder-card-icon {
-          width: 68px;
-          height: 68px;
+          width: 70px;
+          height: 70px;
           border-radius: 17px;
           display: flex;
           align-items: center;
@@ -896,20 +894,18 @@ export default function Creative() {
           position: relative;
           overflow: hidden;
           box-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.1),
-            0 6px 20px rgba(0, 0, 0, 0.4),
-            inset 0 1px 1px rgba(255, 255, 255, 0.4);
-          transition: transform 0.2s ease;
+            0 0 25px rgba(255, 255, 255, 0.12),
+            0 6px 20px rgba(0, 0, 0, 0.45),
+            0 12px 40px rgba(0, 0, 0, 0.25),
+            inset 0 1px 1px rgba(255, 255, 255, 0.4),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
         }
         
         .folder-card-icon::before {
           content: '';
           position: absolute;
-          top: 0;
-          left: 8%;
-          right: 8%;
-          height: 45%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, transparent 100%);
+          top: 0; left: 8%; right: 8%; height: 45%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
           border-radius: 17px 17px 50% 50%;
           pointer-events: none;
           z-index: 5;
@@ -919,69 +915,297 @@ export default function Creative() {
         
         .folder-card-name {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 400;
           color: #1a1a1a;
           text-align: center;
         }
         
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* CLOSE BUTTON                                                                    */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .close-btn {
+        .folder-close {
           position: relative;
           z-index: 2;
-          margin-top: 20px;
-          width: 44px;
-          height: 44px;
+          margin-top: 24px;
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
           background: transparent;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          border: none;
           opacity: 0;
           transform: scale(0.5);
-          transition: opacity 0.3s ease 0.15s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+          transition: none;
+          border: none;
         }
         
-        .overlay.active .close-btn {
+        .folder-overlay.active .folder-close {
           opacity: 1;
           transform: scale(1);
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, 
+                      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
         }
         
-        .overlay.exiting .close-btn {
+        .folder-overlay.exiting .folder-close {
           opacity: 0;
           transform: scale(0.8);
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        .close-btn svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
-        .close-btn:active { transform: scale(0.85); }
+        .folder-close svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
+        .folder-close:active { transform: scale(0.85); }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* EXPANDED VIEW                                                                   */
+        /* GALLERY OVERLAY - Matching Work page media-overlay exactly                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .gallery-overlay {
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          z-index: 2000;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: clamp(100px, 18vh, 180px);
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+          touch-action: manipulation;
+          -webkit-touch-callout: none;
+          user-select: none;
+          overscroll-behavior: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: opacity, visibility;
+          transform: translateZ(0);
+        }
+        
+        .gallery-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .gallery-overlay.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        .gallery-overlay.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
+        
+        .gallery-overlay-bg {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(20, 20, 20, 0.65);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translateZ(0);
+        }
+        
+        .gallery-container {
+          position: relative;
+          z-index: 2;
+          background: rgba(255, 255, 255, 0.98);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
+          border-radius: 28px;
+          padding: 24px;
+          opacity: 0;
+          transform: translateZ(0) scale(0.8);
+          transition: none;
+          box-shadow: 
+            0 0 60px rgba(255, 255, 255, 0.15),
+            0 20px 60px rgba(0, 0, 0, 0.4),
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.8);
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
+        }
+        
+        .gallery-overlay.active .gallery-container {
+          opacity: 1;
+          transform: translateZ(0) scale(1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.02s, 
+                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.02s;
+        }
+        
+        .gallery-overlay.exiting .gallery-container {
+          opacity: 0;
+          transform: translateZ(0) scale(0.9);
+          transition: opacity 0.25s ease, transform 0.3s ease;
+        }
+        
+        .gallery-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 18px;
+          touch-action: manipulation;
+        }
+        
+        .gallery-grid.grid-2 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .gallery-card {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+          opacity: 0;
+          transform: translateZ(0) scale(0.7) translateY(12px);
+          transition: none;
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        
+        .gallery-overlay.active .gallery-card {
+          opacity: 1;
+          transform: translateZ(0) scale(1) translateY(0);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), 
+                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .gallery-overlay.exiting .gallery-card {
+          opacity: 0;
+          transform: translateZ(0) scale(0.85) translateY(5px);
+          transition: opacity 0.15s ease, transform 0.2s ease;
+        }
+        
+        .gallery-overlay.active .gallery-card:nth-child(1) { transition-delay: 0.04s; }
+        .gallery-overlay.active .gallery-card:nth-child(2) { transition-delay: 0.07s; }
+        .gallery-overlay.active .gallery-card:nth-child(3) { transition-delay: 0.10s; }
+        .gallery-overlay.active .gallery-card:nth-child(4) { transition-delay: 0.13s; }
+        .gallery-overlay.active .gallery-card:nth-child(5) { transition-delay: 0.16s; }
+        .gallery-overlay.active .gallery-card:nth-child(6) { transition-delay: 0.19s; }
+        .gallery-overlay.active .gallery-card:nth-child(7) { transition-delay: 0.22s; }
+        .gallery-overlay.active .gallery-card:nth-child(8) { transition-delay: 0.25s; }
+        
+        .gallery-card-icon {
+          width: 80px;
+          height: 80px;
+          border-radius: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          position: relative;
+          box-shadow: 
+            0 0 25px rgba(255, 255, 255, 0.12),
+            0 6px 20px rgba(0, 0, 0, 0.45),
+            0 12px 40px rgba(0, 0, 0, 0.25),
+            inset 0 1px 1px rgba(255, 255, 255, 0.4),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translateZ(0);
+        }
+        
+        .gallery-card-icon::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 8%; right: 8%; height: 45%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+          border-radius: 18px 18px 50% 50%;
+          pointer-events: none;
+          z-index: 10;
+        }
+        
+        .gallery-card-icon:active { transform: scale(0.9); }
+        
+        .gallery-card-name {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 12px;
+          font-weight: 400;
+          color: #1a1a1a;
+          text-align: center;
+          max-width: 76px;
+        }
+        
+        .gallery-close {
+          position: relative;
+          z-index: 2;
+          margin-top: 24px;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: transparent;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          opacity: 0;
+          transform: scale(0.5);
+          transition: none;
+          border: none;
+          touch-action: manipulation;
+        }
+        
+        .gallery-overlay.active .gallery-close {
+          opacity: 1;
+          transform: scale(1);
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, 
+                      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+        }
+        
+        .gallery-overlay.exiting .gallery-close {
+          opacity: 0;
+          transform: scale(0.8);
+          transition: opacity 0.15s ease, transform 0.2s ease;
+        }
+        
+        .gallery-close svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
+        .gallery-close:active { transform: scale(0.85); }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* EXPANDED VIEW - Matching Work page image-expanded exactly                       */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .expanded-view {
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: #0A0A0A;
+          z-index: 3000;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          padding-top: clamp(80px, 15vh, 150px);
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+          touch-action: manipulation;
+          -webkit-touch-callout: none;
+          user-select: none;
+          overscroll-behavior: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: opacity, visibility;
+          transform: translateZ(0);
+        }
+        
+        .expanded-view.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .expanded-view.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .expanded-view.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
         
         .expanded-inner {
           display: flex;
           flex-direction: column;
           align-items: center;
+          touch-action: manipulation;
           opacity: 0;
-          transform: scale(0.88);
-          transition: opacity 0.4s ease 0.05s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
+          transform: translateZ(0) scale(0.88);
+          transition: none;
         }
         
-        .expanded-overlay.active .expanded-inner {
+        .expanded-view.active .expanded-inner {
           opacity: 1;
-          transform: scale(1);
+          transform: translateZ(0) scale(1);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, 
+                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
         }
         
-        .expanded-overlay.exiting .expanded-inner {
+        .expanded-view.exiting .expanded-inner {
           opacity: 0;
-          transform: scale(0.92);
+          transform: translateZ(0) scale(0.92);
           transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
@@ -993,6 +1217,25 @@ export default function Creative() {
           align-items: center;
           justify-content: center;
           filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
+          touch-action: manipulation;
+          opacity: 0;
+          transform: translateZ(0) scale(0.9);
+          transition: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        
+        .expanded-view.active .expanded-content {
+          opacity: 1;
+          transform: translateZ(0) scale(1);
+          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, 
+                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
+        }
+        
+        .expanded-view.exiting .expanded-content {
+          opacity: 0;
+          transform: translateZ(0) scale(0.95);
+          transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
         .expanded-close {
@@ -1006,17 +1249,21 @@ export default function Creative() {
           justify-content: center;
           cursor: pointer;
           border: none;
+          touch-action: manipulation;
+          z-index: 10;
           opacity: 0;
           transform: scale(0.5);
-          transition: opacity 0.35s ease 0.18s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
+          transition: none;
         }
         
-        .expanded-overlay.active .expanded-close {
+        .expanded-view.active .expanded-close {
           opacity: 1;
           transform: scale(1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, 
+                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
         }
         
-        .expanded-overlay.exiting .expanded-close {
+        .expanded-view.exiting .expanded-close {
           opacity: 0;
           transform: scale(0.7);
           transition: opacity 0.15s ease, transform 0.2s ease;
@@ -1026,36 +1273,60 @@ export default function Creative() {
         .expanded-close:active { transform: scale(0.85); }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* DESKTOP ENHANCEMENTS                                                            */
+        /* DESKTOP ENHANCEMENTS - Matching Work page exactly                               */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         @media (min-width: 600px) {
           .creative-grid { gap: 48px 44px; max-width: 400px; }
           .folder-icon { width: 145px; height: 145px; border-radius: 32px; }
-          .folder-icon:hover { transform: scale(1.04) translateY(-3px); }
+          .folder-icon:hover { transform: translateZ(0) scale(1.04) translateY(-3px); }
           .folder-preview { width: 120px; height: 120px; gap: 7px; }
           .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; }
           .folder-name { font-size: 13px; }
-          .overlay-container { padding: 24px; }
+          .folder-container { padding: 28px; }
           .folder-cards-grid { gap: 20px; }
           .folder-card-icon { width: 80px; height: 80px; border-radius: 18px; }
           .folder-card-icon:hover { transform: scale(1.06); }
-          .scroll-gallery { width: calc(4 * 85px + 3 * 18px); }
-          .gallery-card-icon { width: 85px; height: 85px; border-radius: 20px; }
+          .gallery-container { padding: 32px; border-radius: 30px; }
+          .gallery-grid { gap: 24px; }
+          .gallery-card-icon { width: 90px; height: 90px; border-radius: 20px; }
           .gallery-card-icon:hover { transform: scale(1.06); }
-          .gallery-card-name { font-size: 12px; max-width: 85px; }
+          .gallery-card-name { font-size: 13px; max-width: 95px; }
           .expanded-content { width: 340px; height: 340px; border-radius: 26px; }
         }
+        
+        @media (min-width: 900px) {
+          .creative-grid { gap: 54px 50px; max-width: 480px; }
+          .folder-icon { width: 175px; height: 175px; border-radius: 38px; }
+          .folder-preview { width: 145px; height: 145px; gap: 8px; }
+          .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; }
+          .folder-name { font-size: 14px; }
+          .folder-container { padding: 36px; }
+          .folder-cards-grid { gap: 26px; }
+          .folder-card-icon { width: 95px; height: 95px; border-radius: 22px; }
+        }
+        
+        canvas { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
       `}</style>
 
-      <div className="creative-page">
+      <div className={`creative-page ${folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{
+        minHeight: "100vh",
+        backgroundColor: "#0A0A0A",
+        paddingTop: "clamp(100px, 15vh, 160px)",
+        paddingBottom: "100px",
+        paddingLeft: "20px",
+        paddingRight: "20px",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "center"
+      }}>
         {/* 2 Main Folders */}
         <div className="creative-grid">
           {mainFolders.map((folder) => (
             <div key={folder.id} className="folder-wrapper">
               <div
                 className={`folder-icon ${isLoaded ? 'loaded' : ''}`}
-                onClick={() => openFolderOverlay(folder.id)}
+                onClick={() => handleOpenFolder(folder.id)}
               >
                 {renderFolderPreview(folder.id)}
               </div>
@@ -1066,25 +1337,30 @@ export default function Creative() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* ENTERTAINMENT FOLDER OVERLAY                                                    */}
+      {/* ENTERTAINMENT FOLDER - Shows 3 Category Cards                                   */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      <div className={`overlay folder-overlay ${getAnimClass(folderState)}`} style={{ display: openFolder === 'entertainment' || folderState !== 'closed' && openFolder === 'entertainment' ? 'flex' : 'none' }}>
-        <div className="overlay-bg" onClick={closeFolderOverlay} />
-        <div className="overlay-container">
+      <div className={`folder-overlay ${getFolderAnimClass('entertainment')}`}>
+        <div className="folder-overlay-bg" onClick={handleCloseFolder} />
+        <div className="folder-container">
           <div className="folder-cards-grid">
-            <div className="folder-card" onClick={() => openGalleryOverlay('3dicons')}>
+            {/* 3D Icons Category */}
+            <div className="folder-card" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenGallery('3dicons'), 400); }}>
               <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #1a5040, #0d2820)' }}>
                 {render3DIconMini('trade69', folderIconSize)}
               </div>
               <span className="folder-card-name">3D Icons</span>
             </div>
-            <div className="folder-card" onClick={() => openGalleryOverlay('geometry')}>
+
+            {/* Geometry Category */}
+            <div className="folder-card" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenGallery('geometry'), 400); }}>
               <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #3a2855, #1e1430)' }}>
                 {renderGeometryMini('metatron', folderIconSize)}
               </div>
               <span className="folder-card-name">Geometry</span>
             </div>
-            <div className="folder-card" onClick={() => openGalleryOverlay('icons')}>
+
+            {/* Icons Category */}
+            <div className="folder-card" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenGallery('icons'), 400); }}>
               <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #3d4a8f, #1e2550)' }}>
                 {render2DIconMini('megaagent-2d', folderIconSize)}
               </div>
@@ -1092,7 +1368,7 @@ export default function Creative() {
             </div>
           </div>
         </div>
-        <button className="close-btn" onClick={closeFolderOverlay}>
+        <button className="folder-close" onClick={handleCloseFolder}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
@@ -1100,14 +1376,14 @@ export default function Creative() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* INTERACTIVE FOLDER OVERLAY                                                      */}
+      {/* 3D INTERACTIVE FOLDER - Shows 3 Experience Cards                                */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      <div className={`overlay folder-overlay ${openFolder === 'interactive' ? getAnimClass(folderState) : ''}`} style={{ display: openFolder === 'interactive' ? 'flex' : 'none' }}>
-        <div className="overlay-bg" onClick={closeFolderOverlay} />
-        <div className="overlay-container">
+      <div className={`folder-overlay ${getFolderAnimClass('interactive')}`}>
+        <div className="folder-overlay-bg" onClick={handleCloseFolder} />
+        <div className="folder-container">
           <div className="folder-cards-grid">
             {interactiveApps.map(app => (
-              <div key={app.id} className="folder-card" onClick={() => openExpandedView(`exp-${app.id}`)}>
+              <div key={app.id} className="folder-card" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenExpanded(`exp-${app.id}`), 400); }}>
                 <div className="folder-card-icon" style={{ background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})` }}>
                   {renderInteractiveMini(app.id, folderIconSize)}
                 </div>
@@ -1116,7 +1392,7 @@ export default function Creative() {
             ))}
           </div>
         </div>
-        <button className="close-btn" onClick={closeFolderOverlay}>
+        <button className="folder-close" onClick={handleCloseFolder}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
@@ -1124,14 +1400,14 @@ export default function Creative() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 3D ICONS GALLERY - HORIZONTAL SCROLL                                            */}
+      {/* 3D ICONS GALLERY                                                                */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      <div className={`overlay gallery-overlay ${openGallery === '3dicons' ? getAnimClass(galleryState) : ''}`} style={{ display: openGallery === '3dicons' ? 'flex' : 'none' }}>
-        <div className="overlay-bg" onClick={closeGalleryOverlay} />
-        <div className="overlay-container">
-          <div className="scroll-gallery" ref={scrollContainerRef}>
+      <div className={`gallery-overlay ${getGalleryAnimClass('3dicons')}`}>
+        <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
+        <div className="gallery-container">
+          <div className="gallery-grid">
             {icons3DItems.map(item => (
-              <div key={item.id} className="gallery-card" onClick={() => openExpandedView(`3d-${item.id}`)}>
+              <div key={item.id} className="gallery-card" onClick={() => handleOpenExpanded(`3d-${item.id}`)}>
                 <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
                   {render3DIconMini(item.id, galleryIconSize)}
                 </div>
@@ -1139,27 +1415,23 @@ export default function Creative() {
               </div>
             ))}
           </div>
-          <div className="scroll-indicator">
-            <div className="scroll-dot active" />
-            <div className="scroll-dot" />
-          </div>
         </div>
-        <button className="close-btn" onClick={closeGalleryOverlay}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <button className="gallery-close" onClick={handleCloseGallery}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
         </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* GEOMETRY GALLERY - HORIZONTAL SCROLL                                            */}
+      {/* GEOMETRY GALLERY                                                                */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      <div className={`overlay gallery-overlay ${openGallery === 'geometry' ? getAnimClass(galleryState) : ''}`} style={{ display: openGallery === 'geometry' ? 'flex' : 'none' }}>
-        <div className="overlay-bg" onClick={closeGalleryOverlay} />
-        <div className="overlay-container">
-          <div className="scroll-gallery">
+      <div className={`gallery-overlay ${getGalleryAnimClass('geometry')}`}>
+        <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
+        <div className="gallery-container">
+          <div className="gallery-grid grid-2">
             {geometryItems.map(item => (
-              <div key={item.id} className="gallery-card" onClick={() => openExpandedView(`geo-${item.id}`)}>
+              <div key={item.id} className="gallery-card" onClick={() => handleOpenExpanded(`geo-${item.id}`)}>
                 <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
                   {renderGeometryMini(item.id, galleryIconSize)}
                 </div>
@@ -1168,22 +1440,22 @@ export default function Creative() {
             ))}
           </div>
         </div>
-        <button className="close-btn" onClick={closeGalleryOverlay}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <button className="gallery-close" onClick={handleCloseGallery}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
         </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 2D ICONS GALLERY - HORIZONTAL SCROLL                                            */}
+      {/* 2D ICONS GALLERY                                                                */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      <div className={`overlay gallery-overlay ${openGallery === 'icons' ? getAnimClass(galleryState) : ''}`} style={{ display: openGallery === 'icons' ? 'flex' : 'none' }}>
-        <div className="overlay-bg" onClick={closeGalleryOverlay} />
-        <div className="overlay-container">
-          <div className="scroll-gallery">
+      <div className={`gallery-overlay ${getGalleryAnimClass('icons')}`}>
+        <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
+        <div className="gallery-container">
+          <div className="gallery-grid">
             {staticIconItems.map(item => (
-              <div key={item.id} className="gallery-card" onClick={() => openExpandedView(`2d-${item.id}`)}>
+              <div key={item.id} className="gallery-card" onClick={() => handleOpenExpanded(`2d-${item.id}`)}>
                 <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
                   {render2DIconMini(item.id, galleryIconSize)}
                 </div>
@@ -1191,30 +1463,24 @@ export default function Creative() {
               </div>
             ))}
           </div>
-          <div className="scroll-indicator">
-            <div className="scroll-dot active" />
-            <div className="scroll-dot" />
-          </div>
         </div>
-        <button className="close-btn" onClick={closeGalleryOverlay}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <button className="gallery-close" onClick={handleCloseGallery}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
         </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - All items                                                      */}
+      {/* EXPANDED VIEWS - 3D Icons                                                       */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-
-      {/* 3D Icons expanded */}
       {icons3DItems.map(item => (
-        <div key={item.id} className={`overlay expanded-overlay ${expandedItem === `3d-${item.id}` ? getAnimClass(expandedState) : ''}`} style={{ display: expandedItem === `3d-${item.id}` ? 'flex' : 'none' }}>
+        <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`3d-${item.id}`)}`}>
           <div className="expanded-inner">
             <div className="expanded-content">
               {expandedItem === `3d-${item.id}` && render3DIcon(item.id, 200)}
             </div>
-            <button className="expanded-close" onClick={closeExpandedView}>
+            <button className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
@@ -1223,14 +1489,16 @@ export default function Creative() {
         </div>
       ))}
 
-      {/* Geometry expanded */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* EXPANDED VIEWS - Geometry                                                       */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {geometryItems.map(item => (
-        <div key={item.id} className={`overlay expanded-overlay ${expandedItem === `geo-${item.id}` ? getAnimClass(expandedState) : ''}`} style={{ display: expandedItem === `geo-${item.id}` ? 'flex' : 'none' }}>
+        <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`geo-${item.id}`)}`}>
           <div className="expanded-inner">
             <div className="expanded-content">
               {expandedItem === `geo-${item.id}` && renderGeometry(item.id)}
             </div>
-            <button className="expanded-close" onClick={closeExpandedView}>
+            <button className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
@@ -1239,14 +1507,16 @@ export default function Creative() {
         </div>
       ))}
 
-      {/* 2D Icons expanded */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* EXPANDED VIEWS - 2D Icons                                                       */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {staticIconItems.map(item => (
-        <div key={item.id} className={`overlay expanded-overlay ${expandedItem === `2d-${item.id}` ? getAnimClass(expandedState) : ''}`} style={{ display: expandedItem === `2d-${item.id}` ? 'flex' : 'none' }}>
+        <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`2d-${item.id}`)}`}>
           <div className="expanded-inner">
             <div className="expanded-content">
               {expandedItem === `2d-${item.id}` && render2DIcon(item.id, 3)}
             </div>
-            <button className="expanded-close" onClick={closeExpandedView}>
+            <button className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
@@ -1255,14 +1525,29 @@ export default function Creative() {
         </div>
       ))}
 
-      {/* Interactive experiences expanded */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* EXPANDED VIEWS - 3D Interactive Experiences                                     */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {interactiveApps.map(app => (
-        <div key={app.id} className={`overlay expanded-overlay ${expandedItem === `exp-${app.id}` ? getAnimClass(expandedState) : ''}`} style={{ display: expandedItem === `exp-${app.id}` ? 'flex' : 'none' }}>
+        <div
+          key={app.id}
+          className={`expanded-view ${getExpandedAnimClass(`exp-${app.id}`)}`}
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+        >
           <div className="expanded-inner">
-            <div className="expanded-content" style={{ touchAction: 'manipulation' }}>
+            <div
+              className="expanded-content"
+              style={{ touchAction: 'manipulation' }}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+            >
               {expandedItem === `exp-${app.id}` && renderExperience(app.id)}
             </div>
-            <button className="expanded-close" onClick={closeExpandedView}>
+            <button
+              className="expanded-close"
+              onClick={handleCloseExpanded}
+            >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
