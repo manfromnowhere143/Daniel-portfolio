@@ -687,41 +687,76 @@ export default function Creative() {
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // STATE OF THE ART - 3D ICONS SHOWCASE APP
-  // All 8 3D icons presented beautifully in one app experience
-  // Tap any to expand to full view
+  // Orbital gallery - icons presented in floating glass orbs with ambient glow
+  // Different from Geometry (which uses 2x2 circular frames)
+  // This uses horizontal scrolling showcase with featured center piece
   // ═══════════════════════════════════════════════════════════════════════════════
   const Icons3DShowcase = () => {
     const [showIcons, setShowIcons] = useState(false);
+    const [featuredIndex, setFeaturedIndex] = useState(0);
 
     useEffect(() => {
-      const timer = setTimeout(() => setShowIcons(true), 80);
+      const timer = setTimeout(() => setShowIcons(true), 100);
       return () => clearTimeout(timer);
     }, []);
 
+    const featuredItem = icons3DItems[featuredIndex];
+
     return (
-      <div className="showcase-app showcase-3d">
-        <div className="showcase-app-header">
+      <div className="showcase-app showcase-3d-orbital">
+        {/* Ambient background based on featured item */}
+        <div
+          className={`showcase-3d-ambient ${showIcons ? 'visible' : ''}`}
+          style={{
+            background: `radial-gradient(ellipse at 50% 40%, ${featuredItem.color[0]}40 0%, transparent 50%)`
+          }}
+        />
+
+        {/* App Header */}
+        <div className={`showcase-app-header ${showIcons ? 'visible' : ''}`}>
           <span className="showcase-app-title">3D Icons</span>
           <span className="showcase-app-subtitle">Interactive Collection</span>
         </div>
-        <div className={`showcase-3d-grid ${showIcons ? 'visible' : ''}`}>
+
+        {/* Featured Icon - Large Center Display */}
+        <div
+          className={`showcase-3d-featured ${showIcons ? 'visible' : ''}`}
+          onClick={() => handleOpenSubExpanded(`3d-${featuredItem.id}`)}
+        >
+          <div
+            className="showcase-3d-featured-glow"
+            style={{ background: `radial-gradient(circle, ${featuredItem.color[0]}50 0%, transparent 70%)` }}
+          />
+          <div
+            className="showcase-3d-featured-orb"
+            style={{ background: `linear-gradient(145deg, ${featuredItem.color[0]}, ${featuredItem.color[1]})` }}
+          >
+            <div className="showcase-3d-featured-icon">
+              {render3DIcon(featuredItem.id, isMobile ? 90 : 110)}
+            </div>
+          </div>
+          <span className="showcase-3d-featured-name">{featuredItem.name}</span>
+          <span className="showcase-3d-featured-hint">Tap to explore</span>
+        </div>
+
+        {/* Icon Selector - Small orbs at bottom */}
+        <div className={`showcase-3d-selector ${showIcons ? 'visible' : ''}`}>
           {icons3DItems.map((item, index) => (
             <div
               key={item.id}
-              className="showcase-3d-item"
-              style={{ ['--delay' as any]: `${index * 0.05}s` }}
-              onClick={() => handleOpenSubExpanded(`3d-${item.id}`)}
+              className={`showcase-3d-selector-item ${index === featuredIndex ? 'active' : ''}`}
+              style={{ ['--delay' as any]: `${index * 0.04}s` }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setFeaturedIndex(index);
+              }}
             >
               <div
-                className="showcase-3d-card"
+                className="showcase-3d-selector-orb"
                 style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}
               >
-                <div className="showcase-3d-glow" style={{ background: `radial-gradient(circle, ${item.color[0]}60 0%, transparent 70%)` }} />
-                <div className="showcase-3d-icon">
-                  {render3DIcon(item.id, isMobile ? 52 : 64)}
-                </div>
+                {render3DIcon(item.id, isMobile ? 24 : 28)}
               </div>
-              <span className="showcase-3d-name">{item.name}</span>
             </div>
           ))}
         </div>
@@ -1476,10 +1511,23 @@ export default function Creative() {
         .showcase-expanded .expanded-content,
         .showcase-content {
           width: 100%;
-          height: auto;
-          max-width: 360px;
+          height: 100%;
+          max-width: 400px;
+          max-height: 500px;
           border-radius: 0;
           filter: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .showcase-expanded .expanded-inner {
+          width: 100%;
+          height: auto;
+          max-height: 90vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
         
         .showcase-app {
@@ -1515,79 +1563,205 @@ export default function Creative() {
           text-transform: uppercase;
         }
         
-        /* 3D Icons Showcase Grid - 4x2 */
-        .showcase-3d-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 12px;
-        }
-        
-        .showcase-3d-item {
+        /* 3D Icons Orbital Showcase - Featured + Selector style */
+        .showcase-3d-orbital {
+          position: relative;
+          height: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 6px;
+          justify-content: space-between;
+          padding: 16px 8px;
+          gap: 16px;
+        }
+        
+        .showcase-3d-ambient {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          opacity: 0;
+          transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, background 0.5s ease;
+          pointer-events: none;
+        }
+        
+        .showcase-3d-ambient.visible {
+          opacity: 1;
+        }
+        
+        .showcase-3d-orbital .showcase-app-header {
+          opacity: 0;
+          transform: translateY(-15px);
+          transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, 
+                      transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s;
+        }
+        
+        .showcase-3d-orbital .showcase-app-header.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
+        /* Featured Icon - Large center piece */
+        .showcase-3d-featured {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          position: relative;
           cursor: pointer;
           opacity: 0;
-          transform: translateY(12px) scale(0.9);
-          transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
-          transition-delay: var(--delay, 0s);
+          transform: scale(0.8);
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.15s, 
+                      transform 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s;
         }
         
-        .showcase-3d-grid.visible .showcase-3d-item {
+        .showcase-3d-featured.visible {
           opacity: 1;
-          transform: translateY(0) scale(1);
+          transform: scale(1);
         }
         
-        .showcase-3d-card {
-          width: 64px;
-          height: 64px;
-          border-radius: 16px;
+        .showcase-3d-featured:active .showcase-3d-featured-orb {
+          transform: scale(0.92);
+        }
+        
+        .showcase-3d-featured-glow {
+          position: absolute;
+          top: -40px; left: -40px; right: -40px; bottom: 20px;
+          border-radius: 50%;
+          opacity: 0.7;
+          pointer-events: none;
+          animation: featuredGlowPulse 4s ease-in-out infinite;
+          transition: background 0.5s ease;
+        }
+        
+        @keyframes featuredGlowPulse {
+          0%, 100% { transform: scale(1); opacity: 0.5; }
+          50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .showcase-3d-featured-orb {
+          width: 140px;
+          height: 140px;
+          border-radius: 32px;
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
           overflow: hidden;
           box-shadow: 
-            0 4px 20px rgba(0, 0, 0, 0.4),
-            0 0 30px rgba(255, 255, 255, 0.05),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
+            0 8px 40px rgba(0, 0, 0, 0.5),
+            0 0 60px rgba(255, 255, 255, 0.08),
+            inset 0 2px 0 rgba(255, 255, 255, 0.25),
+            inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+          transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1), background 0.4s ease;
         }
         
-        .showcase-3d-card:active {
-          transform: scale(0.92);
-        }
-        
-        .showcase-3d-card::before {
+        .showcase-3d-featured-orb::before {
           content: '';
           position: absolute;
-          top: 0; left: 8%; right: 8%; height: 45%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
-          border-radius: 16px 16px 50% 50%;
+          top: 0; left: 8%; right: 8%; height: 50%;
+          background: linear-gradient(180deg, 
+            rgba(255, 255, 255, 0.35) 0%, 
+            rgba(255, 255, 255, 0.1) 50%, 
+            transparent 100%);
+          border-radius: 32px 32px 50% 50%;
           pointer-events: none;
           z-index: 5;
         }
         
-        .showcase-3d-glow {
-          position: absolute;
-          top: -20%; left: -20%; right: -20%; bottom: -20%;
-          opacity: 0.5;
-          pointer-events: none;
-          z-index: 0;
-        }
-        
-        .showcase-3d-icon {
+        .showcase-3d-featured-icon {
           position: relative;
           z-index: 2;
+          transition: opacity 0.3s ease;
         }
         
-        .showcase-3d-name {
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-          font-size: 10px;
-          font-weight: 500;
-          color: rgba(255, 255, 255, 0.6);
+        .showcase-3d-featured-name {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+          font-size: 20px;
+          font-weight: 600;
+          color: #ffffff;
           text-align: center;
+          transition: all 0.3s ease;
+        }
+        
+        .showcase-3d-featured-hint {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 11px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.4);
+          letter-spacing: 0.05em;
+        }
+        
+        /* Icon Selector - Bottom row of small orbs */
+        .showcase-3d-selector {
+          display: flex;
+          gap: 10px;
+          padding: 12px 16px;
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 20px;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          opacity: 0;
+          transform: translateY(20px);
+          transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.25s, 
+                      transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.25s;
+        }
+        
+        .showcase-3d-selector.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
+        .showcase-3d-selector-item {
+          cursor: pointer;
+          opacity: 0;
+          transform: scale(0.5);
+          transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+          transition-delay: var(--delay, 0s);
+        }
+        
+        .showcase-3d-selector.visible .showcase-3d-selector-item {
+          opacity: 1;
+          transform: scale(1);
+        }
+        
+        .showcase-3d-selector-item.active {
+          transform: scale(1.15);
+        }
+        
+        .showcase-3d-selector-item:active {
+          transform: scale(0.9);
+        }
+        
+        .showcase-3d-selector-orb {
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 
+            0 2px 10px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .showcase-3d-selector-orb::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 10%; right: 10%; height: 45%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+          border-radius: 12px 12px 50% 50%;
+          pointer-events: none;
+        }
+        
+        .showcase-3d-selector-item.active .showcase-3d-selector-orb {
+          box-shadow: 
+            0 4px 20px rgba(0, 0, 0, 0.4),
+            0 0 20px rgba(255, 255, 255, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
         
         /* Geometry Showcase Grid - 2x2 */
@@ -1837,9 +2011,10 @@ export default function Creative() {
         
         @media (min-width: 600px) {
           .showcase-app-title { font-size: 30px; }
-          .showcase-3d-grid { gap: 16px; }
-          .showcase-3d-card { width: 76px; height: 76px; border-radius: 18px; }
-          .showcase-3d-name { font-size: 11px; }
+          .showcase-3d-featured-orb { width: 170px; height: 170px; border-radius: 38px; }
+          .showcase-3d-featured-name { font-size: 24px; }
+          .showcase-3d-selector { gap: 14px; padding: 14px 20px; }
+          .showcase-3d-selector-orb { width: 52px; height: 52px; border-radius: 14px; }
           .showcase-geometry-grid { gap: 28px; }
           .showcase-geometry-frame { width: 140px; height: 140px; }
           .showcase-geometry-name { font-size: 14px; }
@@ -1859,9 +2034,10 @@ export default function Creative() {
         
         @media (min-width: 900px) {
           .showcase-app-title { font-size: 34px; }
-          .showcase-3d-grid { gap: 20px; }
-          .showcase-3d-card { width: 88px; height: 88px; border-radius: 20px; }
-          .showcase-3d-name { font-size: 12px; }
+          .showcase-3d-featured-orb { width: 200px; height: 200px; border-radius: 44px; }
+          .showcase-3d-featured-name { font-size: 28px; }
+          .showcase-3d-selector { gap: 18px; padding: 16px 24px; }
+          .showcase-3d-selector-orb { width: 60px; height: 60px; border-radius: 16px; }
           .showcase-geometry-grid { gap: 36px; }
           .showcase-geometry-frame { width: 160px; height: 160px; }
           .showcase-geometry-name { font-size: 15px; }
@@ -2046,6 +2222,125 @@ export default function Creative() {
         }
         
         canvas { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - INTERACTIVE 3D EXPERIENCES                                   */
+        /* Full-screen immersive Three.js experiences with touch support                   */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .interactive-experience {
+          background: radial-gradient(ellipse at center, #0d0d10 0%, #050507 100%);
+        }
+        
+        .interactive-ambient {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          opacity: 0;
+          transition: opacity 0.8s ease 0.2s;
+          pointer-events: none;
+        }
+        
+        .interactive-experience.active .interactive-ambient {
+          opacity: 1;
+        }
+        
+        .interactive-inner {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+          padding: 16px;
+          position: relative;
+          z-index: 2;
+        }
+        
+        .interactive-header {
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          opacity: 0;
+          transform: translateY(-10px);
+          transition: opacity 0.4s ease 0.15s, transform 0.5s ease 0.15s;
+        }
+        
+        .interactive-experience.active .interactive-header {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
+        .interactive-title {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+          font-size: 22px;
+          font-weight: 600;
+          color: #ffffff;
+          letter-spacing: -0.01em;
+        }
+        
+        .interactive-subtitle {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 10px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.35);
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+        }
+        
+        .interactive-content {
+          width: 280px !important;
+          height: 280px !important;
+          border-radius: 20px;
+          overflow: hidden;
+          position: relative;
+          opacity: 0;
+          transform: scale(0.85);
+          transition: opacity 0.5s ease 0.2s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s;
+        }
+        
+        .interactive-experience.active .interactive-content {
+          opacity: 1;
+          transform: scale(1);
+        }
+        
+        .interactive-content canvas {
+          touch-action: none !important;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          user-select: none;
+        }
+        
+        .interactive-hint {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          opacity: 0;
+          transition: opacity 0.4s ease 0.35s;
+        }
+        
+        .interactive-experience.active .interactive-hint {
+          opacity: 1;
+        }
+        
+        .interactive-hint span {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 11px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .interactive-close {
+          margin-top: 8px !important;
+        }
+        
+        @media (min-width: 600px) {
+          .interactive-title { font-size: 26px; }
+          .interactive-content { width: 340px !important; height: 340px !important; }
+        }
+        
+        @media (min-width: 900px) {
+          .interactive-title { font-size: 30px; }
+          .interactive-content { width: 400px !important; height: 400px !important; }
+        }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - 3D ICONS APP EXPERIENCE                                      */
@@ -2599,25 +2894,36 @@ export default function Creative() {
       </div>
 
       {/* EXPANDED - 3D Interactive Experiences */}
+      {/* Mobile-optimized touch handling for Three.js canvas */}
       {interactiveApps.map(app => (
         <div
           key={app.id}
-          className={`expanded-view ${getExpandedAnimClass(`exp-${app.id}`)}`}
+          className={`expanded-view interactive-experience ${getExpandedAnimClass(`exp-${app.id}`)}`}
         >
-          <div
-            className="expanded-inner"
-            onTouchStart={(e) => e.stopPropagation()}
-            onTouchMove={(e) => e.stopPropagation()}
-          >
+          <div className="interactive-ambient" style={{ background: `radial-gradient(ellipse at 50% 40%, ${app.color[0]}30 0%, transparent 60%)` }} />
+          <div className="expanded-inner interactive-inner">
+            <div className="interactive-header">
+              <span className="interactive-title">{app.name}</span>
+              <span className="interactive-subtitle">Interactive 3D</span>
+            </div>
             <div
-              className="expanded-content"
-              style={{ touchAction: 'manipulation' }}
-              onTouchStart={(e) => e.stopPropagation()}
-              onTouchMove={(e) => e.stopPropagation()}
+              className="expanded-content interactive-content"
+              style={{
+                touchAction: 'none',
+                WebkitUserSelect: 'none',
+                userSelect: 'none'
+              }}
             >
               {expandedItem === `exp-${app.id}` && renderExperience(app.id)}
             </div>
-            <button className="expanded-close" onClick={handleCloseExpanded}>
+            <div className="interactive-hint">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="rgba(255,255,255,0.4)"/>
+                <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z" fill="rgba(255,255,255,0.4)"/>
+              </svg>
+              <span>Drag to rotate</span>
+            </div>
+            <button className="expanded-close interactive-close" onClick={handleCloseExpanded}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
