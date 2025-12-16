@@ -179,6 +179,40 @@ export default function Creative() {
   }, []);
 
   // ═══════════════════════════════════════════════════════════════════════════════
+  // IRON LOCK - Complete lock for interactive 3D experiences
+  // Prevents ALL scrolling/swiping on the page (left/right/up/down)
+  // ═══════════════════════════════════════════════════════════════════════════════
+  useEffect(() => {
+    const isInteractive = expandedItem?.startsWith('exp-');
+
+    if (isInteractive && expandedAnimState === 'active') {
+      // IRON LOCK - prevent all touch events on body
+      const preventAll = (e: TouchEvent) => {
+        // Only allow touch on the canvas itself
+        const target = e.target as HTMLElement;
+        if (target.tagName === 'CANVAS') return;
+        e.preventDefault();
+      };
+
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.height = '100%';
+      document.body.style.touchAction = 'none';
+      document.addEventListener('touchmove', preventAll, { passive: false });
+
+      return () => {
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.height = '';
+        document.body.style.touchAction = '';
+        document.removeEventListener('touchmove', preventAll);
+      };
+    }
+  }, [expandedItem, expandedAnimState]);
+
+  // ═══════════════════════════════════════════════════════════════════════════════
   // SOLID ROCK LOCK - NO MOVEMENT AT ALL when overlays open
   // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
@@ -375,7 +409,7 @@ export default function Creative() {
     setTimeout(() => {
       setSubExpandedItem(null);
       setSubExpandedAnimState('idle');
-    }, 180); // INSTANT exit - same as 3D Icons
+    }, 100); // INSTANT
   }, [subExpandedAnimState]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
@@ -1911,13 +1945,13 @@ export default function Creative() {
           visibility: visible; 
           pointer-events: auto; 
           opacity: 1; 
-          transition: opacity 0.2s ease; 
+          transition: opacity 0.15s ease; 
         }
         .sub-expanded-view.exiting { 
           visibility: visible; 
           pointer-events: none; 
           opacity: 0; 
-          transition: opacity 0.15s ease; /* INSTANT exit */
+          transition: opacity 0.1s ease;
         }
         
         .sub-expanded-bg {
@@ -1932,7 +1966,7 @@ export default function Creative() {
           position: absolute;
           top: 0; left: 0; right: 0; bottom: 0;
           opacity: 0;
-          transition: opacity 0.3s ease;
+          transition: opacity 0.15s ease;
           pointer-events: none;
         }
         
@@ -1959,8 +1993,8 @@ export default function Creative() {
           flex-direction: column;
           gap: 4px;
           opacity: 0;
-          transform: translateY(-6px);
-          transition: opacity 0.2s ease, transform 0.25s ease;
+          transform: translateY(-4px);
+          transition: opacity 0.12s ease, transform 0.15s ease;
         }
         
         .sub-expanded-view.active .sub-expanded-header {
@@ -1993,8 +2027,8 @@ export default function Creative() {
           align-items: center;
           justify-content: center;
           opacity: 0;
-          transform: scale(0.92);
-          transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1);
+          transform: scale(0.95);
+          transition: opacity 0.12s ease, transform 0.15s ease;
         }
         
         .sub-expanded-view.active .sub-expanded-content {
@@ -2016,7 +2050,7 @@ export default function Creative() {
           50% { transform: scale(1.1); opacity: 0.8; }
         }
         
-        /* Floating X button - bottom center like rest of site - INSTANT */
+        /* Floating X button - INSTANT response */
         .sub-expanded-close {
           width: 44px;
           height: 44px;
@@ -2027,9 +2061,9 @@ export default function Creative() {
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          opacity: 0;
-          transform: scale(0.95);
-          transition: opacity 0.15s ease, transform 0.2s ease;
+          opacity: 0.6;
+          transform: scale(1);
+          transition: opacity 0.1s ease, transform 0.1s ease;
           z-index: 100;
           margin-top: 8px;
         }
@@ -2349,16 +2383,21 @@ export default function Creative() {
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - INTERACTIVE 3D EXPERIENCES                                   */
-        /* PAGE IS IRON LOCKED - Canvas stays FULLY INTERACTIVE                            */
-        /* Content centered perfectly on screen                                            */
+        /* IRON LOCK - NO SCROLL IN ANY DIRECTION (up/down/left/right)                     */
+        /* Canvas stays FULLY INTERACTIVE for Three.js                                     */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .interactive-experience {
           background: radial-gradient(ellipse at center, #0d0d10 0%, #050507 100%);
           position: fixed !important;
-          top: 0; left: 0; right: 0; bottom: 0;
+          top: 0 !important; 
+          left: 0 !important; 
+          right: 0 !important; 
+          bottom: 0 !important;
           overflow: hidden !important;
           overscroll-behavior: none !important;
+          touch-action: none !important;
+          -webkit-overflow-scrolling: none !important;
         }
         
         .interactive-ambient {
@@ -2378,14 +2417,14 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 12px;
+          gap: 16px;
           padding: 16px;
+          padding-bottom: 60px;
           position: absolute;
           top: 0; left: 0; right: 0; bottom: 0;
           z-index: 2;
           overflow: hidden !important;
-          /* PAGE is locked - no scroll/swipe on the page itself */
-          touch-action: none;
+          touch-action: none !important;
         }
         
         .interactive-header {
@@ -2421,18 +2460,16 @@ export default function Creative() {
           text-transform: uppercase;
         }
         
-        /* The 3D canvas container - FULLY INTERACTIVE */
+        /* The 3D canvas container - BIGGER and INTERACTIVE */
         .interactive-content {
-          width: 280px !important;
-          height: 280px !important;
-          border-radius: 20px;
+          width: 320px !important;
+          height: 320px !important;
+          border-radius: 24px;
           overflow: hidden !important;
           position: relative;
           opacity: 0;
           transform: scale(0.85);
           transition: opacity 0.5s ease 0.2s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s;
-          /* Canvas is INTERACTIVE - allow all touch for 3D rotation */
-          touch-action: none;
         }
         
         .interactive-experience.active .interactive-content {
@@ -2442,15 +2479,29 @@ export default function Creative() {
         
         /* Canvas itself - fully interactive for Three.js */
         .interactive-content canvas {
-          touch-action: none !important;
+          touch-action: manipulation !important;
           -webkit-touch-callout: none;
           -webkit-user-select: none;
           user-select: none;
         }
         
         .interactive-close {
-          margin-top: 12px !important;
+          margin-top: 16px !important;
           pointer-events: auto;
+        }
+        
+        @media (min-width: 600px) {
+          .interactive-content {
+            width: 380px !important;
+            height: 380px !important;
+          }
+        }
+        
+        @media (min-width: 900px) {
+          .interactive-content {
+            width: 440px !important;
+            height: 440px !important;
+          }
         }
         
         @media (min-width: 600px) {
