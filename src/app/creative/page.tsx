@@ -98,6 +98,10 @@ export default function Creative() {
   // STATE OF THE ART - Elegant transition bridge to prevent flash
   const [bridgePhase, setBridgePhase] = useState<'idle' | 'in' | 'hold' | 'out'>('idle');
 
+  // Gallery scroll page indicator
+  const [galleryPage, setGalleryPage] = useState(0);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
   const folderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const galleryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const expandedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -162,35 +166,64 @@ export default function Creative() {
     };
   }, []);
 
-  // Lock body scroll
-  const preventTouchMove = useCallback((e: TouchEvent) => {
-    const target = e.target as HTMLElement;
-    if (target.closest('.gallery-close') || target.closest('.expanded-close') ||
-        target.closest('.folder-close') || target.closest('.gallery-card') ||
-        target.closest('.folder-card') || target.closest('.expanded-content')) {
-      return;
-    }
-    e.preventDefault();
-  }, []);
-
+  // STATE OF THE ART - Complete scroll lock when overlay opens
+  // This prevents any page movement, allowing only gallery internal scroll
   useEffect(() => {
     const isOpen = folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle' || bridgePhase !== 'idle';
+
     if (isOpen) {
+      // Save scroll position
+      const scrollY = window.scrollY;
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+      // Lock body completely
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
       document.body.style.overflow = 'hidden';
       document.body.style.paddingRight = `${scrollBarWidth}px`;
-      document.addEventListener('touchmove', preventTouchMove, { passive: false });
+      document.documentElement.style.overflow = 'hidden';
+
+      // Prevent all touch moves on document except gallery scroll
+      const preventScroll = (e: TouchEvent) => {
+        const target = e.target as HTMLElement;
+        // Allow scroll inside gallery-scroll-wrapper
+        if (target.closest('.gallery-scroll-wrapper')) {
+          return;
+        }
+        // Allow interaction with buttons and cards
+        if (target.closest('.gallery-close') || target.closest('.expanded-close') ||
+            target.closest('.folder-close') || target.closest('.gallery-card') ||
+            target.closest('.folder-card') || target.closest('.expanded-content') ||
+            target.closest('.expanded-bg') || target.closest('.gallery-overlay-bg') ||
+            target.closest('.folder-overlay-bg')) {
+          return;
+        }
+        e.preventDefault();
+      };
+
+      document.addEventListener('touchmove', preventScroll, { passive: false });
+
+      return () => {
+        document.removeEventListener('touchmove', preventScroll);
+      };
     } else {
+      // Restore scroll position
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
-      document.removeEventListener('touchmove', preventTouchMove);
+      document.documentElement.style.overflow = '';
+
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
     }
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-      document.removeEventListener('touchmove', preventTouchMove);
-    };
-  }, [folderAnimState, galleryAnimState, expandedAnimState, bridgePhase, preventTouchMove]);
+  }, [folderAnimState, galleryAnimState, expandedAnimState, bridgePhase]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // FOLDER HANDLERS
@@ -303,6 +336,25 @@ export default function Creative() {
       setExpandedAnimState('idle');
     }, 400);
   }, [expandedAnimState]);
+
+  // STATE OF THE ART - Gallery scroll handler for page indicators
+  const handleGalleryScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    const scrollLeft = el.scrollLeft;
+    const pageWidth = el.offsetWidth;
+    const newPage = Math.round(scrollLeft / pageWidth);
+    setGalleryPage(newPage);
+  }, []);
+
+  // Reset gallery page when opening
+  useEffect(() => {
+    if (galleryAnimState === 'entering') {
+      setGalleryPage(0);
+      if (scrollRef.current) {
+        scrollRef.current.scrollLeft = 0;
+      }
+    }
+  }, [galleryAnimState]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // RENDERERS
@@ -683,7 +735,7 @@ export default function Creative() {
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - TRANSITION BRIDGE                                            */
-        /* Elegant morphing orb that bridges between screens - no flash                    */
+        /* Elegant spinning circle loader - perfectly centered                             */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .transition-bridge {
@@ -693,7 +745,7 @@ export default function Creative() {
           right: 0;
           bottom: 0;
           z-index: 1500;
-          background: radial-gradient(ellipse at center, rgba(25, 25, 25, 0.97) 0%, rgba(10, 10, 10, 0.99) 100%);
+          background: radial-gradient(ellipse at center, rgba(20, 20, 20, 0.96) 0%, rgba(10, 10, 10, 0.99) 100%);
           backdrop-filter: blur(60px) saturate(180%);
           -webkit-backdrop-filter: blur(60px) saturate(180%);
           display: flex;
@@ -707,7 +759,7 @@ export default function Creative() {
         .transition-bridge.in {
           opacity: 1;
           visibility: visible;
-          transition: opacity 0.12s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s;
+          transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s;
         }
         
         .transition-bridge.hold {
@@ -718,50 +770,68 @@ export default function Creative() {
         .transition-bridge.out {
           opacity: 0;
           visibility: visible;
-          transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
+          transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s;
         }
         
-        /* Elegant morphing orb */
-        .bridge-orb {
-          width: 60px;
-          height: 60px;
+        /* STATE OF THE ART - Elegant spinning circle */
+        .bridge-spinner {
+          width: 32px;
+          height: 32px;
           position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         
-        .bridge-orb::before {
+        .bridge-spinner::before {
           content: '';
           position: absolute;
-          inset: 0;
+          width: 100%;
+          height: 100%;
           border-radius: 50%;
-          background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.03) 50%, transparent 70%);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          animation: orbPulse 0.8s ease-in-out infinite;
-          box-shadow: 
-            0 0 40px rgba(255, 255, 255, 0.08),
-            0 0 80px rgba(255, 255, 255, 0.04),
-            inset 0 0 30px rgba(255, 255, 255, 0.05);
+          border: 2px solid rgba(255, 255, 255, 0.1);
         }
         
-        .bridge-orb::after {
+        .bridge-spinner::after {
           content: '';
           position: absolute;
-          top: 50%; left: 50%;
-          width: 12px; height: 12px;
-          transform: translate(-50%, -50%);
+          width: 100%;
+          height: 100%;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.9);
-          box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-          animation: corePulse 0.6s ease-in-out infinite;
+          border: 2px solid transparent;
+          border-top-color: rgba(255, 255, 255, 0.9);
+          animation: elegantSpin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
         
-        @keyframes orbPulse {
-          0%, 100% { transform: scale(1); opacity: 0.6; }
-          50% { transform: scale(1.08); opacity: 1; }
+        @keyframes elegantSpin {
+          0% { 
+            transform: rotate(0deg); 
+          }
+          100% { 
+            transform: rotate(360deg); 
+          }
         }
         
-        @keyframes corePulse {
-          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
-          50% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
+        /* Smooth fade for spinner */
+        .transition-bridge.in .bridge-spinner {
+          opacity: 0;
+          animation: spinnerFadeIn 0.2s ease 0.1s forwards;
+        }
+        
+        .transition-bridge.out .bridge-spinner {
+          opacity: 0;
+          transition: opacity 0.15s ease;
+        }
+        
+        @keyframes spinnerFadeIn {
+          0% { 
+            opacity: 0; 
+            transform: scale(0.8); 
+          }
+          100% { 
+            opacity: 1; 
+            transform: scale(1); 
+          }
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -1055,40 +1125,6 @@ export default function Creative() {
           text-align: center;
         }
         
-        .folder-close {
-          position: relative;
-          z-index: 2;
-          margin-top: 24px;
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          background: transparent;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          opacity: 0;
-          transform: scale(0.5);
-          transition: none;
-          border: none;
-        }
-        
-        .folder-overlay.active .folder-close {
-          opacity: 1;
-          transform: scale(1);
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, 
-                      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
-        }
-        
-        .folder-overlay.exiting .folder-close {
-          opacity: 0;
-          transform: scale(0.8);
-          transition: opacity 0.15s ease, transform 0.2s ease;
-        }
-        
-        .folder-close svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
-        .folder-close:active { transform: scale(0.85); }
-        
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* GALLERY OVERLAY                                                                 */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -1147,10 +1183,13 @@ export default function Creative() {
             0 20px 60px rgba(0, 0, 0, 0.4),
             0 8px 25px rgba(0, 0, 0, 0.3),
             inset 0 1px 1px rgba(255, 255, 255, 0.8);
-          touch-action: manipulation;
+          touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
+          /* STATE OF THE ART - Fixed square container */
+          max-width: calc(2 * 80px + 18px + 48px);
+          overflow: hidden;
         }
         
         .gallery-overlay.active .gallery-container {
@@ -1166,15 +1205,70 @@ export default function Creative() {
           transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - iOS STYLE HORIZONTAL SCROLL GALLERY                          */
+        /* Fixed 2x2 grid visible, horizontal scroll for more items                        */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .gallery-scroll-wrapper {
+          width: calc(2 * 80px + 18px);
+          overflow-x: auto;
+          overflow-y: hidden;
+          -webkit-overflow-scrolling: touch;
+          scroll-snap-type: x mandatory;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          touch-action: pan-x;
+          /* Prevent pull-to-refresh interference */
+          overscroll-behavior-x: contain;
+          overscroll-behavior-y: none;
+        }
+        
+        .gallery-scroll-wrapper::-webkit-scrollbar {
+          display: none;
+        }
+        
         .gallery-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(2, 80px);
+          grid-template-rows: repeat(2, auto);
+          grid-auto-flow: column;
           gap: 18px;
-          touch-action: manipulation;
+          touch-action: pan-x;
+          /* Width expands based on content */
+          width: max-content;
+        }
+        
+        /* Each "page" of 4 snaps into place */
+        .gallery-card:nth-child(4n+1) {
+          scroll-snap-align: start;
         }
         
         .gallery-grid.grid-2 {
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(2, 80px);
+          grid-auto-flow: row;
+          width: auto;
+        }
+        
+        /* Scroll indicator dots */
+        .gallery-dots {
+          display: flex;
+          justify-content: center;
+          gap: 8px;
+          margin-top: 16px;
+        }
+        
+        .gallery-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: rgba(0, 0, 0, 0.2);
+          transition: background 0.2s ease, transform 0.2s ease;
+        }
+        
+        .gallery-dot.active {
+          background: rgba(0, 0, 0, 0.6);
+          transform: scale(1.2);
         }
         
         .gallery-card {
@@ -1189,6 +1283,9 @@ export default function Creative() {
           touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          /* Fixed width for consistent grid */
+          width: 80px;
+          flex-shrink: 0;
         }
         
         .gallery-overlay.active .gallery-card {
@@ -1202,20 +1299,21 @@ export default function Creative() {
           opacity: 0;
           transform: translateZ(0) scale(0.85) translateY(5px);
           transition: opacity 0.15s ease, transform 0.2s ease;
+          transition-delay: 0s !important;
         }
         
         .gallery-overlay.active .gallery-card:nth-child(1) { transition-delay: 0.04s; }
-        .gallery-overlay.active .gallery-card:nth-child(2) { transition-delay: 0.07s; }
-        .gallery-overlay.active .gallery-card:nth-child(3) { transition-delay: 0.10s; }
-        .gallery-overlay.active .gallery-card:nth-child(4) { transition-delay: 0.13s; }
-        .gallery-overlay.active .gallery-card:nth-child(5) { transition-delay: 0.16s; }
-        .gallery-overlay.active .gallery-card:nth-child(6) { transition-delay: 0.19s; }
-        .gallery-overlay.active .gallery-card:nth-child(7) { transition-delay: 0.22s; }
-        .gallery-overlay.active .gallery-card:nth-child(8) { transition-delay: 0.25s; }
+        .gallery-overlay.active .gallery-card:nth-child(2) { transition-delay: 0.06s; }
+        .gallery-overlay.active .gallery-card:nth-child(3) { transition-delay: 0.08s; }
+        .gallery-overlay.active .gallery-card:nth-child(4) { transition-delay: 0.10s; }
+        .gallery-overlay.active .gallery-card:nth-child(5) { transition-delay: 0.12s; }
+        .gallery-overlay.active .gallery-card:nth-child(6) { transition-delay: 0.14s; }
+        .gallery-overlay.active .gallery-card:nth-child(7) { transition-delay: 0.16s; }
+        .gallery-overlay.active .gallery-card:nth-child(8) { transition-delay: 0.18s; }
         
         .gallery-card-icon {
-          width: 80px;
-          height: 80px;
+          width: 72px;
+          height: 72px;
           border-radius: 18px;
           display: flex;
           align-items: center;
@@ -1223,14 +1321,14 @@ export default function Creative() {
           overflow: hidden;
           position: relative;
           box-shadow: 
-            0 0 25px rgba(255, 255, 255, 0.12),
-            0 6px 20px rgba(0, 0, 0, 0.45),
-            0 12px 40px rgba(0, 0, 0, 0.25),
+            0 0 20px rgba(255, 255, 255, 0.1),
+            0 6px 20px rgba(0, 0, 0, 0.4),
             inset 0 1px 1px rgba(255, 255, 255, 0.4),
             inset 0 -1px 1px rgba(0, 0, 0, 0.2);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
+          flex-shrink: 0;
         }
         
         .gallery-card-icon::before {
@@ -1254,43 +1352,9 @@ export default function Creative() {
           max-width: 76px;
         }
         
-        .gallery-close {
-          position: relative;
-          z-index: 2;
-          margin-top: 24px;
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          background: transparent;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          opacity: 0;
-          transform: scale(0.5);
-          transition: none;
-          border: none;
-          touch-action: manipulation;
-        }
-        
-        .gallery-overlay.active .gallery-close {
-          opacity: 1;
-          transform: scale(1);
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, 
-                      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
-        }
-        
-        .gallery-overlay.exiting .gallery-close {
-          opacity: 0;
-          transform: scale(0.8);
-          transition: opacity 0.15s ease, transform 0.2s ease;
-        }
-        
-        .gallery-close svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
-        .gallery-close:active { transform: scale(0.85); }
-        
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* EXPANDED VIEW                                                                   */
+        /* EXPANDED VIEW - STATE OF THE ART                                                */
+        /* Tap anywhere to close (no X button needed)                                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .expanded-view {
@@ -1301,8 +1365,7 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: flex-start;
-          padding-top: clamp(80px, 15vh, 150px);
+          justify-content: center;
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -1314,33 +1377,69 @@ export default function Creative() {
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
+          /* STATE OF THE ART - GPU acceleration */
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+          -webkit-perspective: 1000px;
+          perspective: 1000px;
         }
         
-        .expanded-view.entering { visibility: visible; pointer-events: auto; opacity: 0; }
-        .expanded-view.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
-        .expanded-view.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        .expanded-view.entering { 
+          visibility: visible; 
+          pointer-events: auto; 
+          opacity: 0; 
+        }
+        
+        .expanded-view.active { 
+          visibility: visible; 
+          pointer-events: auto; 
+          opacity: 1; 
+          /* STATE OF THE ART - iOS native feel */
+          transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        .expanded-view.exiting { 
+          visibility: visible; 
+          pointer-events: none; 
+          opacity: 0; 
+          transition: opacity 0.3s cubic-bezier(0.4, 0, 1, 1);
+        }
+        
+        /* Tap-to-close background */
+        .expanded-bg {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          cursor: pointer;
+          z-index: 1;
+        }
         
         .expanded-inner {
+          position: relative;
+          z-index: 2;
           display: flex;
           flex-direction: column;
           align-items: center;
           touch-action: manipulation;
           opacity: 0;
-          transform: translateZ(0) scale(0.88);
+          transform: translateZ(0) scale(0.92);
           transition: none;
+          /* Prevent tap-through to close */
+          pointer-events: auto;
         }
         
         .expanded-view.active .expanded-inner {
           opacity: 1;
           transform: translateZ(0) scale(1);
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, 
-                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
+          /* STATE OF THE ART - Apple spring animation */
+          transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.02s, 
+                      transform 0.5s cubic-bezier(0.34, 1.3, 0.64, 1) 0.02s;
         }
         
         .expanded-view.exiting .expanded-inner {
           opacity: 0;
-          transform: translateZ(0) scale(0.92);
-          transition: opacity 0.25s ease, transform 0.3s ease;
+          transform: translateZ(0) scale(0.95);
+          transition: opacity 0.2s cubic-bezier(0.4, 0, 1, 1), 
+                      transform 0.25s cubic-bezier(0.4, 0, 1, 1);
         }
         
         .expanded-content {
@@ -1352,26 +1451,63 @@ export default function Creative() {
           justify-content: center;
           filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
           touch-action: manipulation;
-          opacity: 0;
-          transform: translateZ(0) scale(0.9);
-          transition: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          /* STATE OF THE ART - Smooth 3D rendering */
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+          -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
         }
         
-        .expanded-view.active .expanded-content {
-          opacity: 1;
-          transform: translateZ(0) scale(1);
-          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, 
-                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
-        }
-        
-        .expanded-view.exiting .expanded-content {
+        /* STATE OF THE ART - Smooth 3D canvas loading */
+        .expanded-content canvas {
           opacity: 0;
-          transform: translateZ(0) scale(0.95);
-          transition: opacity 0.2s ease, transform 0.25s ease;
+          animation: smoothCanvasLoad 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s forwards;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
         }
         
+        @keyframes smoothCanvasLoad {
+          0% { 
+            opacity: 0; 
+            transform: scale(0.95);
+          }
+          100% { 
+            opacity: 1; 
+            transform: scale(1);
+          }
+        }
+        
+        /* Hint text for tap-to-close */
+        .expanded-hint {
+          position: absolute;
+          bottom: clamp(40px, 8vh, 80px);
+          left: 50%;
+          transform: translateX(-50%);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 13px;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 0.4);
+          letter-spacing: 0.02em;
+          opacity: 0;
+          transition: opacity 0.4s ease 0.5s;
+          pointer-events: none;
+          z-index: 5;
+        }
+        
+        .expanded-view.active .expanded-hint {
+          opacity: 1;
+        }
+        
+        .expanded-view.exiting .expanded-hint {
+          opacity: 0;
+          transition: opacity 0.15s ease;
+        }
+        
+        /* X button for expanded views */
         .expanded-close {
           margin-top: 40px;
           width: 52px;
@@ -1393,7 +1529,7 @@ export default function Creative() {
         .expanded-view.active .expanded-close {
           opacity: 1;
           transform: scale(1);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, 
+          transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.18s, 
                       transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
         }
         
@@ -1403,8 +1539,13 @@ export default function Creative() {
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        .expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
-        .expanded-close:active { transform: scale(0.85); }
+        .expanded-close svg { 
+          filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); 
+        }
+        
+        .expanded-close:active { 
+          transform: scale(0.85); 
+        }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* DESKTOP ENHANCEMENTS                                                            */
@@ -1421,12 +1562,23 @@ export default function Creative() {
           .folder-cards-grid { gap: 20px; }
           .folder-card-icon { width: 80px; height: 80px; border-radius: 18px; }
           .folder-card-icon:hover { transform: scale(1.06); }
-          .gallery-container { padding: 32px; border-radius: 30px; }
-          .gallery-grid { gap: 24px; }
-          .gallery-card-icon { width: 90px; height: 90px; border-radius: 20px; }
+          .gallery-container { 
+            padding: 28px; 
+            border-radius: 30px; 
+            max-width: calc(2 * 90px + 20px + 56px);
+          }
+          .gallery-scroll-wrapper { width: calc(2 * 90px + 20px); }
+          .gallery-grid { 
+            grid-template-columns: repeat(2, 90px); 
+            gap: 20px; 
+          }
+          .gallery-grid.grid-2 { grid-template-columns: repeat(2, 90px); }
+          .gallery-card { width: 90px; }
+          .gallery-card-icon { width: 82px; height: 82px; border-radius: 20px; }
           .gallery-card-icon:hover { transform: scale(1.06); }
-          .gallery-card-name { font-size: 13px; max-width: 95px; }
+          .gallery-card-name { font-size: 13px; max-width: 90px; }
           .expanded-content { width: 340px; height: 340px; border-radius: 26px; }
+          .expanded-hint { font-size: 14px; bottom: clamp(50px, 10vh, 100px); }
         }
         
         @media (min-width: 900px) {
@@ -1438,9 +1590,58 @@ export default function Creative() {
           .folder-container { padding: 36px; }
           .folder-cards-grid { gap: 26px; }
           .folder-card-icon { width: 95px; height: 95px; border-radius: 22px; }
+          .gallery-container { 
+            padding: 32px;
+            max-width: calc(2 * 100px + 24px + 64px);
+          }
+          .gallery-scroll-wrapper { width: calc(2 * 100px + 24px); }
+          .gallery-grid { 
+            grid-template-columns: repeat(2, 100px); 
+            gap: 24px; 
+          }
+          .gallery-grid.grid-2 { grid-template-columns: repeat(2, 100px); }
+          .gallery-card { width: 100px; }
+          .gallery-card-icon { width: 90px; height: 90px; }
         }
         
         canvas { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - 3D CANVAS SMOOTHNESS                                         */
+        /* Ensures WebGL/Three.js renders without disruption                               */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .expanded-content > div {
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+          -webkit-perspective: 1000px;
+          perspective: 1000px;
+        }
+        
+        /* Prevent canvas reflow during transitions */
+        .expanded-view canvas,
+        .expanded-content canvas {
+          will-change: transform;
+          -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+          image-rendering: optimizeQuality;
+          -webkit-font-smoothing: antialiased;
+        }
+        
+        /* iOS Safari specific optimizations */
+        @supports (-webkit-touch-callout: none) {
+          .expanded-content {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+          }
+          
+          .expanded-content canvas {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+          }
+        }
       `}</style>
 
       <div className={`creative-page ${folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle' || bridgePhase !== 'idle' ? 'overlay-open' : ''}`} style={{
@@ -1470,13 +1671,14 @@ export default function Creative() {
         </div>
       </div>
 
-      {/* STATE OF THE ART - Transition Bridge */}
+      {/* STATE OF THE ART - Transition Bridge with elegant spinner */}
       <div className={`transition-bridge ${bridgePhase}`}>
-        <div className="bridge-orb" />
+        <div className="bridge-spinner" />
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {/* ENTERTAINMENT FOLDER - Shows 3 Category Cards                                   */}
+      {/* Tap background to close (no X button)                                           */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`folder-overlay ${getFolderAnimClass('entertainment')}`}>
         <div className="folder-overlay-bg" onClick={handleCloseFolder} />
@@ -1502,15 +1704,11 @@ export default function Creative() {
             </div>
           </div>
         </div>
-        <button className="folder-close" onClick={handleCloseFolder}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {/* 3D INTERACTIVE FOLDER - Shows 3 Experience Cards                                */}
+      {/* Tap background to close (no X button)                                           */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`folder-overlay ${getFolderAnimClass('interactive')}`}>
         <div className="folder-overlay-bg" onClick={handleCloseFolder} />
@@ -1526,87 +1724,92 @@ export default function Creative() {
             ))}
           </div>
         </div>
-        <button className="folder-close" onClick={handleCloseFolder}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 3D ICONS GALLERY                                                                */}
+      {/* 3D ICONS GALLERY - 2x2 with horizontal scroll                                  */}
+      {/* Tap background to close (no X button)                                           */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`gallery-overlay ${getGalleryAnimClass('3dicons')}`}>
         <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
         <div className="gallery-container">
-          <div className="gallery-grid">
-            {icons3DItems.map(item => (
-              <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`3d-${item.id}`)}>
-                <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {render3DIconMini(item.id, galleryIconSize)}
+          <div
+            className="gallery-scroll-wrapper"
+            ref={openGallery === '3dicons' ? scrollRef : null}
+            onScroll={handleGalleryScroll}
+          >
+            <div className="gallery-grid">
+              {icons3DItems.map(item => (
+                <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`3d-${item.id}`)}>
+                  <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
+                    {render3DIconMini(item.id, galleryIconSize)}
+                  </div>
+                  <span className="gallery-card-name">{item.name}</span>
                 </div>
-                <span className="gallery-card-name">{item.name}</span>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+          <div className="gallery-dots">
+            <div className={`gallery-dot ${galleryPage === 0 ? 'active' : ''}`} />
+            <div className={`gallery-dot ${galleryPage === 1 ? 'active' : ''}`} />
           </div>
         </div>
-        <button className="gallery-close" onClick={handleCloseGallery}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* GEOMETRY GALLERY                                                                */}
+      {/* GEOMETRY GALLERY - 2x2 grid (4 items, no scroll needed)                        */}
+      {/* Tap background to close (no X button)                                           */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`gallery-overlay ${getGalleryAnimClass('geometry')}`}>
         <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
         <div className="gallery-container">
-          <div className="gallery-grid grid-2">
-            {geometryItems.map(item => (
-              <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`geo-${item.id}`)}>
-                <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {renderGeometryMini(item.id, galleryIconSize)}
+          <div className="gallery-scroll-wrapper">
+            <div className="gallery-grid grid-2">
+              {geometryItems.map(item => (
+                <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`geo-${item.id}`)}>
+                  <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
+                    {renderGeometryMini(item.id, galleryIconSize)}
+                  </div>
+                  <span className="gallery-card-name">{item.name}</span>
                 </div>
-                <span className="gallery-card-name">{item.name}</span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-        <button className="gallery-close" onClick={handleCloseGallery}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 2D ICONS GALLERY                                                                */}
+      {/* 2D ICONS GALLERY - 2x2 with horizontal scroll                                  */}
+      {/* Tap background to close (no X button)                                           */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`gallery-overlay ${getGalleryAnimClass('icons')}`}>
         <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
         <div className="gallery-container">
-          <div className="gallery-grid">
-            {staticIconItems.map(item => (
-              <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`2d-${item.id}`)}>
-                <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {render2DIconMini(item.id, galleryIconSize)}
+          <div
+            className="gallery-scroll-wrapper"
+            ref={openGallery === 'icons' ? scrollRef : null}
+            onScroll={handleGalleryScroll}
+          >
+            <div className="gallery-grid">
+              {staticIconItems.map(item => (
+                <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`2d-${item.id}`)}>
+                  <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
+                    {render2DIconMini(item.id, galleryIconSize)}
+                  </div>
+                  <span className="gallery-card-name">{item.name}</span>
                 </div>
-                <span className="gallery-card-name">{item.name}</span>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+          <div className="gallery-dots">
+            <div className={`gallery-dot ${galleryPage === 0 ? 'active' : ''}`} />
+            <div className={`gallery-dot ${galleryPage === 1 ? 'active' : ''}`} />
           </div>
         </div>
-        <button className="gallery-close" onClick={handleCloseGallery}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </button>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - 3D Icons                                                       */}
+      {/* EXPANDED VIEWS - 3D Icons (X button to close)                                  */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {icons3DItems.map(item => (
         <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`3d-${item.id}`)}`}>
@@ -1624,7 +1827,7 @@ export default function Creative() {
       ))}
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - Geometry                                                       */}
+      {/* EXPANDED VIEWS - Geometry (X button to close)                                  */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {geometryItems.map(item => (
         <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`geo-${item.id}`)}`}>
@@ -1642,7 +1845,7 @@ export default function Creative() {
       ))}
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - 2D Icons                                                       */}
+      {/* EXPANDED VIEWS - 2D Icons (X button to close)                                  */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {staticIconItems.map(item => (
         <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`2d-${item.id}`)}`}>
@@ -1660,16 +1863,18 @@ export default function Creative() {
       ))}
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - 3D Interactive Experiences                                     */}
+      {/* EXPANDED VIEWS - 3D Interactive Experiences (X button to close)                */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {interactiveApps.map(app => (
         <div
           key={app.id}
           className={`expanded-view ${getExpandedAnimClass(`exp-${app.id}`)}`}
-          onTouchStart={(e) => e.stopPropagation()}
-          onTouchMove={(e) => e.stopPropagation()}
         >
-          <div className="expanded-inner">
+          <div
+            className="expanded-inner"
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+          >
             <div
               className="expanded-content"
               style={{ touchAction: 'manipulation' }}
@@ -1678,10 +1883,7 @@ export default function Creative() {
             >
               {expandedItem === `exp-${app.id}` && renderExperience(app.id)}
             </div>
-            <button
-              className="expanded-close"
-              onClick={handleCloseExpanded}
-            >
+            <button className="expanded-close" onClick={handleCloseExpanded}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
               </svg>
