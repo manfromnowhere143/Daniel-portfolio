@@ -1000,8 +1000,8 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: flex-start;
-          padding-top: clamp(100px, 18vh, 180px);
+          justify-content: center;
+          padding-bottom: 60px;
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -1136,12 +1136,12 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: flex-start;
-          padding-top: clamp(100px, 18vh, 180px);
+          justify-content: center;
+          padding-bottom: 60px;
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          touch-action: manipulation;
+          touch-action: none;
           -webkit-touch-callout: none;
           user-select: none;
           overscroll-behavior: none;
