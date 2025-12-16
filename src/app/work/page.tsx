@@ -509,11 +509,25 @@ export default function Work() {
       <style>{`
         * { -webkit-tap-highlight-color: transparent; }
         
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - iPHONE-STYLE SCROLL LOCK                                     */
+        /* Lock vertical scroll on main page, preserve horizontal swipe navigation         */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .work-page {
+          /* LOCK vertical scroll - iPhone home screen style */
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          overflow: hidden;
           overscroll-behavior: none;
           -webkit-overflow-scrolling: touch;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          /* Allow horizontal touch for swipe navigation */
+          touch-action: pan-x;
         }
         
         .work-page.overlay-open {
