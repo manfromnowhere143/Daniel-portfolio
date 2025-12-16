@@ -1515,6 +1515,335 @@ export default function Creative() {
         
         canvas { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
         
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - 3D ICONS APP EXPERIENCE                                      */
+        /* Each icon presented as premium app with ambient lighting                        */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .app-ambient-bg {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          opacity: 0;
+          transition: opacity 0.8s ease 0.2s;
+          pointer-events: none;
+        }
+        
+        .expanded-view.active .app-ambient-bg {
+          opacity: 1;
+        }
+        
+        .app-experience {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 24px;
+          padding: 20px;
+          position: relative;
+          z-index: 2;
+        }
+        
+        .app-header {
+          text-align: center;
+          opacity: 0;
+          transform: translateY(-10px);
+          transition: opacity 0.4s ease 0.15s, transform 0.5s ease 0.15s;
+        }
+        
+        .expanded-view.active .app-header {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
+        .app-title {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+          font-size: 24px;
+          font-weight: 600;
+          color: #ffffff;
+          letter-spacing: -0.02em;
+          text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .app-3d-container {
+          position: relative;
+          width: 260px;
+          height: 260px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .app-3d-glow {
+          position: absolute;
+          top: -30px; left: -30px; right: -30px; bottom: -30px;
+          border-radius: 50%;
+          opacity: 0;
+          transition: opacity 0.6s ease 0.3s;
+          pointer-events: none;
+          animation: appGlowPulse 4s ease-in-out infinite;
+          animation-play-state: paused;
+        }
+        
+        .expanded-view.active .app-3d-glow {
+          opacity: 0.8;
+          animation-play-state: running;
+        }
+        
+        @keyframes appGlowPulse {
+          0%, 100% { transform: scale(1); opacity: 0.6; }
+          50% { transform: scale(1.1); opacity: 0.9; }
+        }
+        
+        .app-3d-content {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transform: scale(0.8);
+          transition: opacity 0.5s ease 0.2s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s;
+        }
+        
+        .expanded-view.active .app-3d-content {
+          opacity: 1;
+          transform: scale(1);
+        }
+        
+        .app-footer {
+          text-align: center;
+          opacity: 0;
+          transform: translateY(10px);
+          transition: opacity 0.4s ease 0.25s, transform 0.5s ease 0.25s;
+        }
+        
+        .expanded-view.active .app-footer {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
+        .app-category {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.4);
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+        
+        .app-close {
+          margin-top: 20px !important;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - GEOMETRY PRESTIGE GALLERY                                    */
+        /* Sacred geometry with unique lighting, bigger display, museum feel               */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .geometry-view {
+          background: radial-gradient(ellipse at center, #0f0f12 0%, #080808 100%);
+        }
+        
+        .geometry-ambient {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          opacity: 0;
+          transition: opacity 1s ease 0.3s;
+          pointer-events: none;
+        }
+        
+        .expanded-view.active .geometry-ambient {
+          opacity: 1;
+        }
+        
+        .geometry-experience {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+          padding: 16px;
+          position: relative;
+          z-index: 2;
+        }
+        
+        .geometry-header {
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          opacity: 0;
+          transform: translateY(-10px);
+          transition: opacity 0.4s ease 0.15s, transform 0.5s ease 0.15s;
+        }
+        
+        .expanded-view.active .geometry-header {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
+        .geometry-title {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+          font-size: 26px;
+          font-weight: 600;
+          color: #ffffff;
+          letter-spacing: -0.01em;
+          text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .geometry-subtitle {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 11px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.35);
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+        }
+        
+        .geometry-frame {
+          position: relative;
+          width: 300px;
+          height: 300px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+        }
+        
+        .geometry-inner-glow {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          border-radius: 50%;
+          opacity: 0;
+          transition: opacity 0.8s ease 0.3s;
+          pointer-events: none;
+        }
+        
+        .expanded-view.active .geometry-inner-glow {
+          opacity: 1;
+          animation: geometryGlow 6s ease-in-out infinite;
+        }
+        
+        @keyframes geometryGlow {
+          0%, 100% { transform: scale(1); filter: brightness(1); }
+          50% { transform: scale(1.05); filter: brightness(1.2); }
+        }
+        
+        .geometry-content {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transform: scale(0.7) rotate(-10deg);
+          transition: opacity 0.6s ease 0.2s, transform 0.8s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s;
+        }
+        
+        .expanded-view.active .geometry-content {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
+        }
+        
+        /* Scale up the actual geometry components */
+        .geometry-content > div,
+        .geometry-content > svg {
+          transform: scale(1.4);
+        }
+        
+        .geometry-close {
+          margin-top: 16px !important;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* UNIQUE GEOMETRY FRAMES - Each has different character                           */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        /* Metatron - Sacred circles, purple mystical */
+        .geometry-frame-metatron {
+          background: radial-gradient(circle, rgba(90, 60, 140, 0.08) 0%, transparent 70%);
+        }
+        
+        .geometry-frame-metatron .geometry-content > div,
+        .geometry-frame-metatron .geometry-content > svg {
+          transform: scale(1.5);
+          filter: drop-shadow(0 0 20px rgba(138, 92, 246, 0.4));
+        }
+        
+        /* Spiral - Golden ratio, warm amber */
+        .geometry-frame-spiral {
+          background: radial-gradient(circle, rgba(140, 90, 60, 0.08) 0%, transparent 70%);
+        }
+        
+        .geometry-frame-spiral .geometry-content > div,
+        .geometry-frame-spiral .geometry-content > svg {
+          transform: scale(1.6);
+          filter: drop-shadow(0 0 25px rgba(251, 191, 36, 0.35));
+        }
+        
+        /* Flower of Life - Harmony, soft blue-white */
+        .geometry-frame-flower {
+          background: radial-gradient(circle, rgba(60, 100, 140, 0.1) 0%, transparent 70%);
+        }
+        
+        .geometry-frame-flower .geometry-content > div,
+        .geometry-frame-flower .geometry-content > svg {
+          transform: scale(1.5);
+          filter: drop-shadow(0 0 30px rgba(96, 165, 250, 0.4));
+        }
+        
+        /* Lemniscate/Infinity - Eternal, green energy */
+        .geometry-frame-lemniscate {
+          background: radial-gradient(circle, rgba(60, 140, 80, 0.08) 0%, transparent 70%);
+        }
+        
+        .geometry-frame-lemniscate .geometry-content > div,
+        .geometry-frame-lemniscate .geometry-content > svg {
+          transform: scale(1.8);
+          filter: drop-shadow(0 0 25px rgba(74, 222, 128, 0.4));
+        }
+        
+        /* Desktop enhancements */
+        @media (min-width: 600px) {
+          .app-title { font-size: 28px; }
+          .app-3d-container { width: 320px; height: 320px; }
+          .geometry-title { font-size: 30px; }
+          .geometry-frame { width: 360px; height: 360px; }
+          
+          .geometry-frame-metatron .geometry-content > div,
+          .geometry-frame-metatron .geometry-content > svg { transform: scale(1.7); }
+          
+          .geometry-frame-spiral .geometry-content > div,
+          .geometry-frame-spiral .geometry-content > svg { transform: scale(1.8); }
+          
+          .geometry-frame-flower .geometry-content > div,
+          .geometry-frame-flower .geometry-content > svg { transform: scale(1.7); }
+          
+          .geometry-frame-lemniscate .geometry-content > div,
+          .geometry-frame-lemniscate .geometry-content > svg { transform: scale(2); }
+        }
+        
+        @media (min-width: 900px) {
+          .app-title { font-size: 32px; }
+          .app-3d-container { width: 380px; height: 380px; }
+          .geometry-title { font-size: 34px; }
+          .geometry-frame { width: 420px; height: 420px; }
+          
+          .geometry-frame-metatron .geometry-content > div,
+          .geometry-frame-metatron .geometry-content > svg { transform: scale(1.9); }
+          
+          .geometry-frame-spiral .geometry-content > div,
+          .geometry-frame-spiral .geometry-content > svg { transform: scale(2); }
+          
+          .geometry-frame-flower .geometry-content > div,
+          .geometry-frame-flower .geometry-content > svg { transform: scale(1.9); }
+          
+          .geometry-frame-lemniscate .geometry-content > div,
+          .geometry-frame-lemniscate .geometry-content > svg { transform: scale(2.2); }
+        }
+        
         .expanded-content > div {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -1654,14 +1983,36 @@ export default function Creative() {
         </div>
       </div>
 
-      {/* EXPANDED - 3D Icons */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* STATE OF THE ART - 3D ICONS APP EXPERIENCES                                    */}
+      {/* Each icon has unique presentation, ambient lighting, app-like feel             */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {icons3DItems.map(item => (
         <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`3d-${item.id}`)}`}>
-          <div className="expanded-inner">
-            <div className="expanded-content">
-              {expandedItem === `3d-${item.id}` && render3DIcon(item.id, 200)}
+          {/* Unique ambient background for each icon */}
+          <div
+            className="app-ambient-bg"
+            style={{
+              background: `radial-gradient(ellipse at 50% 30%, ${item.color[0]}60 0%, transparent 50%), radial-gradient(ellipse at 50% 70%, ${item.color[1]}40 0%, transparent 60%)`
+            }}
+          />
+          <div className="expanded-inner app-experience">
+            {/* App header with title */}
+            <div className="app-header">
+              <span className="app-title">{item.name}</span>
             </div>
-            <button className="expanded-close" onClick={handleCloseExpanded}>
+            {/* Large 3D icon display */}
+            <div className="app-3d-container">
+              <div className="app-3d-glow" style={{ background: `radial-gradient(circle, ${item.color[0]}50 0%, transparent 70%)` }} />
+              <div className="app-3d-content">
+                {expandedItem === `3d-${item.id}` && render3DIcon(item.id, isMobile ? 180 : 240)}
+              </div>
+            </div>
+            {/* App footer with description */}
+            <div className="app-footer">
+              <span className="app-category">3D Icon</span>
+            </div>
+            <button className="expanded-close app-close" onClick={handleCloseExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
@@ -1670,14 +2021,37 @@ export default function Creative() {
         </div>
       ))}
 
-      {/* EXPANDED - Geometry */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* STATE OF THE ART - GEOMETRY PRESTIGE GALLERY                                   */}
+      {/* Each geometry has unique lighting, bigger display, museum presentation         */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {geometryItems.map(item => (
-        <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`geo-${item.id}`)}`}>
-          <div className="expanded-inner">
-            <div className="expanded-content">
-              {expandedItem === `geo-${item.id}` && renderGeometry(item.id)}
+        <div key={item.id} className={`expanded-view geometry-view ${getExpandedAnimClass(`geo-${item.id}`)}`}>
+          {/* Unique sacred geometry ambient */}
+          <div
+            className="geometry-ambient"
+            style={{
+              background: `
+                radial-gradient(ellipse at 50% 40%, ${item.color[0]}35 0%, transparent 45%),
+                radial-gradient(ellipse at 30% 60%, ${item.color[1]}25 0%, transparent 40%),
+                radial-gradient(ellipse at 70% 60%, ${item.color[0]}20 0%, transparent 40%)
+              `
+            }}
+          />
+          <div className="expanded-inner geometry-experience">
+            {/* Geometry title */}
+            <div className="geometry-header">
+              <span className="geometry-title">{item.name}</span>
+              <span className="geometry-subtitle">Sacred Geometry</span>
             </div>
-            <button className="expanded-close" onClick={handleCloseExpanded}>
+            {/* Large geometry display with unique frame */}
+            <div className={`geometry-frame geometry-frame-${item.id}`}>
+              <div className="geometry-inner-glow" style={{ boxShadow: `0 0 80px ${item.color[0]}40, 0 0 120px ${item.color[1]}30` }} />
+              <div className="geometry-content">
+                {expandedItem === `geo-${item.id}` && renderGeometry(item.id)}
+              </div>
+            </div>
+            <button className="expanded-close geometry-close" onClick={handleCloseExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
