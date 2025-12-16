@@ -166,85 +166,23 @@ export default function Creative() {
     };
   }, []);
 
-  // STATE OF THE ART - COMPLETE SCROLL/SWIPE LOCK
-  // Prevents ALL page movement when overlay is open - stable engagement like Apple
+  // Lock body scroll - IDENTICAL to Work page
   useEffect(() => {
     const isOpen = folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle' || bridgePhase !== 'idle';
 
     if (isOpen) {
-      // Save scroll position
-      const scrollY = window.scrollY;
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-
-      // Lock body AND html completely - iOS style
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
       document.body.style.paddingRight = `${scrollBarWidth}px`;
-      document.body.style.touchAction = 'none';
-      document.documentElement.style.overflow = 'hidden';
-      document.documentElement.style.position = 'fixed';
-      document.documentElement.style.width = '100%';
-      document.documentElement.style.height = '100%';
-      document.documentElement.style.touchAction = 'none';
-
-      // COMPLETE touch move prevention - blocks ALL swipes left/right/up/down
-      const preventAllTouch = (e: TouchEvent) => {
-        const target = e.target as HTMLElement;
-
-        // Only allow scroll inside gallery-scroll-wrapper (horizontal gallery scroll)
-        if (target.closest('.gallery-scroll-wrapper')) {
-          return;
-        }
-
-        // Allow 3D canvas interaction (for rotation)
-        if (target.closest('.expanded-content canvas')) {
-          return;
-        }
-
-        // Block EVERYTHING else - no smart sliding
-        e.preventDefault();
-        e.stopPropagation();
-      };
-
-      // Block wheel events (desktop scrolling)
-      const preventWheel = (e: WheelEvent) => {
-        const target = e.target as HTMLElement;
-        if (target.closest('.gallery-scroll-wrapper')) return;
-        e.preventDefault();
-      };
-
-      document.addEventListener('touchmove', preventAllTouch, { passive: false });
-      document.addEventListener('wheel', preventWheel, { passive: false });
-
-      return () => {
-        document.removeEventListener('touchmove', preventAllTouch);
-        document.removeEventListener('wheel', preventWheel);
-      };
     } else {
-      // Restore everything
-      const scrollY = document.body.style.top;
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.width = '';
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
-      document.body.style.touchAction = '';
-      document.documentElement.style.overflow = '';
-      document.documentElement.style.position = '';
-      document.documentElement.style.width = '';
-      document.documentElement.style.height = '';
-      document.documentElement.style.touchAction = '';
-
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
-      }
     }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
   }, [folderAnimState, galleryAnimState, expandedAnimState, bridgePhase]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
@@ -1027,10 +965,6 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          /* COMPLETE LOCK - no swipe/scroll */
-          touch-action: none;
-          overscroll-behavior: none;
-          -webkit-overflow-scrolling: auto;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity, visibility;
@@ -1043,29 +977,31 @@ export default function Creative() {
         
         .folder-overlay-bg {
           position: absolute;
-          top: 0; left: 0; right: 0; bottom: 0;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
-          /* COMPLETE LOCK - no swipe */
-          touch-action: none;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
         }
         
         .folder-container {
           position: relative;
           z-index: 2;
-          background: transparent;
+          background: rgba(255, 255, 255, 0.98);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
           border-radius: 28px;
           padding: 24px;
           opacity: 0;
           transform: translateZ(0) scale(0.8);
           transition: none;
-          touch-action: none;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          will-change: transform, opacity;
+          box-shadow: 
+            0 0 60px rgba(255, 255, 255, 0.15),
+            0 20px 60px rgba(0, 0, 0, 0.4),
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.8);
         }
         
         .folder-overlay.active .folder-container {
@@ -1148,9 +1084,8 @@ export default function Creative() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 12px;
           font-weight: 400;
-          color: rgba(255, 255, 255, 0.9);
+          color: #1a1a1a;
           text-align: center;
-          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -1169,16 +1104,15 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          /* COMPLETE LOCK - no swipe/scroll */
-          touch-action: none;
-          overscroll-behavior: none;
-          -webkit-overflow-scrolling: auto;
+          touch-action: manipulation;
           -webkit-touch-callout: none;
           user-select: none;
+          overscroll-behavior: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
         }
         
         .gallery-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
@@ -1191,29 +1125,36 @@ export default function Creative() {
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
-          /* COMPLETE LOCK - no swipe */
-          touch-action: none;
+          touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
         }
         
         .gallery-container {
           position: relative;
           z-index: 2;
-          background: transparent;
+          background: rgba(255, 255, 255, 0.98);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
           border-radius: 28px;
           padding: 24px;
           opacity: 0;
           transform: translateZ(0) scale(0.8);
           transition: none;
-          touch-action: none;
+          box-shadow: 
+            0 0 60px rgba(255, 255, 255, 0.15),
+            0 20px 60px rgba(0, 0, 0, 0.4),
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.8);
+          touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
-          /* STATE OF THE ART - Fixed square container */
+          -webkit-tap-highlight-color: transparent;
           max-width: calc(2 * 80px + 18px + 48px);
-          overflow: visible;
+          overflow: hidden;
         }
         
         .gallery-overlay.active .gallery-container {
@@ -1242,13 +1183,9 @@ export default function Creative() {
           scroll-snap-type: x mandatory;
           scrollbar-width: none;
           -ms-overflow-style: none;
-          /* Critical for iOS - allow horizontal pan only */
           touch-action: pan-x;
-          /* Prevent pull-to-refresh interference */
           overscroll-behavior-x: contain;
           overscroll-behavior-y: none;
-          /* iOS Safari specific */
-          -webkit-touch-callout: none;
         }
         
         .gallery-scroll-wrapper::-webkit-scrollbar {
@@ -1261,13 +1198,10 @@ export default function Creative() {
           grid-template-rows: repeat(2, auto);
           grid-auto-flow: column;
           gap: 18px;
-          /* Critical - allow horizontal touch */
           touch-action: pan-x;
-          /* Width expands based on content */
           width: max-content;
         }
         
-        /* Each "page" of 4 snaps into place */
         .gallery-card:nth-child(4n+1) {
           scroll-snap-align: start;
         }
@@ -1290,12 +1224,12 @@ export default function Creative() {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.3);
+          background: rgba(0, 0, 0, 0.2);
           transition: background 0.2s ease, transform 0.2s ease;
         }
         
         .gallery-dot.active {
-          background: rgba(255, 255, 255, 0.8);
+          background: rgba(0, 0, 0, 0.6);
           transform: scale(1.2);
         }
         
@@ -1340,8 +1274,8 @@ export default function Creative() {
         .gallery-overlay.active .gallery-card:nth-child(8) { transition-delay: 0.18s; }
         
         .gallery-card-icon {
-          width: 72px;
-          height: 72px;
+          width: 80px;
+          height: 80px;
           border-radius: 18px;
           display: flex;
           align-items: center;
@@ -1349,8 +1283,9 @@ export default function Creative() {
           overflow: hidden;
           position: relative;
           box-shadow: 
-            0 0 20px rgba(255, 255, 255, 0.1),
-            0 6px 20px rgba(0, 0, 0, 0.4),
+            0 0 25px rgba(255, 255, 255, 0.12),
+            0 6px 20px rgba(0, 0, 0, 0.45),
+            0 12px 40px rgba(0, 0, 0, 0.25),
             inset 0 1px 1px rgba(255, 255, 255, 0.4),
             inset 0 -1px 1px rgba(0, 0, 0, 0.2);
           -webkit-backface-visibility: hidden;
@@ -1375,10 +1310,9 @@ export default function Creative() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 12px;
           font-weight: 400;
-          color: rgba(255, 255, 255, 0.9);
+          color: #1a1a1a;
           text-align: center;
           max-width: 76px;
-          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
