@@ -743,7 +743,7 @@ export default function Creative() {
               }}
             >
               <div className="showcase-3d-selector-card">
-                {render3DIcon(item.id, isMobile ? 22 : 26)}
+                {render3DIcon(item.id, isMobile ? 18 : 24)}
               </div>
             </div>
           ))}
@@ -772,6 +772,9 @@ export default function Creative() {
   const GeometryShowcase = () => {
     return (
       <div className="showcase-app showcase-geometry">
+        {/* White light effect at top */}
+        <div className={`showcase-geometry-light ${geometryShowReady ? 'visible' : ''}`} />
+
         <div className={`showcase-app-header ${geometryShowReady ? 'visible' : ''}`}>
           <span className="showcase-app-title">Sacred Geometry</span>
           <span className="showcase-app-subtitle">Ancient Patterns</span>
@@ -781,7 +784,7 @@ export default function Creative() {
             <div
               key={item.id}
               className="showcase-geometry-item"
-              style={{ ['--delay' as any]: `${index * 0.08}s` }}
+              style={{ ['--delay' as any]: `${index * 0.1}s` }}
               onClick={() => handleOpenSubExpanded(`geo-${item.id}`)}
             >
               <div className={`showcase-geometry-frame showcase-geo-${item.id}`}>
@@ -1523,6 +1526,54 @@ export default function Creative() {
           align-items: center;
         }
         
+        /* Showcase backgrounds - prevent black flash */
+        .showcase-3d-expanded {
+          background: #000000;
+        }
+        
+        .showcase-geometry-expanded {
+          background: radial-gradient(ellipse at center, #0d0d12 0%, #050507 100%);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - SMOOTH LOADING PULSE                                         */
+        /* Elegant loading indicator that fades out when content is ready                  */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .showcase-loading {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10;
+          opacity: 1;
+          transition: opacity 0.4s ease;
+          pointer-events: none;
+        }
+        
+        .showcase-loading.hidden {
+          opacity: 0;
+        }
+        
+        .showcase-loading-pulse {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+          animation: showcaseLoadingPulse 1.2s ease-in-out infinite;
+        }
+        
+        .showcase-loading-pulse-white {
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+          box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+        }
+        
+        @keyframes showcaseLoadingPulse {
+          0%, 100% { transform: scale(0.8); opacity: 0.4; }
+          50% { transform: scale(1.2); opacity: 0.8; }
+        }
+        
         .showcase-app {
           width: 100%;
           display: flex;
@@ -1568,7 +1619,18 @@ export default function Creative() {
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - 3D ICONS MINIMAL SHOWCASE                                    */
         /* White on black - clean, sophisticated, premium Apple-quality                    */
+        /* COMPLETE SCROLL LOCK for perfect mobile experience                              */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .showcase-3d-expanded {
+          touch-action: none;
+          overflow: hidden;
+        }
+        
+        .showcase-3d-expanded.active {
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+        }
         
         .showcase-3d-minimal {
           position: relative;
@@ -1580,6 +1642,8 @@ export default function Creative() {
           padding: 16px 8px;
           gap: 20px;
           background: #000000;
+          touch-action: none;
+          overflow: hidden;
         }
         
         /* Featured Icon - Large center piece */
@@ -1646,13 +1710,13 @@ export default function Creative() {
           letter-spacing: 0.02em;
         }
         
-        /* Icon Selector - Bottom row */
+        /* Icon Selector - Bottom row - COMPACT for mobile */
         .showcase-3d-selector {
           display: flex;
-          gap: 8px;
-          padding: 10px 14px;
+          gap: 6px;
+          padding: 8px 10px;
           background: rgba(255, 255, 255, 0.04);
-          border-radius: 16px;
+          border-radius: 14px;
           border: 1px solid rgba(255, 255, 255, 0.06);
           opacity: 0;
           transform: translateY(16px);
@@ -1686,10 +1750,11 @@ export default function Creative() {
           transform: scale(0.9);
         }
         
+        /* Compact cards for mobile */
         .showcase-3d-selector-card {
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
+          width: 36px;
+          height: 36px;
+          border-radius: 9px;
           background: #0a0a0a;
           display: flex;
           align-items: center;
@@ -1708,6 +1773,29 @@ export default function Creative() {
         }
         
         /* Geometry Showcase Grid - 2x2 */
+        .showcase-geometry {
+          position: relative;
+          padding-top: 30px;
+        }
+        
+        /* White light effect at top - creates exciting entrance */
+        .showcase-geometry-light {
+          position: absolute;
+          top: -50px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 300px;
+          height: 200px;
+          background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.8s ease 0.1s;
+        }
+        
+        .showcase-geometry-light.visible {
+          opacity: 1;
+        }
+        
         .showcase-geometry-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -1721,14 +1809,16 @@ export default function Creative() {
           gap: 10px;
           cursor: pointer;
           opacity: 0;
-          transform: translateY(16px) scale(0.85);
-          transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1);
+          transform: translateY(20px);
+          transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                      transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1);
           transition-delay: var(--delay, 0s);
+          will-change: opacity, transform;
         }
         
         .showcase-geometry-grid.visible .showcase-geometry-item {
           opacity: 1;
-          transform: translateY(0) scale(1);
+          transform: translateY(0);
         }
         
         .showcase-geometry-frame {
@@ -1751,14 +1841,27 @@ export default function Creative() {
           position: absolute;
           top: 0; left: 0; right: 0; bottom: 0;
           border-radius: 50%;
-          opacity: 0.6;
+          opacity: 0;
+          transition: opacity 0.6s ease;
+          transition-delay: inherit;
           pointer-events: none;
+        }
+        
+        .showcase-geometry-grid.visible .showcase-geometry-glow {
+          opacity: 0.6;
         }
         
         .showcase-geometry-content {
           position: relative;
           z-index: 2;
           transform: scale(0.6);
+          opacity: 0;
+          transition: opacity 0.4s ease, transform 0.5s ease;
+          transition-delay: inherit;
+        }
+        
+        .showcase-geometry-grid.visible .showcase-geometry-content {
+          opacity: 1;
         }
         
         /* Unique scales for each geometry in showcase */
@@ -1773,6 +1876,13 @@ export default function Creative() {
           font-weight: 500;
           color: rgba(255, 255, 255, 0.7);
           text-align: center;
+          opacity: 0;
+          transition: opacity 0.4s ease;
+          transition-delay: calc(var(--delay, 0s) + 0.15s);
+        }
+        
+        .showcase-geometry-grid.visible .showcase-geometry-name {
+          opacity: 1;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -1892,11 +2002,8 @@ export default function Creative() {
           50% { transform: scale(1.1); opacity: 0.8; }
         }
         
-        /* Floating X button - no background, just icon */
+        /* Floating X button - bottom center like rest of site */
         .sub-expanded-close {
-          position: absolute;
-          top: 16px;
-          right: 16px;
           width: 44px;
           height: 44px;
           border-radius: 0;
@@ -1908,8 +2015,9 @@ export default function Creative() {
           cursor: pointer;
           opacity: 0;
           transform: scale(0.8);
-          transition: opacity 0.25s ease, transform 0.3s ease;
+          transition: opacity 0.25s ease 0.1s, transform 0.3s ease 0.1s;
           z-index: 100;
+          margin-top: 8px;
         }
         
         .sub-expanded-view.active .sub-expanded-close {
@@ -2013,8 +2121,8 @@ export default function Creative() {
           .showcase-app-title { font-size: 30px; }
           .showcase-3d-featured-frame { width: 190px; height: 190px; border-radius: 38px; }
           .showcase-3d-featured-name { font-size: 26px; }
-          .showcase-3d-selector { gap: 10px; padding: 12px 18px; }
-          .showcase-3d-selector-card { width: 48px; height: 48px; border-radius: 12px; }
+          .showcase-3d-selector { gap: 8px; padding: 10px 14px; border-radius: 16px; }
+          .showcase-3d-selector-card { width: 44px; height: 44px; border-radius: 11px; }
           .showcase-geometry-grid { gap: 28px; }
           .showcase-geometry-frame { width: 140px; height: 140px; }
           .showcase-geometry-name { font-size: 14px; }
@@ -2037,8 +2145,8 @@ export default function Creative() {
           .showcase-app-title { font-size: 34px; }
           .showcase-3d-featured-frame { width: 220px; height: 220px; border-radius: 44px; }
           .showcase-3d-featured-name { font-size: 30px; }
-          .showcase-3d-selector { gap: 12px; padding: 14px 22px; }
-          .showcase-3d-selector-card { width: 56px; height: 56px; border-radius: 14px; }
+          .showcase-3d-selector { gap: 10px; padding: 12px 18px; border-radius: 18px; }
+          .showcase-3d-selector-card { width: 52px; height: 52px; border-radius: 13px; }
           .showcase-geometry-grid { gap: 36px; }
           .showcase-geometry-frame { width: 160px; height: 160px; }
           .showcase-geometry-name { font-size: 15px; }
@@ -2227,11 +2335,18 @@ export default function Creative() {
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - INTERACTIVE 3D EXPERIENCES                                   */
-        /* Full-screen immersive Three.js experiences with touch support                   */
+        /* Full-screen immersive Three.js experiences with COMPLETE SCROLL LOCK            */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .interactive-experience {
           background: radial-gradient(ellipse at center, #0d0d10 0%, #050507 100%);
+          touch-action: none;
+          overflow: hidden;
+        }
+        
+        .interactive-experience.active {
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
         }
         
         .interactive-ambient {
@@ -2254,6 +2369,8 @@ export default function Creative() {
           padding: 16px;
           position: relative;
           z-index: 2;
+          touch-action: none;
+          overflow: hidden;
         }
         
         .interactive-header {
@@ -2297,6 +2414,7 @@ export default function Creative() {
           opacity: 0;
           transform: scale(0.85);
           transition: opacity 0.5s ease 0.2s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s;
+          touch-action: none;
         }
         
         .interactive-experience.active .interactive-content {
@@ -2783,7 +2901,11 @@ export default function Creative() {
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {/* STATE OF THE ART - 3D ICONS SHOWCASE APP                                        */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      <div className={`expanded-view showcase-expanded ${getExpandedAnimClass('3dicons-showcase')}`}>
+      <div className={`expanded-view showcase-expanded showcase-3d-expanded ${getExpandedAnimClass('3dicons-showcase')}`}>
+        {/* Loading pulse - shows while content loads */}
+        <div className={`showcase-loading ${icons3DShowReady ? 'hidden' : ''}`}>
+          <div className="showcase-loading-pulse" />
+        </div>
         <div className="expanded-inner showcase-inner">
           <div className="expanded-content showcase-content">
             {expandedItem === '3dicons-showcase' && <Icons3DShowcase />}
@@ -2799,7 +2921,11 @@ export default function Creative() {
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {/* STATE OF THE ART - GEOMETRY SHOWCASE APP                                        */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      <div className={`expanded-view showcase-expanded ${getExpandedAnimClass('geometry-showcase')}`}>
+      <div className={`expanded-view showcase-expanded showcase-geometry-expanded ${getExpandedAnimClass('geometry-showcase')}`}>
+        {/* Loading pulse with white glow - shows while content loads */}
+        <div className={`showcase-loading showcase-loading-geometry ${geometryShowReady ? 'hidden' : ''}`}>
+          <div className="showcase-loading-pulse showcase-loading-pulse-white" />
+        </div>
         <div className="expanded-inner showcase-inner">
           <div className="expanded-content showcase-content">
             {expandedItem === 'geometry-showcase' && <GeometryShowcase />}
@@ -2821,11 +2947,6 @@ export default function Creative() {
           className={`sub-expanded-view sub-expanded-3d ${subExpandedItem === `3d-${item.id}` ? subExpandedAnimState : ''}`}
         >
           <div className="sub-expanded-bg sub-expanded-bg-black" onClick={handleCloseSubExpanded} />
-          <button className="sub-expanded-close" onClick={handleCloseSubExpanded}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
-            </svg>
-          </button>
           <div className="sub-expanded-inner">
             <div className="sub-expanded-header">
               <span className="sub-expanded-title">{item.name}</span>
@@ -2834,6 +2955,11 @@ export default function Creative() {
               <div className="sub-expanded-glow-white" />
               {subExpandedItem === `3d-${item.id}` && render3DIcon(item.id, isMobile ? 180 : 240)}
             </div>
+            <button className="sub-expanded-close" onClick={handleCloseSubExpanded}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+              </svg>
+            </button>
           </div>
         </div>
       ))}
@@ -2857,11 +2983,6 @@ export default function Creative() {
               `
             }}
           />
-          <button className="sub-expanded-close" onClick={handleCloseSubExpanded}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
-            </svg>
-          </button>
           <div className="sub-expanded-inner">
             <div className="sub-expanded-header">
               <span className="sub-expanded-title">{item.name}</span>
@@ -2871,6 +2992,11 @@ export default function Creative() {
               <div className="geometry-full-glow" style={{ boxShadow: `0 0 80px ${item.color[0]}40, 0 0 120px ${item.color[1]}30` }} />
               {subExpandedItem === `geo-${item.id}` && renderGeometry(item.id)}
             </div>
+            <button className="sub-expanded-close" onClick={handleCloseSubExpanded}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+              </svg>
+            </button>
           </div>
         </div>
       ))}
