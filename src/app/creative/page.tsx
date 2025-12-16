@@ -634,7 +634,8 @@ export default function Creative() {
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // STATE OF THE ART - 2D ICONS SHOWCASE
-  // All 8 icons beautifully presented in one elegant view
+  // Gallery-style presentation - white/cream paper cards with symbols
+  // Clearly different from app icons - like art prints on paper
   // ═══════════════════════════════════════════════════════════════════════════════
   const Icons2DShowcase = () => (
     <div className="icons-showcase">
@@ -642,20 +643,19 @@ export default function Creative() {
         {staticIconItems.map((item, index) => (
           <div
             key={item.id}
-            className="showcase-icon"
-            style={{
-              background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})`,
-              animationDelay: `${0.05 + index * 0.03}s`
-            }}
+            className="showcase-card"
+            style={{ animationDelay: `${0.05 + index * 0.04}s` }}
           >
-            {item.id === 'trade69-2d' && <Trade69Icon />}
-            {item.id === 'megaagent-2d' && <MegaAgentIcon />}
-            {item.id === 'octopus-2d' && <OctopusIcon />}
-            {item.id === 'overmind-2d' && <OvermindIcon />}
-            {item.id === 'website-2d' && <WebsiteIcon />}
-            {item.id === 'dashboard-2d' && <DashboardIcon />}
-            {item.id === 'api-2d' && <APIIcon />}
-            {item.id === 'llm-2d' && <LLMIcon />}
+            <div className="showcase-card-inner">
+              {item.id === 'trade69-2d' && <Trade69Icon />}
+              {item.id === 'megaagent-2d' && <MegaAgentIcon />}
+              {item.id === 'octopus-2d' && <OctopusIcon />}
+              {item.id === 'overmind-2d' && <OvermindIcon />}
+              {item.id === 'website-2d' && <WebsiteIcon />}
+              {item.id === 'dashboard-2d' && <DashboardIcon />}
+              {item.id === 'api-2d' && <APIIcon />}
+              {item.id === 'llm-2d' && <LLMIcon />}
+            </div>
           </div>
         ))}
       </div>
@@ -1306,61 +1306,91 @@ export default function Creative() {
         
         .expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
         
-        /* STATE OF THE ART - 2D ICONS SHOWCASE */
+        /* STATE OF THE ART - 2D ICONS SHOWCASE - Gallery Paper Cards */
         .icons-showcase {
           width: 100%;
           height: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
+          padding: 12px;
         }
         
         .icons-showcase-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           grid-template-rows: repeat(2, 1fr);
-          gap: 12px;
-          padding: 8px;
+          gap: 10px;
         }
         
-        .showcase-icon {
-          width: 56px;
-          height: 56px;
-          border-radius: 14px;
+        /* Gallery-style paper cards - NOT app icons */
+        .showcase-card {
+          width: 58px;
+          height: 72px;
+          border-radius: 8px;
+          background: linear-gradient(165deg, #fafafa 0%, #f0efe8 50%, #e8e6dc 100%);
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 0 20px rgba(255, 255, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 
+            0 2px 8px rgba(0, 0, 0, 0.3),
+            0 8px 24px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.05);
           opacity: 0;
-          transform: scale(0.5);
-          animation: showcaseIconPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          transform: scale(0.6) translateY(10px);
+          animation: showcaseCardFloat 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         
-        .showcase-icon::before {
+        /* Subtle paper texture effect */
+        .showcase-card::before {
           content: '';
           position: absolute;
-          top: 0;
-          left: 5%;
-          right: 5%;
-          height: 50%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
-          border-radius: 14px 14px 50% 50%;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: 
+            radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 50%),
+            radial-gradient(ellipse at 70% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 40%);
           pointer-events: none;
-          z-index: 5;
+          z-index: 1;
         }
         
-        @keyframes showcaseIconPop {
-          0% { opacity: 0; transform: scale(0.5); }
-          100% { opacity: 1; transform: scale(1); }
-        }
-        
-        .showcase-icon svg {
-          width: 28px;
-          height: 28px;
-          position: relative;
+        /* Subtle edge shadow for depth */
+        .showcase-card::after {
+          content: '';
+          position: absolute;
+          top: 2px; left: 2px; right: 2px; bottom: 2px;
+          border-radius: 6px;
+          box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.08);
+          pointer-events: none;
           z-index: 2;
+        }
+        
+        .showcase-card-inner {
+          position: relative;
+          z-index: 3;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          filter: brightness(0) saturate(100%);
+          opacity: 0.75;
+        }
+        
+        .showcase-card-inner svg {
+          width: 32px;
+          height: 32px;
+        }
+        
+        @keyframes showcaseCardFloat {
+          0% { 
+            opacity: 0; 
+            transform: scale(0.6) translateY(10px); 
+          }
+          100% { 
+            opacity: 1; 
+            transform: scale(1) translateY(0); 
+          }
         }
         
         @media (min-width: 600px) {
@@ -1378,9 +1408,9 @@ export default function Creative() {
           .gallery-card-icon { width: 72px; height: 72px; border-radius: 18px; }
           .gallery-card-name { font-size: 12px; max-width: 80px; }
           .expanded-content { width: 340px; height: 340px; border-radius: 26px; }
-          .icons-showcase-grid { gap: 16px; padding: 12px; }
-          .showcase-icon { width: 68px; height: 68px; border-radius: 16px; }
-          .showcase-icon svg { width: 36px; height: 36px; }
+          .icons-showcase-grid { gap: 14px; }
+          .showcase-card { width: 68px; height: 86px; border-radius: 10px; }
+          .showcase-card-inner svg { width: 38px; height: 38px; }
         }
         
         @media (min-width: 900px) {
@@ -1397,9 +1427,9 @@ export default function Creative() {
           .gallery-grid.grid-2 { grid-template-columns: repeat(2, 100px); gap: 24px; }
           .gallery-card-icon { width: 82px; height: 82px; border-radius: 20px; }
           .gallery-card-name { font-size: 13px; max-width: 90px; }
-          .icons-showcase-grid { gap: 20px; padding: 16px; }
-          .showcase-icon { width: 76px; height: 76px; border-radius: 18px; }
-          .showcase-icon svg { width: 42px; height: 42px; }
+          .icons-showcase-grid { gap: 18px; }
+          .showcase-card { width: 76px; height: 96px; border-radius: 12px; }
+          .showcase-card-inner svg { width: 44px; height: 44px; }
         }
         
         canvas { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
