@@ -107,6 +107,10 @@ export default function Creative() {
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const [expandedAnimState, setExpandedAnimState] = useState<AnimationState>('idle');
 
+  // Sub-expanded state (for items within showcase apps)
+  const [subExpandedItem, setSubExpandedItem] = useState<string | null>(null);
+  const [subExpandedAnimState, setSubExpandedAnimState] = useState<AnimationState>('idle');
+
   // STATE OF THE ART - Elegant transition bridge to prevent flash
   const [bridgePhase, setBridgePhase] = useState<'idle' | 'in' | 'hold' | 'out'>('idle');
 
@@ -284,8 +288,8 @@ export default function Creative() {
   const handleOpenExpandedFromFolder = useCallback((itemId: string) => {
     if (folderAnimState !== 'active') return;
 
-    // For icons-showcase, use direct crossfade (no bridge spinner)
-    if (itemId === 'icons-showcase') {
+    // For all showcases, use direct crossfade (no bridge spinner)
+    if (itemId === 'icons-showcase' || itemId === '3dicons-showcase' || itemId === 'geometry-showcase') {
       setFolderAnimState('exiting');
 
       setTimeout(() => {
@@ -338,12 +342,41 @@ export default function Creative() {
 
   const handleCloseExpanded = useCallback(() => {
     if (expandedAnimState !== 'active') return;
+
+    // If sub-expanded is open, close it first
+    if (subExpandedItem) {
+      setSubExpandedAnimState('exiting');
+      setTimeout(() => {
+        setSubExpandedItem(null);
+        setSubExpandedAnimState('idle');
+      }, 350);
+      return;
+    }
+
     setExpandedAnimState('exiting');
     expandedTimeoutRef.current = setTimeout(() => {
       setExpandedItem(null);
       setExpandedAnimState('idle');
     }, 400);
-  }, [expandedAnimState]);
+  }, [expandedAnimState, subExpandedItem]);
+
+  // Handler for opening sub-expanded item within a showcase
+  const handleOpenSubExpanded = useCallback((itemId: string) => {
+    setSubExpandedItem(itemId);
+    setSubExpandedAnimState('entering');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setSubExpandedAnimState('active'));
+    });
+  }, []);
+
+  const handleCloseSubExpanded = useCallback(() => {
+    if (subExpandedAnimState !== 'active') return;
+    setSubExpandedAnimState('exiting');
+    setTimeout(() => {
+      setSubExpandedItem(null);
+      setSubExpandedAnimState('idle');
+    }, 350);
+  }, [subExpandedAnimState]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // RENDERERS
@@ -650,6 +683,94 @@ export default function Creative() {
         </div>
       );
     }
+  };
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // STATE OF THE ART - 3D ICONS SHOWCASE APP
+  // All 8 3D icons presented beautifully in one app experience
+  // Tap any to expand to full view
+  // ═══════════════════════════════════════════════════════════════════════════════
+  const Icons3DShowcase = () => {
+    const [showIcons, setShowIcons] = useState(false);
+
+    useEffect(() => {
+      const timer = setTimeout(() => setShowIcons(true), 80);
+      return () => clearTimeout(timer);
+    }, []);
+
+    return (
+      <div className="showcase-app showcase-3d">
+        <div className="showcase-app-header">
+          <span className="showcase-app-title">3D Icons</span>
+          <span className="showcase-app-subtitle">Interactive Collection</span>
+        </div>
+        <div className={`showcase-3d-grid ${showIcons ? 'visible' : ''}`}>
+          {icons3DItems.map((item, index) => (
+            <div
+              key={item.id}
+              className="showcase-3d-item"
+              style={{ ['--delay' as any]: `${index * 0.05}s` }}
+              onClick={() => handleOpenSubExpanded(`3d-${item.id}`)}
+            >
+              <div
+                className="showcase-3d-card"
+                style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}
+              >
+                <div className="showcase-3d-glow" style={{ background: `radial-gradient(circle, ${item.color[0]}60 0%, transparent 70%)` }} />
+                <div className="showcase-3d-icon">
+                  {render3DIcon(item.id, isMobile ? 52 : 64)}
+                </div>
+              </div>
+              <span className="showcase-3d-name">{item.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // STATE OF THE ART - GEOMETRY SHOWCASE APP
+  // All 4 sacred geometries presented in prestige gallery style
+  // Tap any to expand to full immersive view
+  // ═══════════════════════════════════════════════════════════════════════════════
+  const GeometryShowcase = () => {
+    const [showGeometry, setShowGeometry] = useState(false);
+
+    useEffect(() => {
+      const timer = setTimeout(() => setShowGeometry(true), 80);
+      return () => clearTimeout(timer);
+    }, []);
+
+    return (
+      <div className="showcase-app showcase-geometry">
+        <div className="showcase-app-header">
+          <span className="showcase-app-title">Sacred Geometry</span>
+          <span className="showcase-app-subtitle">Ancient Patterns</span>
+        </div>
+        <div className={`showcase-geometry-grid ${showGeometry ? 'visible' : ''}`}>
+          {geometryItems.map((item, index) => (
+            <div
+              key={item.id}
+              className="showcase-geometry-item"
+              style={{ ['--delay' as any]: `${index * 0.08}s` }}
+              onClick={() => handleOpenSubExpanded(`geo-${item.id}`)}
+            >
+              <div className={`showcase-geometry-frame showcase-geo-${item.id}`}>
+                <div
+                  className="showcase-geometry-glow"
+                  style={{ boxShadow: `0 0 40px ${item.color[0]}50, 0 0 60px ${item.color[1]}30` }}
+                />
+                <div className="showcase-geometry-content">
+                  {renderGeometry(item.id)}
+                </div>
+              </div>
+              <span className="showcase-geometry-name">{item.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   // ═══════════════════════════════════════════════════════════════════════════════
@@ -1348,6 +1469,417 @@ export default function Creative() {
         .expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - SHOWCASE APPS                                                */
+        /* Full app experiences for 3D Icons and Geometry                                  */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .showcase-expanded .expanded-content,
+        .showcase-content {
+          width: 100%;
+          height: auto;
+          max-width: 360px;
+          border-radius: 0;
+          filter: none;
+        }
+        
+        .showcase-app {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+          padding: 8px;
+        }
+        
+        .showcase-app-header {
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        
+        .showcase-app-title {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+          font-size: 26px;
+          font-weight: 600;
+          color: #ffffff;
+          letter-spacing: -0.02em;
+        }
+        
+        .showcase-app-subtitle {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.4);
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+        }
+        
+        /* 3D Icons Showcase Grid - 4x2 */
+        .showcase-3d-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 12px;
+        }
+        
+        .showcase-3d-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 6px;
+          cursor: pointer;
+          opacity: 0;
+          transform: translateY(12px) scale(0.9);
+          transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+          transition-delay: var(--delay, 0s);
+        }
+        
+        .showcase-3d-grid.visible .showcase-3d-item {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        
+        .showcase-3d-card {
+          width: 64px;
+          height: 64px;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 
+            0 4px 20px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(255, 255, 255, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        
+        .showcase-3d-card:active {
+          transform: scale(0.92);
+        }
+        
+        .showcase-3d-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 8%; right: 8%; height: 45%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
+          border-radius: 16px 16px 50% 50%;
+          pointer-events: none;
+          z-index: 5;
+        }
+        
+        .showcase-3d-glow {
+          position: absolute;
+          top: -20%; left: -20%; right: -20%; bottom: -20%;
+          opacity: 0.5;
+          pointer-events: none;
+          z-index: 0;
+        }
+        
+        .showcase-3d-icon {
+          position: relative;
+          z-index: 2;
+        }
+        
+        .showcase-3d-name {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 10px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.6);
+          text-align: center;
+        }
+        
+        /* Geometry Showcase Grid - 2x2 */
+        .showcase-geometry-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+        }
+        
+        .showcase-geometry-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          cursor: pointer;
+          opacity: 0;
+          transform: translateY(16px) scale(0.85);
+          transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1);
+          transition-delay: var(--delay, 0s);
+        }
+        
+        .showcase-geometry-grid.visible .showcase-geometry-item {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        
+        .showcase-geometry-frame {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+          transition: transform 0.3s ease;
+        }
+        
+        .showcase-geometry-frame:active {
+          transform: scale(0.92);
+        }
+        
+        .showcase-geometry-glow {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          border-radius: 50%;
+          opacity: 0.6;
+          pointer-events: none;
+        }
+        
+        .showcase-geometry-content {
+          position: relative;
+          z-index: 2;
+          transform: scale(0.6);
+        }
+        
+        /* Unique scales for each geometry in showcase */
+        .showcase-geo-metatron .showcase-geometry-content { transform: scale(0.55); }
+        .showcase-geo-spiral .showcase-geometry-content { transform: scale(0.6); }
+        .showcase-geo-flower .showcase-geometry-content { transform: scale(0.55); }
+        .showcase-geo-lemniscate .showcase-geometry-content { transform: scale(0.7); }
+        
+        .showcase-geometry-name {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 13px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.7);
+          text-align: center;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* SUB-EXPANDED VIEWS - Individual item detail views                               */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .sub-expanded-view {
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          z-index: 4000;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+        }
+        
+        .sub-expanded-view.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .sub-expanded-view.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.35s ease; }
+        .sub-expanded-view.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s ease; }
+        
+        .sub-expanded-bg {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(10, 10, 10, 0.92);
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
+        }
+        
+        .sub-expanded-ambient {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          opacity: 0;
+          transition: opacity 0.6s ease 0.1s;
+          pointer-events: none;
+        }
+        
+        .sub-expanded-view.active .sub-expanded-ambient {
+          opacity: 1;
+        }
+        
+        .sub-expanded-inner {
+          position: relative;
+          z-index: 2;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 24px;
+          padding: 20px;
+        }
+        
+        .sub-expanded-header {
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          opacity: 0;
+          transform: translateY(-10px);
+          transition: opacity 0.4s ease 0.1s, transform 0.5s ease 0.1s;
+        }
+        
+        .sub-expanded-view.active .sub-expanded-header {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
+        .sub-expanded-title {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+          font-size: 28px;
+          font-weight: 600;
+          color: #ffffff;
+          letter-spacing: -0.02em;
+        }
+        
+        .sub-expanded-subtitle {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 11px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.4);
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+        }
+        
+        .sub-expanded-content {
+          position: relative;
+          width: 260px;
+          height: 260px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transform: scale(0.8);
+          transition: opacity 0.5s ease 0.15s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s;
+        }
+        
+        .sub-expanded-view.active .sub-expanded-content {
+          opacity: 1;
+          transform: scale(1);
+        }
+        
+        .sub-expanded-glow {
+          position: absolute;
+          top: -30px; left: -30px; right: -30px; bottom: -30px;
+          border-radius: 50%;
+          opacity: 0.7;
+          pointer-events: none;
+          animation: subGlowPulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes subGlowPulse {
+          0%, 100% { transform: scale(1); opacity: 0.5; }
+          50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .sub-expanded-close {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.1);
+          border: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          opacity: 0;
+          transform: scale(0.5);
+          transition: opacity 0.3s ease 0.2s, transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s;
+        }
+        
+        .sub-expanded-view.active .sub-expanded-close {
+          opacity: 1;
+          transform: scale(1);
+        }
+        
+        /* Geometry full expanded - bigger and unique */
+        .geometry-full-content {
+          width: 300px;
+          height: 300px;
+        }
+        
+        .geometry-full-glow {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          border-radius: 50%;
+          opacity: 0;
+          transition: opacity 0.6s ease 0.2s;
+          pointer-events: none;
+        }
+        
+        .sub-expanded-view.active .geometry-full-glow {
+          opacity: 1;
+          animation: geometryFullGlow 5s ease-in-out infinite;
+        }
+        
+        @keyframes geometryFullGlow {
+          0%, 100% { transform: scale(1); filter: brightness(1); }
+          50% { transform: scale(1.03); filter: brightness(1.15); }
+        }
+        
+        /* Scale up geometries in full view */
+        .geometry-full-content > div,
+        .geometry-full-content > svg {
+          transform: scale(1.4);
+        }
+        
+        .geometry-full-metatron > div,
+        .geometry-full-metatron > svg { transform: scale(1.5); filter: drop-shadow(0 0 20px rgba(138, 92, 246, 0.4)); }
+        
+        .geometry-full-spiral > div,
+        .geometry-full-spiral > svg { transform: scale(1.6); filter: drop-shadow(0 0 25px rgba(251, 191, 36, 0.35)); }
+        
+        .geometry-full-flower > div,
+        .geometry-full-flower > svg { transform: scale(1.5); filter: drop-shadow(0 0 30px rgba(96, 165, 250, 0.4)); }
+        
+        .geometry-full-lemniscate > div,
+        .geometry-full-lemniscate > svg { transform: scale(1.8); filter: drop-shadow(0 0 25px rgba(74, 222, 128, 0.4)); }
+        
+        @media (min-width: 600px) {
+          .showcase-app-title { font-size: 30px; }
+          .showcase-3d-grid { gap: 16px; }
+          .showcase-3d-card { width: 76px; height: 76px; border-radius: 18px; }
+          .showcase-3d-name { font-size: 11px; }
+          .showcase-geometry-grid { gap: 28px; }
+          .showcase-geometry-frame { width: 140px; height: 140px; }
+          .showcase-geometry-name { font-size: 14px; }
+          .sub-expanded-title { font-size: 32px; }
+          .sub-expanded-content { width: 320px; height: 320px; }
+          .geometry-full-content { width: 360px; height: 360px; }
+          
+          .geometry-full-metatron > div,
+          .geometry-full-metatron > svg { transform: scale(1.7); }
+          .geometry-full-spiral > div,
+          .geometry-full-spiral > svg { transform: scale(1.8); }
+          .geometry-full-flower > div,
+          .geometry-full-flower > svg { transform: scale(1.7); }
+          .geometry-full-lemniscate > div,
+          .geometry-full-lemniscate > svg { transform: scale(2); }
+        }
+        
+        @media (min-width: 900px) {
+          .showcase-app-title { font-size: 34px; }
+          .showcase-3d-grid { gap: 20px; }
+          .showcase-3d-card { width: 88px; height: 88px; border-radius: 20px; }
+          .showcase-3d-name { font-size: 12px; }
+          .showcase-geometry-grid { gap: 36px; }
+          .showcase-geometry-frame { width: 160px; height: 160px; }
+          .showcase-geometry-name { font-size: 15px; }
+          .sub-expanded-title { font-size: 36px; }
+          .sub-expanded-content { width: 380px; height: 380px; }
+          .geometry-full-content { width: 420px; height: 420px; }
+          
+          .geometry-full-metatron > div,
+          .geometry-full-metatron > svg { transform: scale(1.9); }
+          .geometry-full-spiral > div,
+          .geometry-full-spiral > svg { transform: scale(2); }
+          .geometry-full-flower > div,
+          .geometry-full-flower > svg { transform: scale(1.9); }
+          .geometry-full-lemniscate > div,
+          .geometry-full-lemniscate > svg { transform: scale(2.2); }
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - 2D ICONS WHITE CARD GALLERY                                  */
         /* Elegant cream/white paper cards with large symbols                              */
         /* Museum-quality presentation - sophisticated and clean                           */
@@ -1909,19 +2441,21 @@ export default function Creative() {
         <div className="folder-overlay-bg" onClick={handleCloseFolder} />
         <div className="folder-container">
           <div className="folder-cards-grid">
-            <div className="folder-card" onClick={() => handleOpenGalleryFromFolder('3dicons')}>
+            {/* 3D Icons - Opens directly to showcase app */}
+            <div className="folder-card" onClick={() => handleOpenExpandedFromFolder('3dicons-showcase')}>
               <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #1a5040, #0d2820)' }}>
                 {render3DIconMini('trade69', folderIconSize)}
               </div>
               <span className="folder-card-name">3D Icons</span>
             </div>
-            <div className="folder-card" onClick={() => handleOpenGalleryFromFolder('geometry')}>
+            {/* Geometry - Opens directly to showcase app */}
+            <div className="folder-card" onClick={() => handleOpenExpandedFromFolder('geometry-showcase')}>
               <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #3a2855, #1e1430)' }}>
                 {renderGeometryMini('metatron', folderIconSize)}
               </div>
               <span className="folder-card-name">Geometry</span>
             </div>
-            {/* STATE OF THE ART FIX: Icons now opens directly to showcase */}
+            {/* 2D Icons - Opens directly to showcase */}
             <div className="folder-card" onClick={() => handleOpenExpandedFromFolder('icons-showcase')}>
               <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #3d4a8f, #1e2550)' }}>
                 {render2DIconMini('megaagent-2d', folderIconSize)}
@@ -1949,70 +2483,62 @@ export default function Creative() {
         </div>
       </div>
 
-      {/* 3D ICONS GALLERY */}
-      <div className={`gallery-overlay ${getGalleryAnimClass('3dicons')}`}>
-        <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
-        <div className="gallery-container">
-          <div className="gallery-grid">
-            {icons3DItems.map(item => (
-              <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`3d-${item.id}`)}>
-                <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {render3DIconMini(item.id, galleryIconSize)}
-                </div>
-                <span className="gallery-card-name">{item.name}</span>
-              </div>
-            ))}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* STATE OF THE ART - 3D ICONS SHOWCASE APP                                        */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      <div className={`expanded-view showcase-expanded ${getExpandedAnimClass('3dicons-showcase')}`}>
+        <div className="expanded-inner showcase-inner">
+          <div className="expanded-content showcase-content">
+            {expandedItem === '3dicons-showcase' && <Icons3DShowcase />}
           </div>
-        </div>
-      </div>
-
-      {/* GEOMETRY GALLERY */}
-      <div className={`gallery-overlay ${getGalleryAnimClass('geometry')}`}>
-        <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
-        <div className="gallery-container">
-          <div className="gallery-grid grid-2">
-            {geometryItems.map(item => (
-              <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`geo-${item.id}`)}>
-                <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {renderGeometryMini(item.id, galleryIconSize)}
-                </div>
-                <span className="gallery-card-name">{item.name}</span>
-              </div>
-            ))}
-          </div>
+          <button className="expanded-close" onClick={handleCloseExpanded}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
         </div>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* STATE OF THE ART - 3D ICONS APP EXPERIENCES                                    */}
-      {/* Each icon has unique presentation, ambient lighting, app-like feel             */}
+      {/* STATE OF THE ART - GEOMETRY SHOWCASE APP                                        */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      <div className={`expanded-view showcase-expanded ${getExpandedAnimClass('geometry-showcase')}`}>
+        <div className="expanded-inner showcase-inner">
+          <div className="expanded-content showcase-content">
+            {expandedItem === 'geometry-showcase' && <GeometryShowcase />}
+          </div>
+          <button className="expanded-close" onClick={handleCloseExpanded}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* SUB-EXPANDED VIEWS - Individual 3D Icons (triggered from showcase)              */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {icons3DItems.map(item => (
-        <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`3d-${item.id}`)}`}>
-          {/* Unique ambient background for each icon */}
+        <div
+          key={item.id}
+          className={`sub-expanded-view ${subExpandedItem === `3d-${item.id}` ? subExpandedAnimState : ''}`}
+        >
+          <div className="sub-expanded-bg" onClick={handleCloseSubExpanded} />
           <div
-            className="app-ambient-bg"
+            className="sub-expanded-ambient"
             style={{
               background: `radial-gradient(ellipse at 50% 30%, ${item.color[0]}60 0%, transparent 50%), radial-gradient(ellipse at 50% 70%, ${item.color[1]}40 0%, transparent 60%)`
             }}
           />
-          <div className="expanded-inner app-experience">
-            {/* App header with title */}
-            <div className="app-header">
-              <span className="app-title">{item.name}</span>
+          <div className="sub-expanded-inner">
+            <div className="sub-expanded-header">
+              <span className="sub-expanded-title">{item.name}</span>
             </div>
-            {/* Large 3D icon display */}
-            <div className="app-3d-container">
-              <div className="app-3d-glow" style={{ background: `radial-gradient(circle, ${item.color[0]}50 0%, transparent 70%)` }} />
-              <div className="app-3d-content">
-                {expandedItem === `3d-${item.id}` && render3DIcon(item.id, isMobile ? 180 : 240)}
-              </div>
+            <div className="sub-expanded-content">
+              <div className="sub-expanded-glow" style={{ background: `radial-gradient(circle, ${item.color[0]}50 0%, transparent 70%)` }} />
+              {subExpandedItem === `3d-${item.id}` && render3DIcon(item.id, isMobile ? 180 : 240)}
             </div>
-            {/* App footer with description */}
-            <div className="app-footer">
-              <span className="app-category">3D Icon</span>
-            </div>
-            <button className="expanded-close app-close" onClick={handleCloseExpanded}>
+            <button className="sub-expanded-close" onClick={handleCloseSubExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
@@ -2022,36 +2548,34 @@ export default function Creative() {
       ))}
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* STATE OF THE ART - GEOMETRY PRESTIGE GALLERY                                   */}
-      {/* Each geometry has unique lighting, bigger display, museum presentation         */}
+      {/* SUB-EXPANDED VIEWS - Individual Geometries (triggered from showcase)            */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {geometryItems.map(item => (
-        <div key={item.id} className={`expanded-view geometry-view ${getExpandedAnimClass(`geo-${item.id}`)}`}>
-          {/* Unique sacred geometry ambient */}
+        <div
+          key={item.id}
+          className={`sub-expanded-view geometry-sub ${subExpandedItem === `geo-${item.id}` ? subExpandedAnimState : ''}`}
+        >
+          <div className="sub-expanded-bg" onClick={handleCloseSubExpanded} />
           <div
-            className="geometry-ambient"
+            className="sub-expanded-ambient geometry-ambient-full"
             style={{
               background: `
-                radial-gradient(ellipse at 50% 40%, ${item.color[0]}35 0%, transparent 45%),
-                radial-gradient(ellipse at 30% 60%, ${item.color[1]}25 0%, transparent 40%),
-                radial-gradient(ellipse at 70% 60%, ${item.color[0]}20 0%, transparent 40%)
+                radial-gradient(ellipse at 50% 40%, ${item.color[0]}40 0%, transparent 50%),
+                radial-gradient(ellipse at 30% 60%, ${item.color[1]}30 0%, transparent 45%),
+                radial-gradient(ellipse at 70% 60%, ${item.color[0]}25 0%, transparent 45%)
               `
             }}
           />
-          <div className="expanded-inner geometry-experience">
-            {/* Geometry title */}
-            <div className="geometry-header">
-              <span className="geometry-title">{item.name}</span>
-              <span className="geometry-subtitle">Sacred Geometry</span>
+          <div className="sub-expanded-inner">
+            <div className="sub-expanded-header">
+              <span className="sub-expanded-title">{item.name}</span>
+              <span className="sub-expanded-subtitle">Sacred Geometry</span>
             </div>
-            {/* Large geometry display with unique frame */}
-            <div className={`geometry-frame geometry-frame-${item.id}`}>
-              <div className="geometry-inner-glow" style={{ boxShadow: `0 0 80px ${item.color[0]}40, 0 0 120px ${item.color[1]}30` }} />
-              <div className="geometry-content">
-                {expandedItem === `geo-${item.id}` && renderGeometry(item.id)}
-              </div>
+            <div className={`sub-expanded-content geometry-full-content geometry-full-${item.id}`}>
+              <div className="geometry-full-glow" style={{ boxShadow: `0 0 80px ${item.color[0]}40, 0 0 120px ${item.color[1]}30` }} />
+              {subExpandedItem === `geo-${item.id}` && renderGeometry(item.id)}
             </div>
-            <button className="expanded-close geometry-close" onClick={handleCloseExpanded}>
+            <button className="sub-expanded-close" onClick={handleCloseSubExpanded}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
