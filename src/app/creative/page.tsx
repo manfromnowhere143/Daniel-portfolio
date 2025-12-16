@@ -176,7 +176,7 @@ export default function Creative() {
       const scrollY = window.scrollY;
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
 
-      // Lock body completely
+      // Lock body completely - iOS style
       document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollY}px`;
       document.body.style.left = '0';
@@ -185,28 +185,40 @@ export default function Creative() {
       document.body.style.paddingRight = `${scrollBarWidth}px`;
       document.documentElement.style.overflow = 'hidden';
 
-      // Prevent all touch moves on document except gallery scroll
+      // Prevent ALL touch moves on document - complete lock
       const preventScroll = (e: TouchEvent) => {
         const target = e.target as HTMLElement;
-        // Allow scroll inside gallery-scroll-wrapper
-        if (target.closest('.gallery-scroll-wrapper')) {
+
+        // Allow scroll ONLY inside gallery-scroll-wrapper
+        const scrollWrapper = target.closest('.gallery-scroll-wrapper');
+        if (scrollWrapper) {
+          // Only allow horizontal scroll, prevent vertical
           return;
         }
-        // Allow interaction with buttons and cards
-        if (target.closest('.gallery-close') || target.closest('.expanded-close') ||
-            target.closest('.folder-close') || target.closest('.gallery-card') ||
-            target.closest('.folder-card') || target.closest('.expanded-content') ||
-            target.closest('.expanded-bg') || target.closest('.gallery-overlay-bg') ||
-            target.closest('.folder-overlay-bg')) {
+
+        // Allow interaction with 3D content (for rotation)
+        if (target.closest('.expanded-content canvas')) {
           return;
         }
+
+        // Block everything else
         e.preventDefault();
       };
 
       document.addEventListener('touchmove', preventScroll, { passive: false });
 
+      // Also prevent touchstart default on body to stop iOS bounce
+      const preventBounce = (e: TouchEvent) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('.gallery-scroll-wrapper')) return;
+        if (target.closest('.expanded-content canvas')) return;
+      };
+
+      document.addEventListener('touchstart', preventBounce, { passive: true });
+
       return () => {
         document.removeEventListener('touchmove', preventScroll);
+        document.removeEventListener('touchstart', preventBounce);
       };
     } else {
       // Restore scroll position
@@ -1000,8 +1012,8 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
-          padding-bottom: 60px;
+          justify-content: flex-start;
+          padding-top: clamp(100px, 18vh, 180px);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -1026,19 +1038,16 @@ export default function Creative() {
         .folder-container {
           position: relative;
           z-index: 2;
-          background: rgba(255, 255, 255, 0.98);
-          backdrop-filter: blur(25px);
-          -webkit-backdrop-filter: blur(25px);
+          background: transparent;
           border-radius: 28px;
           padding: 24px;
           opacity: 0;
           transform: translateZ(0) scale(0.8);
           transition: none;
-          box-shadow: 
-            0 0 60px rgba(255, 255, 255, 0.15),
-            0 20px 60px rgba(0, 0, 0, 0.4),
-            0 8px 25px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.8);
+          touch-action: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
         }
         
         .folder-overlay.active .folder-container {
@@ -1121,8 +1130,9 @@ export default function Creative() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 12px;
           font-weight: 400;
-          color: #1a1a1a;
+          color: rgba(255, 255, 255, 0.9);
           text-align: center;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -1136,8 +1146,8 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
-          padding-bottom: 60px;
+          justify-content: flex-start;
+          padding-top: clamp(100px, 18vh, 180px);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -1170,26 +1180,19 @@ export default function Creative() {
         .gallery-container {
           position: relative;
           z-index: 2;
-          background: rgba(255, 255, 255, 0.98);
-          backdrop-filter: blur(25px);
-          -webkit-backdrop-filter: blur(25px);
+          background: transparent;
           border-radius: 28px;
           padding: 24px;
           opacity: 0;
           transform: translateZ(0) scale(0.8);
           transition: none;
-          box-shadow: 
-            0 0 60px rgba(255, 255, 255, 0.15),
-            0 20px 60px rgba(0, 0, 0, 0.4),
-            0 8px 25px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.8);
           touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
           /* STATE OF THE ART - Fixed square container */
           max-width: calc(2 * 80px + 18px + 48px);
-          overflow: hidden;
+          overflow: visible;
         }
         
         .gallery-overlay.active .gallery-container {
@@ -1218,10 +1221,13 @@ export default function Creative() {
           scroll-snap-type: x mandatory;
           scrollbar-width: none;
           -ms-overflow-style: none;
+          /* Critical for iOS - allow horizontal pan only */
           touch-action: pan-x;
           /* Prevent pull-to-refresh interference */
           overscroll-behavior-x: contain;
           overscroll-behavior-y: none;
+          /* iOS Safari specific */
+          -webkit-touch-callout: none;
         }
         
         .gallery-scroll-wrapper::-webkit-scrollbar {
@@ -1234,6 +1240,7 @@ export default function Creative() {
           grid-template-rows: repeat(2, auto);
           grid-auto-flow: column;
           gap: 18px;
+          /* Critical - allow horizontal touch */
           touch-action: pan-x;
           /* Width expands based on content */
           width: max-content;
@@ -1262,12 +1269,12 @@ export default function Creative() {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: rgba(0, 0, 0, 0.2);
+          background: rgba(255, 255, 255, 0.3);
           transition: background 0.2s ease, transform 0.2s ease;
         }
         
         .gallery-dot.active {
-          background: rgba(0, 0, 0, 0.6);
+          background: rgba(255, 255, 255, 0.8);
           transform: scale(1.2);
         }
         
@@ -1347,9 +1354,10 @@ export default function Creative() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 12px;
           font-weight: 400;
-          color: #1a1a1a;
+          color: rgba(255, 255, 255, 0.9);
           text-align: center;
           max-width: 76px;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
