@@ -375,7 +375,7 @@ export default function Creative() {
     setTimeout(() => {
       setSubExpandedItem(null);
       setSubExpandedAnimState('idle');
-    }, 250); // Faster exit - instant feel
+    }, 180); // INSTANT exit - same as 3D Icons
   }, [subExpandedAnimState]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
@@ -1897,7 +1897,6 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding-bottom: 10vh; /* Push content slightly above center */
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -1912,13 +1911,13 @@ export default function Creative() {
           visibility: visible; 
           pointer-events: auto; 
           opacity: 1; 
-          transition: opacity 0.25s ease; 
+          transition: opacity 0.2s ease; 
         }
         .sub-expanded-view.exiting { 
           visibility: visible; 
           pointer-events: none; 
           opacity: 0; 
-          transition: opacity 0.2s ease; /* Fast exit */
+          transition: opacity 0.15s ease; /* INSTANT exit */
         }
         
         .sub-expanded-bg {
@@ -1933,7 +1932,7 @@ export default function Creative() {
           position: absolute;
           top: 0; left: 0; right: 0; bottom: 0;
           opacity: 0;
-          transition: opacity 0.4s ease 0.05s;
+          transition: opacity 0.3s ease;
           pointer-events: none;
         }
         
@@ -1960,8 +1959,8 @@ export default function Creative() {
           flex-direction: column;
           gap: 4px;
           opacity: 0;
-          transform: translateY(-8px);
-          transition: opacity 0.25s ease 0.03s, transform 0.3s ease 0.03s;
+          transform: translateY(-6px);
+          transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
         .sub-expanded-view.active .sub-expanded-header {
@@ -1994,8 +1993,8 @@ export default function Creative() {
           align-items: center;
           justify-content: center;
           opacity: 0;
-          transform: scale(0.9);
-          transition: opacity 0.25s ease 0.05s, transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1) 0.05s;
+          transform: scale(0.92);
+          transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1);
         }
         
         .sub-expanded-view.active .sub-expanded-content {
@@ -2017,7 +2016,7 @@ export default function Creative() {
           50% { transform: scale(1.1); opacity: 0.8; }
         }
         
-        /* Floating X button - bottom center like rest of site */
+        /* Floating X button - bottom center like rest of site - INSTANT */
         .sub-expanded-close {
           width: 44px;
           height: 44px;
@@ -2029,8 +2028,8 @@ export default function Creative() {
           justify-content: center;
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.9);
-          transition: opacity 0.2s ease, transform 0.25s ease;
+          transform: scale(0.95);
+          transition: opacity 0.15s ease, transform 0.2s ease;
           z-index: 100;
           margin-top: 8px;
         }
@@ -2350,23 +2349,16 @@ export default function Creative() {
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - INTERACTIVE 3D EXPERIENCES                                   */
-        /* ABSOLUTE COMPLETE SCROLL LOCK - No scroll in ANY direction                      */
-        /* Perfect for Three.js interaction on mobile                                       */
+        /* PAGE IS IRON LOCKED - Canvas stays FULLY INTERACTIVE                            */
+        /* Content centered perfectly on screen                                            */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .interactive-experience {
           background: radial-gradient(ellipse at center, #0d0d10 0%, #050507 100%);
-          touch-action: none !important;
-          overflow: hidden !important;
-          overscroll-behavior: none !important;
-          -webkit-overflow-scrolling: none;
-        }
-        
-        .interactive-experience.active {
           position: fixed !important;
           top: 0; left: 0; right: 0; bottom: 0;
-          touch-action: none !important;
           overflow: hidden !important;
+          overscroll-behavior: none !important;
         }
         
         .interactive-ambient {
@@ -2388,14 +2380,12 @@ export default function Creative() {
           justify-content: center;
           gap: 12px;
           padding: 16px;
-          padding-bottom: 8vh; /* Push content slightly above center */
-          position: relative;
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
           z-index: 2;
-          width: 100%;
-          height: 100%;
-          touch-action: none !important;
           overflow: hidden !important;
-          overscroll-behavior: none !important;
+          /* PAGE is locked - no scroll/swipe on the page itself */
+          touch-action: none;
         }
         
         .interactive-header {
@@ -2406,6 +2396,7 @@ export default function Creative() {
           opacity: 0;
           transform: translateY(-10px);
           transition: opacity 0.4s ease 0.15s, transform 0.5s ease 0.15s;
+          pointer-events: none;
         }
         
         .interactive-experience.active .interactive-header {
@@ -2430,6 +2421,7 @@ export default function Creative() {
           text-transform: uppercase;
         }
         
+        /* The 3D canvas container - FULLY INTERACTIVE */
         .interactive-content {
           width: 280px !important;
           height: 280px !important;
@@ -2439,8 +2431,8 @@ export default function Creative() {
           opacity: 0;
           transform: scale(0.85);
           transition: opacity 0.5s ease 0.2s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s;
-          touch-action: none !important;
-          overscroll-behavior: none !important;
+          /* Canvas is INTERACTIVE - allow all touch for 3D rotation */
+          touch-action: none;
         }
         
         .interactive-experience.active .interactive-content {
@@ -2448,15 +2440,17 @@ export default function Creative() {
           transform: scale(1);
         }
         
+        /* Canvas itself - fully interactive for Three.js */
         .interactive-content canvas {
           touch-action: none !important;
-          -webkit-touch-callout: none !important;
-          -webkit-user-select: none !important;
-          user-select: none !important;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          user-select: none;
         }
         
         .interactive-close {
           margin-top: 12px !important;
+          pointer-events: auto;
         }
         
         @media (min-width: 600px) {
