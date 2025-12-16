@@ -203,22 +203,19 @@ export default function Navigation() {
           border-radius: 18px;
           background: linear-gradient(
             165deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            rgba(255, 255, 255, 0.03) 50%,
-            rgba(0, 0, 0, 0.15) 100%
+            #2a2a2a 0%,
+            #1a1a1a 50%,
+            #0f0f0f 100%
           );
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
           box-shadow: 
-            /* Outer glow - ethereal floating */
-            0 0 30px rgba(255, 255, 255, 0.12),
-            0 0 60px rgba(255, 255, 255, 0.06),
-            /* 3D depth layers - LIFTED above the glass */
+            /* Subtle outer glow */
+            0 0 20px rgba(255, 255, 255, 0.06),
+            /* 3D depth layers */
             0 4px 8px rgba(0, 0, 0, 0.5),
             0 8px 16px rgba(0, 0, 0, 0.4),
             0 16px 32px rgba(0, 0, 0, 0.3),
             /* Inner light */
-            inset 0 1px 1px rgba(255, 255, 255, 0.2),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1),
             inset 0 -1px 1px rgba(0, 0, 0, 0.3);
           transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           -webkit-tap-highlight-color: transparent;
@@ -226,7 +223,7 @@ export default function Navigation() {
           backface-visibility: hidden;
           transform: translateZ(0) scale(1);
           overflow: hidden;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          border: 1px solid rgba(255, 255, 255, 0.08);
         }
         
         /* Animated gradient border - Apple style */
@@ -238,17 +235,17 @@ export default function Navigation() {
           padding: 1px;
           background: linear-gradient(
             135deg,
-            rgba(255, 255, 255, 0.3),
-            rgba(255, 255, 255, 0.05),
-            rgba(255, 255, 255, 0.15),
-            rgba(255, 255, 255, 0.02)
+            rgba(255, 255, 255, 0.2),
+            rgba(255, 255, 255, 0.03),
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.01)
           );
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: xor;
           mask-composite: exclude;
           pointer-events: none;
-          opacity: 0.7;
+          opacity: 0.6;
         }
         
         /* Curved glass reflection - top shine */
@@ -261,9 +258,9 @@ export default function Navigation() {
           height: 50%;
           background: linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.3) 0%,
-            rgba(255, 255, 255, 0.12) 30%,
-            rgba(255, 255, 255, 0.02) 60%,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 255, 255, 0.06) 30%,
+            rgba(255, 255, 255, 0.01) 60%,
             transparent 100%
           );
           border-radius: 18px 18px 50% 50%;
@@ -271,35 +268,34 @@ export default function Navigation() {
           z-index: 10;
         }
         
-        /* Active state - triple-layer luminous glow */
+        /* Active state - subtle glow, not overpowering */
         .nav-icon-container.active {
           background: linear-gradient(
             165deg,
-            rgba(255, 255, 255, 0.18) 0%,
-            rgba(255, 255, 255, 0.06) 50%,
-            rgba(0, 0, 0, 0.05) 100%
+            #353535 0%,
+            #252525 50%,
+            #1a1a1a 100%
           );
-          border-color: rgba(255, 255, 255, 0.2);
+          border-color: rgba(255, 255, 255, 0.12);
           box-shadow: 
-            /* Triple-layer outer glow */
-            0 0 40px rgba(255, 255, 255, 0.25),
-            0 0 80px rgba(255, 255, 255, 0.15),
-            0 0 120px rgba(255, 255, 255, 0.08),
-            /* Depth - more lifted */
+            /* Subtle outer glow - reduced */
+            0 0 25px rgba(255, 255, 255, 0.1),
+            0 0 50px rgba(255, 255, 255, 0.05),
+            /* Depth */
             0 6px 12px rgba(0, 0, 0, 0.5),
             0 12px 24px rgba(0, 0, 0, 0.4),
-            /* Inner light - brighter */
-            inset 0 1px 2px rgba(255, 255, 255, 0.3),
+            /* Inner light */
+            inset 0 1px 2px rgba(255, 255, 255, 0.15),
             inset 0 -1px 1px rgba(0, 0, 0, 0.2);
-          transform: translateZ(0) scale(1.04);
+          transform: translateZ(0) scale(1.02);
         }
         
         .nav-icon-container.active::after {
           background: linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.4) 0%,
-            rgba(255, 255, 255, 0.18) 30%,
-            rgba(255, 255, 255, 0.04) 60%,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0.08) 30%,
+            rgba(255, 255, 255, 0.02) 60%,
             transparent 100%
           );
         }
@@ -318,12 +314,12 @@ export default function Navigation() {
         }
         
         .nav-icon-container.active .nav-icon-svg {
-          filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))
+          filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.3))
                   drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
         
         .nav-icon-container:not(.active) {
-          opacity: 0.8;
+          opacity: 0.85;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
