@@ -98,10 +98,6 @@ export default function Creative() {
   // STATE OF THE ART - Elegant transition bridge to prevent flash
   const [bridgePhase, setBridgePhase] = useState<'idle' | 'in' | 'hold' | 'out'>('idle');
 
-  // Gallery scroll page indicator
-  const [galleryPage, setGalleryPage] = useState(0);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-
   const folderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const galleryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const expandedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -166,23 +162,78 @@ export default function Creative() {
     };
   }, []);
 
-  // Lock body scroll - IDENTICAL to Work page
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // SOLID ROCK LOCK - NO MOVEMENT AT ALL when overlays open
+  // Like a movie presentation - no swipe left/right/up/down - NOTHING moves
+  // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
     const isOpen = folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle' || bridgePhase !== 'idle';
 
     if (isOpen) {
+      const scrollY = window.scrollY;
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+      // Lock EVERYTHING - body AND html
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
       document.body.style.paddingRight = `${scrollBarWidth}px`;
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-    }
+      document.documentElement.style.overflow = 'hidden';
 
-    return () => {
+      // SOLID ROCK - Block ALL touch movement
+      const blockAllTouch = (e: TouchEvent) => {
+        // Block EVERYTHING - no exceptions for gallery scroll anymore
+        // This is a PRESENTATION - nothing moves
+        e.preventDefault();
+        e.stopPropagation();
+      };
+
+      // Block wheel events (desktop)
+      const blockWheel = (e: WheelEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+      };
+
+      // Add blockers with capture to catch EVERYTHING
+      document.addEventListener('touchmove', blockAllTouch, { passive: false, capture: true });
+      document.addEventListener('wheel', blockWheel, { passive: false, capture: true });
+
+      // Store for cleanup
+      (window as any).__solidRockCleanup = () => {
+        document.removeEventListener('touchmove', blockAllTouch, { capture: true } as any);
+        document.removeEventListener('wheel', blockWheel, { capture: true } as any);
+      };
+
+      return () => {
+        if ((window as any).__solidRockCleanup) {
+          (window as any).__solidRockCleanup();
+        }
+      };
+    } else {
+      // Restore everything
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
-    };
+      document.documentElement.style.overflow = '';
+
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+
+      // Cleanup touch blocker
+      if ((window as any).__solidRockCleanup) {
+        (window as any).__solidRockCleanup();
+        delete (window as any).__solidRockCleanup;
+      }
+    }
   }, [folderAnimState, galleryAnimState, expandedAnimState, bridgePhase]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
@@ -296,25 +347,6 @@ export default function Creative() {
       setExpandedAnimState('idle');
     }, 400);
   }, [expandedAnimState]);
-
-  // STATE OF THE ART - Gallery scroll handler for page indicators
-  const handleGalleryScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
-    const el = e.currentTarget;
-    const scrollLeft = el.scrollLeft;
-    const pageWidth = el.offsetWidth;
-    const newPage = Math.round(scrollLeft / pageWidth);
-    setGalleryPage(newPage);
-  }, []);
-
-  // Reset gallery page when opening
-  useEffect(() => {
-    if (galleryAnimState === 'entering') {
-      setGalleryPage(0);
-      if (scrollRef.current) {
-        scrollRef.current.scrollLeft = 0;
-      }
-    }
-  }, [galleryAnimState]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // RENDERERS
@@ -695,7 +727,7 @@ export default function Creative() {
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - TRANSITION BRIDGE                                            */
-        /* Elegant spinning circle loader - perfectly centered                             */
+        /* Elegant spinning circle loader - positioned higher (2 inches up from center)    */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .transition-bridge {
@@ -709,8 +741,10 @@ export default function Creative() {
           backdrop-filter: blur(60px) saturate(180%);
           -webkit-backdrop-filter: blur(60px) saturate(180%);
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: center;
+          /* Move spinner UP - approximately 2 inches from top */
+          padding-top: clamp(180px, 30vh, 280px);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -965,6 +999,11 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
+          /* SOLID ROCK - no touch movement */
+          touch-action: none;
+          -webkit-touch-callout: none;
+          user-select: none;
+          overscroll-behavior: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity, visibility;
@@ -984,6 +1023,8 @@ export default function Creative() {
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
+          /* SOLID ROCK */
+          touch-action: none;
         }
         
         .folder-container {
@@ -1104,7 +1145,8 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          touch-action: manipulation;
+          /* SOLID ROCK - no touch movement */
+          touch-action: none;
           -webkit-touch-callout: none;
           user-select: none;
           overscroll-behavior: none;
@@ -1125,7 +1167,8 @@ export default function Creative() {
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
-          touch-action: manipulation;
+          /* SOLID ROCK */
+          touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
@@ -1148,12 +1191,12 @@ export default function Creative() {
             0 20px 60px rgba(0, 0, 0, 0.4),
             0 8px 25px rgba(0, 0, 0, 0.3),
             inset 0 1px 1px rgba(255, 255, 255, 0.8);
-          touch-action: manipulation;
+          /* SOLID ROCK */
+          touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
           -webkit-tap-highlight-color: transparent;
-          max-width: calc(2 * 80px + 18px + 48px);
           overflow: hidden;
         }
         
@@ -1171,66 +1214,22 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - iOS STYLE HORIZONTAL SCROLL GALLERY                          */
-        /* Fixed 2x2 grid visible, horizontal scroll for more items                        */
+        /* SOLID ROCK - FIXED 4x2 GRID (no scroll, all 8 visible)                         */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .gallery-scroll-wrapper {
-          width: calc(2 * 80px + 18px);
-          overflow-x: auto;
-          overflow-y: hidden;
-          -webkit-overflow-scrolling: touch;
-          scroll-snap-type: x mandatory;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          touch-action: pan-x;
-          overscroll-behavior-x: contain;
-          overscroll-behavior-y: none;
-        }
-        
-        .gallery-scroll-wrapper::-webkit-scrollbar {
-          display: none;
-        }
         
         .gallery-grid {
           display: grid;
-          grid-template-columns: repeat(2, 80px);
-          grid-template-rows: repeat(2, auto);
-          grid-auto-flow: column;
-          gap: 18px;
-          touch-action: pan-x;
-          width: max-content;
+          /* 4 columns for 8 items = 2 rows */
+          grid-template-columns: repeat(4, 70px);
+          gap: 14px;
+          /* SOLID ROCK */
+          touch-action: none;
         }
         
-        .gallery-card:nth-child(4n+1) {
-          scroll-snap-align: start;
-        }
-        
+        /* 2x2 grid for geometry (4 items) */
         .gallery-grid.grid-2 {
           grid-template-columns: repeat(2, 80px);
-          grid-auto-flow: row;
-          width: auto;
-        }
-        
-        /* Scroll indicator dots */
-        .gallery-dots {
-          display: flex;
-          justify-content: center;
-          gap: 8px;
-          margin-top: 16px;
-        }
-        
-        .gallery-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: rgba(0, 0, 0, 0.2);
-          transition: background 0.2s ease, transform 0.2s ease;
-        }
-        
-        .gallery-dot.active {
-          background: rgba(0, 0, 0, 0.6);
-          transform: scale(1.2);
+          gap: 18px;
         }
         
         .gallery-card {
@@ -1242,12 +1241,10 @@ export default function Creative() {
           opacity: 0;
           transform: translateZ(0) scale(0.7) translateY(12px);
           transition: none;
-          touch-action: manipulation;
+          /* SOLID ROCK */
+          touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          /* Fixed width for consistent grid */
-          width: 80px;
-          flex-shrink: 0;
         }
         
         .gallery-overlay.active .gallery-card {
@@ -1333,7 +1330,8 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          touch-action: manipulation;
+          /* SOLID ROCK - no touch movement */
+          touch-action: none;
           -webkit-touch-callout: none;
           user-select: none;
           overscroll-behavior: none;
@@ -1505,20 +1503,16 @@ export default function Creative() {
           .gallery-container { 
             padding: 28px; 
             border-radius: 30px; 
-            max-width: calc(2 * 90px + 20px + 56px);
           }
-          .gallery-scroll-wrapper { width: calc(2 * 90px + 20px); }
           .gallery-grid { 
-            grid-template-columns: repeat(2, 90px); 
-            gap: 20px; 
+            grid-template-columns: repeat(4, 80px); 
+            gap: 16px; 
           }
-          .gallery-grid.grid-2 { grid-template-columns: repeat(2, 90px); }
-          .gallery-card { width: 90px; }
-          .gallery-card-icon { width: 82px; height: 82px; border-radius: 20px; }
+          .gallery-grid.grid-2 { grid-template-columns: repeat(2, 90px); gap: 20px; }
+          .gallery-card-icon { width: 72px; height: 72px; border-radius: 18px; }
           .gallery-card-icon:hover { transform: scale(1.06); }
-          .gallery-card-name { font-size: 13px; max-width: 90px; }
+          .gallery-card-name { font-size: 12px; max-width: 80px; }
           .expanded-content { width: 340px; height: 340px; border-radius: 26px; }
-          .expanded-hint { font-size: 14px; bottom: clamp(50px, 10vh, 100px); }
         }
         
         @media (min-width: 900px) {
@@ -1532,16 +1526,14 @@ export default function Creative() {
           .folder-card-icon { width: 95px; height: 95px; border-radius: 22px; }
           .gallery-container { 
             padding: 32px;
-            max-width: calc(2 * 100px + 24px + 64px);
           }
-          .gallery-scroll-wrapper { width: calc(2 * 100px + 24px); }
           .gallery-grid { 
-            grid-template-columns: repeat(2, 100px); 
-            gap: 24px; 
+            grid-template-columns: repeat(4, 90px); 
+            gap: 20px; 
           }
-          .gallery-grid.grid-2 { grid-template-columns: repeat(2, 100px); }
-          .gallery-card { width: 100px; }
-          .gallery-card-icon { width: 90px; height: 90px; }
+          .gallery-grid.grid-2 { grid-template-columns: repeat(2, 100px); gap: 24px; }
+          .gallery-card-icon { width: 82px; height: 82px; border-radius: 20px; }
+          .gallery-card-name { font-size: 13px; max-width: 90px; }
         }
         
         canvas { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
@@ -1667,83 +1659,58 @@ export default function Creative() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 3D ICONS GALLERY - 2x2 with horizontal scroll                                  */}
-      {/* Tap background to close (no X button)                                           */}
+      {/* 3D ICONS GALLERY - SOLID ROCK 4x2 grid (all 8 visible, no scroll)              */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`gallery-overlay ${getGalleryAnimClass('3dicons')}`}>
         <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
         <div className="gallery-container">
-          <div
-            className="gallery-scroll-wrapper"
-            ref={openGallery === '3dicons' ? scrollRef : null}
-            onScroll={handleGalleryScroll}
-          >
-            <div className="gallery-grid">
-              {icons3DItems.map(item => (
-                <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`3d-${item.id}`)}>
-                  <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                    {render3DIconMini(item.id, galleryIconSize)}
-                  </div>
-                  <span className="gallery-card-name">{item.name}</span>
+          <div className="gallery-grid">
+            {icons3DItems.map(item => (
+              <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`3d-${item.id}`)}>
+                <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
+                  {render3DIconMini(item.id, galleryIconSize)}
                 </div>
-              ))}
-            </div>
-          </div>
-          <div className="gallery-dots">
-            <div className={`gallery-dot ${galleryPage === 0 ? 'active' : ''}`} />
-            <div className={`gallery-dot ${galleryPage === 1 ? 'active' : ''}`} />
+                <span className="gallery-card-name">{item.name}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* GEOMETRY GALLERY - 2x2 grid (4 items, no scroll needed)                        */}
-      {/* Tap background to close (no X button)                                           */}
+      {/* GEOMETRY GALLERY - SOLID ROCK 2x2 grid                                          */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`gallery-overlay ${getGalleryAnimClass('geometry')}`}>
         <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
         <div className="gallery-container">
-          <div className="gallery-scroll-wrapper">
-            <div className="gallery-grid grid-2">
-              {geometryItems.map(item => (
-                <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`geo-${item.id}`)}>
-                  <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                    {renderGeometryMini(item.id, galleryIconSize)}
-                  </div>
-                  <span className="gallery-card-name">{item.name}</span>
+          <div className="gallery-grid grid-2">
+            {geometryItems.map(item => (
+              <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`geo-${item.id}`)}>
+                <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
+                  {renderGeometryMini(item.id, galleryIconSize)}
                 </div>
-              ))}
-            </div>
+                <span className="gallery-card-name">{item.name}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 2D ICONS GALLERY - 2x2 with horizontal scroll                                  */}
-      {/* Tap background to close (no X button)                                           */}
+      {/* 2D ICONS GALLERY - SOLID ROCK 4x2 grid (all 8 visible, no scroll)              */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`gallery-overlay ${getGalleryAnimClass('icons')}`}>
         <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
         <div className="gallery-container">
-          <div
-            className="gallery-scroll-wrapper"
-            ref={openGallery === 'icons' ? scrollRef : null}
-            onScroll={handleGalleryScroll}
-          >
-            <div className="gallery-grid">
-              {staticIconItems.map(item => (
-                <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`2d-${item.id}`)}>
-                  <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                    {render2DIconMini(item.id, galleryIconSize)}
-                  </div>
-                  <span className="gallery-card-name">{item.name}</span>
+          <div className="gallery-grid">
+            {staticIconItems.map(item => (
+              <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`2d-${item.id}`)}>
+                <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
+                  {render2DIconMini(item.id, galleryIconSize)}
                 </div>
-              ))}
-            </div>
-          </div>
-          <div className="gallery-dots">
-            <div className={`gallery-dot ${galleryPage === 0 ? 'active' : ''}`} />
-            <div className={`gallery-dot ${galleryPage === 1 ? 'active' : ''}`} />
+                <span className="gallery-card-name">{item.name}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
