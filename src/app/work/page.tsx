@@ -10,11 +10,10 @@ const MegaAgentIcon3D = dynamic(() => import("@/components/WorkIcons").then(mod 
 const OctopusIcon3D = dynamic(() => import("@/components/WorkIcons").then(mod => ({ default: mod.OctopusIcon3D })), { ssr: false });
 const OvermindIcon3D = dynamic(() => import("@/components/WorkIcons").then(mod => ({ default: mod.OvermindIcon3D })), { ssr: false });
 
-// ═══════════════════════════════════════════════════════════════════════════
-// DATA DEFINITIONS
-// ═══════════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════════════════
+// DATA DEFINITIONS - EXACT SIZES FOR CONSISTENCY
+// ═══════════════════════════════════════════════════════════════════════════════
 
-// Apps (Work projects)
 const appsItems = [
   { id: 'trade69', name: 'Trade69', href: '/work/trade69', color: ['#1a5c50', '#082825'], glow: 'rgba(94, 234, 212, 0.25)' },
   { id: 'megaagent', name: 'MegaAgent', href: '/work/megaagent', color: ['#5c3d7a', '#281840'], glow: 'rgba(192, 132, 252, 0.25)' },
@@ -22,7 +21,6 @@ const appsItems = [
   { id: 'overmind', name: 'Overmind', href: '/work/overmind', color: ['#8a6420', '#3d2d0d'], glow: 'rgba(252, 211, 77, 0.25)' },
 ];
 
-// Services
 const servicesItems = [
   { id: 'website', name: 'Web Apps', color: ['#3d2860', '#1e1438'], glow: 'rgba(165, 130, 252, 0.25)', desc: 'Full-stack applications with modern frameworks. SEO, responsive design, authentication, databases, and deployment.' },
   { id: 'dashboard', name: 'Dashboards', color: ['#602848', '#381428'], glow: 'rgba(251, 130, 180, 0.25)', desc: 'Real-time data visualization and analytics. Interactive charts, live data streams, and beautiful interfaces.' },
@@ -30,7 +28,6 @@ const servicesItems = [
   { id: 'llm', name: 'LLM', color: ['#604028', '#382010'], glow: 'rgba(253, 186, 140, 0.25)', desc: 'AI integrations and middleware. Prompt engineering, tool orchestration, and multi-model pipelines.' },
 ];
 
-// Social links
 const socialLinks = [
   { id: 'github', name: 'GitHub', url: 'https://github.com/manfromnowhere143', color: ['#2d333b', '#161b22'], glow: 'rgba(255, 255, 255, 0.15)' },
   { id: 'x', name: 'X', url: 'https://x.com/satori936', color: ['#1a1a1a', '#000000'], glow: 'rgba(255, 255, 255, 0.15)' },
@@ -38,7 +35,6 @@ const socialLinks = [
   { id: 'tiktok', name: 'TikTok', url: 'https://www.tiktok.com/@danielwahnich', color: ['#1a1a1a', '#000000'], glow: 'rgba(255, 255, 255, 0.15)' },
 ];
 
-// Gallery items
 const galleryItems = [
   { src: "/images/art4.png", name: "Neural Architecture" },
   { src: "/images/art3.jpg", name: "Emergence" },
@@ -46,7 +42,6 @@ const galleryItems = [
   { src: "/images/art1.JPEG", name: "Geometric Abstractions" },
 ];
 
-// Notes items
 const notesItems = [
   { src: "/images/homework1.jpg", name: "Study I" },
   { src: "/images/neural-timeline.jpg", name: "Study II" },
@@ -55,32 +50,26 @@ const notesItems = [
   { src: "/images/homework5.jpg", name: "Study V" },
 ];
 
-// Animation states
 type AnimationState = 'idle' | 'entering' | 'active' | 'exiting';
 
 export default function Work() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
 
-  // Folder states
   const [openFolder, setOpenFolder] = useState<string | null>(null);
   const [folderAnimState, setFolderAnimState] = useState<AnimationState>('idle');
 
-  // Expanded states
   const [expandedService, setExpandedService] = useState<number | null>(null);
   const [expandedAnimState, setExpandedAnimState] = useState<AnimationState>('idle');
 
-  // Gallery/Notes view states
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [galleryAnimState, setGalleryAnimState] = useState<AnimationState>('idle');
   const [notesOpen, setNotesOpen] = useState(false);
   const [notesAnimState, setNotesAnimState] = useState<AnimationState>('idle');
 
-  // Image expanded
   const [expandedImage, setExpandedImage] = useState<{src: string, name: string} | null>(null);
   const [imageAnimState, setImageAnimState] = useState<AnimationState>('idle');
 
-  // Refs
   const folderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const expandedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const galleryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -109,18 +98,67 @@ export default function Work() {
     };
   }, []);
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  // STATE OF THE ART - 3-PHASE ANIMATION HANDLERS
-  // ═══════════════════════════════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // STATE OF THE ART - SOLID ROCK LOCK
+  // ═══════════════════════════════════════════════════════════════════════════════
+  useEffect(() => {
+    const isOpen = folderAnimState !== 'idle' || expandedAnimState !== 'idle' ||
+                   galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle';
+
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+
+      const blockAllTouch = (e: TouchEvent) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('.media-container')) return;
+        if (target.closest('.image-expanded-content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      };
+
+      const blockWheel = (e: WheelEvent) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('.media-container')) return;
+        if (target.closest('.image-expanded-content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      };
+
+      document.addEventListener('touchmove', blockAllTouch, { passive: false, capture: true });
+      document.addEventListener('wheel', blockWheel, { passive: false, capture: true });
+
+      (window as any).__workSolidRockCleanup = () => {
+        document.removeEventListener('touchmove', blockAllTouch, { capture: true } as any);
+        document.removeEventListener('wheel', blockWheel, { capture: true } as any);
+      };
+
+      return () => {
+        if ((window as any).__workSolidRockCleanup) {
+          (window as any).__workSolidRockCleanup();
+        }
+      };
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+
+      if ((window as any).__workSolidRockCleanup) {
+        (window as any).__workSolidRockCleanup();
+        delete (window as any).__workSolidRockCleanup;
+      }
+    }
+  }, [folderAnimState, expandedAnimState, galleryAnimState, notesAnimState, imageAnimState]);
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // HANDLERS
+  // ═══════════════════════════════════════════════════════════════════════════════
 
   const handleOpenFolder = useCallback((folderId: string) => {
     if (folderAnimState !== 'idle') return;
     setOpenFolder(folderId);
     setFolderAnimState('entering');
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setFolderAnimState('active');
-      });
+      requestAnimationFrame(() => setFolderAnimState('active'));
     });
   }, [folderAnimState]);
 
@@ -138,9 +176,7 @@ export default function Work() {
     setExpandedService(index);
     setExpandedAnimState('entering');
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setExpandedAnimState('active');
-      });
+      requestAnimationFrame(() => setExpandedAnimState('active'));
     });
   }, [expandedAnimState]);
 
@@ -158,9 +194,7 @@ export default function Work() {
     setGalleryOpen(true);
     setGalleryAnimState('entering');
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setGalleryAnimState('active');
-      });
+      requestAnimationFrame(() => setGalleryAnimState('active'));
     });
   }, [galleryAnimState]);
 
@@ -178,9 +212,7 @@ export default function Work() {
     setNotesOpen(true);
     setNotesAnimState('entering');
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setNotesAnimState('active');
-      });
+      requestAnimationFrame(() => setNotesAnimState('active'));
     });
   }, [notesAnimState]);
 
@@ -193,15 +225,12 @@ export default function Work() {
     }, 350);
   }, [notesAnimState]);
 
-  // STATE OF THE ART - Image expanded handlers
   const handleOpenImage = useCallback((image: {src: string, name: string}) => {
     if (imageAnimState !== 'idle') return;
     setExpandedImage(image);
     setImageAnimState('entering');
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setImageAnimState('active');
-      });
+      requestAnimationFrame(() => setImageAnimState('active'));
     });
   }, [imageAnimState]);
 
@@ -214,251 +243,80 @@ export default function Work() {
     }, 400);
   }, [imageAnimState]);
 
-  // Prevent touch move
-  const preventTouchMove = useCallback((e: TouchEvent) => {
-    const target = e.target as HTMLElement;
-    if (target.closest('.folder-close') || target.closest('.folder-app') || target.closest('.gallery-item') || target.closest('.note-item') || target.closest('.image-expanded-close')) {
-      return;
-    }
-    e.preventDefault();
-  }, []);
-
-  // Lock body scroll
-  useEffect(() => {
-    const isOpen = folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle';
-    if (isOpen) {
-      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = `${scrollBarWidth}px`;
-      document.addEventListener('touchmove', preventTouchMove, { passive: false });
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-      document.removeEventListener('touchmove', preventTouchMove);
-    }
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-      document.removeEventListener('touchmove', preventTouchMove);
-    };
-  }, [folderAnimState, expandedAnimState, galleryAnimState, notesAnimState, imageAnimState, preventTouchMove]);
-
-  // Get image animation class
-  const getImageAnimClass = () => {
-    switch (imageAnimState) {
-      case 'entering': return 'entering';
-      case 'active': return 'active';
-      case 'exiting': return 'exiting';
-      default: return '';
-    }
-  };
-
-  // ═══════════════════════════════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════════════════════
   // RENDER ICONS
-  // ═══════════════════════════════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════════════════════════
 
   const renderAppMiniIcon = (id: string, size: number = 18) => {
     switch (id) {
       case 'trade69':
-        return (
-          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-            <path d="M3 17l6-6 4 4 8-8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.9"/>
-            <path d="M17 7h4v4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
-          </svg>
-        );
+        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.9"/><path d="M17 7h4v4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/></svg>;
       case 'megaagent':
-        return (
-          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="8" r="4" stroke="white" strokeWidth="1.5" opacity="0.9"/>
-            <circle cx="6" cy="16" r="3" stroke="white" strokeWidth="1.5" opacity="0.7"/>
-            <circle cx="18" cy="16" r="3" stroke="white" strokeWidth="1.5" opacity="0.7"/>
-            <path d="M12 12v2M8.5 14l-1 1M15.5 14l1 1" stroke="white" strokeWidth="1.5" opacity="0.5"/>
-          </svg>
-        );
+        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="white" strokeWidth="1.5" opacity="0.9"/><circle cx="6" cy="16" r="3" stroke="white" strokeWidth="1.5" opacity="0.7"/><circle cx="18" cy="16" r="3" stroke="white" strokeWidth="1.5" opacity="0.7"/><path d="M12 12v2M8.5 14l-1 1M15.5 14l1 1" stroke="white" strokeWidth="1.5" opacity="0.5"/></svg>;
       case 'octopus':
-        return (
-          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="10" r="5" stroke="white" strokeWidth="1.5" opacity="0.9"/>
-            <path d="M7 15c-1 2-2 4-1 5M10 14c0 3-1 5 0 6M14 14c0 3 1 5 0 6M17 15c1 2 2 4 1 5" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
-            <circle cx="10" cy="9" r="1" fill="white" opacity="0.9"/>
-            <circle cx="14" cy="9" r="1" fill="white" opacity="0.9"/>
-          </svg>
-        );
+        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="5" stroke="white" strokeWidth="1.5" opacity="0.9"/><path d="M7 15c-1 2-2 4-1 5M10 14c0 3-1 5 0 6M14 14c0 3 1 5 0 6M17 15c1 2 2 4 1 5" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/><circle cx="10" cy="9" r="1" fill="white" opacity="0.9"/><circle cx="14" cy="9" r="1" fill="white" opacity="0.9"/></svg>;
       case 'overmind':
-        return (
-          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.5" opacity="0.5"/>
-            <circle cx="12" cy="12" r="4" stroke="white" strokeWidth="1.5" opacity="0.7"/>
-            <circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9"/>
-            <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white" strokeWidth="1" opacity="0.4"/>
-          </svg>
-        );
-      default:
-        return null;
+        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.5" opacity="0.5"/><circle cx="12" cy="12" r="4" stroke="white" strokeWidth="1.5" opacity="0.7"/><circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white" strokeWidth="1" opacity="0.4"/></svg>;
+      default: return null;
     }
   };
 
   const renderServiceMiniIcon = (id: string, size: number = 18) => {
     switch (id) {
       case 'website':
-        return (
-          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="4" width="18" height="14" rx="2" stroke="white" strokeWidth="1.5" opacity="0.9"/>
-            <path d="M3 8h18" stroke="white" strokeWidth="1" opacity="0.6"/>
-            <circle cx="5.5" cy="6" r="0.8" fill="white" opacity="0.8"/>
-            <circle cx="8" cy="6" r="0.8" fill="white" opacity="0.8"/>
-          </svg>
-        );
+        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="white" strokeWidth="1.5" opacity="0.9"/><path d="M3 8h18" stroke="white" strokeWidth="1" opacity="0.6"/><circle cx="5.5" cy="6" r="0.8" fill="white" opacity="0.8"/><circle cx="8" cy="6" r="0.8" fill="white" opacity="0.8"/></svg>;
       case 'dashboard':
-        return (
-          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.5" opacity="0.9"/>
-            <path d="M12 6v3M12 15v3M6 12h3M15 12h3" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/>
-            <circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/>
-          </svg>
-        );
+        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.5" opacity="0.9"/><path d="M12 6v3M12 15v3M6 12h3M15 12h3" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/><circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/></svg>;
       case 'api':
-        return (
-          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="5" r="2" fill="white" opacity="0.9"/>
-            <circle cx="5" cy="12" r="2" fill="white" opacity="0.9"/>
-            <circle cx="19" cy="12" r="2" fill="white" opacity="0.9"/>
-            <circle cx="12" cy="19" r="2" fill="white" opacity="0.9"/>
-            <path d="M12 7v4M12 13v4M7 12h4M13 12h4" stroke="white" strokeWidth="1.5" opacity="0.6"/>
-          </svg>
-        );
+        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2" fill="white" opacity="0.9"/><circle cx="5" cy="12" r="2" fill="white" opacity="0.9"/><circle cx="19" cy="12" r="2" fill="white" opacity="0.9"/><circle cx="12" cy="19" r="2" fill="white" opacity="0.9"/><path d="M12 7v4M12 13v4M7 12h4M13 12h4" stroke="white" strokeWidth="1.5" opacity="0.6"/></svg>;
       case 'llm':
-        return (
-          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-            <ellipse cx="12" cy="12" rx="9" ry="5" stroke="white" strokeWidth="1.2" opacity="0.5"/>
-            <ellipse cx="12" cy="12" rx="9" ry="5" stroke="white" strokeWidth="1.2" opacity="0.5" transform="rotate(60 12 12)"/>
-            <ellipse cx="12" cy="12" rx="9" ry="5" stroke="white" strokeWidth="1.2" opacity="0.5" transform="rotate(120 12 12)"/>
-            <circle cx="12" cy="12" r="3" fill="white" opacity="0.9"/>
-          </svg>
-        );
-      default:
-        return null;
+        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="12" rx="9" ry="5" stroke="white" strokeWidth="1.2" opacity="0.5"/><ellipse cx="12" cy="12" rx="9" ry="5" stroke="white" strokeWidth="1.2" opacity="0.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="5" stroke="white" strokeWidth="1.2" opacity="0.5" transform="rotate(120 12 12)"/><circle cx="12" cy="12" r="3" fill="white" opacity="0.9"/></svg>;
+      default: return null;
     }
   };
 
   const renderSocialMiniIcon = (id: string, size: number = 16) => {
     switch (id) {
       case 'github':
-        return (
-          <svg width={size} height={size} viewBox="0 0 24 24" fill="white" opacity="0.9">
-            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-          </svg>
-        );
+        return <svg width={size} height={size} viewBox="0 0 24 24" fill="white" opacity="0.9"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>;
       case 'x':
-        return (
-          <svg width={size - 2} height={size - 2} viewBox="0 0 24 24" fill="white" opacity="0.9">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-        );
+        return <svg width={size - 2} height={size - 2} viewBox="0 0 24 24" fill="white" opacity="0.9"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>;
       case 'instagram':
-        return (
-          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-            <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" strokeWidth="1.5" opacity="0.9"/>
-            <circle cx="12" cy="12" r="4" stroke="white" strokeWidth="1.5" opacity="0.9"/>
-            <circle cx="18" cy="6" r="1" fill="white" opacity="0.9"/>
-          </svg>
-        );
+        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="white" strokeWidth="1.5" opacity="0.9"/><circle cx="12" cy="12" r="4" stroke="white" strokeWidth="1.5" opacity="0.9"/><circle cx="18" cy="6" r="1" fill="white" opacity="0.9"/></svg>;
       case 'tiktok':
-        return (
-          <svg width={size - 2} height={size - 2} viewBox="0 0 24 24" fill="white" opacity="0.9">
-            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
-          </svg>
-        );
-      default:
-        return null;
+        return <svg width={size - 2} height={size - 2} viewBox="0 0 24 24" fill="white" opacity="0.9"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>;
+      default: return null;
     }
   };
 
   const renderServiceIcon = (id: string, size: number = 48) => {
     switch (id) {
       case 'website':
-        return (
-          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
-            <rect x="8" y="12" width="44" height="32" rx="4" stroke="white" strokeWidth="2" opacity="0.9"/>
-            <path d="M8 20h44" stroke="white" strokeWidth="1.5" opacity="0.6"/>
-            <circle cx="13" cy="16" r="2" fill="white" opacity="0.8"/>
-            <circle cx="19" cy="16" r="2" fill="white" opacity="0.8"/>
-            <circle cx="25" cy="16" r="2" fill="white" opacity="0.8"/>
-            <rect x="14" y="26" width="14" height="12" rx="1" fill="white" opacity="0.5"/>
-            <rect x="32" y="26" width="14" height="4" rx="1" fill="white" opacity="0.4"/>
-            <rect x="32" y="33" width="10" height="3" rx="1" fill="white" opacity="0.3"/>
-          </svg>
-        );
+        return <svg width={size} height={size} viewBox="0 0 60 60" fill="none"><rect x="8" y="12" width="44" height="32" rx="4" stroke="white" strokeWidth="2" opacity="0.9"/><path d="M8 20h44" stroke="white" strokeWidth="1.5" opacity="0.6"/><circle cx="13" cy="16" r="2" fill="white" opacity="0.8"/><circle cx="19" cy="16" r="2" fill="white" opacity="0.8"/><circle cx="25" cy="16" r="2" fill="white" opacity="0.8"/><rect x="14" y="26" width="14" height="12" rx="1" fill="white" opacity="0.5"/><rect x="32" y="26" width="14" height="4" rx="1" fill="white" opacity="0.4"/><rect x="32" y="33" width="10" height="3" rx="1" fill="white" opacity="0.3"/></svg>;
       case 'dashboard':
-        return (
-          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
-            <circle cx="30" cy="30" r="22" stroke="white" strokeWidth="2" opacity="0.9"/>
-            <circle cx="30" cy="30" r="16" stroke="white" strokeWidth="1.5" opacity="0.5"/>
-            <path d="M30 12v6M30 42v6M12 30h6M42 30h6" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.7"/>
-            <circle cx="30" cy="30" r="5" fill="white" opacity="0.9"/>
-            <path d="M30 30l8-12" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.8"/>
-          </svg>
-        );
+        return <svg width={size} height={size} viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="22" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="30" cy="30" r="16" stroke="white" strokeWidth="1.5" opacity="0.5"/><path d="M30 12v6M30 42v6M12 30h6M42 30h6" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.7"/><circle cx="30" cy="30" r="5" fill="white" opacity="0.9"/><path d="M30 30l8-12" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.8"/></svg>;
       case 'api':
-        return (
-          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
-            <circle cx="30" cy="10" r="6" stroke="white" strokeWidth="2" opacity="0.9"/>
-            <circle cx="10" cy="30" r="6" stroke="white" strokeWidth="2" opacity="0.9"/>
-            <circle cx="50" cy="30" r="6" stroke="white" strokeWidth="2" opacity="0.9"/>
-            <circle cx="30" cy="50" r="6" stroke="white" strokeWidth="2" opacity="0.9"/>
-            <path d="M30 16v8M30 36v8M16 30h8M36 30h8" stroke="white" strokeWidth="2" opacity="0.6"/>
-            <circle cx="30" cy="30" r="8" fill="white" opacity="0.9"/>
-          </svg>
-        );
+        return <svg width={size} height={size} viewBox="0 0 60 60" fill="none"><circle cx="30" cy="10" r="6" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="10" cy="30" r="6" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="50" cy="30" r="6" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="30" cy="50" r="6" stroke="white" strokeWidth="2" opacity="0.9"/><path d="M30 16v8M30 36v8M16 30h8M36 30h8" stroke="white" strokeWidth="2" opacity="0.6"/><circle cx="30" cy="30" r="8" fill="white" opacity="0.9"/></svg>;
       case 'llm':
-        return (
-          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
-            <ellipse cx="30" cy="30" rx="24" ry="14" stroke="white" strokeWidth="1.5" opacity="0.5"/>
-            <ellipse cx="30" cy="30" rx="24" ry="14" stroke="white" strokeWidth="1.5" opacity="0.5" transform="rotate(60 30 30)"/>
-            <ellipse cx="30" cy="30" rx="24" ry="14" stroke="white" strokeWidth="1.5" opacity="0.5" transform="rotate(120 30 30)"/>
-            <circle cx="30" cy="30" r="10" fill="white" opacity="0.9"/>
-            <circle cx="30" cy="30" r="5" fill="white" opacity="1"/>
-          </svg>
-        );
-      default:
-        return null;
+        return <svg width={size} height={size} viewBox="0 0 60 60" fill="none"><ellipse cx="30" cy="30" rx="24" ry="14" stroke="white" strokeWidth="1.5" opacity="0.5"/><ellipse cx="30" cy="30" rx="24" ry="14" stroke="white" strokeWidth="1.5" opacity="0.5" transform="rotate(60 30 30)"/><ellipse cx="30" cy="30" rx="24" ry="14" stroke="white" strokeWidth="1.5" opacity="0.5" transform="rotate(120 30 30)"/><circle cx="30" cy="30" r="10" fill="white" opacity="0.9"/><circle cx="30" cy="30" r="5" fill="white" opacity="1"/></svg>;
+      default: return null;
     }
   };
 
   const renderSocialIcon = (id: string, size: number = 32) => {
     switch (id) {
       case 'github':
-        return (
-          <svg width={size} height={size} viewBox="0 0 24 24" fill="white">
-            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-          </svg>
-        );
+        return <svg width={size} height={size} viewBox="0 0 24 24" fill="white"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>;
       case 'x':
-        return (
-          <svg width={size - 6} height={size - 6} viewBox="0 0 24 24" fill="white">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-        );
+        return <svg width={size - 6} height={size - 6} viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>;
       case 'instagram':
-        return (
-          <svg width={size - 4} height={size - 4} viewBox="0 0 24 24" fill="none">
-            <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" strokeWidth="2"/>
-            <circle cx="12" cy="12" r="4" stroke="white" strokeWidth="2"/>
-            <circle cx="18" cy="6" r="1.5" fill="white"/>
-          </svg>
-        );
+        return <svg width={size - 4} height={size - 4} viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="white" strokeWidth="2"/><circle cx="12" cy="12" r="4" stroke="white" strokeWidth="2"/><circle cx="18" cy="6" r="1.5" fill="white"/></svg>;
       case 'tiktok':
-        return (
-          <svg width={size - 6} height={size - 6} viewBox="0 0 24 24" fill="white">
-            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
-          </svg>
-        );
-      default:
-        return null;
+        return <svg width={size - 6} height={size - 6} viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>;
+      default: return null;
     }
   };
 
-  // Get animation classes
   const getFolderAnimClass = () => {
     switch (folderAnimState) {
       case 'entering': return 'entering';
@@ -495,20 +353,22 @@ export default function Work() {
     }
   };
 
+  const getImageAnimClass = () => {
+    switch (imageAnimState) {
+      case 'entering': return 'entering';
+      case 'active': return 'active';
+      case 'exiting': return 'exiting';
+      default: return '';
+    }
+  };
+
   const miniIconSize = isMobile ? 18 : 22;
   const folderIconSize = isMobile ? 48 : 58;
 
   return (
     <>
       <style>{`
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - UNIFIED WORK PAGE                                        */
-        /* Alive lighting, proper animations, elegant design                           */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        
-        * {
-          -webkit-tap-highlight-color: transparent;
-        }
+        * { -webkit-tap-highlight-color: transparent; }
         
         .work-page {
           overscroll-behavior: none;
@@ -537,10 +397,6 @@ export default function Work() {
           gap: 10px;
         }
         
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - FOLDER ICON WITH ALIVE LIGHTING                          */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        
         .folder-icon {
           position: relative;
           width: 115px;
@@ -556,20 +412,13 @@ export default function Work() {
           overflow: hidden;
           opacity: 0;
           transform: translateZ(0) scale(0.85) translateY(15px);
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                      box-shadow 0.4s ease, opacity 0.5s ease;
-          box-shadow: 
-            0 0 50px rgba(255, 255, 255, 0.06),
-            0 8px 32px rgba(0, 0, 0, 0.5),
-            0 2px 8px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.2),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease;
+          box-shadow: 0 0 50px rgba(255, 255, 255, 0.06), 0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.1);
           border: 1px solid rgba(255, 255, 255, 0.08);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
         }
         
-        /* STATE OF THE ART - Top shine reflection */
         .folder-icon::before {
           content: '';
           position: absolute;
@@ -577,12 +426,7 @@ export default function Work() {
           left: 8%;
           right: 8%;
           height: 50%;
-          background: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.25) 0%,
-            rgba(255, 255, 255, 0.08) 40%,
-            transparent 100%
-          );
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.08) 40%, transparent 100%);
           border-radius: 28px 28px 50% 50%;
           pointer-events: none;
           z-index: 10;
@@ -593,20 +437,10 @@ export default function Work() {
           transform: translateZ(0) scale(1) translateY(0);
         }
         
-        .folder-icon:active {
-          transform: translateZ(0) scale(0.94);
-        }
-        
-        /* Staggered animations */
         .folder-wrapper:nth-child(1) .folder-icon { transition-delay: 0ms; }
         .folder-wrapper:nth-child(2) .folder-icon { transition-delay: 60ms; }
         .folder-wrapper:nth-child(3) .folder-icon { transition-delay: 120ms; }
         .folder-wrapper:nth-child(4) .folder-icon { transition-delay: 180ms; }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - MINI ICON PREVIEW GRID                                   */
-        /* Shows ACTUAL icons with alive lighting                                      */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .folder-preview {
           display: grid;
@@ -618,7 +452,6 @@ export default function Work() {
           z-index: 5;
         }
         
-        /* 2-item variant - single row centered */
         .folder-preview-2 {
           grid-template-columns: repeat(2, 1fr);
           grid-template-rows: 1fr;
@@ -635,14 +468,9 @@ export default function Work() {
           justify-content: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 
-            0 0 12px var(--glow-color, rgba(255, 255, 255, 0.1)),
-            0 3px 8px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 12px var(--glow-color, rgba(255, 255, 255, 0.1)), 0 3px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
         }
         
-        /* Mini icon top shine */
         .folder-mini-icon::before {
           content: '';
           position: absolute;
@@ -650,12 +478,7 @@ export default function Work() {
           left: 5%;
           right: 5%;
           height: 50%;
-          background: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.35) 0%,
-            rgba(255, 255, 255, 0.1) 50%,
-            transparent 100%
-          );
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
           border-radius: 11px 11px 50% 50%;
           pointer-events: none;
           z-index: 5;
@@ -683,10 +506,6 @@ export default function Work() {
         .folder-wrapper:nth-child(3) .folder-name { transition-delay: 180ms; }
         .folder-wrapper:nth-child(4) .folder-name { transition-delay: 240ms; }
         
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - FOLDER OVERLAY (3-phase animation)                       */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        
         .folder-overlay {
           position: fixed;
           top: 0;
@@ -702,31 +521,19 @@ export default function Work() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
+          touch-action: none;
+          -webkit-touch-callout: none;
+          user-select: none;
+          overscroll-behavior: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
         }
         
-        .folder-overlay.entering {
-          visibility: visible;
-          pointer-events: auto;
-          opacity: 0;
-        }
-        
-        .folder-overlay.active {
-          visibility: visible;
-          pointer-events: auto;
-          opacity: 1;
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-        }
-        
-        .folder-overlay.exiting {
-          visibility: visible;
-          pointer-events: none;
-          opacity: 0;
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1);
-        }
+        .folder-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .folder-overlay.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        .folder-overlay.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
         
         .folder-overlay-bg {
           position: absolute;
@@ -737,6 +544,7 @@ export default function Work() {
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
+          touch-action: none;
         }
         
         .folder-container {
@@ -748,26 +556,22 @@ export default function Work() {
           border-radius: 28px;
           padding: 24px;
           opacity: 0;
-          transform: translateZ(0) scale(0.8);
+          transform: translateZ(0);
           transition: none;
-          box-shadow: 
-            0 0 60px rgba(255, 255, 255, 0.15),
-            0 20px 60px rgba(0, 0, 0, 0.4),
-            0 8px 25px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.8);
+          box-shadow: 0 0 60px rgba(255, 255, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4), 0 8px 25px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+          touch-action: none;
         }
         
         .folder-overlay.active .folder-container {
           opacity: 1;
-          transform: translateZ(0) scale(1);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.02s, 
-                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.02s;
+          transform: translateZ(0);
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s;
         }
         
         .folder-overlay.exiting .folder-container {
           opacity: 0;
-          transform: translateZ(0) scale(0.9);
-          transition: opacity 0.25s ease, transform 0.3s ease;
+          transform: translateZ(0);
+          transition: opacity 0.25s ease;
         }
         
         .folder-close {
@@ -791,8 +595,7 @@ export default function Work() {
         .folder-overlay.active .folder-close {
           opacity: 1;
           transform: scale(1);
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, 
-                      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
         }
         
         .folder-overlay.exiting .folder-close {
@@ -801,22 +604,13 @@ export default function Work() {
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        .folder-close svg {
-          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
-        }
-        
-        .folder-close:active {
-          transform: scale(0.85);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - FOLDER CONTENT GRID                                      */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
+        .folder-close svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
         
         .folder-apps-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 18px;
+          touch-action: none;
         }
         
         .folder-app {
@@ -829,13 +623,13 @@ export default function Work() {
           opacity: 0;
           transform: translateZ(0) scale(0.7) translateY(12px);
           transition: none;
+          touch-action: none;
         }
         
         .folder-overlay.active .folder-app {
           opacity: 1;
           transform: translateZ(0) scale(1) translateY(0);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), 
-                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
         .folder-overlay.exiting .folder-app {
@@ -858,12 +652,7 @@ export default function Work() {
           justify-content: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 
-            0 0 25px rgba(255, 255, 255, 0.12),
-            0 6px 20px rgba(0, 0, 0, 0.45),
-            0 12px 40px rgba(0, 0, 0, 0.25),
-            inset 0 1px 1px rgba(255, 255, 255, 0.4),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 25px rgba(255, 255, 255, 0.12), 0 6px 20px rgba(0, 0, 0, 0.45), 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4), inset 0 -1px 1px rgba(0, 0, 0, 0.2);
         }
         
         .folder-app-icon::before {
@@ -879,10 +668,6 @@ export default function Work() {
           z-index: 5;
         }
         
-        .folder-app-icon:active {
-          transform: scale(0.92);
-        }
-        
         .folder-app-name {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 12px;
@@ -890,10 +675,6 @@ export default function Work() {
           color: #1a1a1a;
           text-align: center;
         }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - SERVICE EXPANDED VIEW                                    */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .service-expanded {
           position: fixed;
@@ -907,45 +688,39 @@ export default function Work() {
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
-          padding-top: clamp(100px, 18vh, 180px);
+          padding-top: clamp(80px, 15vh, 150px);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
+          touch-action: none;
+          -webkit-touch-callout: none;
+          user-select: none;
+          overscroll-behavior: none;
         }
         
-        .service-expanded.entering {
-          visibility: visible;
-          pointer-events: auto;
-          opacity: 0;
-        }
-        
-        .service-expanded.active {
-          visibility: visible;
-          pointer-events: auto;
-          opacity: 1;
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
-        }
-        
-        .service-expanded.exiting {
-          visibility: visible;
-          pointer-events: none;
-          opacity: 0;
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-        }
+        .service-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .service-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .service-expanded.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
         
         .service-expanded-inner {
           display: flex;
           flex-direction: column;
           align-items: center;
+          opacity: 0;
+          transform: translateZ(0) scale(0.88);
+          transition: none;
         }
         
         .service-expanded.active .service-expanded-inner {
-          animation: expandedFadeIn 0.5s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+          opacity: 1;
+          transform: translateZ(0) scale(1);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
         }
         
-        @keyframes expandedFadeIn {
-          0% { opacity: 0; transform: scale(0.92); }
-          100% { opacity: 1; transform: scale(1); }
+        .service-expanded.exiting .service-expanded-inner {
+          opacity: 0;
+          transform: translateZ(0) scale(0.92);
+          transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
         .service-expanded-icon {
@@ -988,16 +763,22 @@ export default function Work() {
           justify-content: center;
           cursor: pointer;
           border: none;
+          opacity: 0;
+          transform: scale(0.5);
+          transition: none;
         }
         
-        .service-expanded-close:active {
-          transform: scale(0.85);
+        .service-expanded.active .service-expanded-close {
+          opacity: 1;
+          transform: scale(1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
         }
         
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - GALLERY & NOTES OVERLAY                                  */
-        /* IDENTICAL to Creative page folder-overlay style                             */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
+        .service-expanded.exiting .service-expanded-close {
+          opacity: 0;
+          transform: scale(0.7);
+          transition: opacity 0.15s ease, transform 0.2s ease;
+        }
         
         .media-overlay {
           position: fixed;
@@ -1022,28 +803,11 @@ export default function Work() {
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
-          -webkit-tap-highlight-color: transparent;
         }
         
-        .media-overlay.entering {
-          visibility: visible;
-          pointer-events: auto;
-          opacity: 0;
-        }
-        
-        .media-overlay.active {
-          visibility: visible;
-          pointer-events: auto;
-          opacity: 1;
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-        }
-        
-        .media-overlay.exiting {
-          visibility: visible;
-          pointer-events: none;
-          opacity: 0;
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1);
-        }
+        .media-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .media-overlay.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        .media-overlay.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
         
         .media-overlay-bg {
           position: absolute;
@@ -1055,10 +819,6 @@ export default function Work() {
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
           touch-action: manipulation;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          transform: translateZ(0);
-          -webkit-tap-highlight-color: transparent;
         }
         
         .media-container {
@@ -1070,31 +830,22 @@ export default function Work() {
           border-radius: 28px;
           padding: 24px;
           opacity: 0;
-          transform: translateZ(0) scale(0.8);
+          transform: translateZ(0);
           transition: none;
-          box-shadow: 
-            0 0 60px rgba(255, 255, 255, 0.15),
-            0 20px 60px rgba(0, 0, 0, 0.4),
-            0 8px 25px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.8);
+          box-shadow: 0 0 60px rgba(255, 255, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4), 0 8px 25px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.8);
           touch-action: manipulation;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          will-change: transform, opacity;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .media-overlay.active .media-container {
           opacity: 1;
-          transform: translateZ(0) scale(1);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.02s, 
-                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.02s;
+          transform: translateZ(0);
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s;
         }
         
         .media-overlay.exiting .media-container {
           opacity: 0;
-          transform: translateZ(0) scale(0.9);
-          transition: opacity 0.25s ease, transform 0.3s ease;
+          transform: translateZ(0);
+          transition: opacity 0.25s ease;
         }
         
         .media-grid {
@@ -1102,7 +853,6 @@ export default function Work() {
           grid-template-columns: repeat(2, 1fr);
           gap: 18px;
           touch-action: manipulation;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .media-item {
@@ -1115,16 +865,12 @@ export default function Work() {
           transform: translateZ(0) scale(0.7) translateY(12px);
           transition: none;
           touch-action: manipulation;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .media-overlay.active .media-item {
           opacity: 1;
           transform: translateZ(0) scale(1) translateY(0);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), 
-                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
         .media-overlay.exiting .media-item {
@@ -1133,7 +879,6 @@ export default function Work() {
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        /* Staggered pop-in */
         .media-overlay.active .media-item:nth-child(1) { transition-delay: 0.04s; }
         .media-overlay.active .media-item:nth-child(2) { transition-delay: 0.07s; }
         .media-overlay.active .media-item:nth-child(3) { transition-delay: 0.10s; }
@@ -1149,16 +894,7 @@ export default function Work() {
           justify-content: center;
           overflow: hidden;
           position: relative;
-          box-shadow: 
-            0 0 25px rgba(255, 255, 255, 0.12),
-            0 6px 20px rgba(0, 0, 0, 0.45),
-            0 12px 40px rgba(0, 0, 0, 0.25),
-            inset 0 1px 1px rgba(255, 255, 255, 0.4),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          transform: translateZ(0);
-          -webkit-tap-highlight-color: transparent;
+          box-shadow: 0 0 25px rgba(255, 255, 255, 0.12), 0 6px 20px rgba(0, 0, 0, 0.45), 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4), inset 0 -1px 1px rgba(0, 0, 0, 0.2);
         }
         
         .media-item-icon::before {
@@ -1168,19 +904,10 @@ export default function Work() {
           left: 8%;
           right: 8%;
           height: 45%;
-          background: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.35) 0%,
-            rgba(255, 255, 255, 0.1) 50%,
-            transparent 100%
-          );
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
           border-radius: 18px 18px 50% 50%;
           pointer-events: none;
           z-index: 10;
-        }
-        
-        .media-item-icon:active {
-          transform: scale(0.9);
         }
         
         .media-item-icon img {
@@ -1214,14 +941,12 @@ export default function Work() {
           transition: none;
           border: none;
           touch-action: manipulation;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .media-overlay.active .media-close {
           opacity: 1;
           transform: scale(1);
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, 
-                      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
         }
         
         .media-overlay.exiting .media-close {
@@ -1230,18 +955,7 @@ export default function Work() {
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        .media-close svg {
-          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
-        }
-        
-        .media-close:active {
-          transform: scale(0.85);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - IMAGE EXPANDED VIEW                                      */
-        /* IDENTICAL to Creative page expanded-view style                              */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
+        .media-close svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
         
         .image-expanded {
           position: fixed;
@@ -1259,36 +973,15 @@ export default function Work() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          touch-action: manipulation;
+          touch-action: none;
           -webkit-touch-callout: none;
           user-select: none;
           overscroll-behavior: none;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          will-change: opacity, visibility;
-          transform: translateZ(0);
-          -webkit-tap-highlight-color: transparent;
         }
         
-        .image-expanded.entering {
-          visibility: visible;
-          pointer-events: auto;
-          opacity: 0;
-        }
-        
-        .image-expanded.active {
-          visibility: visible;
-          pointer-events: auto;
-          opacity: 1;
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
-        }
-        
-        .image-expanded.exiting {
-          visibility: visible;
-          pointer-events: none;
-          opacity: 0;
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-        }
+        .image-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .image-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .image-expanded.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
         
         .image-expanded-inner {
           display: flex;
@@ -1298,32 +991,18 @@ export default function Work() {
           opacity: 0;
           transform: translateZ(0) scale(0.88);
           transition: none;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .image-expanded.active .image-expanded-inner {
           opacity: 1;
           transform: translateZ(0) scale(1);
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, 
-                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
         }
         
         .image-expanded.exiting .image-expanded-inner {
           opacity: 0;
           transform: translateZ(0) scale(0.92);
           transition: opacity 0.25s ease, transform 0.3s ease;
-        }
-        
-        .image-expanded-title {
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-          font-size: 22px;
-          font-weight: 300;
-          color: #FAFAF8;
-          margin-bottom: 20px;
-          letter-spacing: 0.02em;
-          text-shadow: 
-            0 0 30px rgba(255, 255, 255, 0.3),
-            0 2px 8px rgba(0, 0, 0, 0.5);
         }
         
         .image-expanded-content {
@@ -1334,22 +1013,17 @@ export default function Work() {
           display: flex;
           align-items: center;
           justify-content: center;
-          filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) 
-                  drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
+          filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
           touch-action: manipulation;
           opacity: 0;
           transform: translateZ(0) scale(0.9);
           transition: none;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .image-expanded.active .image-expanded-content {
           opacity: 1;
           transform: translateZ(0) scale(1);
-          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, 
-                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
+          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
         }
         
         .image-expanded.exiting .image-expanded-content {
@@ -1380,14 +1054,12 @@ export default function Work() {
           opacity: 0;
           transform: scale(0.5);
           transition: none;
-          -webkit-tap-highlight-color: transparent;
         }
         
         .image-expanded.active .image-expanded-close {
           opacity: 1;
           transform: scale(1);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, 
-                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
         }
         
         .image-expanded.exiting .image-expanded-close {
@@ -1396,185 +1068,46 @@ export default function Work() {
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        .image-expanded-close svg {
-          filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
-        }
-        
-        .image-expanded-close:active {
-          transform: scale(0.85);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* DESKTOP STYLES                                                              */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
+        .image-expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
         
         @media (min-width: 600px) {
-          .folders-grid {
-            gap: 48px 44px;
-            max-width: 400px;
-          }
-          
-          .folder-icon {
-            width: 145px;
-            height: 145px;
-            border-radius: 32px;
-          }
-          
-          .folder-icon:hover {
-            transform: translateZ(0) scale(1.04) translateY(-3px);
-          }
-          
-          .folder-preview {
-            width: 120px;
-            height: 120px;
-            gap: 7px;
-          }
-          
-          .folder-mini-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 13px;
-          }
-          
-          .folder-name {
-            font-size: 13px;
-          }
-          
-          .folder-container {
-            padding: 28px;
-          }
-          
-          .folder-apps-grid {
-            gap: 20px;
-          }
-          
-          .folder-app-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 18px;
-          }
-          
-          .folder-app-icon:hover {
-            transform: scale(1.06);
-          }
-          
-          .media-grid {
-            gap: 24px;
-          }
-          
-          .media-item-icon {
-            width: 90px;
-            height: 90px;
-            border-radius: 20px;
-          }
-          
-          .media-item-icon:hover {
-            transform: scale(1.06);
-          }
-          
-          .media-item-name {
-            font-size: 13px;
-            max-width: 95px;
-          }
-          
-          .media-container {
-            padding: 32px;
-            border-radius: 30px;
-          }
-          
-          .image-expanded-content {
-            width: 340px;
-            height: 340px;
-            border-radius: 26px;
-          }
-          
-          .service-expanded-icon {
-            width: 180px;
-            height: 180px;
-          }
-          
-          .service-expanded-title {
-            font-size: 26px;
-          }
-          
-          .service-expanded-desc {
-            font-size: 15px;
-            max-width: 360px;
-          }
+          .folders-grid { gap: 48px 44px; max-width: 400px; }
+          .folder-icon { width: 145px; height: 145px; border-radius: 32px; }
+          .folder-preview { width: 120px; height: 120px; gap: 7px; }
+          .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; }
+          .folder-name { font-size: 13px; }
+          .folder-container { padding: 28px; }
+          .folder-apps-grid { gap: 20px; }
+          .folder-app-icon { width: 80px; height: 80px; border-radius: 18px; }
+          .media-grid { gap: 24px; }
+          .media-item-icon { width: 90px; height: 90px; border-radius: 20px; }
+          .media-item-name { font-size: 13px; max-width: 95px; }
+          .media-container { padding: 32px; border-radius: 30px; }
+          .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; }
+          .service-expanded-icon { width: 180px; height: 180px; }
+          .service-expanded-title { font-size: 26px; }
+          .service-expanded-desc { font-size: 15px; max-width: 360px; }
         }
         
         @media (min-width: 900px) {
-          .folders-grid {
-            gap: 54px 50px;
-            max-width: 480px;
-          }
-          
-          .folder-icon {
-            width: 175px;
-            height: 175px;
-            border-radius: 38px;
-          }
-          
-          .folder-preview {
-            width: 145px;
-            height: 145px;
-            gap: 8px;
-          }
-          
-          .folder-mini-icon {
-            width: 68px;
-            height: 68px;
-            border-radius: 15px;
-          }
-          
-          .folder-name {
-            font-size: 14px;
-          }
-          
-          .folder-container {
-            padding: 36px;
-          }
-          
-          .folder-apps-grid {
-            gap: 26px;
-          }
-          
-          .folder-app-icon {
-            width: 95px;
-            height: 95px;
-            border-radius: 22px;
-          }
+          .folders-grid { gap: 54px 50px; max-width: 480px; }
+          .folder-icon { width: 175px; height: 175px; border-radius: 38px; }
+          .folder-preview { width: 145px; height: 145px; gap: 8px; }
+          .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; }
+          .folder-name { font-size: 14px; }
+          .folder-container { padding: 36px; }
+          .folder-apps-grid { gap: 26px; }
+          .folder-app-icon { width: 95px; height: 95px; border-radius: 22px; }
         }
       `}</style>
 
-      <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{
-        minHeight: "100vh",
-        backgroundColor: "#0A0A0A",
-        paddingTop: "clamp(100px, 15vh, 160px)",
-        paddingBottom: "100px",
-        paddingLeft: "20px",
-        paddingRight: "20px",
-        display: "flex",
-        alignItems: "flex-start",
-        justifyContent: "center"
-      }}>
+      <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ minHeight: "100vh", backgroundColor: "#0A0A0A", paddingTop: "clamp(100px, 15vh, 160px)", paddingBottom: "100px", paddingLeft: "20px", paddingRight: "20px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
         <div className="folders-grid">
-          {/* APPS FOLDER */}
           <div className="folder-wrapper">
-            <div
-              className={`folder-icon ${isLoaded ? 'loaded' : ''}`}
-              onClick={() => handleOpenFolder('apps')}
-            >
+            <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('apps')}>
               <div className="folder-preview">
                 {appsItems.map((app) => (
-                  <div
-                    key={app.id}
-                    className="folder-mini-icon"
-                    style={{
-                      background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})`,
-                      '--glow-color': app.glow
-                    } as React.CSSProperties}
-                  >
+                  <div key={app.id} className="folder-mini-icon" style={{ background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})`, '--glow-color': app.glow } as React.CSSProperties}>
                     {renderAppMiniIcon(app.id, miniIconSize)}
                   </div>
                 ))}
@@ -1583,22 +1116,11 @@ export default function Work() {
             <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>Apps</span>
           </div>
 
-          {/* SERVICES FOLDER */}
           <div className="folder-wrapper">
-            <div
-              className={`folder-icon ${isLoaded ? 'loaded' : ''}`}
-              onClick={() => handleOpenFolder('services')}
-            >
+            <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('services')}>
               <div className="folder-preview">
                 {servicesItems.map((service) => (
-                  <div
-                    key={service.id}
-                    className="folder-mini-icon"
-                    style={{
-                      background: `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})`,
-                      '--glow-color': service.glow
-                    } as React.CSSProperties}
-                  >
+                  <div key={service.id} className="folder-mini-icon" style={{ background: `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})`, '--glow-color': service.glow } as React.CSSProperties}>
                     {renderServiceMiniIcon(service.id, miniIconSize)}
                   </div>
                 ))}
@@ -1607,61 +1129,25 @@ export default function Work() {
             <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>Services</span>
           </div>
 
-          {/* ENTERTAINMENT FOLDER */}
           <div className="folder-wrapper">
-            <div
-              className={`folder-icon ${isLoaded ? 'loaded' : ''}`}
-              onClick={() => handleOpenFolder('entertainment')}
-            >
+            <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('entertainment')}>
               <div className="folder-preview folder-preview-2">
-                {/* Gallery mini */}
-                <div
-                  className="folder-mini-icon"
-                  style={{
-                    background: 'linear-gradient(145deg, #7C3AED, #4C1D95)',
-                    '--glow-color': 'rgba(139, 92, 246, 0.3)'
-                  } as React.CSSProperties}
-                >
-                  <svg width={miniIconSize} height={miniIconSize} viewBox="0 0 24 24" fill="none">
-                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="white" strokeWidth="1.5" opacity="0.9"/>
-                    <circle cx="8" cy="8" r="2" fill="white" opacity="0.8"/>
-                    <path d="M3 16l5-5 4 4 5-5 4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/>
-                  </svg>
+                <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #7C3AED, #4C1D95)', '--glow-color': 'rgba(139, 92, 246, 0.3)' } as React.CSSProperties}>
+                  <svg width={miniIconSize} height={miniIconSize} viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="white" strokeWidth="1.5" opacity="0.9"/><circle cx="8" cy="8" r="2" fill="white" opacity="0.8"/><path d="M3 16l5-5 4 4 5-5 4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/></svg>
                 </div>
-                {/* Notes mini */}
-                <div
-                  className="folder-mini-icon"
-                  style={{
-                    background: 'linear-gradient(145deg, #F59E0B, #B45309)',
-                    '--glow-color': 'rgba(245, 158, 11, 0.3)'
-                  } as React.CSSProperties}
-                >
-                  <svg width={miniIconSize} height={miniIconSize} viewBox="0 0 24 24" fill="none">
-                    <rect x="4" y="2" width="16" height="20" rx="2" fill="white" opacity="0.95"/>
-                    <path d="M8 7h8M8 11h6M8 15h4" stroke="#B45309" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
-                  </svg>
+                <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #F59E0B, #B45309)', '--glow-color': 'rgba(245, 158, 11, 0.3)' } as React.CSSProperties}>
+                  <svg width={miniIconSize} height={miniIconSize} viewBox="0 0 24 24" fill="none"><rect x="4" y="2" width="16" height="20" rx="2" fill="white" opacity="0.95"/><path d="M8 7h8M8 11h6M8 15h4" stroke="#B45309" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/></svg>
                 </div>
               </div>
             </div>
             <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>Media</span>
           </div>
 
-          {/* SOCIAL FOLDER */}
           <div className="folder-wrapper">
-            <div
-              className={`folder-icon ${isLoaded ? 'loaded' : ''}`}
-              onClick={() => handleOpenFolder('social')}
-            >
+            <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('social')}>
               <div className="folder-preview">
                 {socialLinks.map((social) => (
-                  <div
-                    key={social.id}
-                    className="folder-mini-icon"
-                    style={{
-                      background: social.id === 'instagram' ? 'linear-gradient(145deg, #833ab4, #fd1d1d, #fcb045)' : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})`,
-                      '--glow-color': social.glow
-                    } as React.CSSProperties}
-                  >
+                  <div key={social.id} className="folder-mini-icon" style={{ background: social.id === 'instagram' ? 'linear-gradient(145deg, #833ab4, #fd1d1d, #fcb045)' : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})`, '--glow-color': social.glow } as React.CSSProperties}>
                     {renderSocialMiniIcon(social.id, miniIconSize - 2)}
                   </div>
                 ))}
@@ -1672,9 +1158,6 @@ export default function Work() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
-      {/* APPS FOLDER OVERLAY */}
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
       {openFolder === 'apps' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
@@ -1682,10 +1165,7 @@ export default function Work() {
             <div className="folder-apps-grid">
               {appsItems.map((app) => (
                 <Link key={app.id} href={app.href} className="folder-app">
-                  <div
-                    className="folder-app-icon"
-                    style={{ background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})` }}
-                  >
+                  <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})` }}>
                     {app.id === 'trade69' && <Trade69Icon3D size={folderIconSize} />}
                     {app.id === 'megaagent' && <MegaAgentIcon3D size={folderIconSize} />}
                     {app.id === 'octopus' && <OctopusIcon3D size={folderIconSize} />}
@@ -1697,16 +1177,11 @@ export default function Work() {
             </div>
           </div>
           <button className="folder-close" onClick={handleCloseFolder}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
           </button>
         </div>
       )}
 
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
-      {/* SERVICES FOLDER OVERLAY */}
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
       {openFolder === 'services' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
@@ -1714,10 +1189,7 @@ export default function Work() {
             <div className="folder-apps-grid">
               {servicesItems.map((service, index) => (
                 <div key={service.id} className="folder-app" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenService(index), 400); }}>
-                  <div
-                    className="folder-app-icon"
-                    style={{ background: `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})` }}
-                  >
+                  <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})` }}>
                     {renderServiceIcon(service.id, folderIconSize * 0.75)}
                   </div>
                   <span className="folder-app-name">{service.name}</span>
@@ -1726,57 +1198,36 @@ export default function Work() {
             </div>
           </div>
           <button className="folder-close" onClick={handleCloseFolder}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
           </button>
         </div>
       )}
 
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
-      {/* ENTERTAINMENT FOLDER OVERLAY */}
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
       {openFolder === 'entertainment' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container">
             <div className="folder-apps-grid">
-              {/* Gallery */}
               <div className="folder-app" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenGallery(), 400); }}>
                 <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #7C3AED, #4C1D95)' }}>
-                  <svg width="36" height="36" viewBox="0 0 60 60" fill="none">
-                    <rect x="8" y="8" width="44" height="44" rx="4" stroke="white" strokeWidth="2" opacity="0.9"/>
-                    <circle cx="20" cy="20" r="5" fill="white" opacity="0.8"/>
-                    <path d="M8 42l12-12 10 10 12-12 10 10" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
-                  </svg>
+                  <svg width="36" height="36" viewBox="0 0 60 60" fill="none"><rect x="8" y="8" width="44" height="44" rx="4" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="20" cy="20" r="5" fill="white" opacity="0.8"/><path d="M8 42l12-12 10 10 12-12 10 10" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/></svg>
                 </div>
                 <span className="folder-app-name">Gallery</span>
               </div>
-
-              {/* Notes */}
               <div className="folder-app" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenNotes(), 400); }}>
                 <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #F59E0B, #B45309)' }}>
-                  <svg width="36" height="36" viewBox="0 0 60 60" fill="none">
-                    <rect x="10" y="6" width="40" height="48" rx="4" fill="white" opacity="0.95"/>
-                    <path d="M18 18h24M18 28h20M18 38h14" stroke="#B45309" strokeWidth="2.5" strokeLinecap="round" opacity="0.5"/>
-                    <rect x="10" y="6" width="40" height="8" rx="4" fill="#F59E0B" opacity="0.3"/>
-                  </svg>
+                  <svg width="36" height="36" viewBox="0 0 60 60" fill="none"><rect x="10" y="6" width="40" height="48" rx="4" fill="white" opacity="0.95"/><path d="M18 18h24M18 28h20M18 38h14" stroke="#B45309" strokeWidth="2.5" strokeLinecap="round" opacity="0.5"/><rect x="10" y="6" width="40" height="8" rx="4" fill="#F59E0B" opacity="0.3"/></svg>
                 </div>
                 <span className="folder-app-name">Notes</span>
               </div>
             </div>
           </div>
           <button className="folder-close" onClick={handleCloseFolder}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
           </button>
         </div>
       )}
 
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
-      {/* SOCIAL FOLDER OVERLAY */}
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
       {openFolder === 'social' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
@@ -1784,10 +1235,7 @@ export default function Work() {
             <div className="folder-apps-grid">
               {socialLinks.map((social) => (
                 <Link key={social.id} href={social.url} target="_blank" rel="noopener noreferrer" className="folder-app">
-                  <div
-                    className="folder-app-icon"
-                    style={{ background: social.id === 'instagram' ? 'linear-gradient(145deg, #833ab4, #fd1d1d, #fcb045)' : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})` }}
-                  >
+                  <div className="folder-app-icon" style={{ background: social.id === 'instagram' ? 'linear-gradient(145deg, #833ab4, #fd1d1d, #fcb045)' : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})` }}>
                     {renderSocialIcon(social.id, 32)}
                   </div>
                   <span className="folder-app-name">{social.name}</span>
@@ -1796,36 +1244,24 @@ export default function Work() {
             </div>
           </div>
           <button className="folder-close" onClick={handleCloseFolder}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
           </button>
         </div>
       )}
 
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
-      {/* SERVICE EXPANDED VIEWS */}
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
       {servicesItems.map((service, index) => (
         <div key={service.id} className={`service-expanded ${expandedService === index ? getExpandedAnimClass() : ''}`}>
           <div className="service-expanded-inner">
-            <div className="service-expanded-icon">
-              {renderServiceIcon(service.id, isMobile ? 100 : 140)}
-            </div>
+            <div className="service-expanded-icon">{renderServiceIcon(service.id, isMobile ? 100 : 140)}</div>
             <div className="service-expanded-title">{service.name}</div>
             <div className="service-expanded-desc">{service.desc}</div>
             <button className="service-expanded-close" onClick={handleCloseService}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
             </button>
           </div>
         </div>
       ))}
 
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
-      {/* GALLERY VIEW - IDENTICAL to Creative page folder style */}
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
       {galleryOpen && (
         <div className={`media-overlay ${getGalleryAnimClass()}`}>
           <div className="media-overlay-bg" onClick={handleCloseGallery} />
@@ -1833,25 +1269,18 @@ export default function Work() {
             <div className="media-grid">
               {galleryItems.map((item, i) => (
                 <div key={i} className="media-item" onClick={() => handleOpenImage(item)}>
-                  <div className="media-item-icon">
-                    <img src={item.src} alt={item.name} />
-                  </div>
+                  <div className="media-item-icon"><img src={item.src} alt={item.name} /></div>
                   <span className="media-item-name">{item.name}</span>
                 </div>
               ))}
             </div>
           </div>
           <div className="media-close" onClick={handleCloseGallery}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
           </div>
         </div>
       )}
 
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
-      {/* NOTES VIEW - IDENTICAL to Creative page folder style */}
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
       {notesOpen && (
         <div className={`media-overlay ${getNotesAnimClass()}`}>
           <div className="media-overlay-bg" onClick={handleCloseNotes} />
@@ -1859,35 +1288,24 @@ export default function Work() {
             <div className="media-grid">
               {notesItems.slice(0, 4).map((item, i) => (
                 <div key={i} className="media-item" onClick={() => handleOpenImage(item)}>
-                  <div className="media-item-icon">
-                    <img src={item.src} alt={item.name} />
-                  </div>
+                  <div className="media-item-icon"><img src={item.src} alt={item.name} /></div>
                   <span className="media-item-name">{item.name}</span>
                 </div>
               ))}
             </div>
           </div>
           <div className="media-close" onClick={handleCloseNotes}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
           </div>
         </div>
       )}
 
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
-      {/* IMAGE EXPANDED VIEW - IDENTICAL to Creative page expanded-view */}
-      {/* ═══════════════════════════════════════════════════════════════════════════ */}
       {expandedImage && (
         <div className={`image-expanded ${getImageAnimClass()}`}>
           <div className="image-expanded-inner">
-            <div className="image-expanded-content">
-              <img src={expandedImage.src} alt={expandedImage.name} />
-            </div>
+            <div className="image-expanded-content"><img src={expandedImage.src} alt={expandedImage.name} /></div>
             <div className="image-expanded-close" onClick={handleCloseImage}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
             </div>
           </div>
         </div>
