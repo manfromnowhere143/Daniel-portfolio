@@ -176,6 +176,40 @@ export default function Work() {
     }, 350);
   }, [folderAnimState]);
 
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // STATE OF THE ART - APPLE-LEVEL CROSSFADE TRANSITIONS
+  // The secret: Content starts fading IN while bridge is still visible
+  // Bridge fades OUT after content is already partially visible = ZERO gap
+  // ═══════════════════════════════════════════════════════════════════════════════
+
+  const handleOpenServiceWithBridge = useCallback((index: number) => {
+    if (expandedAnimState !== 'idle' || bridgePhase !== 'idle') return;
+
+    // Phase 1: Bridge appears immediately
+    setBridgePhase('loading');
+    handleCloseFolder();
+
+    // Phase 2: After folder closes, prepare content BEHIND bridge
+    bridgeTimeoutRef.current = setTimeout(() => {
+      // Content enters while bridge still fully visible
+      setExpandedService(index);
+      setExpandedAnimState('entering');
+
+      // Phase 3: Start crossfade - content fades in, bridge starts fading
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setExpandedAnimState('active');
+          setBridgePhase('transitioning'); // Bridge starts fading NOW
+
+          // Phase 4: Bridge fully gone after content is visible
+          setTimeout(() => {
+            setBridgePhase('idle');
+          }, 450); // Longer than content fade-in
+        });
+      });
+    }, 400);
+  }, [expandedAnimState, bridgePhase, handleCloseFolder]);
+
   const handleOpenService = useCallback((index: number) => {
     if (expandedAnimState !== 'idle') return;
     setExpandedService(index);
@@ -193,6 +227,34 @@ export default function Work() {
       setExpandedAnimState('idle');
     }, 400);
   }, [expandedAnimState]);
+
+  const handleOpenGalleryWithBridge = useCallback(() => {
+    if (galleryAnimState !== 'idle' || bridgePhase !== 'idle') return;
+
+    // Phase 1: Bridge appears immediately
+    setBridgePhase('loading');
+    handleCloseFolder();
+
+    // Phase 2: After folder closes, prepare content BEHIND bridge
+    bridgeTimeoutRef.current = setTimeout(() => {
+      // Content enters while bridge still fully visible
+      setGalleryOpen(true);
+      setGalleryAnimState('entering');
+
+      // Phase 3: Start crossfade - content fades in, bridge starts fading
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setGalleryAnimState('active');
+          setBridgePhase('transitioning'); // Bridge starts fading NOW
+
+          // Phase 4: Bridge fully gone after content is visible
+          setTimeout(() => {
+            setBridgePhase('idle');
+          }, 450);
+        });
+      });
+    }, 400);
+  }, [galleryAnimState, bridgePhase, handleCloseFolder]);
 
   const handleOpenGallery = useCallback(() => {
     if (galleryAnimState !== 'idle') return;
@@ -212,6 +274,34 @@ export default function Work() {
     }, 350);
   }, [galleryAnimState]);
 
+  const handleOpenNotesWithBridge = useCallback(() => {
+    if (notesAnimState !== 'idle' || bridgePhase !== 'idle') return;
+
+    // Phase 1: Bridge appears immediately
+    setBridgePhase('loading');
+    handleCloseFolder();
+
+    // Phase 2: After folder closes, prepare content BEHIND bridge
+    bridgeTimeoutRef.current = setTimeout(() => {
+      // Content enters while bridge still fully visible
+      setNotesOpen(true);
+      setNotesAnimState('entering');
+
+      // Phase 3: Start crossfade - content fades in, bridge starts fading
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setNotesAnimState('active');
+          setBridgePhase('transitioning'); // Bridge starts fading NOW
+
+          // Phase 4: Bridge fully gone after content is visible
+          setTimeout(() => {
+            setBridgePhase('idle');
+          }, 450);
+        });
+      });
+    }, 400);
+  }, [notesAnimState, bridgePhase, handleCloseFolder]);
+
   const handleOpenNotes = useCallback(() => {
     if (notesAnimState !== 'idle') return;
     setNotesOpen(true);
@@ -230,7 +320,7 @@ export default function Work() {
     }, 350);
   }, [notesAnimState]);
 
-  // STATE OF THE ART - Bridge transition for image loading
+  // Apple-level crossfade for image loading
   const handleOpenImage = useCallback((image: {src: string, name: string}) => {
     if (imageAnimState !== 'idle' || bridgePhase !== 'idle') return;
 
@@ -239,35 +329,28 @@ export default function Work() {
 
     // Preload the image
     const img = new Image();
-    img.onload = () => {
-      setBridgePhase('transitioning');
-      bridgeTimeoutRef.current = setTimeout(() => {
-        setExpandedImage(image);
-        setImageAnimState('entering');
+    const showImage = () => {
+      // Content enters while bridge still fully visible
+      setExpandedImage(image);
+      setImageAnimState('entering');
+
+      // Start crossfade - content fades in, bridge starts fading
+      requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            setImageAnimState('active');
+          setImageAnimState('active');
+          setBridgePhase('transitioning'); // Bridge starts fading NOW
+
+          // Bridge fully gone after content is visible
+          setTimeout(() => {
             setBridgePhase('idle');
             setPendingImage(null);
-          });
+          }, 450);
         });
-      }, 400);
+      });
     };
-    img.onerror = () => {
-      // Still show even if load fails
-      setBridgePhase('transitioning');
-      bridgeTimeoutRef.current = setTimeout(() => {
-        setExpandedImage(image);
-        setImageAnimState('entering');
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            setImageAnimState('active');
-            setBridgePhase('idle');
-            setPendingImage(null);
-          });
-        });
-      }, 400);
-    };
+
+    img.onload = showImage;
+    img.onerror = showImage; // Still show even if load fails
     img.src = image.src;
   }, [imageAnimState, bridgePhase]);
 
@@ -1108,7 +1191,8 @@ export default function Work() {
         .image-expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - TRANSITION BRIDGE                                            */
+        /* STATE OF THE ART - APPLE-LEVEL TRANSITION BRIDGE                                */
+        /* The secret: 3 phases with different timing for seamless crossfade               */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .transition-bridge {
@@ -1130,13 +1214,26 @@ export default function Work() {
           touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), visibility 0.35s;
+          will-change: opacity;
+          /* Default: fast fade IN */
+          transition: opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.25s;
         }
         
-        .transition-bridge.active {
+        /* Phase 1 & 2: Loading - bridge fully visible */
+        .transition-bridge.loading {
           opacity: 1;
           visibility: visible;
           pointer-events: auto;
+          transition: opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
+        }
+        
+        /* Phase 3: Transitioning - SLOW fade out to overlap with content fade in */
+        .transition-bridge.transitioning {
+          opacity: 0;
+          visibility: visible;
+          pointer-events: none;
+          /* Slow fade out - content is fading in underneath */
+          transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.5s;
         }
         
         .bridge-spinner {
@@ -1268,7 +1365,7 @@ export default function Work() {
           <div className="folder-container" onClick={handleCloseFolder}>
             <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               {servicesItems.map((service, index) => (
-                <div key={service.id} className="folder-app" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenService(index), 400); }}>
+                <div key={service.id} className="folder-app" onClick={() => handleOpenServiceWithBridge(index)}>
                   <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})` }}>
                     {renderServiceIcon(service.id, folderIconSize * 0.75)}
                   </div>
@@ -1285,13 +1382,13 @@ export default function Work() {
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container" onClick={handleCloseFolder}>
             <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
-              <div className="folder-app" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenGallery(), 400); }}>
+              <div className="folder-app" onClick={handleOpenGalleryWithBridge}>
                 <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #7C3AED, #4C1D95)' }}>
                   <svg width="36" height="36" viewBox="0 0 60 60" fill="none"><rect x="8" y="8" width="44" height="44" rx="4" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="20" cy="20" r="5" fill="white" opacity="0.8"/><path d="M8 42l12-12 10 10 12-12 10 10" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/></svg>
                 </div>
                 <span className="folder-app-name">Gallery</span>
               </div>
-              <div className="folder-app" onClick={() => { handleCloseFolder(); setTimeout(() => handleOpenNotes(), 400); }}>
+              <div className="folder-app" onClick={handleOpenNotesWithBridge}>
                 <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #F59E0B, #B45309)' }}>
                   <svg width="36" height="36" viewBox="0 0 60 60" fill="none"><rect x="10" y="6" width="40" height="48" rx="4" fill="white" opacity="0.95"/><path d="M18 18h24M18 28h20M18 38h14" stroke="#B45309" strokeWidth="2.5" strokeLinecap="round" opacity="0.5"/><rect x="10" y="6" width="40" height="8" rx="4" fill="#F59E0B" opacity="0.3"/></svg>
                 </div>
@@ -1365,8 +1462,8 @@ export default function Work() {
         </div>
       )}
 
-      {/* STATE OF THE ART - Transition Bridge with Loading Spinner */}
-      <div className={`transition-bridge ${bridgePhase !== 'idle' ? 'active' : ''}`}>
+      {/* STATE OF THE ART - Apple-Level Transition Bridge */}
+      <div className={`transition-bridge ${bridgePhase}`}>
         <div className="bridge-spinner" />
       </div>
 
