@@ -187,36 +187,47 @@ export default function Creative() {
     const isInteractive = expandedItem?.startsWith('exp-');
 
     if (isInteractive && expandedAnimState === 'active') {
+      // Save current scroll position
+      const scrollY = window.scrollY;
+      const scrollX = window.scrollX;
+
       // IRON LOCK - prevent ALL touch events except on canvas
-      const preventAll = (e: TouchEvent) => {
+      const preventAllMove = (e: TouchEvent) => {
         const target = e.target as HTMLElement;
         // ONLY allow touch on canvas - block everything else
         if (target.tagName === 'CANVAS') return;
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation();
       };
 
-      // IRON LOCK - prevent ALL touch start except on canvas
+      // IRON LOCK - prevent touchstart from triggering swipe navigation
       const preventTouchStart = (e: TouchEvent) => {
         const target = e.target as HTMLElement;
         if (target.tagName === 'CANVAS') return;
-        // Don't prevent on close button
+        // Allow close button
         if (target.closest('.expanded-close') || target.closest('.interactive-close')) return;
+        // Block swipe start for everything else
+        e.stopPropagation();
+        e.stopImmediatePropagation();
       };
 
+      // Lock body without causing shift - use top offset
       document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
       document.body.style.width = '100%';
       document.body.style.height = '100%';
-      document.body.style.top = '0';
+      document.body.style.top = `-${scrollY}px`;
       document.body.style.left = '0';
       document.body.style.touchAction = 'none';
+      document.body.style.overscrollBehavior = 'none';
       document.documentElement.style.overflow = 'hidden';
       document.documentElement.style.touchAction = 'none';
+      document.documentElement.style.overscrollBehavior = 'none';
 
-      // Capture phase to intercept before anything else
-      document.addEventListener('touchmove', preventAll, { passive: false, capture: true });
-      document.addEventListener('touchstart', preventTouchStart, { passive: true, capture: true });
+      // Capture phase to intercept before swipe navigation
+      document.addEventListener('touchmove', preventAllMove, { passive: false, capture: true });
+      document.addEventListener('touchstart', preventTouchStart, { passive: false, capture: true });
 
       return () => {
         document.body.style.overflow = '';
@@ -226,16 +237,21 @@ export default function Creative() {
         document.body.style.top = '';
         document.body.style.left = '';
         document.body.style.touchAction = '';
+        document.body.style.overscrollBehavior = '';
         document.documentElement.style.overflow = '';
         document.documentElement.style.touchAction = '';
-        document.removeEventListener('touchmove', preventAll, { capture: true } as any);
+        document.documentElement.style.overscrollBehavior = '';
+        document.removeEventListener('touchmove', preventAllMove, { capture: true } as any);
         document.removeEventListener('touchstart', preventTouchStart, { capture: true } as any);
+        // Restore scroll position
+        window.scrollTo(scrollX, scrollY);
       };
     }
   }, [expandedItem, expandedAnimState]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // SOLID ROCK LOCK - NO MOVEMENT AT ALL when overlays open
+  // Also blocks swipe navigation by intercepting touchstart
   // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
     const isOpen = folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle' || bridgePhase !== 'idle';
@@ -254,6 +270,7 @@ export default function Creative() {
           if (target.closest('.expanded-close') || target.closest('.interactive-close')) return;
           e.preventDefault();
           e.stopPropagation();
+          e.stopImmediatePropagation();
           return;
         }
 
@@ -261,8 +278,35 @@ export default function Creative() {
         if (target.closest('.expanded-content')) {
           return;
         }
+        // Allow close buttons
+        if (target.closest('.expanded-close') || target.closest('.folder-close')) {
+          return;
+        }
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation();
+      };
+
+      // Block touchstart to prevent swipe navigation from starting
+      const blockTouchStart = (e: TouchEvent) => {
+        const target = e.target as HTMLElement;
+
+        // For interactive 3D - only canvas
+        if (isInteractive) {
+          if (target.tagName === 'CANVAS') return;
+          if (target.closest('.expanded-close') || target.closest('.interactive-close')) return;
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          return;
+        }
+
+        // Allow touch on content and close buttons
+        if (target.closest('.expanded-content') || target.closest('.expanded-close') || target.closest('.folder-close') || target.closest('.folder-card')) {
+          return;
+        }
+        // Block swipe from starting anywhere else
+        e.stopPropagation();
+        e.stopImmediatePropagation();
       };
 
       const blockWheel = (e: WheelEvent) => {
@@ -275,10 +319,12 @@ export default function Creative() {
       };
 
       document.addEventListener('touchmove', blockAllTouch, { passive: false, capture: true });
+      document.addEventListener('touchstart', blockTouchStart, { passive: false, capture: true });
       document.addEventListener('wheel', blockWheel, { passive: false, capture: true });
 
       (window as any).__solidRockCleanup = () => {
         document.removeEventListener('touchmove', blockAllTouch, { capture: true } as any);
+        document.removeEventListener('touchstart', blockTouchStart, { capture: true } as any);
         document.removeEventListener('wheel', blockWheel, { capture: true } as any);
       };
 
@@ -356,27 +402,8 @@ export default function Creative() {
   const handleOpenExpandedFromFolder = useCallback((itemId: string) => {
     if (folderAnimState !== 'active') return;
 
-    // For 2D Icons showcase only, use direct crossfade (no bridge spinner)
-    if (itemId === 'icons-showcase') {
-      setFolderAnimState('exiting');
-
-      setTimeout(() => {
-        setOpenFolder(null);
-        setFolderAnimState('idle');
-        setExpandedItem(itemId);
-        setExpandedAnimState('entering');
-
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            setExpandedAnimState('active');
-          });
-        });
-      }, 250);
-      return;
-    }
-
-    // For 3D Icons, Geometry, and all other items - use bridge transition
-    // This prevents flash by keeping spinner visible until app is ready
+    // ALL apps use bridge transition for smooth loading with spinner
+    // This prevents any flash by keeping spinner visible until app is ready
     setBridgePhase('in');
 
     setTimeout(() => {
@@ -1036,6 +1063,10 @@ export default function Creative() {
           animation: spinnerFadeIn 0.2s ease 0.1s forwards;
         }
         
+        .transition-bridge.hold .bridge-spinner {
+          opacity: 1;
+        }
+        
         .transition-bridge.out .bridge-spinner {
           opacity: 0;
           transition: opacity 0.15s ease;
@@ -1602,6 +1633,10 @@ export default function Creative() {
         
         .showcase-geometry-expanded {
           background: radial-gradient(ellipse at center, #0d0d12 0%, #050507 100%);
+        }
+        
+        .showcase-icons-expanded {
+          background: radial-gradient(ellipse at center, #0a0a0c 0%, #050506 100%);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -3047,9 +3082,9 @@ export default function Creative() {
       ))}
 
       {/* STATE OF THE ART - 2D ICONS SHOWCASE - All 8 icons beautifully presented */}
-      <div className={`expanded-view ${getExpandedAnimClass('icons-showcase')}`}>
-        <div className="expanded-inner">
-          <div className="expanded-content">
+      <div className={`expanded-view showcase-expanded showcase-icons-expanded ${getExpandedAnimClass('icons-showcase')}`}>
+        <div className="expanded-inner showcase-inner">
+          <div className="expanded-content showcase-content">
             {expandedItem === 'icons-showcase' && <Icons2DShowcase />}
           </div>
           <button className="expanded-close" onClick={handleCloseExpanded}>
