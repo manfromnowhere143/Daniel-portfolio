@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 
 // Dynamic imports for 3D icons
@@ -52,6 +53,19 @@ const notesItems = [
 
 type AnimationState = 'idle' | 'entering' | 'active' | 'exiting';
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// STATE OF THE ART - GLOBAL CLEANUP FUNCTION
+// This ensures scroll is ALWAYS restored, even on navigation
+// ═══════════════════════════════════════════════════════════════════════════════
+const restoreScroll = () => {
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
+  if ((window as any).__workSolidRockCleanup) {
+    (window as any).__workSolidRockCleanup();
+    delete (window as any).__workSolidRockCleanup;
+  }
+};
+
 export default function Work() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
@@ -91,19 +105,27 @@ export default function Work() {
     return () => clearTimeout(timer);
   }, []);
 
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // STATE OF THE ART - CLEANUP ON UNMOUNT (navigation away)
+  // This is the KEY fix - restore scroll when component unmounts
+  // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
     return () => {
+      // Clear all timeouts
       if (folderTimeoutRef.current) clearTimeout(folderTimeoutRef.current);
       if (expandedTimeoutRef.current) clearTimeout(expandedTimeoutRef.current);
       if (galleryTimeoutRef.current) clearTimeout(galleryTimeoutRef.current);
       if (notesTimeoutRef.current) clearTimeout(notesTimeoutRef.current);
       if (imageTimeoutRef.current) clearTimeout(imageTimeoutRef.current);
       if (bridgeTimeoutRef.current) clearTimeout(bridgeTimeoutRef.current);
+
+      // CRITICAL: Restore scroll on unmount (navigation away)
+      restoreScroll();
     };
   }, []);
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // STATE OF THE ART - SOLID ROCK LOCK
+  // STATE OF THE ART - SOLID ROCK LOCK (only when overlays are open)
   // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
     const isOpen = folderAnimState !== 'idle' || expandedAnimState !== 'idle' ||
@@ -138,20 +160,17 @@ export default function Work() {
         document.removeEventListener('wheel', blockWheel, { capture: true } as any);
       };
 
-      return () => {
-        if ((window as any).__workSolidRockCleanup) {
-          (window as any).__workSolidRockCleanup();
-        }
-      };
     } else {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
+      // Restore scroll when all overlays are closed
+      restoreScroll();
+    }
 
+    // Cleanup on effect re-run
+    return () => {
       if ((window as any).__workSolidRockCleanup) {
         (window as any).__workSolidRockCleanup();
-        delete (window as any).__workSolidRockCleanup;
       }
-    }
+    };
   }, [folderAnimState, expandedAnimState, galleryAnimState, notesAnimState, imageAnimState, bridgePhase]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
@@ -178,33 +197,26 @@ export default function Work() {
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // STATE OF THE ART - APPLE-LEVEL CROSSFADE TRANSITIONS
-  // The secret: Content starts fading IN while bridge is still visible
-  // Bridge fades OUT after content is already partially visible = ZERO gap
   // ═══════════════════════════════════════════════════════════════════════════════
 
   const handleOpenServiceWithBridge = useCallback((index: number) => {
     if (expandedAnimState !== 'idle' || bridgePhase !== 'idle') return;
 
-    // Phase 1: Bridge appears immediately
     setBridgePhase('loading');
     handleCloseFolder();
 
-    // Phase 2: After folder closes, prepare content BEHIND bridge
     bridgeTimeoutRef.current = setTimeout(() => {
-      // Content enters while bridge still fully visible
       setExpandedService(index);
       setExpandedAnimState('entering');
 
-      // Phase 3: Start crossfade - content fades in, bridge starts fading
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setExpandedAnimState('active');
-          setBridgePhase('transitioning'); // Bridge starts fading NOW
+          setBridgePhase('transitioning');
 
-          // Phase 4: Bridge fully gone after content is visible
           setTimeout(() => {
             setBridgePhase('idle');
-          }, 450); // Longer than content fade-in
+          }, 450);
         });
       });
     }, 400);
@@ -231,23 +243,18 @@ export default function Work() {
   const handleOpenGalleryWithBridge = useCallback(() => {
     if (galleryAnimState !== 'idle' || bridgePhase !== 'idle') return;
 
-    // Phase 1: Bridge appears immediately
     setBridgePhase('loading');
     handleCloseFolder();
 
-    // Phase 2: After folder closes, prepare content BEHIND bridge
     bridgeTimeoutRef.current = setTimeout(() => {
-      // Content enters while bridge still fully visible
       setGalleryOpen(true);
       setGalleryAnimState('entering');
 
-      // Phase 3: Start crossfade - content fades in, bridge starts fading
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setGalleryAnimState('active');
-          setBridgePhase('transitioning'); // Bridge starts fading NOW
+          setBridgePhase('transitioning');
 
-          // Phase 4: Bridge fully gone after content is visible
           setTimeout(() => {
             setBridgePhase('idle');
           }, 450);
@@ -277,23 +284,18 @@ export default function Work() {
   const handleOpenNotesWithBridge = useCallback(() => {
     if (notesAnimState !== 'idle' || bridgePhase !== 'idle') return;
 
-    // Phase 1: Bridge appears immediately
     setBridgePhase('loading');
     handleCloseFolder();
 
-    // Phase 2: After folder closes, prepare content BEHIND bridge
     bridgeTimeoutRef.current = setTimeout(() => {
-      // Content enters while bridge still fully visible
       setNotesOpen(true);
       setNotesAnimState('entering');
 
-      // Phase 3: Start crossfade - content fades in, bridge starts fading
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setNotesAnimState('active');
-          setBridgePhase('transitioning'); // Bridge starts fading NOW
+          setBridgePhase('transitioning');
 
-          // Phase 4: Bridge fully gone after content is visible
           setTimeout(() => {
             setBridgePhase('idle');
           }, 450);
@@ -320,27 +322,22 @@ export default function Work() {
     }, 350);
   }, [notesAnimState]);
 
-  // Apple-level crossfade for image loading
   const handleOpenImage = useCallback((image: {src: string, name: string}) => {
     if (imageAnimState !== 'idle' || bridgePhase !== 'idle') return;
 
     setPendingImage(image);
     setBridgePhase('loading');
 
-    // Preload the image
     const img = new Image();
     const showImage = () => {
-      // Content enters while bridge still fully visible
       setExpandedImage(image);
       setImageAnimState('entering');
 
-      // Start crossfade - content fades in, bridge starts fading
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setImageAnimState('active');
-          setBridgePhase('transitioning'); // Bridge starts fading NOW
+          setBridgePhase('transitioning');
 
-          // Bridge fully gone after content is visible
           setTimeout(() => {
             setBridgePhase('idle');
             setPendingImage(null);
@@ -350,7 +347,7 @@ export default function Work() {
     };
 
     img.onload = showImage;
-    img.onerror = showImage; // Still show even if load fails
+    img.onerror = showImage;
     img.src = image.src;
   }, [imageAnimState, bridgePhase]);
 
@@ -693,38 +690,6 @@ export default function Work() {
           transform: translateZ(0);
           transition: opacity 0.25s ease;
         }
-        
-        .folder-close {
-          position: relative;
-          z-index: 2;
-          margin-top: 24px;
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          background: transparent;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          border: none;
-          opacity: 0;
-          transform: scale(0.5);
-          transition: none;
-        }
-        
-        .folder-overlay.active .folder-close {
-          opacity: 1;
-          transform: scale(1);
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
-        }
-        
-        .folder-overlay.exiting .folder-close {
-          opacity: 0;
-          transform: scale(0.8);
-          transition: opacity 0.15s ease, transform 0.2s ease;
-        }
-        
-        .folder-close svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
         
         .folder-apps-grid {
           display: grid;
@@ -1190,11 +1155,6 @@ export default function Work() {
         
         .image-expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
         
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - APPLE-LEVEL TRANSITION BRIDGE                                */
-        /* The secret: 3 phases with different timing for seamless crossfade               */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
         .transition-bridge {
           position: fixed;
           top: 0;
@@ -1215,11 +1175,9 @@ export default function Work() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity;
-          /* Default: fast fade IN */
           transition: opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.25s;
         }
         
-        /* Phase 1 & 2: Loading - bridge fully visible */
         .transition-bridge.loading {
           opacity: 1;
           visibility: visible;
@@ -1227,12 +1185,10 @@ export default function Work() {
           transition: opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
         }
         
-        /* Phase 3: Transitioning - SLOW fade out to overlap with content fade in */
         .transition-bridge.transitioning {
           opacity: 0;
           visibility: visible;
           pointer-events: none;
-          /* Slow fade out - content is fading in underneath */
           transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.5s;
         }
         
@@ -1338,13 +1294,14 @@ export default function Work() {
         </div>
       </div>
 
+      {/* Apps Folder */}
       {openFolder === 'apps' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container" onClick={handleCloseFolder}>
             <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               {appsItems.map((app) => (
-                <Link key={app.id} href={app.href} className="folder-app">
+                <Link key={app.id} href={app.href} className="folder-app" onClick={restoreScroll}>
                   <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})` }}>
                     {app.id === 'trade69' && <Trade69Icon3D size={folderIconSize} />}
                     {app.id === 'megaagent' && <MegaAgentIcon3D size={folderIconSize} />}
@@ -1359,6 +1316,7 @@ export default function Work() {
         </div>
       )}
 
+      {/* Services Folder */}
       {openFolder === 'services' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
@@ -1377,6 +1335,7 @@ export default function Work() {
         </div>
       )}
 
+      {/* Entertainment Folder */}
       {openFolder === 'entertainment' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
@@ -1399,13 +1358,14 @@ export default function Work() {
         </div>
       )}
 
+      {/* Social Folder */}
       {openFolder === 'social' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container" onClick={handleCloseFolder}>
             <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               {socialLinks.map((social) => (
-                <Link key={social.id} href={social.url} target="_blank" rel="noopener noreferrer" className="folder-app">
+                <Link key={social.id} href={social.url} target="_blank" rel="noopener noreferrer" className="folder-app" onClick={restoreScroll}>
                   <div className="folder-app-icon" style={{ background: social.id === 'instagram' ? 'linear-gradient(145deg, #833ab4, #fd1d1d, #fcb045)' : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})` }}>
                     {renderSocialIcon(social.id, 32)}
                   </div>
@@ -1417,6 +1377,7 @@ export default function Work() {
         </div>
       )}
 
+      {/* Service Expanded Views */}
       {servicesItems.map((service, index) => (
         <div key={service.id} className={`service-expanded ${expandedService === index ? getExpandedAnimClass() : ''}`}>
           <div className="service-expanded-inner">
@@ -1430,6 +1391,7 @@ export default function Work() {
         </div>
       ))}
 
+      {/* Gallery Overlay */}
       {galleryOpen && (
         <div className={`media-overlay ${getGalleryAnimClass()}`}>
           <div className="media-overlay-bg" onClick={handleCloseGallery} />
@@ -1446,6 +1408,7 @@ export default function Work() {
         </div>
       )}
 
+      {/* Notes Overlay */}
       {notesOpen && (
         <div className={`media-overlay ${getNotesAnimClass()}`}>
           <div className="media-overlay-bg" onClick={handleCloseNotes} />
@@ -1462,11 +1425,12 @@ export default function Work() {
         </div>
       )}
 
-      {/* STATE OF THE ART - Apple-Level Transition Bridge */}
+      {/* Transition Bridge */}
       <div className={`transition-bridge ${bridgePhase}`}>
         <div className="bridge-spinner" />
       </div>
 
+      {/* Image Expanded View */}
       {expandedImage && (
         <div className={`image-expanded ${getImageAnimClass()}`}>
           <div className="image-expanded-inner">
