@@ -65,7 +65,7 @@ const geometryItems = [
   { id: 'lemniscate', name: 'Infinity', color: ['#385528', '#1e3014'] },
 ];
 
-// Static Icons gallery items (8 cards)
+// Static Icons - used for showcase display
 const staticIconItems = [
   { id: 'trade69-2d', name: 'Trade69', color: ['#1a5040', '#0d2820'] },
   { id: 'megaagent-2d', name: 'MegaAgent', color: ['#3d4a8f', '#1e2550'] },
@@ -79,6 +79,18 @@ const staticIconItems = [
 
 type AnimationState = 'idle' | 'entering' | 'active' | 'exiting';
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// STATE OF THE ART - Global scroll restore function
+// ═══════════════════════════════════════════════════════════════════════════════
+const restoreScroll = () => {
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
+  if ((window as any).__solidRockCleanup) {
+    (window as any).__solidRockCleanup();
+    delete (window as any).__solidRockCleanup;
+  }
+};
+
 export default function Creative() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
@@ -87,7 +99,7 @@ export default function Creative() {
   const [openFolder, setOpenFolder] = useState<string | null>(null);
   const [folderAnimState, setFolderAnimState] = useState<AnimationState>('idle');
 
-  // Gallery overlay state (3D Icons, Geometry, Icons galleries)
+  // Gallery overlay state (3D Icons, Geometry galleries)
   const [openGallery, setOpenGallery] = useState<string | null>(null);
   const [galleryAnimState, setGalleryAnimState] = useState<AnimationState>('idle');
 
@@ -111,11 +123,9 @@ export default function Creative() {
 
   // STATE OF THE ART - Smooth overscroll prevention
   useEffect(() => {
-    // Apply overscroll behavior to document
     document.documentElement.style.overscrollBehavior = 'none';
     document.body.style.overscrollBehavior = 'none';
 
-    // Prevent bounce on iOS Safari
     let lastY = 0;
     const handleTouchStart = (e: TouchEvent) => {
       lastY = e.touches[0].clientY;
@@ -127,11 +137,9 @@ export default function Creative() {
       const scrollHeight = document.documentElement.scrollHeight;
       const clientHeight = window.innerHeight;
 
-      // At top of page, scrolling up
       if (scrollTop <= 0 && currentY > lastY) {
         e.preventDefault();
       }
-      // At bottom of page, scrolling down
       if (scrollTop + clientHeight >= scrollHeight && currentY < lastY) {
         e.preventDefault();
       }
@@ -154,56 +162,49 @@ export default function Creative() {
     return () => clearTimeout(timer);
   }, []);
 
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // STATE OF THE ART - Cleanup on unmount to restore scroll
+  // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
     return () => {
       if (folderTimeoutRef.current) clearTimeout(folderTimeoutRef.current);
       if (galleryTimeoutRef.current) clearTimeout(galleryTimeoutRef.current);
       if (expandedTimeoutRef.current) clearTimeout(expandedTimeoutRef.current);
+      restoreScroll();
     };
   }, []);
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // SOLID ROCK LOCK - NO MOVEMENT AT ALL when overlays open
-  // Like a movie presentation - no swipe left/right/up/down - NOTHING moves
   // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
     const isOpen = folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle' || bridgePhase !== 'idle';
 
     if (isOpen) {
-      // Simple overflow hidden - no position fixed that causes jumping
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
 
-      // STATE OF THE ART - SOLID ROCK with 3D canvas exception
-      // Block ALL touch movement EXCEPT inside expanded-content (3D canvas area)
       const blockAllTouch = (e: TouchEvent) => {
         const target = e.target as HTMLElement;
-
-        // Allow touch ONLY inside expanded-content (where 3D Sphere/Manifold/Architecture live)
         if (target.closest('.expanded-content')) {
-          return; // Let the 3D canvas handle this touch
+          return;
         }
-
-        // Block EVERYTHING else - SOLID ROCK
         e.preventDefault();
         e.stopPropagation();
       };
 
-      // Block wheel events (desktop) - but allow inside expanded-content for 3D zoom
       const blockWheel = (e: WheelEvent) => {
         const target = e.target as HTMLElement;
         if (target.closest('.expanded-content')) {
-          return; // Allow wheel for 3D zoom
+          return;
         }
         e.preventDefault();
         e.stopPropagation();
       };
 
-      // Add blockers with capture to catch EVERYTHING
       document.addEventListener('touchmove', blockAllTouch, { passive: false, capture: true });
       document.addEventListener('wheel', blockWheel, { passive: false, capture: true });
 
-      // Store for cleanup
       (window as any).__solidRockCleanup = () => {
         document.removeEventListener('touchmove', blockAllTouch, { capture: true } as any);
         document.removeEventListener('wheel', blockWheel, { capture: true } as any);
@@ -215,15 +216,7 @@ export default function Creative() {
         }
       };
     } else {
-      // Restore everything
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-
-      // Cleanup touch blocker
-      if ((window as any).__solidRockCleanup) {
-        (window as any).__solidRockCleanup();
-        delete (window as any).__solidRockCleanup;
-      }
+      restoreScroll();
     }
   }, [folderAnimState, galleryAnimState, expandedAnimState, bridgePhase]);
 
@@ -251,22 +244,18 @@ export default function Creative() {
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // STATE OF THE ART - SEAMLESS TRANSITIONS WITH ELEGANT BRIDGE
-  // Bridge covers the gap between screens - no flash
   // ═══════════════════════════════════════════════════════════════════════════════
 
   const handleOpenGalleryFromFolder = useCallback((galleryId: string) => {
     if (folderAnimState !== 'active') return;
 
-    // Phase 1: Bridge fades in quickly
     setBridgePhase('in');
 
     setTimeout(() => {
-      // Phase 2: Bridge holds, folder exits
       setBridgePhase('hold');
       setFolderAnimState('exiting');
 
       setTimeout(() => {
-        // Phase 3: Folder gone, gallery enters
         setOpenFolder(null);
         setFolderAnimState('idle');
         setOpenGallery(galleryId);
@@ -275,7 +264,6 @@ export default function Creative() {
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             setGalleryAnimState('active');
-            // Phase 4: Bridge fades out smoothly
             setBridgePhase('out');
             setTimeout(() => setBridgePhase('idle'), 350);
           });
@@ -293,7 +281,6 @@ export default function Creative() {
     }, 350);
   }, [galleryAnimState]);
 
-  // Expanded from folder - uses bridge
   const handleOpenExpandedFromFolder = useCallback((itemId: string) => {
     if (folderAnimState !== 'active') return;
 
@@ -320,7 +307,6 @@ export default function Creative() {
     }, 120);
   }, [folderAnimState]);
 
-  // Expanded from gallery - direct (expanded covers gallery, no flash)
   const handleOpenExpandedFromGallery = useCallback((itemId: string) => {
     if (galleryAnimState !== 'active') return;
     setExpandedItem(itemId);
@@ -357,21 +343,6 @@ export default function Creative() {
     }
   };
 
-  const render2DIcon = (id: string, scale: number = 1) => {
-    const style = { transform: `scale(${scale})` };
-    switch (id) {
-      case 'trade69-2d': return <div style={style}><Trade69Icon /></div>;
-      case 'megaagent-2d': return <div style={style}><MegaAgentIcon /></div>;
-      case 'octopus-2d': return <div style={style}><OctopusIcon /></div>;
-      case 'overmind-2d': return <div style={style}><OvermindIcon /></div>;
-      case 'website-2d': return <div style={style}><WebsiteIcon /></div>;
-      case 'dashboard-2d': return <div style={style}><DashboardIcon /></div>;
-      case 'api-2d': return <div style={style}><APIIcon /></div>;
-      case 'llm-2d': return <div style={style}><LLMIcon /></div>;
-      default: return null;
-    }
-  };
-
   const renderGeometry = (id: string) => {
     switch (id) {
       case 'metatron': return <MetatronCube />;
@@ -391,13 +362,12 @@ export default function Creative() {
     }
   };
 
-  // Mini icon size based on device
   const miniIconSize = isMobile ? 22 : 26;
   const folderIconSize = isMobile ? 36 : 42;
   const galleryIconSize = isMobile ? 38 : 44;
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // MINI ICON RENDERERS - BIGGER SYMBOLS
+  // MINI ICON RENDERERS
   // ═══════════════════════════════════════════════════════════════════════════════
 
   const render3DIconMini = (id: string, size: number = miniIconSize) => {
@@ -626,14 +596,9 @@ export default function Creative() {
     }
   };
 
-  // Animation class getters
   const getFolderAnimClass = (folderId: string) => openFolder === folderId ? folderAnimState : '';
   const getGalleryAnimClass = (galleryId: string) => openGallery === galleryId ? galleryAnimState : '';
   const getExpandedAnimClass = (itemId: string) => expandedItem === itemId ? expandedAnimState : '';
-
-  // ═══════════════════════════════════════════════════════════════════════════════
-  // FOLDER PREVIEW - Only 3 icons for Entertainment (no fake 4th)
-  // ═══════════════════════════════════════════════════════════════════════════════
 
   const renderFolderPreview = (folderId: string) => {
     if (folderId === 'entertainment') {
@@ -667,19 +632,41 @@ export default function Creative() {
     }
   };
 
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // STATE OF THE ART - 2D ICONS SHOWCASE
+  // All 8 icons beautifully presented in one elegant view
+  // ═══════════════════════════════════════════════════════════════════════════════
+  const Icons2DShowcase = () => (
+    <div className="icons-showcase">
+      <div className="icons-showcase-grid">
+        {staticIconItems.map((item, index) => (
+          <div
+            key={item.id}
+            className="showcase-icon"
+            style={{
+              background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})`,
+              animationDelay: `${0.05 + index * 0.03}s`
+            }}
+          >
+            {item.id === 'trade69-2d' && <Trade69Icon />}
+            {item.id === 'megaagent-2d' && <MegaAgentIcon />}
+            {item.id === 'octopus-2d' && <OctopusIcon />}
+            {item.id === 'overmind-2d' && <OvermindIcon />}
+            {item.id === 'website-2d' && <WebsiteIcon />}
+            {item.id === 'dashboard-2d' && <DashboardIcon />}
+            {item.id === 'api-2d' && <APIIcon />}
+            {item.id === 'llm-2d' && <LLMIcon />}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     <>
       <style>{`
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - CREATIVE PAGE                                                */
-        /* Matching Work page positioning, heights, fonts exactly                          */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        * { -webkit-tap-highlight-color: transparent; }
         
-        * {
-          -webkit-tap-highlight-color: transparent;
-        }
-        
-        /* STATE OF THE ART - Smooth scroll behavior on html/body */
         html {
           scroll-behavior: smooth;
           overscroll-behavior: none;
@@ -701,7 +688,6 @@ export default function Creative() {
           scroll-behavior: smooth;
           position: relative;
           min-height: 100vh;
-          -webkit-scroll-behavior: smooth;
         }
         
         .creative-page.overlay-open {
@@ -716,17 +702,9 @@ export default function Creative() {
           }
         }
         
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - TRANSITION BRIDGE                                            */
-        /* Elegant spinning circle loader - positioned higher (2 inches up from center)    */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
         .transition-bridge {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          top: 0; left: 0; right: 0; bottom: 0;
           z-index: 1500;
           background: radial-gradient(ellipse at center, rgba(20, 20, 20, 0.96) 0%, rgba(10, 10, 10, 0.99) 100%);
           backdrop-filter: blur(60px) saturate(180%);
@@ -734,7 +712,6 @@ export default function Creative() {
           display: flex;
           align-items: flex-start;
           justify-content: center;
-          /* Move spinner UP - approximately 2 inches from top */
           padding-top: clamp(180px, 30vh, 280px);
           opacity: 0;
           visibility: hidden;
@@ -758,7 +735,6 @@ export default function Creative() {
           transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s;
         }
         
-        /* STATE OF THE ART - Elegant spinning circle */
         .bridge-spinner {
           width: 32px;
           height: 32px;
@@ -789,15 +765,10 @@ export default function Creative() {
         }
         
         @keyframes elegantSpin {
-          0% { 
-            transform: rotate(0deg); 
-          }
-          100% { 
-            transform: rotate(360deg); 
-          }
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
         
-        /* Smooth fade for spinner */
         .transition-bridge.in .bridge-spinner {
           opacity: 0;
           animation: spinnerFadeIn 0.2s ease 0.1s forwards;
@@ -809,19 +780,9 @@ export default function Creative() {
         }
         
         @keyframes spinnerFadeIn {
-          0% { 
-            opacity: 0; 
-            transform: scale(0.8); 
-          }
-          100% { 
-            opacity: 1; 
-            transform: scale(1); 
-          }
+          0% { opacity: 0; transform: scale(0.8); }
+          100% { opacity: 1; transform: scale(1); }
         }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* MAIN GRID - 2 FOLDERS (matching Work page)                                      */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .creative-grid {
           display: grid;
@@ -838,10 +799,6 @@ export default function Creative() {
           gap: 10px;
         }
         
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* FOLDER ICON - Premium Glass Effect (matching Work page)                         */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
         .folder-icon {
           position: relative;
           width: 115px;
@@ -857,14 +814,8 @@ export default function Creative() {
           overflow: hidden;
           opacity: 0;
           transform: translateZ(0) scale(0.85) translateY(15px);
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                      box-shadow 0.4s ease, opacity 0.5s ease;
-          box-shadow: 
-            0 0 50px rgba(255, 255, 255, 0.06),
-            0 8px 32px rgba(0, 0, 0, 0.5),
-            0 2px 8px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.2),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease;
+          box-shadow: 0 0 50px rgba(255, 255, 255, 0.06), 0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.1);
           border: 1px solid rgba(255, 255, 255, 0.08);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -890,10 +841,6 @@ export default function Creative() {
         
         .folder-wrapper:nth-child(1) .folder-icon { transition-delay: 0ms; }
         .folder-wrapper:nth-child(2) .folder-icon { transition-delay: 60ms; }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* FOLDER PREVIEW - 3 icons layout (no fake 4th)                                   */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .folder-preview {
           display: grid;
@@ -924,11 +871,7 @@ export default function Creative() {
           justify-content: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 
-            0 0 12px rgba(255, 255, 255, 0.1),
-            0 3px 8px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 12px rgba(255, 255, 255, 0.1), 0 3px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
           -webkit-transform: translateZ(0);
           transform: translateZ(0);
         }
@@ -967,16 +910,9 @@ export default function Creative() {
         .folder-wrapper:nth-child(1) .folder-name { transition-delay: 60ms; }
         .folder-wrapper:nth-child(2) .folder-name { transition-delay: 120ms; }
         
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* FOLDER OVERLAY                                                                  */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
         .folder-overlay {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          top: 0; left: 0; right: 0; bottom: 0;
           z-index: 1000;
           display: flex;
           flex-direction: column;
@@ -986,7 +922,6 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          /* SOLID ROCK - no touch movement */
           touch-action: none;
           -webkit-touch-callout: none;
           user-select: none;
@@ -1003,14 +938,10 @@ export default function Creative() {
         
         .folder-overlay-bg {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          top: 0; left: 0; right: 0; bottom: 0;
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
-          /* SOLID ROCK */
           touch-action: none;
         }
         
@@ -1025,11 +956,7 @@ export default function Creative() {
           opacity: 0;
           transform: translateZ(0);
           transition: none;
-          box-shadow: 
-            0 0 60px rgba(255, 255, 255, 0.15),
-            0 20px 60px rgba(0, 0, 0, 0.4),
-            0 8px 25px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.8);
+          box-shadow: 0 0 60px rgba(255, 255, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4), 0 8px 25px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.8);
         }
         
         .folder-overlay.active .folder-container {
@@ -1064,8 +991,7 @@ export default function Creative() {
         .folder-overlay.active .folder-card {
           opacity: 1;
           transform: translateZ(0) scale(1) translateY(0);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), 
-                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
         .folder-overlay.exiting .folder-card {
@@ -1087,12 +1013,7 @@ export default function Creative() {
           justify-content: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 
-            0 0 25px rgba(255, 255, 255, 0.12),
-            0 6px 20px rgba(0, 0, 0, 0.45),
-            0 12px 40px rgba(0, 0, 0, 0.25),
-            inset 0 1px 1px rgba(255, 255, 255, 0.4),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 25px rgba(255, 255, 255, 0.12), 0 6px 20px rgba(0, 0, 0, 0.45), 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4), inset 0 -1px 1px rgba(0, 0, 0, 0.2);
         }
         
         .folder-card-icon::before {
@@ -1113,10 +1034,6 @@ export default function Creative() {
           text-align: center;
         }
         
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* GALLERY OVERLAY                                                                 */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
         .gallery-overlay {
           position: fixed;
           top: 0; left: 0; right: 0; bottom: 0;
@@ -1129,7 +1046,6 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          /* SOLID ROCK - no touch movement */
           touch-action: none;
           -webkit-touch-callout: none;
           user-select: none;
@@ -1151,7 +1067,6 @@ export default function Creative() {
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
-          /* SOLID ROCK */
           touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -1170,12 +1085,7 @@ export default function Creative() {
           opacity: 0;
           transform: translateZ(0) scale(0.8);
           transition: none;
-          box-shadow: 
-            0 0 60px rgba(255, 255, 255, 0.15),
-            0 20px 60px rgba(0, 0, 0, 0.4),
-            0 8px 25px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.8);
-          /* SOLID ROCK */
+          box-shadow: 0 0 60px rgba(255, 255, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4), 0 8px 25px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.8);
           touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -1187,8 +1097,7 @@ export default function Creative() {
         .gallery-overlay.active .gallery-container {
           opacity: 1;
           transform: translateZ(0) scale(1);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.02s, 
-                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.02s;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.02s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.02s;
         }
         
         .gallery-overlay.exiting .gallery-container {
@@ -1197,20 +1106,13 @@ export default function Creative() {
           transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* SOLID ROCK - FIXED 4x2 GRID (no scroll, all 8 visible)                         */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
         .gallery-grid {
           display: grid;
-          /* 4 columns for 8 items = 2 rows */
           grid-template-columns: repeat(4, 70px);
           gap: 14px;
-          /* SOLID ROCK */
           touch-action: none;
         }
         
-        /* 2x2 grid for geometry (4 items) */
         .gallery-grid.grid-2 {
           grid-template-columns: repeat(2, 80px);
           gap: 18px;
@@ -1225,7 +1127,6 @@ export default function Creative() {
           opacity: 0;
           transform: translateZ(0) scale(0.7) translateY(12px);
           transition: none;
-          /* SOLID ROCK */
           touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -1234,8 +1135,7 @@ export default function Creative() {
         .gallery-overlay.active .gallery-card {
           opacity: 1;
           transform: translateZ(0) scale(1) translateY(0);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), 
-                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
         .gallery-overlay.exiting .gallery-card {
@@ -1263,12 +1163,7 @@ export default function Creative() {
           justify-content: center;
           overflow: hidden;
           position: relative;
-          box-shadow: 
-            0 0 25px rgba(255, 255, 255, 0.12),
-            0 6px 20px rgba(0, 0, 0, 0.45),
-            0 12px 40px rgba(0, 0, 0, 0.25),
-            inset 0 1px 1px rgba(255, 255, 255, 0.4),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 25px rgba(255, 255, 255, 0.12), 0 6px 20px rgba(0, 0, 0, 0.45), 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4), inset 0 -1px 1px rgba(0, 0, 0, 0.2);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
@@ -1294,11 +1189,6 @@ export default function Creative() {
           max-width: 76px;
         }
         
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* EXPANDED VIEW - STATE OF THE ART                                                */
-        /* Tap anywhere to close (no X button needed)                                      */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
         .expanded-view {
           position: fixed;
           top: 0; left: 0; right: 0; bottom: 0;
@@ -1312,7 +1202,6 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          /* SOLID ROCK - no touch movement */
           touch-action: none;
           -webkit-touch-callout: none;
           user-select: none;
@@ -1323,25 +1212,9 @@ export default function Creative() {
           transform: translateZ(0);
         }
         
-        .expanded-view.entering { 
-          visibility: visible; 
-          pointer-events: auto; 
-          opacity: 0; 
-        }
-        
-        .expanded-view.active { 
-          visibility: visible; 
-          pointer-events: auto; 
-          opacity: 1; 
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
-        }
-        
-        .expanded-view.exiting { 
-          visibility: visible; 
-          pointer-events: none; 
-          opacity: 0; 
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-        }
+        .expanded-view.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .expanded-view.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .expanded-view.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
         
         .expanded-inner {
           display: flex;
@@ -1356,8 +1229,7 @@ export default function Creative() {
         .expanded-view.active .expanded-inner {
           opacity: 1;
           transform: translateZ(0) scale(1);
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, 
-                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
         }
         
         .expanded-view.exiting .expanded-inner {
@@ -1374,7 +1246,6 @@ export default function Creative() {
           align-items: center;
           justify-content: center;
           filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
-          /* STATE OF THE ART - Allow touch for 3D rotation/interaction */
           touch-action: manipulation;
           -webkit-user-select: none;
           user-select: none;
@@ -1388,8 +1259,7 @@ export default function Creative() {
         .expanded-view.active .expanded-content {
           opacity: 1;
           transform: translateZ(0) scale(1);
-          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, 
-                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
+          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
         }
         
         .expanded-view.exiting .expanded-content {
@@ -1398,40 +1268,12 @@ export default function Creative() {
           transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
-        /* STATE OF THE ART - 3D canvas touch enabled */
         .expanded-content canvas {
           touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
         }
         
-        /* Hint text for tap-to-close */
-        .expanded-hint {
-          position: absolute;
-          bottom: clamp(40px, 8vh, 80px);
-          left: 50%;
-          transform: translateX(-50%);
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-          font-size: 13px;
-          font-weight: 400;
-          color: rgba(255, 255, 255, 0.4);
-          letter-spacing: 0.02em;
-          opacity: 0;
-          transition: opacity 0.4s ease 0.5s;
-          pointer-events: none;
-          z-index: 5;
-        }
-        
-        .expanded-view.active .expanded-hint {
-          opacity: 1;
-        }
-        
-        .expanded-view.exiting .expanded-hint {
-          opacity: 0;
-          transition: opacity 0.15s ease;
-        }
-        
-        /* X button for expanded views */
         .expanded-close {
           margin-top: 40px;
           width: 52px;
@@ -1453,8 +1295,7 @@ export default function Creative() {
         .expanded-view.active .expanded-close {
           opacity: 1;
           transform: scale(1);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, 
-                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
         }
         
         .expanded-view.exiting .expanded-close {
@@ -1463,13 +1304,64 @@ export default function Creative() {
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        .expanded-close svg { 
-          filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); 
+        .expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
+        
+        /* STATE OF THE ART - 2D ICONS SHOWCASE */
+        .icons-showcase {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* DESKTOP ENHANCEMENTS                                                            */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        .icons-showcase-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          grid-template-rows: repeat(2, 1fr);
+          gap: 12px;
+          padding: 8px;
+        }
+        
+        .showcase-icon {
+          width: 56px;
+          height: 56px;
+          border-radius: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+          opacity: 0;
+          transform: scale(0.5);
+          animation: showcaseIconPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        
+        .showcase-icon::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 5%;
+          right: 5%;
+          height: 50%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+          border-radius: 14px 14px 50% 50%;
+          pointer-events: none;
+          z-index: 5;
+        }
+        
+        @keyframes showcaseIconPop {
+          0% { opacity: 0; transform: scale(0.5); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .showcase-icon svg {
+          width: 28px;
+          height: 28px;
+          position: relative;
+          z-index: 2;
+        }
         
         @media (min-width: 600px) {
           .creative-grid { gap: 48px 44px; max-width: 400px; }
@@ -1480,18 +1372,15 @@ export default function Creative() {
           .folder-container { padding: 28px; }
           .folder-cards-grid { gap: 20px; }
           .folder-card-icon { width: 80px; height: 80px; border-radius: 18px; }
-          .gallery-container { 
-            padding: 28px; 
-            border-radius: 30px; 
-          }
-          .gallery-grid { 
-            grid-template-columns: repeat(4, 80px); 
-            gap: 16px; 
-          }
+          .gallery-container { padding: 28px; border-radius: 30px; }
+          .gallery-grid { grid-template-columns: repeat(4, 80px); gap: 16px; }
           .gallery-grid.grid-2 { grid-template-columns: repeat(2, 90px); gap: 20px; }
           .gallery-card-icon { width: 72px; height: 72px; border-radius: 18px; }
           .gallery-card-name { font-size: 12px; max-width: 80px; }
           .expanded-content { width: 340px; height: 340px; border-radius: 26px; }
+          .icons-showcase-grid { gap: 16px; padding: 12px; }
+          .showcase-icon { width: 68px; height: 68px; border-radius: 16px; }
+          .showcase-icon svg { width: 36px; height: 36px; }
         }
         
         @media (min-width: 900px) {
@@ -1503,24 +1392,17 @@ export default function Creative() {
           .folder-container { padding: 36px; }
           .folder-cards-grid { gap: 26px; }
           .folder-card-icon { width: 95px; height: 95px; border-radius: 22px; }
-          .gallery-container { 
-            padding: 32px;
-          }
-          .gallery-grid { 
-            grid-template-columns: repeat(4, 90px); 
-            gap: 20px; 
-          }
+          .gallery-container { padding: 32px; }
+          .gallery-grid { grid-template-columns: repeat(4, 90px); gap: 20px; }
           .gallery-grid.grid-2 { grid-template-columns: repeat(2, 100px); gap: 24px; }
           .gallery-card-icon { width: 82px; height: 82px; border-radius: 20px; }
           .gallery-card-name { font-size: 13px; max-width: 90px; }
+          .icons-showcase-grid { gap: 20px; padding: 16px; }
+          .showcase-icon { width: 76px; height: 76px; border-radius: 18px; }
+          .showcase-icon svg { width: 42px; height: 42px; }
         }
         
         canvas { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - 3D CANVAS SMOOTHNESS                                         */
-        /* Ensures WebGL/Three.js renders without disruption                               */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .expanded-content > div {
           -webkit-backface-visibility: hidden;
@@ -1531,7 +1413,6 @@ export default function Creative() {
           perspective: 1000px;
         }
         
-        /* Prevent canvas reflow during transitions */
         .expanded-view canvas,
         .expanded-content canvas {
           will-change: transform;
@@ -1541,13 +1422,11 @@ export default function Creative() {
           -webkit-font-smoothing: antialiased;
         }
         
-        /* iOS Safari specific optimizations */
         @supports (-webkit-touch-callout: none) {
           .expanded-content {
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
           }
-          
           .expanded-content canvas {
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
@@ -1566,7 +1445,6 @@ export default function Creative() {
         alignItems: "flex-start",
         justifyContent: "center"
       }}>
-        {/* 2 Main Folders */}
         <div className="creative-grid">
           {mainFolders.map((folder) => (
             <div key={folder.id} className="folder-wrapper">
@@ -1582,15 +1460,11 @@ export default function Creative() {
         </div>
       </div>
 
-      {/* STATE OF THE ART - Transition Bridge with elegant spinner */}
       <div className={`transition-bridge ${bridgePhase}`}>
         <div className="bridge-spinner" />
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* ENTERTAINMENT FOLDER - Shows 3 Category Cards                                   */}
-      {/* Tap background to close (no X button)                                           */}
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* ENTERTAINMENT FOLDER */}
       <div className={`folder-overlay ${getFolderAnimClass('entertainment')}`}>
         <div className="folder-overlay-bg" onClick={handleCloseFolder} />
         <div className="folder-container">
@@ -1607,7 +1481,8 @@ export default function Creative() {
               </div>
               <span className="folder-card-name">Geometry</span>
             </div>
-            <div className="folder-card" onClick={() => handleOpenGalleryFromFolder('icons')}>
+            {/* STATE OF THE ART FIX: Icons now opens directly to showcase */}
+            <div className="folder-card" onClick={() => handleOpenExpandedFromFolder('icons-showcase')}>
               <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #3d4a8f, #1e2550)' }}>
                 {render2DIconMini('megaagent-2d', folderIconSize)}
               </div>
@@ -1617,10 +1492,7 @@ export default function Creative() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 3D INTERACTIVE FOLDER - Shows 3 Experience Cards                                */}
-      {/* Tap background to close (no X button)                                           */}
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* 3D INTERACTIVE FOLDER */}
       <div className={`folder-overlay ${getFolderAnimClass('interactive')}`}>
         <div className="folder-overlay-bg" onClick={handleCloseFolder} />
         <div className="folder-container">
@@ -1637,9 +1509,7 @@ export default function Creative() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 3D ICONS GALLERY - SOLID ROCK 4x2 grid (all 8 visible, no scroll)              */}
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* 3D ICONS GALLERY */}
       <div className={`gallery-overlay ${getGalleryAnimClass('3dicons')}`}>
         <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
         <div className="gallery-container">
@@ -1656,9 +1526,7 @@ export default function Creative() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* GEOMETRY GALLERY - SOLID ROCK 2x2 grid                                          */}
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* GEOMETRY GALLERY */}
       <div className={`gallery-overlay ${getGalleryAnimClass('geometry')}`}>
         <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
         <div className="gallery-container">
@@ -1675,28 +1543,7 @@ export default function Creative() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 2D ICONS GALLERY - SOLID ROCK 4x2 grid (all 8 visible, no scroll)              */}
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      <div className={`gallery-overlay ${getGalleryAnimClass('icons')}`}>
-        <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
-        <div className="gallery-container">
-          <div className="gallery-grid">
-            {staticIconItems.map(item => (
-              <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`2d-${item.id}`)}>
-                <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {render2DIconMini(item.id, galleryIconSize)}
-                </div>
-                <span className="gallery-card-name">{item.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - 3D Icons (X button to close)                                  */}
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* EXPANDED - 3D Icons */}
       {icons3DItems.map(item => (
         <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`3d-${item.id}`)}`}>
           <div className="expanded-inner">
@@ -1712,9 +1559,7 @@ export default function Creative() {
         </div>
       ))}
 
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - Geometry (X button to close)                                  */}
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* EXPANDED - Geometry */}
       {geometryItems.map(item => (
         <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`geo-${item.id}`)}`}>
           <div className="expanded-inner">
@@ -1730,27 +1575,21 @@ export default function Creative() {
         </div>
       ))}
 
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - 2D Icons (X button to close)                                  */}
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {staticIconItems.map(item => (
-        <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`2d-${item.id}`)}`}>
-          <div className="expanded-inner">
-            <div className="expanded-content">
-              {expandedItem === `2d-${item.id}` && render2DIcon(item.id, 3)}
-            </div>
-            <button className="expanded-close" onClick={handleCloseExpanded}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </button>
+      {/* STATE OF THE ART - 2D ICONS SHOWCASE - All 8 icons beautifully presented */}
+      <div className={`expanded-view ${getExpandedAnimClass('icons-showcase')}`}>
+        <div className="expanded-inner">
+          <div className="expanded-content">
+            {expandedItem === 'icons-showcase' && <Icons2DShowcase />}
           </div>
+          <button className="expanded-close" onClick={handleCloseExpanded}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
         </div>
-      ))}
+      </div>
 
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - 3D Interactive Experiences (X button to close)                */}
-      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* EXPANDED - 3D Interactive Experiences */}
       {interactiveApps.map(app => (
         <div
           key={app.id}
