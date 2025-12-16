@@ -203,30 +203,30 @@ export default function Navigation() {
           border-radius: 18px;
           background: linear-gradient(
             165deg,
-            #2a2a2a 0%,
-            #1a1a1a 50%,
-            #0f0f0f 100%
+            #1a1a1a 0%,
+            #0a0a0a 50%,
+            #000000 100%
           );
           box-shadow: 
             /* Subtle outer glow */
-            0 0 20px rgba(255, 255, 255, 0.06),
+            0 0 15px rgba(255, 255, 255, 0.04),
             /* 3D depth layers */
-            0 4px 8px rgba(0, 0, 0, 0.5),
-            0 8px 16px rgba(0, 0, 0, 0.4),
-            0 16px 32px rgba(0, 0, 0, 0.3),
-            /* Inner light */
-            inset 0 1px 1px rgba(255, 255, 255, 0.1),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.3);
+            0 4px 8px rgba(0, 0, 0, 0.6),
+            0 8px 16px rgba(0, 0, 0, 0.5),
+            0 16px 32px rgba(0, 0, 0, 0.4),
+            /* Inner light - very subtle */
+            inset 0 1px 1px rgba(255, 255, 255, 0.06),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.5);
           transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           -webkit-tap-highlight-color: transparent;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0) scale(1);
           overflow: hidden;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.05);
         }
         
-        /* Animated gradient border - Apple style */
+        /* Subtle gradient border */
         .nav-icon-container::before {
           content: '';
           position: absolute;
@@ -235,9 +235,9 @@ export default function Navigation() {
           padding: 1px;
           background: linear-gradient(
             135deg,
-            rgba(255, 255, 255, 0.2),
-            rgba(255, 255, 255, 0.03),
             rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.02),
+            rgba(255, 255, 255, 0.05),
             rgba(255, 255, 255, 0.01)
           );
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -245,22 +245,21 @@ export default function Navigation() {
           -webkit-mask-composite: xor;
           mask-composite: exclude;
           pointer-events: none;
-          opacity: 0.6;
+          opacity: 0.5;
         }
         
-        /* Curved glass reflection - top shine */
+        /* Very subtle top shine */
         .nav-icon-container::after {
           content: '';
           position: absolute;
           top: 0;
-          left: 8%;
-          right: 8%;
-          height: 50%;
+          left: 10%;
+          right: 10%;
+          height: 45%;
           background: linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.15) 0%,
-            rgba(255, 255, 255, 0.06) 30%,
-            rgba(255, 255, 255, 0.01) 60%,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.03) 40%,
             transparent 100%
           );
           border-radius: 18px 18px 50% 50%;
@@ -268,58 +267,56 @@ export default function Navigation() {
           z-index: 10;
         }
         
-        /* Active state - subtle glow, not overpowering */
+        /* Active state - slightly lighter black */
         .nav-icon-container.active {
           background: linear-gradient(
             165deg,
-            #353535 0%,
-            #252525 50%,
-            #1a1a1a 100%
+            #252525 0%,
+            #151515 50%,
+            #0a0a0a 100%
           );
-          border-color: rgba(255, 255, 255, 0.12);
+          border-color: rgba(255, 255, 255, 0.08);
           box-shadow: 
-            /* Subtle outer glow - reduced */
-            0 0 25px rgba(255, 255, 255, 0.1),
-            0 0 50px rgba(255, 255, 255, 0.05),
+            /* Subtle glow */
+            0 0 20px rgba(255, 255, 255, 0.06),
             /* Depth */
-            0 6px 12px rgba(0, 0, 0, 0.5),
-            0 12px 24px rgba(0, 0, 0, 0.4),
+            0 6px 12px rgba(0, 0, 0, 0.6),
+            0 12px 24px rgba(0, 0, 0, 0.5),
             /* Inner light */
-            inset 0 1px 2px rgba(255, 255, 255, 0.15),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+            inset 0 1px 2px rgba(255, 255, 255, 0.08),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.3);
           transform: translateZ(0) scale(1.02);
         }
         
         .nav-icon-container.active::after {
           background: linear-gradient(
             180deg,
-            rgba(255, 255, 255, 0.2) 0%,
-            rgba(255, 255, 255, 0.08) 30%,
-            rgba(255, 255, 255, 0.02) 60%,
+            rgba(255, 255, 255, 0.12) 0%,
+            rgba(255, 255, 255, 0.04) 40%,
             transparent 100%
           );
         }
         
-        /* Tap state - bouncy spring */
+        /* Tap state */
         .nav-icon-container:active {
-          transform: translateZ(0) scale(0.92);
+          transform: translateZ(0) scale(0.94);
           transition: transform 0.1s ease;
         }
         
         .nav-icon-svg {
           position: relative;
           z-index: 5;
-          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
           transition: all 0.3s ease;
         }
         
         .nav-icon-container.active .nav-icon-svg {
-          filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.3))
-                  drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+          filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.2))
+                  drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
         }
         
         .nav-icon-container:not(.active) {
-          opacity: 0.85;
+          opacity: 0.9;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -403,7 +400,7 @@ export default function Navigation() {
         </div>
       </nav>
 
-      {/* Floating Hamburger - Mobile Only */}
+      {/* STATE OF THE ART - Floating Menu Button - Mobile Only */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={styles.mobileOnly}
@@ -416,43 +413,68 @@ export default function Navigation() {
           cursor: "pointer",
           padding: "12px",
           zIndex: 201,
-          transition: "opacity 0.2s ease",
           WebkitTapHighlightColor: "transparent"
         }}
         aria-label="Menu"
       >
-        <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
-          <line
-            x1={isOpen ? "4" : "0"}
-            y1={isOpen ? "1" : "1"}
-            x2={isOpen ? "20" : "24"}
-            y2={isOpen ? "17" : "1"}
-            stroke={isOpen ? "#FAFAF8" : hamburgerColor}
-            strokeWidth="1.5"
-            style={{ transition: "all 0.3s ease" }}
-          />
-          <line
-            x1="0"
-            y1="9"
-            x2="24"
-            y2="9"
-            stroke={isOpen ? "#FAFAF8" : hamburgerColor}
-            strokeWidth="1.5"
-            style={{
-              opacity: isOpen ? 0 : 1,
-              transition: "opacity 0.2s ease"
-            }}
-          />
-          <line
-            x1={isOpen ? "4" : "0"}
-            y1={isOpen ? "17" : "17"}
-            x2={isOpen ? "20" : "24"}
-            y2={isOpen ? "1" : "17"}
-            stroke={isOpen ? "#FAFAF8" : hamburgerColor}
-            strokeWidth="1.5"
-            style={{ transition: "all 0.3s ease" }}
-          />
-        </svg>
+        <div style={{
+          width: "28px",
+          height: "20px",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "flex-end"
+        }}>
+          {/* Line 1 - Top */}
+          <span style={{
+            display: "block",
+            height: "2px",
+            borderRadius: "1px",
+            background: isOpen ? "#FAFAF8" : hamburgerColor,
+            transformOrigin: "right center",
+            transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+            transitionDelay: isOpen ? "0.1s" : "0s",
+            width: isOpen ? "24px" : "28px",
+            transform: isOpen
+              ? "rotate(-45deg) translateX(3px) translateY(-1px)"
+              : "rotate(0) translateX(0) translateY(0)",
+            boxShadow: isOpen
+              ? "0 0 8px rgba(250, 250, 248, 0.3)"
+              : "none"
+          }} />
+
+          {/* Line 2 - Middle (disappears elegantly) */}
+          <span style={{
+            display: "block",
+            height: "2px",
+            borderRadius: "1px",
+            background: isOpen ? "#FAFAF8" : hamburgerColor,
+            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            transitionDelay: isOpen ? "0s" : "0.1s",
+            width: isOpen ? "0px" : "20px",
+            opacity: isOpen ? 0 : 1,
+            transform: isOpen ? "translateX(10px)" : "translateX(0)"
+          }} />
+
+          {/* Line 3 - Bottom */}
+          <span style={{
+            display: "block",
+            height: "2px",
+            borderRadius: "1px",
+            background: isOpen ? "#FAFAF8" : hamburgerColor,
+            transformOrigin: "right center",
+            transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+            transitionDelay: isOpen ? "0.1s" : "0s",
+            width: isOpen ? "24px" : "14px",
+            transform: isOpen
+              ? "rotate(45deg) translateX(3px) translateY(1px)"
+              : "rotate(0) translateX(0) translateY(0)",
+            boxShadow: isOpen
+              ? "0 0 8px rgba(250, 250, 248, 0.3)"
+              : "none"
+          }} />
+        </div>
       </button>
 
       {/* Overlay */}
