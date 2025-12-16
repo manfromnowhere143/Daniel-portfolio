@@ -1328,7 +1328,8 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
+          padding-top: clamp(80px, 15vh, 150px);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -1340,11 +1341,6 @@ export default function Creative() {
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
-          /* STATE OF THE ART - GPU acceleration */
-          -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
-          -webkit-perspective: 1000px;
-          perspective: 1000px;
         }
         
         .expanded-view.entering { 
@@ -1357,52 +1353,37 @@ export default function Creative() {
           visibility: visible; 
           pointer-events: auto; 
           opacity: 1; 
-          /* STATE OF THE ART - iOS native feel */
-          transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
         }
         
         .expanded-view.exiting { 
           visibility: visible; 
           pointer-events: none; 
           opacity: 0; 
-          transition: opacity 0.3s cubic-bezier(0.4, 0, 1, 1);
-        }
-        
-        /* Tap-to-close background */
-        .expanded-bg {
-          position: absolute;
-          top: 0; left: 0; right: 0; bottom: 0;
-          cursor: pointer;
-          z-index: 1;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
         }
         
         .expanded-inner {
-          position: relative;
-          z-index: 2;
           display: flex;
           flex-direction: column;
           align-items: center;
           touch-action: manipulation;
           opacity: 0;
-          transform: translateZ(0) scale(0.92);
+          transform: translateZ(0) scale(0.88);
           transition: none;
-          /* Prevent tap-through to close */
-          pointer-events: auto;
         }
         
         .expanded-view.active .expanded-inner {
           opacity: 1;
           transform: translateZ(0) scale(1);
-          /* STATE OF THE ART - Apple spring animation */
-          transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.02s, 
-                      transform 0.5s cubic-bezier(0.34, 1.3, 0.64, 1) 0.02s;
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, 
+                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
         }
         
         .expanded-view.exiting .expanded-inner {
           opacity: 0;
-          transform: translateZ(0) scale(0.95);
-          transition: opacity 0.2s cubic-bezier(0.4, 0, 1, 1), 
-                      transform 0.25s cubic-bezier(0.4, 0, 1, 1);
+          transform: translateZ(0) scale(0.92);
+          transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
         .expanded-content {
@@ -1414,34 +1395,30 @@ export default function Creative() {
           justify-content: center;
           filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
           touch-action: manipulation;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          /* STATE OF THE ART - Smooth 3D rendering */
-          -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
-          -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-        }
-        
-        /* STATE OF THE ART - Smooth 3D canvas loading */
-        .expanded-content canvas {
           opacity: 0;
-          animation: smoothCanvasLoad 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s forwards;
+          transform: translateZ(0) scale(0.9);
+          transition: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
         }
         
-        @keyframes smoothCanvasLoad {
-          0% { 
-            opacity: 0; 
-            transform: scale(0.95);
-          }
-          100% { 
-            opacity: 1; 
-            transform: scale(1);
-          }
+        .expanded-view.active .expanded-content {
+          opacity: 1;
+          transform: translateZ(0) scale(1);
+          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, 
+                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
+        }
+        
+        .expanded-view.exiting .expanded-content {
+          opacity: 0;
+          transform: translateZ(0) scale(0.95);
+          transition: opacity 0.2s ease, transform 0.25s ease;
+        }
+        
+        /* Smooth 3D canvas loading */
+        .expanded-content canvas {
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         /* Hint text for tap-to-close */
@@ -1492,7 +1469,7 @@ export default function Creative() {
         .expanded-view.active .expanded-close {
           opacity: 1;
           transform: scale(1);
-          transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) 0.18s, 
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, 
                       transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
         }
         
