@@ -23,7 +23,7 @@ const QuantumSphere = dynamic(() => import("@/components/QuantumSphere"), { ssr:
 const Trade69Architecture = dynamic(() => import("@/components/Trade69Architecture"), { ssr: false });
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// DATA DEFINITIONS - MATCHING WORK PAGE EXACTLY
+// 2 MAIN FOLDERS
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const mainFolders = [
@@ -31,45 +31,50 @@ const mainFolders = [
   { id: 'interactive', name: '3D Interactive' },
 ];
 
+// Entertainment contains 3 gallery categories
 const entertainmentCategories = [
   { id: '3dicons', name: '3D Icons' },
   { id: 'geometry', name: 'Geometry' },
   { id: 'icons', name: 'Icons' },
 ];
 
+// 3D Interactive contains 3 standalone experiences
 const interactiveApps = [
-  { id: 'sphere', name: 'Sphere', color: ['#2a2018', '#15100a'], glow: 'rgba(255, 200, 150, 0.2)' },
-  { id: 'manifold', name: 'Manifold', color: ['#1a2820', '#0a1510'], glow: 'rgba(150, 255, 200, 0.2)' },
-  { id: 'architecture', name: 'Architecture', color: ['#18202a', '#0a1015'], glow: 'rgba(150, 200, 255, 0.2)' },
+  { id: 'sphere', name: 'Sphere', color: ['#2a2018', '#15100a'] },
+  { id: 'manifold', name: 'Manifold', color: ['#1a2820', '#0a1510'] },
+  { id: 'architecture', name: 'Architecture', color: ['#18202a', '#0a1015'] },
 ];
 
+// 3D Icons gallery items (8 cards)
 const icons3DItems = [
-  { id: 'trade69', name: 'Trade69', color: ['#1a5040', '#0d2820'], glow: 'rgba(94, 234, 212, 0.25)' },
-  { id: 'megaagent', name: 'MegaAgent', color: ['#3d4a8f', '#1e2550'], glow: 'rgba(165, 180, 252, 0.25)' },
-  { id: 'octopus', name: 'Octopus', color: ['#8f3d6b', '#501e3a'], glow: 'rgba(251, 130, 180, 0.25)' },
-  { id: 'overmind', name: 'Overmind', color: ['#5a3d8f', '#2e1e50'], glow: 'rgba(192, 132, 252, 0.25)' },
-  { id: 'website', name: 'Web Apps', color: ['#2a2845', '#151228'], glow: 'rgba(165, 130, 252, 0.25)' },
-  { id: 'dashboard', name: 'Dashboards', color: ['#452838', '#281518'], glow: 'rgba(251, 130, 180, 0.25)' },
-  { id: 'api', name: 'API', color: ['#1a3530', '#0d1a18'], glow: 'rgba(134, 239, 172, 0.25)' },
-  { id: 'llm', name: 'LLM', color: ['#453020', '#281a10'], glow: 'rgba(253, 186, 140, 0.25)' },
+  { id: 'trade69', name: 'Trade69', color: ['#1a5040', '#0d2820'] },
+  { id: 'megaagent', name: 'MegaAgent', color: ['#3d4a8f', '#1e2550'] },
+  { id: 'octopus', name: 'Octopus', color: ['#8f3d6b', '#501e3a'] },
+  { id: 'overmind', name: 'Overmind', color: ['#5a3d8f', '#2e1e50'] },
+  { id: 'website', name: 'Web Apps', color: ['#2a2845', '#151228'] },
+  { id: 'dashboard', name: 'Dashboards', color: ['#452838', '#281518'] },
+  { id: 'api', name: 'API', color: ['#1a3530', '#0d1a18'] },
+  { id: 'llm', name: 'LLM', color: ['#453020', '#281a10'] },
 ];
 
+// Geometry gallery items (4 cards)
 const geometryItems = [
-  { id: 'metatron', name: 'Metatron', color: ['#3a2855', '#1e1430'], glow: 'rgba(192, 132, 252, 0.25)' },
-  { id: 'spiral', name: 'Spiral', color: ['#552838', '#301418'], glow: 'rgba(251, 130, 180, 0.25)' },
-  { id: 'flower', name: 'Flower', color: ['#283855', '#141e30'], glow: 'rgba(147, 197, 253, 0.25)' },
-  { id: 'lemniscate', name: 'Infinity', color: ['#385528', '#1e3014'], glow: 'rgba(134, 239, 172, 0.25)' },
+  { id: 'metatron', name: 'Metatron', color: ['#3a2855', '#1e1430'] },
+  { id: 'spiral', name: 'Spiral', color: ['#552838', '#301418'] },
+  { id: 'flower', name: 'Flower', color: ['#283855', '#141e30'] },
+  { id: 'lemniscate', name: 'Infinity', color: ['#385528', '#1e3014'] },
 ];
 
+// Static Icons gallery items (8 cards)
 const staticIconItems = [
-  { id: 'trade69-2d', name: 'Trade69', color: ['#1a5040', '#0d2820'], glow: 'rgba(94, 234, 212, 0.25)' },
-  { id: 'megaagent-2d', name: 'MegaAgent', color: ['#3d4a8f', '#1e2550'], glow: 'rgba(165, 180, 252, 0.25)' },
-  { id: 'octopus-2d', name: 'Octopus', color: ['#8f3d6b', '#501e3a'], glow: 'rgba(251, 130, 180, 0.25)' },
-  { id: 'overmind-2d', name: 'Overmind', color: ['#5a3d8f', '#2e1e50'], glow: 'rgba(192, 132, 252, 0.25)' },
-  { id: 'website-2d', name: 'Web', color: ['#2a2845', '#151228'], glow: 'rgba(165, 130, 252, 0.25)' },
-  { id: 'dashboard-2d', name: 'Dashboard', color: ['#452838', '#281518'], glow: 'rgba(251, 130, 180, 0.25)' },
-  { id: 'api-2d', name: 'API', color: ['#1a3530', '#0d1a18'], glow: 'rgba(134, 239, 172, 0.25)' },
-  { id: 'llm-2d', name: 'LLM', color: ['#453020', '#281a10'], glow: 'rgba(253, 186, 140, 0.25)' },
+  { id: 'trade69-2d', name: 'Trade69', color: ['#1a5040', '#0d2820'] },
+  { id: 'megaagent-2d', name: 'MegaAgent', color: ['#3d4a8f', '#1e2550'] },
+  { id: 'octopus-2d', name: 'Octopus', color: ['#8f3d6b', '#501e3a'] },
+  { id: 'overmind-2d', name: 'Overmind', color: ['#5a3d8f', '#2e1e50'] },
+  { id: 'website-2d', name: 'Web', color: ['#2a2845', '#151228'] },
+  { id: 'dashboard-2d', name: 'Dashboard', color: ['#452838', '#281518'] },
+  { id: 'api-2d', name: 'API', color: ['#1a3530', '#0d1a18'] },
+  { id: 'llm-2d', name: 'LLM', color: ['#453020', '#281a10'] },
 ];
 
 type AnimationState = 'idle' | 'entering' | 'active' | 'exiting';
@@ -78,31 +83,70 @@ export default function Creative() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
 
-  // Folder overlay state
+  // Folder overlay state (Entertainment or Interactive)
   const [openFolder, setOpenFolder] = useState<string | null>(null);
   const [folderAnimState, setFolderAnimState] = useState<AnimationState>('idle');
 
-  // Gallery overlay state
+  // Gallery overlay state (3D Icons, Geometry, Icons galleries)
   const [openGallery, setOpenGallery] = useState<string | null>(null);
   const [galleryAnimState, setGalleryAnimState] = useState<AnimationState>('idle');
 
-  // Expanded view state
+  // Expanded view state (fullscreen view for any item)
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const [expandedAnimState, setExpandedAnimState] = useState<AnimationState>('idle');
 
-  // STATE OF THE ART - Apple-level crossfade bridge
-  const [bridgePhase, setBridgePhase] = useState<'idle' | 'loading' | 'transitioning'>('idle');
+  // STATE OF THE ART - Elegant transition bridge to prevent flash
+  const [bridgePhase, setBridgePhase] = useState<'idle' | 'in' | 'hold' | 'out'>('idle');
 
   const folderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const galleryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const expandedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const bridgeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 600);
     check();
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
+  }, []);
+
+  // STATE OF THE ART - Smooth overscroll prevention
+  useEffect(() => {
+    // Apply overscroll behavior to document
+    document.documentElement.style.overscrollBehavior = 'none';
+    document.body.style.overscrollBehavior = 'none';
+
+    // Prevent bounce on iOS Safari
+    let lastY = 0;
+    const handleTouchStart = (e: TouchEvent) => {
+      lastY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const currentY = e.touches[0].clientY;
+      const scrollTop = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = window.innerHeight;
+
+      // At top of page, scrolling up
+      if (scrollTop <= 0 && currentY > lastY) {
+        e.preventDefault();
+      }
+      // At bottom of page, scrolling down
+      if (scrollTop + clientHeight >= scrollHeight && currentY < lastY) {
+        e.preventDefault();
+      }
+      lastY = currentY;
+    };
+
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+    return () => {
+      document.documentElement.style.overscrollBehavior = '';
+      document.body.style.overscrollBehavior = '';
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+    };
   }, []);
 
   useEffect(() => {
@@ -115,61 +159,76 @@ export default function Creative() {
       if (folderTimeoutRef.current) clearTimeout(folderTimeoutRef.current);
       if (galleryTimeoutRef.current) clearTimeout(galleryTimeoutRef.current);
       if (expandedTimeoutRef.current) clearTimeout(expandedTimeoutRef.current);
-      if (bridgeTimeoutRef.current) clearTimeout(bridgeTimeoutRef.current);
     };
   }, []);
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // STATE OF THE ART - SOLID ROCK LOCK (matching Work page exactly)
+  // SOLID ROCK LOCK - NO MOVEMENT AT ALL when overlays open
+  // Like a movie presentation - no swipe left/right/up/down - NOTHING moves
   // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
-    const isOpen = folderAnimState !== 'idle' || galleryAnimState !== 'idle' ||
-                   expandedAnimState !== 'idle' || bridgePhase !== 'idle';
+    const isOpen = folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle' || bridgePhase !== 'idle';
 
     if (isOpen) {
+      // Simple overflow hidden - no position fixed that causes jumping
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
 
+      // STATE OF THE ART - SOLID ROCK with 3D canvas exception
+      // Block ALL touch movement EXCEPT inside expanded-content (3D canvas area)
       const blockAllTouch = (e: TouchEvent) => {
         const target = e.target as HTMLElement;
-        if (target.closest('.expanded-content')) return;
+
+        // Allow touch ONLY inside expanded-content (where 3D Sphere/Manifold/Architecture live)
+        if (target.closest('.expanded-content')) {
+          return; // Let the 3D canvas handle this touch
+        }
+
+        // Block EVERYTHING else - SOLID ROCK
         e.preventDefault();
         e.stopPropagation();
       };
 
+      // Block wheel events (desktop) - but allow inside expanded-content for 3D zoom
       const blockWheel = (e: WheelEvent) => {
         const target = e.target as HTMLElement;
-        if (target.closest('.expanded-content')) return;
+        if (target.closest('.expanded-content')) {
+          return; // Allow wheel for 3D zoom
+        }
         e.preventDefault();
         e.stopPropagation();
       };
 
+      // Add blockers with capture to catch EVERYTHING
       document.addEventListener('touchmove', blockAllTouch, { passive: false, capture: true });
       document.addEventListener('wheel', blockWheel, { passive: false, capture: true });
 
-      (window as any).__creativeSolidRockCleanup = () => {
+      // Store for cleanup
+      (window as any).__solidRockCleanup = () => {
         document.removeEventListener('touchmove', blockAllTouch, { capture: true } as any);
         document.removeEventListener('wheel', blockWheel, { capture: true } as any);
       };
 
       return () => {
-        if ((window as any).__creativeSolidRockCleanup) {
-          (window as any).__creativeSolidRockCleanup();
+        if ((window as any).__solidRockCleanup) {
+          (window as any).__solidRockCleanup();
         }
       };
     } else {
+      // Restore everything
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
 
-      if ((window as any).__creativeSolidRockCleanup) {
-        (window as any).__creativeSolidRockCleanup();
-        delete (window as any).__creativeSolidRockCleanup;
+      // Cleanup touch blocker
+      if ((window as any).__solidRockCleanup) {
+        (window as any).__solidRockCleanup();
+        delete (window as any).__solidRockCleanup;
       }
     }
   }, [folderAnimState, galleryAnimState, expandedAnimState, bridgePhase]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // HANDLERS - Matching Work page patterns exactly
+  // FOLDER HANDLERS
   // ═══════════════════════════════════════════════════════════════════════════════
 
   const handleOpenFolder = useCallback((folderId: string) => {
@@ -191,36 +250,39 @@ export default function Creative() {
   }, [folderAnimState]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // STATE OF THE ART - APPLE-LEVEL CROSSFADE TRANSITIONS
-  // Content fades IN while bridge is still visible = ZERO gap
+  // STATE OF THE ART - SEAMLESS TRANSITIONS WITH ELEGANT BRIDGE
+  // Bridge covers the gap between screens - no flash
   // ═══════════════════════════════════════════════════════════════════════════════
 
-  const handleOpenGalleryWithBridge = useCallback((galleryId: string) => {
-    if (galleryAnimState !== 'idle' || bridgePhase !== 'idle') return;
+  const handleOpenGalleryFromFolder = useCallback((galleryId: string) => {
+    if (folderAnimState !== 'active') return;
 
-    // Phase 1: Bridge appears immediately
-    setBridgePhase('loading');
-    handleCloseFolder();
+    // Phase 1: Bridge fades in quickly
+    setBridgePhase('in');
 
-    // Phase 2: After folder closes, prepare content BEHIND bridge
-    bridgeTimeoutRef.current = setTimeout(() => {
-      setOpenGallery(galleryId);
-      setGalleryAnimState('entering');
+    setTimeout(() => {
+      // Phase 2: Bridge holds, folder exits
+      setBridgePhase('hold');
+      setFolderAnimState('exiting');
 
-      // Phase 3: Start crossfade
-      requestAnimationFrame(() => {
+      setTimeout(() => {
+        // Phase 3: Folder gone, gallery enters
+        setOpenFolder(null);
+        setFolderAnimState('idle');
+        setOpenGallery(galleryId);
+        setGalleryAnimState('entering');
+
         requestAnimationFrame(() => {
-          setGalleryAnimState('active');
-          setBridgePhase('transitioning');
-
-          // Phase 4: Bridge fully gone after content is visible
-          setTimeout(() => {
-            setBridgePhase('idle');
-          }, 450);
+          requestAnimationFrame(() => {
+            setGalleryAnimState('active');
+            // Phase 4: Bridge fades out smoothly
+            setBridgePhase('out');
+            setTimeout(() => setBridgePhase('idle'), 350);
+          });
         });
-      });
-    }, 400);
-  }, [galleryAnimState, bridgePhase, handleCloseFolder]);
+      }, 180);
+    }, 120);
+  }, [folderAnimState]);
 
   const handleCloseGallery = useCallback(() => {
     if (galleryAnimState !== 'active') return;
@@ -231,37 +293,42 @@ export default function Creative() {
     }, 350);
   }, [galleryAnimState]);
 
-  const handleOpenExpandedWithBridge = useCallback((itemId: string) => {
-    if (expandedAnimState !== 'idle' || bridgePhase !== 'idle') return;
+  // Expanded from folder - uses bridge
+  const handleOpenExpandedFromFolder = useCallback((itemId: string) => {
+    if (folderAnimState !== 'active') return;
 
-    setBridgePhase('loading');
-    handleCloseFolder();
+    setBridgePhase('in');
 
-    bridgeTimeoutRef.current = setTimeout(() => {
-      setExpandedItem(itemId);
-      setExpandedAnimState('entering');
+    setTimeout(() => {
+      setBridgePhase('hold');
+      setFolderAnimState('exiting');
 
-      requestAnimationFrame(() => {
+      setTimeout(() => {
+        setOpenFolder(null);
+        setFolderAnimState('idle');
+        setExpandedItem(itemId);
+        setExpandedAnimState('entering');
+
         requestAnimationFrame(() => {
-          setExpandedAnimState('active');
-          setBridgePhase('transitioning');
-
-          setTimeout(() => {
-            setBridgePhase('idle');
-          }, 450);
+          requestAnimationFrame(() => {
+            setExpandedAnimState('active');
+            setBridgePhase('out');
+            setTimeout(() => setBridgePhase('idle'), 350);
+          });
         });
-      });
-    }, 400);
-  }, [expandedAnimState, bridgePhase, handleCloseFolder]);
+      }, 180);
+    }, 120);
+  }, [folderAnimState]);
 
+  // Expanded from gallery - direct (expanded covers gallery, no flash)
   const handleOpenExpandedFromGallery = useCallback((itemId: string) => {
-    if (expandedAnimState !== 'idle') return;
+    if (galleryAnimState !== 'active') return;
     setExpandedItem(itemId);
     setExpandedAnimState('entering');
     requestAnimationFrame(() => {
       requestAnimationFrame(() => setExpandedAnimState('active'));
     });
-  }, [expandedAnimState]);
+  }, [galleryAnimState]);
 
   const handleCloseExpanded = useCallback(() => {
     if (expandedAnimState !== 'active') return;
@@ -324,31 +391,90 @@ export default function Creative() {
     }
   };
 
-  // ═══════════════════════════════════════════════════════════════════════════════
-  // MINI ICON RENDERERS - Matching Work page style
-  // ═══════════════════════════════════════════════════════════════════════════════
+  // Mini icon size based on device
+  const miniIconSize = isMobile ? 22 : 26;
+  const folderIconSize = isMobile ? 36 : 42;
+  const galleryIconSize = isMobile ? 38 : 44;
 
-  const miniIconSize = isMobile ? 18 : 22;
-  const folderIconSize = isMobile ? 48 : 58;
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // MINI ICON RENDERERS - BIGGER SYMBOLS
+  // ═══════════════════════════════════════════════════════════════════════════════
 
   const render3DIconMini = (id: string, size: number = miniIconSize) => {
     switch (id) {
       case 'trade69':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.9"/><path d="M17 7h4v4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <path d="M3 17l6-6 4 4 8-8" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.95"/>
+            <path d="M17 7h4v4" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.8"/>
+          </svg>
+        );
       case 'megaagent':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="white" strokeWidth="1.5" opacity="0.9"/><circle cx="6" cy="16" r="3" stroke="white" strokeWidth="1.5" opacity="0.7"/><circle cx="18" cy="16" r="3" stroke="white" strokeWidth="1.5" opacity="0.7"/><path d="M12 12v2M8.5 14l-1 1M15.5 14l1 1" stroke="white" strokeWidth="1.5" opacity="0.5"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="7" r="4" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <circle cx="5" cy="17" r="3" stroke="white" strokeWidth="1.8" opacity="0.8"/>
+            <circle cx="19" cy="17" r="3" stroke="white" strokeWidth="1.8" opacity="0.8"/>
+            <path d="M12 11v3M8 14l-2 2M16 14l2 2" stroke="white" strokeWidth="1.8" opacity="0.6"/>
+          </svg>
+        );
       case 'octopus':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="5" stroke="white" strokeWidth="1.5" opacity="0.9"/><path d="M7 15c-1 2-2 4-1 5M10 14c0 3-1 5 0 6M14 14c0 3 1 5 0 6M17 15c1 2 2 4 1 5" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/><circle cx="10" cy="9" r="1" fill="white" opacity="0.9"/><circle cx="14" cy="9" r="1" fill="white" opacity="0.9"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <ellipse cx="12" cy="9" rx="6" ry="5" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <path d="M6 13c-1.5 2.5-2.5 5.5-1 6.5M9 14c0 3-1 5.5 0 6.5M15 14c0 3 1 5.5 0 6.5M18 13c1.5 2.5 2.5 5.5 1 6.5" stroke="white" strokeWidth="1.8" opacity="0.7" strokeLinecap="round"/>
+            <circle cx="9.5" cy="8" r="1.2" fill="white" opacity="0.95"/>
+            <circle cx="14.5" cy="8" r="1.2" fill="white" opacity="0.95"/>
+          </svg>
+        );
       case 'overmind':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.5" opacity="0.5"/><circle cx="12" cy="12" r="4" stroke="white" strokeWidth="1.5" opacity="0.7"/><circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white" strokeWidth="1" opacity="0.4"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.8" opacity="0.6"/>
+            <circle cx="12" cy="12" r="5" stroke="white" strokeWidth="2" opacity="0.85"/>
+            <circle cx="12" cy="12" r="2" fill="white" opacity="0.95"/>
+            <path d="M12 1v4M12 19v4M1 12h4M19 12h4" stroke="white" strokeWidth="1.5" opacity="0.5"/>
+          </svg>
+        );
       case 'website':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="white" strokeWidth="1.5" opacity="0.9"/><path d="M3 8h18" stroke="white" strokeWidth="1" opacity="0.6"/><circle cx="5.5" cy="6" r="0.8" fill="white" opacity="0.8"/><circle cx="8" cy="6" r="0.8" fill="white" opacity="0.8"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="4" width="20" height="15" rx="2.5" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <path d="M2 9h20" stroke="white" strokeWidth="1.5" opacity="0.6"/>
+            <circle cx="5" cy="6.5" r="1" fill="white" opacity="0.85"/>
+            <circle cx="8" cy="6.5" r="1" fill="white" opacity="0.85"/>
+            <circle cx="11" cy="6.5" r="1" fill="white" opacity="0.85"/>
+          </svg>
+        );
       case 'dashboard':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.5" opacity="0.9"/><path d="M12 6v3M12 15v3M6 12h3M15 12h3" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/><circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <circle cx="12" cy="12" r="6" stroke="white" strokeWidth="1.5" opacity="0.5"/>
+            <path d="M12 5v4M12 15v4M5 12h4M15 12h4" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.8"/>
+            <circle cx="12" cy="12" r="2.5" fill="white" opacity="0.95"/>
+          </svg>
+        );
       case 'api':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2" fill="white" opacity="0.9"/><circle cx="5" cy="12" r="2" fill="white" opacity="0.9"/><circle cx="19" cy="12" r="2" fill="white" opacity="0.9"/><circle cx="12" cy="19" r="2" fill="white" opacity="0.9"/><path d="M12 7v4M12 13v4M7 12h4M13 12h4" stroke="white" strokeWidth="1.5" opacity="0.6"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="4" r="2.5" fill="white" opacity="0.95"/>
+            <circle cx="4" cy="12" r="2.5" fill="white" opacity="0.95"/>
+            <circle cx="20" cy="12" r="2.5" fill="white" opacity="0.95"/>
+            <circle cx="12" cy="20" r="2.5" fill="white" opacity="0.95"/>
+            <path d="M12 6.5v4M12 13.5v4M6.5 12h4M13.5 12h4" stroke="white" strokeWidth="2" opacity="0.7"/>
+            <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="2" opacity="0.9"/>
+          </svg>
+        );
       case 'llm':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="12" rx="9" ry="5" stroke="white" strokeWidth="1.2" opacity="0.5"/><ellipse cx="12" cy="12" rx="9" ry="5" stroke="white" strokeWidth="1.2" opacity="0.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="5" stroke="white" strokeWidth="1.2" opacity="0.5" transform="rotate(120 12 12)"/><circle cx="12" cy="12" r="3" fill="white" opacity="0.9"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <ellipse cx="12" cy="12" rx="10" ry="5" stroke="white" strokeWidth="1.5" opacity="0.5"/>
+            <ellipse cx="12" cy="12" rx="10" ry="5" stroke="white" strokeWidth="1.5" opacity="0.5" transform="rotate(60 12 12)"/>
+            <ellipse cx="12" cy="12" rx="10" ry="5" stroke="white" strokeWidth="1.5" opacity="0.5" transform="rotate(120 12 12)"/>
+            <circle cx="12" cy="12" r="4" fill="white" opacity="0.95"/>
+          </svg>
+        );
       default: return null;
     }
   };
@@ -356,27 +482,109 @@ export default function Creative() {
   const renderGeometryMini = (id: string, size: number = miniIconSize) => {
     switch (id) {
       case 'metatron':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.2" opacity="0.5"/><circle cx="12" cy="4" r="1.5" fill="white" opacity="0.8"/><circle cx="12" cy="20" r="1.5" fill="white" opacity="0.8"/><circle cx="5" cy="8" r="1.5" fill="white" opacity="0.8"/><circle cx="19" cy="8" r="1.5" fill="white" opacity="0.8"/><circle cx="5" cy="16" r="1.5" fill="white" opacity="0.8"/><circle cx="19" cy="16" r="1.5" fill="white" opacity="0.8"/><circle cx="12" cy="12" r="2" fill="white" opacity="0.95"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.5" opacity="0.6"/>
+            <circle cx="12" cy="4" r="2" fill="white" opacity="0.9"/>
+            <circle cx="12" cy="20" r="2" fill="white" opacity="0.9"/>
+            <circle cx="5" cy="8" r="2" fill="white" opacity="0.9"/>
+            <circle cx="19" cy="8" r="2" fill="white" opacity="0.9"/>
+            <circle cx="5" cy="16" r="2" fill="white" opacity="0.9"/>
+            <circle cx="19" cy="16" r="2" fill="white" opacity="0.9"/>
+            <circle cx="12" cy="12" r="2.5" fill="white" opacity="1"/>
+          </svg>
+        );
       case 'spiral':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><path d="M12 12c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5-2 4.5-4.5 4.5c-4 0-7-3-7-7s3-7 7-7" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/><circle cx="12" cy="12" r="1.5" fill="white" opacity="0.95"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <path d="M12 12c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5-2 4.5-4.5 4.5c-4 0-7-3-7-7s3-7 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.9"/>
+            <circle cx="12" cy="12" r="2" fill="white" opacity="1"/>
+          </svg>
+        );
       case 'flower':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3.5" stroke="white" strokeWidth="1.5" opacity="0.9"/><circle cx="12" cy="6" r="2.5" stroke="white" strokeWidth="1" opacity="0.5"/><circle cx="12" cy="18" r="2.5" stroke="white" strokeWidth="1" opacity="0.5"/><circle cx="6.5" cy="9" r="2.5" stroke="white" strokeWidth="1" opacity="0.5"/><circle cx="17.5" cy="9" r="2.5" stroke="white" strokeWidth="1" opacity="0.5"/><circle cx="6.5" cy="15" r="2.5" stroke="white" strokeWidth="1" opacity="0.5"/><circle cx="17.5" cy="15" r="2.5" stroke="white" strokeWidth="1" opacity="0.5"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="4" stroke="white" strokeWidth="2" opacity="1"/>
+            <circle cx="12" cy="5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+            <circle cx="12" cy="19" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+            <circle cx="6" cy="8.5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+            <circle cx="18" cy="8.5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+            <circle cx="6" cy="15.5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+            <circle cx="18" cy="15.5" r="3" stroke="white" strokeWidth="1.2" opacity="0.6"/>
+          </svg>
+        );
       case 'lemniscate':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><path d="M12 12c-2.5-2.5-6-2.5-6 1.5s4 4 6 1.5c2.5 2.5 6 2.5 6-1.5s-4-4-6-1.5z" stroke="white" strokeWidth="1.5" fill="none" opacity="0.85"/><circle cx="12" cy="12" r="1.5" fill="white" opacity="0.95"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <path d="M12 12c-2.5-2.5-6-2.5-6 1.5s4 4 6 1.5c2.5 2.5 6 2.5 6-1.5s-4-4-6-1.5z" stroke="white" strokeWidth="2" fill="none" opacity="0.95"/>
+            <circle cx="12" cy="12" r="2" fill="white" opacity="1"/>
+          </svg>
+        );
       default: return null;
     }
   };
 
   const render2DIconMini = (id: string, size: number = miniIconSize) => {
     switch (id) {
-      case 'trade69-2d': return render3DIconMini('trade69', size);
-      case 'megaagent-2d': return render3DIconMini('megaagent', size);
-      case 'octopus-2d': return render3DIconMini('octopus', size);
-      case 'overmind-2d': return render3DIconMini('overmind', size);
-      case 'website-2d': return render3DIconMini('website', size);
-      case 'dashboard-2d': return render3DIconMini('dashboard', size);
-      case 'api-2d': return render3DIconMini('api', size);
-      case 'llm-2d': return render3DIconMini('llm', size);
+      case 'trade69-2d':
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <path d="M3 17l6-6 4 4 8-8" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.95"/>
+            <circle cx="12" cy="12" r="2.5" fill="white" opacity="0.9"/>
+          </svg>
+        );
+      case 'megaagent-2d':
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="7" r="4" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <circle cx="5" cy="17" r="3" stroke="white" strokeWidth="1.8" opacity="0.8"/>
+            <circle cx="19" cy="17" r="3" stroke="white" strokeWidth="1.8" opacity="0.8"/>
+          </svg>
+        );
+      case 'octopus-2d':
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <ellipse cx="12" cy="9" rx="6" ry="5" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <path d="M6 13c-1.5 3-2.5 6-1 7M18 13c1.5 3 2.5 6 1 7" stroke="white" strokeWidth="1.8" opacity="0.7" strokeLinecap="round"/>
+          </svg>
+        );
+      case 'overmind-2d':
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.8" opacity="0.8"/>
+            <circle cx="12" cy="12" r="3" fill="white" opacity="0.95"/>
+          </svg>
+        );
+      case 'website-2d':
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="4" width="20" height="15" rx="2.5" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <path d="M2 9h20" stroke="white" strokeWidth="1.5" opacity="0.6"/>
+          </svg>
+        );
+      case 'dashboard-2d':
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" opacity="0.95"/>
+            <circle cx="12" cy="12" r="2.5" fill="white" opacity="0.95"/>
+          </svg>
+        );
+      case 'api-2d':
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="4" r="2.5" fill="white" opacity="0.95"/>
+            <circle cx="4" cy="12" r="2.5" fill="white" opacity="0.95"/>
+            <circle cx="20" cy="12" r="2.5" fill="white" opacity="0.95"/>
+            <circle cx="12" cy="20" r="2.5" fill="white" opacity="0.95"/>
+          </svg>
+        );
+      case 'llm-2d':
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.5" opacity="0.7"/>
+            <circle cx="12" cy="12" r="4" fill="white" opacity="0.95"/>
+          </svg>
+        );
       default: return null;
     }
   };
@@ -384,59 +592,60 @@ export default function Creative() {
   const renderInteractiveMini = (id: string, size: number = miniIconSize) => {
     switch (id) {
       case 'sphere':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.5" opacity="0.8"/><ellipse cx="12" cy="12" rx="8" ry="3" stroke="white" strokeWidth="1" opacity="0.4"/><ellipse cx="12" cy="12" rx="3" ry="8" stroke="white" strokeWidth="1" opacity="0.4"/><circle cx="12" cy="12" r="2" fill="white" opacity="0.95"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.8" opacity="0.8"/>
+            <ellipse cx="12" cy="12" rx="9" ry="3.5" stroke="white" strokeWidth="1.2" opacity="0.5"/>
+            <ellipse cx="12" cy="12" rx="3.5" ry="9" stroke="white" strokeWidth="1.2" opacity="0.5"/>
+            <circle cx="12" cy="12" r="2.5" fill="white" opacity="1"/>
+          </svg>
+        );
       case 'manifold':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><path d="M3 12h18M12 3v18" stroke="white" strokeWidth="0.8" opacity="0.3"/><circle cx="12" cy="12" r="6" stroke="white" strokeWidth="1.2" opacity="0.5"/><circle cx="12" cy="12" r="1.5" fill="white" opacity="0.95"/><circle cx="7" cy="7" r="1.2" fill="white" opacity="0.7"/><circle cx="17" cy="7" r="1.2" fill="white" opacity="0.7"/><circle cx="7" cy="17" r="1.2" fill="white" opacity="0.7"/><circle cx="17" cy="17" r="1.2" fill="white" opacity="0.7"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <path d="M3 12h18M12 3v18" stroke="white" strokeWidth="1" opacity="0.4"/>
+            <circle cx="12" cy="12" r="7" stroke="white" strokeWidth="1.5" opacity="0.6"/>
+            <circle cx="12" cy="12" r="2" fill="white" opacity="1"/>
+            <circle cx="7" cy="7" r="1.5" fill="white" opacity="0.75"/>
+            <circle cx="17" cy="7" r="1.5" fill="white" opacity="0.75"/>
+            <circle cx="7" cy="17" r="1.5" fill="white" opacity="0.75"/>
+            <circle cx="17" cy="17" r="1.5" fill="white" opacity="0.75"/>
+          </svg>
+        );
       case 'architecture':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="6" height="10" rx="1" stroke="white" strokeWidth="1.5" opacity="0.85"/><rect x="14" y="6" width="6" height="12" rx="1" stroke="white" strokeWidth="1.5" opacity="0.85"/><path d="M10 13h4" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.95"/><circle cx="7" cy="11" r="1.2" fill="white" opacity="0.85"/><circle cx="17" cy="10" r="1.2" fill="white" opacity="0.85"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="7" width="7" height="12" rx="1.5" stroke="white" strokeWidth="1.8" opacity="0.85"/>
+            <rect x="14" y="5" width="7" height="14" rx="1.5" stroke="white" strokeWidth="1.8" opacity="0.85"/>
+            <path d="M10 13h4" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="1"/>
+            <circle cx="6.5" cy="10" r="1.5" fill="white" opacity="0.9"/>
+            <circle cx="17.5" cy="9" r="1.5" fill="white" opacity="0.9"/>
+          </svg>
+        );
       default: return null;
     }
   };
 
-  const getFolderAnimClass = () => {
-    switch (folderAnimState) {
-      case 'entering': return 'entering';
-      case 'active': return 'active';
-      case 'exiting': return 'exiting';
-      default: return '';
-    }
-  };
-
-  const getGalleryAnimClass = (galleryId: string) => {
-    if (openGallery !== galleryId) return '';
-    switch (galleryAnimState) {
-      case 'entering': return 'entering';
-      case 'active': return 'active';
-      case 'exiting': return 'exiting';
-      default: return '';
-    }
-  };
-
-  const getExpandedAnimClass = (itemId: string) => {
-    if (expandedItem !== itemId) return '';
-    switch (expandedAnimState) {
-      case 'entering': return 'entering';
-      case 'active': return 'active';
-      case 'exiting': return 'exiting';
-      default: return '';
-    }
-  };
+  // Animation class getters
+  const getFolderAnimClass = (folderId: string) => openFolder === folderId ? folderAnimState : '';
+  const getGalleryAnimClass = (galleryId: string) => openGallery === galleryId ? galleryAnimState : '';
+  const getExpandedAnimClass = (itemId: string) => expandedItem === itemId ? expandedAnimState : '';
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // FOLDER PREVIEW - 3 icons layout (matching Work page style)
+  // FOLDER PREVIEW - Only 3 icons for Entertainment (no fake 4th)
   // ═══════════════════════════════════════════════════════════════════════════════
 
   const renderFolderPreview = (folderId: string) => {
     if (folderId === 'entertainment') {
       return (
         <div className="folder-preview folder-preview-3">
-          <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a5040, #0d2820)', '--glow-color': 'rgba(94, 234, 212, 0.25)' } as React.CSSProperties}>
+          <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a5040, #0d2820)' }}>
             {render3DIconMini('trade69', miniIconSize)}
           </div>
-          <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #3a2855, #1e1430)', '--glow-color': 'rgba(192, 132, 252, 0.25)' } as React.CSSProperties}>
+          <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #3a2855, #1e1430)' }}>
             {renderGeometryMini('metatron', miniIconSize)}
           </div>
-          <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #3d4a8f, #1e2550)', '--glow-color': 'rgba(165, 180, 252, 0.25)' } as React.CSSProperties}>
+          <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #3d4a8f, #1e2550)' }}>
             {render2DIconMini('megaagent-2d', miniIconSize)}
           </div>
         </div>
@@ -444,11 +653,15 @@ export default function Creative() {
     } else {
       return (
         <div className="folder-preview folder-preview-3">
-          {interactiveApps.map((app) => (
-            <div key={app.id} className="folder-mini-icon" style={{ background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})`, '--glow-color': app.glow } as React.CSSProperties}>
-              {renderInteractiveMini(app.id, miniIconSize)}
-            </div>
-          ))}
+          <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #2a2018, #15100a)' }}>
+            {renderInteractiveMini('sphere', miniIconSize)}
+          </div>
+          <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a2820, #0a1510)' }}>
+            {renderInteractiveMini('manifold', miniIconSize)}
+          </div>
+          <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #18202a, #0a1015)' }}>
+            {renderInteractiveMini('architecture', miniIconSize)}
+          </div>
         </div>
       );
     }
@@ -459,16 +672,36 @@ export default function Creative() {
       <style>{`
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - CREATIVE PAGE                                                */
-        /* Matching Work page EXACTLY - same sizes, transitions, everything                */
+        /* Matching Work page positioning, heights, fonts exactly                          */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
-        * { -webkit-tap-highlight-color: transparent; }
+        * {
+          -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* STATE OF THE ART - Smooth scroll behavior on html/body */
+        html {
+          scroll-behavior: smooth;
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+          -webkit-overflow-scrolling: touch;
+        }
+        
+        body {
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+        }
         
         .creative-page {
           overscroll-behavior: none;
+          overscroll-behavior-y: none;
           -webkit-overflow-scrolling: touch;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          scroll-behavior: smooth;
+          position: relative;
+          min-height: 100vh;
+          -webkit-scroll-behavior: smooth;
         }
         
         .creative-page.overlay-open {
@@ -476,11 +709,121 @@ export default function Creative() {
           overflow: hidden;
         }
         
+        @supports (-webkit-touch-callout: none) {
+          .creative-page {
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: none;
+          }
+        }
+        
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* FOLDERS GRID - MATCHING WORK PAGE EXACTLY                                       */
+        /* STATE OF THE ART - TRANSITION BRIDGE                                            */
+        /* Elegant spinning circle loader - positioned higher (2 inches up from center)    */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
-        .folders-grid {
+        .transition-bridge {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 1500;
+          background: radial-gradient(ellipse at center, rgba(20, 20, 20, 0.96) 0%, rgba(10, 10, 10, 0.99) 100%);
+          backdrop-filter: blur(60px) saturate(180%);
+          -webkit-backdrop-filter: blur(60px) saturate(180%);
+          display: flex;
+          align-items: flex-start;
+          justify-content: center;
+          /* Move spinner UP - approximately 2 inches from top */
+          padding-top: clamp(180px, 30vh, 280px);
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+        }
+        
+        .transition-bridge.in {
+          opacity: 1;
+          visibility: visible;
+          transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s;
+        }
+        
+        .transition-bridge.hold {
+          opacity: 1;
+          visibility: visible;
+        }
+        
+        .transition-bridge.out {
+          opacity: 0;
+          visibility: visible;
+          transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s;
+        }
+        
+        /* STATE OF THE ART - Elegant spinning circle */
+        .bridge-spinner {
+          width: 32px;
+          height: 32px;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .bridge-spinner::before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .bridge-spinner::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          border: 2px solid transparent;
+          border-top-color: rgba(255, 255, 255, 0.9);
+          animation: elegantSpin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        
+        @keyframes elegantSpin {
+          0% { 
+            transform: rotate(0deg); 
+          }
+          100% { 
+            transform: rotate(360deg); 
+          }
+        }
+        
+        /* Smooth fade for spinner */
+        .transition-bridge.in .bridge-spinner {
+          opacity: 0;
+          animation: spinnerFadeIn 0.2s ease 0.1s forwards;
+        }
+        
+        .transition-bridge.out .bridge-spinner {
+          opacity: 0;
+          transition: opacity 0.15s ease;
+        }
+        
+        @keyframes spinnerFadeIn {
+          0% { 
+            opacity: 0; 
+            transform: scale(0.8); 
+          }
+          100% { 
+            opacity: 1; 
+            transform: scale(1); 
+          }
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* MAIN GRID - 2 FOLDERS (matching Work page)                                      */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .creative-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 36px 32px;
@@ -494,6 +837,10 @@ export default function Creative() {
           align-items: center;
           gap: 10px;
         }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* FOLDER ICON - Premium Glass Effect (matching Work page)                         */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .folder-icon {
           position: relative;
@@ -510,8 +857,14 @@ export default function Creative() {
           overflow: hidden;
           opacity: 0;
           transform: translateZ(0) scale(0.85) translateY(15px);
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease;
-          box-shadow: 0 0 50px rgba(255, 255, 255, 0.06), 0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                      box-shadow 0.4s ease, opacity 0.5s ease;
+          box-shadow: 
+            0 0 50px rgba(255, 255, 255, 0.06),
+            0 8px 32px rgba(0, 0, 0, 0.5),
+            0 2px 8px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.2),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.1);
           border: 1px solid rgba(255, 255, 255, 0.08);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -537,6 +890,10 @@ export default function Creative() {
         
         .folder-wrapper:nth-child(1) .folder-icon { transition-delay: 0ms; }
         .folder-wrapper:nth-child(2) .folder-icon { transition-delay: 60ms; }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* FOLDER PREVIEW - 3 icons layout (no fake 4th)                                   */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .folder-preview {
           display: grid;
@@ -567,7 +924,13 @@ export default function Creative() {
           justify-content: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 0 12px var(--glow-color, rgba(255, 255, 255, 0.1)), 0 3px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 
+            0 0 12px rgba(255, 255, 255, 0.1),
+            0 3px 8px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
         }
         
         .folder-mini-icon::before {
@@ -584,6 +947,7 @@ export default function Creative() {
         }
         
         .folder-name {
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 12px;
           font-weight: 400;
           color: #FAFAF8;
@@ -604,7 +968,7 @@ export default function Creative() {
         .folder-wrapper:nth-child(2) .folder-name { transition-delay: 120ms; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* FOLDER OVERLAY - MATCHING WORK PAGE EXACTLY                                     */
+        /* FOLDER OVERLAY                                                                  */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .folder-overlay {
@@ -622,6 +986,7 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
+          /* SOLID ROCK - no touch movement */
           touch-action: none;
           -webkit-touch-callout: none;
           user-select: none;
@@ -645,6 +1010,7 @@ export default function Creative() {
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
+          /* SOLID ROCK */
           touch-action: none;
         }
         
@@ -659,8 +1025,11 @@ export default function Creative() {
           opacity: 0;
           transform: translateZ(0);
           transition: none;
-          box-shadow: 0 0 60px rgba(255, 255, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4), 0 8px 25px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.8);
-          touch-action: none;
+          box-shadow: 
+            0 0 60px rgba(255, 255, 255, 0.15),
+            0 20px 60px rgba(0, 0, 0, 0.4),
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.8);
         }
         
         .folder-overlay.active .folder-container {
@@ -679,7 +1048,6 @@ export default function Creative() {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 18px;
-          touch-action: none;
         }
         
         .folder-card {
@@ -691,13 +1059,13 @@ export default function Creative() {
           opacity: 0;
           transform: translateZ(0) scale(0.7) translateY(12px);
           transition: none;
-          touch-action: none;
         }
         
         .folder-overlay.active .folder-card {
           opacity: 1;
           transform: translateZ(0) scale(1) translateY(0);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), 
+                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
         .folder-overlay.exiting .folder-card {
@@ -719,16 +1087,18 @@ export default function Creative() {
           justify-content: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 0 25px rgba(255, 255, 255, 0.12), 0 6px 20px rgba(0, 0, 0, 0.45), 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4), inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 
+            0 0 25px rgba(255, 255, 255, 0.12),
+            0 6px 20px rgba(0, 0, 0, 0.45),
+            0 12px 40px rgba(0, 0, 0, 0.25),
+            inset 0 1px 1px rgba(255, 255, 255, 0.4),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
         }
         
         .folder-card-icon::before {
           content: '';
           position: absolute;
-          top: 0;
-          left: 8%;
-          right: 8%;
-          height: 45%;
+          top: 0; left: 8%; right: 8%; height: 45%;
           background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
           border-radius: 17px 17px 50% 50%;
           pointer-events: none;
@@ -744,15 +1114,12 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* GALLERY OVERLAY - MATCHING WORK PAGE MEDIA OVERLAY EXACTLY                      */
+        /* GALLERY OVERLAY                                                                 */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .gallery-overlay {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          top: 0; left: 0; right: 0; bottom: 0;
           z-index: 2000;
           display: flex;
           flex-direction: column;
@@ -762,7 +1129,8 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          touch-action: manipulation;
+          /* SOLID ROCK - no touch movement */
+          touch-action: none;
           -webkit-touch-callout: none;
           user-select: none;
           overscroll-behavior: none;
@@ -770,6 +1138,7 @@ export default function Creative() {
           backface-visibility: hidden;
           will-change: opacity, visibility;
           transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
         }
         
         .gallery-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
@@ -778,14 +1147,16 @@ export default function Creative() {
         
         .gallery-overlay-bg {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          top: 0; left: 0; right: 0; bottom: 0;
           background: rgba(20, 20, 20, 0.65);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
-          touch-action: manipulation;
+          /* SOLID ROCK */
+          touch-action: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translateZ(0);
+          -webkit-tap-highlight-color: transparent;
         }
         
         .gallery-container {
@@ -797,37 +1168,52 @@ export default function Creative() {
           border-radius: 28px;
           padding: 24px;
           opacity: 0;
-          transform: translateZ(0);
+          transform: translateZ(0) scale(0.8);
           transition: none;
-          box-shadow: 0 0 60px rgba(255, 255, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4), 0 8px 25px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.8);
-          touch-action: manipulation;
+          box-shadow: 
+            0 0 60px rgba(255, 255, 255, 0.15),
+            0 20px 60px rgba(0, 0, 0, 0.4),
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.8);
+          /* SOLID ROCK */
+          touch-action: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
+          -webkit-tap-highlight-color: transparent;
+          overflow: hidden;
         }
         
         .gallery-overlay.active .gallery-container {
           opacity: 1;
-          transform: translateZ(0);
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s;
+          transform: translateZ(0) scale(1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.02s, 
+                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.02s;
         }
         
         .gallery-overlay.exiting .gallery-container {
           opacity: 0;
-          transform: translateZ(0);
-          transition: opacity 0.25s ease;
+          transform: translateZ(0) scale(0.9);
+          transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* GALLERY GRID - 4x2 for 8 items, 2x2 for 4 items (MATCHING WORK PAGE)            */
+        /* SOLID ROCK - FIXED 4x2 GRID (no scroll, all 8 visible)                         */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .gallery-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 18px;
-          touch-action: manipulation;
+          /* 4 columns for 8 items = 2 rows */
+          grid-template-columns: repeat(4, 70px);
+          gap: 14px;
+          /* SOLID ROCK */
+          touch-action: none;
         }
         
-        .gallery-grid.grid-2x2 {
-          grid-template-columns: repeat(2, 1fr);
+        /* 2x2 grid for geometry (4 items) */
+        .gallery-grid.grid-2 {
+          grid-template-columns: repeat(2, 80px);
+          gap: 18px;
         }
         
         .gallery-card {
@@ -839,19 +1225,24 @@ export default function Creative() {
           opacity: 0;
           transform: translateZ(0) scale(0.7) translateY(12px);
           transition: none;
-          touch-action: manipulation;
+          /* SOLID ROCK */
+          touch-action: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .gallery-overlay.active .gallery-card {
           opacity: 1;
           transform: translateZ(0) scale(1) translateY(0);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), 
+                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
         .gallery-overlay.exiting .gallery-card {
           opacity: 0;
           transform: translateZ(0) scale(0.85) translateY(5px);
           transition: opacity 0.15s ease, transform 0.2s ease;
+          transition-delay: 0s !important;
         }
         
         .gallery-overlay.active .gallery-card:nth-child(1) { transition-delay: 0.04s; }
@@ -864,15 +1255,20 @@ export default function Creative() {
         .gallery-overlay.active .gallery-card:nth-child(8) { transition-delay: 0.18s; }
         
         .gallery-card-icon {
-          width: 70px;
-          height: 70px;
-          border-radius: 17px;
+          width: 80px;
+          height: 80px;
+          border-radius: 18px;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
           position: relative;
-          box-shadow: 0 0 25px rgba(255, 255, 255, 0.12), 0 6px 20px rgba(0, 0, 0, 0.45), 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4), inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 
+            0 0 25px rgba(255, 255, 255, 0.12),
+            0 6px 20px rgba(0, 0, 0, 0.45),
+            0 12px 40px rgba(0, 0, 0, 0.25),
+            inset 0 1px 1px rgba(255, 255, 255, 0.4),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translateZ(0);
@@ -882,12 +1278,9 @@ export default function Creative() {
         .gallery-card-icon::before {
           content: '';
           position: absolute;
-          top: 0;
-          left: 8%;
-          right: 8%;
-          height: 45%;
+          top: 0; left: 8%; right: 8%; height: 45%;
           background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
-          border-radius: 17px 17px 50% 50%;
+          border-radius: 18px 18px 50% 50%;
           pointer-events: none;
           z-index: 10;
         }
@@ -898,52 +1291,17 @@ export default function Creative() {
           font-weight: 400;
           color: #1a1a1a;
           text-align: center;
-          max-width: 70px;
+          max-width: 76px;
         }
-        
-        .gallery-close {
-          position: relative;
-          z-index: 2;
-          margin-top: 24px;
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          background: transparent;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          opacity: 0;
-          transform: scale(0.5);
-          transition: none;
-          border: none;
-          touch-action: manipulation;
-        }
-        
-        .gallery-overlay.active .gallery-close {
-          opacity: 1;
-          transform: scale(1);
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
-        }
-        
-        .gallery-overlay.exiting .gallery-close {
-          opacity: 0;
-          transform: scale(0.8);
-          transition: opacity 0.15s ease, transform 0.2s ease;
-        }
-        
-        .gallery-close svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* EXPANDED VIEW - MATCHING WORK PAGE IMAGE EXPANDED EXACTLY                       */
+        /* EXPANDED VIEW - STATE OF THE ART                                                */
+        /* Tap anywhere to close (no X button needed)                                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .expanded-view {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          top: 0; left: 0; right: 0; bottom: 0;
           background: #0A0A0A;
           z-index: 3000;
           display: flex;
@@ -954,15 +1312,36 @@ export default function Creative() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
+          /* SOLID ROCK - no touch movement */
           touch-action: none;
           -webkit-touch-callout: none;
           user-select: none;
           overscroll-behavior: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: opacity, visibility;
+          transform: translateZ(0);
         }
         
-        .expanded-view.entering { visibility: visible; pointer-events: auto; opacity: 0; }
-        .expanded-view.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
-        .expanded-view.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        .expanded-view.entering { 
+          visibility: visible; 
+          pointer-events: auto; 
+          opacity: 0; 
+        }
+        
+        .expanded-view.active { 
+          visibility: visible; 
+          pointer-events: auto; 
+          opacity: 1; 
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        
+        .expanded-view.exiting { 
+          visibility: visible; 
+          pointer-events: none; 
+          opacity: 0; 
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+        }
         
         .expanded-inner {
           display: flex;
@@ -977,7 +1356,8 @@ export default function Creative() {
         .expanded-view.active .expanded-inner {
           opacity: 1;
           transform: translateZ(0) scale(1);
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, 
+                      transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
         }
         
         .expanded-view.exiting .expanded-inner {
@@ -990,12 +1370,14 @@ export default function Creative() {
           width: 280px;
           height: 280px;
           border-radius: 22px;
-          overflow: hidden;
           display: flex;
           align-items: center;
           justify-content: center;
           filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
+          /* STATE OF THE ART - Allow touch for 3D rotation/interaction */
           touch-action: manipulation;
+          -webkit-user-select: none;
+          user-select: none;
           opacity: 0;
           transform: translateZ(0) scale(0.9);
           transition: none;
@@ -1006,7 +1388,8 @@ export default function Creative() {
         .expanded-view.active .expanded-content {
           opacity: 1;
           transform: translateZ(0) scale(1);
-          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
+          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, 
+                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
         }
         
         .expanded-view.exiting .expanded-content {
@@ -1015,12 +1398,40 @@ export default function Creative() {
           transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
+        /* STATE OF THE ART - 3D canvas touch enabled */
         .expanded-content canvas {
           touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
         }
         
+        /* Hint text for tap-to-close */
+        .expanded-hint {
+          position: absolute;
+          bottom: clamp(40px, 8vh, 80px);
+          left: 50%;
+          transform: translateX(-50%);
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          font-size: 13px;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 0.4);
+          letter-spacing: 0.02em;
+          opacity: 0;
+          transition: opacity 0.4s ease 0.5s;
+          pointer-events: none;
+          z-index: 5;
+        }
+        
+        .expanded-view.active .expanded-hint {
+          opacity: 1;
+        }
+        
+        .expanded-view.exiting .expanded-hint {
+          opacity: 0;
+          transition: opacity 0.15s ease;
+        }
+        
+        /* X button for expanded views */
         .expanded-close {
           margin-top: 40px;
           width: 52px;
@@ -1042,7 +1453,8 @@ export default function Creative() {
         .expanded-view.active .expanded-close {
           opacity: 1;
           transform: scale(1);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, 
+                      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s;
         }
         
         .expanded-view.exiting .expanded-close {
@@ -1051,69 +1463,16 @@ export default function Creative() {
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        .expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - APPLE-LEVEL TRANSITION BRIDGE (matching Work page)           */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .transition-bridge {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: #0A0A0A;
-          z-index: 2500;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: flex-start;
-          padding-top: clamp(180px, 30vh, 280px);
-          opacity: 0;
-          visibility: hidden;
-          pointer-events: none;
-          touch-action: none;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          will-change: opacity;
-          transition: opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.25s;
-        }
-        
-        .transition-bridge.loading {
-          opacity: 1;
-          visibility: visible;
-          pointer-events: auto;
-          transition: opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
-        }
-        
-        .transition-bridge.transitioning {
-          opacity: 0;
-          visibility: visible;
-          pointer-events: none;
-          transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.5s;
-        }
-        
-        .bridge-spinner {
-          width: 44px;
-          height: 44px;
-          border: 2.5px solid rgba(255, 255, 255, 0.12);
-          border-top-color: rgba(255, 255, 255, 0.9);
-          border-radius: 50%;
-          animation: bridgeSpin 0.9s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite;
-          filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
-        }
-        
-        @keyframes bridgeSpin {
-          to { transform: rotate(360deg); }
+        .expanded-close svg { 
+          filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); 
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* RESPONSIVE - MATCHING WORK PAGE EXACTLY                                         */
+        /* DESKTOP ENHANCEMENTS                                                            */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         @media (min-width: 600px) {
-          .folders-grid { gap: 48px 44px; max-width: 400px; }
+          .creative-grid { gap: 48px 44px; max-width: 400px; }
           .folder-icon { width: 145px; height: 145px; border-radius: 32px; }
           .folder-preview { width: 120px; height: 120px; gap: 7px; }
           .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; }
@@ -1121,15 +1480,22 @@ export default function Creative() {
           .folder-container { padding: 28px; }
           .folder-cards-grid { gap: 20px; }
           .folder-card-icon { width: 80px; height: 80px; border-radius: 18px; }
-          .gallery-container { padding: 28px; border-radius: 30px; }
-          .gallery-grid { gap: 20px; }
-          .gallery-card-icon { width: 80px; height: 80px; border-radius: 18px; }
+          .gallery-container { 
+            padding: 28px; 
+            border-radius: 30px; 
+          }
+          .gallery-grid { 
+            grid-template-columns: repeat(4, 80px); 
+            gap: 16px; 
+          }
+          .gallery-grid.grid-2 { grid-template-columns: repeat(2, 90px); gap: 20px; }
+          .gallery-card-icon { width: 72px; height: 72px; border-radius: 18px; }
           .gallery-card-name { font-size: 12px; max-width: 80px; }
           .expanded-content { width: 340px; height: 340px; border-radius: 26px; }
         }
         
         @media (min-width: 900px) {
-          .folders-grid { gap: 54px 50px; max-width: 480px; }
+          .creative-grid { gap: 54px 50px; max-width: 480px; }
           .folder-icon { width: 175px; height: 175px; border-radius: 38px; }
           .folder-preview { width: 145px; height: 145px; gap: 8px; }
           .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; }
@@ -1137,20 +1503,77 @@ export default function Creative() {
           .folder-container { padding: 36px; }
           .folder-cards-grid { gap: 26px; }
           .folder-card-icon { width: 95px; height: 95px; border-radius: 22px; }
-          .gallery-container { padding: 32px; }
-          .gallery-grid { gap: 24px; }
-          .gallery-card-icon { width: 90px; height: 90px; border-radius: 20px; }
+          .gallery-container { 
+            padding: 32px;
+          }
+          .gallery-grid { 
+            grid-template-columns: repeat(4, 90px); 
+            gap: 20px; 
+          }
+          .gallery-grid.grid-2 { grid-template-columns: repeat(2, 100px); gap: 24px; }
+          .gallery-card-icon { width: 82px; height: 82px; border-radius: 20px; }
           .gallery-card-name { font-size: 13px; max-width: 90px; }
         }
         
         canvas { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - 3D CANVAS SMOOTHNESS                                         */
+        /* Ensures WebGL/Three.js renders without disruption                               */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .expanded-content > div {
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+          -webkit-perspective: 1000px;
+          perspective: 1000px;
+        }
+        
+        /* Prevent canvas reflow during transitions */
+        .expanded-view canvas,
+        .expanded-content canvas {
+          will-change: transform;
+          -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+          image-rendering: optimizeQuality;
+          -webkit-font-smoothing: antialiased;
+        }
+        
+        /* iOS Safari specific optimizations */
+        @supports (-webkit-touch-callout: none) {
+          .expanded-content {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+          }
+          
+          .expanded-content canvas {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+          }
+        }
       `}</style>
 
-      <div className={`creative-page ${folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle' || bridgePhase !== 'idle' ? 'overlay-open' : ''}`} style={{ minHeight: "100vh", backgroundColor: "#0A0A0A", paddingTop: "clamp(100px, 15vh, 160px)", paddingBottom: "100px", paddingLeft: "20px", paddingRight: "20px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
-        <div className="folders-grid">
+      <div className={`creative-page ${folderAnimState !== 'idle' || galleryAnimState !== 'idle' || expandedAnimState !== 'idle' || bridgePhase !== 'idle' ? 'overlay-open' : ''}`} style={{
+        minHeight: "100vh",
+        backgroundColor: "#0A0A0A",
+        paddingTop: "clamp(100px, 15vh, 160px)",
+        paddingBottom: "100px",
+        paddingLeft: "20px",
+        paddingRight: "20px",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "center"
+      }}>
+        {/* 2 Main Folders */}
+        <div className="creative-grid">
           {mainFolders.map((folder) => (
             <div key={folder.id} className="folder-wrapper">
-              <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder(folder.id)}>
+              <div
+                className={`folder-icon ${isLoaded ? 'loaded' : ''}`}
+                onClick={() => handleOpenFolder(folder.id)}
+              >
                 {renderFolderPreview(folder.id)}
               </div>
               <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>{folder.name}</span>
@@ -1159,66 +1582,72 @@ export default function Creative() {
         </div>
       </div>
 
-      {/* STATE OF THE ART - Apple-Level Transition Bridge */}
+      {/* STATE OF THE ART - Transition Bridge with elegant spinner */}
       <div className={`transition-bridge ${bridgePhase}`}>
         <div className="bridge-spinner" />
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* ENTERTAINMENT FOLDER                                                            */}
+      {/* ENTERTAINMENT FOLDER - Shows 3 Category Cards                                   */}
+      {/* Tap background to close (no X button)                                           */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {openFolder === 'entertainment' && (
-        <div className={`folder-overlay ${getFolderAnimClass()}`}>
-          <div className="folder-overlay-bg" onClick={handleCloseFolder} />
-          <div className="folder-container" onClick={handleCloseFolder}>
-            <div className="folder-cards-grid" onClick={(e) => e.stopPropagation()}>
-              {entertainmentCategories.map((cat) => (
-                <div key={cat.id} className="folder-card" onClick={() => handleOpenGalleryWithBridge(cat.id)}>
-                  <div className="folder-card-icon" style={{ background: cat.id === '3dicons' ? 'linear-gradient(145deg, #1a5040, #0d2820)' : cat.id === 'geometry' ? 'linear-gradient(145deg, #3a2855, #1e1430)' : 'linear-gradient(145deg, #3d4a8f, #1e2550)' }}>
-                    {cat.id === '3dicons' && render3DIconMini('trade69', folderIconSize * 0.75)}
-                    {cat.id === 'geometry' && renderGeometryMini('metatron', folderIconSize * 0.75)}
-                    {cat.id === 'icons' && render2DIconMini('megaagent-2d', folderIconSize * 0.75)}
-                  </div>
-                  <span className="folder-card-name">{cat.name}</span>
-                </div>
-              ))}
+      <div className={`folder-overlay ${getFolderAnimClass('entertainment')}`}>
+        <div className="folder-overlay-bg" onClick={handleCloseFolder} />
+        <div className="folder-container">
+          <div className="folder-cards-grid">
+            <div className="folder-card" onClick={() => handleOpenGalleryFromFolder('3dicons')}>
+              <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #1a5040, #0d2820)' }}>
+                {render3DIconMini('trade69', folderIconSize)}
+              </div>
+              <span className="folder-card-name">3D Icons</span>
+            </div>
+            <div className="folder-card" onClick={() => handleOpenGalleryFromFolder('geometry')}>
+              <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #3a2855, #1e1430)' }}>
+                {renderGeometryMini('metatron', folderIconSize)}
+              </div>
+              <span className="folder-card-name">Geometry</span>
+            </div>
+            <div className="folder-card" onClick={() => handleOpenGalleryFromFolder('icons')}>
+              <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #3d4a8f, #1e2550)' }}>
+                {render2DIconMini('megaagent-2d', folderIconSize)}
+              </div>
+              <span className="folder-card-name">Icons</span>
             </div>
           </div>
         </div>
-      )}
+      </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 3D INTERACTIVE FOLDER                                                           */}
+      {/* 3D INTERACTIVE FOLDER - Shows 3 Experience Cards                                */}
+      {/* Tap background to close (no X button)                                           */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {openFolder === 'interactive' && (
-        <div className={`folder-overlay ${getFolderAnimClass()}`}>
-          <div className="folder-overlay-bg" onClick={handleCloseFolder} />
-          <div className="folder-container" onClick={handleCloseFolder}>
-            <div className="folder-cards-grid" onClick={(e) => e.stopPropagation()}>
-              {interactiveApps.map((app) => (
-                <div key={app.id} className="folder-card" onClick={() => handleOpenExpandedWithBridge(`exp-${app.id}`)}>
-                  <div className="folder-card-icon" style={{ background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})` }}>
-                    {renderInteractiveMini(app.id, folderIconSize * 0.75)}
-                  </div>
-                  <span className="folder-card-name">{app.name}</span>
+      <div className={`folder-overlay ${getFolderAnimClass('interactive')}`}>
+        <div className="folder-overlay-bg" onClick={handleCloseFolder} />
+        <div className="folder-container">
+          <div className="folder-cards-grid">
+            {interactiveApps.map(app => (
+              <div key={app.id} className="folder-card" onClick={() => handleOpenExpandedFromFolder(`exp-${app.id}`)}>
+                <div className="folder-card-icon" style={{ background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})` }}>
+                  {renderInteractiveMini(app.id, folderIconSize)}
                 </div>
-              ))}
-            </div>
+                <span className="folder-card-name">{app.name}</span>
+              </div>
+            ))}
           </div>
         </div>
-      )}
+      </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 3D ICONS GALLERY - 4x2 grid                                                     */}
+      {/* 3D ICONS GALLERY - SOLID ROCK 4x2 grid (all 8 visible, no scroll)              */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`gallery-overlay ${getGalleryAnimClass('3dicons')}`}>
         <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
-        <div className="gallery-container" onClick={handleCloseGallery}>
-          <div className="gallery-grid" onClick={(e) => e.stopPropagation()}>
-            {icons3DItems.map((item) => (
+        <div className="gallery-container">
+          <div className="gallery-grid">
+            {icons3DItems.map(item => (
               <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`3d-${item.id}`)}>
                 <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {render3DIconMini(item.id, folderIconSize * 0.65)}
+                  {render3DIconMini(item.id, galleryIconSize)}
                 </div>
                 <span className="gallery-card-name">{item.name}</span>
               </div>
@@ -1228,16 +1657,16 @@ export default function Creative() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* GEOMETRY GALLERY - 2x2 grid                                                     */}
+      {/* GEOMETRY GALLERY - SOLID ROCK 2x2 grid                                          */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`gallery-overlay ${getGalleryAnimClass('geometry')}`}>
         <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
-        <div className="gallery-container" onClick={handleCloseGallery}>
-          <div className="gallery-grid grid-2x2" onClick={(e) => e.stopPropagation()}>
-            {geometryItems.map((item) => (
+        <div className="gallery-container">
+          <div className="gallery-grid grid-2">
+            {geometryItems.map(item => (
               <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`geo-${item.id}`)}>
                 <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {renderGeometryMini(item.id, folderIconSize * 0.65)}
+                  {renderGeometryMini(item.id, galleryIconSize)}
                 </div>
                 <span className="gallery-card-name">{item.name}</span>
               </div>
@@ -1247,16 +1676,16 @@ export default function Creative() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* 2D ICONS GALLERY - 4x2 grid                                                     */}
+      {/* 2D ICONS GALLERY - SOLID ROCK 4x2 grid (all 8 visible, no scroll)              */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       <div className={`gallery-overlay ${getGalleryAnimClass('icons')}`}>
         <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
-        <div className="gallery-container" onClick={handleCloseGallery}>
-          <div className="gallery-grid" onClick={(e) => e.stopPropagation()}>
-            {staticIconItems.map((item) => (
+        <div className="gallery-container">
+          <div className="gallery-grid">
+            {staticIconItems.map(item => (
               <div key={item.id} className="gallery-card" onClick={() => handleOpenExpandedFromGallery(`2d-${item.id}`)}>
                 <div className="gallery-card-icon" style={{ background: `linear-gradient(145deg, ${item.color[0]}, ${item.color[1]})` }}>
-                  {render2DIconMini(item.id, folderIconSize * 0.65)}
+                  {render2DIconMini(item.id, galleryIconSize)}
                 </div>
                 <span className="gallery-card-name">{item.name}</span>
               </div>
@@ -1266,64 +1695,84 @@ export default function Creative() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - 3D Icons                                                       */}
+      {/* EXPANDED VIEWS - 3D Icons (X button to close)                                  */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {icons3DItems.map((item) => (
+      {icons3DItems.map(item => (
         <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`3d-${item.id}`)}`}>
           <div className="expanded-inner">
             <div className="expanded-content">
               {expandedItem === `3d-${item.id}` && render3DIcon(item.id, 200)}
             </div>
             <button className="expanded-close" onClick={handleCloseExpanded}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
             </button>
           </div>
         </div>
       ))}
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - Geometry                                                       */}
+      {/* EXPANDED VIEWS - Geometry (X button to close)                                  */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {geometryItems.map((item) => (
+      {geometryItems.map(item => (
         <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`geo-${item.id}`)}`}>
           <div className="expanded-inner">
             <div className="expanded-content">
               {expandedItem === `geo-${item.id}` && renderGeometry(item.id)}
             </div>
             <button className="expanded-close" onClick={handleCloseExpanded}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
             </button>
           </div>
         </div>
       ))}
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - 2D Icons                                                       */}
+      {/* EXPANDED VIEWS - 2D Icons (X button to close)                                  */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {staticIconItems.map((item) => (
+      {staticIconItems.map(item => (
         <div key={item.id} className={`expanded-view ${getExpandedAnimClass(`2d-${item.id}`)}`}>
           <div className="expanded-inner">
             <div className="expanded-content">
               {expandedItem === `2d-${item.id}` && render2DIcon(item.id, 3)}
             </div>
             <button className="expanded-close" onClick={handleCloseExpanded}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
             </button>
           </div>
         </div>
       ))}
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* EXPANDED VIEWS - 3D Interactive Experiences                                     */}
+      {/* EXPANDED VIEWS - 3D Interactive Experiences (X button to close)                */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {interactiveApps.map((app) => (
-        <div key={app.id} className={`expanded-view ${getExpandedAnimClass(`exp-${app.id}`)}`}>
-          <div className="expanded-inner" onTouchStart={(e) => e.stopPropagation()} onTouchMove={(e) => e.stopPropagation()}>
-            <div className="expanded-content" style={{ touchAction: 'manipulation' }} onTouchStart={(e) => e.stopPropagation()} onTouchMove={(e) => e.stopPropagation()}>
+      {interactiveApps.map(app => (
+        <div
+          key={app.id}
+          className={`expanded-view ${getExpandedAnimClass(`exp-${app.id}`)}`}
+        >
+          <div
+            className="expanded-inner"
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+          >
+            <div
+              className="expanded-content"
+              style={{ touchAction: 'manipulation' }}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+            >
               {expandedItem === `exp-${app.id}` && renderExperience(app.id)}
             </div>
             <button className="expanded-close" onClick={handleCloseExpanded}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+              </svg>
             </button>
           </div>
         </div>
