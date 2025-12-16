@@ -284,6 +284,26 @@ export default function Creative() {
   const handleOpenExpandedFromFolder = useCallback((itemId: string) => {
     if (folderAnimState !== 'active') return;
 
+    // For icons-showcase, use direct crossfade (no bridge spinner)
+    if (itemId === 'icons-showcase') {
+      setFolderAnimState('exiting');
+
+      setTimeout(() => {
+        setOpenFolder(null);
+        setFolderAnimState('idle');
+        setExpandedItem(itemId);
+        setExpandedAnimState('entering');
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setExpandedAnimState('active');
+          });
+        });
+      }, 250);
+      return;
+    }
+
+    // For other items, use bridge transition
     setBridgePhase('in');
 
     setTimeout(() => {
@@ -633,47 +653,38 @@ export default function Creative() {
   };
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // STATE OF THE ART - 2D ICONS SHOWCASE
-  // Floating museum gallery - frosted glass frames with ambient color glow
-  // Each icon floats with its own colored aura - like art in a modern museum
-  // SMOOTH SINGLE ANIMATION - no flash, no disruption
+  // STATE OF THE ART - 2D ICONS GALLERY SHOWCASE
+  // Elegant white/cream paper cards with large 2D symbols
+  // Museum gallery presentation - clean, minimal, sophisticated
   // ═══════════════════════════════════════════════════════════════════════════════
   const Icons2DShowcase = () => {
     const [showIcons, setShowIcons] = useState(false);
 
     useEffect(() => {
-      // Single delayed trigger - no double animation
-      const timer = setTimeout(() => setShowIcons(true), 50);
+      const timer = setTimeout(() => setShowIcons(true), 80);
       return () => clearTimeout(timer);
     }, []);
 
     return (
       <div className="icons-showcase">
-        <div className="showcase-ambient-bg" />
         <div className={`icons-showcase-grid ${showIcons ? 'visible' : ''}`}>
           {staticIconItems.map((item, index) => (
             <div
               key={item.id}
-              className="showcase-frame"
-              style={{ ['--delay' as any]: `${index * 0.05}s` }}
+              className="showcase-card"
+              style={{ ['--delay' as any]: `${index * 0.04}s` }}
             >
-              <div
-                className="showcase-frame-glow"
-                style={{ background: `radial-gradient(circle, ${item.color[0]}50 0%, transparent 70%)` }}
-              />
-              <div className="showcase-frame-glass">
-                <div className="showcase-frame-inner">
-                  {item.id === 'trade69-2d' && <Trade69Icon />}
-                  {item.id === 'megaagent-2d' && <MegaAgentIcon />}
-                  {item.id === 'octopus-2d' && <OctopusIcon />}
-                  {item.id === 'overmind-2d' && <OvermindIcon />}
-                  {item.id === 'website-2d' && <WebsiteIcon />}
-                  {item.id === 'dashboard-2d' && <DashboardIcon />}
-                  {item.id === 'api-2d' && <APIIcon />}
-                  {item.id === 'llm-2d' && <LLMIcon />}
-                </div>
+              <div className="showcase-card-inner">
+                {item.id === 'trade69-2d' && <Trade69Icon />}
+                {item.id === 'megaagent-2d' && <MegaAgentIcon />}
+                {item.id === 'octopus-2d' && <OctopusIcon />}
+                {item.id === 'overmind-2d' && <OvermindIcon />}
+                {item.id === 'website-2d' && <WebsiteIcon />}
+                {item.id === 'dashboard-2d' && <DashboardIcon />}
+                {item.id === 'api-2d' && <APIIcon />}
+                {item.id === 'llm-2d' && <LLMIcon />}
               </div>
-              <div className="showcase-frame-label">{item.name}</div>
+              <div className="showcase-card-label">{item.name}</div>
             </div>
           ))}
         </div>
@@ -1337,9 +1348,9 @@ export default function Creative() {
         .expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - 2D ICONS MUSEUM GALLERY                                      */
-        /* Floating frosted glass frames with ambient colored glow                         */
-        /* SMOOTH SINGLE ANIMATION - CSS transitions triggered by class, no keyframe flash */
+        /* STATE OF THE ART - 2D ICONS WHITE CARD GALLERY                                  */
+        /* Elegant cream/white paper cards with large symbols                              */
+        /* Museum-quality presentation - sophisticated and clean                           */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .icons-showcase {
@@ -1349,164 +1360,114 @@ export default function Creative() {
           align-items: center;
           justify-content: center;
           position: relative;
-          padding: 16px;
-        }
-        
-        .showcase-ambient-bg {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 200%;
-          height: 200%;
-          transform: translate(-50%, -50%);
-          background: radial-gradient(ellipse at center, rgba(60, 60, 80, 0.2) 0%, transparent 60%);
-          pointer-events: none;
-          opacity: 0;
-          transition: opacity 0.8s ease;
-        }
-        
-        .icons-showcase-grid.visible .showcase-ambient-bg,
-        .icons-showcase-grid.visible ~ .showcase-ambient-bg {
-          opacity: 1;
-        }
-        
-        .icons-showcase .showcase-ambient-bg {
-          opacity: 0;
-          transition: opacity 1s ease 0.2s;
-        }
-        
-        .icons-showcase-grid.visible + .showcase-ambient-bg,
-        .icons-showcase:has(.icons-showcase-grid.visible) .showcase-ambient-bg {
-          opacity: 1;
+          padding: 12px;
         }
         
         .icons-showcase-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           grid-template-rows: repeat(2, 1fr);
-          gap: 14px;
+          gap: 10px;
           position: relative;
-          z-index: 2;
         }
         
-        /* Museum frame - TRANSITION based, not animation based */
-        .showcase-frame {
+        /* Elegant white/cream paper card */
+        .showcase-card {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 6px;
-          position: relative;
+          gap: 5px;
           opacity: 0;
-          transform: translateY(16px) scale(0.85);
-          transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-                      transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1);
+          transform: translateY(12px) scale(0.9);
+          transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                      transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
           transition-delay: var(--delay, 0s);
         }
         
-        /* Visible state - triggered by class */
-        .icons-showcase-grid.visible .showcase-frame {
+        .icons-showcase-grid.visible .showcase-card {
           opacity: 1;
           transform: translateY(0) scale(1);
         }
         
-        /* Ambient color glow behind each frame */
-        .showcase-frame-glow {
-          position: absolute;
-          top: -8px;
-          left: -8px;
-          right: -8px;
-          bottom: 12px;
-          border-radius: 20px;
-          opacity: 0;
-          transition: opacity 0.6s ease;
-          transition-delay: calc(var(--delay, 0s) + 0.3s);
-          pointer-events: none;
-          z-index: 0;
-        }
-        
-        .icons-showcase-grid.visible .showcase-frame-glow {
-          opacity: 0.6;
-        }
-        
-        /* Frosted glass frame */
-        .showcase-frame-glass {
-          width: 52px;
-          height: 52px;
-          border-radius: 14px;
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.15) 0%, 
-            rgba(255, 255, 255, 0.06) 50%,
-            rgba(255, 255, 255, 0.1) 100%);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+        .showcase-card-inner {
+          width: 54px;
+          height: 68px;
+          border-radius: 10px;
+          background: linear-gradient(168deg, 
+            #ffffff 0%, 
+            #f8f7f4 30%,
+            #f2f0eb 70%,
+            #eae8e0 100%);
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
-          z-index: 2;
-          box-shadow: 
-            0 0 30px rgba(255, 255, 255, 0.08),
-            0 4px 20px rgba(0, 0, 0, 0.4),
-            0 1px 3px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.25),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.12);
           overflow: hidden;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          box-shadow: 
+            0 1px 2px rgba(0, 0, 0, 0.08),
+            0 4px 12px rgba(0, 0, 0, 0.15),
+            0 8px 24px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 1),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
         
-        .showcase-frame-glass:active {
+        .showcase-card-inner:active {
           transform: scale(0.95);
         }
         
-        /* Glass shine effect */
-        .showcase-frame-glass::before {
+        /* Subtle paper highlight */
+        .showcase-card-inner::before {
           content: '';
           position: absolute;
           top: 0;
-          left: 10%;
-          right: 10%;
-          height: 45%;
+          left: 0;
+          right: 0;
+          height: 40%;
           background: linear-gradient(180deg, 
-            rgba(255, 255, 255, 0.3) 0%, 
-            rgba(255, 255, 255, 0.1) 50%, 
+            rgba(255, 255, 255, 0.8) 0%, 
+            rgba(255, 255, 255, 0.2) 50%,
             transparent 100%);
-          border-radius: 14px 14px 50% 50%;
           pointer-events: none;
-          z-index: 5;
+          z-index: 1;
         }
         
-        .showcase-frame-inner {
+        /* Subtle edge definition */
+        .showcase-card-inner::after {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          border-radius: 10px;
+          box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+          pointer-events: none;
+          z-index: 2;
+        }
+        
+        /* Large icon inside - black/dark gray */
+        .showcase-card-inner svg {
+          width: 36px;
+          height: 36px;
           position: relative;
           z-index: 3;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          opacity: 0.95;
+          filter: brightness(0) saturate(100%);
+          opacity: 0.7;
         }
         
-        .showcase-frame-inner svg {
-          width: 28px;
-          height: 28px;
-          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-        }
-        
-        /* Label under frame */
-        .showcase-frame-label {
+        /* Card label */
+        .showcase-card-label {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 9px;
           font-weight: 500;
-          color: rgba(255, 255, 255, 0.5);
-          letter-spacing: 0.03em;
-          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.55);
+          letter-spacing: 0.02em;
           text-align: center;
           opacity: 0;
-          transform: translateY(4px);
-          transition: opacity 0.4s ease, transform 0.4s ease;
-          transition-delay: calc(var(--delay, 0s) + 0.25s);
+          transform: translateY(3px);
+          transition: opacity 0.35s ease, transform 0.35s ease;
+          transition-delay: calc(var(--delay, 0s) + 0.15s);
         }
         
-        .icons-showcase-grid.visible .showcase-frame-label {
+        .icons-showcase-grid.visible .showcase-card-label {
           opacity: 1;
           transform: translateY(0);
         }
@@ -1526,10 +1487,10 @@ export default function Creative() {
           .gallery-card-icon { width: 72px; height: 72px; border-radius: 18px; }
           .gallery-card-name { font-size: 12px; max-width: 80px; }
           .expanded-content { width: 340px; height: 340px; border-radius: 26px; }
-          .icons-showcase-grid { gap: 18px; }
-          .showcase-frame-glass { width: 62px; height: 62px; border-radius: 16px; }
-          .showcase-frame-inner svg { width: 34px; height: 34px; }
-          .showcase-frame-label { font-size: 10px; }
+          .icons-showcase-grid { gap: 14px; }
+          .showcase-card-inner { width: 64px; height: 80px; border-radius: 12px; }
+          .showcase-card-inner svg { width: 42px; height: 42px; }
+          .showcase-card-label { font-size: 10px; }
         }
         
         @media (min-width: 900px) {
@@ -1546,10 +1507,10 @@ export default function Creative() {
           .gallery-grid.grid-2 { grid-template-columns: repeat(2, 100px); gap: 24px; }
           .gallery-card-icon { width: 82px; height: 82px; border-radius: 20px; }
           .gallery-card-name { font-size: 13px; max-width: 90px; }
-          .icons-showcase-grid { gap: 22px; }
-          .showcase-frame-glass { width: 72px; height: 72px; border-radius: 18px; }
-          .showcase-frame-inner svg { width: 40px; height: 40px; }
-          .showcase-frame-label { font-size: 11px; }
+          .icons-showcase-grid { gap: 18px; }
+          .showcase-card-inner { width: 72px; height: 90px; border-radius: 14px; }
+          .showcase-card-inner svg { width: 48px; height: 48px; }
+          .showcase-card-label { font-size: 11px; }
         }
         
         canvas { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
