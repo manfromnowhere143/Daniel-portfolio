@@ -86,6 +86,9 @@ export default function Work() {
   const [bridgePhase, setBridgePhase] = useState<'idle' | 'loading' | 'transitioning'>('idle');
   const [pendingImage, setPendingImage] = useState<{src: string, name: string} | null>(null);
 
+  // STATE OF THE ART - Image cache to skip loading spinner for already-loaded images
+  const loadedImagesRef = useRef<Set<string>>(new Set());
+
   const folderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const expandedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const galleryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -325,30 +328,49 @@ export default function Work() {
   const handleOpenImage = useCallback((image: {src: string, name: string}) => {
     if (imageAnimState !== 'idle' || bridgePhase !== 'idle') return;
 
-    setPendingImage(image);
-    setBridgePhase('loading');
+    // STATE OF THE ART - Check if image is already cached
+    const isAlreadyLoaded = loadedImagesRef.current.has(image.src);
 
-    const img = new Image();
-    const showImage = () => {
+    if (isAlreadyLoaded) {
+      // INSTANT transition - no spinner needed, image is cached
       setExpandedImage(image);
       setImageAnimState('entering');
 
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setImageAnimState('active');
-          setBridgePhase('transitioning');
-
-          setTimeout(() => {
-            setBridgePhase('idle');
-            setPendingImage(null);
-          }, 450);
         });
       });
-    };
+    } else {
+      // FIRST TIME - show spinner while preloading
+      setPendingImage(image);
+      setBridgePhase('loading');
 
-    img.onload = showImage;
-    img.onerror = showImage;
-    img.src = image.src;
+      const img = new Image();
+      const showImage = () => {
+        // Mark as loaded for future opens
+        loadedImagesRef.current.add(image.src);
+
+        setExpandedImage(image);
+        setImageAnimState('entering');
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setImageAnimState('active');
+            setBridgePhase('transitioning');
+
+            setTimeout(() => {
+              setBridgePhase('idle');
+              setPendingImage(null);
+            }, 450);
+          });
+        });
+      };
+
+      img.onload = showImage;
+      img.onerror = showImage;
+      img.src = image.src;
+    }
   }, [imageAnimState, bridgePhase]);
 
   const handleCloseImage = useCallback(() => {
