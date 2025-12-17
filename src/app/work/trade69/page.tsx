@@ -7,7 +7,7 @@ import Trade69Architecture from "@/components/Trade69Architecture";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // STATE OF THE ART - TRADE69 PAGE
-// Premium iOS-style gallery with glassmorphism and smooth transitions
+// Premium iOS-style gallery with sphere proportions and compact layout
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const galleryImages = [
@@ -42,14 +42,29 @@ const intelligenceSteps = [
 type AnimationState = 'idle' | 'entering' | 'active' | 'exiting';
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// STATE OF THE ART - GLOBAL CLEANUP FUNCTION
+// GLOBAL CLEANUP FUNCTION
 // ═══════════════════════════════════════════════════════════════════════════════
 const restoreScroll = () => {
+  const savedScrollY = (window as any).__t69ScrollY || 0;
+  document.body.style.paddingRight = '';
   document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.left = '';
+  document.body.style.right = '';
+  document.body.style.height = '';
+  document.body.style.width = '';
   document.documentElement.style.overflow = '';
+
   if ((window as any).__t69Cleanup) {
     (window as any).__t69Cleanup();
     delete (window as any).__t69Cleanup;
+  }
+
+  if ((window as any).__t69ScrollY !== undefined) {
+    window.scrollTo(0, savedScrollY);
+    delete (window as any).__t69ScrollY;
+    delete (window as any).__t69ScrollbarWidth;
   }
 };
 
@@ -64,9 +79,17 @@ export default function Trade69() {
   const [videoDuration, setVideoDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
 
-  // Gallery folder states (iOS-style)
+  // Gallery folder states
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [galleryAnimState, setGalleryAnimState] = useState<AnimationState>('idle');
+
+  // Architecture expanded state
+  const [archOpen, setArchOpen] = useState(false);
+  const [archAnimState, setArchAnimState] = useState<AnimationState>('idle');
+
+  // 3D Mermaid expanded state
+  const [mermaidOpen, setMermaidOpen] = useState(false);
+  const [mermaidAnimState, setMermaidAnimState] = useState<AnimationState>('idle');
 
   // Image expansion states
   const [expandedImage, setExpandedImage] = useState<{ src: string } | null>(null);
@@ -81,6 +104,8 @@ export default function Trade69() {
 
   const videoTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const galleryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const archTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const mermaidTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const imageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const bridgeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -100,25 +125,44 @@ export default function Trade69() {
     return () => {
       if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
       if (galleryTimeoutRef.current) clearTimeout(galleryTimeoutRef.current);
+      if (archTimeoutRef.current) clearTimeout(archTimeoutRef.current);
+      if (mermaidTimeoutRef.current) clearTimeout(mermaidTimeoutRef.current);
       if (imageTimeoutRef.current) clearTimeout(imageTimeoutRef.current);
       if (bridgeTimeoutRef.current) clearTimeout(bridgeTimeoutRef.current);
       restoreScroll();
     };
   }, []);
 
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // SCROLL LOCK
+  // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
     const isOpen = videoAnimState !== 'idle' || galleryAnimState !== 'idle' ||
+                   archAnimState !== 'idle' || mermaidAnimState !== 'idle' ||
                    imageAnimState !== 'idle' || bridgePhase !== 'idle';
 
     if (isOpen) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      const scrollY = window.scrollY;
+
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
       document.documentElement.style.overflow = 'hidden';
+
+      (window as any).__t69ScrollY = scrollY;
+      (window as any).__t69ScrollbarWidth = scrollbarWidth;
 
       const blockAllTouch = (e: TouchEvent) => {
         const target = e.target as HTMLElement;
         if (target.closest('.video-player-container')) return;
         if (target.closest('.image-expanded-content')) return;
         if (target.closest('.gallery-container')) return;
+        if (target.closest('.arch-expanded-content')) return;
+        if (target.closest('.mermaid-expanded-content')) return;
         e.preventDefault();
         e.stopPropagation();
       };
@@ -128,6 +172,8 @@ export default function Trade69() {
         if (target.closest('.video-player-container')) return;
         if (target.closest('.image-expanded-content')) return;
         if (target.closest('.gallery-container')) return;
+        if (target.closest('.arch-expanded-content')) return;
+        if (target.closest('.mermaid-expanded-content')) return;
         e.preventDefault();
         e.stopPropagation();
       };
@@ -138,6 +184,17 @@ export default function Trade69() {
       (window as any).__t69Cleanup = () => {
         document.removeEventListener('touchmove', blockAllTouch, { capture: true } as any);
         document.removeEventListener('wheel', blockWheel, { capture: true } as any);
+        const savedScrollY = (window as any).__t69ScrollY || 0;
+        document.body.style.paddingRight = '';
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.documentElement.style.overflow = '';
+        window.scrollTo(0, savedScrollY);
+        delete (window as any).__t69ScrollY;
+        delete (window as any).__t69ScrollbarWidth;
       };
 
     } else {
@@ -149,7 +206,7 @@ export default function Trade69() {
         (window as any).__t69Cleanup();
       }
     };
-  }, [videoAnimState, galleryAnimState, imageAnimState, bridgePhase]);
+  }, [videoAnimState, galleryAnimState, archAnimState, mermaidAnimState, imageAnimState, bridgePhase]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // VIDEO HANDLERS
@@ -235,7 +292,7 @@ export default function Trade69() {
   };
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // GALLERY HANDLERS (iOS-style folder)
+  // GALLERY HANDLERS
   // ═══════════════════════════════════════════════════════════════════════════════
 
   const handleOpenGallery = useCallback(() => {
@@ -257,6 +314,50 @@ export default function Trade69() {
   }, [galleryAnimState]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
+  // ARCHITECTURE HANDLERS
+  // ═══════════════════════════════════════════════════════════════════════════════
+
+  const handleOpenArch = useCallback(() => {
+    if (archAnimState !== 'idle') return;
+    setArchOpen(true);
+    setArchAnimState('entering');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setArchAnimState('active'));
+    });
+  }, [archAnimState]);
+
+  const handleCloseArch = useCallback(() => {
+    if (archAnimState !== 'active') return;
+    setArchAnimState('exiting');
+    archTimeoutRef.current = setTimeout(() => {
+      setArchOpen(false);
+      setArchAnimState('idle');
+    }, 350);
+  }, [archAnimState]);
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // MERMAID HANDLERS
+  // ═══════════════════════════════════════════════════════════════════════════════
+
+  const handleOpenMermaid = useCallback(() => {
+    if (mermaidAnimState !== 'idle') return;
+    setMermaidOpen(true);
+    setMermaidAnimState('entering');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setMermaidAnimState('active'));
+    });
+  }, [mermaidAnimState]);
+
+  const handleCloseMermaid = useCallback(() => {
+    if (mermaidAnimState !== 'active') return;
+    setMermaidAnimState('exiting');
+    mermaidTimeoutRef.current = setTimeout(() => {
+      setMermaidOpen(false);
+      setMermaidAnimState('idle');
+    }, 350);
+  }, [mermaidAnimState]);
+
+  // ═══════════════════════════════════════════════════════════════════════════════
   // IMAGE EXPANSION HANDLERS
   // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -266,7 +367,6 @@ export default function Trade69() {
     const isAlreadyLoaded = loadedImagesRef.current.has(image.src);
 
     if (isAlreadyLoaded) {
-      // Close gallery first, then show image
       if (galleryAnimState === 'active') {
         setGalleryAnimState('exiting');
         galleryTimeoutRef.current = setTimeout(() => {
@@ -289,7 +389,6 @@ export default function Trade69() {
     } else {
       setBridgePhase('loading');
 
-      // Close gallery
       if (galleryAnimState === 'active') {
         setGalleryAnimState('exiting');
         galleryTimeoutRef.current = setTimeout(() => {
@@ -332,18 +431,13 @@ export default function Trade69() {
     }, 400);
   }, [imageAnimState]);
 
-  // ═══════════════════════════════════════════════════════════════════════════════
-  // ANIMATION CLASS HELPERS
-  // ═══════════════════════════════════════════════════════════════════════════════
-
-  const getVideoAnimClass = () => videoAnimState === 'idle' ? '' : videoAnimState;
-  const getGalleryAnimClass = () => galleryAnimState === 'idle' ? '' : galleryAnimState;
-  const getImageAnimClass = () => imageAnimState === 'idle' ? '' : imageAnimState;
+  const getAnimClass = (state: AnimationState) => state === 'idle' ? '' : state;
 
   return (
     <>
       <style>{`
         * { -webkit-tap-highlight-color: transparent; }
+        html { scrollbar-gutter: stable; }
         
         .t69-page {
           padding-top: 60px;
@@ -352,10 +446,14 @@ export default function Trade69() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
         }
         
+        /* ═══════════════════════════════════════════════════════════════════════════════
+           HERO - COMPACT
+           ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .t69-hero {
           max-width: 1200px;
           margin: 0 auto;
-          padding: clamp(40px, 8vh, 80px) 24px clamp(50px, 8vh, 80px);
+          padding: 20px 20px 16px;
           text-align: center;
           opacity: 0;
           transform: translateY(20px);
@@ -368,24 +466,28 @@ export default function Trade69() {
         }
         
         .t69-hero-image {
-          max-width: clamp(320px, 80vw, 640px);
+          max-width: clamp(260px, 65vw, 500px);
           margin: 0 auto;
-          border-radius: 16px;
+          border-radius: 14px;
           overflow: hidden;
-          box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 50px 120px rgba(0, 0, 0, 0.7), 0 25px 60px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 40px 100px rgba(0, 0, 0, 0.7), 0 20px 50px rgba(0, 0, 0, 0.5);
         }
         
+        /* ═══════════════════════════════════════════════════════════════════════════════
+           VIDEO SECTION - COMPACT
+           ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .t69-video-section {
-          max-width: 900px;
+          max-width: 700px;
           margin: 0 auto;
-          padding: 0 24px clamp(80px, 12vh, 120px);
+          padding: 0 20px 20px;
         }
         
         .t69-video-container {
           position: relative;
-          border-radius: 16px;
+          border-radius: 14px;
           overflow: hidden;
-          box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 40px 100px rgba(0, 0, 0, 0.6);
+          box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 30px 80px rgba(0, 0, 0, 0.6);
           background: #000;
         }
         
@@ -396,10 +498,10 @@ export default function Trade69() {
         
         .t69-video-expand-btn {
           position: absolute;
-          bottom: 16px;
-          right: 16px;
-          width: 44px;
-          height: 44px;
+          bottom: 12px;
+          right: 12px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
           background: rgba(0, 0, 0, 0.6);
           backdrop-filter: blur(20px);
@@ -426,46 +528,39 @@ export default function Trade69() {
         }
         
         .t69-video-expand-btn svg {
-          width: 18px;
-          height: 18px;
+          width: 16px;
+          height: 16px;
           color: white;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════
-           STATE OF THE ART - iOS-STYLE GALLERY FOLDER BUTTON
+           FOLDERS ROW - Screenshots + 3D Architecture in one line
            ═══════════════════════════════════════════════════════════════════════════════ */
         
-        .t69-gallery-section {
-          max-width: 1100px;
+        .t69-folders-section {
+          max-width: 600px;
           margin: 0 auto;
-          padding: clamp(40px, 6vh, 60px) 24px clamp(100px, 15vh, 150px);
+          padding: 16px 20px 24px;
+        }
+        
+        .t69-folders-row {
+          display: flex;
+          justify-content: center;
+          gap: clamp(32px, 7vw, 64px);
+        }
+        
+        .folder-wrapper {
           display: flex;
           flex-direction: column;
           align-items: center;
+          gap: 8px;
         }
         
-        .t69-section-label {
-          font-size: 11px;
-          font-weight: 400;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: rgba(250, 250, 248, 0.35);
-          text-align: center;
-          margin-bottom: clamp(24px, 4vh, 36px);
-        }
-        
-        .gallery-folder-wrapper {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 10px;
-        }
-        
-        .gallery-folder-icon {
+        .folder-icon {
           position: relative;
-          width: 115px;
-          height: 115px;
-          border-radius: 28px;
+          width: 80px;
+          height: 80px;
+          border-radius: 20px;
           background: rgba(40, 40, 45, 0.65);
           backdrop-filter: blur(30px) saturate(180%);
           -webkit-backdrop-filter: blur(30px) saturate(180%);
@@ -475,21 +570,17 @@ export default function Trade69() {
           cursor: pointer;
           overflow: hidden;
           opacity: 0;
-          transform: translateZ(0) scale(0.85) translateY(15px);
+          transform: translateZ(0) scale(0.85) translateY(12px);
           transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease;
           box-shadow: 
             0 0 0 0.5px rgba(255, 255, 255, 0.08),
-            0 0 40px rgba(0, 0, 0, 0.5),
-            0 8px 32px rgba(0, 0, 0, 0.6),
-            0 2px 8px rgba(0, 0, 0, 0.4),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+            0 0 30px rgba(0, 0, 0, 0.5),
+            0 6px 24px rgba(0, 0, 0, 0.6),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1);
           border: 1px solid rgba(255, 255, 255, 0.04);
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
         }
         
-        .gallery-folder-icon::before {
+        .folder-icon::before {
           content: '';
           position: absolute;
           top: 0;
@@ -497,121 +588,105 @@ export default function Trade69() {
           right: 8%;
           height: 45%;
           background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 100%);
-          border-radius: 28px 28px 50% 50%;
+          border-radius: 20px 20px 50% 50%;
           pointer-events: none;
           z-index: 10;
         }
         
-        .gallery-folder-icon.loaded {
+        .folder-icon.loaded {
           opacity: 1;
           transform: translateZ(0) scale(1) translateY(0);
         }
         
-        .gallery-folder-icon:active {
+        .folder-icon:active {
           transform: translateZ(0) scale(0.95) translateY(0);
         }
         
-        .gallery-folder-preview {
+        .folder-preview {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 5px;
-          width: 88px;
-          height: 88px;
+          gap: 3px;
+          width: 60px;
+          height: 60px;
           position: relative;
           z-index: 5;
         }
         
-        .gallery-mini-thumb {
-          width: 41px;
-          height: 41px;
-          border-radius: 9px;
+        .folder-mini-thumb {
+          width: 28px;
+          height: 28px;
+          border-radius: 6px;
           overflow: hidden;
           position: relative;
           box-shadow: 
-            0 0 15px rgba(0, 0, 0, 0.3),
-            0 4px 12px rgba(0, 0, 0, 0.5),
-            0 1px 3px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+            0 0 10px rgba(0, 0, 0, 0.3),
+            0 3px 10px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
         
-        .gallery-mini-thumb::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 5%;
-          right: 5%;
-          height: 40%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
-          border-radius: 9px 9px 50% 50%;
-          pointer-events: none;
-          z-index: 5;
-        }
-        
-        .gallery-mini-thumb img {
+        .folder-mini-thumb img {
           width: 100%;
           height: 100%;
           object-fit: cover;
         }
         
-        .gallery-folder-name {
-          font-size: 12px;
-          font-weight: 400;
-          color: #FAFAF8;
+        .arch-preview {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 60px;
+          height: 60px;
+        }
+        
+        .arch-preview svg {
+          width: 36px;
+          height: 36px;
+          color: rgba(255, 255, 255, 0.85);
+        }
+        
+        .folder-name {
+          font-size: 10px;
+          font-weight: 500;
+          color: #FFFFFF;
           letter-spacing: 0.02em;
           text-align: center;
           opacity: 0;
-          transform: translateY(8px);
+          transform: translateY(6px);
           transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
           text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
         }
         
-        .gallery-folder-name.loaded {
+        .folder-name.loaded {
           opacity: 1;
           transform: translateY(0);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════
-           STATE OF THE ART - GALLERY OVERLAY (iOS-style folder expansion)
+           GALLERY OVERLAY - SPHERE PROPORTIONS (320x320 centered)
            ═══════════════════════════════════════════════════════════════════════════════ */
         
         .gallery-overlay {
           position: fixed;
           inset: 0;
-          z-index: 1000;
+          z-index: 10000;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 24px;
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
+          overflow: hidden;
+          touch-action: none;
         }
         
-        .gallery-overlay.entering { 
-          visibility: visible; 
-          pointer-events: auto; 
-          opacity: 0; 
-        }
-        
-        .gallery-overlay.active { 
-          visibility: visible; 
-          pointer-events: auto; 
-          opacity: 1; 
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); 
-        }
-        
-        .gallery-overlay.exiting { 
-          visibility: visible; 
-          pointer-events: none; 
-          opacity: 0; 
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); 
-        }
+        .gallery-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .gallery-overlay.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        .gallery-overlay.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
         
         .gallery-overlay-bg {
           position: absolute;
           inset: 0;
-          background: rgba(8, 8, 10, 0.8);
+          background: rgba(5, 5, 6, 0.92);
           backdrop-filter: blur(50px) saturate(150%);
           -webkit-backdrop-filter: blur(50px) saturate(150%);
         }
@@ -619,40 +694,41 @@ export default function Trade69() {
         .gallery-container {
           position: relative;
           z-index: 2;
-          background: rgba(250, 250, 248, 0.97);
+          width: 320px;
+          height: 320px;
+          background: rgba(255, 255, 255, 0.97);
           backdrop-filter: blur(25px);
           -webkit-backdrop-filter: blur(25px);
           border-radius: 28px;
           padding: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           opacity: 0;
-          transform: scale(0.85) translateY(20px);
+          transform: scale(0.85);
           transition: none;
           box-shadow: 
             0 0 60px rgba(255, 255, 255, 0.08),
             0 25px 80px rgba(0, 0, 0, 0.5),
-            0 10px 30px rgba(0, 0, 0, 0.4),
             inset 0 1px 1px rgba(255, 255, 255, 0.9);
-          max-width: calc(100vw - 48px);
         }
         
         .gallery-overlay.active .gallery-container {
           opacity: 1;
-          transform: scale(1) translateY(0);
-          transition: 
-            opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.02s,
-            transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.02s;
+          transform: scale(1);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.02s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.02s;
         }
         
         .gallery-overlay.exiting .gallery-container {
           opacity: 0;
-          transform: scale(0.9) translateY(10px);
+          transform: scale(0.9);
           transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
         .gallery-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 12px;
+          gap: 10px;
           touch-action: manipulation;
         }
         
@@ -662,7 +738,7 @@ export default function Trade69() {
           align-items: center;
           cursor: pointer;
           opacity: 0;
-          transform: translateZ(0) scale(0.7) translateY(12px);
+          transform: translateZ(0) scale(0.7) translateY(10px);
           transition: none;
           touch-action: manipulation;
         }
@@ -688,30 +764,15 @@ export default function Trade69() {
         .gallery-overlay.active .gallery-item:nth-child(7) { transition-delay: 0.14s; }
         
         .gallery-item-thumb {
-          width: 70px;
-          height: 70px;
-          border-radius: 15px;
+          width: 80px;
+          height: 80px;
+          border-radius: 14px;
           overflow: hidden;
           position: relative;
           box-shadow: 
-            0 0 20px rgba(0, 0, 0, 0.15),
-            0 6px 20px rgba(0, 0, 0, 0.45),
-            0 12px 40px rgba(0, 0, 0, 0.25),
-            inset 0 1px 1px rgba(255, 255, 255, 0.25),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.25);
-        }
-        
-        .gallery-item-thumb::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 8%;
-          right: 8%;
-          height: 35%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
-          border-radius: 15px 15px 50% 50%;
-          pointer-events: none;
-          z-index: 10;
+            0 0 15px rgba(0, 0, 0, 0.15),
+            0 4px 16px rgba(0, 0, 0, 0.4),
+            inset 0 1px 1px rgba(255, 255, 255, 0.25);
         }
         
         .gallery-item-thumb img {
@@ -726,103 +787,60 @@ export default function Trade69() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════
-           STATE OF THE ART - IMAGE EXPANDED VIEW (CINEMA MODE)
+           ARCHITECTURE EXPANDED - SPHERE PROPORTIONS
            ═══════════════════════════════════════════════════════════════════════════════ */
         
-        .image-expanded {
+        .arch-expanded {
           position: fixed;
           inset: 0;
-          z-index: 2000;
-          background: rgba(0, 0, 0, 0.96);
-          backdrop-filter: blur(40px) saturate(120%);
-          -webkit-backdrop-filter: blur(40px) saturate(120%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 60px 24px 100px;
-          opacity: 0;
-          visibility: hidden;
-          pointer-events: none;
-        }
-        
-        .image-expanded.entering { 
-          visibility: visible; 
-          pointer-events: auto; 
-          opacity: 0; 
-        }
-        
-        .image-expanded.active { 
-          visibility: visible; 
-          pointer-events: auto; 
-          opacity: 1; 
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); 
-        }
-        
-        .image-expanded.exiting { 
-          visibility: visible; 
-          pointer-events: none; 
-          opacity: 0; 
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); 
-        }
-        
-        .image-expanded-inner {
+          z-index: 10000;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          width: 100%;
-          height: 100%;
-        }
-        
-        .image-expanded-content {
-          position: relative;
-          width: auto;
-          height: auto;
-          max-width: min(92vw, 900px);
-          max-height: calc(100vh - 180px);
-          border-radius: 20px;
+          background: rgba(5, 5, 6, 0.96);
+          backdrop-filter: blur(50px) saturate(150%);
+          -webkit-backdrop-filter: blur(50px) saturate(150%);
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
           overflow: hidden;
-          background: #0a0a0a;
+          touch-action: none;
+        }
+        
+        .arch-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .arch-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .arch-expanded.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        
+        .arch-expanded-content {
+          width: 320px;
+          height: 320px;
+          overflow: auto;
           opacity: 0;
-          transform: scale(0.85) translateY(20px);
+          transform: scale(0.85);
           transition: none;
-          box-shadow: 
-            0 0 0 1px rgba(255, 255, 255, 0.08),
-            0 0 80px rgba(0, 0, 0, 0.8),
-            0 40px 100px rgba(0, 0, 0, 0.6),
-            0 20px 50px rgba(0, 0, 0, 0.5);
+          -webkit-overflow-scrolling: touch;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         
-        .image-expanded.active .image-expanded-content {
+        .arch-expanded.active .arch-expanded-content {
           opacity: 1;
-          transform: scale(1) translateY(0);
-          transition: 
-            opacity 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0.08s, 
-            transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
+          transform: scale(1);
+          transition: opacity 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0.08s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
         }
         
-        .image-expanded.exiting .image-expanded-content {
+        .arch-expanded.exiting .arch-expanded-content {
           opacity: 0;
-          transform: scale(0.92) translateY(10px);
+          transform: scale(0.92);
           transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
-        .image-expanded-content img {
-          display: block;
-          width: auto;
-          height: auto;
-          max-width: min(92vw, 900px);
-          max-height: calc(100vh - 180px);
-          object-fit: contain;
-        }
-        
-        .image-expanded-close {
-          position: fixed;
-          bottom: 40px;
-          left: 50%;
-          transform: translateX(-50%) scale(0.5);
-          width: 56px;
-          height: 56px;
+        .arch-expanded-close {
+          margin-top: 20px;
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
           background: rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(30px);
@@ -833,38 +851,380 @@ export default function Trade69() {
           justify-content: center;
           cursor: pointer;
           opacity: 0;
+          transform: scale(0.5);
           transition: none;
+        }
+        
+        .arch-expanded.active .arch-expanded-close {
+          opacity: 1;
+          transform: scale(1);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.25s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s;
+        }
+        
+        .arch-expanded.exiting .arch-expanded-close {
+          opacity: 0;
+          transform: scale(0.7);
+          transition: opacity 0.15s ease, transform 0.2s ease;
+        }
+        
+        .arch-expanded-close:hover { background: rgba(255, 255, 255, 0.2); }
+        .arch-expanded-close svg { color: white; }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════
+           MERMAID 3D EXPANDED - SPHERE PROPORTIONS
+           ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .mermaid-expanded {
+          position: fixed;
+          inset: 0;
+          z-index: 10000;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background: rgba(5, 5, 6, 0.96);
+          backdrop-filter: blur(50px) saturate(150%);
+          -webkit-backdrop-filter: blur(50px) saturate(150%);
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+          overflow: hidden;
+          touch-action: none;
+        }
+        
+        .mermaid-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .mermaid-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .mermaid-expanded.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        
+        .mermaid-expanded-content {
+          width: 320px;
+          height: 320px;
+          background: rgba(20, 20, 25, 0.9);
+          border-radius: 24px;
+          overflow: auto;
+          opacity: 0;
+          transform: scale(0.85);
+          transition: none;
+          -webkit-overflow-scrolling: touch;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           box-shadow: 
-            0 4px 20px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            0 0 60px rgba(255, 255, 255, 0.05),
+            0 25px 80px rgba(0, 0, 0, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+        
+        .mermaid-expanded.active .mermaid-expanded-content {
+          opacity: 1;
+          transform: scale(1);
+          transition: opacity 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0.08s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
+        }
+        
+        .mermaid-expanded.exiting .mermaid-expanded-content {
+          opacity: 0;
+          transform: scale(0.92);
+          transition: opacity 0.25s ease, transform 0.3s ease;
+        }
+        
+        .mermaid-expanded-close {
+          margin-top: 20px;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          opacity: 0;
+          transform: scale(0.5);
+          transition: none;
+        }
+        
+        .mermaid-expanded.active .mermaid-expanded-close {
+          opacity: 1;
+          transform: scale(1);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.25s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s;
+        }
+        
+        .mermaid-expanded.exiting .mermaid-expanded-close {
+          opacity: 0;
+          transform: scale(0.7);
+          transition: opacity 0.15s ease, transform 0.2s ease;
+        }
+        
+        .mermaid-expanded-close:hover { background: rgba(255, 255, 255, 0.2); }
+        .mermaid-expanded-close svg { color: white; }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════
+           IMAGE EXPANDED - SPHERE PROPORTIONS
+           ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .image-expanded {
+          position: fixed;
+          inset: 0;
+          z-index: 20000;
+          background: rgba(5, 5, 6, 0.97);
+          backdrop-filter: blur(50px) saturate(150%);
+          -webkit-backdrop-filter: blur(50px) saturate(150%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+          overflow: hidden;
+          touch-action: none;
+        }
+        
+        .image-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .image-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .image-expanded.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        
+        .image-expanded-inner {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .image-expanded-content {
+          width: 320px;
+          height: 320px;
+          border-radius: 20px;
+          overflow: hidden;
+          background: #0a0a0a;
+          opacity: 0;
+          transform: scale(0.85);
+          transition: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.08),
+            0 0 80px rgba(0, 0, 0, 0.8),
+            0 40px 100px rgba(0, 0, 0, 0.6);
+        }
+        
+        .image-expanded.active .image-expanded-content {
+          opacity: 1;
+          transform: scale(1);
+          transition: opacity 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0.08s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
+        }
+        
+        .image-expanded.exiting .image-expanded-content {
+          opacity: 0;
+          transform: scale(0.92);
+          transition: opacity 0.25s ease, transform 0.3s ease;
+        }
+        
+        .image-expanded-content img {
+          display: block;
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+        }
+        
+        .image-expanded-close {
+          margin-top: 20px;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          opacity: 0;
+          transform: scale(0.5);
+          transition: none;
         }
         
         .image-expanded.active .image-expanded-close {
           opacity: 1;
-          transform: translateX(-50%) scale(1);
-          transition: 
-            opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.25s, 
-            transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s;
+          transform: scale(1);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.25s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s;
         }
         
         .image-expanded.exiting .image-expanded-close {
           opacity: 0;
-          transform: translateX(-50%) scale(0.7);
+          transform: scale(0.7);
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        .image-expanded-close:hover {
+        .image-expanded-close:hover { background: rgba(255, 255, 255, 0.2); }
+        .image-expanded-close svg { color: white; filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════
+           VIDEO OVERLAY - SPHERE PROPORTIONS
+           ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .video-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 30000;
+          background: rgba(5, 5, 6, 0.98);
+          backdrop-filter: blur(50px) saturate(150%);
+          -webkit-backdrop-filter: blur(50px) saturate(150%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+          overflow: hidden;
+          touch-action: none;
+        }
+        
+        .video-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .video-overlay.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .video-overlay.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        
+        .video-player-wrapper {
+          width: 320px;
+          opacity: 0;
+          transform: scale(0.85);
+          transition: none;
+        }
+        
+        .video-overlay.active .video-player-wrapper {
+          opacity: 1;
+          transform: scale(1);
+          transition: opacity 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0.08s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
+        }
+        
+        .video-overlay.exiting .video-player-wrapper {
+          opacity: 0;
+          transform: scale(0.94);
+          transition: opacity 0.25s ease, transform 0.3s ease;
+        }
+        
+        .video-player-container {
+          position: relative;
+          border-radius: 18px;
+          overflow: hidden;
+          background: #000;
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.08),
+            0 0 80px rgba(0, 0, 0, 0.8),
+            0 40px 100px rgba(0, 0, 0, 0.7);
+        }
+        
+        .video-player-container video {
+          width: 100%;
+          display: block;
+          cursor: pointer;
+        }
+        
+        .video-controls {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          padding: 24px 16px 14px;
+          background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+        
+        .video-progress-bar {
+          width: 100%;
+          height: 4px;
           background: rgba(255, 255, 255, 0.2);
+          border-radius: 2px;
+          cursor: pointer;
+          overflow: hidden;
+          position: relative;
         }
         
-        .image-expanded-close:active {
-          transform: translateX(-50%) scale(0.92);
+        .video-progress-fill {
+          height: 100%;
+          background: #FFFFFF;
+          border-radius: 2px;
+          transition: width 0.1s linear;
         }
         
-        .image-expanded-close svg {
-          color: white;
-          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+        .video-controls-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
         }
+        
+        .video-controls-left {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        
+        .video-control-btn {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: transparent;
+          border: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: background 0.2s ease, transform 0.15s ease;
+        }
+        
+        .video-control-btn:hover { background: rgba(255, 255, 255, 0.12); }
+        .video-control-btn:active { transform: scale(0.9); }
+        .video-control-btn svg { width: 18px; height: 18px; color: white; }
+        .video-control-btn.play-btn svg { width: 22px; height: 22px; }
+        
+        .video-time {
+          font-size: 11px;
+          font-weight: 500;
+          color: #FFFFFF;
+          font-family: 'SF Mono', Monaco, monospace;
+          letter-spacing: 0.03em;
+          margin-left: 8px;
+        }
+        
+        .video-close-btn {
+          margin-top: 20px;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          opacity: 0;
+          transform: scale(0.5);
+          transition: none;
+        }
+        
+        .video-overlay.active .video-close-btn {
+          opacity: 1;
+          transform: scale(1);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.3s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
+        }
+        
+        .video-overlay.exiting .video-close-btn {
+          opacity: 0;
+          transform: scale(0.7);
+          transition: opacity 0.15s ease, transform 0.2s ease;
+        }
+        
+        .video-close-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        .video-close-btn svg { width: 20px; height: 20px; color: white; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════
            TRANSITION BRIDGE
@@ -872,12 +1232,9 @@ export default function Trade69() {
         
         .transition-bridge {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          inset: 0;
           background: #050506;
-          z-index: 2500;
+          z-index: 25000;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -886,8 +1243,6 @@ export default function Trade69() {
           visibility: hidden;
           pointer-events: none;
           touch-action: none;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
           will-change: opacity;
           transition: opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.25s;
         }
@@ -907,13 +1262,12 @@ export default function Trade69() {
         }
         
         .bridge-spinner {
-          width: 44px;
-          height: 44px;
+          width: 40px;
+          height: 40px;
           border: 2px solid rgba(255, 255, 255, 0.08);
           border-top-color: rgba(255, 255, 255, 0.8);
           border-radius: 50%;
           animation: bridgeSpin 0.9s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite;
-          filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
         }
         
         @keyframes bridgeSpin {
@@ -921,256 +1275,41 @@ export default function Trade69() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════
-           STATE OF THE ART - VIDEO OVERLAY (THEATER MODE)
+           CONTENT SECTIONS - COMPACT PADDING
            ═══════════════════════════════════════════════════════════════════════════════ */
         
-        .video-overlay {
-          position: fixed;
-          inset: 0;
-          z-index: 9999;
-          background: rgba(0, 0, 0, 0.97);
-          backdrop-filter: blur(50px) saturate(120%);
-          -webkit-backdrop-filter: blur(50px) saturate(120%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 60px 20px 100px;
-          opacity: 0;
-          visibility: hidden;
-          pointer-events: none;
-        }
-        
-        .video-overlay.entering { 
-          visibility: visible; 
-          pointer-events: auto;
-          opacity: 0; 
-        }
-        
-        .video-overlay.active { 
-          visibility: visible; 
-          pointer-events: auto;
-          opacity: 1; 
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); 
-        }
-        
-        .video-overlay.exiting { 
-          visibility: visible; 
-          pointer-events: none;
-          opacity: 0; 
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); 
-        }
-        
-        .video-player-wrapper {
-          width: 100%;
-          max-width: 1000px;
-          opacity: 0;
-          transform: scale(0.88) translateY(20px);
-          transition: none;
-        }
-        
-        .video-overlay.active .video-player-wrapper {
-          opacity: 1;
-          transform: scale(1) translateY(0);
-          transition: 
-            opacity 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0.08s, 
-            transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
-        }
-        
-        .video-overlay.exiting .video-player-wrapper {
-          opacity: 0;
-          transform: scale(0.94) translateY(10px);
-          transition: opacity 0.25s ease, transform 0.3s ease;
-        }
-        
-        .video-player-container {
-          position: relative;
-          border-radius: 20px;
-          overflow: hidden;
-          background: #000;
-          box-shadow: 
-            0 0 0 1px rgba(255, 255, 255, 0.08),
-            0 0 100px rgba(0, 0, 0, 0.8),
-            0 50px 120px rgba(0, 0, 0, 0.7),
-            0 25px 60px rgba(0, 0, 0, 0.5);
-        }
-        
-        .video-player-container video {
-          width: 100%;
-          display: block;
-          cursor: pointer;
-        }
-        
-        .video-controls {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          padding: 30px 24px 20px;
-          background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-        
-        .video-progress-bar {
-          width: 100%;
-          height: 5px;
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 3px;
-          cursor: pointer;
-          overflow: hidden;
-          position: relative;
-        }
-        
-        .video-progress-bar::before {
-          content: '';
-          position: absolute;
-          inset: -8px 0;
-        }
-        
-        .video-progress-fill {
-          height: 100%;
-          background: #FFFFFF;
-          border-radius: 3px;
-          transition: width 0.1s linear;
-        }
-        
-        .video-controls-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-        
-        .video-controls-left {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-        
-        .video-control-btn {
-          width: 44px;
-          height: 44px;
-          border-radius: 50%;
-          background: transparent;
-          border: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: background 0.2s ease, transform 0.15s ease;
-        }
-        
-        .video-control-btn:hover { 
-          background: rgba(255, 255, 255, 0.12); 
-        }
-        
-        .video-control-btn:active { 
-          transform: scale(0.9); 
-        }
-        
-        .video-control-btn svg { 
-          width: 22px; 
-          height: 22px; 
-          color: white; 
-        }
-        
-        .video-control-btn.play-btn svg { 
-          width: 28px; 
-          height: 28px; 
-        }
-        
-        .video-time {
-          font-size: 13px;
-          font-weight: 400;
-          color: rgba(255, 255, 255, 0.65);
-          font-family: 'SF Mono', Monaco, monospace;
-          letter-spacing: 0.03em;
-          margin-left: 12px;
-        }
-        
-        .video-close-btn {
-          position: fixed;
-          bottom: 36px;
-          left: 50%;
-          transform: translateX(-50%) scale(0.5);
-          width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(30px);
-          -webkit-backdrop-filter: blur(30px);
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          opacity: 0;
-          transition: none;
-          box-shadow: 
-            0 4px 20px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-        
-        .video-overlay.active .video-close-btn {
-          opacity: 1;
-          transform: translateX(-50%) scale(1);
-          transition: 
-            opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.3s, 
-            transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
-        }
-        
-        .video-overlay.exiting .video-close-btn {
-          opacity: 0;
-          transform: translateX(-50%) scale(0.7);
-          transition: opacity 0.15s ease, transform 0.2s ease;
-        }
-        
-        .video-close-btn:hover { 
-          background: rgba(255, 255, 255, 0.2); 
-        }
-        
-        .video-close-btn:active {
-          transform: translateX(-50%) scale(0.92);
-        }
-        
-        .video-close-btn svg { 
-          width: 24px; 
-          height: 24px; 
-          color: white;
-          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════
-           OTHER SECTIONS
-           ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .t69-architecture-section {
-          max-width: 1000px;
-          margin: 0 auto;
-          padding: clamp(40px, 6vh, 60px) 24px clamp(100px, 15vh, 150px);
+        .t69-section-label {
+          font-size: 9px;
+          font-weight: 500;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: #FFFFFF;
+          opacity: 0.5;
+          text-align: center;
+          margin-bottom: 16px;
         }
         
         .t69-overview-section {
-          max-width: 720px;
+          max-width: 640px;
           margin: 0 auto;
-          padding: clamp(60px, 10vh, 100px) 24px clamp(100px, 15vh, 150px);
+          padding: 20px 20px 28px;
         }
         
         .t69-overview-text {
-          font-size: clamp(17px, 2.4vw, 22px);
+          font-size: clamp(15px, 2vw, 18px);
           font-weight: 300;
-          color: rgba(250, 250, 248, 0.75);
-          line-height: 1.85;
-          margin-bottom: clamp(24px, 4vh, 36px);
+          color: #FFFFFF;
+          line-height: 1.75;
+          margin-bottom: 14px;
         }
         
         .t69-overview-text:last-child { margin-bottom: 0; }
-        .t69-overview-text em { font-style: normal; color: #FAFAF8; font-weight: 400; }
+        .t69-overview-text em { font-style: normal; color: #FFFFFF; font-weight: 500; }
         
         .t69-data-section {
-          max-width: 800px;
+          max-width: 680px;
           margin: 0 auto;
-          padding: clamp(60px, 10vh, 100px) 24px;
+          padding: 20px 20px;
         }
         
         .t69-data-list {
@@ -1180,57 +1319,59 @@ export default function Trade69() {
         
         .t69-data-item {
           display: grid;
-          grid-template-columns: 32px 1fr 2fr;
-          gap: clamp(12px, 2vw, 24px);
+          grid-template-columns: 24px 1fr 2fr;
+          gap: clamp(8px, 1.5vw, 16px);
           align-items: baseline;
-          padding: clamp(16px, 2.5vh, 24px) 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+          padding: 10px 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
         
         .t69-data-item:last-child { border-bottom: none; }
         
         .t69-data-num {
-          font-size: 10px;
-          font-weight: 400;
-          color: rgba(250, 250, 248, 0.2);
-          font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+          font-size: 9px;
+          font-weight: 500;
+          color: #FFFFFF;
+          opacity: 0.4;
+          font-family: 'SF Mono', Monaco, monospace;
         }
         
         .t69-data-source {
-          font-size: clamp(14px, 1.8vw, 16px);
-          font-weight: 400;
-          color: rgba(250, 250, 248, 0.85);
+          font-size: clamp(12px, 1.5vw, 14px);
+          font-weight: 500;
+          color: #FFFFFF;
           letter-spacing: 0.01em;
         }
         
         .t69-data-desc {
-          font-size: clamp(13px, 1.5vw, 15px);
-          font-weight: 300;
-          color: rgba(250, 250, 248, 0.45);
-          line-height: 1.6;
+          font-size: clamp(11px, 1.3vw, 13px);
+          font-weight: 400;
+          color: #FFFFFF;
+          opacity: 0.7;
+          line-height: 1.5;
         }
         
         @media (max-width: 600px) {
           .t69-data-item {
-            grid-template-columns: 28px 1fr;
+            grid-template-columns: 22px 1fr;
             grid-template-rows: auto auto;
           }
           .t69-data-desc {
             grid-column: 2;
-            margin-top: 6px;
+            margin-top: 3px;
           }
         }
         
         .t69-intelligence-section {
-          max-width: 1000px;
+          max-width: 860px;
           margin: 0 auto;
-          padding: clamp(80px, 12vh, 140px) 24px;
+          padding: 28px 20px;
         }
         
         .t69-intelligence-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-          gap: clamp(48px, 7vw, 72px);
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: clamp(24px, 4vw, 40px);
         }
         
         .t69-intelligence-item {
@@ -1238,63 +1379,66 @@ export default function Trade69() {
         }
         
         .t69-intelligence-num {
-          width: 60px;
-          height: 60px;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.15);
           display: flex;
           align-items: center;
           justify-content: center;
-          margin: 0 auto clamp(20px, 3vh, 28px);
-          background: rgba(255, 255, 255, 0.02);
+          margin: 0 auto 12px;
+          background: rgba(255, 255, 255, 0.03);
         }
         
         .t69-intelligence-num span {
-          font-size: 13px;
-          font-weight: 300;
-          color: rgba(250, 250, 248, 0.5);
-          font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+          font-size: 11px;
+          font-weight: 400;
+          color: #FFFFFF;
+          opacity: 0.7;
+          font-family: 'SF Mono', Monaco, monospace;
         }
         
         .t69-intelligence-title {
-          font-size: clamp(15px, 1.8vw, 17px);
-          font-weight: 400;
-          color: #FAFAF8;
-          margin-bottom: 12px;
+          font-size: clamp(13px, 1.5vw, 15px);
+          font-weight: 500;
+          color: #FFFFFF;
+          margin-bottom: 8px;
           letter-spacing: 0.01em;
         }
         
         .t69-intelligence-desc {
-          font-size: 14px;
-          font-weight: 300;
-          color: rgba(250, 250, 248, 0.45);
-          line-height: 1.75;
-          max-width: 260px;
+          font-size: 12px;
+          font-weight: 400;
+          color: #FFFFFF;
+          opacity: 0.7;
+          line-height: 1.6;
+          max-width: 220px;
           margin: 0 auto;
         }
         
         .t69-stack-section {
-          max-width: 800px;
+          max-width: 660px;
           margin: 0 auto;
-          padding: clamp(80px, 12vh, 120px) 24px;
+          padding: 28px 20px;
           text-align: center;
         }
         
         .t69-stack-list {
-          font-size: clamp(13px, 1.5vw, 15px);
-          font-weight: 300;
-          color: rgba(250, 250, 248, 0.4);
-          line-height: 2.4;
-          letter-spacing: 0.04em;
+          font-size: clamp(11px, 1.3vw, 13px);
+          font-weight: 400;
+          color: #FFFFFF;
+          opacity: 0.6;
+          line-height: 2;
+          letter-spacing: 0.03em;
         }
         
         .t69-nav {
-          border-top: 1px solid rgba(255, 255, 255, 0.04);
-          padding: clamp(48px, 8vh, 72px) 24px;
+          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          padding: 24px 20px;
         }
         
         .t69-nav-inner {
-          max-width: 1000px;
+          max-width: 860px;
           margin: 0 auto;
           display: flex;
           justify-content: space-between;
@@ -1302,41 +1446,54 @@ export default function Trade69() {
         }
         
         .t69-nav-link {
-          font-size: 12px;
-          font-weight: 300;
-          color: rgba(250, 250, 248, 0.4);
+          font-size: 10px;
+          font-weight: 500;
+          color: #FFFFFF;
+          opacity: 0.5;
           text-decoration: none;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          transition: color 0.3s ease;
+          transition: opacity 0.3s ease;
         }
         
-        .t69-nav-link:hover { color: #FAFAF8; }
+        .t69-nav-link:hover { opacity: 1; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════
-           RESPONSIVE
+           RESPONSIVE - SPHERE SCALES UP
            ═══════════════════════════════════════════════════════════════════════════════ */
         
         @media (min-width: 600px) {
-          .gallery-folder-icon { width: 145px; height: 145px; border-radius: 32px; }
-          .gallery-folder-preview { width: 115px; height: 115px; gap: 6px; }
-          .gallery-mini-thumb { width: 54px; height: 54px; border-radius: 11px; }
-          .gallery-folder-name { font-size: 13px; }
-          .gallery-container { padding: 24px; border-radius: 30px; }
-          .gallery-grid { gap: 16px; }
-          .gallery-item-thumb { width: 85px; height: 85px; border-radius: 18px; }
-          .image-expanded-content { border-radius: 20px; }
-          .image-expanded-content img { border-radius: 20px; }
+          .folder-icon { width: 100px; height: 100px; border-radius: 24px; }
+          .folder-preview { width: 76px; height: 76px; gap: 4px; }
+          .folder-mini-thumb { width: 36px; height: 36px; border-radius: 8px; }
+          .arch-preview svg { width: 44px; height: 44px; }
+          .folder-name { font-size: 11px; }
+          
+          .gallery-container { width: 380px; height: 380px; padding: 24px; border-radius: 30px; }
+          .gallery-grid { gap: 12px; }
+          .gallery-item-thumb { width: 100px; height: 100px; border-radius: 16px; }
+          
+          .arch-expanded-content { width: 380px; height: 380px; }
+          .mermaid-expanded-content { width: 380px; height: 380px; }
+          .image-expanded-content { width: 380px; height: 380px; }
+          .video-player-wrapper { width: 380px; }
         }
         
         @media (min-width: 900px) {
-          .gallery-folder-icon { width: 175px; height: 175px; border-radius: 38px; }
-          .gallery-folder-preview { width: 140px; height: 140px; gap: 7px; }
-          .gallery-mini-thumb { width: 66px; height: 66px; border-radius: 13px; }
-          .gallery-folder-name { font-size: 14px; }
-          .gallery-container { padding: 28px; }
-          .gallery-grid { gap: 18px; }
-          .gallery-item-thumb { width: 100px; height: 100px; border-radius: 20px; }
+          .folder-icon { width: 120px; height: 120px; border-radius: 28px; }
+          .folder-preview { width: 92px; height: 92px; gap: 5px; }
+          .folder-mini-thumb { width: 43px; height: 43px; border-radius: 10px; }
+          .arch-preview svg { width: 52px; height: 52px; }
+          .folder-name { font-size: 12px; }
+          
+          .gallery-container { width: 440px; height: 440px; padding: 28px; }
+          .gallery-grid { gap: 14px; }
+          .gallery-item-thumb { width: 120px; height: 120px; border-radius: 18px; }
+          
+          .arch-expanded-content { width: 440px; height: 440px; }
+          .mermaid-expanded-content { width: 440px; height: 440px; }
+          .image-expanded-content { width: 440px; height: 440px; }
+          .video-player-wrapper { width: 440px; }
         }
       `}</style>
 
@@ -1360,29 +1517,38 @@ export default function Trade69() {
         </div>
 
         {/* ═══════════════════════════════════════════════════════════════════════════════
-            STATE OF THE ART - iOS-STYLE GALLERY FOLDER
+            FOLDERS ROW - Screenshots + 3D Architecture side by side
             ═══════════════════════════════════════════════════════════════════════════════ */}
-        <div className="t69-gallery-section">
-          <p className="t69-section-label">Dashboard Gallery</p>
-          <div className="gallery-folder-wrapper">
-            <div
-              className={`gallery-folder-icon ${isLoaded ? 'loaded' : ''}`}
-              onClick={handleOpenGallery}
-            >
-              <div className="gallery-folder-preview">
-                {galleryImages.slice(0, 4).map((image, index) => (
-                  <div key={index} className="gallery-mini-thumb">
-                    <img src={image.src} alt="" />
-                  </div>
-                ))}
+        <div className="t69-folders-section">
+          <div className="t69-folders-row">
+            {/* Gallery Folder */}
+            <div className="folder-wrapper">
+              <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={handleOpenGallery}>
+                <div className="folder-preview">
+                  {galleryImages.slice(0, 4).map((image, index) => (
+                    <div key={index} className="folder-mini-thumb">
+                      <img src={image.src} alt="" />
+                    </div>
+                  ))}
+                </div>
               </div>
+              <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>Screenshots</span>
             </div>
-            <span className={`gallery-folder-name ${isLoaded ? 'loaded' : ''}`}>Screenshots</span>
-          </div>
-        </div>
 
-        <div className="t69-architecture-section">
-          <Trade69Architecture />
+            {/* 3D Architecture Folder */}
+            <div className="folder-wrapper">
+              <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={handleOpenMermaid} style={{ transitionDelay: '60ms' }}>
+                <div className="arch-preview">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5" />
+                    <path d="M2 12l10 5 10-5" />
+                  </svg>
+                </div>
+              </div>
+              <span className={`folder-name ${isLoaded ? 'loaded' : ''}`} style={{ transitionDelay: '120ms' }}>3D Architecture</span>
+            </div>
+          </div>
         </div>
 
         <div className="t69-overview-section">
@@ -1431,19 +1597,15 @@ export default function Trade69() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════
-          STATE OF THE ART - GALLERY OVERLAY
+          GALLERY OVERLAY - SPHERE CENTERED
           ═══════════════════════════════════════════════════════════════════════════════ */}
       {galleryOpen && (
-        <div className={`gallery-overlay ${getGalleryAnimClass()}`}>
-          <div className="gallery-overlay-bg" onClick={handleCloseGallery} />
+        <div className={`gallery-overlay ${getAnimClass(galleryAnimState)}`} onClick={handleCloseGallery}>
+          <div className="gallery-overlay-bg" />
           <div className="gallery-container" onClick={(e) => e.stopPropagation()}>
             <div className="gallery-grid">
               {galleryImages.map((image, index) => (
-                <div
-                  key={index}
-                  className="gallery-item"
-                  onClick={() => handleOpenImage(image)}
-                >
+                <div key={index} className="gallery-item" onClick={() => handleOpenImage(image)}>
                   <div className="gallery-item-thumb">
                     <img src={image.src} alt="" />
                   </div>
@@ -1454,23 +1616,39 @@ export default function Trade69() {
         </div>
       )}
 
+      {/* ═══════════════════════════════════════════════════════════════════════════════
+          MERMAID 3D EXPANDED - SPHERE CENTERED
+          ═══════════════════════════════════════════════════════════════════════════════ */}
+      {mermaidOpen && (
+        <div className={`mermaid-expanded ${getAnimClass(mermaidAnimState)}`} onClick={handleCloseMermaid}>
+          <div className="mermaid-expanded-content" onClick={(e) => e.stopPropagation()}>
+            <Trade69Architecture />
+          </div>
+          <button className="mermaid-expanded-close" onClick={handleCloseMermaid}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </div>
+      )}
+
       {/* Transition Bridge */}
       <div className={`transition-bridge ${bridgePhase}`}>
         <div className="bridge-spinner" />
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════
-          STATE OF THE ART - IMAGE EXPANDED VIEW (CINEMA MODE)
+          IMAGE EXPANDED - SPHERE CENTERED
           ═══════════════════════════════════════════════════════════════════════════════ */}
       {expandedImage && (
-        <div className={`image-expanded ${getImageAnimClass()}`} onClick={handleCloseImage}>
+        <div className={`image-expanded ${getAnimClass(imageAnimState)}`} onClick={handleCloseImage}>
           <div className="image-expanded-inner">
             <div className="image-expanded-content" onClick={(e) => e.stopPropagation()}>
               <img src={expandedImage.src} alt="" />
             </div>
           </div>
           <button className="image-expanded-close" onClick={handleCloseImage}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
             </svg>
           </button>
@@ -1478,10 +1656,10 @@ export default function Trade69() {
       )}
 
       {/* ═══════════════════════════════════════════════════════════════════════════════
-          STATE OF THE ART - VIDEO OVERLAY (THEATER MODE)
+          VIDEO OVERLAY - SPHERE CENTERED
           ═══════════════════════════════════════════════════════════════════════════════ */}
       {videoExpanded && (
-        <div className={`video-overlay ${getVideoAnimClass()}`} onClick={handleCloseVideo}>
+        <div className={`video-overlay ${getAnimClass(videoAnimState)}`} onClick={handleCloseVideo}>
           <div className="video-player-wrapper" onClick={(e) => e.stopPropagation()}>
             <div className="video-player-container">
               <video
