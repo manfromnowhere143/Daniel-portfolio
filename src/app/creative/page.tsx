@@ -778,11 +778,12 @@ export default function Creative() {
   const [icons3DFeaturedIndex, setIcons3DFeaturedIndex] = useState(0);
 
   // Reset and trigger animation when 3dicons-showcase becomes active
-  // Also add scroll lock for this showcase
+  // IMPORTANT: Wait for bridge to fade out before showing content
   useEffect(() => {
     if (expandedItem === '3dicons-showcase' && expandedAnimState === 'active') {
-      // Small delay to ensure smooth entrance
-      const timer = setTimeout(() => setIcons3DShowReady(true), 50);
+      // Wait for bridge transition to complete (350ms) plus small buffer
+      // This ensures content appears AFTER the spinner is gone
+      const timer = setTimeout(() => setIcons3DShowReady(true), 380);
 
       // SCROLL LOCK for 3D Icons showcase
       const preventScroll = (e: TouchEvent) => {
@@ -811,7 +812,7 @@ export default function Creative() {
         >
           <div className="showcase-3d-featured-frame">
             <div className="showcase-3d-featured-icon">
-              {render3DIcon(featuredItem.id, isMobile ? 120 : 160)}
+              {render3DIcon(featuredItem.id, isMobile ? 130 : 170)}
             </div>
           </div>
         </div>
@@ -822,14 +823,14 @@ export default function Creative() {
             <div
               key={item.id}
               className={`showcase-3d-selector-item ${index === icons3DFeaturedIndex ? 'active' : ''}`}
-              style={{ ['--delay' as any]: `${index * 0.03}s` }}
+              style={{ ['--delay' as any]: `${0.12 + index * 0.04}s` }}
               onClick={(e) => {
                 e.stopPropagation();
                 setIcons3DFeaturedIndex(index);
               }}
             >
               <div className="showcase-3d-selector-card">
-                {render3DIcon(item.id, isMobile ? 20 : 26)}
+                {render3DIcon(item.id, isMobile ? 22 : 28)}
               </div>
             </div>
           ))}
@@ -1701,8 +1702,8 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - 3D ICONS SHOWCASE LAYOUT                                     */
-        /* Working layout restored with premium design                                     */
+        /* STATE OF THE ART - 3D ICONS SHOWCASE                                            */
+        /* Apple-quality smooth transitions - no disruption                                */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .showcase-3d-minimal {
@@ -1712,7 +1713,7 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          padding: 40px 16px 30px 16px;
+          padding: 50px 16px 35px 16px;
           background: #000000;
           touch-action: none !important;
           overflow: hidden !important;
@@ -1723,16 +1724,16 @@ export default function Creative() {
         .showcase-3d-minimal::before {
           content: '';
           position: absolute;
-          top: 35%;
+          top: 38%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 350px;
-          height: 350px;
-          background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+          width: 400px;
+          height: 400px;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.025) 0%, transparent 55%);
           pointer-events: none;
         }
         
-        /* Featured Icon - Takes available space, centered */
+        /* Featured Icon - Smooth fade in with no jump */
         .showcase-3d-featured {
           flex: 1;
           display: flex;
@@ -1742,26 +1743,27 @@ export default function Creative() {
           position: relative;
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.88);
-          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, 
-                      transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+          transform: scale(0.92) translateY(8px);
+          transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+          will-change: opacity, transform;
         }
         
         .showcase-3d-featured.visible {
           opacity: 1;
-          transform: scale(1);
+          transform: scale(1) translateY(0);
         }
         
         .showcase-3d-featured:active .showcase-3d-featured-frame {
-          transform: scale(0.95);
+          transform: scale(0.96);
         }
         
-        /* Premium glass frame - STATE OF THE ART */
+        /* Premium glass frame - BIGGER */
         .showcase-3d-featured-frame {
-          width: 200px;
-          height: 200px;
-          border-radius: 44px;
-          background: linear-gradient(145deg, #111111 0%, #080808 100%);
+          width: 220px;
+          height: 220px;
+          border-radius: 48px;
+          background: linear-gradient(145deg, #111111 0%, #0a0a0a 100%);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1769,12 +1771,12 @@ export default function Creative() {
           box-shadow: 
             0 0 0 1px rgba(255, 255, 255, 0.05),
             0 2px 4px rgba(255, 255, 255, 0.02),
-            0 30px 60px -15px rgba(0, 0, 0, 0.9),
-            0 15px 30px -10px rgba(0, 0, 0, 0.7),
+            0 35px 70px -18px rgba(0, 0, 0, 0.9),
+            0 18px 36px -12px rgba(0, 0, 0, 0.7),
             inset 0 1px 1px rgba(255, 255, 255, 0.04),
             inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-          transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-                      box-shadow 0.35s ease;
+          transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                      box-shadow 0.3s ease;
         }
         
         /* Subtle ring glow on active */
@@ -1782,10 +1784,10 @@ export default function Creative() {
           content: '';
           position: absolute;
           inset: -2px;
-          border-radius: 46px;
+          border-radius: 50px;
           background: linear-gradient(145deg, rgba(255,255,255,0.06) 0%, transparent 40%, rgba(255,255,255,0.02) 100%);
           opacity: 0;
-          transition: opacity 0.3s ease;
+          transition: opacity 0.25s ease;
           pointer-events: none;
         }
         
@@ -1796,23 +1798,24 @@ export default function Creative() {
         .showcase-3d-featured-icon {
           position: relative;
           z-index: 2;
-          filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
+          filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
         }
         
-        /* Icon Selector - At bottom */
+        /* Icon Selector - Smooth staggered entrance */
         .showcase-3d-selector {
           display: flex;
           gap: 8px;
-          padding: 10px 14px;
-          background: rgba(255, 255, 255, 0.04);
-          border-radius: 18px;
+          padding: 12px 16px;
+          background: rgba(255, 255, 255, 0.035);
+          border-radius: 20px;
           border: 1px solid rgba(255, 255, 255, 0.06);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
           opacity: 0;
-          transform: translateY(20px);
-          transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, 
-                      transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+          transform: translateY(16px);
+          transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.08s, 
+                      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+          will-change: opacity, transform;
         }
         
         .showcase-3d-selector.visible {
@@ -1823,9 +1826,10 @@ export default function Creative() {
         .showcase-3d-selector-item {
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.6);
-          transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform: scale(0.7);
+          transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
           transition-delay: var(--delay, 0s);
+          will-change: opacity, transform;
         }
         
         .showcase-3d-selector.visible .showcase-3d-selector-item {
@@ -1834,36 +1838,36 @@ export default function Creative() {
         }
         
         .showcase-3d-selector-item.active {
-          transform: scale(1.12);
+          transform: scale(1.1);
         }
         
         .showcase-3d-selector-item:active {
-          transform: scale(0.9);
+          transform: scale(0.92);
         }
         
-        /* Premium selector cards */
+        /* Premium selector cards - BIGGER */
         .showcase-3d-selector-card {
-          width: 40px;
-          height: 40px;
-          border-radius: 11px;
-          background: linear-gradient(145deg, #141414 0%, #0a0a0a 100%);
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
+          background: linear-gradient(145deg, #161616 0%, #0c0c0c 100%);
           display: flex;
           align-items: center;
           justify-content: center;
           box-shadow: 
             0 0 0 1px rgba(255, 255, 255, 0.06),
-            0 3px 10px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.03);
-          transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                      box-shadow 0.25s ease;
+            0 4px 12px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04);
+          transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), 
+                      box-shadow 0.2s ease;
         }
         
         .showcase-3d-selector-item.active .showcase-3d-selector-card {
           box-shadow: 
             0 0 0 1.5px rgba(255, 255, 255, 0.12),
-            0 0 24px rgba(255, 255, 255, 0.08),
+            0 0 28px rgba(255, 255, 255, 0.08),
             0 6px 20px rgba(0, 0, 0, 0.6),
-            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            inset 0 1px 0 rgba(255, 255, 255, 0.06);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -2281,9 +2285,9 @@ export default function Creative() {
         .geometry-full-lemniscate > svg { transform: scale(1.8); filter: drop-shadow(0 0 25px rgba(74, 222, 128, 0.4)); }
         
         @media (min-width: 600px) {
-          .showcase-3d-featured-frame { width: 240px; height: 240px; border-radius: 50px; }
-          .showcase-3d-selector { gap: 10px; padding: 12px 18px; border-radius: 20px; }
-          .showcase-3d-selector-card { width: 48px; height: 48px; border-radius: 13px; }
+          .showcase-3d-featured-frame { width: 260px; height: 260px; border-radius: 54px; }
+          .showcase-3d-selector { gap: 10px; padding: 14px 20px; border-radius: 22px; }
+          .showcase-3d-selector-card { width: 52px; height: 52px; border-radius: 14px; }
           .showcase-geometry-grid { gap: 40px; }
           .showcase-geometry-frame { width: 160px; height: 160px; }
           .sub-expanded-content { width: 360px; height: 360px; }
@@ -2301,9 +2305,9 @@ export default function Creative() {
         }
         
         @media (min-width: 900px) {
-          .showcase-3d-featured-frame { width: 280px; height: 280px; border-radius: 56px; }
-          .showcase-3d-selector { gap: 12px; padding: 14px 22px; border-radius: 22px; }
-          .showcase-3d-selector-card { width: 56px; height: 56px; border-radius: 15px; }
+          .showcase-3d-featured-frame { width: 300px; height: 300px; border-radius: 62px; }
+          .showcase-3d-selector { gap: 12px; padding: 16px 24px; border-radius: 26px; }
+          .showcase-3d-selector-card { width: 60px; height: 60px; border-radius: 16px; }
           .showcase-geometry-grid { gap: 52px; }
           .showcase-geometry-frame { width: 190px; height: 190px; }
           .sub-expanded-content { width: 440px; height: 440px; }
