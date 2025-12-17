@@ -577,43 +577,43 @@ export default function Trade69() {
         
         .gallery-overlay {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          inset: 0;
           z-index: 1000;
           display: flex;
-          flex-direction: column;
           align-items: center;
-          justify-content: flex-start;
-          padding-top: clamp(100px, 18vh, 180px);
+          justify-content: center;
+          padding: 24px;
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          touch-action: none;
-          -webkit-touch-callout: none;
-          user-select: none;
-          overscroll-behavior: none;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-          will-change: opacity, visibility;
-          transform: translateZ(0);
         }
         
-        .gallery-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
-        .gallery-overlay.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
-        .gallery-overlay.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
+        .gallery-overlay.entering { 
+          visibility: visible; 
+          pointer-events: auto; 
+          opacity: 0; 
+        }
+        
+        .gallery-overlay.active { 
+          visibility: visible; 
+          pointer-events: auto; 
+          opacity: 1; 
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); 
+        }
+        
+        .gallery-overlay.exiting { 
+          visibility: visible; 
+          pointer-events: none; 
+          opacity: 0; 
+          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); 
+        }
         
         .gallery-overlay-bg {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(8, 8, 10, 0.75);
+          inset: 0;
+          background: rgba(8, 8, 10, 0.8);
           backdrop-filter: blur(50px) saturate(150%);
           -webkit-backdrop-filter: blur(50px) saturate(150%);
-          touch-action: none;
         }
         
         .gallery-container {
@@ -625,27 +625,28 @@ export default function Trade69() {
           border-radius: 28px;
           padding: 20px;
           opacity: 0;
-          transform: translateZ(0);
+          transform: scale(0.85) translateY(20px);
           transition: none;
           box-shadow: 
-            0 0 60px rgba(255, 255, 255, 0.1),
+            0 0 60px rgba(255, 255, 255, 0.08),
             0 25px 80px rgba(0, 0, 0, 0.5),
             0 10px 30px rgba(0, 0, 0, 0.4),
             inset 0 1px 1px rgba(255, 255, 255, 0.9);
-          touch-action: manipulation;
           max-width: calc(100vw - 48px);
         }
         
         .gallery-overlay.active .gallery-container {
           opacity: 1;
-          transform: translateZ(0);
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s;
+          transform: scale(1) translateY(0);
+          transition: 
+            opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.02s,
+            transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.02s;
         }
         
         .gallery-overlay.exiting .gallery-container {
           opacity: 0;
-          transform: translateZ(0);
-          transition: opacity 0.25s ease;
+          transform: scale(0.9) translateY(10px);
+          transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
         .gallery-grid {
@@ -725,135 +726,144 @@ export default function Trade69() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════
-           STATE OF THE ART - IMAGE EXPANDED VIEW
+           STATE OF THE ART - IMAGE EXPANDED VIEW (CINEMA MODE)
            ═══════════════════════════════════════════════════════════════════════════════ */
         
         .image-expanded {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: #050506;
+          inset: 0;
           z-index: 2000;
+          background: rgba(0, 0, 0, 0.96);
+          backdrop-filter: blur(40px) saturate(120%);
+          -webkit-backdrop-filter: blur(40px) saturate(120%);
           display: flex;
-          flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 24px;
+          padding: 60px 24px 100px;
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          touch-action: none;
-          -webkit-touch-callout: none;
-          user-select: none;
-          overscroll-behavior: none;
         }
         
-        .image-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
-        .image-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
-        .image-expanded.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        .image-expanded.entering { 
+          visibility: visible; 
+          pointer-events: auto; 
+          opacity: 0; 
+        }
+        
+        .image-expanded.active { 
+          visibility: visible; 
+          pointer-events: auto; 
+          opacity: 1; 
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); 
+        }
+        
+        .image-expanded.exiting { 
+          visibility: visible; 
+          pointer-events: none; 
+          opacity: 0; 
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); 
+        }
         
         .image-expanded-inner {
           display: flex;
           flex-direction: column;
           align-items: center;
-          max-width: 100%;
-          max-height: 100%;
-          touch-action: manipulation;
-          opacity: 0;
-          transform: translateZ(0) scale(0.88);
-          transition: none;
-        }
-        
-        .image-expanded.active .image-expanded-inner {
-          opacity: 1;
-          transform: translateZ(0) scale(1);
-          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
-        }
-        
-        .image-expanded.exiting .image-expanded-inner {
-          opacity: 0;
-          transform: translateZ(0) scale(0.92);
-          transition: opacity 0.25s ease, transform 0.3s ease;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
         }
         
         .image-expanded-content {
-          max-width: min(90vw, 800px);
-          max-height: 70vh;
-          border-radius: 16px;
+          position: relative;
+          width: auto;
+          height: auto;
+          max-width: min(92vw, 900px);
+          max-height: calc(100vh - 180px);
+          border-radius: 20px;
           overflow: hidden;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.06)) drop-shadow(0 30px 80px rgba(0, 0, 0, 0.8));
-          touch-action: manipulation;
+          background: #0a0a0a;
           opacity: 0;
-          transform: translateZ(0) scale(0.9);
+          transform: scale(0.85) translateY(20px);
           transition: none;
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.08),
+            0 0 80px rgba(0, 0, 0, 0.8),
+            0 40px 100px rgba(0, 0, 0, 0.6),
+            0 20px 50px rgba(0, 0, 0, 0.5);
         }
         
         .image-expanded.active .image-expanded-content {
           opacity: 1;
-          transform: translateZ(0) scale(1);
-          transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s;
+          transform: scale(1) translateY(0);
+          transition: 
+            opacity 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0.08s, 
+            transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
         }
         
         .image-expanded.exiting .image-expanded-content {
           opacity: 0;
-          transform: translateZ(0) scale(0.95);
-          transition: opacity 0.2s ease, transform 0.25s ease;
+          transform: scale(0.92) translateY(10px);
+          transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
         .image-expanded-content img {
-          max-width: 100%;
-          max-height: 70vh;
+          display: block;
+          width: auto;
+          height: auto;
+          max-width: min(92vw, 900px);
+          max-height: calc(100vh - 180px);
           object-fit: contain;
-          border-radius: 16px;
         }
         
         .image-expanded-close {
-          margin-top: 32px;
-          width: 52px;
-          height: 52px;
+          position: fixed;
+          bottom: 40px;
+          left: 50%;
+          transform: translateX(-50%) scale(0.5);
+          width: 56px;
+          height: 56px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.08);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          touch-action: manipulation;
-          z-index: 10;
           opacity: 0;
-          transform: scale(0.5);
           transition: none;
+          box-shadow: 
+            0 4px 20px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
         
         .image-expanded.active .image-expanded-close {
           opacity: 1;
-          transform: scale(1);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.2s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+          transform: translateX(-50%) scale(1);
+          transition: 
+            opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.25s, 
+            transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s;
         }
         
         .image-expanded.exiting .image-expanded-close {
           opacity: 0;
-          transform: scale(0.7);
+          transform: translateX(-50%) scale(0.7);
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
         .image-expanded-close:hover {
-          background: rgba(255, 255, 255, 0.15);
+          background: rgba(255, 255, 255, 0.2);
         }
         
         .image-expanded-close:active {
-          transform: scale(0.9);
+          transform: translateX(-50%) scale(0.92);
         }
         
         .image-expanded-close svg {
-          filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
+          color: white;
+          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════
@@ -911,57 +921,77 @@ export default function Trade69() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════
-           VIDEO OVERLAY
+           STATE OF THE ART - VIDEO OVERLAY (THEATER MODE)
            ═══════════════════════════════════════════════════════════════════════════════ */
         
         .video-overlay {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          inset: 0;
           z-index: 9999;
+          background: rgba(0, 0, 0, 0.97);
+          backdrop-filter: blur(50px) saturate(120%);
+          -webkit-backdrop-filter: blur(50px) saturate(120%);
           display: flex;
-          flex-direction: column;
           align-items: center;
           justify-content: center;
-          background: rgba(0, 0, 0, 0.95);
-          backdrop-filter: blur(40px);
-          -webkit-backdrop-filter: blur(40px);
+          padding: 60px 20px 100px;
           opacity: 0;
           visibility: hidden;
+          pointer-events: none;
         }
         
-        .video-overlay.entering { visibility: visible; opacity: 0; }
-        .video-overlay.active { visibility: visible; opacity: 1; transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .video-overlay.exiting { visibility: visible; opacity: 0; transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+        .video-overlay.entering { 
+          visibility: visible; 
+          pointer-events: auto;
+          opacity: 0; 
+        }
+        
+        .video-overlay.active { 
+          visibility: visible; 
+          pointer-events: auto;
+          opacity: 1; 
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); 
+        }
+        
+        .video-overlay.exiting { 
+          visibility: visible; 
+          pointer-events: none;
+          opacity: 0; 
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); 
+        }
         
         .video-player-wrapper {
           width: 100%;
           max-width: 1000px;
-          padding: 0 24px;
           opacity: 0;
-          transform: scale(0.94);
+          transform: scale(0.88) translateY(20px);
+          transition: none;
         }
         
         .video-overlay.active .video-player-wrapper {
           opacity: 1;
-          transform: scale(1);
-          transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.08s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
+          transform: scale(1) translateY(0);
+          transition: 
+            opacity 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0.08s, 
+            transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s;
         }
         
         .video-overlay.exiting .video-player-wrapper {
           opacity: 0;
-          transform: scale(0.96);
+          transform: scale(0.94) translateY(10px);
           transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
         .video-player-container {
           position: relative;
-          border-radius: 16px;
+          border-radius: 20px;
           overflow: hidden;
           background: #000;
-          box-shadow: 0 60px 180px rgba(0, 0, 0, 0.9);
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.08),
+            0 0 100px rgba(0, 0, 0, 0.8),
+            0 50px 120px rgba(0, 0, 0, 0.7),
+            0 25px 60px rgba(0, 0, 0, 0.5);
         }
         
         .video-player-container video {
@@ -975,20 +1005,27 @@ export default function Trade69() {
           bottom: 0;
           left: 0;
           right: 0;
-          padding: 24px 20px 18px;
-          background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+          padding: 30px 24px 20px;
+          background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
           display: flex;
           flex-direction: column;
-          gap: 14px;
+          gap: 16px;
         }
         
         .video-progress-bar {
           width: 100%;
           height: 5px;
-          background: rgba(255, 255, 255, 0.25);
+          background: rgba(255, 255, 255, 0.2);
           border-radius: 3px;
           cursor: pointer;
           overflow: hidden;
+          position: relative;
+        }
+        
+        .video-progress-bar::before {
+          content: '';
+          position: absolute;
+          inset: -8px 0;
         }
         
         .video-progress-fill {
@@ -1007,12 +1044,12 @@ export default function Trade69() {
         .video-controls-left {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 8px;
         }
         
         .video-control-btn {
-          width: 40px;
-          height: 40px;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
           background: transparent;
           border: none;
@@ -1020,57 +1057,88 @@ export default function Trade69() {
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: background 0.2s ease, transform 0.2s ease;
+          transition: background 0.2s ease, transform 0.15s ease;
         }
         
-        .video-control-btn:hover { background: rgba(255, 255, 255, 0.15); }
-        .video-control-btn:active { transform: scale(0.92); }
-        .video-control-btn svg { width: 20px; height: 20px; color: white; }
-        .video-control-btn.play-btn svg { width: 26px; height: 26px; }
+        .video-control-btn:hover { 
+          background: rgba(255, 255, 255, 0.12); 
+        }
+        
+        .video-control-btn:active { 
+          transform: scale(0.9); 
+        }
+        
+        .video-control-btn svg { 
+          width: 22px; 
+          height: 22px; 
+          color: white; 
+        }
+        
+        .video-control-btn.play-btn svg { 
+          width: 28px; 
+          height: 28px; 
+        }
         
         .video-time {
           font-size: 13px;
           font-weight: 400;
-          color: rgba(255, 255, 255, 0.7);
+          color: rgba(255, 255, 255, 0.65);
           font-family: 'SF Mono', Monaco, monospace;
-          letter-spacing: 0.02em;
-          margin-left: 8px;
+          letter-spacing: 0.03em;
+          margin-left: 12px;
         }
         
         .video-close-btn {
-          position: absolute;
-          top: 20px;
-          right: 20px;
-          width: 48px;
-          height: 48px;
+          position: fixed;
+          bottom: 36px;
+          left: 50%;
+          transform: translateX(-50%) scale(0.5);
+          width: 56px;
+          height: 56px;
           border-radius: 50%;
-          background: rgba(0, 0, 0, 0.5);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.8);
-          z-index: 10;
+          transition: none;
+          box-shadow: 
+            0 4px 20px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
         
         .video-overlay.active .video-close-btn {
           opacity: 1;
-          transform: scale(1);
-          transition: opacity 0.35s ease 0.2s, transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s;
+          transform: translateX(-50%) scale(1);
+          transition: 
+            opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.3s, 
+            transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
         }
         
         .video-overlay.exiting .video-close-btn {
           opacity: 0;
-          transform: scale(0.8);
+          transform: translateX(-50%) scale(0.7);
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        .video-close-btn:hover { background: rgba(255, 255, 255, 0.15); }
-        .video-close-btn svg { width: 22px; height: 22px; color: white; }
+        .video-close-btn:hover { 
+          background: rgba(255, 255, 255, 0.2); 
+        }
+        
+        .video-close-btn:active {
+          transform: translateX(-50%) scale(0.92);
+        }
+        
+        .video-close-btn svg { 
+          width: 24px; 
+          height: 24px; 
+          color: white;
+          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+        }
         
         /* ═══════════════════════════════════════════════════════════════════════════════
            OTHER SECTIONS
@@ -1392,25 +1460,25 @@ export default function Trade69() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════
-          STATE OF THE ART - IMAGE EXPANDED VIEW
+          STATE OF THE ART - IMAGE EXPANDED VIEW (CINEMA MODE)
           ═══════════════════════════════════════════════════════════════════════════════ */}
       {expandedImage && (
         <div className={`image-expanded ${getImageAnimClass()}`} onClick={handleCloseImage}>
-          <div className="image-expanded-inner" onClick={(e) => e.stopPropagation()}>
-            <div className="image-expanded-content">
+          <div className="image-expanded-inner">
+            <div className="image-expanded-content" onClick={(e) => e.stopPropagation()}>
               <img src={expandedImage.src} alt="" />
             </div>
-            <button className="image-expanded-close" onClick={handleCloseImage}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </button>
           </div>
+          <button className="image-expanded-close" onClick={handleCloseImage}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+            </svg>
+          </button>
         </div>
       )}
 
       {/* ═══════════════════════════════════════════════════════════════════════════════
-          VIDEO OVERLAY
+          STATE OF THE ART - VIDEO OVERLAY (THEATER MODE)
           ═══════════════════════════════════════════════════════════════════════════════ */}
       {videoExpanded && (
         <div className={`video-overlay ${getVideoAnimClass()}`} onClick={handleCloseVideo}>
@@ -1432,17 +1500,28 @@ export default function Trade69() {
                 <div className="video-controls-row">
                   <div className="video-controls-left">
                     <button className="video-control-btn" onClick={handleSkipBack}>
-                      <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5" /><polygon points="22 19 13 12 22 5" /></svg>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="11 19 2 12 11 5" />
+                        <polygon points="22 19 13 12 22 5" />
+                      </svg>
                     </button>
                     <button className="video-control-btn play-btn" onClick={handlePlayPause}>
                       {isPlaying ? (
-                        <svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1" /><rect x="14" y="4" width="4" height="16" rx="1" /></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                          <rect x="6" y="4" width="4" height="16" rx="1" />
+                          <rect x="14" y="4" width="4" height="16" rx="1" />
+                        </svg>
                       ) : (
-                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21" /></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                          <polygon points="5 3 19 12 5 21" />
+                        </svg>
                       )}
                     </button>
                     <button className="video-control-btn" onClick={handleSkipForward}>
-                      <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 12 13 5" /><polygon points="2 19 11 12 2 5" /></svg>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="13 19 22 12 13 5" />
+                        <polygon points="2 19 11 12 2 5" />
+                      </svg>
                     </button>
                     <span className="video-time">{formatTime(videoProgress)} / {formatTime(videoDuration)}</span>
                   </div>
@@ -1451,8 +1530,8 @@ export default function Trade69() {
             </div>
           </div>
           <button className="video-close-btn" onClick={handleCloseVideo}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
             </svg>
           </button>
         </div>
