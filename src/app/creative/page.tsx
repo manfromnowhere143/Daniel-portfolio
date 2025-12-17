@@ -812,25 +812,25 @@ export default function Creative() {
         >
           <div className="showcase-3d-featured-frame">
             <div className="showcase-3d-featured-icon">
-              {render3DIcon(featuredItem.id, isMobile ? 145 : 190)}
+              {render3DIcon(featuredItem.id, isMobile ? 140 : 185)}
             </div>
           </div>
         </div>
 
-        {/* Selector Bar - Compact at very bottom with live button glow */}
+        {/* Floating Selector Bar - Compact with alive buttons */}
         <div className={`showcase-3d-selector ${icons3DShowReady ? 'visible' : ''}`}>
           {icons3DItems.map((item, index) => (
             <div
               key={item.id}
               className={`showcase-3d-selector-item ${index === icons3DFeaturedIndex ? 'active' : ''}`}
-              style={{ ['--delay' as any]: `${0.1 + index * 0.035}s` }}
+              style={{ ['--delay' as any]: `${0.08 + index * 0.03}s` }}
               onClick={(e) => {
                 e.stopPropagation();
                 setIcons3DFeaturedIndex(index);
               }}
             >
               <div className="showcase-3d-selector-card">
-                {render3DIcon(item.id, isMobile ? 19 : 25)}
+                {render3DIcon(item.id, isMobile ? 18 : 24)}
               </div>
             </div>
           ))}
@@ -1703,8 +1703,8 @@ export default function Creative() {
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - 3D ICONS SHOWCASE                                            */
-        /* WORKING LAYOUT: flex space-between for featured + selector                      */
-        /* Premium design with live button glow effects                                    */
+        /* Premium floating bar, stable icons, alive lighting effects                      */
+        /* Apple-quality with subtle white shades and depth                                */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .showcase-3d-minimal {
@@ -1714,23 +1714,36 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          padding: 50px 16px 24px 16px;
+          padding: 60px 16px 28px 16px;
           background: #000000;
           touch-action: none !important;
           overflow: hidden !important;
           overscroll-behavior: none !important;
         }
         
-        /* Ambient glow behind the featured icon */
+        /* Ambient light from top - creates depth */
         .showcase-3d-minimal::before {
           content: '';
           position: absolute;
-          top: 38%;
+          top: -20%;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 100%;
+          height: 60%;
+          background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.025) 0%, transparent 60%);
+          pointer-events: none;
+        }
+        
+        /* Secondary glow behind featured icon */
+        .showcase-3d-minimal::after {
+          content: '';
+          position: absolute;
+          top: 40%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 420px;
-          height: 420px;
-          background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+          width: 300px;
+          height: 300px;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.015) 0%, transparent 50%);
           pointer-events: none;
         }
         
@@ -1743,9 +1756,9 @@ export default function Creative() {
           justify-content: center;
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.92);
+          transform: scale(0.94);
           transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+                      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
           will-change: opacity, transform;
         }
         
@@ -1755,70 +1768,94 @@ export default function Creative() {
         }
         
         .showcase-3d-featured:active .showcase-3d-featured-frame {
-          transform: scale(0.96);
+          transform: scale(0.97);
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.06),
+            0 30px 60px -15px rgba(0, 0, 0, 0.9),
+            0 15px 30px -10px rgba(0, 0, 0, 0.7),
+            inset 0 1px 1px rgba(255, 255, 255, 0.05);
         }
         
-        /* Premium glass frame - BIGGER for impact */
+        /* Premium glass frame - ALIVE with subtle gradients */
         .showcase-3d-featured-frame {
           width: 240px;
           height: 240px;
           border-radius: 52px;
-          background: linear-gradient(145deg, #111111 0%, #0a0a0a 100%);
+          background: linear-gradient(165deg, #131313 0%, #0a0a0a 50%, #080808 100%);
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
           box-shadow: 
             0 0 0 1px rgba(255, 255, 255, 0.04),
-            0 2px 4px rgba(255, 255, 255, 0.015),
-            0 40px 80px -20px rgba(0, 0, 0, 0.9),
-            0 20px 40px -14px rgba(0, 0, 0, 0.7),
-            inset 0 1px 1px rgba(255, 255, 255, 0.035),
-            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
-          transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-                      box-shadow 0.28s ease;
+            0 1px 2px rgba(255, 255, 255, 0.02),
+            0 40px 80px -20px rgba(0, 0, 0, 0.85),
+            0 20px 40px -14px rgba(0, 0, 0, 0.65),
+            inset 0 1px 1px rgba(255, 255, 255, 0.04),
+            inset 0 -1px 2px rgba(0, 0, 0, 0.2);
+          transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                      box-shadow 0.25s ease;
         }
         
-        /* Subtle ring glow on active */
+        /* Top edge highlight - makes it look 3D */
         .showcase-3d-featured-frame::before {
           content: '';
           position: absolute;
-          inset: -2px;
-          border-radius: 54px;
-          background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, transparent 40%, rgba(255,255,255,0.015) 100%);
+          top: 0;
+          left: 10%;
+          right: 10%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+          border-radius: 52px 52px 0 0;
+        }
+        
+        /* Inner glow ring on active */
+        .showcase-3d-featured-frame::after {
+          content: '';
+          position: absolute;
+          inset: -1px;
+          border-radius: 53px;
+          background: linear-gradient(165deg, rgba(255,255,255,0.04) 0%, transparent 30%);
           opacity: 0;
           transition: opacity 0.2s ease;
           pointer-events: none;
         }
         
-        .showcase-3d-featured:active .showcase-3d-featured-frame::before {
+        .showcase-3d-featured:active .showcase-3d-featured-frame::after {
           opacity: 1;
         }
         
         .showcase-3d-featured-icon {
           position: relative;
           z-index: 2;
-          filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.5));
+          filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
+          /* Prevent icon blinking during transitions */
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* SELECTOR BAR - Compact with live button glow effect                             */
-        /* Normal flow (not absolute) so flexbox space-between works                       */
+        /* FLOATING SELECTOR BAR - Shorter, premium glass, alive buttons                   */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .showcase-3d-selector {
           display: flex;
-          gap: 6px;
-          padding: 10px 14px;
-          background: rgba(18, 18, 18, 0.85);
-          border-radius: 18px;
+          gap: 5px;
+          padding: 7px 10px;
+          background: rgba(20, 20, 20, 0.75);
+          border-radius: 14px;
           border: 1px solid rgba(255, 255, 255, 0.04);
-          backdrop-filter: blur(30px);
-          -webkit-backdrop-filter: blur(30px);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
+          box-shadow: 
+            0 4px 20px rgba(0, 0, 0, 0.4),
+            0 0 0 0.5px rgba(255, 255, 255, 0.03),
+            inset 0 1px 0 rgba(255, 255, 255, 0.02);
           opacity: 0;
-          transform: translateY(16px);
-          transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, 
-                      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+          transform: translateY(12px);
+          transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.12s, 
+                      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
           will-change: opacity, transform;
         }
         
@@ -1830,10 +1867,13 @@ export default function Creative() {
         .showcase-3d-selector-item {
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.75);
-          transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+          transform: scale(0.8);
+          transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
           transition-delay: var(--delay, 0s);
           will-change: opacity, transform;
+          /* Prevent blinking */
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
         }
         
         .showcase-3d-selector.visible .showcase-3d-selector-item {
@@ -1842,62 +1882,98 @@ export default function Creative() {
         }
         
         .showcase-3d-selector-item.active {
-          transform: scale(1.08);
+          transform: scale(1.06);
         }
         
         .showcase-3d-selector-item:active {
-          transform: scale(0.94);
+          transform: scale(0.95);
         }
         
-        /* Premium selector cards - LIVE BUTTON GLOW EFFECT */
+        /* Premium selector cards - ALIVE BUTTONS with depth */
         .showcase-3d-selector-card {
-          width: 40px;
-          height: 40px;
-          border-radius: 11px;
-          background: linear-gradient(145deg, #1a1a1a 0%, #0e0e0e 100%);
+          width: 36px;
+          height: 36px;
+          border-radius: 9px;
+          background: linear-gradient(165deg, #1c1c1c 0%, #111111 50%, #0d0d0d 100%);
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
           box-shadow: 
-            0 0 0 1px rgba(255, 255, 255, 0.04),
-            0 3px 8px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.03);
-          transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+            0 0 0 0.5px rgba(255, 255, 255, 0.05),
+            0 2px 6px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04);
+          transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+          /* Prevent icon blinking */
+          transform: translateZ(0);
+          -webkit-transform: translateZ(0);
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
         }
         
-        /* Subtle inner glow for depth */
+        /* Top edge light - makes cards look alive */
         .showcase-3d-selector-card::before {
           content: '';
           position: absolute;
-          inset: 1px;
-          border-radius: 9px;
-          background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.04) 0%, transparent 60%);
-          pointer-events: none;
+          top: 0;
+          left: 15%;
+          right: 15%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+          opacity: 0.7;
+          transition: opacity 0.2s ease;
         }
         
-        /* Active state - premium glow */
+        /* Inner glow for depth */
+        .showcase-3d-selector-card::after {
+          content: '';
+          position: absolute;
+          inset: 1px;
+          border-radius: 8px;
+          background: radial-gradient(ellipse at 50% -20%, rgba(255,255,255,0.03) 0%, transparent 60%);
+          pointer-events: none;
+          transition: background 0.2s ease;
+        }
+        
+        /* Active state - ALIVE glow */
         .showcase-3d-selector-item.active .showcase-3d-selector-card {
-          background: linear-gradient(145deg, #222222 0%, #141414 100%);
+          background: linear-gradient(165deg, #252525 0%, #181818 50%, #121212 100%);
           box-shadow: 
             0 0 0 1px rgba(255, 255, 255, 0.08),
-            0 0 20px rgba(255, 255, 255, 0.06),
-            0 0 40px rgba(255, 255, 255, 0.03),
-            0 6px 16px rgba(0, 0, 0, 0.6),
-            inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            0 0 16px rgba(255, 255, 255, 0.04),
+            0 0 32px rgba(255, 255, 255, 0.02),
+            0 4px 12px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
         
         .showcase-3d-selector-item.active .showcase-3d-selector-card::before {
-          background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.08) 0%, transparent 50%);
+          opacity: 1;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
         }
         
-        /* Hover/touch glow for non-active items */
-        .showcase-3d-selector-item:not(.active) .showcase-3d-selector-card:active {
+        .showcase-3d-selector-item.active .showcase-3d-selector-card::after {
+          background: radial-gradient(ellipse at 50% -20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+        }
+        
+        /* Hover/Press state for non-active */
+        .showcase-3d-selector-item:not(.active):active .showcase-3d-selector-card {
+          background: linear-gradient(165deg, #202020 0%, #151515 50%, #101010 100%);
           box-shadow: 
-            0 0 0 1px rgba(255, 255, 255, 0.06),
-            0 0 12px rgba(255, 255, 255, 0.04),
-            0 4px 10px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            0 0 0 0.5px rgba(255, 255, 255, 0.06),
+            0 1px 4px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Icon inside selector - stable, no blink */
+        .showcase-3d-selector-card svg,
+        .showcase-3d-selector-card > div {
+          position: relative;
+          z-index: 2;
+          transform: translateZ(0);
+          -webkit-transform: translateZ(0);
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+          will-change: auto;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -2319,8 +2395,8 @@ export default function Creative() {
         
         @media (min-width: 600px) {
           .showcase-3d-featured-frame { width: 280px; height: 280px; border-radius: 58px; }
-          .showcase-3d-selector { gap: 8px; padding: 12px 18px; border-radius: 20px; }
-          .showcase-3d-selector-card { width: 48px; height: 48px; border-radius: 13px; }
+          .showcase-3d-selector { gap: 6px; padding: 9px 14px; border-radius: 16px; }
+          .showcase-3d-selector-card { width: 44px; height: 44px; border-radius: 11px; }
           .showcase-geometry-grid { gap: 40px; }
           .showcase-geometry-frame { width: 160px; height: 160px; }
           .sub-expanded-content { width: 320px; height: 320px; }
@@ -2339,8 +2415,8 @@ export default function Creative() {
         
         @media (min-width: 900px) {
           .showcase-3d-featured-frame { width: 320px; height: 320px; border-radius: 66px; }
-          .showcase-3d-selector { gap: 10px; padding: 14px 22px; border-radius: 22px; }
-          .showcase-3d-selector-card { width: 56px; height: 56px; border-radius: 15px; }
+          .showcase-3d-selector { gap: 8px; padding: 10px 18px; border-radius: 18px; }
+          .showcase-3d-selector-card { width: 52px; height: 52px; border-radius: 13px; }
           .showcase-geometry-grid { gap: 52px; }
           .showcase-geometry-frame { width: 190px; height: 190px; }
           .sub-expanded-content { width: 380px; height: 380px; }
