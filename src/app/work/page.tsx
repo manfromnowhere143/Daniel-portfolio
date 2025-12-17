@@ -2,38 +2,31 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
-
-// Dynamic imports for 3D icons
-const Trade69Icon3D = dynamic(() => import("@/components/WorkIcons").then(mod => ({ default: mod.Trade69Icon3D })), { ssr: false });
-const MegaAgentIcon3D = dynamic(() => import("@/components/WorkIcons").then(mod => ({ default: mod.MegaAgentIcon3D })), { ssr: false });
-const OctopusIcon3D = dynamic(() => import("@/components/WorkIcons").then(mod => ({ default: mod.OctopusIcon3D })), { ssr: false });
-const OvermindIcon3D = dynamic(() => import("@/components/WorkIcons").then(mod => ({ default: mod.OvermindIcon3D })), { ssr: false });
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// DATA DEFINITIONS - EXACT SIZES FOR CONSISTENCY
+// STATE OF THE ART - PREMIUM ICON SYSTEM
+// Using real images for Trade69, Octopus, and Overmind
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const appsItems = [
-  { id: 'trade69', name: 'Trade69', href: '/work/trade69', color: ['#1a5c50', '#082825'], glow: 'rgba(94, 234, 212, 0.25)' },
-  { id: 'megaagent', name: 'MegaAgent', href: '/work/megaagent', color: ['#5c3d7a', '#281840'], glow: 'rgba(192, 132, 252, 0.25)' },
-  { id: 'octopus', name: 'Octopus', href: '/work/octopus', color: ['#1a5a70', '#082830'], glow: 'rgba(103, 232, 249, 0.25)' },
-  { id: 'overmind', name: 'Overmind', href: '/work/overmind', color: ['#8a6420', '#3d2d0d'], glow: 'rgba(252, 211, 77, 0.25)' },
+  { id: 'trade69', name: 'Trade69', href: '/work/trade69', color: ['#0a1f1c', '#040d0b'], glow: 'rgba(45, 120, 100, 0.35)', image: '/images/t69app.png' },
+  { id: 'megaagent', name: 'MegaAgent', href: '/work/megaagent', color: ['#1a0f2e', '#0d0718'], glow: 'rgba(120, 80, 180, 0.3)' },
+  { id: 'octopus', name: 'Octopus', href: '/work/octopus', color: ['#0a1a24', '#040c12'], glow: 'rgba(60, 140, 180, 0.35)', image: '/images/octopusapp.png' },
+  { id: 'overmind', name: 'Overmind', href: '/work/overmind', color: ['#1a1408', '#0d0a04'], glow: 'rgba(180, 140, 60, 0.35)', image: '/images/twinkle.png' },
 ];
 
 const servicesItems = [
-  { id: 'website', name: 'Web Apps', color: ['#3d2860', '#1e1438'], glow: 'rgba(165, 130, 252, 0.25)', desc: 'Full-stack applications with modern frameworks. SEO, responsive design, authentication, databases, and deployment.' },
-  { id: 'dashboard', name: 'Dashboards', color: ['#602848', '#381428'], glow: 'rgba(251, 130, 180, 0.25)', desc: 'Real-time data visualization and analytics. Interactive charts, live data streams, and beautiful interfaces.' },
-  { id: 'api', name: 'API', color: ['#1a4038', '#0d2420'], glow: 'rgba(134, 239, 172, 0.25)', desc: 'REST and GraphQL APIs. Authentication, rate limiting, documentation, and third-party integrations.' },
-  { id: 'llm', name: 'LLM', color: ['#604028', '#382010'], glow: 'rgba(253, 186, 140, 0.25)', desc: 'AI integrations and middleware. Prompt engineering, tool orchestration, and multi-model pipelines.' },
+  { id: 'website', name: 'Web Apps', color: ['#1a0f2e', '#0d0718'], glow: 'rgba(100, 80, 160, 0.3)', desc: 'Full-stack applications with modern frameworks. SEO, responsive design, authentication, databases, and deployment.' },
+  { id: 'dashboard', name: 'Dashboards', color: ['#2a0f1e', '#150810'], glow: 'rgba(160, 80, 120, 0.3)', desc: 'Real-time data visualization and analytics. Interactive charts, live data streams, and beautiful interfaces.' },
+  { id: 'api', name: 'API', color: ['#0a1a14', '#050d0a'], glow: 'rgba(80, 160, 120, 0.3)', desc: 'REST and GraphQL APIs. Authentication, rate limiting, documentation, and third-party integrations.' },
+  { id: 'llm', name: 'LLM', color: ['#1a140a', '#0d0a05'], glow: 'rgba(160, 120, 80, 0.3)', desc: 'AI integrations and middleware. Prompt engineering, tool orchestration, and multi-model pipelines.' },
 ];
 
 const socialLinks = [
-  { id: 'github', name: 'GitHub', url: 'https://github.com/manfromnowhere143', color: ['#2d333b', '#161b22'], glow: 'rgba(255, 255, 255, 0.15)' },
-  { id: 'x', name: 'X', url: 'https://x.com/satori936', color: ['#1a1a1a', '#000000'], glow: 'rgba(255, 255, 255, 0.15)' },
-  { id: 'instagram', name: 'Instagram', url: 'https://instagram.com/overmind143', color: ['#833ab4', '#fd1d1d'], glow: 'rgba(225, 48, 108, 0.25)' },
-  { id: 'tiktok', name: 'TikTok', url: 'https://www.tiktok.com/@danielwahnich', color: ['#1a1a1a', '#000000'], glow: 'rgba(255, 255, 255, 0.15)' },
+  { id: 'github', name: 'GitHub', url: 'https://github.com/manfromnowhere143', color: ['#161b22', '#0d1117'], glow: 'rgba(200, 200, 200, 0.15)' },
+  { id: 'x', name: 'X', url: 'https://x.com/satori936', color: ['#0a0a0a', '#000000'], glow: 'rgba(255, 255, 255, 0.12)' },
+  { id: 'instagram', name: 'Instagram', url: 'https://instagram.com/overmind143', color: ['#4a1942', '#1a0818'], glow: 'rgba(180, 60, 140, 0.3)' },
+  { id: 'tiktok', name: 'TikTok', url: 'https://www.tiktok.com/@danielwahnich', color: ['#0a0a0a', '#000000'], glow: 'rgba(255, 255, 255, 0.12)' },
 ];
 
 const galleryItems = [
@@ -55,7 +48,6 @@ type AnimationState = 'idle' | 'entering' | 'active' | 'exiting';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // STATE OF THE ART - GLOBAL CLEANUP FUNCTION
-// This ensures scroll is ALWAYS restored, even on navigation
 // ═══════════════════════════════════════════════════════════════════════════════
 const restoreScroll = () => {
   document.body.style.overflow = '';
@@ -84,9 +76,7 @@ export default function Work() {
   const [expandedImage, setExpandedImage] = useState<{src: string, name: string} | null>(null);
   const [imageAnimState, setImageAnimState] = useState<AnimationState>('idle');
   const [bridgePhase, setBridgePhase] = useState<'idle' | 'loading' | 'transitioning'>('idle');
-  const [pendingImage, setPendingImage] = useState<{src: string, name: string} | null>(null);
 
-  // STATE OF THE ART - Image cache to skip loading spinner for already-loaded images
   const loadedImagesRef = useRef<Set<string>>(new Set());
 
   const folderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -108,28 +98,18 @@ export default function Work() {
     return () => clearTimeout(timer);
   }, []);
 
-  // ═══════════════════════════════════════════════════════════════════════════════
-  // STATE OF THE ART - CLEANUP ON UNMOUNT (navigation away)
-  // This is the KEY fix - restore scroll when component unmounts
-  // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
     return () => {
-      // Clear all timeouts
       if (folderTimeoutRef.current) clearTimeout(folderTimeoutRef.current);
       if (expandedTimeoutRef.current) clearTimeout(expandedTimeoutRef.current);
       if (galleryTimeoutRef.current) clearTimeout(galleryTimeoutRef.current);
       if (notesTimeoutRef.current) clearTimeout(notesTimeoutRef.current);
       if (imageTimeoutRef.current) clearTimeout(imageTimeoutRef.current);
       if (bridgeTimeoutRef.current) clearTimeout(bridgeTimeoutRef.current);
-
-      // CRITICAL: Restore scroll on unmount (navigation away)
       restoreScroll();
     };
   }, []);
 
-  // ═══════════════════════════════════════════════════════════════════════════════
-  // STATE OF THE ART - SOLID ROCK LOCK (only when overlays are open)
-  // ═══════════════════════════════════════════════════════════════════════════════
   useEffect(() => {
     const isOpen = folderAnimState !== 'idle' || expandedAnimState !== 'idle' ||
                    galleryAnimState !== 'idle' || notesAnimState !== 'idle' ||
@@ -164,11 +144,9 @@ export default function Work() {
       };
 
     } else {
-      // Restore scroll when all overlays are closed
       restoreScroll();
     }
 
-    // Cleanup on effect re-run
     return () => {
       if ((window as any).__workSolidRockCleanup) {
         (window as any).__workSolidRockCleanup();
@@ -198,10 +176,6 @@ export default function Work() {
     }, 350);
   }, [folderAnimState]);
 
-  // ═══════════════════════════════════════════════════════════════════════════════
-  // STATE OF THE ART - APPLE-LEVEL CROSSFADE TRANSITIONS
-  // ═══════════════════════════════════════════════════════════════════════════════
-
   const handleOpenServiceWithBridge = useCallback((index: number) => {
     if (expandedAnimState !== 'idle' || bridgePhase !== 'idle') return;
 
@@ -224,15 +198,6 @@ export default function Work() {
       });
     }, 400);
   }, [expandedAnimState, bridgePhase, handleCloseFolder]);
-
-  const handleOpenService = useCallback((index: number) => {
-    if (expandedAnimState !== 'idle') return;
-    setExpandedService(index);
-    setExpandedAnimState('entering');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setExpandedAnimState('active'));
-    });
-  }, [expandedAnimState]);
 
   const handleCloseService = useCallback(() => {
     if (expandedAnimState !== 'active') return;
@@ -266,15 +231,6 @@ export default function Work() {
     }, 400);
   }, [galleryAnimState, bridgePhase, handleCloseFolder]);
 
-  const handleOpenGallery = useCallback(() => {
-    if (galleryAnimState !== 'idle') return;
-    setGalleryOpen(true);
-    setGalleryAnimState('entering');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setGalleryAnimState('active'));
-    });
-  }, [galleryAnimState]);
-
   const handleCloseGallery = useCallback(() => {
     if (galleryAnimState !== 'active') return;
     setGalleryAnimState('exiting');
@@ -307,15 +263,6 @@ export default function Work() {
     }, 400);
   }, [notesAnimState, bridgePhase, handleCloseFolder]);
 
-  const handleOpenNotes = useCallback(() => {
-    if (notesAnimState !== 'idle') return;
-    setNotesOpen(true);
-    setNotesAnimState('entering');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setNotesAnimState('active'));
-    });
-  }, [notesAnimState]);
-
   const handleCloseNotes = useCallback(() => {
     if (notesAnimState !== 'active') return;
     setNotesAnimState('exiting');
@@ -328,11 +275,9 @@ export default function Work() {
   const handleOpenImage = useCallback((image: {src: string, name: string}) => {
     if (imageAnimState !== 'idle' || bridgePhase !== 'idle') return;
 
-    // STATE OF THE ART - Check if image is already cached
     const isAlreadyLoaded = loadedImagesRef.current.has(image.src);
 
     if (isAlreadyLoaded) {
-      // INSTANT transition - no spinner needed, image is cached
       setExpandedImage(image);
       setImageAnimState('entering');
 
@@ -342,13 +287,10 @@ export default function Work() {
         });
       });
     } else {
-      // FIRST TIME - show spinner while preloading
-      setPendingImage(image);
       setBridgePhase('loading');
 
       const img = new Image();
       const showImage = () => {
-        // Mark as loaded for future opens
         loadedImagesRef.current.add(image.src);
 
         setExpandedImage(image);
@@ -361,7 +303,6 @@ export default function Work() {
 
             setTimeout(() => {
               setBridgePhase('idle');
-              setPendingImage(null);
             }, 450);
           });
         });
@@ -383,33 +324,78 @@ export default function Work() {
   }, [imageAnimState]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // RENDER ICONS
+  // STATE OF THE ART - PREMIUM MINI ICONS (Folder Preview)
   // ═══════════════════════════════════════════════════════════════════════════════
 
-  const renderAppMiniIcon = (id: string, size: number = 18) => {
-    switch (id) {
-      case 'trade69':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.9"/><path d="M17 7h4v4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/></svg>;
-      case 'megaagent':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="white" strokeWidth="1.5" opacity="0.9"/><circle cx="6" cy="16" r="3" stroke="white" strokeWidth="1.5" opacity="0.7"/><circle cx="18" cy="16" r="3" stroke="white" strokeWidth="1.5" opacity="0.7"/><path d="M12 12v2M8.5 14l-1 1M15.5 14l1 1" stroke="white" strokeWidth="1.5" opacity="0.5"/></svg>;
-      case 'octopus':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="5" stroke="white" strokeWidth="1.5" opacity="0.9"/><path d="M7 15c-1 2-2 4-1 5M10 14c0 3-1 5 0 6M14 14c0 3 1 5 0 6M17 15c1 2 2 4 1 5" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/><circle cx="10" cy="9" r="1" fill="white" opacity="0.9"/><circle cx="14" cy="9" r="1" fill="white" opacity="0.9"/></svg>;
-      case 'overmind':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.5" opacity="0.5"/><circle cx="12" cy="12" r="4" stroke="white" strokeWidth="1.5" opacity="0.7"/><circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white" strokeWidth="1" opacity="0.4"/></svg>;
-      default: return null;
+  const renderAppMiniIcon = (app: typeof appsItems[0], size: number = 18) => {
+    if (app.image) {
+      return (
+        <img
+          src={app.image}
+          alt={app.name}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            borderRadius: 'inherit'
+          }}
+        />
+      );
     }
+
+    if (app.id === 'megaagent') {
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="6" r="2.5" fill="white" opacity="0.95"/>
+          <circle cx="6" cy="14" r="2" fill="white" opacity="0.8"/>
+          <circle cx="18" cy="14" r="2" fill="white" opacity="0.8"/>
+          <circle cx="12" cy="20" r="1.5" fill="white" opacity="0.6"/>
+          <path d="M12 8.5v3M8 13l2.5-4M16 13l-2.5-4M10 18l-2.5-3M14 18l2.5-3" stroke="white" strokeWidth="1" opacity="0.4"/>
+        </svg>
+      );
+    }
+
+    return null;
   };
 
   const renderServiceMiniIcon = (id: string, size: number = 18) => {
     switch (id) {
       case 'website':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke="white" strokeWidth="1.5" opacity="0.9"/><path d="M3 8h18" stroke="white" strokeWidth="1" opacity="0.6"/><circle cx="5.5" cy="6" r="0.8" fill="white" opacity="0.8"/><circle cx="8" cy="6" r="0.8" fill="white" opacity="0.8"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="4" width="18" height="14" rx="2" stroke="white" strokeWidth="1.5" opacity="0.9"/>
+            <path d="M3 8h18" stroke="white" strokeWidth="1" opacity="0.5"/>
+            <circle cx="5.5" cy="6" r="0.7" fill="white" opacity="0.7"/>
+            <circle cx="7.5" cy="6" r="0.7" fill="white" opacity="0.7"/>
+          </svg>
+        );
       case 'dashboard':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.5" opacity="0.9"/><path d="M12 6v3M12 15v3M6 12h3M15 12h3" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/><circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="8" stroke="white" strokeWidth="1.5" opacity="0.8"/>
+            <path d="M12 6v3M12 15v3M6 12h3M15 12h3" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
+            <circle cx="12" cy="12" r="2" fill="white" opacity="0.95"/>
+          </svg>
+        );
       case 'api':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2" fill="white" opacity="0.9"/><circle cx="5" cy="12" r="2" fill="white" opacity="0.9"/><circle cx="19" cy="12" r="2" fill="white" opacity="0.9"/><circle cx="12" cy="19" r="2" fill="white" opacity="0.9"/><path d="M12 7v4M12 13v4M7 12h4M13 12h4" stroke="white" strokeWidth="1.5" opacity="0.6"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="5" r="2" fill="white" opacity="0.9"/>
+            <circle cx="5" cy="12" r="2" fill="white" opacity="0.8"/>
+            <circle cx="19" cy="12" r="2" fill="white" opacity="0.8"/>
+            <circle cx="12" cy="19" r="2" fill="white" opacity="0.9"/>
+            <path d="M12 7v4M12 13v4M7 12h4M13 12h4" stroke="white" strokeWidth="1.2" opacity="0.5"/>
+          </svg>
+        );
       case 'llm':
-        return <svg width={size} height={size} viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="12" rx="9" ry="5" stroke="white" strokeWidth="1.2" opacity="0.5"/><ellipse cx="12" cy="12" rx="9" ry="5" stroke="white" strokeWidth="1.2" opacity="0.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="5" stroke="white" strokeWidth="1.2" opacity="0.5" transform="rotate(120 12 12)"/><circle cx="12" cy="12" r="3" fill="white" opacity="0.9"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+            <ellipse cx="12" cy="12" rx="9" ry="4" stroke="white" strokeWidth="1" opacity="0.4"/>
+            <ellipse cx="12" cy="12" rx="9" ry="4" stroke="white" strokeWidth="1" opacity="0.4" transform="rotate(60 12 12)"/>
+            <ellipse cx="12" cy="12" rx="9" ry="4" stroke="white" strokeWidth="1" opacity="0.4" transform="rotate(120 12 12)"/>
+            <circle cx="12" cy="12" r="3" fill="white" opacity="0.95"/>
+          </svg>
+        );
       default: return null;
     }
   };
@@ -428,16 +414,89 @@ export default function Work() {
     }
   };
 
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // STATE OF THE ART - FULL SIZE ICONS (Expanded Folder)
+  // ═══════════════════════════════════════════════════════════════════════════════
+
+  const renderAppFullIcon = (app: typeof appsItems[0], size: number = 48) => {
+    if (app.image) {
+      return (
+        <img
+          src={app.image}
+          alt={app.name}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            borderRadius: 'inherit'
+          }}
+        />
+      );
+    }
+
+    if (app.id === 'megaagent') {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="12" r="6" fill="white" opacity="0.95"/>
+          <circle cx="12" cy="35" r="5" fill="white" opacity="0.85"/>
+          <circle cx="48" cy="35" r="5" fill="white" opacity="0.85"/>
+          <circle cx="30" cy="52" r="4" fill="white" opacity="0.7"/>
+          <circle cx="20" cy="24" r="3" fill="white" opacity="0.6"/>
+          <circle cx="40" cy="24" r="3" fill="white" opacity="0.6"/>
+          <path d="M30 18v8M17 33l6-12M43 33l-6-12M24 48l-8-10M36 48l8-10M22 26l-7 7M38 26l7 7" stroke="white" strokeWidth="1.5" opacity="0.35"/>
+        </svg>
+      );
+    }
+
+    return null;
+  };
+
   const renderServiceIcon = (id: string, size: number = 48) => {
     switch (id) {
       case 'website':
-        return <svg width={size} height={size} viewBox="0 0 60 60" fill="none"><rect x="8" y="12" width="44" height="32" rx="4" stroke="white" strokeWidth="2" opacity="0.9"/><path d="M8 20h44" stroke="white" strokeWidth="1.5" opacity="0.6"/><circle cx="13" cy="16" r="2" fill="white" opacity="0.8"/><circle cx="19" cy="16" r="2" fill="white" opacity="0.8"/><circle cx="25" cy="16" r="2" fill="white" opacity="0.8"/><rect x="14" y="26" width="14" height="12" rx="1" fill="white" opacity="0.5"/><rect x="32" y="26" width="14" height="4" rx="1" fill="white" opacity="0.4"/><rect x="32" y="33" width="10" height="3" rx="1" fill="white" opacity="0.3"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            <rect x="8" y="12" width="44" height="32" rx="4" stroke="white" strokeWidth="2" opacity="0.9"/>
+            <path d="M8 20h44" stroke="white" strokeWidth="1.5" opacity="0.5"/>
+            <circle cx="13" cy="16" r="2" fill="white" opacity="0.7"/>
+            <circle cx="19" cy="16" r="2" fill="white" opacity="0.7"/>
+            <circle cx="25" cy="16" r="2" fill="white" opacity="0.7"/>
+            <rect x="14" y="26" width="14" height="12" rx="1" fill="white" opacity="0.4"/>
+            <rect x="32" y="26" width="14" height="4" rx="1" fill="white" opacity="0.3"/>
+            <rect x="32" y="33" width="10" height="3" rx="1" fill="white" opacity="0.25"/>
+          </svg>
+        );
       case 'dashboard':
-        return <svg width={size} height={size} viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="22" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="30" cy="30" r="16" stroke="white" strokeWidth="1.5" opacity="0.5"/><path d="M30 12v6M30 42v6M12 30h6M42 30h6" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.7"/><circle cx="30" cy="30" r="5" fill="white" opacity="0.9"/><path d="M30 30l8-12" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.8"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="30" r="22" stroke="white" strokeWidth="2" opacity="0.8"/>
+            <circle cx="30" cy="30" r="14" stroke="white" strokeWidth="1.5" opacity="0.4"/>
+            <path d="M30 10v8M30 42v8M10 30h8M42 30h8" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.6"/>
+            <circle cx="30" cy="30" r="5" fill="white" opacity="0.95"/>
+            <path d="M30 30l10-14" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.75"/>
+          </svg>
+        );
       case 'api':
-        return <svg width={size} height={size} viewBox="0 0 60 60" fill="none"><circle cx="30" cy="10" r="6" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="10" cy="30" r="6" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="50" cy="30" r="6" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="30" cy="50" r="6" stroke="white" strokeWidth="2" opacity="0.9"/><path d="M30 16v8M30 36v8M16 30h8M36 30h8" stroke="white" strokeWidth="2" opacity="0.6"/><circle cx="30" cy="30" r="8" fill="white" opacity="0.9"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="10" r="6" stroke="white" strokeWidth="2" opacity="0.9"/>
+            <circle cx="10" cy="30" r="6" stroke="white" strokeWidth="2" opacity="0.85"/>
+            <circle cx="50" cy="30" r="6" stroke="white" strokeWidth="2" opacity="0.85"/>
+            <circle cx="30" cy="50" r="6" stroke="white" strokeWidth="2" opacity="0.9"/>
+            <path d="M30 16v8M30 36v8M16 30h8M36 30h8" stroke="white" strokeWidth="2" opacity="0.5"/>
+            <circle cx="30" cy="30" r="8" fill="white" opacity="0.95"/>
+          </svg>
+        );
       case 'llm':
-        return <svg width={size} height={size} viewBox="0 0 60 60" fill="none"><ellipse cx="30" cy="30" rx="24" ry="14" stroke="white" strokeWidth="1.5" opacity="0.5"/><ellipse cx="30" cy="30" rx="24" ry="14" stroke="white" strokeWidth="1.5" opacity="0.5" transform="rotate(60 30 30)"/><ellipse cx="30" cy="30" rx="24" ry="14" stroke="white" strokeWidth="1.5" opacity="0.5" transform="rotate(120 30 30)"/><circle cx="30" cy="30" r="10" fill="white" opacity="0.9"/><circle cx="30" cy="30" r="5" fill="white" opacity="1"/></svg>;
+        return (
+          <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+            <ellipse cx="30" cy="30" rx="24" ry="12" stroke="white" strokeWidth="1.5" opacity="0.4"/>
+            <ellipse cx="30" cy="30" rx="24" ry="12" stroke="white" strokeWidth="1.5" opacity="0.4" transform="rotate(60 30 30)"/>
+            <ellipse cx="30" cy="30" rx="24" ry="12" stroke="white" strokeWidth="1.5" opacity="0.4" transform="rotate(120 30 30)"/>
+            <circle cx="30" cy="30" r="10" fill="white" opacity="0.9"/>
+            <circle cx="30" cy="30" r="5" fill="white" opacity="1"/>
+          </svg>
+        );
       default: return null;
     }
   };
@@ -509,13 +568,7 @@ export default function Work() {
       <style>{`
         * { -webkit-tap-highlight-color: transparent; }
         
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - iPHONE-STYLE SCROLL LOCK                                     */
-        /* Lock vertical scroll on main page, preserve horizontal swipe navigation         */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
         .work-page {
-          /* LOCK vertical scroll - iPhone home screen style */
           position: fixed;
           top: 0;
           left: 0;
@@ -526,7 +579,6 @@ export default function Work() {
           -webkit-overflow-scrolling: touch;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          /* Allow horizontal touch for swipe navigation */
           touch-action: pan-x;
         }
         
@@ -555,9 +607,9 @@ export default function Work() {
           width: 115px;
           height: 115px;
           border-radius: 28px;
-          background: rgba(120, 120, 120, 0.18);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          background: rgba(40, 40, 45, 0.65);
+          backdrop-filter: blur(30px) saturate(180%);
+          -webkit-backdrop-filter: blur(30px) saturate(180%);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -566,8 +618,14 @@ export default function Work() {
           opacity: 0;
           transform: translateZ(0) scale(0.85) translateY(15px);
           transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease;
-          box-shadow: 0 0 50px rgba(255, 255, 255, 0.06), 0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 
+            0 0 0 0.5px rgba(255, 255, 255, 0.08),
+            0 0 40px rgba(0, 0, 0, 0.5),
+            0 8px 32px rgba(0, 0, 0, 0.6),
+            0 2px 8px rgba(0, 0, 0, 0.4),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.04);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
         }
@@ -578,8 +636,8 @@ export default function Work() {
           top: 0;
           left: 8%;
           right: 8%;
-          height: 50%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.08) 40%, transparent 100%);
+          height: 45%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 100%);
           border-radius: 28px 28px 50% 50%;
           pointer-events: none;
           z-index: 10;
@@ -621,7 +679,12 @@ export default function Work() {
           justify-content: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 0 12px var(--glow-color, rgba(255, 255, 255, 0.1)), 0 3px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 
+            0 0 20px var(--glow-color, rgba(255, 255, 255, 0.08)),
+            0 4px 12px rgba(0, 0, 0, 0.6),
+            0 1px 3px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.3);
         }
         
         .folder-mini-icon::before {
@@ -630,11 +693,15 @@ export default function Work() {
           top: 0;
           left: 5%;
           right: 5%;
-          height: 50%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+          height: 45%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
           border-radius: 11px 11px 50% 50%;
           pointer-events: none;
           z-index: 5;
+        }
+        
+        .folder-mini-icon.has-image::before {
+          display: none;
         }
         
         .folder-name {
@@ -694,16 +761,16 @@ export default function Work() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(20, 20, 20, 0.65);
-          backdrop-filter: blur(40px);
-          -webkit-backdrop-filter: blur(40px);
+          background: rgba(8, 8, 10, 0.75);
+          backdrop-filter: blur(50px) saturate(150%);
+          -webkit-backdrop-filter: blur(50px) saturate(150%);
           touch-action: none;
         }
         
         .folder-container {
           position: relative;
           z-index: 2;
-          background: rgba(255, 255, 255, 0.98);
+          background: rgba(250, 250, 248, 0.97);
           backdrop-filter: blur(25px);
           -webkit-backdrop-filter: blur(25px);
           border-radius: 28px;
@@ -711,7 +778,11 @@ export default function Work() {
           opacity: 0;
           transform: translateZ(0);
           transition: none;
-          box-shadow: 0 0 60px rgba(255, 255, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4), 0 8px 25px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+          box-shadow: 
+            0 0 60px rgba(255, 255, 255, 0.1),
+            0 25px 80px rgba(0, 0, 0, 0.5),
+            0 10px 30px rgba(0, 0, 0, 0.4),
+            inset 0 1px 1px rgba(255, 255, 255, 0.9);
           touch-action: none;
         }
         
@@ -773,7 +844,12 @@ export default function Work() {
           justify-content: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 0 25px rgba(255, 255, 255, 0.12), 0 6px 20px rgba(0, 0, 0, 0.45), 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4), inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 
+            0 0 30px var(--glow-color, rgba(0, 0, 0, 0.15)),
+            0 8px 25px rgba(0, 0, 0, 0.5),
+            0 15px 50px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.25),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.25);
         }
         
         .folder-app-icon::before {
@@ -782,11 +858,16 @@ export default function Work() {
           top: 0;
           left: 8%;
           right: 8%;
-          height: 45%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+          height: 40%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
           border-radius: 17px 17px 50% 50%;
           pointer-events: none;
           z-index: 5;
+        }
+        
+        .folder-app-icon.has-image::before {
+          height: 35%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 100%);
         }
         
         .folder-app-name {
@@ -803,7 +884,7 @@ export default function Work() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: #0A0A0A;
+          background: #050506;
           z-index: 2000;
           display: flex;
           flex-direction: column;
@@ -851,7 +932,7 @@ export default function Work() {
           align-items: center;
           justify-content: center;
           margin-bottom: 28px;
-          filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.08));
+          filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.06));
         }
         
         .service-expanded-title {
@@ -867,7 +948,7 @@ export default function Work() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 14px;
           font-weight: 300;
-          color: #FFFFFF;
+          color: rgba(255, 255, 255, 0.75);
           max-width: 300px;
           text-align: center;
           line-height: 1.75;
@@ -936,16 +1017,16 @@ export default function Work() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(20, 20, 20, 0.65);
-          backdrop-filter: blur(40px);
-          -webkit-backdrop-filter: blur(40px);
+          background: rgba(8, 8, 10, 0.75);
+          backdrop-filter: blur(50px) saturate(150%);
+          -webkit-backdrop-filter: blur(50px) saturate(150%);
           touch-action: manipulation;
         }
         
         .media-container {
           position: relative;
           z-index: 2;
-          background: rgba(255, 255, 255, 0.98);
+          background: rgba(250, 250, 248, 0.97);
           backdrop-filter: blur(25px);
           -webkit-backdrop-filter: blur(25px);
           border-radius: 28px;
@@ -953,7 +1034,11 @@ export default function Work() {
           opacity: 0;
           transform: translateZ(0);
           transition: none;
-          box-shadow: 0 0 60px rgba(255, 255, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4), 0 8px 25px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+          box-shadow: 
+            0 0 60px rgba(255, 255, 255, 0.1),
+            0 25px 80px rgba(0, 0, 0, 0.5),
+            0 10px 30px rgba(0, 0, 0, 0.4),
+            inset 0 1px 1px rgba(255, 255, 255, 0.9);
           touch-action: manipulation;
         }
         
@@ -1015,7 +1100,12 @@ export default function Work() {
           justify-content: center;
           overflow: hidden;
           position: relative;
-          box-shadow: 0 0 25px rgba(255, 255, 255, 0.12), 0 6px 20px rgba(0, 0, 0, 0.45), 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4), inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 
+            0 0 25px rgba(0, 0, 0, 0.15),
+            0 8px 25px rgba(0, 0, 0, 0.5),
+            0 15px 50px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.25),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.25);
         }
         
         .media-item-icon::before {
@@ -1024,8 +1114,8 @@ export default function Work() {
           top: 0;
           left: 8%;
           right: 8%;
-          height: 45%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+          height: 35%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
           border-radius: 18px 18px 50% 50%;
           pointer-events: none;
           z-index: 10;
@@ -1084,7 +1174,7 @@ export default function Work() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: #0A0A0A;
+          background: #050506;
           z-index: 3000;
           display: flex;
           flex-direction: column;
@@ -1134,7 +1224,7 @@ export default function Work() {
           display: flex;
           align-items: center;
           justify-content: center;
-          filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.1)) drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
+          filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.08)) drop-shadow(0 25px 60px rgba(0, 0, 0, 0.7));
           touch-action: manipulation;
           opacity: 0;
           transform: translateZ(0) scale(0.9);
@@ -1197,7 +1287,7 @@ export default function Work() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: #0A0A0A;
+          background: #050506;
           z-index: 2500;
           display: flex;
           flex-direction: column;
@@ -1231,11 +1321,11 @@ export default function Work() {
         .bridge-spinner {
           width: 44px;
           height: 44px;
-          border: 2.5px solid rgba(255, 255, 255, 0.12);
-          border-top-color: rgba(255, 255, 255, 0.9);
+          border: 2px solid rgba(255, 255, 255, 0.08);
+          border-top-color: rgba(255, 255, 255, 0.8);
           border-radius: 50%;
           animation: bridgeSpin 0.9s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite;
-          filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
+          filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
         }
         
         @keyframes bridgeSpin {
@@ -1273,14 +1363,22 @@ export default function Work() {
         }
       `}</style>
 
-      <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ minHeight: "100vh", backgroundColor: "#0A0A0A", paddingTop: "clamp(100px, 15vh, 160px)", paddingBottom: "100px", paddingLeft: "20px", paddingRight: "20px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
+      <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ minHeight: "100vh", backgroundColor: "#050506", paddingTop: "clamp(100px, 15vh, 160px)", paddingBottom: "100px", paddingLeft: "20px", paddingRight: "20px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
         <div className="folders-grid">
+          {/* Apps Folder */}
           <div className="folder-wrapper">
             <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('apps')}>
               <div className="folder-preview">
                 {appsItems.map((app) => (
-                  <div key={app.id} className="folder-mini-icon" style={{ background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})`, '--glow-color': app.glow } as React.CSSProperties}>
-                    {renderAppMiniIcon(app.id, miniIconSize)}
+                  <div
+                    key={app.id}
+                    className={`folder-mini-icon ${app.image ? 'has-image' : ''}`}
+                    style={{
+                      background: app.image ? 'transparent' : `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})`,
+                      '--glow-color': app.glow
+                    } as React.CSSProperties}
+                  >
+                    {renderAppMiniIcon(app, miniIconSize)}
                   </div>
                 ))}
               </div>
@@ -1288,11 +1386,19 @@ export default function Work() {
             <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>Apps</span>
           </div>
 
+          {/* Services Folder */}
           <div className="folder-wrapper">
             <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('services')}>
               <div className="folder-preview">
                 {servicesItems.map((service) => (
-                  <div key={service.id} className="folder-mini-icon" style={{ background: `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})`, '--glow-color': service.glow } as React.CSSProperties}>
+                  <div
+                    key={service.id}
+                    className="folder-mini-icon"
+                    style={{
+                      background: `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})`,
+                      '--glow-color': service.glow
+                    } as React.CSSProperties}
+                  >
                     {renderServiceMiniIcon(service.id, miniIconSize)}
                   </div>
                 ))}
@@ -1301,25 +1407,43 @@ export default function Work() {
             <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>Services</span>
           </div>
 
+          {/* Media Folder */}
           <div className="folder-wrapper">
             <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('entertainment')}>
               <div className="folder-preview folder-preview-2">
-                <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #7C3AED, #4C1D95)', '--glow-color': 'rgba(139, 92, 246, 0.3)' } as React.CSSProperties}>
-                  <svg width={miniIconSize} height={miniIconSize} viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="white" strokeWidth="1.5" opacity="0.9"/><circle cx="8" cy="8" r="2" fill="white" opacity="0.8"/><path d="M3 16l5-5 4 4 5-5 4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/></svg>
+                <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #2a1845, #150c22)', '--glow-color': 'rgba(100, 60, 160, 0.35)' } as React.CSSProperties}>
+                  <svg width={miniIconSize} height={miniIconSize} viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="white" strokeWidth="1.5" opacity="0.9"/>
+                    <circle cx="8" cy="8" r="2" fill="white" opacity="0.8"/>
+                    <path d="M3 16l5-5 4 4 5-5 4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
+                  </svg>
                 </div>
-                <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #F59E0B, #B45309)', '--glow-color': 'rgba(245, 158, 11, 0.3)' } as React.CSSProperties}>
-                  <svg width={miniIconSize} height={miniIconSize} viewBox="0 0 24 24" fill="none"><rect x="4" y="2" width="16" height="20" rx="2" fill="white" opacity="0.95"/><path d="M8 7h8M8 11h6M8 15h4" stroke="#B45309" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/></svg>
+                <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #3d2a10, #1f1508)', '--glow-color': 'rgba(160, 120, 60, 0.35)' } as React.CSSProperties}>
+                  <svg width={miniIconSize} height={miniIconSize} viewBox="0 0 24 24" fill="none">
+                    <rect x="4" y="2" width="16" height="20" rx="2" fill="white" opacity="0.95"/>
+                    <path d="M8 7h8M8 11h6M8 15h4" stroke="#3d2a10" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+                  </svg>
                 </div>
               </div>
             </div>
             <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>Media</span>
           </div>
 
+          {/* Social Folder */}
           <div className="folder-wrapper">
             <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('social')}>
               <div className="folder-preview">
                 {socialLinks.map((social) => (
-                  <div key={social.id} className="folder-mini-icon" style={{ background: social.id === 'instagram' ? 'linear-gradient(145deg, #833ab4, #fd1d1d, #fcb045)' : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})`, '--glow-color': social.glow } as React.CSSProperties}>
+                  <div
+                    key={social.id}
+                    className="folder-mini-icon"
+                    style={{
+                      background: social.id === 'instagram'
+                        ? 'linear-gradient(145deg, #4a1942, #1a0818)'
+                        : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})`,
+                      '--glow-color': social.glow
+                    } as React.CSSProperties}
+                  >
                     {renderSocialMiniIcon(social.id, miniIconSize - 2)}
                   </div>
                 ))}
@@ -1330,7 +1454,7 @@ export default function Work() {
         </div>
       </div>
 
-      {/* Apps Folder */}
+      {/* Apps Folder Overlay */}
       {openFolder === 'apps' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
@@ -1338,11 +1462,14 @@ export default function Work() {
             <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               {appsItems.map((app) => (
                 <Link key={app.id} href={app.href} className="folder-app" onClick={restoreScroll}>
-                  <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})` }}>
-                    {app.id === 'trade69' && <Trade69Icon3D size={folderIconSize} />}
-                    {app.id === 'megaagent' && <MegaAgentIcon3D size={folderIconSize} />}
-                    {app.id === 'octopus' && <OctopusIcon3D size={folderIconSize} />}
-                    {app.id === 'overmind' && <OvermindIcon3D size={folderIconSize} />}
+                  <div
+                    className={`folder-app-icon ${app.image ? 'has-image' : ''}`}
+                    style={{
+                      background: app.image ? 'transparent' : `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})`,
+                      '--glow-color': app.glow
+                    } as React.CSSProperties}
+                  >
+                    {renderAppFullIcon(app, folderIconSize)}
                   </div>
                   <span className="folder-app-name">{app.name}</span>
                 </Link>
@@ -1352,15 +1479,25 @@ export default function Work() {
         </div>
       )}
 
-      {/* Services Folder */}
+      {/* Services Folder Overlay */}
       {openFolder === 'services' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container" onClick={handleCloseFolder}>
             <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               {servicesItems.map((service, index) => (
-                <div key={service.id} className="folder-app" onClick={() => handleOpenServiceWithBridge(index)}>
-                  <div className="folder-app-icon" style={{ background: `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})` }}>
+                <div
+                  key={service.id}
+                  className="folder-app"
+                  onClick={() => handleOpenServiceWithBridge(index)}
+                >
+                  <div
+                    className="folder-app-icon"
+                    style={{
+                      background: `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})`,
+                      '--glow-color': service.glow
+                    } as React.CSSProperties}
+                  >
                     {renderServiceIcon(service.id, folderIconSize * 0.75)}
                   </div>
                   <span className="folder-app-name">{service.name}</span>
@@ -1371,21 +1508,41 @@ export default function Work() {
         </div>
       )}
 
-      {/* Entertainment Folder */}
+      {/* Media Folder Overlay */}
       {openFolder === 'entertainment' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container" onClick={handleCloseFolder}>
             <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               <div className="folder-app" onClick={handleOpenGalleryWithBridge}>
-                <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #7C3AED, #4C1D95)' }}>
-                  <svg width="36" height="36" viewBox="0 0 60 60" fill="none"><rect x="8" y="8" width="44" height="44" rx="4" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="20" cy="20" r="5" fill="white" opacity="0.8"/><path d="M8 42l12-12 10 10 12-12 10 10" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/></svg>
+                <div
+                  className="folder-app-icon"
+                  style={{
+                    background: 'linear-gradient(145deg, #2a1845, #150c22)',
+                    '--glow-color': 'rgba(100, 60, 160, 0.35)'
+                  } as React.CSSProperties}
+                >
+                  <svg width="36" height="36" viewBox="0 0 60 60" fill="none">
+                    <rect x="8" y="8" width="44" height="44" rx="4" stroke="white" strokeWidth="2" opacity="0.9"/>
+                    <circle cx="20" cy="20" r="5" fill="white" opacity="0.8"/>
+                    <path d="M8 42l12-12 10 10 12-12 10 10" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.6"/>
+                  </svg>
                 </div>
                 <span className="folder-app-name">Gallery</span>
               </div>
               <div className="folder-app" onClick={handleOpenNotesWithBridge}>
-                <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #F59E0B, #B45309)' }}>
-                  <svg width="36" height="36" viewBox="0 0 60 60" fill="none"><rect x="10" y="6" width="40" height="48" rx="4" fill="white" opacity="0.95"/><path d="M18 18h24M18 28h20M18 38h14" stroke="#B45309" strokeWidth="2.5" strokeLinecap="round" opacity="0.5"/><rect x="10" y="6" width="40" height="8" rx="4" fill="#F59E0B" opacity="0.3"/></svg>
+                <div
+                  className="folder-app-icon"
+                  style={{
+                    background: 'linear-gradient(145deg, #3d2a10, #1f1508)',
+                    '--glow-color': 'rgba(160, 120, 60, 0.35)'
+                  } as React.CSSProperties}
+                >
+                  <svg width="36" height="36" viewBox="0 0 60 60" fill="none">
+                    <rect x="10" y="6" width="40" height="48" rx="4" fill="white" opacity="0.95"/>
+                    <path d="M18 18h24M18 28h20M18 38h14" stroke="#3d2a10" strokeWidth="2.5" strokeLinecap="round" opacity="0.4"/>
+                    <rect x="10" y="6" width="40" height="8" rx="4" fill="#3d2a10" opacity="0.2"/>
+                  </svg>
                 </div>
                 <span className="folder-app-name">Notes</span>
               </div>
@@ -1394,15 +1551,30 @@ export default function Work() {
         </div>
       )}
 
-      {/* Social Folder */}
+      {/* Social Folder Overlay */}
       {openFolder === 'social' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container" onClick={handleCloseFolder}>
             <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               {socialLinks.map((social) => (
-                <Link key={social.id} href={social.url} target="_blank" rel="noopener noreferrer" className="folder-app" onClick={restoreScroll}>
-                  <div className="folder-app-icon" style={{ background: social.id === 'instagram' ? 'linear-gradient(145deg, #833ab4, #fd1d1d, #fcb045)' : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})` }}>
+                <Link
+                  key={social.id}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="folder-app"
+                  onClick={restoreScroll}
+                >
+                  <div
+                    className="folder-app-icon"
+                    style={{
+                      background: social.id === 'instagram'
+                        ? 'linear-gradient(145deg, #4a1942, #1a0818)'
+                        : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})`,
+                      '--glow-color': social.glow
+                    } as React.CSSProperties}
+                  >
                     {renderSocialIcon(social.id, 32)}
                   </div>
                   <span className="folder-app-name">{social.name}</span>
