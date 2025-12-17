@@ -9,9 +9,9 @@ import Link from "next/link";
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const appsItems = [
-  { id: 'trade69', name: 'Trade69', href: '/work/trade69', color: ['#0a1f1c', '#040d0b'], glow: 'rgba(45, 120, 100, 0.35)', image: '/images/t69app.png' },
+  { id: 'trade69', name: 'Trade69', href: '/work/trade69', color: ['#0a1f1c', '#040d0b'], glow: 'rgba(45, 120, 100, 0.35)', image: '/images/t69app3.png' },
   { id: 'megaagent', name: 'MegaAgent', href: '/work/megaagent', color: ['#1a0f2e', '#0d0718'], glow: 'rgba(120, 80, 180, 0.3)' },
-  { id: 'octopus', name: 'Octopus', href: '/work/octopus', color: ['#0a1a24', '#040c12'], glow: 'rgba(60, 140, 180, 0.35)', image: '/images/octopusapp.png' },
+  { id: 'octopus', name: 'Octopus', href: '/work/octopus', color: ['#0a1a24', '#040c12'], glow: 'rgba(60, 140, 180, 0.35)', image: '/images/octopusapp2.png' },
   { id: 'overmind', name: 'Overmind', href: '/work/overmind', color: ['#1a1408', '#0d0a04'], glow: 'rgba(180, 140, 60, 0.35)', image: '/images/twinkle.png' },
 ];
 
