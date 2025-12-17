@@ -266,21 +266,6 @@ export default function Trade69() {
           text-align: center;
         }
 
-        .t69-arch-section {
-          max-width: 1000px;
-          margin: 0 auto;
-          padding: clamp(40px, 6vh, 60px) 24px;
-        }
-        .t69-arch-intro {
-          font-size: clamp(14px, 1.8vw, 15px);
-          color: #FAFAF8;
-          line-height: 1.8;
-          font-weight: 200;
-          max-width: 600px;
-          margin: 0 auto clamp(32px, 5vh, 40px);
-          text-align: center;
-        }
-
         /* ═══════════════════════════════════════════════════════════════════════════════
            VIDEO INLINE
            ═══════════════════════════════════════════════════════════════════════════════ */
@@ -332,26 +317,6 @@ export default function Trade69() {
         .t69-video-wrap:hover .t69-expand-btn { opacity: 1; transform: scale(1); }
         .t69-expand-btn:hover { background: rgba(0,0,0,0.9); transform: scale(1.1) !important; }
         .t69-expand-btn svg { width: 20px; height: 20px; color: white; }
-
-        /* ═══════════════════════════════════════════════════════════════════════════════
-           SCREENSHOTS
-           ═══════════════════════════════════════════════════════════════════════════════ */
-        .t69-screenshots {
-          max-width: 1000px;
-          margin: 0 auto;
-          padding: clamp(40px, 6vh, 60px) 24px;
-        }
-        .t69-screenshots-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
-          gap: 24px;
-        }
-        .t69-screenshot {
-          box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-          border: 1px solid #1C1C1C;
-          border-radius: 4px;
-          overflow: hidden;
-        }
 
         /* ═══════════════════════════════════════════════════════════════════════════════
            TEXT SECTIONS
@@ -449,67 +414,84 @@ export default function Trade69() {
 
         /* ═══════════════════════════════════════════════════════════════════════════════
            OVERLAY - BULLETPROOF FIXED POSITIONING
-           Using viewport units and transform for perfect centering
+           Apple-style spring animations with GPU acceleration
            ═══════════════════════════════════════════════════════════════════════════════ */
         .t69-overlay-backdrop {
           position: fixed;
           top: 0;
           left: 0;
-          width: 100vw;
-          height: 100vh;
-          height: 100dvh;
+          right: 0;
+          bottom: 0;
           z-index: 999999;
           background: rgba(0, 0, 0, 0.97);
           display: flex;
           align-items: center;
           justify-content: center;
           opacity: 0;
-          transition: opacity 0.3s ease;
+          visibility: hidden;
+          transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior: contain;
         }
-        .t69-overlay-backdrop.visible { opacity: 1; }
-        .t69-overlay-backdrop.closing { opacity: 0; }
+        .t69-overlay-backdrop.visible { 
+          opacity: 1; 
+          visibility: visible;
+        }
+        .t69-overlay-backdrop.closing { 
+          opacity: 0;
+          transition: opacity 0.25s cubic-bezier(0.4, 0, 1, 1), visibility 0.25s;
+        }
 
         .t69-overlay-card {
-          transform: scale(0.9) translateY(30px);
+          transform: scale(0.92) translateY(20px);
           opacity: 0;
-          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                      opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          will-change: transform, opacity;
         }
         .t69-overlay-backdrop.visible .t69-overlay-card {
           transform: scale(1) translateY(0);
           opacity: 1;
+          transition-delay: 0.05s;
         }
         .t69-overlay-backdrop.closing .t69-overlay-card {
-          transform: scale(0.95) translateY(15px);
+          transform: scale(0.96) translateY(10px);
           opacity: 0;
-          transition: all 0.25s ease;
+          transition: transform 0.2s cubic-bezier(0.4, 0, 1, 1), 
+                      opacity 0.2s cubic-bezier(0.4, 0, 1, 1);
         }
 
         .t69-close {
           position: fixed;
-          bottom: max(24px, env(safe-area-inset-bottom));
+          bottom: max(24px, env(safe-area-inset-bottom, 24px));
           left: 50%;
-          transform: translateX(-50%);
+          transform: translateX(-50%) scale(0.8);
           width: 56px;
           height: 56px;
           border-radius: 50%;
           background: rgba(255,255,255,0.12);
           backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
           border: 1px solid rgba(255,255,255,0.15);
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
           opacity: 0;
-          transition: all 0.3s ease 0.15s;
+          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
           z-index: 10;
         }
-        .t69-overlay-backdrop.visible .t69-close { opacity: 1; }
+        .t69-overlay-backdrop.visible .t69-close { 
+          opacity: 1; 
+          transform: translateX(-50%) scale(1);
+          transition-delay: 0.15s;
+        }
         .t69-close:hover { background: rgba(255,255,255,0.2); }
         .t69-close:active { transform: translateX(-50%) scale(0.9); }
         .t69-close svg { width: 24px; height: 24px; color: white; }
 
         /* ═══════════════════════════════════════════════════════════════════════════════
-           GALLERY CARD
+           GALLERY CARD - Apple-style with staggered animations
            ═══════════════════════════════════════════════════════════════════════════════ */
         .t69-gallery-sphere {
           width: min(85vw, 360px);
@@ -529,14 +511,34 @@ export default function Trade69() {
           overflow: hidden;
           cursor: pointer;
           box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-          transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+          opacity: 0;
+          transform: scale(0.8) translateY(10px);
+          transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                      opacity 0.3s ease,
+                      box-shadow 0.25s ease;
+          will-change: transform, opacity;
         }
-        .t69-gallery-thumb:hover { transform: scale(1.05); }
+        .t69-overlay-backdrop.visible .t69-gallery-thumb {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+        .t69-overlay-backdrop.visible .t69-gallery-thumb:nth-child(1) { transition-delay: 0.08s; }
+        .t69-overlay-backdrop.visible .t69-gallery-thumb:nth-child(2) { transition-delay: 0.12s; }
+        .t69-overlay-backdrop.visible .t69-gallery-thumb:nth-child(3) { transition-delay: 0.16s; }
+        .t69-overlay-backdrop.visible .t69-gallery-thumb:nth-child(4) { transition-delay: 0.20s; }
+        .t69-overlay-backdrop.visible .t69-gallery-thumb:nth-child(5) { transition-delay: 0.24s; }
+        .t69-overlay-backdrop.visible .t69-gallery-thumb:nth-child(6) { transition-delay: 0.28s; }
+        .t69-overlay-backdrop.visible .t69-gallery-thumb:nth-child(7) { transition-delay: 0.32s; }
+        
+        .t69-gallery-thumb:hover { 
+          transform: scale(1.08) translateY(-2px); 
+          box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
         .t69-gallery-thumb:active { transform: scale(0.95); }
         .t69-gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
         /* ═══════════════════════════════════════════════════════════════════════════════
-           ARCHITECTURE CARD
+           ARCHITECTURE CARD - With inner content animation
            ═══════════════════════════════════════════════════════════════════════════════ */
         .t69-arch-sphere {
           width: min(85vw, 380px);
@@ -547,10 +549,20 @@ export default function Trade69() {
           align-items: center;
           justify-content: center;
           box-shadow: 0 30px 100px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+          overflow: hidden;
+        }
+        .t69-arch-sphere > * {
+          opacity: 0;
+          transform: scale(0.9);
+          transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+        }
+        .t69-overlay-backdrop.visible .t69-arch-sphere > * {
+          opacity: 1;
+          transform: scale(1);
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════
-           IMAGE EXPANDED
+           IMAGE EXPANDED - Smooth scale animation
            ═══════════════════════════════════════════════════════════════════════════════ */
         .t69-image-expanded {
           max-width: min(90vw, 700px);
@@ -564,29 +576,61 @@ export default function Trade69() {
           max-width: 100%;
           max-height: 75vh;
           object-fit: contain;
+          opacity: 0;
+          transform: scale(0.95);
+          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+        }
+        .t69-overlay-backdrop.visible .t69-image-expanded img {
+          opacity: 1;
+          transform: scale(1);
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════
-           VIDEO EXPANDED - NETFLIX STYLE
+           VIDEO EXPANDED - NETFLIX STYLE (Mobile-first)
            ═══════════════════════════════════════════════════════════════════════════════ */
-        .t69-video-theater {
-          width: 100vw;
-          height: 100vh;
-          height: 100dvh;
+        .t69-video-backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 999999;
+          background: #000;
           display: flex;
           align-items: center;
           justify-content: center;
-          flex-direction: column;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.3s ease, visibility 0.3s;
+          -webkit-overflow-scrolling: touch;
+          touch-action: manipulation;
         }
-        .t69-video-theater video {
-          max-width: 95vw;
-          max-height: 70vh;
-          border-radius: 8px;
-          background: #000;
+        .t69-video-backdrop.visible {
+          opacity: 1;
+          visibility: visible;
         }
+        .t69-video-backdrop.closing {
+          opacity: 0;
+        }
+
+        .t69-theater-video {
+          width: 100%;
+          height: auto;
+          max-height: 60vh;
+          object-fit: contain;
+          opacity: 0;
+          transform: scale(0.95);
+          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+        }
+        .t69-video-backdrop.visible .t69-theater-video {
+          opacity: 1;
+          transform: scale(1);
+        }
+        
         @media (min-width: 768px) {
-          .t69-video-theater video {
-            max-width: 80vw;
+          .t69-theater-video {
+            width: auto;
+            max-width: 85vw;
             max-height: 75vh;
             border-radius: 12px;
           }
@@ -594,14 +638,23 @@ export default function Trade69() {
 
         .t69-video-controls {
           position: fixed;
-          bottom: 100px;
+          bottom: 90px;
           left: 50%;
           transform: translateX(-50%);
-          width: min(90vw, 600px);
+          width: calc(100% - 48px);
+          max-width: 500px;
+          opacity: 0;
+          transition: opacity 0.3s ease 0.2s;
+          z-index: 10;
+        }
+        .t69-video-backdrop.visible .t69-video-controls {
           opacity: 1;
+        }
+        .t69-video-controls.hidden { 
+          opacity: 0 !important; 
+          pointer-events: none;
           transition: opacity 0.3s ease;
         }
-        .t69-video-controls.hidden { opacity: 0; pointer-events: none; }
 
         .t69-progress-bar {
           height: 32px;
@@ -641,12 +694,13 @@ export default function Trade69() {
         .t69-playback-row {
           display: flex;
           align-items: center;
-          gap: 8px;
-          margin-top: 8px;
+          justify-content: center;
+          gap: 20px;
+          margin-top: 12px;
         }
         .t69-playback-btn {
-          width: 48px;
-          height: 48px;
+          width: 56px;
+          height: 56px;
           border: none;
           background: transparent;
           border-radius: 50%;
@@ -655,41 +709,59 @@ export default function Trade69() {
           justify-content: center;
           cursor: pointer;
           position: relative;
-          transition: background 0.2s;
+          transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .t69-playback-btn:hover { background: rgba(255,255,255,0.1); }
+        .t69-playback-btn:hover { 
+          background: rgba(255,255,255,0.1); 
+          transform: scale(1.1);
+        }
+        .t69-playback-btn:active { transform: scale(0.95); }
         .t69-playback-btn svg { color: white; }
+        .t69-play-main {
+          width: 72px;
+          height: 72px;
+          background: rgba(255,255,255,0.1);
+          backdrop-filter: blur(10px);
+        }
+        .t69-play-main:hover { background: rgba(255,255,255,0.2); }
         .t69-skip-label {
           position: absolute;
-          font-size: 10px;
-          font-weight: 700;
+          font-size: 11px;
+          font-weight: 600;
           color: white;
+          bottom: 8px;
         }
         .t69-time {
           font-size: 14px;
-          color: rgba(255,255,255,0.9);
+          color: rgba(255,255,255,0.8);
           font-variant-numeric: tabular-nums;
-          margin-left: auto;
+          position: absolute;
+          right: 0;
         }
 
         .t69-play-indicator {
           position: fixed;
           top: 50%;
           left: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%) scale(0.8);
           width: 80px;
           height: 80px;
           border-radius: 50%;
           background: rgba(0,0,0,0.6);
           backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
           display: flex;
           align-items: center;
           justify-content: center;
           opacity: 0;
           pointer-events: none;
-          transition: opacity 0.2s;
+          transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+          z-index: 5;
         }
-        .t69-play-indicator.show { opacity: 1; }
+        .t69-play-indicator.show { 
+          opacity: 1; 
+          transform: translate(-50%, -50%) scale(1);
+        }
         .t69-play-indicator svg { width: 36px; height: 36px; color: white; margin-left: 4px; }
 
         /* Desktop responsive */
@@ -734,15 +806,6 @@ export default function Trade69() {
           </div>
         </section>
 
-        {/* ARCHITECTURE INLINE */}
-        <section className="t69-arch-section">
-          <p className="t69-section-title">System Architecture</p>
-          <p className="t69-arch-intro">
-            I was thinking to share the screenshot of the Mermaid diagram from the readme file on GitHub, but then I thought - let&apos;s create something more like me.
-          </p>
-          <Trade69Architecture />
-        </section>
-
         {/* VIDEO */}
         <section className="t69-video-section">
           <div className="t69-video-intro">
@@ -757,18 +820,6 @@ export default function Trade69() {
                 <line x1="21" y1="3" x2="14" y2="10" /><line x1="3" y1="21" x2="10" y2="14" />
               </svg>
             </button>
-          </div>
-        </section>
-
-        {/* SCREENSHOTS */}
-        <section className="t69-screenshots">
-          <div className="t69-screenshots-grid">
-            <div className="t69-screenshot">
-              <FadeImage src="/images/tphoto2.png" alt="Analytics" width={600} height={400} />
-            </div>
-            <div className="t69-screenshot">
-              <FadeImage src="/images/tphoto3.png" alt="Backtesting" width={600} height={400} />
-            </div>
           </div>
         </section>
 
@@ -888,32 +939,34 @@ export default function Trade69() {
         </div>
       )}
 
-      {/* VIDEO */}
+      {/* VIDEO - Separate simpler structure for mobile */}
       {overlay === 'video' && (
         <div
-          className={`t69-overlay-backdrop ${!isClosing ? 'visible' : 'closing'}`}
-          style={{ background: '#000' }}
+          className={`t69-video-backdrop ${!isClosing ? 'visible' : 'closing'}`}
           onClick={closeOverlay}
           onMouseMove={showControls}
           onTouchStart={showControls}
         >
-          <div className="t69-video-theater" onClick={e => e.stopPropagation()}>
-            <video
-              ref={expandedVideoRef}
-              src="/videos/t69demo.mp4"
-              autoPlay
-              loop
-              playsInline
-              onClick={handleVideoClick}
-              onPlay={() => setIsPlaying(true)}
-              onPause={() => setIsPlaying(false)}
-              onTimeUpdate={(e) => setVideoProgress((e.target as HTMLVideoElement).currentTime)}
-              onLoadedMetadata={(e) => {
-                setVideoDuration((e.target as HTMLVideoElement).duration);
-                showControls();
-              }}
-            />
-          </div>
+          <video
+            ref={expandedVideoRef}
+            className="t69-theater-video"
+            src="/videos/t69demo.mp4"
+            autoPlay
+            playsInline
+            loop
+            muted={false}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleVideoClick();
+            }}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            onTimeUpdate={(e) => setVideoProgress((e.target as HTMLVideoElement).currentTime)}
+            onLoadedMetadata={(e) => {
+              setVideoDuration((e.target as HTMLVideoElement).duration);
+              showControls();
+            }}
+          />
 
           <div className={`t69-play-indicator ${!isPlaying ? 'show' : ''}`}>
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21" /></svg>
@@ -927,21 +980,26 @@ export default function Trade69() {
             </div>
             <div className="t69-playback-row">
               <button className="t69-playback-btn" onClick={() => handleSkip(-10)}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M12 3a9 9 0 1 0 9 9" strokeLinecap="round" />
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+                  <path d="M12.5 8.5V4L4 12l8.5 8v-4.5c5 0 8.5 1.5 11 5.5-1-5-4-10-11-11z" fill="currentColor" transform="scale(-1,1) translate(-24,0)"/>
                 </svg>
                 <span className="t69-skip-label">10</span>
               </button>
-              <button className="t69-playback-btn" onClick={handleVideoClick}>
+              <button className="t69-playback-btn t69-play-main" onClick={handleVideoClick}>
                 {isPlaying ? (
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1" /><rect x="14" y="4" width="4" height="16" rx="1" /></svg>
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="6" y="4" width="4" height="16" rx="1" />
+                    <rect x="14" y="4" width="4" height="16" rx="1" />
+                  </svg>
                 ) : (
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21" /></svg>
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21" />
+                  </svg>
                 )}
               </button>
               <button className="t69-playback-btn" onClick={() => handleSkip(10)}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M12 3a9 9 0 1 1 -9 9" strokeLinecap="round" />
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+                  <path d="M12.5 8.5V4L4 12l8.5 8v-4.5c5 0 8.5 1.5 11 5.5-1-5-4-10-11-11z" fill="currentColor" transform="translate(-1,0)"/>
                 </svg>
                 <span className="t69-skip-label">10</span>
               </button>
@@ -949,7 +1007,7 @@ export default function Trade69() {
             </div>
           </div>
 
-          <button className="t69-close" onClick={closeOverlay}>
+          <button className="t69-close" style={{ opacity: controlsVisible ? 1 : 0 }} onClick={closeOverlay}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
