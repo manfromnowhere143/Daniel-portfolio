@@ -805,32 +805,32 @@ export default function Creative() {
 
     return (
       <div className="showcase-app showcase-3d-minimal">
-        {/* Featured Icon - Large premium frame - NO TEXT */}
+        {/* Featured Icon - Large premium frame */}
         <div
           className={`showcase-3d-featured ${icons3DShowReady ? 'visible' : ''}`}
           onClick={() => handleOpenSubExpanded(`3d-${featuredItem.id}`)}
         >
           <div className="showcase-3d-featured-frame">
             <div className="showcase-3d-featured-icon">
-              {render3DIcon(featuredItem.id, isMobile ? 130 : 170)}
+              {render3DIcon(featuredItem.id, isMobile ? 145 : 190)}
             </div>
           </div>
         </div>
 
-        {/* Icon Selector - Bottom bar */}
+        {/* Selector Bar - Compact at very bottom with live button glow */}
         <div className={`showcase-3d-selector ${icons3DShowReady ? 'visible' : ''}`}>
           {icons3DItems.map((item, index) => (
             <div
               key={item.id}
               className={`showcase-3d-selector-item ${index === icons3DFeaturedIndex ? 'active' : ''}`}
-              style={{ ['--delay' as any]: `${0.12 + index * 0.04}s` }}
+              style={{ ['--delay' as any]: `${0.1 + index * 0.035}s` }}
               onClick={(e) => {
                 e.stopPropagation();
                 setIcons3DFeaturedIndex(index);
               }}
             >
               <div className="showcase-3d-selector-card">
-                {render3DIcon(item.id, isMobile ? 22 : 28)}
+                {render3DIcon(item.id, isMobile ? 19 : 25)}
               </div>
             </div>
           ))}
@@ -1703,7 +1703,8 @@ export default function Creative() {
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - 3D ICONS SHOWCASE                                            */
-        /* Apple-quality smooth transitions - no disruption                                */
+        /* WORKING LAYOUT: flex space-between for featured + selector                      */
+        /* Premium design with live button glow effects                                    */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .showcase-3d-minimal {
@@ -1713,7 +1714,7 @@ export default function Creative() {
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          padding: 50px 16px 35px 16px;
+          padding: 50px 16px 24px 16px;
           background: #000000;
           touch-action: none !important;
           overflow: hidden !important;
@@ -1727,56 +1728,55 @@ export default function Creative() {
           top: 38%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 400px;
-          height: 400px;
-          background: radial-gradient(circle, rgba(255, 255, 255, 0.025) 0%, transparent 55%);
+          width: 420px;
+          height: 420px;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
           pointer-events: none;
         }
         
-        /* Featured Icon - Smooth fade in with no jump */
+        /* Featured Icon - flex:1 takes available space, centered */
         .showcase-3d-featured {
           flex: 1;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          position: relative;
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.92) translateY(8px);
+          transform: scale(0.92);
           transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+                      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
           will-change: opacity, transform;
         }
         
         .showcase-3d-featured.visible {
           opacity: 1;
-          transform: scale(1) translateY(0);
+          transform: scale(1);
         }
         
         .showcase-3d-featured:active .showcase-3d-featured-frame {
           transform: scale(0.96);
         }
         
-        /* Premium glass frame - BIGGER */
+        /* Premium glass frame - BIGGER for impact */
         .showcase-3d-featured-frame {
-          width: 220px;
-          height: 220px;
-          border-radius: 48px;
+          width: 240px;
+          height: 240px;
+          border-radius: 52px;
           background: linear-gradient(145deg, #111111 0%, #0a0a0a 100%);
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
           box-shadow: 
-            0 0 0 1px rgba(255, 255, 255, 0.05),
-            0 2px 4px rgba(255, 255, 255, 0.02),
-            0 35px 70px -18px rgba(0, 0, 0, 0.9),
-            0 18px 36px -12px rgba(0, 0, 0, 0.7),
-            inset 0 1px 1px rgba(255, 255, 255, 0.04),
-            inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-          transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-                      box-shadow 0.3s ease;
+            0 0 0 1px rgba(255, 255, 255, 0.04),
+            0 2px 4px rgba(255, 255, 255, 0.015),
+            0 40px 80px -20px rgba(0, 0, 0, 0.9),
+            0 20px 40px -14px rgba(0, 0, 0, 0.7),
+            inset 0 1px 1px rgba(255, 255, 255, 0.035),
+            inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+          transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+                      box-shadow 0.28s ease;
         }
         
         /* Subtle ring glow on active */
@@ -1784,10 +1784,10 @@ export default function Creative() {
           content: '';
           position: absolute;
           inset: -2px;
-          border-radius: 50px;
-          background: linear-gradient(145deg, rgba(255,255,255,0.06) 0%, transparent 40%, rgba(255,255,255,0.02) 100%);
+          border-radius: 54px;
+          background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, transparent 40%, rgba(255,255,255,0.015) 100%);
           opacity: 0;
-          transition: opacity 0.25s ease;
+          transition: opacity 0.2s ease;
           pointer-events: none;
         }
         
@@ -1798,23 +1798,27 @@ export default function Creative() {
         .showcase-3d-featured-icon {
           position: relative;
           z-index: 2;
-          filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
+          filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.5));
         }
         
-        /* Icon Selector - Smooth staggered entrance */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* SELECTOR BAR - Compact with live button glow effect                             */
+        /* Normal flow (not absolute) so flexbox space-between works                       */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .showcase-3d-selector {
           display: flex;
-          gap: 8px;
-          padding: 12px 16px;
-          background: rgba(255, 255, 255, 0.035);
-          border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
+          gap: 6px;
+          padding: 10px 14px;
+          background: rgba(18, 18, 18, 0.85);
+          border-radius: 18px;
+          border: 1px solid rgba(255, 255, 255, 0.04);
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
           opacity: 0;
           transform: translateY(16px);
-          transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.08s, 
-                      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+          transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, 
+                      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
           will-change: opacity, transform;
         }
         
@@ -1826,8 +1830,8 @@ export default function Creative() {
         .showcase-3d-selector-item {
           cursor: pointer;
           opacity: 0;
-          transform: scale(0.7);
-          transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+          transform: scale(0.75);
+          transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
           transition-delay: var(--delay, 0s);
           will-change: opacity, transform;
         }
@@ -1838,77 +1842,104 @@ export default function Creative() {
         }
         
         .showcase-3d-selector-item.active {
-          transform: scale(1.1);
+          transform: scale(1.08);
         }
         
         .showcase-3d-selector-item:active {
-          transform: scale(0.92);
+          transform: scale(0.94);
         }
         
-        /* Premium selector cards - BIGGER */
+        /* Premium selector cards - LIVE BUTTON GLOW EFFECT */
         .showcase-3d-selector-card {
-          width: 44px;
-          height: 44px;
-          border-radius: 12px;
-          background: linear-gradient(145deg, #161616 0%, #0c0c0c 100%);
+          width: 40px;
+          height: 40px;
+          border-radius: 11px;
+          background: linear-gradient(145deg, #1a1a1a 0%, #0e0e0e 100%);
           display: flex;
           align-items: center;
           justify-content: center;
+          position: relative;
           box-shadow: 
-            0 0 0 1px rgba(255, 255, 255, 0.06),
-            0 4px 12px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.04);
-          transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), 
-                      box-shadow 0.2s ease;
+            0 0 0 1px rgba(255, 255, 255, 0.04),
+            0 3px 8px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.03);
+          transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
         
+        /* Subtle inner glow for depth */
+        .showcase-3d-selector-card::before {
+          content: '';
+          position: absolute;
+          inset: 1px;
+          border-radius: 9px;
+          background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.04) 0%, transparent 60%);
+          pointer-events: none;
+        }
+        
+        /* Active state - premium glow */
         .showcase-3d-selector-item.active .showcase-3d-selector-card {
+          background: linear-gradient(145deg, #222222 0%, #141414 100%);
           box-shadow: 
-            0 0 0 1.5px rgba(255, 255, 255, 0.12),
-            0 0 28px rgba(255, 255, 255, 0.08),
-            0 6px 20px rgba(0, 0, 0, 0.6),
+            0 0 0 1px rgba(255, 255, 255, 0.08),
+            0 0 20px rgba(255, 255, 255, 0.06),
+            0 0 40px rgba(255, 255, 255, 0.03),
+            0 6px 16px rgba(0, 0, 0, 0.6),
             inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+        
+        .showcase-3d-selector-item.active .showcase-3d-selector-card::before {
+          background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.08) 0%, transparent 50%);
+        }
+        
+        /* Hover/touch glow for non-active items */
+        .showcase-3d-selector-item:not(.active) .showcase-3d-selector-card:active {
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.06),
+            0 0 12px rgba(255, 255, 255, 0.04),
+            0 4px 10px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - GEOMETRY PREMIUM SHOWCASE                                    */
-        /* Edge of Elegance - Sacred patterns with mystical depth                          */
+        /* Grid positioned to match sub-expanded location                                  */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .showcase-geometry {
           position: relative;
-          padding-top: 20px;
-          padding-bottom: 60px;
+          height: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          min-height: 100%;
+          padding: 0;
         }
         
-        /* Ethereal light effect at top - creates mystical entrance */
+        /* Ethereal light effect */
         .showcase-geometry-light {
           position: absolute;
-          top: -80px;
+          top: 15%;
           left: 50%;
           transform: translateX(-50%);
-          width: 350px;
-          height: 250px;
-          background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 40%, transparent 70%);
+          width: 400px;
+          height: 300px;
+          background: radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 70%);
           pointer-events: none;
           opacity: 0;
-          transition: opacity 1s ease 0.1s;
+          transition: opacity 0.8s ease 0.1s;
         }
         
         .showcase-geometry-light.visible {
           opacity: 1;
         }
         
+        /* Grid positioned higher to match sub-expanded */
         .showcase-geometry-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 24px;
+          gap: 28px;
           position: relative;
+          margin-top: -40px;
         }
         
         /* Subtle connecting lines between geometries */
@@ -1919,8 +1950,8 @@ export default function Creative() {
           left: 50%;
           transform: translate(-50%, -50%);
           width: 1px;
-          height: 60%;
-          background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.06), transparent);
+          height: 55%;
+          background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.05), transparent);
           pointer-events: none;
         }
         
@@ -1930,9 +1961,9 @@ export default function Creative() {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 60%;
+          width: 55%;
           height: 1px;
-          background: linear-gradient(to right, transparent, rgba(255,255,255,0.06), transparent);
+          background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
           pointer-events: none;
         }
         
@@ -2039,7 +2070,8 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* SUB-EXPANDED VIEWS - Individual item detail views                               */
+        /* SUB-EXPANDED VIEWS - Positioned to match featured icon location                 */
+        /* Creates seamless transition between showcase and detail view                    */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .sub-expanded-view {
@@ -2049,7 +2081,7 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -2076,9 +2108,9 @@ export default function Creative() {
         .sub-expanded-bg {
           position: absolute;
           top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(10, 10, 10, 0.92);
-          backdrop-filter: blur(30px);
-          -webkit-backdrop-filter: blur(30px);
+          background: rgba(8, 8, 8, 0.94);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
         }
         
         .sub-expanded-ambient {
@@ -2093,17 +2125,18 @@ export default function Creative() {
           opacity: 1;
         }
         
+        /* Inner container - positioned to match showcase featured icon */
         .sub-expanded-inner {
-          position: relative;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -60%);
           z-index: 2;
-          width: 100%;
-          height: auto;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 16px;
-          padding: 20px;
+          gap: 20px;
         }
         
         .sub-expanded-header {
@@ -2112,8 +2145,8 @@ export default function Creative() {
           flex-direction: column;
           gap: 4px;
           opacity: 0;
-          transform: translateY(-4px);
-          transition: opacity 0.12s ease, transform 0.15s ease;
+          transform: translateY(-6px);
+          transition: opacity 0.15s ease 0.05s, transform 0.18s ease 0.05s;
         }
         
         .sub-expanded-view.active .sub-expanded-header {
@@ -2140,14 +2173,14 @@ export default function Creative() {
         
         .sub-expanded-content {
           position: relative;
-          width: 260px;
-          height: 260px;
+          width: 280px;
+          height: 280px;
           display: flex;
           align-items: center;
           justify-content: center;
           opacity: 0;
-          transform: scale(0.95);
-          transition: opacity 0.12s ease, transform 0.15s ease;
+          transform: scale(0.96);
+          transition: opacity 0.14s ease, transform 0.16s ease;
         }
         
         .sub-expanded-view.active .sub-expanded-content {
@@ -2285,12 +2318,12 @@ export default function Creative() {
         .geometry-full-lemniscate > svg { transform: scale(1.8); filter: drop-shadow(0 0 25px rgba(74, 222, 128, 0.4)); }
         
         @media (min-width: 600px) {
-          .showcase-3d-featured-frame { width: 260px; height: 260px; border-radius: 54px; }
-          .showcase-3d-selector { gap: 10px; padding: 14px 20px; border-radius: 22px; }
-          .showcase-3d-selector-card { width: 52px; height: 52px; border-radius: 14px; }
+          .showcase-3d-featured-frame { width: 280px; height: 280px; border-radius: 58px; }
+          .showcase-3d-selector { gap: 8px; padding: 12px 18px; border-radius: 20px; }
+          .showcase-3d-selector-card { width: 48px; height: 48px; border-radius: 13px; }
           .showcase-geometry-grid { gap: 40px; }
           .showcase-geometry-frame { width: 160px; height: 160px; }
-          .sub-expanded-content { width: 360px; height: 360px; }
+          .sub-expanded-content { width: 320px; height: 320px; }
           .sub-expanded-content-3d { border-radius: 36px; }
           .geometry-full-content { width: 400px; height: 400px; }
           
@@ -2305,13 +2338,13 @@ export default function Creative() {
         }
         
         @media (min-width: 900px) {
-          .showcase-3d-featured-frame { width: 300px; height: 300px; border-radius: 62px; }
-          .showcase-3d-selector { gap: 12px; padding: 16px 24px; border-radius: 26px; }
-          .showcase-3d-selector-card { width: 60px; height: 60px; border-radius: 16px; }
+          .showcase-3d-featured-frame { width: 320px; height: 320px; border-radius: 66px; }
+          .showcase-3d-selector { gap: 10px; padding: 14px 22px; border-radius: 22px; }
+          .showcase-3d-selector-card { width: 56px; height: 56px; border-radius: 15px; }
           .showcase-geometry-grid { gap: 52px; }
           .showcase-geometry-frame { width: 190px; height: 190px; }
-          .sub-expanded-content { width: 440px; height: 440px; }
-          .sub-expanded-content-3d { border-radius: 48px; }
+          .sub-expanded-content { width: 380px; height: 380px; }
+          .sub-expanded-content-3d { border-radius: 44px; }
           .geometry-full-content { width: 480px; height: 480px; }
           
           .geometry-full-metatron > div,
