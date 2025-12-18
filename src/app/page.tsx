@@ -161,12 +161,42 @@ export default function About() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [age, setAge] = useState(INITIAL_AGE);
   const [isMounted, setIsMounted] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
   // Mark as mounted (client-side only)
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // STATE OF THE ART - BLUR TRANSITION MASK
+  // Watches for theme changes and applies subtle blur to mask color transition
+  // ═══════════════════════════════════════════════════════════════════════════════
+  useEffect(() => {
+    if (!isMounted) return;
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'data-theme') {
+          // Apply blur
+          setIsTransitioning(true);
+
+          // Remove blur after transition
+          setTimeout(() => {
+            setIsTransitioning(false);
+          }, 400);
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    return () => observer.disconnect();
+  }, [isMounted]);
 
   // Real-time age calculation - only runs on client after mount
   useEffect(() => {
@@ -309,9 +339,8 @@ export default function About() {
           touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-                      background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-          will-change: background-color;
+          transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                      background-color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .about-page.loaded { opacity: 1; }
@@ -332,8 +361,7 @@ export default function About() {
           color: var(--text-primary);
           margin: 0 0 4px;
           letter-spacing: -0.02em;
-          transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-          will-change: color;
+          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .hero-tagline {
@@ -342,8 +370,7 @@ export default function About() {
           font-weight: 300;
           color: var(--text-secondary);
           letter-spacing: 0.05em;
-          transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-          will-change: color;
+          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -375,37 +402,12 @@ export default function About() {
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - FLOATING SACRED TEXT                                         */
         /* No borders, no frame - pure text floating in void                               */
-        /* ELON MUSK LEVEL - Perfect seamless fades, no holes, no cuts                     */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .terminal-section {
-          position: relative;
-          max-width: 500px;
-          margin: 0 auto;
-          padding: 0 24px;
-        }
         
         .terminal-window {
           position: relative;
           background: transparent;
           overflow: visible;
-        }
-        
-        .terminal-content {
-          position: relative;
-          padding: 32px 0;
-          max-height: clamp(200px, 30vh, 240px);
-          overflow-y: auto !important;
-          overflow-x: hidden !important;
-          -webkit-overflow-scrolling: touch;
-          touch-action: pan-y !important;
-          overscroll-behavior: contain;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-        }
-        
-        .terminal-content::-webkit-scrollbar { 
-          display: none;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -439,7 +441,7 @@ export default function About() {
             transparent 100%
           );
           opacity: 1;
-          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .terminal-fade-top::after {
@@ -456,7 +458,7 @@ export default function About() {
             transparent 100%
           );
           opacity: 0;
-          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         [data-theme="light"] .terminal-fade-top::before { opacity: 0; }
@@ -488,7 +490,7 @@ export default function About() {
             transparent 100%
           );
           opacity: 1;
-          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .terminal-fade-bottom::after {
@@ -506,12 +508,11 @@ export default function About() {
             transparent 100%
           );
           opacity: 0;
-          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         [data-theme="light"] .terminal-fade-bottom::before { opacity: 0; }
         [data-theme="light"] .terminal-fade-bottom::after { opacity: 1; }
-        }
         
         /* Floating scroll arrow indicator */
         .scroll-arrow {
@@ -534,7 +535,7 @@ export default function About() {
           stroke: var(--text-primary);
           stroke-width: 1.5;
           fill: none;
-          transition: stroke 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         @keyframes arrowFloat {
@@ -554,7 +555,7 @@ export default function About() {
           color: var(--text-secondary);
           white-space: pre-wrap;
           word-break: break-word;
-          transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .line-content {
@@ -563,25 +564,63 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - SMOOTH TEXT TRANSITIONS                                      */
-        /* GPU-accelerated, buttery smooth color changes                                   */
+        /* STATE OF THE ART - ZERO FLASH TEXT TRANSITIONS                                  */
+        /* Apple's secret: blur during transition masks color change perception            */
+        /* Human eye cannot perceive color flash through motion blur                       */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .yaml-text {
           color: var(--text-primary);
-          transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-          will-change: color;
+          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
         
         .yaml-text.yaml-glow {
           font-variant-numeric: tabular-nums;
           text-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
           opacity: 0.9;
-          transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1), text-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1), 
+                      text-shadow 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .yaml-text.yaml-dim {
           opacity: 0.6;
+        }
+        
+        .terminal-section {
+          position: relative;
+          max-width: 500px;
+          margin: 0 auto;
+          padding: 0 24px;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* APPLE'S SECRET - BLUR TRANSITION MASK                                           */
+        /* A tiny blur during color change makes transition imperceptible                  */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .terminal-content {
+          position: relative;
+          padding: 32px 0;
+          max-height: clamp(200px, 30vh, 240px);
+          overflow-y: auto !important;
+          overflow-x: hidden !important;
+          -webkit-overflow-scrolling: touch;
+          touch-action: pan-y !important;
+          overscroll-behavior: contain;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          transition: filter 0.3s ease-out;
+        }
+        
+        .terminal-content.transitioning {
+          filter: blur(1px);
+          transition: filter 0.15s ease-in;
+        }
+        
+        .terminal-content::-webkit-scrollbar { 
+          display: none;
         }
         
         /* Blinking cursor - theme aware */
@@ -595,7 +634,8 @@ export default function About() {
           animation: cursorBlink 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
           box-shadow: 0 0 12px currentColor, 0 0 25px currentColor;
           border-radius: 1px;
-          transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: background 1s cubic-bezier(0.4, 0, 0.2, 1), 
+                      box-shadow 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         @keyframes cursorBlink {
@@ -696,8 +736,7 @@ export default function About() {
           font-weight: 400;
           color: var(--text-primary);
           letter-spacing: 0.05em;
-          transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-          will-change: color;
+          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -770,7 +809,7 @@ export default function About() {
             {/* Top fade - text disappears upward */}
             <div className="terminal-fade-top" />
 
-            <div className="terminal-content" ref={contentRef}>
+            <div className={`terminal-content ${isTransitioning ? 'transitioning' : ''}`} ref={contentRef}>
               {personaLines.map((line, index) => {
                 const processedLine = processLine(line);
                 const isAgeLine = processedLine.includes('age_years_continuous');

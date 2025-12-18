@@ -67,7 +67,7 @@ export default function Creative() {
           overflow: hidden;
           touch-action: none;
           overscroll-behavior: none;
-          transition: background-color 0.5s ease;
+          transition: background-color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* Subtle radial gradient background */
@@ -142,21 +142,21 @@ export default function Creative() {
           stroke: var(--text-muted, rgba(255, 255, 255, 0.15));
           fill: none;
           stroke-width: 0.5;
-          transition: stroke 0.5s ease;
+          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .logo-svg .ring-inner {
           stroke: var(--text-tertiary, rgba(255, 255, 255, 0.25));
           animation: ringRotate 30s linear infinite;
           transform-origin: center;
-          transition: stroke 0.5s ease;
+          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .logo-svg .ring-outer {
           stroke: var(--text-muted, rgba(255, 255, 255, 0.1));
           animation: ringRotate 45s linear infinite reverse;
           transform-origin: center;
-          transition: stroke 0.5s ease;
+          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         @keyframes ringRotate {
@@ -167,18 +167,18 @@ export default function Creative() {
         .logo-svg .line {
           stroke: var(--text-muted, rgba(255, 255, 255, 0.12));
           stroke-width: 0.3;
-          transition: stroke 0.5s ease;
+          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .logo-svg .node {
           fill: var(--text-tertiary, rgba(255, 255, 255, 0.4));
-          transition: fill 0.5s ease;
+          transition: fill 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .logo-svg .node-center {
           fill: var(--text-secondary, rgba(255, 255, 255, 0.9));
           animation: centerPulse 3s ease-in-out infinite;
-          transition: fill 0.5s ease;
+          transition: fill 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         @keyframes centerPulse {
@@ -190,7 +190,7 @@ export default function Creative() {
           stroke: var(--text-muted, rgba(255, 255, 255, 0.2));
           fill: none;
           stroke-width: 0.4;
-          transition: stroke 0.5s ease;
+          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -205,7 +205,7 @@ export default function Creative() {
           text-transform: uppercase;
           color: var(--text-tertiary, rgba(255, 255, 255, 0.4));
           text-align: center;
-          transition: color 0.5s ease;
+          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         @media (min-width: 600px) {

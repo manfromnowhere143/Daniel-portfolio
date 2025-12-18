@@ -99,7 +99,7 @@ export default function Navigation() {
         
         html, body {
           background-color: var(--bg-primary) !important;
-          transition: background-color 0.5s ease;
+          transition: background-color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */

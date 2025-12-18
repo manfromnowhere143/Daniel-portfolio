@@ -691,7 +691,7 @@ export default function Work() {
           -webkit-backface-visibility: hidden; 
           backface-visibility: hidden;
           opacity: 0;
-          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease;
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .work-page.page-ready {
@@ -739,7 +739,7 @@ export default function Work() {
           overflow: hidden; 
           opacity: 0; 
           transform: translateZ(0) scale(0.8) translateY(25px); 
-          transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease, background 0.5s ease; 
+          transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease, background 1s cubic-bezier(0.4, 0, 0.2, 1); 
           box-shadow: 0 0 0 0.5px var(--border-secondary, rgba(255, 255, 255, 0.08)), 0 0 40px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -1px 1px rgba(0, 0, 0, 0.2); 
           border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.04)); 
           -webkit-backface-visibility: hidden; 
@@ -780,7 +780,7 @@ export default function Work() {
           text-align: center; 
           opacity: 0; 
           transform: translateY(10px); 
-          transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.5s ease; 
+          transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), color 1s cubic-bezier(0.4, 0, 0.2, 1); 
           text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); 
         }
         .folder-name.loaded { opacity: 1; transform: translateY(0); }
@@ -833,7 +833,7 @@ export default function Work() {
           -webkit-backdrop-filter: blur(50px) saturate(150%);
           touch-action: none;
           opacity: 0;
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), background 0.5s ease;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), background 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .folder-overlay.active .folder-overlay-bg { opacity: 1; }
@@ -984,7 +984,7 @@ export default function Work() {
           color: var(--text-primary, #FFFFFF);
           text-align: center;
           text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-          transition: color 0.5s ease;
+          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* Light mode - text shadow adjustment */
@@ -1019,7 +1019,7 @@ export default function Work() {
           -webkit-touch-callout: none;
           user-select: none;
           overscroll-behavior: none;
-          transition: background 0.5s ease;
+          transition: background 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .service-expanded::before {
@@ -1132,13 +1132,13 @@ export default function Work() {
           text-align: center;
           opacity: 0;
           transform: translateY(12px);
-          transition: color 0.5s ease;
+          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .service-expanded.active .service-expanded-title {
           opacity: 1;
           transform: translateY(0);
-          transition: opacity 0.45s ease 0.15s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s, color 0.5s ease;
+          transition: opacity 0.45s ease 0.15s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s, color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .service-expanded.exiting .service-expanded-title {
@@ -1158,13 +1158,13 @@ export default function Work() {
           margin-bottom: 20px;
           opacity: 0;
           transform: translateY(12px);
-          transition: color 0.5s ease;
+          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .service-expanded.active .service-expanded-desc {
           opacity: 1;
           transform: translateY(0);
-          transition: opacity 0.45s ease 0.18s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.18s, color 0.5s ease;
+          transition: opacity 0.45s ease 0.18s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.18s, color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .service-expanded.exiting .service-expanded-desc {
@@ -1211,7 +1211,7 @@ export default function Work() {
           color: var(--text-primary);
           letter-spacing: 0.02em;
           white-space: nowrap;
-          transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+          transition: background 1s cubic-bezier(0.4, 0, 0.2, 1), border-color 1s cubic-bezier(0.4, 0, 0.2, 1), color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -1258,7 +1258,7 @@ export default function Work() {
           width: 24px;
           height: 24px;
           color: var(--text-primary);
-          transition: color 0.5s ease;
+          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         @media (min-width: 600px) {
@@ -1307,7 +1307,7 @@ export default function Work() {
           -webkit-backdrop-filter: blur(50px) saturate(150%);
           touch-action: manipulation;
           opacity: 0;
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), background 0.5s ease;
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), background 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .media-overlay.active .media-overlay-bg { opacity: 1; }
@@ -1346,14 +1346,14 @@ export default function Work() {
         .media-item-icon { width: 80px; height: 80px; border-radius: 18px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; box-shadow: 0 0 25px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(0, 0, 0, 0.5), 0 15px 50px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25), inset 0 -1px 1px rgba(0, 0, 0, 0.25); }
         .media-item-icon::before { content: ''; position: absolute; top: 0; left: 8%; right: 8%; height: 35%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%); border-radius: 18px 18px 50% 50%; pointer-events: none; z-index: 10; }
         .media-item-icon img { width: 100%; height: 100%; object-fit: cover; }
-        .media-item-name { font-size: 12px; font-weight: 400; color: var(--text-primary); text-align: center; max-width: 76px; transition: color 0.5s ease; }
+        .media-item-name { font-size: 12px; font-weight: 400; color: var(--text-primary); text-align: center; max-width: 76px; transition: color 1s cubic-bezier(0.4, 0, 0.2, 1); }
         .media-close { position: relative; z-index: 2; margin-top: 24px; width: 48px; height: 48px; border-radius: 50%; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transform: scale(0.5); transition: none; border: none; touch-action: manipulation; }
         .media-overlay.active .media-close { opacity: 1; transform: scale(1); transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s; }
         .media-overlay.exiting .media-close { opacity: 0; transform: scale(0.8); transition: opacity 0.15s ease, transform 0.2s ease; }
         .media-close svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); color: var(--text-primary); }
-        .image-expanded { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(80px, 15vh, 150px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-touch-callout: none; user-select: none; overscroll-behavior: none; transition: background 0.5s ease; }
+        .image-expanded { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(80px, 15vh, 150px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-touch-callout: none; user-select: none; overscroll-behavior: none; transition: background 1s cubic-bezier(0.4, 0, 0.2, 1); }
         .image-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
-        .image-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1), background 0.5s ease; }
+        .image-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1), background 1s cubic-bezier(0.4, 0, 0.2, 1); }
         .image-expanded.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
         .image-expanded-inner { display: flex; flex-direction: column; align-items: center; touch-action: manipulation; opacity: 0; transform: translateZ(0) scale(0.88); transition: none; }
         .image-expanded.active .image-expanded-inner { opacity: 1; transform: translateZ(0) scale(1); transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s; }
@@ -1368,9 +1368,9 @@ export default function Work() {
         .image-expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); color: var(--text-primary); }
         
         /* 3D Interactive Expanded */
-        .interactive-expanded { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: color-mix(in srgb, var(--bg-primary) 98%, transparent); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(80px, 15vh, 150px); opacity: 0; visibility: hidden; pointer-events: none; transition: background 0.5s ease; }
+        .interactive-expanded { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: color-mix(in srgb, var(--bg-primary) 98%, transparent); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(80px, 15vh, 150px); opacity: 0; visibility: hidden; pointer-events: none; transition: background 1s cubic-bezier(0.4, 0, 0.2, 1); }
         .interactive-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
-        .interactive-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1), background 0.5s ease; }
+        .interactive-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1), background 1s cubic-bezier(0.4, 0, 0.2, 1); }
         .interactive-expanded.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s ease; }
         .interactive-content { width: clamp(280px, 80vw, 400px); height: clamp(280px, 80vw, 400px); border-radius: 24px; overflow: hidden; opacity: 0; transform: scale(0.9); transition: none; touch-action: manipulation; }
         .interactive-content canvas { touch-action: manipulation; }
@@ -1383,8 +1383,8 @@ export default function Work() {
         .interactive-close:active { transform: scale(0.95); }
         .interactive-close svg { color: var(--text-primary); }
         
-        .transition-bridge { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 2500; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(180px, 30vh, 280px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity; transition: opacity 0.2s ease-out, visibility 0s linear 0.2s, background 0.5s ease; }
-        .transition-bridge.loading { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.15s ease-out, visibility 0s, background 0.5s ease; }
+        .transition-bridge { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 2500; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(180px, 30vh, 280px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity; transition: opacity 0.2s ease-out, visibility 0s linear 0.2s, background 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .transition-bridge.loading { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.15s ease-out, visibility 0s, background 1s cubic-bezier(0.4, 0, 0.2, 1); }
         .transition-bridge.transitioning { opacity: 0; visibility: visible; pointer-events: none; transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.55s; }
         .bridge-spinner { width: 36px; height: 36px; border: 1.5px solid var(--border-primary); border-top-color: var(--text-secondary); border-radius: 50%; animation: bridgeSpin 0.8s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.08)); }
         @keyframes bridgeSpin { to { transform: rotate(360deg); } }
