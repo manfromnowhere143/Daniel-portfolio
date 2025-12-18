@@ -10,6 +10,23 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState<Date | null>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
+  // Load theme from localStorage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('site-theme') as 'dark' | 'light' | null;
+    if (savedTheme) {
+      setTheme(savedTheme);
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+  }, []);
+
+  // Handle theme change
+  const handleThemeChange = (newTheme: 'dark' | 'light') => {
+    setTheme(newTheme);
+    localStorage.setItem('site-theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
 
   // Determine if current page has dark background
   const isDarkPage = pathname === "/" ||
@@ -58,6 +75,116 @@ export default function Navigation() {
   return (
     <>
       <style>{`
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - THEME TOGGLE BUTTONS                                     */
+        /* Floating pills with elegant shadows - pure luxury                           */
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        
+        .theme-toggle-container {
+          display: flex;
+          flex-direction: row;
+          gap: 8px;
+          justify-content: flex-end;
+          padding: 12px 0 0 0;
+          margin-top: 12px;
+          border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        
+        .theme-btn {
+          position: relative;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          border: none;
+          cursor: pointer;
+          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          -webkit-tap-highlight-color: transparent;
+          outline: none;
+        }
+        
+        /* Light/Pearl theme button */
+        .theme-btn.light {
+          background: linear-gradient(145deg, #FFFFFF 0%, #F5F5F0 50%, #E8E8E3 100%);
+          box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.9),
+            0 2px 4px rgba(0, 0, 0, 0.3),
+            0 4px 8px rgba(0, 0, 0, 0.2),
+            0 8px 16px rgba(0, 0, 0, 0.15),
+            inset 0 1px 2px rgba(255, 255, 255, 1),
+            inset 0 -1px 2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .theme-btn.light::after {
+          content: '';
+          position: absolute;
+          top: 2px;
+          left: 4px;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, transparent 60%);
+        }
+        
+        /* Dark theme button */
+        .theme-btn.dark {
+          background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #0a0a0a 100%);
+          box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.1),
+            0 2px 4px rgba(0, 0, 0, 0.5),
+            0 4px 8px rgba(0, 0, 0, 0.4),
+            0 8px 16px rgba(0, 0, 0, 0.3),
+            inset 0 1px 2px rgba(255, 255, 255, 0.1),
+            inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .theme-btn.dark::after {
+          content: '';
+          position: absolute;
+          top: 2px;
+          left: 4px;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+        }
+        
+        /* Active state - selected theme */
+        .theme-btn.active {
+          transform: scale(1.1);
+        }
+        
+        .theme-btn.light.active {
+          box-shadow:
+            0 0 0 2px rgba(255, 255, 255, 0.95),
+            0 0 12px rgba(255, 255, 255, 0.4),
+            0 4px 8px rgba(0, 0, 0, 0.3),
+            0 8px 16px rgba(0, 0, 0, 0.2),
+            inset 0 1px 2px rgba(255, 255, 255, 1);
+        }
+        
+        .theme-btn.dark.active {
+          box-shadow:
+            0 0 0 2px rgba(255, 255, 255, 0.2),
+            0 0 12px rgba(255, 255, 255, 0.1),
+            0 4px 8px rgba(0, 0, 0, 0.5),
+            0 8px 16px rgba(0, 0, 0, 0.4),
+            inset 0 1px 2px rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Hover states */
+        .theme-btn:hover {
+          transform: scale(1.15);
+        }
+        
+        .theme-btn.active:hover {
+          transform: scale(1.1);
+        }
+        
+        .theme-btn:active {
+          transform: scale(0.95);
+          transition: transform 0.1s ease;
+        }
+        
         /* ═══════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - DESKTOP SIDEBAR                                          */
         /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -121,9 +248,8 @@ export default function Navigation() {
           display: flex;
           flex-direction: column;
           gap: 3px;
-          margin-bottom: 20px;
-          padding-bottom: 16px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          margin-bottom: 12px;
+          padding-bottom: 0;
           width: 100%;
         }
         
@@ -147,6 +273,9 @@ export default function Navigation() {
           flex-direction: column;
           gap: 4px;
           width: 100%;
+          margin-top: 16px;
+          padding-top: 16px;
+          border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
         
         .sidebar-nav-link {
@@ -186,6 +315,23 @@ export default function Navigation() {
           background: currentColor;
           opacity: 0.8;
           box-shadow: 0 0 8px currentColor;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        /* MOBILE THEME TOGGLE - Floating in menu                                      */
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        
+        .mobile-theme-toggle {
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+          justify-content: flex-start;
+          margin-top: 8px;
+        }
+        
+        .mobile-theme-toggle .theme-btn {
+          width: 28px;
+          height: 28px;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -385,6 +531,22 @@ export default function Navigation() {
           </div>
         )}
 
+        {/* STATE OF THE ART - Theme Toggle Buttons */}
+        <div className="theme-toggle-container">
+          <button
+            className={`theme-btn light ${theme === 'light' ? 'active' : ''}`}
+            onClick={() => handleThemeChange('light')}
+            aria-label="Light theme"
+            title="Pearl White"
+          />
+          <button
+            className={`theme-btn dark ${theme === 'dark' ? 'active' : ''}`}
+            onClick={() => handleThemeChange('dark')}
+            aria-label="Dark theme"
+            title="Dark Mode"
+          />
+        </div>
+
         <div className="sidebar-nav">
           {navItems.map((item) => (
             <Link
@@ -537,6 +699,20 @@ export default function Navigation() {
             }}>
               {formatDate(time)}
             </span>
+
+            {/* Mobile Theme Toggle */}
+            <div className="mobile-theme-toggle">
+              <button
+                className={`theme-btn light ${theme === 'light' ? 'active' : ''}`}
+                onClick={() => handleThemeChange('light')}
+                aria-label="Light theme"
+              />
+              <button
+                className={`theme-btn dark ${theme === 'dark' ? 'active' : ''}`}
+                onClick={() => handleThemeChange('dark')}
+                aria-label="Dark theme"
+              />
+            </div>
           </div>
         )}
       </div>
