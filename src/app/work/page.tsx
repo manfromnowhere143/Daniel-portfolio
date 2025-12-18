@@ -482,12 +482,12 @@ export default function Work() {
         .folder-wrapper:nth-child(2) .folder-name { transition-delay: 120ms; }
         .folder-wrapper:nth-child(3) .folder-name { transition-delay: 180ms; }
         .folder-wrapper:nth-child(4) .folder-name { transition-delay: 240ms; }
-        .folder-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(100px, 18vh, 180px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-touch-callout: none; user-select: none; overscroll-behavior: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity, visibility; transform: translateZ(0); }
+        .folder-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-touch-callout: none; user-select: none; overscroll-behavior: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity, visibility; transform: translateZ(0); }
         .folder-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
         .folder-overlay.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
         .folder-overlay.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
-        .folder-overlay-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(8, 8, 10, 0.75); backdrop-filter: blur(50px) saturate(150%); -webkit-backdrop-filter: blur(50px) saturate(150%); touch-action: none; }
-        .folder-container { position: relative; z-index: 2; background: rgba(250, 250, 248, 0.97); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 28px; padding: 24px; opacity: 0; transform: translateZ(0); transition: none; box-shadow: 0 0 60px rgba(255, 255, 255, 0.1), 0 25px 80px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.9); touch-action: none; }
+        .folder-overlay-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 5, 6, 0.92); backdrop-filter: blur(50px) saturate(150%); -webkit-backdrop-filter: blur(50px) saturate(150%); touch-action: none; }
+        .folder-container { position: relative; z-index: 2; background: transparent; padding: 24px; opacity: 0; transform: translateZ(0); transition: none; touch-action: none; }
         .folder-overlay.active .folder-container { opacity: 1; transform: translateZ(0); transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s; }
         .folder-overlay.exiting .folder-container { opacity: 0; transform: translateZ(0); transition: opacity 0.25s ease; }
         .folder-apps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; touch-action: none; }
@@ -501,7 +501,7 @@ export default function Work() {
         .folder-app-icon { width: 70px; height: 70px; border-radius: 17px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 0 30px var(--glow-color, rgba(0, 0, 0, 0.15)), 0 8px 25px rgba(0, 0, 0, 0.5), 0 15px 50px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25), inset 0 -1px 1px rgba(0, 0, 0, 0.25); }
         .folder-app-icon::before { content: ''; position: absolute; top: 0; left: 8%; right: 8%; height: 40%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%); border-radius: 17px 17px 50% 50%; pointer-events: none; z-index: 5; }
         .folder-app-icon.has-image::before { height: 35%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 100%); }
-        .folder-app-name { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; font-size: 12px; font-weight: 400; color: #1a1a1a; text-align: center; }
+        .folder-app-name { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; font-size: 12px; font-weight: 400; color: #FFFFFF; text-align: center; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - SERVICE EXPANDED                                             */
@@ -555,7 +555,7 @@ export default function Work() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 20px 32px 0;
+          padding: 0 24px;
           opacity: 0;
           transform: translateY(30px) scale(0.92);
           transition: none;
@@ -574,45 +574,49 @@ export default function Work() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* FLOATING HERO IMAGE - Fully visible, not clipped                                */
+        /* FLOATING SCREEN FRAME - White pearl background                                  */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
-        .service-hero-image {
-          width: clamp(200px, 55vw, 260px);
-          aspect-ratio: 16/10;
-          border-radius: 14px;
-          overflow: hidden;
+        .service-screen-frame {
+          width: clamp(220px, 60vw, 280px);
+          aspect-ratio: 16/11;
+          border-radius: 16px;
+          padding: 12px;
           margin-bottom: 24px;
+          background: linear-gradient(165deg, 
+            rgba(255, 255, 255, 0.95) 0%, 
+            rgba(245, 245, 247, 0.92) 50%,
+            rgba(235, 235, 240, 0.9) 100%);
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.3),
+            0 2px 8px rgba(0, 0, 0, 0.1),
+            0 12px 40px rgba(0, 0, 0, 0.25),
+            0 30px 80px rgba(0, 0, 0, 0.3);
           position: relative;
           flex-shrink: 0;
-          box-shadow: 
-            0 0 0 1px rgba(255, 255, 255, 0.1),
-            0 4px 20px rgba(0, 0, 0, 0.4),
-            0 20px 60px rgba(0, 0, 0, 0.5),
-            0 40px 100px rgba(0, 0, 0, 0.4);
         }
         
-        .service-hero-image::before {
+        .service-screen-frame::before {
           content: '';
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
-          height: 40%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 100%);
+          height: 50%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, transparent 100%);
+          border-radius: 16px 16px 0 0;
           pointer-events: none;
-          z-index: 2;
-          border-radius: 14px 14px 0 0;
         }
         
-        .service-hero-image::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 14px;
-          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-          pointer-events: none;
-          z-index: 3;
+        .service-hero-image {
+          width: 100%;
+          height: 100%;
+          border-radius: 8px;
+          overflow: hidden;
+          position: relative;
+          box-shadow: 
+            0 2px 8px rgba(0, 0, 0, 0.15),
+            inset 0 0 0 1px rgba(0, 0, 0, 0.05);
         }
         
         .service-hero-image img {
@@ -745,23 +749,24 @@ export default function Work() {
         }
         
         @media (min-width: 600px) {
-          .service-hero-image {
-            width: clamp(280px, 42vw, 360px);
-            border-radius: 18px;
+          .service-screen-frame {
+            width: clamp(300px, 40vw, 380px);
+            border-radius: 20px;
+            padding: 16px;
           }
-          .service-hero-image::before { border-radius: 18px 18px 0 0; }
-          .service-hero-image::after { border-radius: 18px; }
+          .service-screen-frame::before { border-radius: 20px 20px 0 0; }
+          .service-hero-image { border-radius: 10px; }
           .service-expanded-title { font-size: 36px; }
           .service-expanded-desc { font-size: 15px; max-width: 360px; }
           .service-feature-pill { padding: 8px 16px; font-size: 12px; }
         }
         
-        .media-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(100px, 18vh, 180px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: manipulation; -webkit-touch-callout: none; user-select: none; overscroll-behavior: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity, visibility; transform: translateZ(0); }
+        .media-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; visibility: hidden; pointer-events: none; touch-action: manipulation; -webkit-touch-callout: none; user-select: none; overscroll-behavior: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity, visibility; transform: translateZ(0); }
         .media-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
         .media-overlay.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
         .media-overlay.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
-        .media-overlay-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(8, 8, 10, 0.75); backdrop-filter: blur(50px) saturate(150%); -webkit-backdrop-filter: blur(50px) saturate(150%); touch-action: manipulation; }
-        .media-container { position: relative; z-index: 2; background: rgba(250, 250, 248, 0.97); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 28px; padding: 24px; opacity: 0; transform: translateZ(0); transition: none; box-shadow: 0 0 60px rgba(255, 255, 255, 0.1), 0 25px 80px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.9); touch-action: manipulation; }
+        .media-overlay-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 5, 6, 0.92); backdrop-filter: blur(50px) saturate(150%); -webkit-backdrop-filter: blur(50px) saturate(150%); touch-action: manipulation; }
+        .media-container { position: relative; z-index: 2; background: transparent; padding: 24px; opacity: 0; transform: translateZ(0); transition: none; touch-action: manipulation; }
         .media-overlay.active .media-container { opacity: 1; transform: translateZ(0); transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s; }
         .media-overlay.exiting .media-container { opacity: 0; transform: translateZ(0); transition: opacity 0.25s ease; }
         .media-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; touch-action: manipulation; }
@@ -776,7 +781,7 @@ export default function Work() {
         .media-item-icon { width: 80px; height: 80px; border-radius: 18px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; box-shadow: 0 0 25px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(0, 0, 0, 0.5), 0 15px 50px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25), inset 0 -1px 1px rgba(0, 0, 0, 0.25); }
         .media-item-icon::before { content: ''; position: absolute; top: 0; left: 8%; right: 8%; height: 35%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%); border-radius: 18px 18px 50% 50%; pointer-events: none; z-index: 10; }
         .media-item-icon img { width: 100%; height: 100%; object-fit: cover; }
-        .media-item-name { font-size: 12px; font-weight: 400; color: #1a1a1a; text-align: center; max-width: 76px; }
+        .media-item-name { font-size: 12px; font-weight: 400; color: #FFFFFF; text-align: center; max-width: 76px; }
         .media-close { position: relative; z-index: 2; margin-top: 24px; width: 48px; height: 48px; border-radius: 50%; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transform: scale(0.5); transition: none; border: none; touch-action: manipulation; }
         .media-overlay.active .media-close { opacity: 1; transform: scale(1); transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s; }
         .media-overlay.exiting .media-close { opacity: 0; transform: scale(0.8); transition: opacity 0.15s ease, transform 0.2s ease; }
@@ -955,9 +960,11 @@ export default function Work() {
           onClick={handleCloseService}
         >
           <div className="service-expanded-content" onClick={(e) => e.stopPropagation()}>
-            {/* Floating Hero Image */}
-            <div className="service-hero-image">
-              <img src={service.pageImage} alt={service.name} />
+            {/* Floating Screen Frame with Hero Image */}
+            <div className="service-screen-frame">
+              <div className="service-hero-image">
+                <img src={service.pageImage} alt={service.name} />
+              </div>
             </div>
 
             {/* Title */}
