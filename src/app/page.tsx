@@ -360,8 +360,8 @@ export default function About() {
         
         .terminal-content {
           position: relative;
-          padding: 25px 0;
-          max-height: clamp(120px, 18vh, 140px);
+          padding: 28px 0;
+          max-height: clamp(160px, 24vh, 190px);
           overflow-y: auto !important;
           overflow-x: hidden !important;
           -webkit-overflow-scrolling: touch;
@@ -385,14 +385,14 @@ export default function About() {
           top: 0;
           left: -20px;
           right: -20px;
-          height: 45px;
+          height: 55px;
           background: linear-gradient(to bottom, 
             #050506 0%,
-            #050506 20%,
-            rgba(5, 5, 6, 0.95) 35%,
-            rgba(5, 5, 6, 0.8) 50%,
+            #050506 18%,
+            rgba(5, 5, 6, 0.95) 32%,
+            rgba(5, 5, 6, 0.8) 48%,
             rgba(5, 5, 6, 0.5) 65%,
-            rgba(5, 5, 6, 0.2) 80%,
+            rgba(5, 5, 6, 0.2) 82%,
             transparent 100%
           );
           pointer-events: none;
@@ -404,14 +404,14 @@ export default function About() {
           bottom: 0;
           left: -20px;
           right: -20px;
-          height: 45px;
+          height: 55px;
           background: linear-gradient(to top, 
             #050506 0%,
-            #050506 20%,
-            rgba(5, 5, 6, 0.95) 35%,
-            rgba(5, 5, 6, 0.8) 50%,
+            #050506 18%,
+            rgba(5, 5, 6, 0.95) 32%,
+            rgba(5, 5, 6, 0.8) 48%,
             rgba(5, 5, 6, 0.5) 65%,
-            rgba(5, 5, 6, 0.2) 80%,
+            rgba(5, 5, 6, 0.2) 82%,
             transparent 100%
           );
           pointer-events: none;
@@ -485,7 +485,7 @@ export default function About() {
           display: flex;
           justify-content: center;
           gap: 16px;
-          padding: clamp(20px, 4vh, 40px) 0 clamp(30px, 6vh, 60px);
+          padding: clamp(16px, 3vh, 28px) 0 clamp(70px, 12vh, 100px);
         }
         
         .contact-link {
@@ -579,13 +579,13 @@ export default function About() {
           }
           
           .terminal-section { padding: 0 16px; }
-          .terminal-content { max-height: clamp(110px, 16vh, 130px); padding: 20px 0; }
-          .terminal-fade-top, .terminal-fade-bottom { height: 35px; left: -16px; right: -16px; }
-          .scroll-arrow { bottom: 8px; right: -4px; width: 24px; height: 24px; }
+          .terminal-content { max-height: clamp(140px, 22vh, 170px); padding: 24px 0; }
+          .terminal-fade-top, .terminal-fade-bottom { height: 45px; left: -16px; right: -16px; }
+          .scroll-arrow { bottom: 10px; right: -4px; width: 24px; height: 24px; }
           .scroll-arrow svg { width: 12px; height: 12px; }
           .code-line { padding: 1px 4px; font-size: 9px; min-height: 16px; line-height: 16px; }
           
-          .contact-section { gap: 14px; padding: 16px 0 24px; }
+          .contact-section { gap: 14px; padding: 14px 0 65px; }
           .contact-link { gap: 5px; }
           .contact-icon { width: 44px; height: 44px; border-radius: 11px; }
           .contact-icon svg { width: 18px; height: 18px; }
@@ -603,11 +603,11 @@ export default function About() {
             margin: -12px 0;
           }
           
-          .terminal-content { max-height: clamp(100px, 15vh, 120px); padding: 18px 0; }
-          .terminal-fade-top, .terminal-fade-bottom { height: 30px; }
+          .terminal-content { max-height: clamp(125px, 20vh, 150px); padding: 20px 0; }
+          .terminal-fade-top, .terminal-fade-bottom { height: 38px; }
           .code-line { font-size: 8.5px; min-height: 15px; line-height: 15px; }
           
-          .contact-section { padding: 12px 0 20px; }
+          .contact-section { padding: 12px 0 60px; }
           .contact-icon { width: 40px; height: 40px; border-radius: 10px; }
           .contact-icon svg { width: 16px; height: 16px; }
         }
