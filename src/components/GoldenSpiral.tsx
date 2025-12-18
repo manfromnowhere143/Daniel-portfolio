@@ -78,28 +78,28 @@ export default function GoldenSpiral() {
         
         .golden-spiral-svg {
           display: block;
-          transition: opacity 0.5s ease;
+          transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* Dark theme (default) - white/cream spiral */
         .golden-spiral-svg .spiral-stroke {
           stroke: #FAFAF8;
-          transition: stroke 0.5s ease;
+          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .golden-spiral-svg .spiral-fill {
           fill: #FAFAF8;
-          transition: fill 0.5s ease;
+          transition: fill 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .golden-spiral-svg .spiral-gradient-start {
           stop-color: #FAFAF8;
-          transition: stop-color 0.5s ease;
+          transition: stop-color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .golden-spiral-svg .spiral-gradient-end {
           stop-color: #FAFAF8;
-          transition: stop-color 0.5s ease;
+          transition: stop-color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* Light theme - dark spiral */
@@ -122,6 +122,30 @@ export default function GoldenSpiral() {
         /* Slightly reduce opacity in light mode for elegance */
         [data-theme="light"] .golden-spiral-svg {
           opacity: 0.75;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* COSMOS THEME - Ethereal purple glow                                             */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        [data-theme="cosmos"] .golden-spiral-svg .spiral-stroke {
+          stroke: #B8A9FF;
+        }
+        
+        [data-theme="cosmos"] .golden-spiral-svg .spiral-fill {
+          fill: #B8A9FF;
+        }
+        
+        [data-theme="cosmos"] .golden-spiral-svg .spiral-gradient-start {
+          stop-color: #B8A9FF;
+        }
+        
+        [data-theme="cosmos"] .golden-spiral-svg .spiral-gradient-end {
+          stop-color: #B8A9FF;
+        }
+        
+        [data-theme="cosmos"] .golden-spiral-svg {
+          filter: drop-shadow(0 0 8px rgba(138, 43, 226, 0.3));
         }
       `}</style>
 
