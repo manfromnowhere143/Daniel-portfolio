@@ -197,22 +197,47 @@ export default function About() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Enforce scroll position when terminal state changes
+  useEffect(() => {
+    if (!isExpanded) {
+      // When collapsed (fixed position), ensure scroll is at 0
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  }, [isExpanded]);
+
   // Handle expansion
   const handleExpand = () => {
     if (isExpanded) {
-      // Collapse - CRITICAL: scroll to top FIRST before switching to fixed position
-      // This prevents the page from getting stuck at a mid-scroll position
-      window.scrollTo({ top: 0, behavior: 'instant' });
+      // Collapse - CRITICAL: Reset ALL scroll positions to 0 before switching to fixed
+      // Must be synchronous and immediate to prevent any visual jump
+
+      // Force immediate scroll reset on all scrollable elements
+      window.scrollTo(0, 0);
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
 
-      // Small delay to ensure scroll reset completes before state change
+      // Also reset any scroll on the about-page element itself
+      const aboutPage = document.querySelector('.about-page');
+      if (aboutPage) {
+        (aboutPage as HTMLElement).scrollTop = 0;
+      }
+
+      // Use double RAF to ensure DOM has fully updated before state change
       requestAnimationFrame(() => {
-        setExpandAnimPhase('idle');
-        setIsExpanded(false);
-        setVisibleLineCount(0);
-        setIsTypingComplete(false);
-        typingStarted.current = false;
+        requestAnimationFrame(() => {
+          setExpandAnimPhase('idle');
+          setIsExpanded(false);
+          setVisibleLineCount(0);
+          setIsTypingComplete(false);
+          typingStarted.current = false;
+
+          // Final safety reset after state change
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+        });
       });
     } else {
       // Expand - elegant reveal
