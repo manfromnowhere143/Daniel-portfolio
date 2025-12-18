@@ -83,6 +83,26 @@ export default function Navigation() {
     <>
       <style>{`
         /* ═══════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - THEME VARIABLES & BODY                                   */
+        /* Ensures no black line anywhere                                              */
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        
+        :root {
+          --bg-primary: #050506;
+          --text-primary: #FAFAF8;
+        }
+        
+        [data-theme="light"] {
+          --bg-primary: #F5F5F0;
+          --text-primary: #1a1a1a;
+        }
+        
+        html, body {
+          background-color: var(--bg-primary) !important;
+          transition: background-color 0.5s ease;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - THEME TOGGLE BUTTONS                                     */
         /* Floating pills with elegant shadows - pure luxury                           */
         /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -233,6 +253,33 @@ export default function Navigation() {
           height: 0.5px;
           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
           pointer-events: none;
+        }
+        
+        /* Light mode sidebar */
+        [data-theme="light"] .desktop-sidebar {
+          background: rgba(255, 255, 255, 0.75);
+          border-color: rgba(0, 0, 0, 0.06);
+          box-shadow: 
+            0 0 30px rgba(0, 0, 0, 0.08),
+            0 15px 35px rgba(0, 0, 0, 0.06),
+            inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
+        }
+        
+        [data-theme="light"] .desktop-sidebar::before {
+          background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.06), transparent);
+        }
+        
+        [data-theme="light"] .desktop-sidebar:hover {
+          background: rgba(255, 255, 255, 0.85);
+          border-color: rgba(0, 0, 0, 0.08);
+        }
+        
+        [data-theme="light"] .theme-toggle-container {
+          border-top-color: rgba(0, 0, 0, 0.06);
+        }
+        
+        [data-theme="light"] .sidebar-nav {
+          border-top-color: rgba(0, 0, 0, 0.06);
         }
         
         .sidebar-logo {

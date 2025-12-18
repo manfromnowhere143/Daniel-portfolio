@@ -981,9 +981,15 @@ export default function Work() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 12px;
           font-weight: 400;
-          color: #FFFFFF;
+          color: var(--text-primary, #FFFFFF);
           text-align: center;
           text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+          transition: color 0.5s ease;
+        }
+        
+        /* Light mode - text shadow adjustment */
+        [data-theme="light"] .folder-app-name {
+          text-shadow: none;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -1003,7 +1009,9 @@ export default function Work() {
           align-items: center;
           justify-content: flex-start;
           padding-top: clamp(80px, 15vh, 150px);
-          background: radial-gradient(ellipse at center, rgba(15, 15, 18, 0.98) 0%, rgba(5, 5, 6, 0.99) 100%);
+          background: radial-gradient(ellipse at center, 
+            color-mix(in srgb, var(--bg-primary) 98%, transparent) 0%, 
+            var(--bg-primary) 100%);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -1011,6 +1019,7 @@ export default function Work() {
           -webkit-touch-callout: none;
           user-select: none;
           overscroll-behavior: none;
+          transition: background 0.5s ease;
         }
         
         .service-expanded::before {
@@ -1110,26 +1119,26 @@ export default function Work() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* TYPOGRAPHY - White and fully visible                                            */
+        /* TYPOGRAPHY - Theme aware text colors                                            */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .service-expanded-title {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
           font-size: clamp(24px, 5.5vw, 30px);
           font-weight: 200;
-          color: #FFFFFF;
+          color: var(--text-primary);
           margin-bottom: 10px;
           letter-spacing: -0.02em;
           text-align: center;
           opacity: 0;
           transform: translateY(12px);
-          transition: none;
+          transition: color 0.5s ease;
         }
         
         .service-expanded.active .service-expanded-title {
           opacity: 1;
           transform: translateY(0);
-          transition: opacity 0.45s ease 0.15s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s;
+          transition: opacity 0.45s ease 0.15s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s, color 0.5s ease;
         }
         
         .service-expanded.exiting .service-expanded-title {
@@ -1142,20 +1151,20 @@ export default function Work() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: clamp(12px, 3vw, 14px);
           font-weight: 300;
-          color: #FFFFFF;
+          color: var(--text-secondary);
           text-align: center;
           line-height: 1.65;
           max-width: 300px;
           margin-bottom: 20px;
           opacity: 0;
           transform: translateY(12px);
-          transition: none;
+          transition: color 0.5s ease;
         }
         
         .service-expanded.active .service-expanded-desc {
           opacity: 1;
           transform: translateY(0);
-          transition: opacity 0.45s ease 0.18s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.18s;
+          transition: opacity 0.45s ease 0.18s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.18s, color 0.5s ease;
         }
         
         .service-expanded.exiting .service-expanded-desc {
@@ -1194,14 +1203,15 @@ export default function Work() {
         
         .service-feature-pill {
           padding: 6px 12px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--border-primary);
+          border: 1px solid var(--border-secondary);
           border-radius: 100px;
           font-size: 11px;
           font-weight: 400;
-          color: #FFFFFF;
+          color: var(--text-primary);
           letter-spacing: 0.02em;
           white-space: nowrap;
+          transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -1247,7 +1257,8 @@ export default function Work() {
         .service-expanded-close svg {
           width: 24px;
           height: 24px;
-          color: #FFFFFF;
+          color: var(--text-primary);
+          transition: color 0.5s ease;
         }
         
         @media (min-width: 600px) {
@@ -1291,12 +1302,12 @@ export default function Work() {
         .media-overlay-bg {
           position: absolute;
           top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(5, 5, 6, 0.92);
+          background: color-mix(in srgb, var(--bg-primary) 92%, transparent);
           backdrop-filter: blur(50px) saturate(150%);
           -webkit-backdrop-filter: blur(50px) saturate(150%);
           touch-action: manipulation;
           opacity: 0;
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), background 0.5s ease;
         }
         
         .media-overlay.active .media-overlay-bg { opacity: 1; }
@@ -1335,14 +1346,14 @@ export default function Work() {
         .media-item-icon { width: 80px; height: 80px; border-radius: 18px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; box-shadow: 0 0 25px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(0, 0, 0, 0.5), 0 15px 50px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25), inset 0 -1px 1px rgba(0, 0, 0, 0.25); }
         .media-item-icon::before { content: ''; position: absolute; top: 0; left: 8%; right: 8%; height: 35%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%); border-radius: 18px 18px 50% 50%; pointer-events: none; z-index: 10; }
         .media-item-icon img { width: 100%; height: 100%; object-fit: cover; }
-        .media-item-name { font-size: 12px; font-weight: 400; color: #FFFFFF; text-align: center; max-width: 76px; }
+        .media-item-name { font-size: 12px; font-weight: 400; color: var(--text-primary); text-align: center; max-width: 76px; transition: color 0.5s ease; }
         .media-close { position: relative; z-index: 2; margin-top: 24px; width: 48px; height: 48px; border-radius: 50%; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transform: scale(0.5); transition: none; border: none; touch-action: manipulation; }
         .media-overlay.active .media-close { opacity: 1; transform: scale(1); transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s; }
         .media-overlay.exiting .media-close { opacity: 0; transform: scale(0.8); transition: opacity 0.15s ease, transform 0.2s ease; }
-        .media-close svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
-        .image-expanded { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #050506; z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(80px, 15vh, 150px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-touch-callout: none; user-select: none; overscroll-behavior: none; }
+        .media-close svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); color: var(--text-primary); }
+        .image-expanded { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(80px, 15vh, 150px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-touch-callout: none; user-select: none; overscroll-behavior: none; transition: background 0.5s ease; }
         .image-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
-        .image-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .image-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1), background 0.5s ease; }
         .image-expanded.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
         .image-expanded-inner { display: flex; flex-direction: column; align-items: center; touch-action: manipulation; opacity: 0; transform: translateZ(0) scale(0.88); transition: none; }
         .image-expanded.active .image-expanded-inner { opacity: 1; transform: translateZ(0) scale(1); transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s; }
@@ -1354,12 +1365,12 @@ export default function Work() {
         .image-expanded-close { margin-top: 40px; width: 52px; height: 52px; border-radius: 50%; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; touch-action: manipulation; z-index: 10; opacity: 0; transform: scale(0.5); transition: none; }
         .image-expanded.active .image-expanded-close { opacity: 1; transform: scale(1); transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s; }
         .image-expanded.exiting .image-expanded-close { opacity: 0; transform: scale(0.7); transition: opacity 0.15s ease, transform 0.2s ease; }
-        .image-expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
+        .image-expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); color: var(--text-primary); }
         
         /* 3D Interactive Expanded */
-        .interactive-expanded { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 5, 6, 0.98); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(80px, 15vh, 150px); opacity: 0; visibility: hidden; pointer-events: none; }
+        .interactive-expanded { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: color-mix(in srgb, var(--bg-primary) 98%, transparent); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(80px, 15vh, 150px); opacity: 0; visibility: hidden; pointer-events: none; transition: background 0.5s ease; }
         .interactive-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
-        .interactive-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .interactive-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1), background 0.5s ease; }
         .interactive-expanded.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s ease; }
         .interactive-content { width: clamp(280px, 80vw, 400px); height: clamp(280px, 80vw, 400px); border-radius: 24px; overflow: hidden; opacity: 0; transform: scale(0.9); transition: none; touch-action: manipulation; }
         .interactive-content canvas { touch-action: manipulation; }
@@ -1370,11 +1381,12 @@ export default function Work() {
         .interactive-expanded.exiting .interactive-close { opacity: 0; transform: scale(0.7); transition: opacity 0.15s ease; }
         .interactive-close:hover { opacity: 1; transform: scale(1.1); }
         .interactive-close:active { transform: scale(0.95); }
+        .interactive-close svg { color: var(--text-primary); }
         
-        .transition-bridge { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #050506; z-index: 2500; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(180px, 30vh, 280px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity; transition: opacity 0.2s ease-out, visibility 0s linear 0.2s; }
-        .transition-bridge.loading { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.15s ease-out, visibility 0s; }
+        .transition-bridge { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 2500; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(180px, 30vh, 280px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity; transition: opacity 0.2s ease-out, visibility 0s linear 0.2s, background 0.5s ease; }
+        .transition-bridge.loading { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.15s ease-out, visibility 0s, background 0.5s ease; }
         .transition-bridge.transitioning { opacity: 0; visibility: visible; pointer-events: none; transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.55s; }
-        .bridge-spinner { width: 36px; height: 36px; border: 1.5px solid rgba(255, 255, 255, 0.06); border-top-color: rgba(255, 255, 255, 0.7); border-radius: 50%; animation: bridgeSpin 0.8s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.08)); }
+        .bridge-spinner { width: 36px; height: 36px; border: 1.5px solid var(--border-primary); border-top-color: var(--text-secondary); border-radius: 50%; animation: bridgeSpin 0.8s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.08)); }
         @keyframes bridgeSpin { to { transform: rotate(360deg); } }
         @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-mini-placeholder { width: 56px; height: 56px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 28px; } .folder-app-icon { width: 82px; height: 82px; border-radius: 20px; } .folder-app-placeholder { width: 82px; height: 105px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } .interactive-content { width: 380px; height: 380px; } }
         @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-mini-placeholder { width: 68px; height: 68px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 32px; } .folder-app-icon { width: 96px; height: 96px; border-radius: 24px; } .folder-app-placeholder { width: 96px; height: 120px; } .interactive-content { width: 440px; height: 440px; } }
