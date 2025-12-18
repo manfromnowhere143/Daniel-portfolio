@@ -303,13 +303,15 @@ export default function About() {
           right: 0;
           bottom: 0;
           opacity: 0;
-          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease;
-          background: var(--bg-primary, #050506);
+          background: var(--bg-primary);
           overflow: hidden;
           overscroll-behavior: none;
           touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                      background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          will-change: background-color;
         }
         
         .about-page.loaded { opacity: 1; }
@@ -327,19 +329,21 @@ export default function About() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
           font-size: clamp(26px, 5.5vw, 44px);
           font-weight: 200;
-          color: var(--text-primary, #FFFFFF);
+          color: var(--text-primary);
           margin: 0 0 4px;
           letter-spacing: -0.02em;
-          transition: color 0.5s ease;
+          transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          will-change: color;
         }
         
         .hero-tagline {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: clamp(12px, 2.2vw, 16px);
           font-weight: 300;
-          color: var(--text-secondary, rgba(255, 255, 255, 0.8));
+          color: var(--text-secondary);
           letter-spacing: 0.05em;
-          transition: color 0.5s ease;
+          transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          will-change: color;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -405,8 +409,9 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* ELON MUSK LEVEL - PERFECT SEAMLESS FADE                                         */
-        /* Multiple gradient stops for ultra-smooth transition, no holes, no cuts          */
+        /* STATE OF THE ART - BUTTERY SMOOTH FADE OVERLAYS                                 */
+        /* Using pseudo-elements with opacity for GPU-accelerated transitions              */
+        /* Steve Jobs would approve - pixel perfect, silky smooth                          */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .terminal-fade-top {
@@ -415,19 +420,47 @@ export default function About() {
           left: -20px;
           right: -20px;
           height: 55px;
-          background: linear-gradient(to bottom, 
-            var(--bg-primary, #050506) 0%,
-            var(--bg-primary, #050506) 18%,
-            color-mix(in srgb, var(--bg-primary, #050506) 95%, transparent) 32%,
-            color-mix(in srgb, var(--bg-primary, #050506) 80%, transparent) 48%,
-            color-mix(in srgb, var(--bg-primary, #050506) 50%, transparent) 65%,
-            color-mix(in srgb, var(--bg-primary, #050506) 20%, transparent) 82%,
-            transparent 100%
-          );
           pointer-events: none;
           z-index: 15;
-          transition: background 0.5s ease;
+          overflow: hidden;
         }
+        
+        .terminal-fade-top::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to bottom, 
+            #050506 0%,
+            #050506 18%,
+            rgba(5, 5, 6, 0.95) 32%,
+            rgba(5, 5, 6, 0.8) 48%,
+            rgba(5, 5, 6, 0.5) 65%,
+            rgba(5, 5, 6, 0.2) 82%,
+            transparent 100%
+          );
+          opacity: 1;
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .terminal-fade-top::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to bottom, 
+            #F5F5F0 0%,
+            #F5F5F0 18%,
+            rgba(245, 245, 240, 0.95) 32%,
+            rgba(245, 245, 240, 0.8) 48%,
+            rgba(245, 245, 240, 0.5) 65%,
+            rgba(245, 245, 240, 0.2) 82%,
+            transparent 100%
+          );
+          opacity: 0;
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        [data-theme="light"] .terminal-fade-top::before { opacity: 0; }
+        [data-theme="light"] .terminal-fade-top::after { opacity: 1; }
         
         .terminal-fade-bottom {
           position: absolute;
@@ -435,19 +468,49 @@ export default function About() {
           left: -20px;
           right: -20px;
           height: 65px;
-          background: linear-gradient(to top, 
-            var(--bg-primary, #050506) 0%,
-            var(--bg-primary, #050506) 25%,
-            color-mix(in srgb, var(--bg-primary, #050506) 98%, transparent) 35%,
-            color-mix(in srgb, var(--bg-primary, #050506) 90%, transparent) 45%,
-            color-mix(in srgb, var(--bg-primary, #050506) 70%, transparent) 58%,
-            color-mix(in srgb, var(--bg-primary, #050506) 40%, transparent) 72%,
-            color-mix(in srgb, var(--bg-primary, #050506) 15%, transparent) 85%,
-            transparent 100%
-          );
           pointer-events: none;
           z-index: 15;
-          transition: background 0.5s ease;
+          overflow: hidden;
+        }
+        
+        .terminal-fade-bottom::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, 
+            #050506 0%,
+            #050506 25%,
+            rgba(5, 5, 6, 0.98) 35%,
+            rgba(5, 5, 6, 0.9) 45%,
+            rgba(5, 5, 6, 0.7) 58%,
+            rgba(5, 5, 6, 0.4) 72%,
+            rgba(5, 5, 6, 0.15) 85%,
+            transparent 100%
+          );
+          opacity: 1;
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .terminal-fade-bottom::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, 
+            #F5F5F0 0%,
+            #F5F5F0 25%,
+            rgba(245, 245, 240, 0.98) 35%,
+            rgba(245, 245, 240, 0.9) 45%,
+            rgba(245, 245, 240, 0.7) 58%,
+            rgba(245, 245, 240, 0.4) 72%,
+            rgba(245, 245, 240, 0.15) 85%,
+            transparent 100%
+          );
+          opacity: 0;
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        [data-theme="light"] .terminal-fade-bottom::before { opacity: 0; }
+        [data-theme="light"] .terminal-fade-bottom::after { opacity: 1; }
         }
         
         /* Floating scroll arrow indicator */
@@ -468,10 +531,10 @@ export default function About() {
         .scroll-arrow svg {
           width: 14px;
           height: 14px;
-          stroke: var(--text-primary, #FFFFFF);
+          stroke: var(--text-primary);
           stroke-width: 1.5;
           fill: none;
-          transition: stroke 0.5s ease;
+          transition: stroke 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         @keyframes arrowFloat {
@@ -488,10 +551,10 @@ export default function About() {
           line-height: 18px;
           letter-spacing: 0.02em;
           font-weight: 300;
-          color: var(--text-secondary, rgba(255, 255, 255, 0.85));
+          color: var(--text-secondary);
           white-space: pre-wrap;
           word-break: break-word;
-          transition: color 0.5s ease;
+          transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .line-content {
@@ -499,25 +562,40 @@ export default function About() {
           word-break: break-word;
         }
         
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - SMOOTH TEXT TRANSITIONS                                      */
+        /* GPU-accelerated, buttery smooth color changes                                   */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .yaml-text {
-          color: var(--text-primary, #FFFFFF);
-          transition: color 0.5s ease;
+          color: var(--text-primary);
+          transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          will-change: color;
         }
         
         .yaml-text.yaml-glow {
           font-variant-numeric: tabular-nums;
           text-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
           opacity: 0.9;
+          transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1), text-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .yaml-text.yaml-dim {
           opacity: 0.6;
         }
+        
+        /* Blinking cursor - theme aware */
+        .cursor {
+          display: inline-block;
+          width: 2px;
+          height: 14px;
+          background: var(--text-primary);
           margin-left: 2px;
           vertical-align: middle;
           animation: cursorBlink 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-          box-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.4);
+          box-shadow: 0 0 12px currentColor, 0 0 25px currentColor;
           border-radius: 1px;
+          transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         @keyframes cursorBlink {
@@ -618,7 +696,8 @@ export default function About() {
           font-weight: 400;
           color: var(--text-primary);
           letter-spacing: 0.05em;
-          transition: color 0.5s ease;
+          transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          will-change: color;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
