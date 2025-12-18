@@ -84,47 +84,71 @@ export default function Navigation() {
     <>
       <style>{`
         /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - THEME VARIABLES & BODY                                   */
-        /* Ensures no black line anywhere                                              */
+        /* STATE OF THE ART - THEME VARIABLES                                          */
+        /* Complete definitions for buttery smooth transitions                         */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
-        :root {
+        :root, [data-theme="dark"] {
           --bg-primary: #050506;
+          --bg-secondary: #0a0a0b;
+          --bg-card: rgba(40, 40, 45, 0.65);
           --text-primary: #FAFAF8;
+          --text-secondary: rgba(250, 250, 248, 0.7);
+          --text-tertiary: rgba(250, 250, 248, 0.5);
+          --border-primary: rgba(255, 255, 255, 0.06);
+          --border-secondary: rgba(255, 255, 255, 0.1);
         }
         
         [data-theme="light"] {
           --bg-primary: #F5F5F0;
+          --bg-secondary: #EAEAE5;
+          --bg-card: rgba(255, 255, 255, 0.8);
           --text-primary: #1a1a1a;
+          --text-secondary: rgba(26, 26, 26, 0.7);
+          --text-tertiary: rgba(26, 26, 26, 0.5);
+          --border-primary: rgba(0, 0, 0, 0.06);
+          --border-secondary: rgba(0, 0, 0, 0.1);
         }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* SPACE THEME - Ultimate Space Experience                                     */
-        /* Deep void black with stars, planets, black hole                             */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
         
         [data-theme="space"] {
           --bg-primary: #000000;
           --bg-secondary: #050508;
+          --bg-card: rgba(10, 10, 20, 0.65);
           --text-primary: #E8EAFF;
-          --text-secondary: rgba(232, 234, 255, 0.8);
+          --text-secondary: rgba(232, 234, 255, 0.7);
           --text-tertiary: rgba(232, 234, 255, 0.5);
-          --border-primary: rgba(100, 100, 200, 0.12);
-          --border-secondary: rgba(100, 100, 200, 0.2);
+          --border-primary: rgba(100, 100, 200, 0.1);
+          --border-secondary: rgba(100, 100, 200, 0.15);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
         /* BUTTERY SMOOTH TRANSITIONS - Steve Jobs approved                            */
-        /* Simple, elegant, no flash                                                   */
+        /* Cross-fade technique - no flash between any theme                           */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
-        html {
+        html, body {
           background-color: var(--bg-primary) !important;
+          transition: background-color 0.6s ease-in-out;
         }
         
-        body {
-          background-color: var(--bg-primary) !important;
-          transition: background-color 0.5s ease;
+        /* Universal smooth transition for theme-aware elements */
+        *, *::before, *::after {
+          transition: background-color 0.6s ease-in-out, 
+                      color 0.6s ease-in-out,
+                      border-color 0.6s ease-in-out,
+                      fill 0.6s ease-in-out,
+                      stroke 0.6s ease-in-out;
+        }
+        
+        /* Exclude elements that need instant feedback */
+        button, a, input, textarea, select,
+        .theme-btn, .nav-icon-container, .sidebar-nav-link {
+          transition: background-color 0.2s ease, 
+                      color 0.2s ease,
+                      border-color 0.2s ease,
+                      transform 0.2s ease,
+                      opacity 0.2s ease,
+                      box-shadow 0.2s ease;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */

@@ -71,8 +71,22 @@ export default function RootLayout({
                 try {
                   var theme = localStorage.getItem('site-theme') || 'dark';
                   document.documentElement.setAttribute('data-theme', theme);
+                  var bg = theme === 'light' ? '#F5F5F0' : theme === 'space' ? '#000000' : '#050506';
+                  document.documentElement.style.backgroundColor = bg;
                 } catch (e) {}
               })();
+            `,
+          }}
+        />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              html, body {
+                transition: background-color 0.6s ease-in-out;
+              }
+              html[data-theme="dark"], html[data-theme="dark"] body { background-color: #050506; }
+              html[data-theme="light"], html[data-theme="light"] body { background-color: #F5F5F0; }
+              html[data-theme="space"], html[data-theme="space"] body { background-color: #000000; }
             `,
           }}
         />
