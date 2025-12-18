@@ -175,23 +175,24 @@ export default function Navigation() {
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - THEME TOGGLE BUTTONS                                     */
-        /* Vertical stack, right-aligned - pure luxury                                 */
+        /* Horizontal row, left-aligned, under nav links - pure elegance               */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .theme-toggle-container {
           display: flex;
-          flex-direction: column;
-          gap: 6px;
-          align-items: flex-end;
-          padding: 10px 0 0 0;
-          margin-top: 10px;
+          flex-direction: row;
+          gap: 10px;
+          align-items: center;
+          justify-content: flex-start;
+          padding: 16px 0 0 0;
+          margin-top: 16px;
           border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
         
         .theme-btn {
           position: relative;
-          width: 18px;
-          height: 18px;
+          width: 22px;
+          height: 22px;
           border-radius: 50%;
           border: none;
           cursor: pointer;
@@ -205,131 +206,102 @@ export default function Navigation() {
           background: linear-gradient(145deg, #FFFFFF 0%, #F5F5F0 50%, #E8E8E3 100%);
           box-shadow:
             0 0 0 0.5px rgba(255, 255, 255, 0.8),
-            0 1px 3px rgba(0, 0, 0, 0.25),
-            0 3px 6px rgba(0, 0, 0, 0.15),
-            0 5px 10px rgba(0, 0, 0, 0.1),
+            0 1px 3px rgba(0, 0, 0, 0.2),
+            0 3px 6px rgba(0, 0, 0, 0.12),
             inset 0 1px 1px rgba(255, 255, 255, 1);
         }
         
         .theme-btn.light::after {
           content: '';
           position: absolute;
-          top: 2px;
-          left: 3px;
-          width: 5px;
-          height: 5px;
+          top: 3px;
+          left: 4px;
+          width: 6px;
+          height: 6px;
           border-radius: 50%;
           background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, transparent 60%);
         }
         
         /* Dark theme button */
         .theme-btn.dark {
-          background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #0a0a0a 100%);
+          background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 50%, #000000 100%);
           box-shadow:
-            0 0 0 0.5px rgba(255, 255, 255, 0.08),
+            0 0 0 0.5px rgba(255, 255, 255, 0.1),
             0 1px 3px rgba(0, 0, 0, 0.4),
             0 3px 6px rgba(0, 0, 0, 0.3),
-            0 5px 10px rgba(0, 0, 0, 0.2),
-            inset 0 1px 1px rgba(255, 255, 255, 0.08);
+            inset 0 1px 1px rgba(255, 255, 255, 0.05);
         }
         
         .theme-btn.dark::after {
           content: '';
           position: absolute;
-          top: 2px;
-          left: 3px;
+          top: 3px;
+          left: 4px;
           width: 5px;
           height: 5px;
           border-radius: 50%;
-          background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
-        }
-        
-        /* Active state - selected theme */
-        .theme-btn.active {
-          transform: scale(1.12);
+          background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
         }
         
         .theme-btn.light.active {
           box-shadow:
-            0 0 0 1.5px rgba(255, 255, 255, 0.9),
-            0 0 8px rgba(255, 255, 255, 0.3),
-            0 2px 6px rgba(0, 0, 0, 0.2),
+            0 0 0 2px rgba(120, 120, 120, 0.3),
+            0 0 12px rgba(255, 255, 255, 0.4),
+            0 2px 6px rgba(0, 0, 0, 0.15),
             inset 0 1px 1px rgba(255, 255, 255, 1);
         }
         
         .theme-btn.dark.active {
           box-shadow:
-            0 0 0 1.5px rgba(255, 255, 255, 0.15),
-            0 0 8px rgba(255, 255, 255, 0.08),
+            0 0 0 2px rgba(255, 255, 255, 0.15),
+            0 0 12px rgba(0, 0, 0, 0.5),
             0 2px 6px rgba(0, 0, 0, 0.4),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            inset 0 1px 1px rgba(255, 255, 255, 0.08);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* SPACE THEME BUTTON - Ultimate Space Experience                              */
-        /* Pure black void with tiny stars - real universe                             */
+        /* SPACE THEME BUTTON - Deep indigo with subtle glow                           */
+        /* Clean, elegant, single color - premium feel                                 */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .theme-btn.space {
-          background: 
-            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 1) 0%, transparent 6%),
-            radial-gradient(circle at 70% 25%, rgba(255, 255, 255, 0.9) 0%, transparent 4%),
-            radial-gradient(circle at 45% 60%, rgba(255, 255, 255, 0.8) 0%, transparent 5%),
-            radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.7) 0%, transparent 4%),
-            radial-gradient(circle at 30% 80%, rgba(255, 255, 255, 0.6) 0%, transparent 3%),
-            radial-gradient(circle at 60% 35%, rgba(200, 220, 255, 0.5) 0%, transparent 4%),
-            radial-gradient(circle at 15% 55%, rgba(255, 200, 150, 0.4) 0%, transparent 3%),
-            linear-gradient(180deg, #000000 0%, #000000 100%);
+          background: linear-gradient(145deg, #1a1a3e 0%, #0f0f2a 50%, #080818 100%);
           box-shadow:
-            0 0 0 0.5px rgba(255, 255, 255, 0.15),
-            0 1px 3px rgba(0, 0, 0, 0.5),
-            0 3px 6px rgba(0, 0, 0, 0.4),
-            0 5px 10px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            0 0 0 0.5px rgba(100, 100, 200, 0.25),
+            0 1px 3px rgba(0, 0, 0, 0.4),
+            0 3px 6px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(150, 150, 255, 0.1);
           position: relative;
           overflow: hidden;
         }
         
-        /* Twinkling stars animation */
-        .theme-btn.space::before {
+        /* Subtle inner glow */
+        .theme-btn.space::after {
           content: '';
           position: absolute;
-          top: 2px;
-          left: 3px;
-          width: 1.5px;
-          height: 1.5px;
+          top: 3px;
+          left: 4px;
+          width: 5px;
+          height: 5px;
           border-radius: 50%;
-          background: white;
-          box-shadow:
-            5px 2px 0 0 rgba(255, 255, 255, 1),
-            2px 7px 0 0 rgba(255, 255, 255, 0.8),
-            9px 5px 0 0 rgba(255, 255, 255, 0.9),
-            7px 10px 0 0 rgba(255, 255, 255, 0.7),
-            11px 3px 0 0 rgba(255, 255, 255, 0.6),
-            4px 12px 0 0 rgba(255, 255, 255, 0.8);
-          animation: starTwinkle 3s ease-in-out infinite;
-        }
-        
-        @keyframes starTwinkle {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.6; }
+          background: linear-gradient(135deg, rgba(150, 150, 255, 0.3) 0%, transparent 60%);
         }
         
         .theme-btn.space.active {
           box-shadow:
-            0 0 0 1.5px rgba(255, 255, 255, 0.25),
-            0 0 10px rgba(255, 255, 255, 0.1),
-            0 2px 6px rgba(0, 0, 0, 0.5),
-            inset 0 1px 1px rgba(255, 255, 255, 0.08);
+            0 0 0 2px rgba(100, 100, 200, 0.35),
+            0 0 15px rgba(80, 80, 180, 0.25),
+            0 2px 6px rgba(0, 0, 0, 0.4),
+            inset 0 1px 1px rgba(150, 150, 255, 0.15);
         }
         
         /* Hover states */
         .theme-btn:hover {
-          transform: scale(1.18);
+          transform: scale(1.15);
         }
         
         .theme-btn.active:hover {
-          transform: scale(1.12);
+          transform: scale(1.08);
         }
         
         .theme-btn:active {
@@ -498,19 +470,19 @@ export default function Navigation() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* MOBILE THEME TOGGLE - Vertical stack, standalone                            */
+        /* MOBILE THEME TOGGLE - Horizontal row, centered                                */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .mobile-theme-toggle {
           display: flex;
-          flex-direction: column;
-          gap: 8px;
+          flex-direction: row;
+          gap: 12px;
           align-items: center;
         }
         
         .mobile-theme-toggle .theme-btn {
-          width: 22px;
-          height: 22px;
+          width: 26px;
+          height: 26px;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -707,6 +679,19 @@ export default function Navigation() {
           </div>
         )}
 
+        <div className="sidebar-nav">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`sidebar-nav-link ${item.isActive ? 'active' : ''}`}
+              style={{ color: textColor }}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
         {/* STATE OF THE ART - Theme Toggle Buttons */}
         <div className="theme-toggle-container">
           <button
@@ -727,19 +712,6 @@ export default function Navigation() {
             aria-label="Space theme"
             title="Space"
           />
-        </div>
-
-        <div className="sidebar-nav">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`sidebar-nav-link ${item.isActive ? 'active' : ''}`}
-              style={{ color: textColor }}
-            >
-              {item.label}
-            </Link>
-          ))}
         </div>
       </nav>
 
