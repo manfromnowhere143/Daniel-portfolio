@@ -199,46 +199,26 @@ export default function About() {
 
   // Enforce scroll position when terminal state changes
   useEffect(() => {
-    if (!isExpanded) {
-      // When collapsed (fixed position), ensure scroll is at 0
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    }
+    // Always ensure window scroll is at 0 for this fixed page
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, [isExpanded]);
 
-  // Handle expansion
+  // Handle expansion - simple toggle, no scroll manipulation needed
   const handleExpand = () => {
     if (isExpanded) {
-      // Collapse - CRITICAL: Reset ALL scroll positions to 0 before switching to fixed
-      // Must be synchronous and immediate to prevent any visual jump
+      // Collapse - simple state reset
+      setExpandAnimPhase('idle');
+      setIsExpanded(false);
+      setVisibleLineCount(0);
+      setIsTypingComplete(false);
+      typingStarted.current = false;
 
-      // Force immediate scroll reset on all scrollable elements
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-
-      // Also reset any scroll on the about-page element itself
-      const aboutPage = document.querySelector('.about-page');
-      if (aboutPage) {
-        (aboutPage as HTMLElement).scrollTop = 0;
+      // Reset terminal content scroll position
+      if (contentRef.current) {
+        contentRef.current.scrollTop = 0;
       }
-
-      // Use double RAF to ensure DOM has fully updated before state change
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setExpandAnimPhase('idle');
-          setIsExpanded(false);
-          setVisibleLineCount(0);
-          setIsTypingComplete(false);
-          typingStarted.current = false;
-
-          // Final safety reset after state change
-          window.scrollTo(0, 0);
-          document.documentElement.scrollTop = 0;
-          document.body.scrollTop = 0;
-        });
-      });
     } else {
       // Expand - elegant reveal
       setIsExpanded(true);
@@ -342,13 +322,17 @@ export default function About() {
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;300;400&display=swap');
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - LOCKED SCREEN BY DEFAULT                                     */
-        /* No scroll unless terminal is expanded - iPhone home screen style                */
+        /* STATE OF THE ART - ALWAYS FIXED LAYOUT                                          */
+        /* Page never scrolls - only terminal content scrolls when expanded                */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         html, body {
           overscroll-behavior: none;
           overscroll-behavior-y: none;
+          overflow: hidden;
+          position: fixed;
+          width: 100%;
+          height: 100%;
         }
         
         * { -webkit-tap-highlight-color: transparent; }
@@ -365,18 +349,6 @@ export default function About() {
           overflow: hidden;
           touch-action: none;
           overscroll-behavior: none;
-        }
-        
-        /* When terminal is expanded, allow scrolling */
-        .about-page.terminal-expanded {
-          position: relative;
-          min-height: 100vh;
-          min-height: 100dvh;
-          overflow-x: hidden;
-          overflow-y: auto;
-          touch-action: pan-y;
-          -webkit-overflow-scrolling: touch;
-          scroll-behavior: smooth;
         }
         
         .about-page.loaded { opacity: 1; }
@@ -526,6 +498,8 @@ export default function About() {
           max-height: 55vh;
           padding: 14px 0 40px;
           overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          touch-action: pan-y;
           scrollbar-width: thin;
           scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
         }
@@ -755,7 +729,7 @@ export default function About() {
         }
       `}</style>
 
-      <div className={`about-page ${isLoaded ? 'loaded' : ''} ${isExpanded ? 'terminal-expanded' : ''}`}>
+      <div className={`about-page ${isLoaded ? 'loaded' : ''}`}>
         {/* Hero */}
         <div className="hero-section">
           <h1 className="hero-name">Daniel Wahnich</h1>
