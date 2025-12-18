@@ -453,7 +453,7 @@ export default function Creative() {
 
   const renderFolderPreview = (folderId: string) => {
     if (folderId === 'entertainment') {
-      // 3 apps in 2x2 grid - one empty spot
+      // 3 apps in 2x2 grid - one empty spot (invisible)
       return (
         <div className="folder-preview folder-preview-4">
           <div className="folder-mini-icon folder-mini-png">
@@ -465,7 +465,7 @@ export default function Creative() {
           <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a1a1f, #0d0d10)' }}>
             {render3DIconMini(miniIconSize)}
           </div>
-          <div className="folder-mini-icon folder-mini-empty" />
+          <div className="folder-mini-empty" />
         </div>
       );
     } else {
@@ -730,10 +730,12 @@ export default function Creative() {
         }
         
         .folder-mini-icon.folder-mini-empty {
-          background: rgba(255, 255, 255, 0.06);
-          box-shadow: 
-            inset 0 1px 0 rgba(255, 255, 255, 0.08),
-            inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+          background: transparent;
+          box-shadow: none;
+        }
+        
+        .folder-mini-empty {
+          /* Completely invisible - just takes up grid space */
         }
         
         .folder-mini-icon.folder-mini-png {
@@ -925,20 +927,7 @@ export default function Creative() {
         }
         .folder-card-icon.folder-card-png { background: transparent; }
         .folder-card-icon.folder-card-png::before { display: none; }
-        .folder-card-icon:not(.folder-card-png):not(.folder-card-icon-empty) { background: linear-gradient(145deg, #1a1a1f, #0d0d10); }
-        
-        .folder-card-icon.folder-card-icon-empty {
-          background: rgba(0, 0, 0, 0.15);
-          box-shadow: 
-            inset 0 1px 0 rgba(255, 255, 255, 0.05),
-            inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-          cursor: default;
-        }
-        
-        .folder-card.folder-card-empty {
-          pointer-events: none;
-          opacity: 0.4;
-        }
+        .folder-card-icon:not(.folder-card-png) { background: linear-gradient(145deg, #1a1a1f, #0d0d10); }
         
         .folder-card-icon:not(.folder-card-png)::before {
           content: '';
@@ -950,8 +939,8 @@ export default function Creative() {
           z-index: 5;
         }
         
-        .folder-card-icon.folder-card-icon-empty::before {
-          display: none;
+        .folder-card-empty-slot {
+          /* Completely invisible - just takes up grid space */
         }
         
         .folder-card-name {
@@ -1568,10 +1557,7 @@ export default function Creative() {
               </div>
               <span className="folder-card-name">Icons</span>
             </div>
-            <div className="folder-card folder-card-empty">
-              <div className="folder-card-icon folder-card-icon-empty" />
-              <span className="folder-card-name">&nbsp;</span>
-            </div>
+            <div className="folder-card-empty-slot" />
           </div>
         </div>
       </div>
