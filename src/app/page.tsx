@@ -256,9 +256,16 @@ export default function About() {
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;300;400&display=swap');
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - LOCKED ABOUT PAGE                                            */
-        /* Fixed viewport, no scroll - terminal content scrolls internally                 */
+        /* IRON LOCK - IDENTICAL TO WORK PAGE                                              */
+        /* Like iPhone home screen - fixed, no bounce, no scroll                           */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        html, body {
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+          overflow: hidden;
+          touch-action: none;
+        }
         
         * { -webkit-tap-highlight-color: transparent; }
         
@@ -269,11 +276,13 @@ export default function About() {
           right: 0;
           bottom: 0;
           opacity: 0;
-          transition: opacity 0.6s ease;
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
           background: #050506;
           overflow: hidden;
-          touch-action: none;
           overscroll-behavior: none;
+          touch-action: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .about-page.loaded { opacity: 1; }
@@ -333,7 +342,7 @@ export default function About() {
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - FLOATING SACRED TEXT                                         */
         /* No borders, no frame - pure text floating in void                               */
-        /* Top and bottom fade - text appears/disappears like ancient wisdom               */
+        /* ELON MUSK LEVEL - Perfect seamless fades, no holes, no cuts                     */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .terminal-section {
@@ -351,12 +360,13 @@ export default function About() {
         
         .terminal-content {
           position: relative;
-          padding: 8px 0;
-          max-height: clamp(160px, 28vh, 240px);
-          overflow-y: auto;
-          overflow-x: hidden;
+          padding: 25px 0;
+          max-height: clamp(120px, 18vh, 140px);
+          overflow-y: auto !important;
+          overflow-x: hidden !important;
           -webkit-overflow-scrolling: touch;
-          touch-action: pan-y;
+          touch-action: pan-y !important;
+          overscroll-behavior: contain;
           scrollbar-width: none;
           -ms-overflow-style: none;
         }
@@ -365,34 +375,43 @@ export default function About() {
           display: none;
         }
         
-        /* STATE OF THE ART - Top fade overlay */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* ELON MUSK LEVEL - PERFECT SEAMLESS FADE                                         */
+        /* Multiple gradient stops for ultra-smooth transition, no holes, no cuts          */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .terminal-fade-top {
           position: absolute;
           top: 0;
-          left: 0;
-          right: 0;
-          height: 50px;
+          left: -20px;
+          right: -20px;
+          height: 45px;
           background: linear-gradient(to bottom, 
-            rgba(5, 5, 6, 1) 0%,
-            rgba(5, 5, 6, 0.9) 40%,
-            rgba(5, 5, 6, 0.5) 70%,
+            #050506 0%,
+            #050506 20%,
+            rgba(5, 5, 6, 0.95) 35%,
+            rgba(5, 5, 6, 0.8) 50%,
+            rgba(5, 5, 6, 0.5) 65%,
+            rgba(5, 5, 6, 0.2) 80%,
             transparent 100%
           );
           pointer-events: none;
           z-index: 15;
         }
         
-        /* STATE OF THE ART - Bottom fade overlay */
         .terminal-fade-bottom {
           position: absolute;
           bottom: 0;
-          left: 0;
-          right: 0;
-          height: 50px;
+          left: -20px;
+          right: -20px;
+          height: 45px;
           background: linear-gradient(to top, 
-            rgba(5, 5, 6, 1) 0%,
-            rgba(5, 5, 6, 0.9) 40%,
-            rgba(5, 5, 6, 0.5) 70%,
+            #050506 0%,
+            #050506 20%,
+            rgba(5, 5, 6, 0.95) 35%,
+            rgba(5, 5, 6, 0.8) 50%,
+            rgba(5, 5, 6, 0.5) 65%,
+            rgba(5, 5, 6, 0.2) 80%,
             transparent 100%
           );
           pointer-events: none;
@@ -402,7 +421,7 @@ export default function About() {
         /* Floating scroll arrow indicator */
         .scroll-arrow {
           position: absolute;
-          bottom: 8px;
+          bottom: 12px;
           right: 0px;
           width: 28px;
           height: 28px;
@@ -466,7 +485,7 @@ export default function About() {
           display: flex;
           justify-content: center;
           gap: 16px;
-          padding: clamp(12px, 2vh, 24px) 0 clamp(20px, 4vh, 50px);
+          padding: clamp(20px, 4vh, 40px) 0 clamp(30px, 6vh, 60px);
         }
         
         .contact-link {
@@ -549,24 +568,24 @@ export default function About() {
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         @media (max-width: 600px) {
-          .hero-section { padding: 55px 20px 4px; }
+          .hero-section { padding: 50px 20px 0; }
           .hero-name { font-size: 24px; margin-bottom: 2px; }
           .hero-tagline { font-size: 11px; }
           
           .spiral-container { 
-            transform: scale(0.65); 
+            transform: scale(0.6); 
             padding: 0;
-            margin: -5px 0;
+            margin: -10px 0;
           }
           
-          .terminal-section { padding: 0 20px; }
-          .terminal-content { max-height: clamp(140px, 24vh, 200px); padding: 6px 0; }
-          .terminal-fade-top, .terminal-fade-bottom { height: 40px; }
-          .scroll-arrow { bottom: 6px; right: -4px; width: 24px; height: 24px; }
+          .terminal-section { padding: 0 16px; }
+          .terminal-content { max-height: clamp(110px, 16vh, 130px); padding: 20px 0; }
+          .terminal-fade-top, .terminal-fade-bottom { height: 35px; left: -16px; right: -16px; }
+          .scroll-arrow { bottom: 8px; right: -4px; width: 24px; height: 24px; }
           .scroll-arrow svg { width: 12px; height: 12px; }
           .code-line { padding: 1px 4px; font-size: 9px; min-height: 16px; line-height: 16px; }
           
-          .contact-section { gap: 14px; padding: 10px 0 16px; }
+          .contact-section { gap: 14px; padding: 16px 0 24px; }
           .contact-link { gap: 5px; }
           .contact-icon { width: 44px; height: 44px; border-radius: 11px; }
           .contact-icon svg { width: 18px; height: 18px; }
@@ -575,19 +594,20 @@ export default function About() {
         
         /* Extra small screens */
         @media (max-width: 380px) {
-          .hero-section { padding: 50px 16px 2px; }
+          .hero-section { padding: 45px 16px 0; }
           .hero-name { font-size: 22px; }
           .hero-tagline { font-size: 10px; }
           
           .spiral-container { 
-            transform: scale(0.58); 
-            margin: -8px 0;
+            transform: scale(0.55); 
+            margin: -12px 0;
           }
           
-          .terminal-content { max-height: clamp(120px, 22vh, 180px); }
-          .terminal-fade-top, .terminal-fade-bottom { height: 35px; }
+          .terminal-content { max-height: clamp(100px, 15vh, 120px); padding: 18px 0; }
+          .terminal-fade-top, .terminal-fade-bottom { height: 30px; }
           .code-line { font-size: 8.5px; min-height: 15px; line-height: 15px; }
           
+          .contact-section { padding: 12px 0 20px; }
           .contact-icon { width: 40px; height: 40px; border-radius: 10px; }
           .contact-icon svg { width: 16px; height: 16px; }
         }
