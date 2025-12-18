@@ -670,7 +670,6 @@ export default function Work() {
         .folder-wrapper:nth-child(3) .folder-icon { transition-delay: 120ms; }
         .folder-wrapper:nth-child(4) .folder-icon { transition-delay: 180ms; }
         .folder-preview { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; width: 95px; height: 95px; position: relative; z-index: 5; }
-        .folder-preview-2 { grid-template-columns: repeat(2, 1fr); grid-template-rows: 1fr; height: auto; align-content: center; }
         .folder-mini-icon { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 0 20px var(--glow-color, rgba(255, 255, 255, 0.08)), 0 4px 12px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.3); }
         .folder-mini-icon::before { content: ''; position: absolute; top: 0; left: 5%; right: 5%; height: 45%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%); border-radius: 11px 11px 50% 50%; pointer-events: none; z-index: 5; }
         .folder-mini-icon.has-image::before { display: none; }
@@ -752,7 +751,6 @@ export default function Work() {
         }
         
         .folder-apps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; touch-action: none; }
-        .folder-apps-grid-2 { grid-template-columns: repeat(2, 1fr); max-width: 200px; margin: 0 auto; }
         
         .folder-app {
           display: flex;
@@ -1267,8 +1265,8 @@ export default function Work() {
         .transition-bridge.transitioning { opacity: 0; visibility: visible; pointer-events: none; transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.55s; }
         .bridge-spinner { width: 36px; height: 36px; border: 1.5px solid rgba(255, 255, 255, 0.06); border-top-color: rgba(255, 255, 255, 0.7); border-radius: 50%; animation: bridgeSpin 0.8s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.08)); }
         @keyframes bridgeSpin { to { transform: rotate(360deg); } }
-        @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-mini-placeholder { width: 56px; height: 56px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 28px; } .folder-apps-grid-2 { max-width: 220px; } .folder-app-icon { width: 82px; height: 82px; border-radius: 20px; } .folder-app-placeholder { width: 82px; height: 105px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } .interactive-content { width: 380px; height: 380px; } }
-        @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-mini-placeholder { width: 68px; height: 68px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 32px; } .folder-apps-grid-2 { max-width: 260px; } .folder-app-icon { width: 96px; height: 96px; border-radius: 24px; } .folder-app-placeholder { width: 96px; height: 120px; } .interactive-content { width: 440px; height: 440px; } }
+        @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-mini-placeholder { width: 56px; height: 56px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 28px; } .folder-app-icon { width: 82px; height: 82px; border-radius: 20px; } .folder-app-placeholder { width: 82px; height: 105px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } .interactive-content { width: 380px; height: 380px; } }
+        @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-mini-placeholder { width: 68px; height: 68px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 32px; } .folder-app-icon { width: 96px; height: 96px; border-radius: 24px; } .folder-app-placeholder { width: 96px; height: 120px; } .interactive-content { width: 440px; height: 440px; } }
       `}</style>
 
       <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' || interactiveAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ paddingLeft: "20px", paddingRight: "20px", paddingTop: "60px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
@@ -1321,13 +1319,15 @@ export default function Work() {
 
           <div className="folder-wrapper">
             <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('entertainment')} style={{ transitionDelay: '300ms' }}>
-              <div className="folder-preview folder-preview-2">
+              <div className="folder-preview">
                 <div className="folder-mini-icon has-image" style={{ '--glow-color': 'rgba(100, 60, 160, 0.35)' } as React.CSSProperties}>
                   <img src="/images/gallery.jpg" alt="Gallery" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
                 </div>
                 <div className="folder-mini-icon has-image" style={{ '--glow-color': 'rgba(160, 120, 60, 0.35)' } as React.CSSProperties}>
                   <img src="/images/notes.jpg" alt="Notes" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
                 </div>
+                <div className="folder-mini-placeholder" />
+                <div className="folder-mini-placeholder" />
               </div>
             </div>
             <span className={`folder-name ${isLoaded ? 'loaded' : ''}`} style={{ transitionDelay: '360ms' }}>Media</span>
@@ -1392,7 +1392,7 @@ export default function Work() {
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container" onClick={handleCloseFolder}>
-            <div className="folder-apps-grid folder-apps-grid-2" onClick={(e) => e.stopPropagation()}>
+            <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               <div className="folder-app" onClick={handleOpenGalleryWithBridge}>
                 <div className="folder-app-icon has-image" style={{ '--glow-color': 'rgba(100, 60, 160, 0.35)', '--breathe-delay': '0s' } as React.CSSProperties}>
                   <img src="/images/gallery.jpg" alt="Gallery" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
@@ -1405,6 +1405,8 @@ export default function Work() {
                 </div>
                 <span className="folder-app-name">Notes</span>
               </div>
+              <div className="folder-app-placeholder" />
+              <div className="folder-app-placeholder" />
             </div>
           </div>
         </div>
