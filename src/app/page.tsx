@@ -200,12 +200,20 @@ export default function About() {
   // Handle expansion
   const handleExpand = () => {
     if (isExpanded) {
-      // Collapse - smooth and quick
-      setExpandAnimPhase('idle');
-      setIsExpanded(false);
-      setVisibleLineCount(0);
-      setIsTypingComplete(false);
-      typingStarted.current = false;
+      // Collapse - CRITICAL: scroll to top FIRST before switching to fixed position
+      // This prevents the page from getting stuck at a mid-scroll position
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+
+      // Small delay to ensure scroll reset completes before state change
+      requestAnimationFrame(() => {
+        setExpandAnimPhase('idle');
+        setIsExpanded(false);
+        setVisibleLineCount(0);
+        setIsTypingComplete(false);
+        typingStarted.current = false;
+      });
     } else {
       // Expand - elegant reveal
       setIsExpanded(true);
