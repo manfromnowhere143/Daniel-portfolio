@@ -30,15 +30,17 @@ export default function Creative() {
         * { -webkit-tap-highlight-color: transparent; }
         
         .coming-soon-page {
-          min-height: 100vh;
-          min-height: 100dvh;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
           background: #050506;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           overflow: hidden;
-          position: relative;
         }
         
         /* Subtle radial gradient background */

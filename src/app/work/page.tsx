@@ -164,6 +164,8 @@ export default function Work() {
         const target = e.target as HTMLElement;
         if (target.closest('.media-container')) return;
         if (target.closest('.image-expanded-content')) return;
+        if (target.tagName === 'CANVAS') return; // Allow 3D canvas interaction
+        if (target.closest('.interactive-content')) return; // Allow interactive content
         e.preventDefault();
         e.stopPropagation();
       };
@@ -172,6 +174,8 @@ export default function Work() {
         const target = e.target as HTMLElement;
         if (target.closest('.media-container')) return;
         if (target.closest('.image-expanded-content')) return;
+        if (target.tagName === 'CANVAS') return; // Allow 3D canvas interaction
+        if (target.closest('.interactive-content')) return; // Allow interactive content
         e.preventDefault();
         e.stopPropagation();
       };
@@ -192,7 +196,32 @@ export default function Work() {
         (window as any).__workSolidRockCleanup();
       }
     };
-  }, [folderAnimState, expandedAnimState, galleryAnimState, notesAnimState, imageAnimState, bridgePhase]);
+  }, [folderAnimState, expandedAnimState, galleryAnimState, notesAnimState, imageAnimState, interactiveAnimState, bridgePhase]);
+
+  // Special handling for 3D Interactive - allow full canvas interaction
+  useEffect(() => {
+    if (interactiveAnimState === 'active' && expandedInteractive) {
+      // Enable touch on body but only for canvas
+      document.body.style.touchAction = 'none';
+
+      const allowCanvasTouch = (e: TouchEvent) => {
+        const target = e.target as HTMLElement;
+        // Only allow canvas elements to receive touch
+        if (target.tagName === 'CANVAS') return;
+        // Block everything else inside the interactive expanded
+        if (target.closest('.interactive-expanded') && !target.closest('.interactive-close')) {
+          e.preventDefault();
+        }
+      };
+
+      document.addEventListener('touchstart', allowCanvasTouch, { passive: false });
+
+      return () => {
+        document.body.style.touchAction = '';
+        document.removeEventListener('touchstart', allowCanvasTouch);
+      };
+    }
+  }, [interactiveAnimState, expandedInteractive]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // HANDLERS
@@ -613,29 +642,19 @@ export default function Work() {
         * { -webkit-tap-highlight-color: transparent; }
         
         .work-page { 
-          position: relative;
-          min-height: 100vh;
-          min-height: 100dvh;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
           background: #050506;
-          overflow-x: hidden;
-          overflow-y: auto;
+          overflow: hidden;
           overscroll-behavior: none;
-          overscroll-behavior-y: none;
-          -webkit-overflow-scrolling: touch;
           -webkit-backface-visibility: hidden; 
           backface-visibility: hidden;
-          scroll-behavior: smooth;
-        }
-        
-        .work-page::after {
-          content: '';
-          display: block;
-          height: 1px;
-          margin-top: -1px;
         }
         
         .work-page.overlay-open { 
-          overflow: hidden;
           touch-action: none; 
         }
         
@@ -1227,14 +1246,15 @@ export default function Work() {
         .image-expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
         
         /* 3D Interactive Expanded */
-        .interactive-expanded { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 5, 6, 0.98); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(80px, 15vh, 150px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; }
+        .interactive-expanded { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 5, 6, 0.98); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(80px, 15vh, 150px); opacity: 0; visibility: hidden; pointer-events: none; }
         .interactive-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
         .interactive-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
         .interactive-expanded.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s ease; }
-        .interactive-content { width: clamp(280px, 80vw, 400px); height: clamp(280px, 80vw, 400px); border-radius: 24px; overflow: hidden; opacity: 0; transform: scale(0.9); transition: none; }
+        .interactive-content { width: clamp(280px, 80vw, 400px); height: clamp(280px, 80vw, 400px); border-radius: 24px; overflow: hidden; opacity: 0; transform: scale(0.9); transition: none; touch-action: manipulation; }
+        .interactive-content canvas { touch-action: manipulation; }
         .interactive-expanded.active .interactive-content { opacity: 1; transform: scale(1); transition: opacity 0.45s ease 0.1s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s; }
         .interactive-expanded.exiting .interactive-content { opacity: 0; transform: scale(0.95); transition: opacity 0.2s ease, transform 0.25s ease; }
-        .interactive-close { margin-top: 40px; width: 52px; height: 52px; border-radius: 50%; background: transparent; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transform: scale(0.5); transition: none; }
+        .interactive-close { margin-top: 40px; width: 52px; height: 52px; border-radius: 50%; background: transparent; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transform: scale(0.5); transition: none; touch-action: manipulation; }
         .interactive-expanded.active .interactive-close { opacity: 0.8; transform: scale(1); transition: opacity: 0.35s ease 0.18s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s; }
         .interactive-expanded.exiting .interactive-close { opacity: 0; transform: scale(0.7); transition: opacity 0.15s ease; }
         .interactive-close:hover { opacity: 1; transform: scale(1.1); }
@@ -1249,7 +1269,7 @@ export default function Work() {
         @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-preview-3 { gap: 6px; } .folder-preview-3 .folder-mini-icon { width: 44px; height: 44px; border-radius: 11px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 32px; } .folder-apps-grid-2 { max-width: 260px; } .folder-apps-grid-3 { max-width: 380px; } .folder-app-icon { width: 96px; height: 96px; border-radius: 24px; } .interactive-content { width: 440px; height: 440px; } }
       `}</style>
 
-      <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' || interactiveAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ paddingTop: "clamp(100px, 15vh, 160px)", paddingBottom: "clamp(80px, 15vh, 120px)", paddingLeft: "20px", paddingRight: "20px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
+      <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' || interactiveAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ paddingLeft: "20px", paddingRight: "20px", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div className="folders-grid">
           {/* Row 1: Apps & Services */}
           <div className="folder-wrapper">
