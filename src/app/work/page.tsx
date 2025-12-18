@@ -257,22 +257,29 @@ export default function Work() {
     // Show bridge immediately
     setBridgePhase('loading');
 
-    // Wait for bridge to be visible
+    // Close folder while bridge is visible
     setTimeout(() => {
       handleCloseFolder();
     }, 150);
 
+    // Set up content BEHIND the bridge (it will be invisible but ready)
     bridgeTimeoutRef.current = setTimeout(() => {
       setGalleryOpen(true);
       setGalleryAnimState('entering');
+
+      // Let content start animating behind the bridge
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setGalleryAnimState('active');
-          setBridgePhase('transitioning');
-          setTimeout(() => setBridgePhase('idle'), 500);
+
+          // Small delay to let content animation start, THEN fade bridge
+          setTimeout(() => {
+            setBridgePhase('transitioning');
+            setTimeout(() => setBridgePhase('idle'), 600);
+          }, 100);
         });
       });
-    }, 450);
+    }, 400);
   }, [galleryAnimState, bridgePhase, handleCloseFolder]);
 
   const handleCloseGallery = useCallback(() => {
@@ -290,22 +297,29 @@ export default function Work() {
     // Show bridge immediately
     setBridgePhase('loading');
 
-    // Wait for bridge to be visible
+    // Close folder while bridge is visible
     setTimeout(() => {
       handleCloseFolder();
     }, 150);
 
+    // Set up content BEHIND the bridge
     bridgeTimeoutRef.current = setTimeout(() => {
       setNotesOpen(true);
       setNotesAnimState('entering');
+
+      // Let content start animating behind the bridge
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setNotesAnimState('active');
-          setBridgePhase('transitioning');
-          setTimeout(() => setBridgePhase('idle'), 500);
+
+          // Small delay to let content animation start, THEN fade bridge
+          setTimeout(() => {
+            setBridgePhase('transitioning');
+            setTimeout(() => setBridgePhase('idle'), 600);
+          }, 100);
         });
       });
-    }, 450);
+    }, 400);
   }, [notesAnimState, bridgePhase, handleCloseFolder]);
 
   const handleCloseNotes = useCallback(() => {
@@ -360,23 +374,32 @@ export default function Work() {
   const handleOpenInteractiveWithBridge = useCallback((id: string) => {
     if (interactiveAnimState !== 'idle' || bridgePhase !== 'idle') return;
 
+    // Show bridge immediately
     setBridgePhase('loading');
 
+    // Close folder while bridge is visible
     setTimeout(() => {
       handleCloseFolder();
     }, 150);
 
+    // Set up content BEHIND the bridge
     bridgeTimeoutRef.current = setTimeout(() => {
       setExpandedInteractive(id);
       setInteractiveAnimState('entering');
+
+      // Let content start animating behind the bridge
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setInteractiveAnimState('active');
-          setBridgePhase('transitioning');
-          setTimeout(() => setBridgePhase('idle'), 500);
+
+          // Small delay to let content animation start, THEN fade bridge
+          setTimeout(() => {
+            setBridgePhase('transitioning');
+            setTimeout(() => setBridgePhase('idle'), 600);
+          }, 100);
         });
       });
-    }, 450);
+    }, 400);
   }, [interactiveAnimState, bridgePhase, handleCloseFolder]);
 
   const handleCloseInteractive = useCallback(() => {
@@ -1217,9 +1240,9 @@ export default function Work() {
         .interactive-close:hover { opacity: 1; transform: scale(1.1); }
         .interactive-close:active { transform: scale(0.95); }
         
-        .transition-bridge { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #050506; z-index: 2500; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(180px, 30vh, 280px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity; transition: opacity 0.15s ease-out, visibility 0s linear 0.15s; }
-        .transition-bridge.loading { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.12s ease-out, visibility 0s; }
-        .transition-bridge.transitioning { opacity: 0; visibility: visible; pointer-events: none; transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.45s; }
+        .transition-bridge { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #050506; z-index: 2500; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(180px, 30vh, 280px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity; transition: opacity 0.2s ease-out, visibility 0s linear 0.2s; }
+        .transition-bridge.loading { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.15s ease-out, visibility 0s; }
+        .transition-bridge.transitioning { opacity: 0; visibility: visible; pointer-events: none; transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.55s; }
         .bridge-spinner { width: 36px; height: 36px; border: 1.5px solid rgba(255, 255, 255, 0.06); border-top-color: rgba(255, 255, 255, 0.7); border-radius: 50%; animation: bridgeSpin 0.8s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.08)); }
         @keyframes bridgeSpin { to { transform: rotate(360deg); } }
         @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-preview-3 { gap: 5px; } .folder-preview-3 .folder-mini-icon { width: 36px; height: 36px; border-radius: 9px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 28px; } .folder-apps-grid-2 { max-width: 220px; } .folder-apps-grid-3 { max-width: 320px; } .folder-app-icon { width: 82px; height: 82px; border-radius: 20px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } .interactive-content { width: 380px; height: 380px; } }
