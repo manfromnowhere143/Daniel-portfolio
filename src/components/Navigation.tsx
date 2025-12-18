@@ -498,15 +498,14 @@ export default function Navigation() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* MOBILE THEME TOGGLE - Vertical, right-aligned                                 */
+        /* MOBILE THEME TOGGLE - Vertical stack, standalone                            */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .mobile-theme-toggle {
           display: flex;
           flex-direction: column;
           gap: 8px;
-          align-items: flex-end;
-          margin-top: 14px;
+          align-items: center;
         }
         
         .mobile-theme-toggle .theme-btn {
@@ -842,15 +841,15 @@ export default function Navigation() {
         }}
       />
 
-      {/* Mobile Time/Date - slides from right, below hamburger */}
+      {/* Mobile Time/Date - slides from left */}
       <div
         className={styles.mobileOnly}
         style={{
           position: "fixed",
-          top: "80px",
-          right: "24px",
+          top: "28px",
+          left: "24px",
           zIndex: 200,
-          transform: isOpen ? "translateX(0)" : "translateX(120%)",
+          transform: isOpen ? "translateX(0)" : "translateX(-120%)",
           opacity: isOpen ? 1 : 0,
           transition: isOpen
             ? "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease-out"
@@ -862,7 +861,7 @@ export default function Navigation() {
           <div style={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "flex-end",
+            alignItems: "flex-start",
             gap: "3px"
           }}>
             <span style={{
@@ -882,27 +881,43 @@ export default function Navigation() {
             }}>
               {formatDate(time)}
             </span>
-
-            {/* Mobile Theme Toggle */}
-            <div className="mobile-theme-toggle">
-              <button
-                className={`theme-btn light ${theme === 'light' ? 'active' : ''}`}
-                onClick={() => handleThemeChange('light')}
-                aria-label="Light theme"
-              />
-              <button
-                className={`theme-btn dark ${theme === 'dark' ? 'active' : ''}`}
-                onClick={() => handleThemeChange('dark')}
-                aria-label="Dark theme"
-              />
-              <button
-                className={`theme-btn space ${theme === 'space' ? 'active' : ''}`}
-                onClick={() => handleThemeChange('space')}
-                aria-label="Space theme"
-              />
-            </div>
           </div>
         )}
+      </div>
+
+      {/* Mobile Theme Toggle - slides from right */}
+      <div
+        className={styles.mobileOnly}
+        style={{
+          position: "fixed",
+          top: "28px",
+          right: "70px",
+          zIndex: 200,
+          transform: isOpen ? "translateX(0)" : "translateX(120%)",
+          opacity: isOpen ? 1 : 0,
+          transition: isOpen
+            ? "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s, opacity 0.3s ease-out 0.1s"
+            : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease-in",
+          pointerEvents: isOpen ? "auto" : "none"
+        }}
+      >
+        <div className="mobile-theme-toggle">
+          <button
+            className={`theme-btn light ${theme === 'light' ? 'active' : ''}`}
+            onClick={() => handleThemeChange('light')}
+            aria-label="Light theme"
+          />
+          <button
+            className={`theme-btn dark ${theme === 'dark' ? 'active' : ''}`}
+            onClick={() => handleThemeChange('dark')}
+            aria-label="Dark theme"
+          />
+          <button
+            className={`theme-btn space ${theme === 'space' ? 'active' : ''}`}
+            onClick={() => handleThemeChange('space')}
+            aria-label="Space theme"
+          />
+        </div>
       </div>
 
       {/* STATE OF THE ART - Bottom Floating Dock */}
