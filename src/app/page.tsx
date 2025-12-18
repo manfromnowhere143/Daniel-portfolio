@@ -387,7 +387,7 @@ export default function About() {
         
         .hero-section {
           text-align: center;
-          padding: clamp(100px, 15vh, 160px) 24px clamp(12px, 2vh, 20px);
+          padding: clamp(50px, 8vh, 90px) 24px clamp(8px, 1.5vh, 16px);
         }
         
         .hero-name {
@@ -414,7 +414,7 @@ export default function About() {
         .spiral-container {
           display: flex;
           justify-content: center;
-          padding: clamp(12px, 2vh, 24px) 0;
+          padding: clamp(8px, 1.5vh, 16px) 0;
           transform: scale(0.85);
           transform-origin: center;
         }
@@ -422,7 +422,7 @@ export default function About() {
         @media (min-width: 600px) {
           .spiral-container {
             transform: scale(1);
-            padding: clamp(16px, 3vh, 32px) 0;
+            padding: clamp(10px, 2vh, 20px) 0;
           }
         }
         
