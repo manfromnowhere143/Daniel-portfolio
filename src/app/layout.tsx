@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import SwipeNavigation from "@/components/SwipeNavigation";
+import SpaceBackground from "@/components/SpaceBackground";
 
 const inter = Inter({ subsets: ["latin"] });
 const playfair = Playfair_Display({ subsets: ["latin"] });
@@ -64,6 +65,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} style={{ backgroundColor: "#0A0A0A" }}>
+        <SpaceBackground />
         <Navigation />
         <SwipeNavigation>
           {children}

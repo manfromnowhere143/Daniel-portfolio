@@ -10,11 +10,11 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState<Date | null>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [theme, setTheme] = useState<'dark' | 'light' | 'cosmos'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light' | 'cosmos' | 'space'>('dark');
 
   // Load theme from localStorage on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem('site-theme') as 'dark' | 'light' | 'cosmos' | null;
+    const savedTheme = localStorage.getItem('site-theme') as 'dark' | 'light' | 'cosmos' | 'space' | null;
     if (savedTheme) {
       setTheme(savedTheme);
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -22,7 +22,7 @@ export default function Navigation() {
   }, []);
 
   // Handle theme change
-  const handleThemeChange = (newTheme: 'dark' | 'light' | 'cosmos') => {
+  const handleThemeChange = (newTheme: 'dark' | 'light' | 'cosmos' | 'space') => {
     setTheme(newTheme);
     localStorage.setItem('site-theme', newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
@@ -39,7 +39,7 @@ export default function Navigation() {
   // When theme is set, use theme colors; otherwise use page-based colors
   const getTextColor = () => {
     if (theme === 'light') return "#1a1a1a";
-    if (theme === 'dark' || theme === 'cosmos') return "#FAFAF8";
+    if (theme === 'dark' || theme === 'cosmos' || theme === 'space') return "#FAFAF8";
     return isDarkPage ? "#FAFAF8" : "#0A0A0A";
   };
 
@@ -110,6 +110,21 @@ export default function Navigation() {
           --text-tertiary: rgba(232, 230, 255, 0.5);
           --border-primary: rgba(138, 43, 226, 0.15);
           --border-secondary: rgba(138, 43, 226, 0.25);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        /* SPACE THEME - Animated Three.js Background                                  */
+        /* Deep space with stars, nebulas, shooting stars                              */
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        
+        [data-theme="space"] {
+          --bg-primary: #020208;
+          --bg-secondary: #050510;
+          --text-primary: #E8EAFF;
+          --text-secondary: rgba(232, 234, 255, 0.8);
+          --text-tertiary: rgba(232, 234, 255, 0.5);
+          --border-primary: rgba(100, 100, 200, 0.12);
+          --border-secondary: rgba(100, 100, 200, 0.2);
         }
         
         html, body {
@@ -274,6 +289,58 @@ export default function Navigation() {
             0 0 20px rgba(0, 191, 255, 0.2),
             0 2px 6px rgba(0, 0, 0, 0.4),
             inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        /* SPACE THEME BUTTON - Animated Three.js Space Background                     */
+        /* Deep space with animated stars, nebulas, shooting stars                     */
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        
+        .theme-btn.space {
+          background: 
+            radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.9) 0%, transparent 8%),
+            radial-gradient(circle at 75% 30%, rgba(255, 255, 255, 0.7) 0%, transparent 5%),
+            radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.6) 0%, transparent 6%),
+            radial-gradient(circle at 30% 80%, rgba(255, 255, 255, 0.5) 0%, transparent 4%),
+            radial-gradient(circle at 80% 75%, rgba(255, 255, 255, 0.8) 0%, transparent 5%),
+            radial-gradient(ellipse at 50% 50%, rgba(100, 100, 180, 0.3) 0%, transparent 50%),
+            linear-gradient(180deg, #0a0a18 0%, #050510 50%, #020208 100%);
+          box-shadow:
+            0 0 0 0.5px rgba(100, 100, 200, 0.3),
+            0 0 8px rgba(100, 100, 200, 0.15),
+            0 1px 3px rgba(0, 0, 0, 0.5),
+            0 3px 6px rgba(0, 0, 0, 0.4),
+            inset 0 1px 1px rgba(255, 255, 255, 0.08);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        /* Shooting star animation across button */
+        .theme-btn.space::before {
+          content: '';
+          position: absolute;
+          top: 4px;
+          left: -10px;
+          width: 8px;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, white, transparent);
+          animation: shootingStar 3s ease-in-out infinite;
+          opacity: 0;
+        }
+        
+        @keyframes shootingStar {
+          0%, 90%, 100% { opacity: 0; left: -10px; top: 4px; }
+          92% { opacity: 1; }
+          98% { opacity: 0; left: 20px; top: 12px; }
+        }
+        
+        .theme-btn.space.active {
+          box-shadow:
+            0 0 0 1.5px rgba(150, 150, 255, 0.4),
+            0 0 15px rgba(100, 100, 200, 0.3),
+            0 0 25px rgba(50, 50, 150, 0.2),
+            0 2px 6px rgba(0, 0, 0, 0.5),
+            inset 0 1px 1px rgba(255, 255, 255, 0.12);
         }
         
         /* Hover states */
@@ -456,15 +523,15 @@ export default function Navigation() {
         
         .mobile-theme-toggle {
           display: flex;
-          flex-direction: row;
-          gap: 8px;
-          justify-content: flex-start;
-          margin-top: 10px;
+          flex-direction: column;
+          gap: 6px;
+          align-items: flex-start;
+          margin-top: 12px;
         }
         
         .mobile-theme-toggle .theme-btn {
-          width: 22px;
-          height: 22px;
+          width: 20px;
+          height: 20px;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -676,6 +743,12 @@ export default function Navigation() {
             className={`theme-btn cosmos ${theme === 'cosmos' ? 'active' : ''}`}
             onClick={() => handleThemeChange('cosmos')}
             aria-label="Cosmos theme"
+            title="Cosmos"
+          />
+          <button
+            className={`theme-btn space ${theme === 'space' ? 'active' : ''}`}
+            onClick={() => handleThemeChange('space')}
+            aria-label="Space theme"
             title="Space & Time"
           />
         </div>
@@ -849,6 +922,11 @@ export default function Navigation() {
                 className={`theme-btn cosmos ${theme === 'cosmos' ? 'active' : ''}`}
                 onClick={() => handleThemeChange('cosmos')}
                 aria-label="Cosmos theme"
+              />
+              <button
+                className={`theme-btn space ${theme === 'space' ? 'active' : ''}`}
+                onClick={() => handleThemeChange('space')}
+                aria-label="Space theme"
               />
             </div>
           </div>

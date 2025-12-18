@@ -682,6 +682,23 @@ export default function Work() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* SPACE THEME - Animated Three.js Background                                      */
+        /* Deep space with stars, nebulas, shooting stars                                  */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        [data-theme="space"] {
+          --bg-primary: transparent;
+          --bg-secondary: rgba(5, 5, 16, 0.5);
+          --bg-card: rgba(10, 10, 30, 0.5);
+          --text-primary: #E8EAFF;
+          --text-secondary: rgba(232, 234, 255, 0.8);
+          --text-tertiary: rgba(232, 234, 255, 0.5);
+          --text-muted: rgba(232, 234, 255, 0.3);
+          --border-primary: rgba(100, 100, 200, 0.1);
+          --border-secondary: rgba(100, 100, 200, 0.18);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - LOCKED SCREEN (NO SCROLL)                                    */
         /* Like iPhone home screen - fixed, no bounce                                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */

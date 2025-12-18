@@ -40,6 +40,32 @@ export default function Creative() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* COSMOS THEME - Space & Time                                                     */
+        /* Deep space with nebula colors - Elon Musk proud                                 */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        [data-theme="cosmos"] {
+          --bg-primary: #050510;
+          --text-primary: #E8E6FF;
+          --text-secondary: rgba(232, 230, 255, 0.8);
+          --text-tertiary: rgba(232, 230, 255, 0.5);
+          --text-muted: rgba(232, 230, 255, 0.3);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* SPACE THEME - Animated Three.js Background                                      */
+        /* Deep space with stars, nebulas, shooting stars                                  */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        [data-theme="space"] {
+          --bg-primary: transparent;
+          --text-primary: #E8EAFF;
+          --text-secondary: rgba(232, 234, 255, 0.8);
+          --text-tertiary: rgba(232, 234, 255, 0.5);
+          --text-muted: rgba(232, 234, 255, 0.3);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - LOCKED SCREEN (NO SCROLL)                                    */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         

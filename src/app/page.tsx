@@ -331,6 +331,24 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* SPACE THEME - Animated Three.js Background                                      */
+        /* Deep space with stars, nebulas, shooting stars                                  */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        [data-theme="space"] {
+          --bg-primary: transparent;
+          --bg-secondary: rgba(5, 5, 16, 0.5);
+          --bg-card: rgba(10, 10, 30, 0.4);
+          --text-primary: #E8EAFF;
+          --text-secondary: rgba(232, 234, 255, 0.8);
+          --text-tertiary: rgba(232, 234, 255, 0.5);
+          --border-primary: rgba(100, 100, 200, 0.12);
+          --shadow-md: 0 8px 24px rgba(50, 50, 150, 0.15);
+          --shadow-lg: 0 16px 48px rgba(50, 50, 150, 0.2);
+          --icon-shadow: 0 4px 12px rgba(100, 100, 200, 0.2), 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* IRON LOCK - IDENTICAL TO WORK PAGE                                              */
         /* Like iPhone home screen - fixed, no bounce, no scroll                           */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -486,6 +504,10 @@ export default function About() {
         [data-theme="cosmos"] .terminal-fade-top::before { opacity: 1; }
         [data-theme="cosmos"] .terminal-fade-top::after { opacity: 0; }
         
+        /* Space theme - no fades (transparent background shows Three.js) */
+        [data-theme="space"] .terminal-fade-top::before { opacity: 0; }
+        [data-theme="space"] .terminal-fade-top::after { opacity: 0; }
+        
         .terminal-fade-bottom {
           position: absolute;
           bottom: -8px;
@@ -539,6 +561,10 @@ export default function About() {
         /* Cosmos uses dark fade (similar background color) */
         [data-theme="cosmos"] .terminal-fade-bottom::before { opacity: 1; }
         [data-theme="cosmos"] .terminal-fade-bottom::after { opacity: 0; }
+        
+        /* Space theme - no fades (transparent background shows Three.js) */
+        [data-theme="space"] .terminal-fade-bottom::before { opacity: 0; }
+        [data-theme="space"] .terminal-fade-bottom::after { opacity: 0; }
         
         /* Floating scroll arrow indicator */
         .scroll-arrow {
