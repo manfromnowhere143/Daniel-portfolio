@@ -566,13 +566,14 @@ export default function Work() {
           transition: opacity 0.25s ease; 
         }
         
-        .folder-apps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; touch-action: none; }
+        .folder-apps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; touch-action: none; }
+        .folder-apps-grid-2 { grid-template-columns: repeat(2, 1fr); max-width: 200px; margin: 0 auto; }
         
         .folder-app {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
           cursor: pointer;
           text-decoration: none;
           opacity: 0;
@@ -598,36 +599,86 @@ export default function Work() {
         .folder-overlay.active .folder-app:nth-child(3) { transition-delay: 0.10s; }
         .folder-overlay.active .folder-app:nth-child(4) { transition-delay: 0.13s; }
         
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - ALIVE ICONS                                                  */
+        /* Breathing glow, hover lift, active press - Pure life                            */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .folder-app-icon {
-          width: 70px; height: 70px;
-          border-radius: 17px;
+          width: 72px; height: 72px;
+          border-radius: 18px;
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
           overflow: hidden;
           box-shadow: 
-            0 0 30px var(--glow-color, rgba(0, 0, 0, 0.15)),
-            0 8px 25px rgba(0, 0, 0, 0.5),
-            0 15px 50px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.25),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.25);
+            0 0 0 1px rgba(255, 255, 255, 0.08),
+            0 0 25px var(--glow-color, rgba(100, 100, 100, 0.2)),
+            0 4px 12px rgba(0, 0, 0, 0.3),
+            0 8px 25px rgba(0, 0, 0, 0.25),
+            0 16px 50px rgba(0, 0, 0, 0.2),
+            inset 0 1px 1px rgba(255, 255, 255, 0.15),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.2);
+          transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+          animation: iconBreathe 4s ease-in-out infinite;
+          animation-delay: var(--breathe-delay, 0s);
+        }
+        
+        @keyframes iconBreathe {
+          0%, 100% { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 0 25px var(--glow-color, rgba(100, 100, 100, 0.2)), 0 4px 12px rgba(0, 0, 0, 0.3), 0 8px 25px rgba(0, 0, 0, 0.25), 0 16px 50px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.15), inset 0 -1px 1px rgba(0, 0, 0, 0.2); }
+          50% { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 0 35px var(--glow-color, rgba(100, 100, 100, 0.3)), 0 6px 16px rgba(0, 0, 0, 0.35), 0 10px 30px rgba(0, 0, 0, 0.3), 0 20px 60px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.25); }
+        }
+        
+        .folder-app-icon:hover {
+          transform: translateY(-4px) scale(1.05);
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.15),
+            0 0 40px var(--glow-color, rgba(100, 100, 100, 0.35)),
+            0 8px 20px rgba(0, 0, 0, 0.4),
+            0 16px 40px rgba(0, 0, 0, 0.35),
+            0 24px 70px rgba(0, 0, 0, 0.3),
+            inset 0 1px 2px rgba(255, 255, 255, 0.25),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.3);
+          animation-play-state: paused;
+        }
+        
+        .folder-app-icon:active {
+          transform: translateY(2px) scale(0.95);
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.1),
+            0 0 20px var(--glow-color, rgba(100, 100, 100, 0.25)),
+            0 2px 8px rgba(0, 0, 0, 0.3),
+            0 4px 16px rgba(0, 0, 0, 0.25),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1),
+            inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+          transition: transform 0.1s ease, box-shadow 0.1s ease;
         }
         
         .folder-app-icon::before {
           content: '';
           position: absolute;
-          top: 0; left: 8%; right: 8%;
-          height: 40%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
-          border-radius: 17px 17px 50% 50%;
+          top: 0; left: 0; right: 0;
+          height: 50%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 100%);
+          border-radius: 18px 18px 50% 50%;
           pointer-events: none;
           z-index: 5;
         }
         
+        .folder-app-icon::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 18px;
+          box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
+          pointer-events: none;
+          z-index: 6;
+        }
+        
         .folder-app-icon.has-image::before {
-          height: 35%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 100%);
+          height: 45%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%);
         }
         
         .folder-app-name {
@@ -636,6 +687,7 @@ export default function Work() {
           font-weight: 400;
           color: #FFFFFF;
           text-align: center;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -993,8 +1045,8 @@ export default function Work() {
         .transition-bridge.transitioning { opacity: 0; visibility: visible; pointer-events: none; transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.45s; }
         .bridge-spinner { width: 36px; height: 36px; border: 1.5px solid rgba(255, 255, 255, 0.06); border-top-color: rgba(255, 255, 255, 0.7); border-radius: 50%; animation: bridgeSpin 0.8s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.08)); }
         @keyframes bridgeSpin { to { transform: rotate(360deg); } }
-        @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 20px; } .folder-app-icon { width: 80px; height: 80px; border-radius: 18px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } }
-        @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 26px; } .folder-app-icon { width: 95px; height: 95px; border-radius: 22px; } }
+        @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 28px; } .folder-apps-grid-2 { max-width: 220px; } .folder-app-icon { width: 82px; height: 82px; border-radius: 20px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } }
+        @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 32px; } .folder-apps-grid-2 { max-width: 260px; } .folder-app-icon { width: 96px; height: 96px; border-radius: 24px; } }
       `}</style>
 
       <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ minHeight: "100vh", backgroundColor: "#050506", paddingTop: "clamp(100px, 15vh, 160px)", paddingBottom: "100px", paddingLeft: "20px", paddingRight: "20px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
@@ -1064,9 +1116,9 @@ export default function Work() {
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container" onClick={handleCloseFolder}>
             <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
-              {appsItems.map((app) => (
+              {appsItems.map((app, index) => (
                 <Link key={app.id} href={app.href} className="folder-app" onClick={restoreScroll}>
-                  <div className={`folder-app-icon ${app.image ? 'has-image' : ''}`} style={{ background: app.image ? 'transparent' : `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})`, '--glow-color': app.glow } as React.CSSProperties}>
+                  <div className={`folder-app-icon ${app.image ? 'has-image' : ''}`} style={{ background: app.image ? 'transparent' : `linear-gradient(145deg, ${app.color[0]}, ${app.color[1]})`, '--glow-color': app.glow, '--breathe-delay': `${index * 0.5}s` } as React.CSSProperties}>
                     {renderAppFullIcon(app, folderIconSize)}
                   </div>
                   <span className="folder-app-name">{app.name}</span>
@@ -1085,7 +1137,7 @@ export default function Work() {
             <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               {servicesItems.map((service, index) => (
                 <div key={service.id} className="folder-app" onClick={() => handleOpenServiceWithBridge(index)}>
-                  <div className={`folder-app-icon ${service.appImage ? 'has-image' : ''}`} style={{ background: service.appImage ? 'transparent' : `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})`, '--glow-color': service.glow } as React.CSSProperties}>
+                  <div className={`folder-app-icon ${service.appImage ? 'has-image' : ''}`} style={{ background: service.appImage ? 'transparent' : `linear-gradient(145deg, ${service.color[0]}, ${service.color[1]})`, '--glow-color': service.glow, '--breathe-delay': `${index * 0.5}s` } as React.CSSProperties}>
                     {renderServiceFullIcon(service)}
                   </div>
                   <span className="folder-app-name">{service.name}</span>
@@ -1101,15 +1153,15 @@ export default function Work() {
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container" onClick={handleCloseFolder}>
-            <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
+            <div className="folder-apps-grid folder-apps-grid-2" onClick={(e) => e.stopPropagation()}>
               <div className="folder-app" onClick={handleOpenGalleryWithBridge}>
-                <div className="folder-app-icon has-image" style={{ '--glow-color': 'rgba(100, 60, 160, 0.35)' } as React.CSSProperties}>
+                <div className="folder-app-icon has-image" style={{ '--glow-color': 'rgba(100, 60, 160, 0.35)', '--breathe-delay': '0s' } as React.CSSProperties}>
                   <img src="/images/gallery.jpg" alt="Gallery" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
                 </div>
                 <span className="folder-app-name">Gallery</span>
               </div>
               <div className="folder-app" onClick={handleOpenNotesWithBridge}>
-                <div className="folder-app-icon has-image" style={{ '--glow-color': 'rgba(160, 120, 60, 0.35)' } as React.CSSProperties}>
+                <div className="folder-app-icon has-image" style={{ '--glow-color': 'rgba(160, 120, 60, 0.35)', '--breathe-delay': '0.5s' } as React.CSSProperties}>
                   <img src="/images/notes.jpg" alt="Notes" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
                 </div>
                 <span className="folder-app-name">Notes</span>
@@ -1125,9 +1177,9 @@ export default function Work() {
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container" onClick={handleCloseFolder}>
             <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
-              {socialLinks.map((social) => (
+              {socialLinks.map((social, index) => (
                 <Link key={social.id} href={social.url} target="_blank" rel="noopener noreferrer" className="folder-app" onClick={restoreScroll}>
-                  <div className="folder-app-icon" style={{ background: social.id === 'instagram' ? 'linear-gradient(145deg, #4a1942, #1a0818)' : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})`, '--glow-color': social.glow } as React.CSSProperties}>
+                  <div className="folder-app-icon" style={{ background: social.id === 'instagram' ? 'linear-gradient(145deg, #4a1942, #1a0818)' : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})`, '--glow-color': social.glow, '--breathe-delay': `${index * 0.4}s` } as React.CSSProperties}>
                     {renderSocialIcon(social.id, 32)}
                   </div>
                   <span className="folder-app-name">{social.name}</span>
