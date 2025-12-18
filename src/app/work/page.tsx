@@ -671,11 +671,11 @@ export default function Work() {
         .folder-wrapper:nth-child(4) .folder-icon { transition-delay: 180ms; }
         .folder-preview { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; width: 95px; height: 95px; position: relative; z-index: 5; }
         .folder-preview-2 { grid-template-columns: repeat(2, 1fr); grid-template-rows: 1fr; height: auto; align-content: center; }
-        .folder-preview-3 { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr; height: auto; align-content: center; gap: 4px; }
-        .folder-preview-3 .folder-mini-icon { width: 28px; height: 28px; border-radius: 7px; }
         .folder-mini-icon { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 0 20px var(--glow-color, rgba(255, 255, 255, 0.08)), 0 4px 12px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.3); }
         .folder-mini-icon::before { content: ''; position: absolute; top: 0; left: 5%; right: 5%; height: 45%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%); border-radius: 11px 11px 50% 50%; pointer-events: none; z-index: 5; }
         .folder-mini-icon.has-image::before { display: none; }
+        .folder-mini-icon.folder-mini-empty { background: rgba(255, 255, 255, 0.03); box-shadow: none; border: 1px dashed rgba(255, 255, 255, 0.1); }
+        .folder-mini-icon.folder-mini-empty::before { display: none; }
         .folder-name { font-size: 12px; font-weight: 400; color: #FAFAF8; letter-spacing: 0.02em; text-align: center; opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); }
         .folder-name.loaded { opacity: 1; transform: translateY(0); }
         .folder-name-future { color: rgba(255, 255, 255, 0.3); }
@@ -754,7 +754,6 @@ export default function Work() {
         
         .folder-apps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; touch-action: none; }
         .folder-apps-grid-2 { grid-template-columns: repeat(2, 1fr); max-width: 200px; margin: 0 auto; }
-        .folder-apps-grid-3 { grid-template-columns: repeat(3, 1fr); max-width: 280px; margin: 0 auto; }
         
         .folder-app {
           display: flex;
@@ -767,6 +766,36 @@ export default function Work() {
           transform: translateZ(0) scale(0.7) translateY(12px);
           transition: none;
           touch-action: none;
+        }
+        
+        .folder-app-empty {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          opacity: 0;
+          transform: translateZ(0) scale(0.7) translateY(12px);
+          transition: none;
+        }
+        
+        .folder-app-icon-empty {
+          width: 72px;
+          height: 72px;
+          border-radius: 18px;
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px dashed rgba(255, 255, 255, 0.08);
+        }
+        
+        .folder-overlay.active .folder-app-empty {
+          opacity: 0.5;
+          transform: translateZ(0) scale(1) translateY(0);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.13s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.13s;
+        }
+        
+        .folder-overlay.exiting .folder-app-empty {
+          opacity: 0;
+          transform: translateZ(0) scale(0.85) translateY(5px);
+          transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
         .folder-overlay.active .folder-app {
@@ -1267,8 +1296,8 @@ export default function Work() {
         .transition-bridge.transitioning { opacity: 0; visibility: visible; pointer-events: none; transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.55s; }
         .bridge-spinner { width: 36px; height: 36px; border: 1.5px solid rgba(255, 255, 255, 0.06); border-top-color: rgba(255, 255, 255, 0.7); border-radius: 50%; animation: bridgeSpin 0.8s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.08)); }
         @keyframes bridgeSpin { to { transform: rotate(360deg); } }
-        @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-preview-3 { gap: 5px; } .folder-preview-3 .folder-mini-icon { width: 36px; height: 36px; border-radius: 9px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 28px; } .folder-apps-grid-2 { max-width: 220px; } .folder-apps-grid-3 { max-width: 320px; } .folder-app-icon { width: 82px; height: 82px; border-radius: 20px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } .interactive-content { width: 380px; height: 380px; } }
-        @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-preview-3 { gap: 6px; } .folder-preview-3 .folder-mini-icon { width: 44px; height: 44px; border-radius: 11px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 32px; } .folder-apps-grid-2 { max-width: 260px; } .folder-apps-grid-3 { max-width: 380px; } .folder-app-icon { width: 96px; height: 96px; border-radius: 24px; } .interactive-content { width: 440px; height: 440px; } }
+        @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 28px; } .folder-apps-grid-2 { max-width: 220px; } .folder-app-icon { width: 82px; height: 82px; border-radius: 20px; } .folder-app-icon-empty { width: 82px; height: 82px; border-radius: 20px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } .interactive-content { width: 380px; height: 380px; } }
+        @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 32px; } .folder-apps-grid-2 { max-width: 260px; } .folder-app-icon { width: 96px; height: 96px; border-radius: 24px; } .folder-app-icon-empty { width: 96px; height: 96px; border-radius: 24px; } .interactive-content { width: 440px; height: 440px; } }
       `}</style>
 
       <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' || interactiveAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ paddingLeft: "20px", paddingRight: "20px", paddingTop: "60px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
@@ -1303,7 +1332,7 @@ export default function Work() {
           {/* Row 2: 3D Interactive & Media */}
           <div className="folder-wrapper">
             <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('interactive')} style={{ transitionDelay: '240ms' }}>
-              <div className="folder-preview folder-preview-3">
+              <div className="folder-preview">
                 <div className="folder-mini-icon has-image" style={{ '--glow-color': 'rgba(100, 180, 255, 0.35)' } as React.CSSProperties}>
                   <img src="/images/sperhaapp2.png" alt="Sphere" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
                 </div>
@@ -1313,6 +1342,7 @@ export default function Work() {
                 <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #151518, #0a0a0c)', '--glow-color': 'rgba(255, 200, 100, 0.35)' } as React.CSSProperties}>
                   {renderMetatronMini(miniIconSize)}
                 </div>
+                <div className="folder-mini-icon folder-mini-empty" />
               </div>
             </div>
             <span className={`folder-name ${isLoaded ? 'loaded' : ''}`} style={{ transitionDelay: '300ms' }}>3D Interactive</span>
@@ -1433,7 +1463,7 @@ export default function Work() {
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container" onClick={handleCloseFolder}>
-            <div className="folder-apps-grid folder-apps-grid-3" onClick={(e) => e.stopPropagation()}>
+            <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               <div className="folder-app" onClick={() => handleOpenInteractiveWithBridge('sphere')}>
                 <div className="folder-app-icon has-image" style={{ '--glow-color': 'rgba(100, 180, 255, 0.35)', '--breathe-delay': '0s' } as React.CSSProperties}>
                   <img src="/images/sperhaapp2.png" alt="Sphere" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
@@ -1451,6 +1481,9 @@ export default function Work() {
                   {renderMetatronFull(folderIconSize)}
                 </div>
                 <span className="folder-app-name">MetatronAI</span>
+              </div>
+              <div className="folder-app-empty">
+                <div className="folder-app-icon-empty" />
               </div>
             </div>
           </div>
