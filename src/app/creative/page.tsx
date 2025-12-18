@@ -545,23 +545,49 @@ export default function Creative() {
           justify-content: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.08);
+          /* Subtle ambient glow + depth shadows */
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.05),
+            0 0 12px rgba(255, 255, 255, 0.02),
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            0 4px 8px rgba(0, 0, 0, 0.15),
+            0 8px 16px rgba(0, 0, 0, 0.1);
         }
         
-        .folder-mini-icon:not(.folder-mini-png):not(.folder-mini-empty)::after {
+        /* Glass reflection on top */
+        .folder-mini-icon::before {
           content: '';
           position: absolute;
-          top: 0; left: 12%; right: 12%;
-          height: 35%;
-          background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%);
+          top: 0; left: 0; right: 0;
+          height: 45%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
           border-radius: 12px 12px 50% 50%;
           pointer-events: none;
           z-index: 5;
-          opacity: 0.6;
+        }
+        
+        /* Inner edge glow */
+        .folder-mini-icon:not(.folder-mini-png):not(.folder-mini-empty)::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 12px;
+          box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.06);
+          pointer-events: none;
+          z-index: 6;
         }
         
         .folder-mini-icon.folder-mini-empty, .folder-mini-empty { background: transparent; box-shadow: none; }
-        .folder-mini-icon.folder-mini-png { background: transparent; box-shadow: 0 2px 4px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.1); }
+        .folder-mini-icon.folder-mini-empty::before, .folder-mini-empty::before { display: none; }
+        
+        .folder-mini-icon.folder-mini-png { 
+          background: transparent; 
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.06),
+            0 0 15px rgba(255, 255, 255, 0.03),
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            0 4px 8px rgba(0, 0, 0, 0.15);
+        }
         
         .folder-name {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
@@ -626,6 +652,27 @@ export default function Creative() {
           touch-action: none;
         }
         
+        /* STATE OF THE ART - Ambient overhead light illuminating icons */
+        .folder-container::before {
+          content: '';
+          position: absolute;
+          top: -80px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 300px;
+          height: 200px;
+          background: radial-gradient(ellipse at 50% 100%, 
+            rgba(255, 255, 255, 0.06) 0%, 
+            rgba(255, 255, 255, 0.02) 40%,
+            transparent 70%);
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.5s ease 0.1s;
+        }
+        
+        .folder-overlay.active .folder-container::before { opacity: 1; }
+        .folder-overlay.exiting .folder-container::before { opacity: 0; transition: opacity 0.2s ease; }
+        
         .folder-overlay.active .folder-container { opacity: 1; transform: translateZ(0); transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s; }
         .folder-overlay.exiting .folder-container { opacity: 0; transform: translateZ(0); transition: opacity 0.25s ease; }
         
@@ -668,6 +715,11 @@ export default function Creative() {
         .folder-overlay.active .folder-card:nth-child(3) { transition-delay: 0.13s; }
         .folder-overlay.active .folder-card:nth-child(4) { transition-delay: 0.17s; }
         
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - FOLDER CARD ICONS                                            */
+        /* Dark icons floating with ambient glow - Pure elegance                           */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .folder-card-icon {
           width: 72px; height: 72px;
           border-radius: 18px;
@@ -676,24 +728,67 @@ export default function Creative() {
           justify-content: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 1px 1px rgba(0,0,0,0.075), 0 2px 2px rgba(0,0,0,0.075), 0 4px 4px rgba(0,0,0,0.075), 0 8px 8px rgba(0,0,0,0.075), 0 16px 16px rgba(0,0,0,0.075), 0 24px 24px rgba(0,0,0,0.05), 0 32px 48px rgba(0,0,0,0.1);
+          /* Multi-layer shadow for depth + ambient glow */
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.06),
+            0 0 20px rgba(255, 255, 255, 0.03),
+            0 4px 8px rgba(0, 0, 0, 0.2),
+            0 8px 16px rgba(0, 0, 0, 0.2),
+            0 16px 32px rgba(0, 0, 0, 0.15),
+            0 32px 64px rgba(0, 0, 0, 0.1);
           transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
         }
         
-        .folder-card-icon:active { transform: scale(0.94) translateY(4px); }
-        .folder-card-icon.folder-card-png { background: transparent; }
-        .folder-card-icon:not(.folder-card-png) { background: linear-gradient(145deg, #1a1a1f, #0d0d10); }
+        .folder-card-icon:active { 
+          transform: scale(0.94) translateY(4px); 
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.08),
+            0 0 15px rgba(255, 255, 255, 0.02),
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            0 4px 8px rgba(0, 0, 0, 0.15);
+        }
         
-        .folder-card-icon:not(.folder-card-png)::after {
+        .folder-card-icon.folder-card-png { 
+          background: transparent; 
+          /* PNG images get a subtle inner glow frame */
+          box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.08),
+            0 0 25px rgba(255, 255, 255, 0.04),
+            0 4px 8px rgba(0, 0, 0, 0.25),
+            0 8px 16px rgba(0, 0, 0, 0.2),
+            0 16px 32px rgba(0, 0, 0, 0.15),
+            0 32px 64px rgba(0, 0, 0, 0.1);
+        }
+        
+        .folder-card-icon:not(.folder-card-png) { 
+          /* Refined dark gradient with subtle warmth */
+          background: linear-gradient(165deg, #1c1c22 0%, #131316 50%, #0a0a0c 100%);
+        }
+        
+        /* Top reflection - glass effect */
+        .folder-card-icon::before {
           content: '';
           position: absolute;
-          top: 0; left: 12%; right: 12%;
-          height: 35%;
-          background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 100%);
+          top: 0; left: 0; right: 0;
+          height: 50%;
+          background: linear-gradient(180deg, 
+            rgba(255, 255, 255, 0.08) 0%, 
+            rgba(255, 255, 255, 0.03) 40%,
+            transparent 100%);
           border-radius: 18px 18px 50% 50%;
           pointer-events: none;
           z-index: 5;
-          opacity: 0.5;
+        }
+        
+        /* Inner edge highlight */
+        .folder-card-icon::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 18px;
+          box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
+          pointer-events: none;
+          z-index: 6;
         }
         
         .folder-card-empty-slot { }
@@ -705,6 +800,7 @@ export default function Creative() {
           font-weight: 400;
           color: #FFFFFF;
           text-align: center;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
         
         .expanded-view {
