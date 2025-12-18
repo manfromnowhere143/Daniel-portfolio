@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import SwipeNavigation from "@/components/SwipeNavigation";
 import SpaceBackground from "@/components/SpaceBackground";
 
 const inter = Inter({ subsets: ["latin"] });
-const playfair = Playfair_Display({ subsets: ["latin"] });
 
 // Disable zoom on mobile (pinch to zoom disabled)
 export const viewport: Viewport = {
@@ -63,8 +62,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className} style={{ backgroundColor: "#0A0A0A" }}>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('site-theme') || 'dark';
+                  document.documentElement.setAttribute('data-theme', theme);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className={inter.className}>
         <SpaceBackground />
         <Navigation />
         <SwipeNavigation>

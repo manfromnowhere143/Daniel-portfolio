@@ -11,7 +11,6 @@ export default function Navigation() {
   const [time, setTime] = useState<Date | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [theme, setTheme] = useState<'dark' | 'light' | 'space'>('dark');
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Load theme from localStorage on mount
   useEffect(() => {
@@ -22,24 +21,12 @@ export default function Navigation() {
     }
   }, []);
 
-  // Handle theme change with smooth transition
+  // Handle theme change - simple and clean
   const handleThemeChange = (newTheme: 'dark' | 'light' | 'space') => {
     if (newTheme === theme) return;
-
-    // Start transition - blur overlay
-    setIsTransitioning(true);
-
-    // Change theme after brief delay for blur to kick in
-    setTimeout(() => {
-      setTheme(newTheme);
-      localStorage.setItem('site-theme', newTheme);
-      document.documentElement.setAttribute('data-theme', newTheme);
-
-      // End transition after colors have changed
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 400);
-    }, 150);
+    setTheme(newTheme);
+    localStorage.setItem('site-theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
   };
 
   // Determine if current page has dark background
@@ -126,51 +113,18 @@ export default function Navigation() {
           --border-secondary: rgba(100, 100, 200, 0.2);
         }
         
-        html, body {
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        /* BUTTERY SMOOTH TRANSITIONS - Steve Jobs approved                            */
+        /* Simple, elegant, no flash                                                   */
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        
+        html {
           background-color: var(--bg-primary) !important;
-          transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - APPLE-STYLE THEME TRANSITION                             */
-        /* Buttery smooth with blur mask - no flash, pure elegance                     */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        
-        .theme-transition-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          z-index: 99999;
-          pointer-events: none;
-          opacity: 0;
-          backdrop-filter: blur(0px);
-          -webkit-backdrop-filter: blur(0px);
-          transition: opacity 0.3s ease-out, backdrop-filter 0.3s ease-out, -webkit-backdrop-filter 0.3s ease-out;
-        }
-        
-        .theme-transition-overlay.active {
-          opacity: 1;
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-        }
-        
-        /* Smooth fade for all theme-aware elements */
-        * {
-          transition: 
-            background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-            border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-            box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        /* Exclude elements that need instant response */
-        button, a, input, .theme-btn {
-          transition: 
-            background-color 0.3s ease,
-            border-color 0.3s ease,
-            transform 0.2s ease,
-            box-shadow 0.3s ease;
+        body {
+          background-color: var(--bg-primary) !important;
+          transition: background-color 0.5s ease;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -646,9 +600,6 @@ export default function Navigation() {
           flex-shrink: 0;
         }
       `}</style>
-
-      {/* STATE OF THE ART - Theme Transition Overlay */}
-      <div className={`theme-transition-overlay ${isTransitioning ? 'active' : ''}`} />
 
       {/* Desktop Sidebar */}
       <nav
