@@ -10,11 +10,11 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState<Date | null>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light' | 'cosmos'>('dark');
 
   // Load theme from localStorage on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem('site-theme') as 'dark' | 'light' | null;
+    const savedTheme = localStorage.getItem('site-theme') as 'dark' | 'light' | 'cosmos' | null;
     if (savedTheme) {
       setTheme(savedTheme);
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -22,7 +22,7 @@ export default function Navigation() {
   }, []);
 
   // Handle theme change
-  const handleThemeChange = (newTheme: 'dark' | 'light') => {
+  const handleThemeChange = (newTheme: 'dark' | 'light' | 'cosmos') => {
     setTheme(newTheme);
     localStorage.setItem('site-theme', newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
@@ -39,7 +39,7 @@ export default function Navigation() {
   // When theme is set, use theme colors; otherwise use page-based colors
   const getTextColor = () => {
     if (theme === 'light') return "#1a1a1a";
-    if (theme === 'dark') return "#FAFAF8";
+    if (theme === 'dark' || theme === 'cosmos') return "#FAFAF8";
     return isDarkPage ? "#FAFAF8" : "#0A0A0A";
   };
 
@@ -97,6 +97,21 @@ export default function Navigation() {
           --text-primary: #1a1a1a;
         }
         
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        /* COSMOS THEME - Space & Time                                                 */
+        /* Deep space with nebula colors - Elon Musk proud                             */
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        
+        [data-theme="cosmos"] {
+          --bg-primary: #050510;
+          --bg-secondary: #0a0a1a;
+          --text-primary: #E8E6FF;
+          --text-secondary: rgba(232, 230, 255, 0.8);
+          --text-tertiary: rgba(232, 230, 255, 0.5);
+          --border-primary: rgba(138, 43, 226, 0.15);
+          --border-secondary: rgba(138, 43, 226, 0.25);
+        }
+        
         html, body {
           background-color: var(--bg-primary) !important;
           transition: background-color 1s cubic-bezier(0.4, 0, 0.2, 1);
@@ -104,14 +119,14 @@ export default function Navigation() {
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - THEME TOGGLE BUTTONS                                     */
-        /* Floating pills with elegant shadows - pure luxury                           */
+        /* Vertical stack, right-aligned - pure luxury                                 */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .theme-toggle-container {
           display: flex;
-          flex-direction: row;
+          flex-direction: column;
           gap: 6px;
-          justify-content: flex-end;
+          align-items: flex-end;
           padding: 10px 0 0 0;
           margin-top: 10px;
           border-top: 1px solid rgba(255, 255, 255, 0.04);
@@ -192,6 +207,73 @@ export default function Navigation() {
             0 0 8px rgba(255, 255, 255, 0.08),
             0 2px 6px rgba(0, 0, 0, 0.4),
             inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        /* COSMOS THEME BUTTON - Space & Time, Elon Musk proud                         */
+        /* Deep space gradient with stars and nebula colors                            */
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        
+        .theme-btn.cosmos {
+          background: 
+            radial-gradient(circle at 30% 30%, rgba(138, 43, 226, 0.4) 0%, transparent 50%),
+            radial-gradient(circle at 70% 60%, rgba(0, 191, 255, 0.3) 0%, transparent 40%),
+            radial-gradient(circle at 50% 80%, rgba(255, 20, 147, 0.2) 0%, transparent 30%),
+            linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 30%, #0d1b2a 60%, #050510 100%);
+          box-shadow:
+            0 0 0 0.5px rgba(138, 43, 226, 0.3),
+            0 0 6px rgba(138, 43, 226, 0.2),
+            0 1px 3px rgba(0, 0, 0, 0.4),
+            0 3px 6px rgba(0, 0, 0, 0.3),
+            0 5px 10px rgba(0, 0, 0, 0.2),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        /* Animated stars */
+        .theme-btn.cosmos::before {
+          content: '';
+          position: absolute;
+          top: 3px;
+          left: 4px;
+          width: 2px;
+          height: 2px;
+          border-radius: 50%;
+          background: white;
+          box-shadow:
+            6px 3px 0 0 rgba(255, 255, 255, 0.9),
+            3px 8px 0 0 rgba(255, 255, 255, 0.6),
+            10px 6px 0 0 rgba(255, 255, 255, 0.7),
+            8px 11px 0 0 rgba(255, 255, 255, 0.5),
+            12px 2px 0 0 rgba(255, 255, 255, 0.8);
+          animation: twinkle 2s ease-in-out infinite;
+        }
+        
+        @keyframes twinkle {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+        
+        /* Subtle glow highlight */
+        .theme-btn.cosmos::after {
+          content: '';
+          position: absolute;
+          top: 1px;
+          left: 2px;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(138, 43, 226, 0.5) 0%, transparent 70%);
+        }
+        
+        .theme-btn.cosmos.active {
+          box-shadow:
+            0 0 0 1.5px rgba(138, 43, 226, 0.5),
+            0 0 12px rgba(138, 43, 226, 0.4),
+            0 0 20px rgba(0, 191, 255, 0.2),
+            0 2px 6px rgba(0, 0, 0, 0.4),
+            inset 0 1px 1px rgba(255, 255, 255, 0.15);
         }
         
         /* Hover states */
@@ -590,6 +672,12 @@ export default function Navigation() {
             aria-label="Dark theme"
             title="Dark Mode"
           />
+          <button
+            className={`theme-btn cosmos ${theme === 'cosmos' ? 'active' : ''}`}
+            onClick={() => handleThemeChange('cosmos')}
+            aria-label="Cosmos theme"
+            title="Space & Time"
+          />
         </div>
 
         <div className="sidebar-nav">
@@ -756,6 +844,11 @@ export default function Navigation() {
                 className={`theme-btn dark ${theme === 'dark' ? 'active' : ''}`}
                 onClick={() => handleThemeChange('dark')}
                 aria-label="Dark theme"
+              />
+              <button
+                className={`theme-btn cosmos ${theme === 'cosmos' ? 'active' : ''}`}
+                onClick={() => handleThemeChange('cosmos')}
+                aria-label="Cosmos theme"
               />
             </div>
           </div>

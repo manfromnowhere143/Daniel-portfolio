@@ -313,6 +313,24 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* COSMOS THEME - Space & Time                                                     */
+        /* Deep space with nebula colors - Elon Musk proud                                 */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        [data-theme="cosmos"] {
+          --bg-primary: #050510;
+          --bg-secondary: #0a0a1a;
+          --bg-card: rgba(20, 15, 40, 0.6);
+          --text-primary: #E8E6FF;
+          --text-secondary: rgba(232, 230, 255, 0.8);
+          --text-tertiary: rgba(232, 230, 255, 0.5);
+          --border-primary: rgba(138, 43, 226, 0.15);
+          --shadow-md: 0 8px 24px rgba(138, 43, 226, 0.15);
+          --shadow-lg: 0 16px 48px rgba(138, 43, 226, 0.2);
+          --icon-shadow: 0 4px 12px rgba(138, 43, 226, 0.2), 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* IRON LOCK - IDENTICAL TO WORK PAGE                                              */
         /* Like iPhone home screen - fixed, no bounce, no scroll                           */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -464,6 +482,10 @@ export default function About() {
         [data-theme="light"] .terminal-fade-top::before { opacity: 0; }
         [data-theme="light"] .terminal-fade-top::after { opacity: 1; }
         
+        /* Cosmos uses dark fade (similar background color) */
+        [data-theme="cosmos"] .terminal-fade-top::before { opacity: 1; }
+        [data-theme="cosmos"] .terminal-fade-top::after { opacity: 0; }
+        
         .terminal-fade-bottom {
           position: absolute;
           bottom: -8px;
@@ -513,6 +535,10 @@ export default function About() {
         
         [data-theme="light"] .terminal-fade-bottom::before { opacity: 0; }
         [data-theme="light"] .terminal-fade-bottom::after { opacity: 1; }
+        
+        /* Cosmos uses dark fade (similar background color) */
+        [data-theme="cosmos"] .terminal-fade-bottom::before { opacity: 1; }
+        [data-theme="cosmos"] .terminal-fade-bottom::after { opacity: 0; }
         
         /* Floating scroll arrow indicator */
         .scroll-arrow {
