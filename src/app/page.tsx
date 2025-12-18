@@ -309,16 +309,11 @@ export default function About() {
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;300;400&display=swap');
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - OVERSCROLL PREVENTION                                        */
-        /* Buttery smooth, no bounce, no disruption at boundaries                          */
+        /* STATE OF THE ART - LOCKED SCREEN BY DEFAULT                                     */
+        /* No scroll unless terminal is expanded - iPhone home screen style                */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
-        html {
-          overscroll-behavior: none;
-          overscroll-behavior-y: none;
-        }
-        
-        body {
+        html, body {
           overscroll-behavior: none;
           overscroll-behavior-y: none;
         }
@@ -326,30 +321,29 @@ export default function About() {
         * { -webkit-tap-highlight-color: transparent; }
         
         .about-page {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
           opacity: 0;
           transition: opacity 0.6s ease;
+          background: #050506;
+          overflow: hidden;
+          touch-action: none;
+          overscroll-behavior: none;
+        }
+        
+        /* When terminal is expanded, allow scrolling */
+        .about-page.terminal-expanded {
+          position: relative;
           min-height: 100vh;
           min-height: 100dvh;
-          background: #050506;
           overflow-x: hidden;
           overflow-y: auto;
-          overscroll-behavior: none;
-          overscroll-behavior-y: none;
+          touch-action: pan-y;
           -webkit-overflow-scrolling: touch;
           scroll-behavior: smooth;
-        }
-        
-        .about-page::before {
-          content: '';
-          display: block;
-          height: 0;
-        }
-        
-        .about-page::after {
-          content: '';
-          display: block;
-          height: 1px;
-          margin-top: -1px;
         }
         
         .about-page.loaded { opacity: 1; }
@@ -728,7 +722,7 @@ export default function About() {
         }
       `}</style>
 
-      <div className={`about-page ${isLoaded ? 'loaded' : ''}`}>
+      <div className={`about-page ${isLoaded ? 'loaded' : ''} ${isExpanded ? 'terminal-expanded' : ''}`}>
         {/* Hero */}
         <div className="hero-section">
           <h1 className="hero-name">Daniel Wahnich</h1>
