@@ -19,6 +19,27 @@ export default function Creative() {
     <>
       <style>{`
         /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - THEME VARIABLES (STEVE JOBS LEVEL)                           */
+        /* Embedded for guaranteed loading                                                  */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        :root {
+          --bg-primary: #050506;
+          --text-primary: #FFFFFF;
+          --text-secondary: rgba(255, 255, 255, 0.8);
+          --text-tertiary: rgba(255, 255, 255, 0.5);
+          --text-muted: rgba(255, 255, 255, 0.3);
+        }
+        
+        [data-theme="light"] {
+          --bg-primary: #F5F5F0;
+          --text-primary: #1a1a1a;
+          --text-secondary: rgba(26, 26, 26, 0.75);
+          --text-tertiary: rgba(26, 26, 26, 0.5);
+          --text-muted: rgba(26, 26, 26, 0.3);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - LOCKED SCREEN (NO SCROLL)                                    */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
@@ -37,7 +58,7 @@ export default function Creative() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: #050506;
+          background: var(--bg-primary, #050506);
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -46,6 +67,7 @@ export default function Creative() {
           overflow: hidden;
           touch-action: none;
           overscroll-behavior: none;
+          transition: background-color 0.5s ease;
         }
         
         /* Subtle radial gradient background */
@@ -57,7 +79,7 @@ export default function Creative() {
           transform: translate(-50%, -50%);
           width: 150%;
           height: 150%;
-          background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+          background: radial-gradient(ellipse at center, var(--border-primary, rgba(255, 255, 255, 0.02)) 0%, transparent 50%);
           pointer-events: none;
         }
         
@@ -107,7 +129,8 @@ export default function Creative() {
           position: relative;
           z-index: 1;
           animation: logoBreathe 6s ease-in-out infinite;
-          filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+          filter: drop-shadow(0 0 20px var(--text-muted, rgba(255, 255, 255, 0.1)));
+          transition: filter 0.5s ease;
         }
         
         @keyframes logoBreathe {
@@ -116,21 +139,24 @@ export default function Creative() {
         }
         
         .logo-svg .ring {
-          stroke: rgba(255, 255, 255, 0.15);
+          stroke: var(--text-muted, rgba(255, 255, 255, 0.15));
           fill: none;
           stroke-width: 0.5;
+          transition: stroke 0.5s ease;
         }
         
         .logo-svg .ring-inner {
-          stroke: rgba(255, 255, 255, 0.25);
+          stroke: var(--text-tertiary, rgba(255, 255, 255, 0.25));
           animation: ringRotate 30s linear infinite;
           transform-origin: center;
+          transition: stroke 0.5s ease;
         }
         
         .logo-svg .ring-outer {
-          stroke: rgba(255, 255, 255, 0.1);
+          stroke: var(--text-muted, rgba(255, 255, 255, 0.1));
           animation: ringRotate 45s linear infinite reverse;
           transform-origin: center;
+          transition: stroke 0.5s ease;
         }
         
         @keyframes ringRotate {
@@ -139,17 +165,20 @@ export default function Creative() {
         }
         
         .logo-svg .line {
-          stroke: rgba(255, 255, 255, 0.12);
+          stroke: var(--text-muted, rgba(255, 255, 255, 0.12));
           stroke-width: 0.3;
+          transition: stroke 0.5s ease;
         }
         
         .logo-svg .node {
-          fill: rgba(255, 255, 255, 0.4);
+          fill: var(--text-tertiary, rgba(255, 255, 255, 0.4));
+          transition: fill 0.5s ease;
         }
         
         .logo-svg .node-center {
-          fill: rgba(255, 255, 255, 0.9);
+          fill: var(--text-secondary, rgba(255, 255, 255, 0.9));
           animation: centerPulse 3s ease-in-out infinite;
+          transition: fill 0.5s ease;
         }
         
         @keyframes centerPulse {
@@ -158,9 +187,10 @@ export default function Creative() {
         }
         
         .logo-svg .hexagon {
-          stroke: rgba(255, 255, 255, 0.2);
+          stroke: var(--text-muted, rgba(255, 255, 255, 0.2));
           fill: none;
           stroke-width: 0.4;
+          transition: stroke 0.5s ease;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -173,8 +203,9 @@ export default function Creative() {
           font-weight: 300;
           letter-spacing: 0.25em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.4);
+          color: var(--text-tertiary, rgba(255, 255, 255, 0.4));
           text-align: center;
+          transition: color 0.5s ease;
         }
         
         @media (min-width: 600px) {

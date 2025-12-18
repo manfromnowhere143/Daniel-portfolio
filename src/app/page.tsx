@@ -201,12 +201,8 @@ export default function About() {
       if (parts.length === 2) {
         return (
           <>
-            <span style={{ color: '#FFFFFF' }}>{parts[0]}: </span>
-            <span style={{
-              color: '#FFFFFF',
-              fontVariantNumeric: 'tabular-nums',
-              textShadow: '0 0 12px rgba(255, 255, 255, 0.6), 0 0 24px rgba(255, 255, 255, 0.4)'
-            }}>
+            <span className="yaml-text">{parts[0]}: </span>
+            <span className="yaml-text yaml-glow">
               {parts[1]}
             </span>
           </>
@@ -214,46 +210,77 @@ export default function About() {
       }
     }
 
-    // Key-value with colon - WHITE
+    // Key-value with colon
     const keyMatch = line.match(/^(\s*)([a-z_]+)(:)(.*)$/);
     if (keyMatch) {
       const [, indent, key, colon, value] = keyMatch;
       return (
         <>
-          <span style={{ color: '#FFFFFF' }}>{indent}</span>
-          <span style={{ color: '#FFFFFF' }}>{key}</span>
-          <span style={{ color: '#FFFFFF' }}>{colon}</span>
-          <span style={{ color: '#FFFFFF' }}>{value}</span>
+          <span className="yaml-text">{indent}</span>
+          <span className="yaml-text">{key}</span>
+          <span className="yaml-text">{colon}</span>
+          <span className="yaml-text">{value}</span>
         </>
       );
     }
 
-    // Array item - WHITE
+    // Array item
     const arrayMatch = line.match(/^(\s*)(-)(\s*)(.+)$/);
     if (arrayMatch) {
       const [, indent, dash, space, value] = arrayMatch;
       return (
         <>
-          <span style={{ color: '#FFFFFF' }}>{indent}</span>
-          <span style={{ color: '#FFFFFF' }}>{dash}</span>
-          <span style={{ color: '#FFFFFF' }}>{space}</span>
-          <span style={{ color: '#FFFFFF' }}>{value}</span>
+          <span className="yaml-text">{indent}</span>
+          <span className="yaml-text">{dash}</span>
+          <span className="yaml-text">{space}</span>
+          <span className="yaml-text">{value}</span>
         </>
       );
     }
 
     // Ellipsis - slightly dimmer but still visible
     if (line.trim() === '...') {
-      return <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>{line}</span>;
+      return <span className="yaml-text yaml-dim">{line}</span>;
     }
 
-    return <span style={{ color: '#FFFFFF' }}>{line}</span>;
+    return <span className="yaml-text">{line}</span>;
   };
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;300;400&display=swap');
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - THEME VARIABLES (STEVE JOBS LEVEL)                           */
+        /* Embedded for guaranteed loading - no external dependency                        */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        :root {
+          --bg-primary: #050506;
+          --bg-secondary: #0a0a0b;
+          --bg-card: rgba(20, 20, 22, 0.6);
+          --text-primary: #FFFFFF;
+          --text-secondary: rgba(255, 255, 255, 0.8);
+          --text-tertiary: rgba(255, 255, 255, 0.5);
+          --border-primary: rgba(255, 255, 255, 0.06);
+          --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+          --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+          --icon-shadow: none;
+        }
+        
+        [data-theme="light"] {
+          --bg-primary: #F5F5F0;
+          --bg-secondary: #EAEAE5;
+          --bg-card: rgba(255, 255, 255, 0.9);
+          --text-primary: #1a1a1a;
+          --text-secondary: rgba(26, 26, 26, 0.75);
+          --text-tertiary: rgba(26, 26, 26, 0.5);
+          --border-primary: rgba(0, 0, 0, 0.08);
+          --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+          --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.18);
+          --icon-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* IRON LOCK - IDENTICAL TO WORK PAGE                                              */
@@ -276,8 +303,8 @@ export default function About() {
           right: 0;
           bottom: 0;
           opacity: 0;
-          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-          background: #050506;
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease;
+          background: var(--bg-primary, #050506);
           overflow: hidden;
           overscroll-behavior: none;
           touch-action: none;
@@ -300,17 +327,19 @@ export default function About() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
           font-size: clamp(26px, 5.5vw, 44px);
           font-weight: 200;
-          color: #FFFFFF;
+          color: var(--text-primary, #FFFFFF);
           margin: 0 0 4px;
           letter-spacing: -0.02em;
+          transition: color 0.5s ease;
         }
         
         .hero-tagline {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: clamp(12px, 2.2vw, 16px);
           font-weight: 300;
-          color: #FFFFFF;
+          color: var(--text-secondary, rgba(255, 255, 255, 0.8));
           letter-spacing: 0.05em;
+          transition: color 0.5s ease;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -387,16 +416,17 @@ export default function About() {
           right: -20px;
           height: 55px;
           background: linear-gradient(to bottom, 
-            #050506 0%,
-            #050506 18%,
-            rgba(5, 5, 6, 0.95) 32%,
-            rgba(5, 5, 6, 0.8) 48%,
-            rgba(5, 5, 6, 0.5) 65%,
-            rgba(5, 5, 6, 0.2) 82%,
+            var(--bg-primary, #050506) 0%,
+            var(--bg-primary, #050506) 18%,
+            color-mix(in srgb, var(--bg-primary, #050506) 95%, transparent) 32%,
+            color-mix(in srgb, var(--bg-primary, #050506) 80%, transparent) 48%,
+            color-mix(in srgb, var(--bg-primary, #050506) 50%, transparent) 65%,
+            color-mix(in srgb, var(--bg-primary, #050506) 20%, transparent) 82%,
             transparent 100%
           );
           pointer-events: none;
           z-index: 15;
+          transition: background 0.5s ease;
         }
         
         .terminal-fade-bottom {
@@ -406,17 +436,18 @@ export default function About() {
           right: -20px;
           height: 65px;
           background: linear-gradient(to top, 
-            #050506 0%,
-            #050506 25%,
-            rgba(5, 5, 6, 0.98) 35%,
-            rgba(5, 5, 6, 0.9) 45%,
-            rgba(5, 5, 6, 0.7) 58%,
-            rgba(5, 5, 6, 0.4) 72%,
-            rgba(5, 5, 6, 0.15) 85%,
+            var(--bg-primary, #050506) 0%,
+            var(--bg-primary, #050506) 25%,
+            color-mix(in srgb, var(--bg-primary, #050506) 98%, transparent) 35%,
+            color-mix(in srgb, var(--bg-primary, #050506) 90%, transparent) 45%,
+            color-mix(in srgb, var(--bg-primary, #050506) 70%, transparent) 58%,
+            color-mix(in srgb, var(--bg-primary, #050506) 40%, transparent) 72%,
+            color-mix(in srgb, var(--bg-primary, #050506) 15%, transparent) 85%,
             transparent 100%
           );
           pointer-events: none;
           z-index: 15;
+          transition: background 0.5s ease;
         }
         
         /* Floating scroll arrow indicator */
@@ -437,9 +468,10 @@ export default function About() {
         .scroll-arrow svg {
           width: 14px;
           height: 14px;
-          stroke: #FFFFFF;
+          stroke: var(--text-primary, #FFFFFF);
           stroke-width: 1.5;
           fill: none;
+          transition: stroke 0.5s ease;
         }
         
         @keyframes arrowFloat {
@@ -456,14 +488,30 @@ export default function About() {
           line-height: 18px;
           letter-spacing: 0.02em;
           font-weight: 300;
-          color: rgba(255, 255, 255, 0.85);
+          color: var(--text-secondary, rgba(255, 255, 255, 0.85));
           white-space: pre-wrap;
           word-break: break-word;
+          transition: color 0.5s ease;
         }
         
         .line-content {
           white-space: pre-wrap;
           word-break: break-word;
+        }
+        
+        .yaml-text {
+          color: var(--text-primary, #FFFFFF);
+          transition: color 0.5s ease;
+        }
+        
+        .yaml-text.yaml-glow {
+          font-variant-numeric: tabular-nums;
+          text-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
+          opacity: 0.9;
+        }
+        
+        .yaml-text.yaml-dim {
+          opacity: 0.6;
         }
           margin-left: 2px;
           vertical-align: middle;
@@ -506,13 +554,23 @@ export default function About() {
           align-items: center;
           justify-content: center;
           background: linear-gradient(165deg, #1a1a1e 0%, #0c0c0e 100%);
+          color: #FFFFFF;
           overflow: hidden;
           transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
           box-shadow:
             0 0 0 1px rgba(255, 255, 255, 0.05),
-            0 0 20px rgba(255, 255, 255, 0.02),
             0 4px 12px rgba(0, 0, 0, 0.3),
-            0 8px 24px rgba(0, 0, 0, 0.2);
+            0 8px 24px rgba(0, 0, 0, 0.2),
+            var(--icon-shadow, none);
+        }
+        
+        /* Light mode - dark icons float with shadow on pearl white */
+        [data-theme="light"] .contact-icon {
+          box-shadow:
+            0 0 0 1px rgba(0, 0, 0, 0.04),
+            0 4px 16px rgba(0, 0, 0, 0.12),
+            0 8px 32px rgba(0, 0, 0, 0.08),
+            0 2px 6px rgba(0, 0, 0, 0.06);
         }
         
         /* Glass reflection */
@@ -534,17 +592,15 @@ export default function About() {
           position: absolute;
           inset: 0;
           border-radius: 14px;
-          box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.06);
+          box-shadow: inset 0 1px 1px var(--border-primary, rgba(255, 255, 255, 0.06));
           pointer-events: none;
         }
         
         .contact-icon:hover {
           transform: scale(1.08) translateY(-2px);
           box-shadow:
-            0 0 0 1px rgba(255, 255, 255, 0.08),
-            0 0 30px rgba(255, 255, 255, 0.04),
-            0 8px 20px rgba(0, 0, 0, 0.4),
-            0 16px 40px rgba(0, 0, 0, 0.3);
+            0 0 0 1px var(--border-secondary, rgba(255, 255, 255, 0.08)),
+            var(--shadow-lg, 0 16px 48px rgba(0, 0, 0, 0.5));
         }
         
         .contact-icon:active {
@@ -560,8 +616,9 @@ export default function About() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 10px;
           font-weight: 400;
-          color: #FFFFFF;
+          color: var(--text-primary);
           letter-spacing: 0.05em;
+          transition: color 0.5s ease;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -669,7 +726,7 @@ export default function About() {
             className="contact-link"
           >
             <div className="contact-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="white" opacity="0.8">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white" opacity="0.85">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
               </svg>
             </div>
@@ -682,8 +739,8 @@ export default function About() {
           >
             <div className="contact-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <rect x="2" y="4" width="20" height="16" rx="2" stroke="white" strokeWidth="1.5" opacity="0.8"/>
-                <path d="M2 6l10 7 10-7" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/>
+                <rect x="2" y="4" width="20" height="16" rx="2" stroke="white" strokeWidth="1.5" opacity="0.85"/>
+                <path d="M2 6l10 7 10-7" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.85"/>
               </svg>
             </div>
             <span className="contact-name">Email</span>

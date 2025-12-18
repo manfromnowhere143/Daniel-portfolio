@@ -636,6 +636,35 @@ export default function Work() {
     <>
       <style>{`
         /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - THEME VARIABLES (STEVE JOBS LEVEL)                           */
+        /* Embedded for guaranteed loading                                                  */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        :root {
+          --bg-primary: #050506;
+          --bg-secondary: #0a0a0b;
+          --bg-card: rgba(40, 40, 45, 0.65);
+          --text-primary: #FAFAF8;
+          --text-secondary: rgba(255, 255, 255, 0.8);
+          --text-tertiary: rgba(255, 255, 255, 0.5);
+          --text-muted: rgba(255, 255, 255, 0.3);
+          --border-primary: rgba(255, 255, 255, 0.04);
+          --border-secondary: rgba(255, 255, 255, 0.08);
+        }
+        
+        [data-theme="light"] {
+          --bg-primary: #F5F5F0;
+          --bg-secondary: #EAEAE5;
+          --bg-card: rgba(255, 255, 255, 0.85);
+          --text-primary: #1a1a1a;
+          --text-secondary: rgba(26, 26, 26, 0.75);
+          --text-tertiary: rgba(26, 26, 26, 0.5);
+          --text-muted: rgba(26, 26, 26, 0.3);
+          --border-primary: rgba(0, 0, 0, 0.06);
+          --border-secondary: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - LOCKED SCREEN (NO SCROLL)                                    */
         /* Like iPhone home screen - fixed, no bounce                                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -655,14 +684,14 @@ export default function Work() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: #050506;
+          background: var(--bg-primary, #050506);
           overflow: hidden;
           overscroll-behavior: none;
           touch-action: none;
           -webkit-backface-visibility: hidden; 
           backface-visibility: hidden;
           opacity: 0;
-          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease;
         }
         
         .work-page.page-ready {
@@ -700,7 +729,7 @@ export default function Work() {
           width: 115px; 
           height: 115px; 
           border-radius: 28px; 
-          background: rgba(40, 40, 45, 0.65); 
+          background: var(--bg-card, rgba(40, 40, 45, 0.65)); 
           backdrop-filter: blur(30px) saturate(180%); 
           -webkit-backdrop-filter: blur(30px) saturate(180%); 
           display: flex; 
@@ -710,14 +739,24 @@ export default function Work() {
           overflow: hidden; 
           opacity: 0; 
           transform: translateZ(0) scale(0.8) translateY(25px); 
-          transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease; 
-          box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.08), 0 0 40px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -1px 1px rgba(0, 0, 0, 0.2); 
-          border: 1px solid rgba(255, 255, 255, 0.04); 
+          transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease, background 0.5s ease; 
+          box-shadow: 0 0 0 0.5px var(--border-secondary, rgba(255, 255, 255, 0.08)), 0 0 40px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -1px 1px rgba(0, 0, 0, 0.2); 
+          border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.04)); 
           -webkit-backface-visibility: hidden; 
           backface-visibility: hidden; 
         }
         .folder-icon::before { content: ''; position: absolute; top: 0; left: 8%; right: 8%; height: 45%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 100%); border-radius: 28px 28px 50% 50%; pointer-events: none; z-index: 10; }
         .folder-icon.loaded { opacity: 1; transform: translateZ(0) scale(1) translateY(0); }
+        
+        /* Light mode - folders float with proper shadow on pearl white */
+        [data-theme="light"] .folder-icon {
+          background: rgba(255, 255, 255, 0.9);
+          border-color: rgba(0, 0, 0, 0.06);
+          box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.06), 0 4px 20px rgba(0, 0, 0, 0.1), 0 8px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        [data-theme="light"] .folder-icon::before {
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 40%, transparent 100%);
+        }
         
         /* Staggered entrance - wave effect */
         .folder-wrapper:nth-child(1) .folder-icon { transition-delay: 150ms; }
@@ -736,12 +775,12 @@ export default function Work() {
         .folder-name { 
           font-size: 12px; 
           font-weight: 400; 
-          color: #FAFAF8; 
+          color: var(--text-primary, #FAFAF8); 
           letter-spacing: 0.02em; 
           text-align: center; 
           opacity: 0; 
           transform: translateY(10px); 
-          transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); 
+          transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.5s ease; 
           text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); 
         }
         .folder-name.loaded { opacity: 1; transform: translateY(0); }
@@ -754,10 +793,10 @@ export default function Work() {
         .folder-wrapper:nth-child(5) .folder-name { transition-delay: 530ms; }
         .folder-wrapper:nth-child(6) .folder-name { transition-delay: 600ms; }
         
-        .folder-name-future { color: rgba(255, 255, 255, 0.3); }
+        .folder-name-future { color: var(--text-muted, rgba(255, 255, 255, 0.3)); }
         
         /* Future folder placeholder */
-        .folder-icon-future { background: rgba(30, 30, 35, 0.4); border: 1px dashed rgba(255, 255, 255, 0.1); cursor: default; }
+        .folder-icon-future { background: var(--bg-tertiary, rgba(30, 30, 35, 0.4)); border: 1px dashed var(--border-secondary, rgba(255, 255, 255, 0.1)); cursor: default; }
         .folder-icon-future::before { display: none; }
         .folder-icon-future:hover { transform: translateZ(0) scale(1) translateY(0); }
         .folder-future-content { display: flex; align-items: center; justify-content: center; }
@@ -789,12 +828,12 @@ export default function Work() {
         .folder-overlay-bg {
           position: absolute;
           top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(5, 5, 6, 0.92);
+          background: color-mix(in srgb, var(--bg-primary, #050506) 92%, transparent);
           backdrop-filter: blur(50px) saturate(150%);
           -webkit-backdrop-filter: blur(50px) saturate(150%);
           touch-action: none;
           opacity: 0;
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), background 0.5s ease;
         }
         
         .folder-overlay.active .folder-overlay-bg { opacity: 1; }
