@@ -665,6 +665,23 @@ export default function Work() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* COSMOS THEME - Space & Time                                                     */
+        /* Deep space with nebula colors - Elon Musk proud                                 */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        [data-theme="cosmos"] {
+          --bg-primary: #050510;
+          --bg-secondary: #0a0a1a;
+          --bg-card: rgba(20, 15, 40, 0.65);
+          --text-primary: #E8E6FF;
+          --text-secondary: rgba(232, 230, 255, 0.8);
+          --text-tertiary: rgba(232, 230, 255, 0.5);
+          --text-muted: rgba(232, 230, 255, 0.3);
+          --border-primary: rgba(138, 43, 226, 0.12);
+          --border-secondary: rgba(138, 43, 226, 0.2);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - LOCKED SCREEN (NO SCROLL)                                    */
         /* Like iPhone home screen - fixed, no bounce                                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
