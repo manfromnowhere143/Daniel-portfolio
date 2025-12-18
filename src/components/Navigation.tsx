@@ -10,11 +10,11 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState<Date | null>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [theme, setTheme] = useState<'dark' | 'light' | 'cosmos' | 'space'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light' | 'space'>('dark');
 
   // Load theme from localStorage on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem('site-theme') as 'dark' | 'light' | 'cosmos' | 'space' | null;
+    const savedTheme = localStorage.getItem('site-theme') as 'dark' | 'light' | 'space' | null;
     if (savedTheme) {
       setTheme(savedTheme);
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -22,7 +22,7 @@ export default function Navigation() {
   }, []);
 
   // Handle theme change
-  const handleThemeChange = (newTheme: 'dark' | 'light' | 'cosmos' | 'space') => {
+  const handleThemeChange = (newTheme: 'dark' | 'light' | 'space') => {
     setTheme(newTheme);
     localStorage.setItem('site-theme', newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
@@ -39,7 +39,7 @@ export default function Navigation() {
   // When theme is set, use theme colors; otherwise use page-based colors
   const getTextColor = () => {
     if (theme === 'light') return "#1a1a1a";
-    if (theme === 'dark' || theme === 'cosmos' || theme === 'space') return "#FAFAF8";
+    if (theme === 'dark' || theme === 'space') return "#FAFAF8";
     return isDarkPage ? "#FAFAF8" : "#0A0A0A";
   };
 
@@ -98,28 +98,13 @@ export default function Navigation() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* COSMOS THEME - Space & Time                                                 */
-        /* Deep space with nebula colors - Elon Musk proud                             */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        
-        [data-theme="cosmos"] {
-          --bg-primary: #050510;
-          --bg-secondary: #0a0a1a;
-          --text-primary: #E8E6FF;
-          --text-secondary: rgba(232, 230, 255, 0.8);
-          --text-tertiary: rgba(232, 230, 255, 0.5);
-          --border-primary: rgba(138, 43, 226, 0.15);
-          --border-secondary: rgba(138, 43, 226, 0.25);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* SPACE THEME - Animated Three.js Background                                  */
-        /* Deep space with stars, nebulas, shooting stars                              */
+        /* SPACE THEME - Ultimate Space Experience                                     */
+        /* Deep void black with stars, planets, black hole                             */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         [data-theme="space"] {
-          --bg-primary: #020208;
-          --bg-secondary: #050510;
+          --bg-primary: #000000;
+          --bg-secondary: #050508;
           --text-primary: #E8EAFF;
           --text-secondary: rgba(232, 234, 255, 0.8);
           --text-tertiary: rgba(232, 234, 255, 0.5);
@@ -225,122 +210,61 @@ export default function Navigation() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* COSMOS THEME BUTTON - Space & Time, Elon Musk proud                         */
-        /* Deep space gradient with stars and nebula colors                            */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        
-        .theme-btn.cosmos {
-          background: 
-            radial-gradient(circle at 30% 30%, rgba(138, 43, 226, 0.4) 0%, transparent 50%),
-            radial-gradient(circle at 70% 60%, rgba(0, 191, 255, 0.3) 0%, transparent 40%),
-            radial-gradient(circle at 50% 80%, rgba(255, 20, 147, 0.2) 0%, transparent 30%),
-            linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 30%, #0d1b2a 60%, #050510 100%);
-          box-shadow:
-            0 0 0 0.5px rgba(138, 43, 226, 0.3),
-            0 0 6px rgba(138, 43, 226, 0.2),
-            0 1px 3px rgba(0, 0, 0, 0.4),
-            0 3px 6px rgba(0, 0, 0, 0.3),
-            0 5px 10px rgba(0, 0, 0, 0.2),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1);
-          position: relative;
-          overflow: hidden;
-        }
-        
-        /* Animated stars */
-        .theme-btn.cosmos::before {
-          content: '';
-          position: absolute;
-          top: 3px;
-          left: 4px;
-          width: 2px;
-          height: 2px;
-          border-radius: 50%;
-          background: white;
-          box-shadow:
-            6px 3px 0 0 rgba(255, 255, 255, 0.9),
-            3px 8px 0 0 rgba(255, 255, 255, 0.6),
-            10px 6px 0 0 rgba(255, 255, 255, 0.7),
-            8px 11px 0 0 rgba(255, 255, 255, 0.5),
-            12px 2px 0 0 rgba(255, 255, 255, 0.8);
-          animation: twinkle 2s ease-in-out infinite;
-        }
-        
-        @keyframes twinkle {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
-        }
-        
-        /* Subtle glow highlight */
-        .theme-btn.cosmos::after {
-          content: '';
-          position: absolute;
-          top: 1px;
-          left: 2px;
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(138, 43, 226, 0.5) 0%, transparent 70%);
-        }
-        
-        .theme-btn.cosmos.active {
-          box-shadow:
-            0 0 0 1.5px rgba(138, 43, 226, 0.5),
-            0 0 12px rgba(138, 43, 226, 0.4),
-            0 0 20px rgba(0, 191, 255, 0.2),
-            0 2px 6px rgba(0, 0, 0, 0.4),
-            inset 0 1px 1px rgba(255, 255, 255, 0.15);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* SPACE THEME BUTTON - Animated Three.js Space Background                     */
-        /* Deep space with animated stars, nebulas, shooting stars                     */
+        /* SPACE THEME BUTTON - Ultimate Space Experience                              */
+        /* Pure black void with tiny stars - real universe                             */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .theme-btn.space {
           background: 
-            radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.9) 0%, transparent 8%),
-            radial-gradient(circle at 75% 30%, rgba(255, 255, 255, 0.7) 0%, transparent 5%),
-            radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.6) 0%, transparent 6%),
-            radial-gradient(circle at 30% 80%, rgba(255, 255, 255, 0.5) 0%, transparent 4%),
-            radial-gradient(circle at 80% 75%, rgba(255, 255, 255, 0.8) 0%, transparent 5%),
-            radial-gradient(ellipse at 50% 50%, rgba(100, 100, 180, 0.3) 0%, transparent 50%),
-            linear-gradient(180deg, #0a0a18 0%, #050510 50%, #020208 100%);
+            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 1) 0%, transparent 6%),
+            radial-gradient(circle at 70% 25%, rgba(255, 255, 255, 0.9) 0%, transparent 4%),
+            radial-gradient(circle at 45% 60%, rgba(255, 255, 255, 0.8) 0%, transparent 5%),
+            radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.7) 0%, transparent 4%),
+            radial-gradient(circle at 30% 80%, rgba(255, 255, 255, 0.6) 0%, transparent 3%),
+            radial-gradient(circle at 60% 35%, rgba(200, 220, 255, 0.5) 0%, transparent 4%),
+            radial-gradient(circle at 15% 55%, rgba(255, 200, 150, 0.4) 0%, transparent 3%),
+            linear-gradient(180deg, #000000 0%, #000000 100%);
           box-shadow:
-            0 0 0 0.5px rgba(100, 100, 200, 0.3),
-            0 0 8px rgba(100, 100, 200, 0.15),
+            0 0 0 0.5px rgba(255, 255, 255, 0.15),
             0 1px 3px rgba(0, 0, 0, 0.5),
             0 3px 6px rgba(0, 0, 0, 0.4),
-            inset 0 1px 1px rgba(255, 255, 255, 0.08);
+            0 5px 10px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.05);
           position: relative;
           overflow: hidden;
         }
         
-        /* Shooting star animation across button */
+        /* Twinkling stars animation */
         .theme-btn.space::before {
           content: '';
           position: absolute;
-          top: 4px;
-          left: -10px;
-          width: 8px;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, white, transparent);
-          animation: shootingStar 3s ease-in-out infinite;
-          opacity: 0;
+          top: 2px;
+          left: 3px;
+          width: 1.5px;
+          height: 1.5px;
+          border-radius: 50%;
+          background: white;
+          box-shadow:
+            5px 2px 0 0 rgba(255, 255, 255, 1),
+            2px 7px 0 0 rgba(255, 255, 255, 0.8),
+            9px 5px 0 0 rgba(255, 255, 255, 0.9),
+            7px 10px 0 0 rgba(255, 255, 255, 0.7),
+            11px 3px 0 0 rgba(255, 255, 255, 0.6),
+            4px 12px 0 0 rgba(255, 255, 255, 0.8);
+          animation: starTwinkle 3s ease-in-out infinite;
         }
         
-        @keyframes shootingStar {
-          0%, 90%, 100% { opacity: 0; left: -10px; top: 4px; }
-          92% { opacity: 1; }
-          98% { opacity: 0; left: 20px; top: 12px; }
+        @keyframes starTwinkle {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.6; }
         }
         
         .theme-btn.space.active {
           box-shadow:
-            0 0 0 1.5px rgba(150, 150, 255, 0.4),
-            0 0 15px rgba(100, 100, 200, 0.3),
-            0 0 25px rgba(50, 50, 150, 0.2),
+            0 0 0 1.5px rgba(255, 255, 255, 0.25),
+            0 0 10px rgba(255, 255, 255, 0.1),
             0 2px 6px rgba(0, 0, 0, 0.5),
-            inset 0 1px 1px rgba(255, 255, 255, 0.12);
+            inset 0 1px 1px rgba(255, 255, 255, 0.08);
         }
         
         /* Hover states */
@@ -518,20 +442,20 @@ export default function Navigation() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* MOBILE THEME TOGGLE - Refined floating                                      */
+        /* MOBILE THEME TOGGLE - Vertical, right-aligned                                 */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .mobile-theme-toggle {
           display: flex;
           flex-direction: column;
-          gap: 6px;
-          align-items: flex-start;
-          margin-top: 12px;
+          gap: 8px;
+          align-items: flex-end;
+          margin-top: 14px;
         }
         
         .mobile-theme-toggle .theme-btn {
-          width: 20px;
-          height: 20px;
+          width: 22px;
+          height: 22px;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -731,25 +655,19 @@ export default function Navigation() {
             className={`theme-btn light ${theme === 'light' ? 'active' : ''}`}
             onClick={() => handleThemeChange('light')}
             aria-label="Light theme"
-            title="Pearl White"
+            title="Light"
           />
           <button
             className={`theme-btn dark ${theme === 'dark' ? 'active' : ''}`}
             onClick={() => handleThemeChange('dark')}
             aria-label="Dark theme"
-            title="Dark Mode"
-          />
-          <button
-            className={`theme-btn cosmos ${theme === 'cosmos' ? 'active' : ''}`}
-            onClick={() => handleThemeChange('cosmos')}
-            aria-label="Cosmos theme"
-            title="Cosmos"
+            title="Dark"
           />
           <button
             className={`theme-btn space ${theme === 'space' ? 'active' : ''}`}
             onClick={() => handleThemeChange('space')}
             aria-label="Space theme"
-            title="Space & Time"
+            title="Space"
           />
         </div>
 
@@ -865,15 +783,15 @@ export default function Navigation() {
         }}
       />
 
-      {/* Mobile Time/Date - slides from left */}
+      {/* Mobile Time/Date - slides from right, below hamburger */}
       <div
         className={styles.mobileOnly}
         style={{
           position: "fixed",
-          top: "28px",
-          left: "24px",
+          top: "80px",
+          right: "24px",
           zIndex: 200,
-          transform: isOpen ? "translateX(0)" : "translateX(-120%)",
+          transform: isOpen ? "translateX(0)" : "translateX(120%)",
           opacity: isOpen ? 1 : 0,
           transition: isOpen
             ? "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease-out"
@@ -885,7 +803,7 @@ export default function Navigation() {
           <div style={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "flex-start",
+            alignItems: "flex-end",
             gap: "3px"
           }}>
             <span style={{
@@ -917,11 +835,6 @@ export default function Navigation() {
                 className={`theme-btn dark ${theme === 'dark' ? 'active' : ''}`}
                 onClick={() => handleThemeChange('dark')}
                 aria-label="Dark theme"
-              />
-              <button
-                className={`theme-btn cosmos ${theme === 'cosmos' ? 'active' : ''}`}
-                onClick={() => handleThemeChange('cosmos')}
-                aria-label="Cosmos theme"
               />
               <button
                 className={`theme-btn space ${theme === 'space' ? 'active' : ''}`}
