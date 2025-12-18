@@ -325,13 +325,26 @@ export default function Work() {
       return <img src={app.image} alt={app.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />;
     }
     if (app.id === 'megaagent') {
+      // State of the art MegaAgent icon - Neural network constellation
       return (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="6" r="2.5" fill="white" opacity="0.95"/>
-          <circle cx="6" cy="14" r="2" fill="white" opacity="0.8"/>
-          <circle cx="18" cy="14" r="2" fill="white" opacity="0.8"/>
-          <circle cx="12" cy="20" r="1.5" fill="white" opacity="0.6"/>
-          <path d="M12 8.5v3M8 13l2.5-4M16 13l-2.5-4M10 18l-2.5-3M14 18l2.5-3" stroke="white" strokeWidth="1" opacity="0.4"/>
+          {/* Central brain/core */}
+          <circle cx="12" cy="12" r="3.5" fill="url(#megaMiniGrad)" />
+          {/* Orbiting nodes */}
+          <circle cx="12" cy="4" r="1.8" fill="white" opacity="0.9"/>
+          <circle cx="19" cy="9" r="1.5" fill="white" opacity="0.75"/>
+          <circle cx="19" cy="16" r="1.5" fill="white" opacity="0.75"/>
+          <circle cx="12" cy="20" r="1.8" fill="white" opacity="0.9"/>
+          <circle cx="5" cy="16" r="1.5" fill="white" opacity="0.75"/>
+          <circle cx="5" cy="9" r="1.5" fill="white" opacity="0.75"/>
+          {/* Connection lines */}
+          <path d="M12 5.8V8.5M17.5 9.5L15 10.8M17.5 15.5L15 13.8M12 18.2V15.5M6.5 15.5L9 13.8M6.5 9.5L9 10.8" stroke="white" strokeWidth="0.8" opacity="0.35"/>
+          <defs>
+            <radialGradient id="megaMiniGrad" cx="0.3" cy="0.3" r="0.7">
+              <stop offset="0%" stopColor="#ffffff"/>
+              <stop offset="100%" stopColor="#b8a0ff"/>
+            </radialGradient>
+          </defs>
         </svg>
       );
     }
@@ -360,15 +373,57 @@ export default function Work() {
       return <img src={app.image} alt={app.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />;
     }
     if (app.id === 'megaagent') {
+      // State of the art MegaAgent icon - Neural constellation with glow
       return (
         <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
-          <circle cx="30" cy="12" r="6" fill="white" opacity="0.95"/>
-          <circle cx="12" cy="35" r="5" fill="white" opacity="0.85"/>
-          <circle cx="48" cy="35" r="5" fill="white" opacity="0.85"/>
-          <circle cx="30" cy="52" r="4" fill="white" opacity="0.7"/>
-          <circle cx="20" cy="24" r="3" fill="white" opacity="0.6"/>
-          <circle cx="40" cy="24" r="3" fill="white" opacity="0.6"/>
-          <path d="M30 18v8M17 33l6-12M43 33l-6-12M24 48l-8-10M36 48l8-10M22 26l-7 7M38 26l7 7" stroke="white" strokeWidth="1.5" opacity="0.35"/>
+          {/* Outer glow ring */}
+          <circle cx="30" cy="30" r="26" stroke="url(#megaRingGrad)" strokeWidth="0.5" opacity="0.3"/>
+
+          {/* Central core with gradient */}
+          <circle cx="30" cy="30" r="9" fill="url(#megaCoreGrad)" />
+          <circle cx="30" cy="30" r="9" fill="url(#megaShine)" />
+
+          {/* Primary orbital nodes */}
+          <circle cx="30" cy="8" r="4.5" fill="white" opacity="0.95">
+            <animate attributeName="opacity" values="0.95;0.7;0.95" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="49" cy="20" r="3.5" fill="white" opacity="0.8"/>
+          <circle cx="49" cy="42" r="3.5" fill="white" opacity="0.8"/>
+          <circle cx="30" cy="52" r="4.5" fill="white" opacity="0.95">
+            <animate attributeName="opacity" values="0.95;0.7;0.95" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+          </circle>
+          <circle cx="11" cy="42" r="3.5" fill="white" opacity="0.8"/>
+          <circle cx="11" cy="20" r="3.5" fill="white" opacity="0.8"/>
+
+          {/* Secondary micro nodes */}
+          <circle cx="40" cy="12" r="2" fill="white" opacity="0.5"/>
+          <circle cx="20" cy="12" r="2" fill="white" opacity="0.5"/>
+          <circle cx="40" cy="48" r="2" fill="white" opacity="0.5"/>
+          <circle cx="20" cy="48" r="2" fill="white" opacity="0.5"/>
+
+          {/* Connection paths */}
+          <path d="M30 12.5V21M45.5 21.5L38 26M45.5 40.5L38 35M30 47.5V39M14.5 40.5L22 35M14.5 21.5L22 26"
+                stroke="white" strokeWidth="1.2" opacity="0.25" strokeLinecap="round"/>
+
+          {/* Cross connections */}
+          <path d="M38 12.5L35 21M22 12.5L25 21M38 47.5L35 39M22 47.5L25 39"
+                stroke="white" strokeWidth="0.8" opacity="0.15" strokeLinecap="round"/>
+
+          <defs>
+            <radialGradient id="megaCoreGrad" cx="0.3" cy="0.3" r="0.8">
+              <stop offset="0%" stopColor="#ffffff"/>
+              <stop offset="60%" stopColor="#c4b5fd"/>
+              <stop offset="100%" stopColor="#8b5cf6"/>
+            </radialGradient>
+            <radialGradient id="megaShine" cx="0.35" cy="0.35" r="0.5">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.4"/>
+              <stop offset="100%" stopColor="#ffffff" stopOpacity="0"/>
+            </radialGradient>
+            <linearGradient id="megaRingGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#c4b5fd"/>
+              <stop offset="100%" stopColor="#8b5cf6"/>
+            </linearGradient>
+          </defs>
         </svg>
       );
     }
@@ -500,7 +555,7 @@ export default function Work() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 0 24px;
+          padding: 20px 32px 0;
           opacity: 0;
           transform: translateY(30px) scale(0.92);
           transition: none;
@@ -519,23 +574,22 @@ export default function Work() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* FLOATING HERO IMAGE - The star of the show                                      */
+        /* FLOATING HERO IMAGE - Fully visible, not clipped                                */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .service-hero-image {
-          width: clamp(260px, 75vw, 320px);
+          width: clamp(200px, 55vw, 260px);
           aspect-ratio: 16/10;
-          border-radius: 20px;
+          border-radius: 14px;
           overflow: hidden;
-          margin-bottom: 32px;
+          margin-bottom: 24px;
           position: relative;
+          flex-shrink: 0;
           box-shadow: 
-            0 0 0 1px rgba(255, 255, 255, 0.08),
+            0 0 0 1px rgba(255, 255, 255, 0.1),
             0 4px 20px rgba(0, 0, 0, 0.4),
             0 20px 60px rgba(0, 0, 0, 0.5),
             0 40px 100px rgba(0, 0, 0, 0.4);
-          transform: translateY(0);
-          transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
         }
         
         .service-hero-image::before {
@@ -545,17 +599,17 @@ export default function Work() {
           left: 0;
           right: 0;
           height: 40%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 100%);
           pointer-events: none;
           z-index: 2;
-          border-radius: 20px 20px 0 0;
+          border-radius: 14px 14px 0 0;
         }
         
         .service-hero-image::after {
           content: '';
           position: absolute;
           inset: 0;
-          border-radius: 20px;
+          border-radius: 14px;
           box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
           pointer-events: none;
           z-index: 3;
@@ -565,19 +619,18 @@ export default function Work() {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transform: scale(1.01);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* TYPOGRAPHY - Refined elegance                                                   */
+        /* TYPOGRAPHY - White and fully visible                                            */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .service-expanded-title {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-          font-size: clamp(28px, 7vw, 36px);
+          font-size: clamp(24px, 5.5vw, 30px);
           font-weight: 200;
-          color: #FAFAF8;
-          margin-bottom: 12px;
+          color: #FFFFFF;
+          margin-bottom: 10px;
           letter-spacing: -0.02em;
           text-align: center;
           opacity: 0;
@@ -593,13 +646,13 @@ export default function Work() {
         
         .service-expanded-desc {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-          font-size: clamp(14px, 3.5vw, 16px);
+          font-size: clamp(12px, 3vw, 14px);
           font-weight: 300;
-          color: rgba(255, 255, 255, 0.5);
+          color: rgba(255, 255, 255, 0.75);
           text-align: center;
-          line-height: 1.7;
-          max-width: 340px;
-          margin-bottom: 28px;
+          line-height: 1.65;
+          max-width: 300px;
+          margin-bottom: 20px;
           opacity: 0;
           transform: translateY(15px);
           transition: none;
@@ -612,16 +665,16 @@ export default function Work() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* FEATURE PILLS - Minimal, elegant                                                */
+        /* FEATURE PILLS - White text, visible                                             */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .service-features {
           display: flex;
           flex-wrap: wrap;
           justify-content: center;
-          gap: 10px;
-          max-width: 360px;
-          margin-bottom: 36px;
+          gap: 6px;
+          max-width: 320px;
+          margin-bottom: 16px;
           opacity: 0;
           transform: translateY(15px);
           transition: none;
@@ -634,40 +687,41 @@ export default function Work() {
         }
         
         .service-feature-pill {
-          padding: 8px 16px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.06);
+          padding: 6px 12px;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.12);
           border-radius: 100px;
-          font-size: 12px;
-          font-weight: 300;
-          color: rgba(255, 255, 255, 0.6);
+          font-size: 11px;
+          font-weight: 400;
+          color: #FFFFFF;
           letter-spacing: 0.02em;
           white-space: nowrap;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* CLOSE BUTTON - Floating, minimal                                                */
+        /* CLOSE BUTTON - Floating, minimal, no border                                     */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .service-expanded-close {
-          width: 52px;
-          height: 52px;
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: transparent;
+          border: none;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
+          margin-top: -8px;
           opacity: 0;
           transform: scale(0.5) translateY(20px);
-          transition: background 0.3s ease;
+          transition: transform 0.2s ease;
         }
         
         .service-expanded.active .service-expanded-close {
           opacity: 1;
           transform: scale(1) translateY(0);
-          transition: opacity 0.4s ease 0.44s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.44s, background 0.3s ease;
+          transition: opacity 0.4s ease 0.44s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.44s;
         }
         
         .service-expanded.exiting .service-expanded-close {
@@ -677,7 +731,7 @@ export default function Work() {
         }
         
         .service-expanded-close:hover {
-          background: rgba(255, 255, 255, 0.08);
+          transform: scale(1.1) translateY(0);
         }
         
         .service-expanded-close:active {
@@ -685,19 +739,21 @@ export default function Work() {
         }
         
         .service-expanded-close svg {
-          width: 20px;
-          height: 20px;
-          color: rgba(255, 255, 255, 0.6);
+          width: 24px;
+          height: 24px;
+          color: rgba(255, 255, 255, 0.7);
         }
         
         @media (min-width: 600px) {
           .service-hero-image {
-            width: clamp(320px, 50vw, 420px);
-            border-radius: 24px;
+            width: clamp(280px, 42vw, 360px);
+            border-radius: 18px;
           }
-          .service-expanded-title { font-size: 42px; }
-          .service-expanded-desc { font-size: 17px; max-width: 400px; }
-          .service-feature-pill { padding: 10px 20px; font-size: 13px; }
+          .service-hero-image::before { border-radius: 18px 18px 0 0; }
+          .service-hero-image::after { border-radius: 18px; }
+          .service-expanded-title { font-size: 36px; }
+          .service-expanded-desc { font-size: 15px; max-width: 360px; }
+          .service-feature-pill { padding: 8px 16px; font-size: 12px; }
         }
         
         .media-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(100px, 18vh, 180px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: manipulation; -webkit-touch-callout: none; user-select: none; overscroll-behavior: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity, visibility; transform: translateZ(0); }
