@@ -63,89 +63,185 @@ export default function GoldenSpiral() {
   }, []);
 
   return (
-    <div style={{ width: size, height: size, margin: '0 auto' }}>
-      <svg
-        viewBox={`0 0 ${size} ${size}`}
-        width={size}
-        height={size}
-        style={{ display: 'block' }}
-      >
-        <defs>
-          <filter id="goldenGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-          <radialGradient id="goldenGradient" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#FAFAF8" stopOpacity="0.1" />
-            <stop offset="100%" stopColor="#FAFAF8" stopOpacity="0" />
-          </radialGradient>
-        </defs>
+    <>
+      <style>{`
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - THEME AWARE GOLDEN SPIRAL                                    */
+        /* Adapts to dark/light theme with smooth transitions                              */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .golden-spiral-wrapper {
+          width: ${size}px;
+          height: ${size}px;
+          margin: 0 auto;
+        }
+        
+        .golden-spiral-svg {
+          display: block;
+          transition: opacity 0.5s ease;
+        }
+        
+        /* Dark theme (default) - white/cream spiral */
+        .golden-spiral-svg .spiral-stroke {
+          stroke: #FAFAF8;
+          transition: stroke 0.5s ease;
+        }
+        
+        .golden-spiral-svg .spiral-fill {
+          fill: #FAFAF8;
+          transition: fill 0.5s ease;
+        }
+        
+        .golden-spiral-svg .spiral-gradient-start {
+          stop-color: #FAFAF8;
+          transition: stop-color 0.5s ease;
+        }
+        
+        .golden-spiral-svg .spiral-gradient-end {
+          stop-color: #FAFAF8;
+          transition: stop-color 0.5s ease;
+        }
+        
+        /* Light theme - dark spiral */
+        [data-theme="light"] .golden-spiral-svg .spiral-stroke {
+          stroke: #1a1a1a;
+        }
+        
+        [data-theme="light"] .golden-spiral-svg .spiral-fill {
+          fill: #1a1a1a;
+        }
+        
+        [data-theme="light"] .golden-spiral-svg .spiral-gradient-start {
+          stop-color: #1a1a1a;
+        }
+        
+        [data-theme="light"] .golden-spiral-svg .spiral-gradient-end {
+          stop-color: #1a1a1a;
+        }
+        
+        /* Slightly reduce opacity in light mode for elegance */
+        [data-theme="light"] .golden-spiral-svg {
+          opacity: 0.75;
+        }
+      `}</style>
 
-        <circle cx={cx} cy={cy} r="65" fill="url(#goldenGradient)" />
+      <div className="golden-spiral-wrapper">
+        <svg
+          className="golden-spiral-svg"
+          viewBox={`0 0 ${size} ${size}`}
+          width={size}
+          height={size}
+        >
+          <defs>
+            <filter id="goldenGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+            <radialGradient id="goldenGradient" cx="50%" cy="50%" r="50%">
+              <stop className="spiral-gradient-start" offset="0%" stopOpacity="0.1" />
+              <stop className="spiral-gradient-end" offset="100%" stopOpacity="0" />
+            </radialGradient>
+          </defs>
 
-        <g filter="url(#goldenGlow)">
-          {/* Concentric circles at golden ratio intervals */}
-          {circles.map((circle, i) => (
-            <circle
-              key={`circle-${i}`}
-              cx={cx}
-              cy={cy}
-              r={circle.r}
-              stroke="#FAFAF8"
+          <circle cx={cx} cy={cy} r="65" fill="url(#goldenGradient)" />
+
+          <g filter="url(#goldenGlow)">
+            {/* Concentric circles at golden ratio intervals */}
+            {circles.map((circle, i) => (
+              <circle
+                key={`circle-${i}`}
+                className="spiral-stroke"
+                cx={cx}
+                cy={cy}
+                r={circle.r}
+                strokeWidth="0.3"
+                fill="none"
+                opacity={circle.opacity}
+              />
+            ))}
+
+            {/* Radiating lines */}
+            {rays.map((ray, i) => (
+              <line
+                key={`ray-${i}`}
+                className="spiral-stroke"
+                x1={ray.x1}
+                y1={ray.y1}
+                x2={ray.x2}
+                y2={ray.y2}
+                strokeWidth="0.25"
+                opacity="0.2"
+              />
+            ))}
+
+            {/* Golden spiral */}
+            <polyline
+              className="spiral-stroke"
+              points={spiralPoints}
+              strokeWidth="0.6"
+              fill="none"
+              strokeLinecap="round"
+              opacity="0.85"
+            />
+
+            {/* Golden rectangles hint */}
+            <rect
+              className="spiral-stroke"
+              x={cx - 21}
+              y={cy - 21}
+              width="42"
+              height="42"
               strokeWidth="0.3"
               fill="none"
-              opacity={circle.opacity}
+              opacity="0.3"
             />
-          ))}
-
-          {/* Radiating lines */}
-          {rays.map((ray, i) => (
-            <line
-              key={`ray-${i}`}
-              x1={ray.x1}
-              y1={ray.y1}
-              x2={ray.x2}
-              y2={ray.y2}
-              stroke="#FAFAF8"
-              strokeWidth="0.25"
-              opacity="0.2"
+            <rect
+              className="spiral-stroke"
+              x={cx - 13}
+              y={cy - 13}
+              width="26"
+              height="26"
+              strokeWidth="0.3"
+              fill="none"
+              opacity="0.35"
+              transform={`rotate(90, ${cx}, ${cy})`}
             />
-          ))}
 
-          {/* Golden spiral */}
-          <polyline
-            points={spiralPoints}
-            stroke="#FAFAF8"
-            strokeWidth="0.6"
-            fill="none"
-            strokeLinecap="round"
-            opacity="0.85"
-          />
-
-          {/* Golden rectangles hint */}
-          <rect x={cx - 21} y={cy - 21} width="42" height="42" stroke="#FAFAF8" strokeWidth="0.3" fill="none" opacity="0.3" />
-          <rect x={cx - 13} y={cy - 13} width="26" height="26" stroke="#FAFAF8" strokeWidth="0.3" fill="none" opacity="0.35" transform={`rotate(90, ${cx}, ${cy})`} />
-
-          {/* Center point */}
-          <circle cx={cx} cy={cy} r="2" stroke="#FAFAF8" strokeWidth="0.4" fill="none" opacity="0.7" />
-          <circle cx={cx} cy={cy} r="0.8" fill="#FAFAF8" opacity="0.9" />
-
-          {/* Golden ratio intersection points */}
-          {goldenDots.map((dot, i) => (
+            {/* Center point */}
             <circle
-              key={`dot-${i}`}
-              cx={dot.cx}
-              cy={dot.cy}
-              r="1"
-              fill="#FAFAF8"
-              opacity={dot.opacity}
+              className="spiral-stroke"
+              cx={cx}
+              cy={cy}
+              r="2"
+              strokeWidth="0.4"
+              fill="none"
+              opacity="0.7"
             />
-          ))}
-        </g>
-      </svg>
-    </div>
+            <circle
+              className="spiral-fill"
+              cx={cx}
+              cy={cy}
+              r="0.8"
+              opacity="0.9"
+            />
+
+            {/* Golden ratio intersection points */}
+            {goldenDots.map((dot, i) => (
+              <circle
+                key={`dot-${i}`}
+                className="spiral-fill"
+                cx={dot.cx}
+                cy={dot.cy}
+                r="1"
+                opacity={dot.opacity}
+              />
+            ))}
+          </g>
+        </svg>
+      </div>
+    </>
   );
 }
