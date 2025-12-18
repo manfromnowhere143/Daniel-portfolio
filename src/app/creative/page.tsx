@@ -655,27 +655,28 @@ export default function Creative() {
           transform: translateZ(0) scale(0.8) translateY(20px);
           transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease;
           box-shadow: 
-            0 0 0 0.5px rgba(255, 255, 255, 0.2),
-            0 8px 32px rgba(0, 0, 0, 0.35),
-            0 2px 8px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+            0 4px 8px rgba(0, 0, 0, 0.3),
+            0 8px 16px rgba(0, 0, 0, 0.25),
+            0 16px 32px rgba(0, 0, 0, 0.2),
+            0 32px 64px rgba(0, 0, 0, 0.15);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: transform, opacity;
         }
         
-        .folder-icon::before {
+        /* Elegant subtle bubble light */
+        .folder-icon::after {
           content: '';
           position: absolute;
           top: 0;
-          left: 10%;
-          right: 10%;
-          height: 45%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
-          border-radius: 30px 30px 60% 60%;
+          left: 15%;
+          right: 15%;
+          height: 35%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 60%, transparent 100%);
+          border-radius: 30px 30px 50% 50%;
           pointer-events: none;
           z-index: 10;
+          opacity: 0.7;
         }
         
         .folder-icon.loaded {
@@ -684,12 +685,11 @@ export default function Creative() {
         }
         
         .folder-icon:active {
-          transform: translateZ(0) scale(0.94) translateY(0);
+          transform: translateZ(0) scale(0.94) translateY(2px);
           box-shadow: 
-            0 0 0 0.5px rgba(255, 255, 255, 0.25),
-            0 4px 16px rgba(0, 0, 0, 0.3),
-            0 2px 6px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.35);
+            0 2px 4px rgba(0, 0, 0, 0.3),
+            0 4px 8px rgba(0, 0, 0, 0.25),
+            0 8px 16px rgba(0, 0, 0, 0.2);
         }
         
         .folder-wrapper:nth-child(1) .folder-icon { transition-delay: 0ms; }
@@ -722,11 +722,26 @@ export default function Creative() {
           position: relative;
           overflow: hidden;
           box-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.12),
-            0 4px 8px rgba(0, 0, 0, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            0 2px 4px rgba(0, 0, 0, 0.15),
+            0 4px 8px rgba(0, 0, 0, 0.12),
+            0 8px 16px rgba(0, 0, 0, 0.08);
           -webkit-transform: translateZ(0);
           transform: translateZ(0);
+        }
+        
+        /* Elegant subtle bubble light for mini icons */
+        .folder-mini-icon:not(.folder-mini-png):not(.folder-mini-empty)::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 12%;
+          right: 12%;
+          height: 35%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
+          border-radius: 12px 12px 50% 50%;
+          pointer-events: none;
+          z-index: 5;
+          opacity: 0.6;
         }
         
         .folder-mini-icon.folder-mini-empty {
@@ -743,23 +758,6 @@ export default function Creative() {
           box-shadow: 
             0 2px 4px rgba(0, 0, 0, 0.15),
             0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .folder-mini-icon.folder-mini-png::before {
-          display: none;
-        }
-        
-        .folder-mini-icon:not(.folder-mini-png)::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 8%;
-          right: 8%;
-          height: 45%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 60%, transparent 100%);
-          border-radius: 12px 12px 50% 50%;
-          pointer-events: none;
-          z-index: 5;
         }
         
         .folder-name {
@@ -830,7 +828,7 @@ export default function Creative() {
         .folder-container {
           position: relative;
           z-index: 2;
-          background: rgba(255, 255, 255, 0.95);
+          background: rgba(255, 255, 255, 0.96);
           backdrop-filter: blur(40px) saturate(200%);
           -webkit-backdrop-filter: blur(40px) saturate(200%);
           border-radius: 32px;
@@ -838,11 +836,34 @@ export default function Creative() {
           opacity: 0;
           transform: translateZ(0) scale(0.92);
           transition: none;
+          /* STATE OF THE ART - Soft ambient shadow for floating effect */
           box-shadow: 
-            0 0 0 0.5px rgba(255, 255, 255, 0.8),
-            0 25px 80px -10px rgba(0, 0, 0, 0.35),
-            0 10px 30px -5px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 1);
+            0 0 0 1px rgba(255, 255, 255, 0.5),
+            0 2px 4px rgba(0, 0, 0, 0.02),
+            0 4px 8px rgba(0, 0, 0, 0.02),
+            0 8px 16px rgba(0, 0, 0, 0.04),
+            0 16px 32px rgba(0, 0, 0, 0.06),
+            0 32px 64px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* STATE OF THE ART - Subtle top-down lighting for app icons */
+        .folder-container::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border-radius: 32px;
+          background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(255, 255, 255, 0.2) 25%,
+            rgba(255, 255, 255, 0) 50%,
+            rgba(0, 0, 0, 0.01) 100%
+          );
+          pointer-events: none;
+          z-index: 0;
         }
         
         .folder-overlay.active .folder-container { 
@@ -857,6 +878,8 @@ export default function Creative() {
         }
         
         .folder-cards-grid {
+          position: relative;
+          z-index: 1;
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           grid-template-rows: repeat(2, 1fr);
@@ -907,11 +930,15 @@ export default function Creative() {
           justify-content: center;
           position: relative;
           overflow: hidden;
+          /* STATE OF THE ART - Multi-layer black shadow for alive floating effect */
           box-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.08),
-            0 4px 8px rgba(0, 0, 0, 0.08),
-            0 8px 16px rgba(0, 0, 0, 0.06),
-            0 16px 32px rgba(0, 0, 0, 0.04);
+            0 1px 1px rgba(0, 0, 0, 0.075),
+            0 2px 2px rgba(0, 0, 0, 0.075),
+            0 4px 4px rgba(0, 0, 0, 0.075),
+            0 8px 8px rgba(0, 0, 0, 0.075),
+            0 16px 16px rgba(0, 0, 0, 0.075),
+            0 24px 24px rgba(0, 0, 0, 0.05),
+            0 32px 48px rgba(0, 0, 0, 0.1);
           transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -919,24 +946,29 @@ export default function Creative() {
         }
         
         .folder-card-icon:active {
-          transform: scale(0.92);
+          transform: scale(0.94) translateY(4px);
           box-shadow: 
-            0 1px 2px rgba(0, 0, 0, 0.1),
-            0 2px 4px rgba(0, 0, 0, 0.08),
-            0 4px 8px rgba(0, 0, 0, 0.06);
+            0 1px 1px rgba(0, 0, 0, 0.1),
+            0 2px 2px rgba(0, 0, 0, 0.08),
+            0 4px 4px rgba(0, 0, 0, 0.06),
+            0 8px 8px rgba(0, 0, 0, 0.04);
         }
         .folder-card-icon.folder-card-png { background: transparent; }
-        .folder-card-icon.folder-card-png::before { display: none; }
         .folder-card-icon:not(.folder-card-png) { background: linear-gradient(145deg, #1a1a1f, #0d0d10); }
         
-        .folder-card-icon:not(.folder-card-png)::before {
+        /* Elegant subtle bubble light for folder card icons */
+        .folder-card-icon:not(.folder-card-png)::after {
           content: '';
           position: absolute;
-          top: 0; left: 8%; right: 8%; height: 45%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
-          border-radius: 17px 17px 50% 50%;
+          top: 0;
+          left: 12%;
+          right: 12%;
+          height: 35%;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 100%);
+          border-radius: 18px 18px 50% 50%;
           pointer-events: none;
           z-index: 5;
+          opacity: 0.5;
         }
         
         .folder-card-empty-slot {
@@ -1186,11 +1218,15 @@ export default function Creative() {
           cursor: pointer;
           opacity: 0;
           transform: translateY(24px) scale(0.9);
+          transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+        
+        .showcase-geometry-grid.visible .showcase-geometry-item { 
+          opacity: 1; 
+          transform: translateY(0) scale(1); 
           transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.34, 1.4, 0.64, 1);
           transition-delay: var(--delay, 0s);
         }
-        
-        .showcase-geometry-grid.visible .showcase-geometry-item { opacity: 1; transform: translateY(0) scale(1); }
         
         .showcase-geometry-frame {
           width: 130px; height: 130px;
@@ -1216,11 +1252,14 @@ export default function Creative() {
           position: relative;
           z-index: 2;
           opacity: 0;
+          transition: opacity 0.2s ease;
+        }
+        
+        .showcase-geometry-grid.visible .showcase-geometry-content { 
+          opacity: 1;
           transition: opacity 0.5s ease;
           transition-delay: inherit;
         }
-        
-        .showcase-geometry-grid.visible .showcase-geometry-content { opacity: 1; }
         
         .showcase-geo-metatron .showcase-geometry-content { transform: scale(0.55); }
         .showcase-geo-spiral .showcase-geometry-content { transform: scale(0.6); }
