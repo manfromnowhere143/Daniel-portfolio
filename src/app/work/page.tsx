@@ -629,14 +629,15 @@ export default function Work() {
     <>
       <style>{`
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - OVERSCROLL PREVENTION                                        */
-        /* Buttery smooth, no bounce, no disruption                                        */
+        /* STATE OF THE ART - LOCKED SCREEN (NO SCROLL)                                    */
+        /* Like iPhone home screen - fixed, no bounce                                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         html, body {
           overscroll-behavior: none;
           overscroll-behavior-y: none;
-          -webkit-overflow-scrolling: touch;
+          overflow: hidden;
+          touch-action: none;
         }
         
         * { -webkit-tap-highlight-color: transparent; }
@@ -650,6 +651,7 @@ export default function Work() {
           background: #050506;
           overflow: hidden;
           overscroll-behavior: none;
+          touch-action: none;
           -webkit-backface-visibility: hidden; 
           backface-visibility: hidden;
         }
@@ -1269,7 +1271,7 @@ export default function Work() {
         @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-preview-3 { gap: 6px; } .folder-preview-3 .folder-mini-icon { width: 44px; height: 44px; border-radius: 11px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 32px; } .folder-apps-grid-2 { max-width: 260px; } .folder-apps-grid-3 { max-width: 380px; } .folder-app-icon { width: 96px; height: 96px; border-radius: 24px; } .interactive-content { width: 440px; height: 440px; } }
       `}</style>
 
-      <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' || interactiveAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ paddingLeft: "20px", paddingRight: "20px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' || interactiveAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ paddingLeft: "20px", paddingRight: "20px", paddingTop: "60px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
         <div className="folders-grid">
           {/* Row 1: Apps & Services */}
           <div className="folder-wrapper">

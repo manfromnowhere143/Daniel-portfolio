@@ -19,12 +19,14 @@ export default function Creative() {
     <>
       <style>{`
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - OVERSCROLL PREVENTION                                        */
+        /* STATE OF THE ART - LOCKED SCREEN (NO SCROLL)                                    */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         html, body {
           overscroll-behavior: none;
           overscroll-behavior-y: none;
+          overflow: hidden;
+          touch-action: none;
         }
         
         * { -webkit-tap-highlight-color: transparent; }
@@ -39,8 +41,11 @@ export default function Creative() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
+          padding-top: 25vh;
           overflow: hidden;
+          touch-action: none;
+          overscroll-behavior: none;
         }
         
         /* Subtle radial gradient background */
