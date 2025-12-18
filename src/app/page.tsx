@@ -155,24 +155,11 @@ const personaLines = [
   "  deprecation: explicit_only"
 ];
 
-// Preview lines (collapsed state) - Minimal, elegant
-const previewLines = [
-  "persona_id: ragnarock_v1_unfolding",
-  "temporal_identity:",
-  "  age_years_continuous: {{AGE}}",
-  "  ...",
-];
-
 export default function About() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
   const [age, setAge] = useState(INITIAL_AGE);
   const [isMounted, setIsMounted] = useState(false);
-  const [visibleLineCount, setVisibleLineCount] = useState(0);
-  const [isTypingComplete, setIsTypingComplete] = useState(false);
-  const [expandAnimPhase, setExpandAnimPhase] = useState<'idle' | 'expanding' | 'typing' | 'complete'>('idle');
   const contentRef = useRef<HTMLDivElement>(null);
-  const typingStarted = useRef(false);
 
   // Mark as mounted (client-side only)
   useEffect(() => {
@@ -196,57 +183,6 @@ export default function About() {
     const timer = setTimeout(() => setIsLoaded(true), 50);
     return () => clearTimeout(timer);
   }, []);
-
-  // Enforce scroll position when terminal state changes
-  useEffect(() => {
-    // Always ensure window scroll is at 0 for this fixed page
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-  }, [isExpanded]);
-
-  // Handle expansion - simple toggle, no scroll manipulation needed
-  const handleExpand = () => {
-    if (isExpanded) {
-      // Collapse - simple state reset
-      setExpandAnimPhase('idle');
-      setIsExpanded(false);
-      setVisibleLineCount(0);
-      setIsTypingComplete(false);
-      typingStarted.current = false;
-
-      // Reset terminal content scroll position
-      if (contentRef.current) {
-        contentRef.current.scrollTop = 0;
-      }
-    } else {
-      // Expand - elegant reveal
-      setIsExpanded(true);
-      setExpandAnimPhase('expanding');
-
-      // Start typing after smooth expand animation
-      setTimeout(() => {
-        setExpandAnimPhase('typing');
-        let currentLine = 0;
-        const totalLines = personaLines.length;
-
-        // Smooth typing - faster for empty lines
-        const typeNextLine = () => {
-          if (currentLine < totalLines) {
-            setVisibleLineCount(currentLine + 1);
-            const isEmptyLine = personaLines[currentLine].trim() === '';
-            currentLine++;
-            setTimeout(typeNextLine, isEmptyLine ? 8 : 18);
-          } else {
-            setIsTypingComplete(true);
-            setExpandAnimPhase('complete');
-          }
-        };
-
-        typeNextLine();
-      }, 500);
-    }
-  };
 
   // Process line with age replacement
   const processLine = (line: string) => {
@@ -312,10 +248,6 @@ export default function About() {
     return <span style={{ color: '#FFFFFF' }}>{line}</span>;
   };
 
-  const currentLines = isExpanded
-    ? personaLines.slice(0, visibleLineCount)
-    : previewLines;
-
   return (
     <>
       <style>{`
@@ -345,12 +277,12 @@ export default function About() {
         .about-page.loaded { opacity: 1; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* HERO SECTION                                                                    */
+        /* HERO SECTION - Below sidebar lines                                              */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .hero-section {
           text-align: center;
-          padding: clamp(28px, 5vh, 70px) 24px clamp(4px, 1vh, 12px);
+          padding: clamp(70px, 12vh, 120px) 24px clamp(4px, 1vh, 12px);
         }
         
         .hero-name {
@@ -371,14 +303,14 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* GOLDEN SPIRAL                                                                   */
+        /* GOLDEN SPIRAL - Bigger on mobile                                                */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .spiral-container {
           display: flex;
           justify-content: center;
-          padding: clamp(2px, 0.5vh, 8px) 0;
-          transform: scale(0.55);
+          padding: clamp(4px, 1vh, 12px) 0;
+          transform: scale(0.7);
           transform-origin: center;
         }
         
@@ -519,85 +451,75 @@ export default function About() {
           text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         }
         
-        /* Scroll indicator hint */
-        .scroll-hint {
-          position: absolute;
-          right: 18px;
-          top: 50%;
-          transform: translateY(-50%);
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 9px;
-          color: rgba(255, 255, 255, 0.3);
-          letter-spacing: 0.05em;
-          opacity: 0;
-          transition: opacity 0.4s ease;
-        }
-        
-        .terminal-window.expanded .scroll-hint {
-          opacity: 1;
-        }
-        
         .terminal-content {
           position: relative;
-          padding: 14px 0 40px;
-          overflow: hidden;
-          transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .terminal-content.collapsed {
-          max-height: 100px;
-        }
-        
-        .terminal-content.expanded {
-          max-height: clamp(280px, 50vh, 400px);
+          padding: 14px 0 50px;
+          max-height: clamp(160px, 28vh, 240px);
           overflow-y: auto;
           -webkit-overflow-scrolling: touch;
           touch-action: pan-y;
           scrollbar-width: thin;
           scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
-          mask-image: linear-gradient(to bottom, 
-            transparent 0%, 
-            black 3%, 
-            black 92%, 
-            transparent 100%
-          );
-          -webkit-mask-image: linear-gradient(to bottom, 
-            transparent 0%, 
-            black 3%, 
-            black 92%, 
-            transparent 100%
-          );
         }
         
         /* Custom scrollbar - minimal elegance */
         .terminal-content::-webkit-scrollbar { 
-          width: 6px; 
+          width: 5px; 
         }
         .terminal-content::-webkit-scrollbar-track { 
-          background: rgba(255, 255, 255, 0.02);
-          border-radius: 3px;
-          margin: 10px 0;
+          background: transparent;
         }
         .terminal-content::-webkit-scrollbar-thumb { 
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+          background: rgba(255, 255, 255, 0.15);
           border-radius: 3px;
-          border: 1px solid rgba(255, 255, 255, 0.05);
         }
         .terminal-content::-webkit-scrollbar-thumb:hover { 
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.15));
+          background: rgba(255, 255, 255, 0.25);
         }
         
-        /* Scroll fade indicator at bottom */
-        .terminal-content.expanded::after {
-          content: '';
-          position: sticky;
+        /* STATE OF THE ART - Bottom fade shadow overlay */
+        .terminal-fade {
+          position: absolute;
           bottom: 0;
           left: 0;
           right: 0;
-          height: 40px;
-          background: linear-gradient(to top, rgba(10, 10, 12, 0.95), transparent);
+          height: 60px;
+          background: linear-gradient(to top, 
+            rgba(10, 10, 12, 1) 0%,
+            rgba(10, 10, 12, 0.95) 30%,
+            rgba(10, 10, 12, 0.7) 60%,
+            transparent 100%
+          );
           pointer-events: none;
-          display: block;
+          z-index: 15;
+        }
+        
+        /* Floating scroll arrow indicator */
+        .scroll-arrow {
+          position: absolute;
+          bottom: 12px;
+          right: 12px;
+          width: 28px;
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 20;
+          opacity: 0.5;
+          animation: arrowBounce 2s ease-in-out infinite;
+        }
+        
+        .scroll-arrow svg {
+          width: 14px;
+          height: 14px;
+          stroke: #FFFFFF;
+          stroke-width: 2;
+          fill: none;
+        }
+        
+        @keyframes arrowBounce {
+          0%, 100% { transform: translateY(0); opacity: 0.5; }
+          50% { transform: translateY(3px); opacity: 0.8; }
         }
         
         .code-line {
@@ -657,85 +579,6 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - EXPAND BUTTON                                                */
-        /* Floating ethereal toggle - breathes with life                                   */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .expand-button {
-          position: absolute;
-          bottom: 10px;
-          right: 10px;
-          width: 32px;
-          height: 32px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 8px;
-          cursor: pointer;
-          opacity: 0.8;
-          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-          z-index: 20;
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-        }
-        
-        .expand-button:hover {
-          opacity: 1;
-          transform: scale(1.1);
-          background: rgba(255, 255, 255, 0.06);
-          border-color: rgba(255, 255, 255, 0.15);
-          box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-        }
-        
-        .expand-button:active {
-          transform: scale(0.95);
-          opacity: 1;
-        }
-        
-        .expand-icon {
-          position: relative;
-          width: 14px;
-          height: 14px;
-        }
-        
-        /* Horizontal line - WHITE with glow */
-        .expand-icon::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 0;
-          right: 0;
-          height: 2px;
-          background: #FFFFFF;
-          transform: translateY(-50%);
-          border-radius: 1px;
-          box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-        }
-        
-        /* Vertical line - morphs elegantly */
-        .expand-icon::after {
-          content: '';
-          position: absolute;
-          left: 50%;
-          top: 0;
-          bottom: 0;
-          width: 2px;
-          background: #FFFFFF;
-          transform: translateX(-50%) scaleY(1);
-          transform-origin: center;
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-          border-radius: 1px;
-          box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-        }
-        
-        .expand-icon.minus::after {
-          transform: translateX(-50%) scaleY(0);
-          opacity: 0;
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* CONTACT ICONS                                                                   */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
@@ -743,7 +586,7 @@ export default function About() {
           display: flex;
           justify-content: center;
           gap: 16px;
-          padding: clamp(10px, 2vh, 24px) 0 clamp(20px, 4vh, 50px);
+          padding: clamp(12px, 2vh, 24px) 0 clamp(20px, 4vh, 50px);
         }
         
         .contact-link {
@@ -826,14 +669,14 @@ export default function About() {
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         @media (max-width: 600px) {
-          .hero-section { padding: 24px 20px 2px; }
+          .hero-section { padding: 55px 20px 4px; }
           .hero-name { font-size: 24px; margin-bottom: 2px; }
           .hero-tagline { font-size: 11px; }
           
           .spiral-container { 
-            transform: scale(0.5); 
+            transform: scale(0.65); 
             padding: 0;
-            margin: -10px 0;
+            margin: -5px 0;
           }
           
           .terminal-section { padding: 0 16px; }
@@ -842,16 +685,14 @@ export default function About() {
           .terminal-dot { width: 9px; height: 9px; }
           .terminal-dot::after { width: 3px; height: 3px; top: 1.5px; left: 1.5px; }
           .terminal-filename { font-size: 10px; margin-left: 10px; }
-          .scroll-hint { font-size: 8px; right: 12px; }
-          .terminal-content.collapsed { max-height: 75px; }
-          .terminal-content.expanded { max-height: clamp(200px, 38vh, 280px); }
-          .terminal-content { padding: 10px 0 32px; }
+          .terminal-content { max-height: clamp(140px, 24vh, 200px); padding: 10px 0 45px; }
+          .terminal-fade { height: 50px; }
+          .scroll-arrow { bottom: 10px; right: 10px; width: 24px; height: 24px; }
+          .scroll-arrow svg { width: 12px; height: 12px; }
           .code-line { padding: 1px 12px; font-size: 9.5px; min-height: 16px; line-height: 16px; }
           .line-number { min-width: 22px; padding-right: 8px; font-size: 8px; }
-          .expand-button { bottom: 6px; right: 6px; width: 26px; height: 26px; border-radius: 6px; }
-          .expand-icon { width: 11px; height: 11px; }
           
-          .contact-section { gap: 14px; padding: 8px 0 16px; }
+          .contact-section { gap: 14px; padding: 10px 0 16px; }
           .contact-link { gap: 5px; }
           .contact-icon { width: 44px; height: 44px; border-radius: 11px; }
           .contact-icon svg { width: 18px; height: 18px; }
@@ -860,17 +701,16 @@ export default function About() {
         
         /* Extra small screens */
         @media (max-width: 380px) {
-          .hero-section { padding: 20px 16px 0; }
+          .hero-section { padding: 50px 16px 2px; }
           .hero-name { font-size: 22px; }
           .hero-tagline { font-size: 10px; }
           
           .spiral-container { 
-            transform: scale(0.42); 
-            margin: -15px 0;
+            transform: scale(0.58); 
+            margin: -8px 0;
           }
           
-          .terminal-content.collapsed { max-height: 65px; }
-          .terminal-content.expanded { max-height: clamp(180px, 35vh, 240px); }
+          .terminal-content { max-height: clamp(120px, 22vh, 180px); }
           .code-line { font-size: 9px; min-height: 15px; line-height: 15px; }
           
           .contact-icon { width: 40px; height: 40px; border-radius: 10px; }
@@ -892,17 +732,16 @@ export default function About() {
 
         {/* Terminal */}
         <div className="terminal-section">
-          <div className={`terminal-window ${isExpanded ? 'expanded' : ''}`}>
+          <div className="terminal-window">
             <div className="terminal-header">
               <div className="terminal-dot red" />
               <div className="terminal-dot yellow" />
               <div className="terminal-dot green" />
               <span className="terminal-filename">persona.yaml</span>
-              <span className="scroll-hint">↕ scroll</span>
             </div>
 
-            <div className={`terminal-content ${isExpanded ? 'expanded' : 'collapsed'}`} ref={contentRef}>
-              {currentLines.map((line, index) => {
+            <div className="terminal-content" ref={contentRef}>
+              {personaLines.map((line, index) => {
                 const processedLine = processLine(line);
                 const isAgeLine = processedLine.includes('age_years_continuous');
                 return (
@@ -910,27 +749,21 @@ export default function About() {
                     <span className="line-number">{index + 1}</span>
                     <span className="line-content">
                       {highlightLine(processedLine, isAgeLine)}
-                      {isExpanded && expandAnimPhase === 'typing' && index === visibleLineCount - 1 && (
-                        <span className="cursor" />
-                      )}
                     </span>
                   </div>
                 );
               })}
-              {isExpanded && isTypingComplete && (
-                <div className="code-line" style={{ marginTop: '4px' }}>
-                  <span className="line-number" />
-                  <span className="line-content">
-                    <span className="cursor" />
-                  </span>
-                </div>
-              )}
             </div>
 
-            {/* Minimal +/- Button */}
-            <button className="expand-button" onClick={handleExpand} aria-label={isExpanded ? 'Collapse' : 'Expand'}>
-              <div className={`expand-icon ${isExpanded ? 'minus' : ''}`} />
-            </button>
+            {/* Bottom fade overlay */}
+            <div className="terminal-fade" />
+
+            {/* Floating scroll arrow */}
+            <div className="scroll-arrow">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 5v14M5 12l7 7 7-7" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
           </div>
         </div>
 
