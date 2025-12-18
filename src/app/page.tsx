@@ -350,21 +350,21 @@ export default function About() {
         
         .hero-section {
           text-align: center;
-          padding: clamp(50px, 8vh, 90px) 24px clamp(8px, 1.5vh, 16px);
+          padding: clamp(28px, 5vh, 70px) 24px clamp(4px, 1vh, 12px);
         }
         
         .hero-name {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-          font-size: clamp(28px, 5.5vw, 44px);
+          font-size: clamp(26px, 5.5vw, 44px);
           font-weight: 200;
           color: #FFFFFF;
-          margin: 0 0 6px;
+          margin: 0 0 4px;
           letter-spacing: -0.02em;
         }
         
         .hero-tagline {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-          font-size: clamp(13px, 2.2vw, 16px);
+          font-size: clamp(12px, 2.2vw, 16px);
           font-weight: 300;
           color: #FFFFFF;
           letter-spacing: 0.05em;
@@ -377,12 +377,19 @@ export default function About() {
         .spiral-container {
           display: flex;
           justify-content: center;
-          padding: clamp(8px, 1.5vh, 16px) 0;
-          transform: scale(0.85);
+          padding: clamp(2px, 0.5vh, 8px) 0;
+          transform: scale(0.55);
           transform-origin: center;
         }
         
         @media (min-width: 600px) {
+          .spiral-container {
+            transform: scale(0.85);
+            padding: clamp(6px, 1vh, 14px) 0;
+          }
+        }
+        
+        @media (min-width: 900px) {
           .spiral-container {
             transform: scale(1);
             padding: clamp(10px, 2vh, 20px) 0;
@@ -735,9 +742,8 @@ export default function About() {
         .contact-section {
           display: flex;
           justify-content: center;
-          gap: 20px;
-          padding: clamp(20px, 3vh, 32px) 0 clamp(40px, 8vh, 80px);
-          transition: padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          gap: 16px;
+          padding: clamp(10px, 2vh, 24px) 0 clamp(20px, 4vh, 50px);
         }
         
         .contact-link {
@@ -816,25 +822,59 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* RESPONSIVE                                                                      */
+        /* RESPONSIVE - PERFECT MOBILE FIT                                                 */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         @media (max-width: 600px) {
+          .hero-section { padding: 24px 20px 2px; }
+          .hero-name { font-size: 24px; margin-bottom: 2px; }
+          .hero-tagline { font-size: 11px; }
+          
+          .spiral-container { 
+            transform: scale(0.5); 
+            padding: 0;
+            margin: -10px 0;
+          }
+          
+          .terminal-section { padding: 0 16px; }
           .terminal-window { border-radius: 14px; }
-          .terminal-header { padding: 12px 14px; gap: 6px; }
+          .terminal-header { padding: 10px 12px; gap: 6px; }
           .terminal-dot { width: 9px; height: 9px; }
           .terminal-dot::after { width: 3px; height: 3px; top: 1.5px; left: 1.5px; }
           .terminal-filename { font-size: 10px; margin-left: 10px; }
-          .scroll-hint { font-size: 8px; right: 14px; }
-          .terminal-content.collapsed { max-height: 85px; }
-          .terminal-content.expanded { max-height: clamp(240px, 45vh, 340px); }
-          .terminal-content { padding: 12px 0 36px; }
-          .code-line { padding: 1px 14px; font-size: 10px; min-height: 18px; line-height: 18px; }
-          .line-number { min-width: 24px; padding-right: 10px; font-size: 9px; }
-          .expand-button { bottom: 8px; right: 8px; width: 28px; height: 28px; border-radius: 6px; }
-          .expand-icon { width: 12px; height: 12px; }
-          .contact-icon { width: 50px; height: 50px; border-radius: 12px; }
-          .contact-icon svg { width: 20px; height: 20px; }
+          .scroll-hint { font-size: 8px; right: 12px; }
+          .terminal-content.collapsed { max-height: 75px; }
+          .terminal-content.expanded { max-height: clamp(200px, 38vh, 280px); }
+          .terminal-content { padding: 10px 0 32px; }
+          .code-line { padding: 1px 12px; font-size: 9.5px; min-height: 16px; line-height: 16px; }
+          .line-number { min-width: 22px; padding-right: 8px; font-size: 8px; }
+          .expand-button { bottom: 6px; right: 6px; width: 26px; height: 26px; border-radius: 6px; }
+          .expand-icon { width: 11px; height: 11px; }
+          
+          .contact-section { gap: 14px; padding: 8px 0 16px; }
+          .contact-link { gap: 5px; }
+          .contact-icon { width: 44px; height: 44px; border-radius: 11px; }
+          .contact-icon svg { width: 18px; height: 18px; }
+          .contact-name { font-size: 9px; }
+        }
+        
+        /* Extra small screens */
+        @media (max-width: 380px) {
+          .hero-section { padding: 20px 16px 0; }
+          .hero-name { font-size: 22px; }
+          .hero-tagline { font-size: 10px; }
+          
+          .spiral-container { 
+            transform: scale(0.42); 
+            margin: -15px 0;
+          }
+          
+          .terminal-content.collapsed { max-height: 65px; }
+          .terminal-content.expanded { max-height: clamp(180px, 35vh, 240px); }
+          .code-line { font-size: 9px; min-height: 15px; line-height: 15px; }
+          
+          .contact-icon { width: 40px; height: 40px; border-radius: 10px; }
+          .contact-icon svg { width: 16px; height: 16px; }
         }
       `}</style>
 
