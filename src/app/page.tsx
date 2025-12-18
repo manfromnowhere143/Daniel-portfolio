@@ -155,14 +155,11 @@ const personaLines = [
   "  deprecation: explicit_only"
 ];
 
-// Preview lines (collapsed state)
+// Preview lines (collapsed state) - Minimal, elegant
 const previewLines = [
   "persona_id: ragnarock_v1_unfolding",
-  "",
   "temporal_identity:",
-  "  birth_date: 1988-03-09T08:00:00",
   "  age_years_continuous: {{AGE}}",
-  "  time_model: continuous",
   "  ...",
 ];
 
@@ -243,7 +240,7 @@ export default function About() {
     return line.replace('{{AGE}}', age);
   };
 
-  // Syntax highlighting
+  // Syntax highlighting - ALL WHITE AND VISIBLE
   const highlightLine = (line: string, isAgeLine: boolean = false) => {
     if (!line) return <span>&nbsp;</span>;
 
@@ -253,11 +250,11 @@ export default function About() {
       if (parts.length === 2) {
         return (
           <>
-            <span style={{ color: 'rgba(255, 255, 255, 0.5)' }}>{parts[0]}: </span>
+            <span style={{ color: '#FFFFFF' }}>{parts[0]}: </span>
             <span style={{
-              color: '#FAFAF8',
+              color: '#FFFFFF',
               fontVariantNumeric: 'tabular-nums',
-              textShadow: '0 0 12px rgba(255, 255, 255, 0.5), 0 0 24px rgba(255, 255, 255, 0.3)'
+              textShadow: '0 0 12px rgba(255, 255, 255, 0.6), 0 0 24px rgba(255, 255, 255, 0.4)'
             }}>
               {parts[1]}
             </span>
@@ -266,40 +263,40 @@ export default function About() {
       }
     }
 
-    // Key-value with colon
+    // Key-value with colon - WHITE
     const keyMatch = line.match(/^(\s*)([a-z_]+)(:)(.*)$/);
     if (keyMatch) {
       const [, indent, key, colon, value] = keyMatch;
       return (
         <>
-          <span style={{ color: 'rgba(255, 255, 255, 0.35)' }}>{indent}</span>
-          <span style={{ color: 'rgba(255, 255, 255, 0.7)' }}>{key}</span>
-          <span style={{ color: 'rgba(255, 255, 255, 0.4)' }}>{colon}</span>
-          <span style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{value}</span>
+          <span style={{ color: '#FFFFFF' }}>{indent}</span>
+          <span style={{ color: '#FFFFFF' }}>{key}</span>
+          <span style={{ color: '#FFFFFF' }}>{colon}</span>
+          <span style={{ color: '#FFFFFF' }}>{value}</span>
         </>
       );
     }
 
-    // Array item
+    // Array item - WHITE
     const arrayMatch = line.match(/^(\s*)(-)(\s*)(.+)$/);
     if (arrayMatch) {
       const [, indent, dash, space, value] = arrayMatch;
       return (
         <>
-          <span style={{ color: 'rgba(255, 255, 255, 0.35)' }}>{indent}</span>
-          <span style={{ color: 'rgba(255, 255, 255, 0.5)' }}>{dash}</span>
-          <span style={{ color: 'rgba(255, 255, 255, 0.35)' }}>{space}</span>
-          <span style={{ color: 'rgba(255, 255, 255, 0.85)' }}>{value}</span>
+          <span style={{ color: '#FFFFFF' }}>{indent}</span>
+          <span style={{ color: '#FFFFFF' }}>{dash}</span>
+          <span style={{ color: '#FFFFFF' }}>{space}</span>
+          <span style={{ color: '#FFFFFF' }}>{value}</span>
         </>
       );
     }
 
-    // Ellipsis
+    // Ellipsis - slightly dimmer but still visible
     if (line.trim() === '...') {
-      return <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>{line}</span>;
+      return <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>{line}</span>;
     }
 
-    return <span style={{ color: 'rgba(255, 255, 255, 0.8)' }}>{line}</span>;
+    return <span style={{ color: '#FFFFFF' }}>{line}</span>;
   };
 
   const currentLines = isExpanded
@@ -329,23 +326,23 @@ export default function About() {
         
         .hero-section {
           text-align: center;
-          padding: clamp(80px, 12vh, 120px) 24px clamp(16px, 2vh, 24px);
+          padding: clamp(70px, 10vh, 100px) 24px clamp(12px, 2vh, 20px);
         }
         
         .hero-name {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-          font-size: clamp(32px, 6vw, 48px);
+          font-size: clamp(28px, 5.5vw, 44px);
           font-weight: 200;
-          color: #FAFAF8;
-          margin: 0 0 8px;
+          color: #FFFFFF;
+          margin: 0 0 6px;
           letter-spacing: -0.02em;
         }
         
         .hero-tagline {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-          font-size: clamp(14px, 2.5vw, 18px);
+          font-size: clamp(13px, 2.2vw, 16px);
           font-weight: 300;
-          color: rgba(255, 255, 255, 0.6);
+          color: #FFFFFF;
           letter-spacing: 0.05em;
         }
         
@@ -356,7 +353,16 @@ export default function About() {
         .spiral-container {
           display: flex;
           justify-content: center;
-          padding: clamp(16px, 3vh, 32px) 0;
+          padding: clamp(12px, 2vh, 24px) 0;
+          transform: scale(0.85);
+          transform-origin: center;
+        }
+        
+        @media (min-width: 600px) {
+          .spiral-container {
+            transform: scale(1);
+            padding: clamp(16px, 3vh, 32px) 0;
+          }
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -440,31 +446,32 @@ export default function About() {
           font-family: 'JetBrains Mono', 'SF Mono', monospace;
           font-size: 11px;
           font-weight: 300;
-          color: rgba(255, 255, 255, 0.5);
+          color: #FFFFFF;
           letter-spacing: 0.03em;
         }
         
         .terminal-content {
           position: relative;
-          padding: 14px 0 40px;
+          padding: 12px 0 36px;
           overflow: hidden;
-          transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
         }
         
         .terminal-content.collapsed {
-          max-height: 160px;
+          max-height: 110px;
         }
         
         .terminal-content.expanded {
           max-height: 55vh;
+          padding: 14px 0 40px;
           overflow-y: auto;
           scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+          scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
         }
         
         .terminal-content::-webkit-scrollbar { width: 4px; }
         .terminal-content::-webkit-scrollbar-track { background: transparent; }
-        .terminal-content::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 2px; }
+        .terminal-content::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 2px; }
         
         .code-line {
           display: flex;
@@ -482,7 +489,7 @@ export default function About() {
           min-width: 28px;
           padding-right: 12px;
           text-align: right;
-          color: rgba(255, 255, 255, 0.2);
+          color: rgba(255, 255, 255, 0.4);
           user-select: none;
           font-size: 10px;
         }
@@ -490,17 +497,18 @@ export default function About() {
         .line-content {
           flex: 1;
           white-space: pre;
+          color: #FFFFFF;
         }
         
         .cursor {
           display: inline-block;
           width: 2px;
           height: 12px;
-          background: rgba(255, 255, 255, 0.8);
+          background: #FFFFFF;
           margin-left: 1px;
           vertical-align: middle;
           animation: blink 1s infinite;
-          box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+          box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
         }
         
         @keyframes blink {
@@ -510,7 +518,7 @@ export default function About() {
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - EXPAND BUTTON                                                */
-        /* Pure minimal elegance - Just + / - floating                                     */
+        /* Pure minimal elegance - Just + / - floating, WHITE                              */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .expand-button {
@@ -525,14 +533,14 @@ export default function About() {
           background: transparent;
           border: none;
           cursor: pointer;
-          opacity: 0.4;
+          opacity: 0.7;
           transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
           z-index: 20;
         }
         
         .expand-button:hover {
-          opacity: 0.8;
-          transform: scale(1.1);
+          opacity: 1;
+          transform: scale(1.15);
         }
         
         .expand-button:active {
@@ -546,28 +554,28 @@ export default function About() {
           height: 14px;
         }
         
-        /* Horizontal line (always visible) */
+        /* Horizontal line (always visible) - WHITE */
         .expand-icon::before {
           content: '';
           position: absolute;
           top: 50%;
           left: 0;
           right: 0;
-          height: 1.5px;
-          background: rgba(255, 255, 255, 0.9);
+          height: 2px;
+          background: #FFFFFF;
           transform: translateY(-50%);
           border-radius: 1px;
         }
         
-        /* Vertical line (morphs on expand) */
+        /* Vertical line (morphs on expand) - WHITE */
         .expand-icon::after {
           content: '';
           position: absolute;
           left: 50%;
           top: 0;
           bottom: 0;
-          width: 1.5px;
-          background: rgba(255, 255, 255, 0.9);
+          width: 2px;
+          background: #FFFFFF;
           transform: translateX(-50%) scaleY(1);
           transform-origin: center;
           transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -586,7 +594,7 @@ export default function About() {
           display: flex;
           justify-content: center;
           gap: 20px;
-          padding: clamp(24px, 4vh, 40px) 0 clamp(60px, 10vh, 100px);
+          padding: clamp(20px, 3vh, 32px) 0 clamp(40px, 8vh, 80px);
           transition: padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
@@ -661,7 +669,7 @@ export default function About() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: 10px;
           font-weight: 400;
-          color: rgba(255, 255, 255, 0.4);
+          color: #FFFFFF;
           letter-spacing: 0.05em;
         }
         
@@ -671,12 +679,18 @@ export default function About() {
         
         @media (max-width: 600px) {
           .terminal-window { border-radius: 12px; }
-          .terminal-header { padding: 10px 14px; }
+          .terminal-header { padding: 10px 12px; gap: 6px; }
           .terminal-dot { width: 8px; height: 8px; }
           .terminal-dot::after { width: 2px; height: 2px; top: 1.5px; left: 1.5px; }
-          .code-line { padding: 0 12px; font-size: 10px; min-height: 16px; line-height: 16px; }
-          .line-number { min-width: 24px; padding-right: 8px; font-size: 9px; }
-          .contact-icon { width: 52px; height: 52px; border-radius: 13px; }
+          .terminal-filename { font-size: 10px; margin-left: 8px; }
+          .terminal-content.collapsed { max-height: 90px; }
+          .terminal-content { padding: 10px 0 32px; }
+          .code-line { padding: 0 12px; font-size: 10px; min-height: 15px; line-height: 15px; }
+          .line-number { min-width: 20px; padding-right: 8px; font-size: 9px; }
+          .expand-button { bottom: 8px; right: 8px; width: 24px; height: 24px; }
+          .expand-icon { width: 12px; height: 12px; }
+          .contact-icon { width: 50px; height: 50px; border-radius: 12px; }
+          .contact-icon svg { width: 20px; height: 20px; }
         }
       `}</style>
 
