@@ -482,138 +482,26 @@ export default function Work() {
         .folder-wrapper:nth-child(2) .folder-name { transition-delay: 120ms; }
         .folder-wrapper:nth-child(3) .folder-name { transition-delay: 180ms; }
         .folder-wrapper:nth-child(4) .folder-name { transition-delay: 240ms; }
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - FOLDER OVERLAY                                               */
-        /* Identical to Creative page - Pure Apple elegance, Steve Jobs proud              */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .folder-overlay {
-          position: fixed;
-          top: 0; left: 0; right: 0; bottom: 0;
-          z-index: 1000;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: flex-start;
-          padding-top: clamp(100px, 18vh, 180px);
-          visibility: hidden;
-          pointer-events: none;
-          touch-action: none;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-        }
-        
-        .folder-overlay.entering { visibility: visible; pointer-events: auto; }
-        .folder-overlay.active { visibility: visible; pointer-events: auto; }
-        .folder-overlay.exiting { visibility: visible; pointer-events: none; }
-        
-        .folder-overlay-bg {
-          position: absolute;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(5, 5, 6, 0.92);
-          backdrop-filter: blur(50px) saturate(150%);
-          -webkit-backdrop-filter: blur(50px) saturate(150%);
-          touch-action: none;
-          opacity: 0;
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-        }
-        
-        .folder-overlay.active .folder-overlay-bg { opacity: 1; }
-        .folder-overlay.exiting .folder-overlay-bg { opacity: 0; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
-        
-        .folder-container {
-          position: relative;
-          z-index: 2;
-          background: transparent;
-          padding: 24px;
-          opacity: 0;
-          transform: translateZ(0);
-          transition: none;
-          touch-action: none;
-        }
-        
-        .folder-overlay.active .folder-container { 
-          opacity: 1; 
-          transform: translateZ(0); 
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s; 
-        }
-        .folder-overlay.exiting .folder-container { 
-          opacity: 0; 
-          transform: translateZ(0); 
-          transition: opacity 0.25s ease; 
-        }
-        
+        .folder-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(100px, 18vh, 180px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-touch-callout: none; user-select: none; overscroll-behavior: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity, visibility; transform: translateZ(0); }
+        .folder-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .folder-overlay.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        .folder-overlay.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
+        .folder-overlay-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 5, 6, 0.92); backdrop-filter: blur(50px) saturate(150%); -webkit-backdrop-filter: blur(50px) saturate(150%); touch-action: none; }
+        .folder-container { position: relative; z-index: 2; background: transparent; padding: 24px; opacity: 0; transform: translateZ(0); transition: none; touch-action: none; }
+        .folder-overlay.active .folder-container { opacity: 1; transform: translateZ(0); transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s; }
+        .folder-overlay.exiting .folder-container { opacity: 0; transform: translateZ(0); transition: opacity 0.25s ease; }
         .folder-apps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; touch-action: none; }
-        
-        .folder-app {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 8px;
-          cursor: pointer;
-          text-decoration: none;
-          opacity: 0;
-          transform: translateZ(0) scale(0.7) translateY(12px);
-          transition: none;
-          touch-action: none;
-        }
-        
-        .folder-overlay.active .folder-app {
-          opacity: 1;
-          transform: translateZ(0) scale(1) translateY(0);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        .folder-overlay.exiting .folder-app {
-          opacity: 0;
-          transform: translateZ(0) scale(0.85) translateY(5px);
-          transition: opacity 0.15s ease, transform 0.2s ease;
-        }
-        
+        .folder-app { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; opacity: 0; transform: translateZ(0) scale(0.7) translateY(12px); transition: none; touch-action: none; }
+        .folder-overlay.active .folder-app { opacity: 1; transform: translateZ(0) scale(1) translateY(0); transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .folder-overlay.exiting .folder-app { opacity: 0; transform: translateZ(0) scale(0.85) translateY(5px); transition: opacity 0.15s ease, transform 0.2s ease; }
         .folder-overlay.active .folder-app:nth-child(1) { transition-delay: 0.04s; }
         .folder-overlay.active .folder-app:nth-child(2) { transition-delay: 0.07s; }
         .folder-overlay.active .folder-app:nth-child(3) { transition-delay: 0.10s; }
         .folder-overlay.active .folder-app:nth-child(4) { transition-delay: 0.13s; }
-        
-        .folder-app-icon {
-          width: 70px; height: 70px;
-          border-radius: 17px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          overflow: hidden;
-          box-shadow: 
-            0 0 30px var(--glow-color, rgba(0, 0, 0, 0.15)),
-            0 8px 25px rgba(0, 0, 0, 0.5),
-            0 15px 50px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.25),
-            inset 0 -1px 1px rgba(0, 0, 0, 0.25);
-        }
-        
-        .folder-app-icon::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 8%; right: 8%;
-          height: 40%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
-          border-radius: 17px 17px 50% 50%;
-          pointer-events: none;
-          z-index: 5;
-        }
-        
-        .folder-app-icon.has-image::before {
-          height: 35%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 100%);
-        }
-        
-        .folder-app-name {
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-          font-size: 12px;
-          font-weight: 400;
-          color: #FFFFFF;
-          text-align: center;
-        }
+        .folder-app-icon { width: 70px; height: 70px; border-radius: 17px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 0 30px var(--glow-color, rgba(0, 0, 0, 0.15)), 0 8px 25px rgba(0, 0, 0, 0.5), 0 15px 50px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25), inset 0 -1px 1px rgba(0, 0, 0, 0.25); }
+        .folder-app-icon::before { content: ''; position: absolute; top: 0; left: 8%; right: 8%; height: 40%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%); border-radius: 17px 17px 50% 50%; pointer-events: none; z-index: 5; }
+        .folder-app-icon.has-image::before { height: 35%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 100%); }
+        .folder-app-name { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; font-size: 12px; font-weight: 400; color: #FFFFFF; text-align: center; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - SERVICE EXPANDED                                             */
@@ -873,66 +761,14 @@ export default function Work() {
           .service-feature-pill { padding: 8px 16px; font-size: 12px; }
         }
         
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - MEDIA OVERLAY                                                */
-        /* Identical styling - Pure Apple elegance                                         */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .media-overlay {
-          position: fixed;
-          top: 0; left: 0; right: 0; bottom: 0;
-          z-index: 2000;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: flex-start;
-          padding-top: clamp(100px, 18vh, 180px);
-          visibility: hidden;
-          pointer-events: none;
-          touch-action: manipulation;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-        }
-        
-        .media-overlay.entering { visibility: visible; pointer-events: auto; }
-        .media-overlay.active { visibility: visible; pointer-events: auto; }
-        .media-overlay.exiting { visibility: visible; pointer-events: none; }
-        
-        .media-overlay-bg {
-          position: absolute;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(5, 5, 6, 0.92);
-          backdrop-filter: blur(50px) saturate(150%);
-          -webkit-backdrop-filter: blur(50px) saturate(150%);
-          touch-action: manipulation;
-          opacity: 0;
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-        }
-        
-        .media-overlay.active .media-overlay-bg { opacity: 1; }
-        .media-overlay.exiting .media-overlay-bg { opacity: 0; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
-        
-        .media-container {
-          position: relative;
-          z-index: 2;
-          background: transparent;
-          padding: 24px;
-          opacity: 0;
-          transform: translateZ(0);
-          transition: none;
-          touch-action: manipulation;
-        }
-        
-        .media-overlay.active .media-container { 
-          opacity: 1; 
-          transform: translateZ(0); 
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s; 
-        }
-        .media-overlay.exiting .media-container { 
-          opacity: 0; 
-          transform: translateZ(0); 
-          transition: opacity 0.25s ease; 
-        }
+        .media-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(100px, 18vh, 180px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: manipulation; -webkit-touch-callout: none; user-select: none; overscroll-behavior: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity, visibility; transform: translateZ(0); }
+        .media-overlay.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .media-overlay.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1); }
+        .media-overlay.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
+        .media-overlay-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 5, 6, 0.92); backdrop-filter: blur(50px) saturate(150%); -webkit-backdrop-filter: blur(50px) saturate(150%); touch-action: manipulation; }
+        .media-container { position: relative; z-index: 2; background: transparent; padding: 24px; opacity: 0; transform: translateZ(0); transition: none; touch-action: manipulation; }
+        .media-overlay.active .media-container { opacity: 1; transform: translateZ(0); transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s; }
+        .media-overlay.exiting .media-container { opacity: 0; transform: translateZ(0); transition: opacity 0.25s ease; }
         .media-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; touch-action: manipulation; }
         .media-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; opacity: 0; transform: translateZ(0) scale(0.7) translateY(12px); transition: none; touch-action: manipulation; }
         .media-overlay.active .media-item { opacity: 1; transform: translateZ(0) scale(1) translateY(0); transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -970,7 +806,7 @@ export default function Work() {
         .transition-bridge.transitioning { opacity: 0; visibility: visible; pointer-events: none; transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.5s; }
         .bridge-spinner { width: 44px; height: 44px; border: 2px solid rgba(255, 255, 255, 0.08); border-top-color: rgba(255, 255, 255, 0.8); border-radius: 50%; animation: bridgeSpin 0.9s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite; filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1)); }
         @keyframes bridgeSpin { to { transform: rotate(360deg); } }
-        @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 20px; } .folder-app-icon { width: 80px; height: 80px; border-radius: 18px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } }
+        @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 20px; } .folder-app-icon { width: 80px; height: 80px; border-radius: 18px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; border-radius: 30px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } }
         @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 26px; } .folder-app-icon { width: 95px; height: 95px; border-radius: 22px; } }
       `}</style>
 
