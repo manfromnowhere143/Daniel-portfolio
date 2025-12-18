@@ -2,6 +2,11 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+// Dynamic imports for 3D components
+const QuantumManifold = dynamic(() => import("@/components/QuantumManifold"), { ssr: false });
+const QuantumSphere = dynamic(() => import("@/components/QuantumSphere"), { ssr: false });
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // STATE OF THE ART - PREMIUM ICON SYSTEM
@@ -61,6 +66,13 @@ const socialLinks = [
   { id: 'tiktok', name: 'TikTok', url: 'https://www.tiktok.com/@danielwahnich', color: ['#0a0a0a', '#000000'], glow: 'rgba(255, 255, 255, 0.12)' },
 ];
 
+// 3D Interactive items - Sphere, Manifold, MetatronAI
+const interactiveItems = [
+  { id: 'sphere', name: 'Sphere', image: '/images/sperhaapp2.png', glow: 'rgba(100, 180, 255, 0.3)' },
+  { id: 'manifold', name: 'Manifold', image: '/images/mainfoldapp2.png', glow: 'rgba(180, 100, 255, 0.3)' },
+  { id: 'metatronai', name: 'MetatronAI', url: 'https://metatron-genesis369.vercel.app', glow: 'rgba(255, 200, 100, 0.3)' },
+];
+
 const galleryItems = [
   { src: "/images/art4.png", name: "Neural Architecture" },
   { src: "/images/art3.jpg", name: "Emergence" },
@@ -101,6 +113,9 @@ export default function Work() {
   const [expandedImage, setExpandedImage] = useState<{src: string, name: string} | null>(null);
   const [imageAnimState, setImageAnimState] = useState<AnimationState>('idle');
   const [bridgePhase, setBridgePhase] = useState<'idle' | 'loading' | 'transitioning'>('idle');
+  // 3D Interactive states
+  const [expandedInteractive, setExpandedInteractive] = useState<string | null>(null);
+  const [interactiveAnimState, setInteractiveAnimState] = useState<AnimationState>('idle');
 
   const loadedImagesRef = useRef<Set<string>>(new Set());
   const folderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -109,6 +124,7 @@ export default function Work() {
   const notesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const imageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const bridgeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const interactiveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 600);
@@ -130,6 +146,7 @@ export default function Work() {
       if (notesTimeoutRef.current) clearTimeout(notesTimeoutRef.current);
       if (imageTimeoutRef.current) clearTimeout(imageTimeoutRef.current);
       if (bridgeTimeoutRef.current) clearTimeout(bridgeTimeoutRef.current);
+      if (interactiveTimeoutRef.current) clearTimeout(interactiveTimeoutRef.current);
       restoreScroll();
     };
   }, []);
@@ -137,7 +154,7 @@ export default function Work() {
   useEffect(() => {
     const isOpen = folderAnimState !== 'idle' || expandedAnimState !== 'idle' ||
                    galleryAnimState !== 'idle' || notesAnimState !== 'idle' ||
-                   imageAnimState !== 'idle' || bridgePhase !== 'idle';
+                   imageAnimState !== 'idle' || interactiveAnimState !== 'idle' || bridgePhase !== 'idle';
 
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -339,6 +356,47 @@ export default function Work() {
     }, 400);
   }, [imageAnimState]);
 
+  // 3D Interactive handlers
+  const handleOpenInteractiveWithBridge = useCallback((id: string) => {
+    if (interactiveAnimState !== 'idle' || bridgePhase !== 'idle') return;
+
+    setBridgePhase('loading');
+
+    setTimeout(() => {
+      handleCloseFolder();
+    }, 150);
+
+    bridgeTimeoutRef.current = setTimeout(() => {
+      setExpandedInteractive(id);
+      setInteractiveAnimState('entering');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setInteractiveAnimState('active');
+          setBridgePhase('transitioning');
+          setTimeout(() => setBridgePhase('idle'), 500);
+        });
+      });
+    }, 450);
+  }, [interactiveAnimState, bridgePhase, handleCloseFolder]);
+
+  const handleCloseInteractive = useCallback(() => {
+    if (interactiveAnimState !== 'active') return;
+    setInteractiveAnimState('exiting');
+    interactiveTimeoutRef.current = setTimeout(() => {
+      setExpandedInteractive(null);
+      setInteractiveAnimState('idle');
+    }, 400);
+  }, [interactiveAnimState]);
+
+  const getInteractiveAnimClass = useCallback(() => {
+    switch (interactiveAnimState) {
+      case 'entering': return 'entering';
+      case 'active': return 'active';
+      case 'exiting': return 'exiting';
+      default: return '';
+    }
+  }, [interactiveAnimState]);
+
   // ═══════════════════════════════════════════════════════════════════════════════
   // ICON RENDERERS
   // ═══════════════════════════════════════════════════════════════════════════════
@@ -389,6 +447,42 @@ export default function Work() {
       case 'tiktok': return <svg width={size - 2} height={size - 2} viewBox="0 0 24 24" fill="white" opacity="0.9"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>;
       default: return null;
     }
+  };
+
+  // MetatronAI mini icon - Sacred geometry dodecahedron
+  const renderMetatronMini = (size: number = 18) => {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="0.8" opacity="0.3"/>
+        <circle cx="12" cy="12" r="6" stroke="white" strokeWidth="0.8" opacity="0.4"/>
+        <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="0.8" opacity="0.6"/>
+        <circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9"/>
+        <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4" stroke="white" strokeWidth="0.6" opacity="0.25"/>
+      </svg>
+    );
+  };
+
+  // MetatronAI full icon for folder
+  const renderMetatronFull = (size: number = 36) => {
+    return (
+      <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+        <circle cx="30" cy="30" r="24" stroke="white" strokeWidth="1" opacity="0.2"/>
+        <circle cx="30" cy="30" r="18" stroke="white" strokeWidth="1" opacity="0.3"/>
+        <circle cx="30" cy="30" r="12" stroke="white" strokeWidth="1" opacity="0.4"/>
+        <circle cx="30" cy="30" r="6" stroke="white" strokeWidth="1" opacity="0.6"/>
+        <circle cx="30" cy="30" r="3" fill="white" opacity="0.9"/>
+        <path d="M30 6v48M6 30h48M11 11l38 38M49 11L11 49" stroke="white" strokeWidth="0.8" opacity="0.2"/>
+        {/* Hexagonal points */}
+        <circle cx="30" cy="6" r="2" fill="white" opacity="0.6"/>
+        <circle cx="30" cy="54" r="2" fill="white" opacity="0.6"/>
+        <circle cx="6" cy="30" r="2" fill="white" opacity="0.6"/>
+        <circle cx="54" cy="30" r="2" fill="white" opacity="0.6"/>
+        <circle cx="11" cy="11" r="1.5" fill="white" opacity="0.4"/>
+        <circle cx="49" cy="49" r="1.5" fill="white" opacity="0.4"/>
+        <circle cx="49" cy="11" r="1.5" fill="white" opacity="0.4"/>
+        <circle cx="11" cy="49" r="1.5" fill="white" opacity="0.4"/>
+      </svg>
+    );
   };
 
   const renderAppFullIcon = (app: typeof appsItems[0], size: number = 48) => {
@@ -482,9 +576,46 @@ export default function Work() {
   return (
     <>
       <style>{`
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - OVERSCROLL PREVENTION                                        */
+        /* Buttery smooth, no bounce, no disruption                                        */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        html, body {
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+          -webkit-overflow-scrolling: touch;
+        }
+        
         * { -webkit-tap-highlight-color: transparent; }
-        .work-page { position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; overscroll-behavior: none; -webkit-overflow-scrolling: touch; -webkit-backface-visibility: hidden; backface-visibility: hidden; touch-action: pan-x; }
-        .work-page.overlay-open { touch-action: none; overflow: hidden; }
+        
+        .work-page { 
+          position: relative;
+          min-height: 100vh;
+          min-height: 100dvh;
+          background: #050506;
+          overflow-x: hidden;
+          overflow-y: auto;
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+          -webkit-overflow-scrolling: touch;
+          -webkit-backface-visibility: hidden; 
+          backface-visibility: hidden;
+          scroll-behavior: smooth;
+        }
+        
+        .work-page::after {
+          content: '';
+          display: block;
+          height: 1px;
+          margin-top: -1px;
+        }
+        
+        .work-page.overlay-open { 
+          overflow: hidden;
+          touch-action: none; 
+        }
+        
         .folders-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 36px 32px; max-width: 280px; margin: 0 auto; }
         .folder-wrapper { display: flex; flex-direction: column; align-items: center; gap: 10px; }
         .folder-icon { position: relative; width: 115px; height: 115px; border-radius: 28px; background: rgba(40, 40, 45, 0.65); backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; opacity: 0; transform: translateZ(0) scale(0.85) translateY(15px); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease; box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.08), 0 0 40px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -1px 1px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.04); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
@@ -496,15 +627,26 @@ export default function Work() {
         .folder-wrapper:nth-child(4) .folder-icon { transition-delay: 180ms; }
         .folder-preview { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; width: 95px; height: 95px; position: relative; z-index: 5; }
         .folder-preview-2 { grid-template-columns: repeat(2, 1fr); grid-template-rows: 1fr; height: auto; align-content: center; }
+        .folder-preview-3 { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr; height: auto; align-content: center; gap: 4px; }
+        .folder-preview-3 .folder-mini-icon { width: 28px; height: 28px; border-radius: 7px; }
         .folder-mini-icon { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 0 20px var(--glow-color, rgba(255, 255, 255, 0.08)), 0 4px 12px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.3); }
         .folder-mini-icon::before { content: ''; position: absolute; top: 0; left: 5%; right: 5%; height: 45%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%); border-radius: 11px 11px 50% 50%; pointer-events: none; z-index: 5; }
         .folder-mini-icon.has-image::before { display: none; }
         .folder-name { font-size: 12px; font-weight: 400; color: #FAFAF8; letter-spacing: 0.02em; text-align: center; opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); }
         .folder-name.loaded { opacity: 1; transform: translateY(0); }
+        .folder-name-future { color: rgba(255, 255, 255, 0.3); }
         .folder-wrapper:nth-child(1) .folder-name { transition-delay: 60ms; }
         .folder-wrapper:nth-child(2) .folder-name { transition-delay: 120ms; }
         .folder-wrapper:nth-child(3) .folder-name { transition-delay: 180ms; }
         .folder-wrapper:nth-child(4) .folder-name { transition-delay: 240ms; }
+        .folder-wrapper:nth-child(5) .folder-name { transition-delay: 300ms; }
+        .folder-wrapper:nth-child(6) .folder-name { transition-delay: 360ms; }
+        
+        /* Future folder placeholder */
+        .folder-icon-future { background: rgba(30, 30, 35, 0.4); border: 1px dashed rgba(255, 255, 255, 0.1); cursor: default; }
+        .folder-icon-future::before { display: none; }
+        .folder-icon-future:hover { transform: translateZ(0) scale(1) translateY(0); }
+        .folder-future-content { display: flex; align-items: center; justify-content: center; }
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - FOLDER OVERLAY                                               */
         /* Identical to Creative page - Pure Apple elegance, Steve Jobs proud              */
@@ -568,6 +710,7 @@ export default function Work() {
         
         .folder-apps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; touch-action: none; }
         .folder-apps-grid-2 { grid-template-columns: repeat(2, 1fr); max-width: 200px; margin: 0 auto; }
+        .folder-apps-grid-3 { grid-template-columns: repeat(3, 1fr); max-width: 280px; margin: 0 auto; }
         
         .folder-app {
           display: flex;
@@ -705,7 +848,8 @@ export default function Work() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
+          padding-top: clamp(80px, 15vh, 150px);
           background: radial-gradient(ellipse at center, rgba(15, 15, 18, 0.98) 0%, rgba(5, 5, 6, 0.99) 100%);
           opacity: 0;
           visibility: hidden;
@@ -1058,18 +1202,33 @@ export default function Work() {
         .image-expanded.active .image-expanded-close { opacity: 1; transform: scale(1); transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s; }
         .image-expanded.exiting .image-expanded-close { opacity: 0; transform: scale(0.7); transition: opacity 0.15s ease, transform 0.2s ease; }
         .image-expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
+        
+        /* 3D Interactive Expanded */
+        .interactive-expanded { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 5, 6, 0.98); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(80px, 15vh, 150px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; }
+        .interactive-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
+        .interactive-expanded.active { visibility: visible; pointer-events: auto; opacity: 1; transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .interactive-expanded.exiting { visibility: visible; pointer-events: none; opacity: 0; transition: opacity 0.35s ease; }
+        .interactive-content { width: clamp(280px, 80vw, 400px); height: clamp(280px, 80vw, 400px); border-radius: 24px; overflow: hidden; opacity: 0; transform: scale(0.9); transition: none; }
+        .interactive-expanded.active .interactive-content { opacity: 1; transform: scale(1); transition: opacity 0.45s ease 0.1s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s; }
+        .interactive-expanded.exiting .interactive-content { opacity: 0; transform: scale(0.95); transition: opacity 0.2s ease, transform 0.25s ease; }
+        .interactive-close { margin-top: 40px; width: 52px; height: 52px; border-radius: 50%; background: transparent; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transform: scale(0.5); transition: none; }
+        .interactive-expanded.active .interactive-close { opacity: 0.8; transform: scale(1); transition: opacity: 0.35s ease 0.18s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s; }
+        .interactive-expanded.exiting .interactive-close { opacity: 0; transform: scale(0.7); transition: opacity 0.15s ease; }
+        .interactive-close:hover { opacity: 1; transform: scale(1.1); }
+        .interactive-close:active { transform: scale(0.95); }
+        
         .transition-bridge { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #050506; z-index: 2500; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(180px, 30vh, 280px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity; transition: opacity 0.15s ease-out, visibility 0s linear 0.15s; }
         .transition-bridge.loading { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.12s ease-out, visibility 0s; }
         .transition-bridge.transitioning { opacity: 0; visibility: visible; pointer-events: none; transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.45s; }
         .bridge-spinner { width: 36px; height: 36px; border: 1.5px solid rgba(255, 255, 255, 0.06); border-top-color: rgba(255, 255, 255, 0.7); border-radius: 50%; animation: bridgeSpin 0.8s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.08)); }
         @keyframes bridgeSpin { to { transform: rotate(360deg); } }
-        @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 28px; } .folder-apps-grid-2 { max-width: 220px; } .folder-app-icon { width: 82px; height: 82px; border-radius: 20px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } }
-        @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 32px; } .folder-apps-grid-2 { max-width: 260px; } .folder-app-icon { width: 96px; height: 96px; border-radius: 24px; } }
+        @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-preview-3 { gap: 5px; } .folder-preview-3 .folder-mini-icon { width: 36px; height: 36px; border-radius: 9px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 28px; } .folder-apps-grid-2 { max-width: 220px; } .folder-apps-grid-3 { max-width: 320px; } .folder-app-icon { width: 82px; height: 82px; border-radius: 20px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } .interactive-content { width: 380px; height: 380px; } }
+        @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-preview-3 { gap: 6px; } .folder-preview-3 .folder-mini-icon { width: 44px; height: 44px; border-radius: 11px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 32px; } .folder-apps-grid-2 { max-width: 260px; } .folder-apps-grid-3 { max-width: 380px; } .folder-app-icon { width: 96px; height: 96px; border-radius: 24px; } .interactive-content { width: 440px; height: 440px; } }
       `}</style>
 
-      <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ minHeight: "100vh", backgroundColor: "#050506", paddingTop: "clamp(100px, 15vh, 160px)", paddingBottom: "100px", paddingLeft: "20px", paddingRight: "20px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
+      <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' || interactiveAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ paddingTop: "clamp(100px, 15vh, 160px)", paddingBottom: "clamp(80px, 15vh, 120px)", paddingLeft: "20px", paddingRight: "20px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
         <div className="folders-grid">
-          {/* Apps Folder */}
+          {/* Row 1: Apps & Services */}
           <div className="folder-wrapper">
             <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('apps')}>
               <div className="folder-preview">
@@ -1083,7 +1242,6 @@ export default function Work() {
             <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>Apps</span>
           </div>
 
-          {/* Services Folder */}
           <div className="folder-wrapper">
             <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('services')}>
               <div className="folder-preview">
@@ -1097,9 +1255,26 @@ export default function Work() {
             <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>Services</span>
           </div>
 
-          {/* Media Folder */}
+          {/* Row 2: 3D Interactive & Media */}
           <div className="folder-wrapper">
-            <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('entertainment')}>
+            <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('interactive')} style={{ transitionDelay: '240ms' }}>
+              <div className="folder-preview folder-preview-3">
+                <div className="folder-mini-icon has-image" style={{ '--glow-color': 'rgba(100, 180, 255, 0.35)' } as React.CSSProperties}>
+                  <img src="/images/sperhaapp2.png" alt="Sphere" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+                </div>
+                <div className="folder-mini-icon has-image" style={{ '--glow-color': 'rgba(180, 100, 255, 0.35)' } as React.CSSProperties}>
+                  <img src="/images/mainfoldapp2.png" alt="Manifold" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+                </div>
+                <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #151518, #0a0a0c)', '--glow-color': 'rgba(255, 200, 100, 0.35)' } as React.CSSProperties}>
+                  {renderMetatronMini(miniIconSize)}
+                </div>
+              </div>
+            </div>
+            <span className={`folder-name ${isLoaded ? 'loaded' : ''}`} style={{ transitionDelay: '300ms' }}>3D Interactive</span>
+          </div>
+
+          <div className="folder-wrapper">
+            <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('entertainment')} style={{ transitionDelay: '300ms' }}>
               <div className="folder-preview folder-preview-2">
                 <div className="folder-mini-icon has-image" style={{ '--glow-color': 'rgba(100, 60, 160, 0.35)' } as React.CSSProperties}>
                   <img src="/images/gallery.jpg" alt="Gallery" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
@@ -1109,12 +1284,12 @@ export default function Work() {
                 </div>
               </div>
             </div>
-            <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>Media</span>
+            <span className={`folder-name ${isLoaded ? 'loaded' : ''}`} style={{ transitionDelay: '360ms' }}>Media</span>
           </div>
 
-          {/* Social Folder */}
+          {/* Row 3: Social */}
           <div className="folder-wrapper">
-            <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('social')}>
+            <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('social')} style={{ transitionDelay: '360ms' }}>
               <div className="folder-preview">
                 {socialLinks.map((social) => (
                   <div key={social.id} className="folder-mini-icon" style={{ background: social.id === 'instagram' ? 'linear-gradient(145deg, #4a1942, #1a0818)' : `linear-gradient(145deg, ${social.color[0]}, ${social.color[1]})`, '--glow-color': social.glow } as React.CSSProperties}>
@@ -1123,7 +1298,7 @@ export default function Work() {
                 ))}
               </div>
             </div>
-            <span className={`folder-name ${isLoaded ? 'loaded' : ''}`}>Social</span>
+            <span className={`folder-name ${isLoaded ? 'loaded' : ''}`} style={{ transitionDelay: '420ms' }}>Social</span>
           </div>
         </div>
       </div>
@@ -1205,6 +1380,62 @@ export default function Work() {
               ))}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* 3D Interactive Folder Overlay */}
+      {openFolder === 'interactive' && (
+        <div className={`folder-overlay ${getFolderAnimClass()}`}>
+          <div className="folder-overlay-bg" onClick={handleCloseFolder} />
+          <div className="folder-container" onClick={handleCloseFolder}>
+            <div className="folder-apps-grid folder-apps-grid-3" onClick={(e) => e.stopPropagation()}>
+              <div className="folder-app" onClick={() => handleOpenInteractiveWithBridge('sphere')}>
+                <div className="folder-app-icon has-image" style={{ '--glow-color': 'rgba(100, 180, 255, 0.35)', '--breathe-delay': '0s' } as React.CSSProperties}>
+                  <img src="/images/sperhaapp2.png" alt="Sphere" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+                </div>
+                <span className="folder-app-name">Sphere</span>
+              </div>
+              <div className="folder-app" onClick={() => handleOpenInteractiveWithBridge('manifold')}>
+                <div className="folder-app-icon has-image" style={{ '--glow-color': 'rgba(180, 100, 255, 0.35)', '--breathe-delay': '0.5s' } as React.CSSProperties}>
+                  <img src="/images/mainfoldapp2.png" alt="Manifold" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+                </div>
+                <span className="folder-app-name">Manifold</span>
+              </div>
+              <div className="folder-app" onClick={() => window.open('https://metatron-genesis369.vercel.app', '_blank')}>
+                <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #151518, #0a0a0c)', '--glow-color': 'rgba(255, 200, 100, 0.35)', '--breathe-delay': '1s' } as React.CSSProperties}>
+                  {renderMetatronFull(folderIconSize)}
+                </div>
+                <span className="folder-app-name">MetatronAI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 3D Interactive Expanded Views */}
+      {expandedInteractive === 'sphere' && (
+        <div className={`interactive-expanded ${getInteractiveAnimClass()}`}>
+          <div className="interactive-content">
+            <QuantumSphere />
+          </div>
+          <button className="interactive-close" onClick={handleCloseInteractive}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6l12 12" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </div>
+      )}
+
+      {expandedInteractive === 'manifold' && (
+        <div className={`interactive-expanded ${getInteractiveAnimClass()}`}>
+          <div className="interactive-content">
+            <QuantumManifold />
+          </div>
+          <button className="interactive-close" onClick={handleCloseInteractive}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6l12 12" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
         </div>
       )}
 
