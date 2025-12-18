@@ -201,19 +201,28 @@ export default function Work() {
 
   const handleOpenServiceWithBridge = useCallback((index: number) => {
     if (expandedAnimState !== 'idle' || bridgePhase !== 'idle') return;
+
+    // Show bridge immediately - covers everything
     setBridgePhase('loading');
-    handleCloseFolder();
+
+    // Wait for bridge to be fully visible before closing folder
+    setTimeout(() => {
+      handleCloseFolder();
+    }, 150);
+
+    // Then open service after folder is closing
     bridgeTimeoutRef.current = setTimeout(() => {
       setExpandedService(index);
       setExpandedAnimState('entering');
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setExpandedAnimState('active');
+          // Fade out bridge smoothly
           setBridgePhase('transitioning');
-          setTimeout(() => setBridgePhase('idle'), 450);
+          setTimeout(() => setBridgePhase('idle'), 500);
         });
       });
-    }, 400);
+    }, 450);
   }, [expandedAnimState, bridgePhase, handleCloseFolder]);
 
   const handleCloseService = useCallback(() => {
@@ -227,8 +236,15 @@ export default function Work() {
 
   const handleOpenGalleryWithBridge = useCallback(() => {
     if (galleryAnimState !== 'idle' || bridgePhase !== 'idle') return;
+
+    // Show bridge immediately
     setBridgePhase('loading');
-    handleCloseFolder();
+
+    // Wait for bridge to be visible
+    setTimeout(() => {
+      handleCloseFolder();
+    }, 150);
+
     bridgeTimeoutRef.current = setTimeout(() => {
       setGalleryOpen(true);
       setGalleryAnimState('entering');
@@ -236,10 +252,10 @@ export default function Work() {
         requestAnimationFrame(() => {
           setGalleryAnimState('active');
           setBridgePhase('transitioning');
-          setTimeout(() => setBridgePhase('idle'), 450);
+          setTimeout(() => setBridgePhase('idle'), 500);
         });
       });
-    }, 400);
+    }, 450);
   }, [galleryAnimState, bridgePhase, handleCloseFolder]);
 
   const handleCloseGallery = useCallback(() => {
@@ -253,8 +269,15 @@ export default function Work() {
 
   const handleOpenNotesWithBridge = useCallback(() => {
     if (notesAnimState !== 'idle' || bridgePhase !== 'idle') return;
+
+    // Show bridge immediately
     setBridgePhase('loading');
-    handleCloseFolder();
+
+    // Wait for bridge to be visible
+    setTimeout(() => {
+      handleCloseFolder();
+    }, 150);
+
     bridgeTimeoutRef.current = setTimeout(() => {
       setNotesOpen(true);
       setNotesAnimState('entering');
@@ -262,10 +285,10 @@ export default function Work() {
         requestAnimationFrame(() => {
           setNotesAnimState('active');
           setBridgePhase('transitioning');
-          setTimeout(() => setBridgePhase('idle'), 450);
+          setTimeout(() => setBridgePhase('idle'), 500);
         });
       });
-    }, 400);
+    }, 450);
   }, [notesAnimState, bridgePhase, handleCloseFolder]);
 
   const handleCloseNotes = useCallback(() => {
@@ -965,10 +988,10 @@ export default function Work() {
         .image-expanded.active .image-expanded-close { opacity: 1; transform: scale(1); transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s; }
         .image-expanded.exiting .image-expanded-close { opacity: 0; transform: scale(0.7); transition: opacity 0.15s ease, transform 0.2s ease; }
         .image-expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); }
-        .transition-bridge { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #050506; z-index: 2500; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(180px, 30vh, 280px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity; transition: opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.25s; }
-        .transition-bridge.loading { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s; }
-        .transition-bridge.transitioning { opacity: 0; visibility: visible; pointer-events: none; transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.5s; }
-        .bridge-spinner { width: 44px; height: 44px; border: 2px solid rgba(255, 255, 255, 0.08); border-top-color: rgba(255, 255, 255, 0.8); border-radius: 50%; animation: bridgeSpin 0.9s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite; filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1)); }
+        .transition-bridge { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #050506; z-index: 2500; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(180px, 30vh, 280px); opacity: 0; visibility: hidden; pointer-events: none; touch-action: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; will-change: opacity; transition: opacity 0.15s ease-out, visibility 0s linear 0.15s; }
+        .transition-bridge.loading { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.12s ease-out, visibility 0s; }
+        .transition-bridge.transitioning { opacity: 0; visibility: visible; pointer-events: none; transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.45s; }
+        .bridge-spinner { width: 36px; height: 36px; border: 1.5px solid rgba(255, 255, 255, 0.06); border-top-color: rgba(255, 255, 255, 0.7); border-radius: 50%; animation: bridgeSpin 0.8s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.08)); }
         @keyframes bridgeSpin { to { transform: rotate(360deg); } }
         @media (min-width: 600px) { .folders-grid { gap: 48px 44px; max-width: 400px; } .folder-icon { width: 145px; height: 145px; border-radius: 32px; } .folder-preview { width: 120px; height: 120px; gap: 7px; } .folder-mini-icon { width: 56px; height: 56px; border-radius: 13px; } .folder-name { font-size: 13px; } .folder-container { padding: 28px; } .folder-apps-grid { gap: 20px; } .folder-app-icon { width: 80px; height: 80px; border-radius: 18px; } .media-grid { gap: 24px; } .media-item-icon { width: 90px; height: 90px; border-radius: 20px; } .media-item-name { font-size: 13px; max-width: 95px; } .media-container { padding: 32px; } .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } }
         @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 26px; } .folder-app-icon { width: 95px; height: 95px; border-radius: 22px; } }
@@ -1008,11 +1031,11 @@ export default function Work() {
           <div className="folder-wrapper">
             <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('entertainment')}>
               <div className="folder-preview folder-preview-2">
-                <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #2a1845, #150c22)', '--glow-color': 'rgba(100, 60, 160, 0.35)' } as React.CSSProperties}>
-                  <svg width={miniIconSize} height={miniIconSize} viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="white" strokeWidth="1.5" opacity="0.9"/><circle cx="8" cy="8" r="2" fill="white" opacity="0.8"/><path d="M3 16l5-5 4 4 5-5 4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/></svg>
+                <div className="folder-mini-icon has-image" style={{ '--glow-color': 'rgba(100, 60, 160, 0.35)' } as React.CSSProperties}>
+                  <img src="/images/gallery.jpg" alt="Gallery" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
                 </div>
-                <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #3d2a10, #1f1508)', '--glow-color': 'rgba(160, 120, 60, 0.35)' } as React.CSSProperties}>
-                  <svg width={miniIconSize} height={miniIconSize} viewBox="0 0 24 24" fill="none"><rect x="4" y="2" width="16" height="20" rx="2" fill="white" opacity="0.95"/><path d="M8 7h8M8 11h6M8 15h4" stroke="#3d2a10" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/></svg>
+                <div className="folder-mini-icon has-image" style={{ '--glow-color': 'rgba(160, 120, 60, 0.35)' } as React.CSSProperties}>
+                  <img src="/images/notes.jpg" alt="Notes" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
                 </div>
               </div>
             </div>
@@ -1080,14 +1103,14 @@ export default function Work() {
           <div className="folder-container" onClick={handleCloseFolder}>
             <div className="folder-apps-grid" onClick={(e) => e.stopPropagation()}>
               <div className="folder-app" onClick={handleOpenGalleryWithBridge}>
-                <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #2a1845, #150c22)', '--glow-color': 'rgba(100, 60, 160, 0.35)' } as React.CSSProperties}>
-                  <svg width="36" height="36" viewBox="0 0 60 60" fill="none"><rect x="8" y="8" width="44" height="44" rx="4" stroke="white" strokeWidth="2" opacity="0.9"/><circle cx="20" cy="20" r="5" fill="white" opacity="0.8"/><path d="M8 42l12-12 10 10 12-12 10 10" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.6"/></svg>
+                <div className="folder-app-icon has-image" style={{ '--glow-color': 'rgba(100, 60, 160, 0.35)' } as React.CSSProperties}>
+                  <img src="/images/gallery.jpg" alt="Gallery" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
                 </div>
                 <span className="folder-app-name">Gallery</span>
               </div>
               <div className="folder-app" onClick={handleOpenNotesWithBridge}>
-                <div className="folder-app-icon" style={{ background: 'linear-gradient(145deg, #3d2a10, #1f1508)', '--glow-color': 'rgba(160, 120, 60, 0.35)' } as React.CSSProperties}>
-                  <svg width="36" height="36" viewBox="0 0 60 60" fill="none"><rect x="10" y="6" width="40" height="48" rx="4" fill="white" opacity="0.95"/><path d="M18 18h24M18 28h20M18 38h14" stroke="#3d2a10" strokeWidth="2.5" strokeLinecap="round" opacity="0.4"/><rect x="10" y="6" width="40" height="8" rx="4" fill="#3d2a10" opacity="0.2"/></svg>
+                <div className="folder-app-icon has-image" style={{ '--glow-color': 'rgba(160, 120, 60, 0.35)' } as React.CSSProperties}>
+                  <img src="/images/notes.jpg" alt="Notes" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
                 </div>
                 <span className="folder-app-name">Notes</span>
               </div>
