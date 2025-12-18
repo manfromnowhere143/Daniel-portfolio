@@ -144,10 +144,12 @@ const personaLines = [
   "  decay_risk: boredom_without_depth",
   "",
   "alignment_sentence: >",
-  '  "I do not perform certainty. I build until understanding emerges."',
+  '  "I do not perform certainty.',
+  '   I build until understanding emerges."',
   "",
   "anti_alignment_sentence: >",
-  '  "I do not optimize for persuasion, only for structural truth."',
+  '  "I do not optimize for persuasion,',
+  '   only for structural truth."',
   "",
   "versioning:",
   "  version: 1.0",
@@ -329,165 +331,68 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - TERMINAL                                                     */
-        /* Sacred text viewer - scroll within to read the complete persona                 */
-        /* Mature, elegant, advanced - like reading ancient wisdom in a modern frame       */
+        /* STATE OF THE ART - FLOATING SACRED TEXT                                         */
+        /* No borders, no frame - pure text floating in void                               */
+        /* Top and bottom fade - text appears/disappears like ancient wisdom               */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .terminal-section {
-          max-width: 600px;
+          position: relative;
+          max-width: 500px;
           margin: 0 auto;
-          padding: 0 20px;
+          padding: 0 24px;
         }
         
         .terminal-window {
           position: relative;
-          background: linear-gradient(180deg, rgba(12, 12, 14, 0.95) 0%, rgba(8, 8, 10, 0.98) 100%);
-          backdrop-filter: blur(60px) saturate(180%);
-          -webkit-backdrop-filter: blur(60px) saturate(180%);
-          border-radius: 16px;
-          overflow: hidden;
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          box-shadow:
-            0 0 0 1px rgba(255, 255, 255, 0.03),
-            0 0 50px rgba(0, 0, 0, 0.5),
-            0 25px 70px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.05);
-          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .terminal-window.expanded {
-          box-shadow:
-            0 0 0 1px rgba(255, 255, 255, 0.06),
-            0 0 80px rgba(0, 0, 0, 0.6),
-            0 35px 90px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.08);
-        }
-        
-        /* Top edge highlight - ethereal glow */
-        .terminal-window::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 5%;
-          right: 5%;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          z-index: 10;
-        }
-        
-        /* Side edge accents */
-        .terminal-window::after {
-          content: '';
-          position: absolute;
-          top: 10%;
-          bottom: 10%;
-          left: 0;
-          width: 1px;
-          background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.08), transparent);
-          z-index: 10;
-        }
-        
-        .terminal-header {
-          display: flex;
-          align-items: center;
-          padding: 14px 18px;
-          background: linear-gradient(180deg, rgba(25, 25, 28, 0.7) 0%, rgba(18, 18, 20, 0.5) 100%);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-          gap: 8px;
-          position: relative;
-        }
-        
-        /* Header bottom glow line */
-        .terminal-header::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 10%;
-          right: 10%;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
-        }
-        
-        .terminal-dot {
-          width: 11px;
-          height: 11px;
-          border-radius: 50%;
-          position: relative;
-          transition: all 0.3s ease;
-        }
-        
-        .terminal-dot::after {
-          content: '';
-          position: absolute;
-          top: 2px;
-          left: 2px;
-          width: 4px;
-          height: 4px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .terminal-dot.red { 
-          background: linear-gradient(135deg, #4a3533, #2d1f1e); 
-          box-shadow: 0 0 8px rgba(255, 100, 100, 0.15);
-        }
-        .terminal-dot.yellow { 
-          background: linear-gradient(135deg, #4a4433, #2d2a1e); 
-          box-shadow: 0 0 8px rgba(255, 200, 100, 0.15);
-        }
-        .terminal-dot.green { 
-          background: linear-gradient(135deg, #334a36, #1e2d20); 
-          box-shadow: 0 0 8px rgba(100, 255, 100, 0.15);
-        }
-        
-        .terminal-filename {
-          margin-left: 12px;
-          font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
-          font-size: 11px;
-          font-weight: 400;
-          color: rgba(255, 255, 255, 0.9);
-          letter-spacing: 0.04em;
-          text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+          background: transparent;
+          overflow: visible;
         }
         
         .terminal-content {
           position: relative;
-          padding: 14px 0 50px;
+          padding: 8px 0;
           max-height: clamp(160px, 28vh, 240px);
           overflow-y: auto;
+          overflow-x: hidden;
           -webkit-overflow-scrolling: touch;
           touch-action: pan-y;
-          scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
         }
         
-        /* Custom scrollbar - minimal elegance */
         .terminal-content::-webkit-scrollbar { 
-          width: 5px; 
-        }
-        .terminal-content::-webkit-scrollbar-track { 
-          background: transparent;
-        }
-        .terminal-content::-webkit-scrollbar-thumb { 
-          background: rgba(255, 255, 255, 0.15);
-          border-radius: 3px;
-        }
-        .terminal-content::-webkit-scrollbar-thumb:hover { 
-          background: rgba(255, 255, 255, 0.25);
+          display: none;
         }
         
-        /* STATE OF THE ART - Bottom fade shadow overlay */
-        .terminal-fade {
+        /* STATE OF THE ART - Top fade overlay */
+        .terminal-fade-top {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 50px;
+          background: linear-gradient(to bottom, 
+            rgba(5, 5, 6, 1) 0%,
+            rgba(5, 5, 6, 0.9) 40%,
+            rgba(5, 5, 6, 0.5) 70%,
+            transparent 100%
+          );
+          pointer-events: none;
+          z-index: 15;
+        }
+        
+        /* STATE OF THE ART - Bottom fade overlay */
+        .terminal-fade-bottom {
           position: absolute;
           bottom: 0;
           left: 0;
           right: 0;
-          height: 60px;
+          height: 50px;
           background: linear-gradient(to top, 
-            rgba(10, 10, 12, 1) 0%,
-            rgba(10, 10, 12, 0.95) 30%,
-            rgba(10, 10, 12, 0.7) 60%,
+            rgba(5, 5, 6, 1) 0%,
+            rgba(5, 5, 6, 0.9) 40%,
+            rgba(5, 5, 6, 0.5) 70%,
             transparent 100%
           );
           pointer-events: none;
@@ -497,74 +402,49 @@ export default function About() {
         /* Floating scroll arrow indicator */
         .scroll-arrow {
           position: absolute;
-          bottom: 12px;
-          right: 12px;
+          bottom: 8px;
+          right: 0px;
           width: 28px;
           height: 28px;
           display: flex;
           align-items: center;
           justify-content: center;
           z-index: 20;
-          opacity: 0.5;
-          animation: arrowBounce 2s ease-in-out infinite;
+          opacity: 0.4;
+          animation: arrowFloat 2.5s ease-in-out infinite;
         }
         
         .scroll-arrow svg {
           width: 14px;
           height: 14px;
           stroke: #FFFFFF;
-          stroke-width: 2;
+          stroke-width: 1.5;
           fill: none;
         }
         
-        @keyframes arrowBounce {
-          0%, 100% { transform: translateY(0); opacity: 0.5; }
-          50% { transform: translateY(3px); opacity: 0.8; }
+        @keyframes arrowFloat {
+          0%, 100% { transform: translateY(0); opacity: 0.3; }
+          50% { transform: translateY(4px); opacity: 0.6; }
         }
         
         .code-line {
-          display: flex;
-          align-items: flex-start;
-          padding: 1px 18px;
-          min-height: 20px;
+          display: block;
+          padding: 1px 8px;
+          min-height: 18px;
           font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
-          font-size: 11px;
-          line-height: 20px;
-          letter-spacing: 0.03em;
-          font-weight: 400;
-          transition: background 0.2s ease;
-        }
-        
-        .code-line:hover {
-          background: rgba(255, 255, 255, 0.02);
-        }
-        
-        .line-number {
-          min-width: 32px;
-          padding-right: 14px;
-          text-align: right;
-          color: rgba(255, 255, 255, 0.25);
-          user-select: none;
-          font-size: 10px;
+          font-size: 10.5px;
+          line-height: 18px;
+          letter-spacing: 0.02em;
           font-weight: 300;
-          transition: color 0.2s ease;
-        }
-        
-        .code-line:hover .line-number {
-          color: rgba(255, 255, 255, 0.4);
+          color: rgba(255, 255, 255, 0.85);
+          white-space: pre-wrap;
+          word-break: break-word;
         }
         
         .line-content {
-          flex: 1;
-          white-space: pre;
-          color: #FFFFFF;
+          white-space: pre-wrap;
+          word-break: break-word;
         }
-        
-        .cursor {
-          display: inline-block;
-          width: 2px;
-          height: 14px;
-          background: #FFFFFF;
           margin-left: 2px;
           vertical-align: middle;
           animation: cursorBlink 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
@@ -679,18 +559,12 @@ export default function About() {
             margin: -5px 0;
           }
           
-          .terminal-section { padding: 0 16px; }
-          .terminal-window { border-radius: 14px; }
-          .terminal-header { padding: 10px 12px; gap: 6px; }
-          .terminal-dot { width: 9px; height: 9px; }
-          .terminal-dot::after { width: 3px; height: 3px; top: 1.5px; left: 1.5px; }
-          .terminal-filename { font-size: 10px; margin-left: 10px; }
-          .terminal-content { max-height: clamp(140px, 24vh, 200px); padding: 10px 0 45px; }
-          .terminal-fade { height: 50px; }
-          .scroll-arrow { bottom: 10px; right: 10px; width: 24px; height: 24px; }
+          .terminal-section { padding: 0 20px; }
+          .terminal-content { max-height: clamp(140px, 24vh, 200px); padding: 6px 0; }
+          .terminal-fade-top, .terminal-fade-bottom { height: 40px; }
+          .scroll-arrow { bottom: 6px; right: -4px; width: 24px; height: 24px; }
           .scroll-arrow svg { width: 12px; height: 12px; }
-          .code-line { padding: 1px 12px; font-size: 9.5px; min-height: 16px; line-height: 16px; }
-          .line-number { min-width: 22px; padding-right: 8px; font-size: 8px; }
+          .code-line { padding: 1px 4px; font-size: 9px; min-height: 16px; line-height: 16px; }
           
           .contact-section { gap: 14px; padding: 10px 0 16px; }
           .contact-link { gap: 5px; }
@@ -711,7 +585,8 @@ export default function About() {
           }
           
           .terminal-content { max-height: clamp(120px, 22vh, 180px); }
-          .code-line { font-size: 9px; min-height: 15px; line-height: 15px; }
+          .terminal-fade-top, .terminal-fade-bottom { height: 35px; }
+          .code-line { font-size: 8.5px; min-height: 15px; line-height: 15px; }
           
           .contact-icon { width: 40px; height: 40px; border-radius: 10px; }
           .contact-icon svg { width: 16px; height: 16px; }
@@ -730,15 +605,11 @@ export default function About() {
           <GoldenSpiral />
         </div>
 
-        {/* Terminal */}
+        {/* Floating Sacred Text */}
         <div className="terminal-section">
           <div className="terminal-window">
-            <div className="terminal-header">
-              <div className="terminal-dot red" />
-              <div className="terminal-dot yellow" />
-              <div className="terminal-dot green" />
-              <span className="terminal-filename">persona.yaml</span>
-            </div>
+            {/* Top fade - text disappears upward */}
+            <div className="terminal-fade-top" />
 
             <div className="terminal-content" ref={contentRef}>
               {personaLines.map((line, index) => {
@@ -746,7 +617,6 @@ export default function About() {
                 const isAgeLine = processedLine.includes('age_years_continuous');
                 return (
                   <div key={index} className="code-line">
-                    <span className="line-number">{index + 1}</span>
                     <span className="line-content">
                       {highlightLine(processedLine, isAgeLine)}
                     </span>
@@ -755,8 +625,8 @@ export default function About() {
               })}
             </div>
 
-            {/* Bottom fade overlay */}
-            <div className="terminal-fade" />
+            {/* Bottom fade - text disappears downward */}
+            <div className="terminal-fade-bottom" />
 
             {/* Floating scroll arrow */}
             <div className="scroll-arrow">
