@@ -101,6 +101,7 @@ const restoreScroll = () => {
 
 export default function Work() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [pageReady, setPageReady] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
   const [openFolder, setOpenFolder] = useState<string | null>(null);
   const [folderAnimState, setFolderAnimState] = useState<AnimationState>('idle');
@@ -134,8 +135,14 @@ export default function Work() {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 100);
-    return () => clearTimeout(timer);
+    // Stage 1: Page background fades in
+    const pageTimer = setTimeout(() => setPageReady(true), 50);
+    // Stage 2: Content animates in after page is visible
+    const contentTimer = setTimeout(() => setIsLoaded(true), 200);
+    return () => {
+      clearTimeout(pageTimer);
+      clearTimeout(contentTimer);
+    };
   }, []);
 
   useEffect(() => {
@@ -654,35 +661,100 @@ export default function Work() {
           touch-action: none;
           -webkit-backface-visibility: hidden; 
           backface-visibility: hidden;
+          opacity: 0;
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .work-page.page-ready {
+          opacity: 1;
         }
         
         .work-page.overlay-open { 
           touch-action: none; 
         }
         
-        .folders-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 36px 32px; max-width: 280px; margin: 0 auto; }
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - PAGE ENTRANCE                                                */
+        /* Smooth fade-in with spring animations                                           */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .folders-grid { 
+          display: grid; 
+          grid-template-columns: repeat(2, 1fr); 
+          gap: 36px 32px; 
+          max-width: 280px; 
+          margin: 0 auto;
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+        }
+        
+        .folders-grid.loaded {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
         .folder-wrapper { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-        .folder-icon { position: relative; width: 115px; height: 115px; border-radius: 28px; background: rgba(40, 40, 45, 0.65); backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; opacity: 0; transform: translateZ(0) scale(0.85) translateY(15px); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease; box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.08), 0 0 40px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -1px 1px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.04); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+        .folder-icon { 
+          position: relative; 
+          width: 115px; 
+          height: 115px; 
+          border-radius: 28px; 
+          background: rgba(40, 40, 45, 0.65); 
+          backdrop-filter: blur(30px) saturate(180%); 
+          -webkit-backdrop-filter: blur(30px) saturate(180%); 
+          display: flex; 
+          align-items: center; 
+          justify-content: center; 
+          cursor: pointer; 
+          overflow: hidden; 
+          opacity: 0; 
+          transform: translateZ(0) scale(0.8) translateY(25px); 
+          transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, opacity 0.5s ease; 
+          box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.08), 0 0 40px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -1px 1px rgba(0, 0, 0, 0.2); 
+          border: 1px solid rgba(255, 255, 255, 0.04); 
+          -webkit-backface-visibility: hidden; 
+          backface-visibility: hidden; 
+        }
         .folder-icon::before { content: ''; position: absolute; top: 0; left: 8%; right: 8%; height: 45%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 100%); border-radius: 28px 28px 50% 50%; pointer-events: none; z-index: 10; }
         .folder-icon.loaded { opacity: 1; transform: translateZ(0) scale(1) translateY(0); }
-        .folder-wrapper:nth-child(1) .folder-icon { transition-delay: 0ms; }
-        .folder-wrapper:nth-child(2) .folder-icon { transition-delay: 60ms; }
-        .folder-wrapper:nth-child(3) .folder-icon { transition-delay: 120ms; }
-        .folder-wrapper:nth-child(4) .folder-icon { transition-delay: 180ms; }
+        
+        /* Staggered entrance - wave effect */
+        .folder-wrapper:nth-child(1) .folder-icon { transition-delay: 150ms; }
+        .folder-wrapper:nth-child(2) .folder-icon { transition-delay: 220ms; }
+        .folder-wrapper:nth-child(3) .folder-icon { transition-delay: 290ms; }
+        .folder-wrapper:nth-child(4) .folder-icon { transition-delay: 360ms; }
+        .folder-wrapper:nth-child(5) .folder-icon { transition-delay: 430ms; }
+        .folder-wrapper:nth-child(6) .folder-icon { transition-delay: 500ms; }
+        
         .folder-preview { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; width: 95px; height: 95px; position: relative; z-index: 5; }
         .folder-mini-icon { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 0 20px var(--glow-color, rgba(255, 255, 255, 0.08)), 0 4px 12px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.3); }
         .folder-mini-icon::before { content: ''; position: absolute; top: 0; left: 5%; right: 5%; height: 45%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%); border-radius: 11px 11px 50% 50%; pointer-events: none; z-index: 5; }
         .folder-mini-icon.has-image::before { display: none; }
         .folder-mini-placeholder { width: 44px; height: 44px; }
-        .folder-name { font-size: 12px; font-weight: 400; color: #FAFAF8; letter-spacing: 0.02em; text-align: center; opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); }
+        
+        .folder-name { 
+          font-size: 12px; 
+          font-weight: 400; 
+          color: #FAFAF8; 
+          letter-spacing: 0.02em; 
+          text-align: center; 
+          opacity: 0; 
+          transform: translateY(10px); 
+          transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); 
+          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); 
+        }
         .folder-name.loaded { opacity: 1; transform: translateY(0); }
+        
+        /* Staggered name entrance - follows icons */
+        .folder-wrapper:nth-child(1) .folder-name { transition-delay: 250ms; }
+        .folder-wrapper:nth-child(2) .folder-name { transition-delay: 320ms; }
+        .folder-wrapper:nth-child(3) .folder-name { transition-delay: 390ms; }
+        .folder-wrapper:nth-child(4) .folder-name { transition-delay: 460ms; }
+        .folder-wrapper:nth-child(5) .folder-name { transition-delay: 530ms; }
+        .folder-wrapper:nth-child(6) .folder-name { transition-delay: 600ms; }
+        
         .folder-name-future { color: rgba(255, 255, 255, 0.3); }
-        .folder-wrapper:nth-child(1) .folder-name { transition-delay: 60ms; }
-        .folder-wrapper:nth-child(2) .folder-name { transition-delay: 120ms; }
-        .folder-wrapper:nth-child(3) .folder-name { transition-delay: 180ms; }
-        .folder-wrapper:nth-child(4) .folder-name { transition-delay: 240ms; }
-        .folder-wrapper:nth-child(5) .folder-name { transition-delay: 300ms; }
-        .folder-wrapper:nth-child(6) .folder-name { transition-delay: 360ms; }
         
         /* Future folder placeholder */
         .folder-icon-future { background: rgba(30, 30, 35, 0.4); border: 1px dashed rgba(255, 255, 255, 0.1); cursor: default; }
@@ -1269,8 +1341,8 @@ export default function Work() {
         @media (min-width: 900px) { .folders-grid { gap: 54px 50px; max-width: 480px; } .folder-icon { width: 175px; height: 175px; border-radius: 38px; } .folder-preview { width: 145px; height: 145px; gap: 8px; } .folder-mini-icon { width: 68px; height: 68px; border-radius: 15px; } .folder-mini-placeholder { width: 68px; height: 68px; } .folder-name { font-size: 14px; } .folder-container { padding: 36px; } .folder-apps-grid { gap: 32px; } .folder-app-icon { width: 96px; height: 96px; border-radius: 24px; } .folder-app-placeholder { width: 96px; height: 120px; } .interactive-content { width: 440px; height: 440px; } }
       `}</style>
 
-      <div className={`work-page ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' || interactiveAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ paddingLeft: "20px", paddingRight: "20px", paddingTop: "60px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
-        <div className="folders-grid">
+      <div className={`work-page ${pageReady ? 'page-ready' : ''} ${folderAnimState !== 'idle' || expandedAnimState !== 'idle' || galleryAnimState !== 'idle' || notesAnimState !== 'idle' || imageAnimState !== 'idle' || interactiveAnimState !== 'idle' ? 'overlay-open' : ''}`} style={{ paddingLeft: "20px", paddingRight: "20px", paddingTop: "60px", display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
+        <div className={`folders-grid ${isLoaded ? 'loaded' : ''}`}>
           {/* Row 1: Apps & Services */}
           <div className="folder-wrapper">
             <div className={`folder-icon ${isLoaded ? 'loaded' : ''}`} onClick={() => handleOpenFolder('apps')}>
