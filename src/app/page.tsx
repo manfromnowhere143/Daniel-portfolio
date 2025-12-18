@@ -360,8 +360,8 @@ export default function About() {
         
         .terminal-content {
           position: relative;
-          padding: 28px 0;
-          max-height: clamp(160px, 24vh, 190px);
+          padding: 32px 0;
+          max-height: clamp(200px, 30vh, 240px);
           overflow-y: auto !important;
           overflow-x: hidden !important;
           -webkit-overflow-scrolling: touch;
@@ -401,17 +401,18 @@ export default function About() {
         
         .terminal-fade-bottom {
           position: absolute;
-          bottom: 0;
+          bottom: -8px;
           left: -20px;
           right: -20px;
-          height: 55px;
+          height: 65px;
           background: linear-gradient(to top, 
             #050506 0%,
-            #050506 18%,
-            rgba(5, 5, 6, 0.95) 32%,
-            rgba(5, 5, 6, 0.8) 48%,
-            rgba(5, 5, 6, 0.5) 65%,
-            rgba(5, 5, 6, 0.2) 82%,
+            #050506 25%,
+            rgba(5, 5, 6, 0.98) 35%,
+            rgba(5, 5, 6, 0.9) 45%,
+            rgba(5, 5, 6, 0.7) 58%,
+            rgba(5, 5, 6, 0.4) 72%,
+            rgba(5, 5, 6, 0.15) 85%,
             transparent 100%
           );
           pointer-events: none;
@@ -579,9 +580,10 @@ export default function About() {
           }
           
           .terminal-section { padding: 0 16px; }
-          .terminal-content { max-height: clamp(140px, 22vh, 170px); padding: 24px 0; }
-          .terminal-fade-top, .terminal-fade-bottom { height: 45px; left: -16px; right: -16px; }
-          .scroll-arrow { bottom: 10px; right: -4px; width: 24px; height: 24px; }
+          .terminal-content { max-height: clamp(180px, 28vh, 220px); padding: 28px 0; }
+          .terminal-fade-top { height: 45px; left: -16px; right: -16px; }
+          .terminal-fade-bottom { height: 55px; bottom: -6px; left: -16px; right: -16px; }
+          .scroll-arrow { bottom: 8px; right: -4px; width: 24px; height: 24px; }
           .scroll-arrow svg { width: 12px; height: 12px; }
           .code-line { padding: 1px 4px; font-size: 9px; min-height: 16px; line-height: 16px; }
           
@@ -603,8 +605,9 @@ export default function About() {
             margin: -12px 0;
           }
           
-          .terminal-content { max-height: clamp(125px, 20vh, 150px); padding: 20px 0; }
-          .terminal-fade-top, .terminal-fade-bottom { height: 38px; }
+          .terminal-content { max-height: clamp(165px, 26vh, 200px); padding: 24px 0; }
+          .terminal-fade-top { height: 38px; }
+          .terminal-fade-bottom { height: 48px; bottom: -5px; }
           .code-line { font-size: 8.5px; min-height: 15px; line-height: 15px; }
           
           .contact-section { padding: 12px 0 60px; }
