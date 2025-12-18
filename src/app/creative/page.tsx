@@ -822,7 +822,8 @@ export default function Creative() {
         
         .folder-overlay.exiting .folder-overlay-bg {
           opacity: 0;
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+          /* STATE OF THE ART - Delayed fade so container disappears first */
+          transition: opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1) 0.1s;
         }
         
         .folder-container {
