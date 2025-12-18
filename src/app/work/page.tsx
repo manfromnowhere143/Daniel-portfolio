@@ -825,34 +825,46 @@ export default function Work() {
           letter-spacing: -0.02em;
           text-align: center;
           opacity: 0;
-          transform: translateY(15px);
+          transform: translateY(12px);
           transition: none;
         }
         
         .service-expanded.active .service-expanded-title {
           opacity: 1;
           transform: translateY(0);
-          transition: opacity 0.5s ease 0.2s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s;
+          transition: opacity 0.45s ease 0.15s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s;
+        }
+        
+        .service-expanded.exiting .service-expanded-title {
+          opacity: 0;
+          transform: translateY(-8px);
+          transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
         .service-expanded-desc {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           font-size: clamp(12px, 3vw, 14px);
           font-weight: 300;
-          color: rgba(255, 255, 255, 0.75);
+          color: #FFFFFF;
           text-align: center;
           line-height: 1.65;
           max-width: 300px;
           margin-bottom: 20px;
           opacity: 0;
-          transform: translateY(15px);
+          transform: translateY(12px);
           transition: none;
         }
         
         .service-expanded.active .service-expanded-desc {
           opacity: 1;
           transform: translateY(0);
-          transition: opacity 0.5s ease 0.28s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.28s;
+          transition: opacity 0.45s ease 0.18s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.18s;
+        }
+        
+        .service-expanded.exiting .service-expanded-desc {
+          opacity: 0;
+          transform: translateY(-8px);
+          transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -867,14 +879,20 @@ export default function Work() {
           max-width: 320px;
           margin-bottom: 16px;
           opacity: 0;
-          transform: translateY(15px);
+          transform: translateY(12px);
           transition: none;
         }
         
         .service-expanded.active .service-features {
           opacity: 1;
           transform: translateY(0);
-          transition: opacity 0.5s ease 0.36s, transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.36s;
+          transition: opacity 0.45s ease 0.21s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.21s;
+        }
+        
+        .service-expanded.exiting .service-features {
+          opacity: 0;
+          transform: translateY(-8px);
+          transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
         .service-feature-pill {
@@ -905,20 +923,20 @@ export default function Work() {
           cursor: pointer;
           margin-top: -8px;
           opacity: 0;
-          transform: scale(0.5) translateY(20px);
+          transform: scale(0.5) translateY(15px);
           transition: transform 0.2s ease;
         }
         
         .service-expanded.active .service-expanded-close {
           opacity: 1;
           transform: scale(1) translateY(0);
-          transition: opacity 0.4s ease 0.44s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.44s;
+          transition: opacity 0.4s ease 0.24s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.24s;
         }
         
         .service-expanded.exiting .service-expanded-close {
           opacity: 0;
-          transform: scale(0.8) translateY(10px);
-          transition: opacity 0.2s ease, transform 0.25s ease;
+          transform: scale(0.8) translateY(8px);
+          transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
         .service-expanded-close:hover {
@@ -932,7 +950,7 @@ export default function Work() {
         .service-expanded-close svg {
           width: 24px;
           height: 24px;
-          color: rgba(255, 255, 255, 0.7);
+          color: #FFFFFF;
         }
         
         @media (min-width: 600px) {
