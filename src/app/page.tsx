@@ -308,14 +308,48 @@ export default function About() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;300;400&display=swap');
         
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - OVERSCROLL PREVENTION                                        */
+        /* Buttery smooth, no bounce, no disruption at boundaries                          */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        html {
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+        }
+        
+        body {
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+        }
+        
         * { -webkit-tap-highlight-color: transparent; }
         
         .about-page {
           opacity: 0;
           transition: opacity 0.6s ease;
           min-height: 100vh;
+          min-height: 100dvh;
           background: #050506;
           overflow-x: hidden;
+          overflow-y: auto;
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+          -webkit-overflow-scrolling: touch;
+          scroll-behavior: smooth;
+        }
+        
+        .about-page::before {
+          content: '';
+          display: block;
+          height: 0;
+        }
+        
+        .about-page::after {
+          content: '';
+          display: block;
+          height: 1px;
+          margin-top: -1px;
         }
         
         .about-page.loaded { opacity: 1; }
@@ -326,7 +360,7 @@ export default function About() {
         
         .hero-section {
           text-align: center;
-          padding: clamp(70px, 10vh, 100px) 24px clamp(12px, 2vh, 20px);
+          padding: clamp(100px, 15vh, 160px) 24px clamp(12px, 2vh, 20px);
         }
         
         .hero-name {
