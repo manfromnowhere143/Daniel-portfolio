@@ -391,7 +391,8 @@ export default function About() {
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - TERMINAL                                                     */
-        /* Linus & Sam Altman proud - Pure elegance                                        */
+        /* Sacred text viewer - scroll within to read the complete persona                 */
+        /* Mature, elegant, advanced - like reading ancient wisdom in a modern frame       */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .terminal-section {
@@ -402,52 +403,79 @@ export default function About() {
         
         .terminal-window {
           position: relative;
-          background: rgba(10, 10, 12, 0.9);
-          backdrop-filter: blur(40px);
-          -webkit-backdrop-filter: blur(40px);
-          border-radius: 14px;
+          background: linear-gradient(180deg, rgba(12, 12, 14, 0.95) 0%, rgba(8, 8, 10, 0.98) 100%);
+          backdrop-filter: blur(60px) saturate(180%);
+          -webkit-backdrop-filter: blur(60px) saturate(180%);
+          border-radius: 16px;
           overflow: hidden;
           border: 1px solid rgba(255, 255, 255, 0.06);
           box-shadow:
             0 0 0 1px rgba(255, 255, 255, 0.03),
-            0 0 40px rgba(0, 0, 0, 0.4),
-            0 20px 60px rgba(0, 0, 0, 0.3);
-          transition: box-shadow 0.5s ease;
+            0 0 50px rgba(0, 0, 0, 0.5),
+            0 25px 70px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .terminal-window.expanded {
           box-shadow:
-            0 0 0 1px rgba(255, 255, 255, 0.05),
-            0 0 60px rgba(0, 0, 0, 0.5),
-            0 30px 80px rgba(0, 0, 0, 0.4);
+            0 0 0 1px rgba(255, 255, 255, 0.06),
+            0 0 80px rgba(0, 0, 0, 0.6),
+            0 35px 90px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
         
-        /* Top edge highlight */
+        /* Top edge highlight - ethereal glow */
         .terminal-window::before {
           content: '';
           position: absolute;
           top: 0;
-          left: 10%;
-          right: 10%;
+          left: 5%;
+          right: 5%;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          z-index: 10;
+        }
+        
+        /* Side edge accents */
+        .terminal-window::after {
+          content: '';
+          position: absolute;
+          top: 10%;
+          bottom: 10%;
+          left: 0;
+          width: 1px;
+          background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.08), transparent);
           z-index: 10;
         }
         
         .terminal-header {
           display: flex;
           align-items: center;
-          padding: 12px 16px;
-          background: rgba(20, 20, 22, 0.6);
+          padding: 14px 18px;
+          background: linear-gradient(180deg, rgba(25, 25, 28, 0.7) 0%, rgba(18, 18, 20, 0.5) 100%);
           border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-          gap: 7px;
+          gap: 8px;
+          position: relative;
+        }
+        
+        /* Header bottom glow line */
+        .terminal-header::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 10%;
+          right: 10%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
         }
         
         .terminal-dot {
-          width: 10px;
-          height: 10px;
+          width: 11px;
+          height: 11px;
           border-radius: 50%;
           position: relative;
+          transition: all 0.3s ease;
         }
         
         .terminal-dot::after {
@@ -455,69 +483,146 @@ export default function About() {
           position: absolute;
           top: 2px;
           left: 2px;
-          width: 3px;
-          height: 3px;
+          width: 4px;
+          height: 4px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.25);
+          background: rgba(255, 255, 255, 0.3);
         }
         
-        .terminal-dot.red { background: linear-gradient(135deg, #3d2a29, #251a19); }
-        .terminal-dot.yellow { background: linear-gradient(135deg, #3d3829, #252219); }
-        .terminal-dot.green { background: linear-gradient(135deg, #2a3d2c, #1a251b); }
+        .terminal-dot.red { 
+          background: linear-gradient(135deg, #4a3533, #2d1f1e); 
+          box-shadow: 0 0 8px rgba(255, 100, 100, 0.15);
+        }
+        .terminal-dot.yellow { 
+          background: linear-gradient(135deg, #4a4433, #2d2a1e); 
+          box-shadow: 0 0 8px rgba(255, 200, 100, 0.15);
+        }
+        .terminal-dot.green { 
+          background: linear-gradient(135deg, #334a36, #1e2d20); 
+          box-shadow: 0 0 8px rgba(100, 255, 100, 0.15);
+        }
         
         .terminal-filename {
-          margin-left: 10px;
-          font-family: 'JetBrains Mono', 'SF Mono', monospace;
+          margin-left: 12px;
+          font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
           font-size: 11px;
-          font-weight: 300;
-          color: #FFFFFF;
-          letter-spacing: 0.03em;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 0.9);
+          letter-spacing: 0.04em;
+          text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Scroll indicator hint */
+        .scroll-hint {
+          position: absolute;
+          right: 18px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 9px;
+          color: rgba(255, 255, 255, 0.3);
+          letter-spacing: 0.05em;
+          opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+        
+        .terminal-window.expanded .scroll-hint {
+          opacity: 1;
         }
         
         .terminal-content {
           position: relative;
-          padding: 12px 0 36px;
+          padding: 14px 0 40px;
           overflow: hidden;
-          transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
+          transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .terminal-content.collapsed {
-          max-height: 110px;
+          max-height: 100px;
         }
         
         .terminal-content.expanded {
-          max-height: 55vh;
-          padding: 14px 0 40px;
+          max-height: clamp(280px, 50vh, 400px);
           overflow-y: auto;
           -webkit-overflow-scrolling: touch;
           touch-action: pan-y;
           scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+          scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+          mask-image: linear-gradient(to bottom, 
+            transparent 0%, 
+            black 3%, 
+            black 92%, 
+            transparent 100%
+          );
+          -webkit-mask-image: linear-gradient(to bottom, 
+            transparent 0%, 
+            black 3%, 
+            black 92%, 
+            transparent 100%
+          );
         }
         
-        .terminal-content::-webkit-scrollbar { width: 4px; }
-        .terminal-content::-webkit-scrollbar-track { background: transparent; }
-        .terminal-content::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 2px; }
+        /* Custom scrollbar - minimal elegance */
+        .terminal-content::-webkit-scrollbar { 
+          width: 6px; 
+        }
+        .terminal-content::-webkit-scrollbar-track { 
+          background: rgba(255, 255, 255, 0.02);
+          border-radius: 3px;
+          margin: 10px 0;
+        }
+        .terminal-content::-webkit-scrollbar-thumb { 
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+          border-radius: 3px;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .terminal-content::-webkit-scrollbar-thumb:hover { 
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.15));
+        }
+        
+        /* Scroll fade indicator at bottom */
+        .terminal-content.expanded::after {
+          content: '';
+          position: sticky;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 40px;
+          background: linear-gradient(to top, rgba(10, 10, 12, 0.95), transparent);
+          pointer-events: none;
+          display: block;
+        }
         
         .code-line {
           display: flex;
           align-items: flex-start;
-          padding: 0 16px;
-          min-height: 18px;
-          font-family: 'JetBrains Mono', 'SF Mono', monospace;
+          padding: 1px 18px;
+          min-height: 20px;
+          font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
           font-size: 11px;
-          line-height: 18px;
-          letter-spacing: 0.02em;
-          font-weight: 300;
+          line-height: 20px;
+          letter-spacing: 0.03em;
+          font-weight: 400;
+          transition: background 0.2s ease;
+        }
+        
+        .code-line:hover {
+          background: rgba(255, 255, 255, 0.02);
         }
         
         .line-number {
-          min-width: 28px;
-          padding-right: 12px;
+          min-width: 32px;
+          padding-right: 14px;
           text-align: right;
-          color: rgba(255, 255, 255, 0.4);
+          color: rgba(255, 255, 255, 0.25);
           user-select: none;
           font-size: 10px;
+          font-weight: 300;
+          transition: color 0.2s ease;
+        }
+        
+        .code-line:hover .line-number {
+          color: rgba(255, 255, 255, 0.4);
         }
         
         .line-content {
@@ -529,44 +634,52 @@ export default function About() {
         .cursor {
           display: inline-block;
           width: 2px;
-          height: 12px;
+          height: 14px;
           background: #FFFFFF;
-          margin-left: 1px;
+          margin-left: 2px;
           vertical-align: middle;
-          animation: blink 1s infinite;
-          box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+          animation: cursorBlink 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          box-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.4);
+          border-radius: 1px;
         }
         
-        @keyframes blink {
-          0%, 45% { opacity: 1; }
-          50%, 100% { opacity: 0; }
+        @keyframes cursorBlink {
+          0%, 40% { opacity: 1; }
+          50%, 90% { opacity: 0; }
+          100% { opacity: 1; }
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - EXPAND BUTTON                                                */
-        /* Pure minimal elegance - Just + / - floating, WHITE                              */
+        /* Floating ethereal toggle - breathes with life                                   */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .expand-button {
           position: absolute;
-          bottom: 12px;
-          right: 12px;
-          width: 28px;
-          height: 28px;
+          bottom: 10px;
+          right: 10px;
+          width: 32px;
+          height: 32px;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: transparent;
-          border: none;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 8px;
           cursor: pointer;
-          opacity: 0.7;
-          transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          opacity: 0.8;
+          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
           z-index: 20;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
         }
         
         .expand-button:hover {
           opacity: 1;
-          transform: scale(1.15);
+          transform: scale(1.1);
+          background: rgba(255, 255, 255, 0.06);
+          border-color: rgba(255, 255, 255, 0.15);
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         }
         
         .expand-button:active {
@@ -580,7 +693,7 @@ export default function About() {
           height: 14px;
         }
         
-        /* Horizontal line (always visible) - WHITE */
+        /* Horizontal line - WHITE with glow */
         .expand-icon::before {
           content: '';
           position: absolute;
@@ -591,9 +704,10 @@ export default function About() {
           background: #FFFFFF;
           transform: translateY(-50%);
           border-radius: 1px;
+          box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
         }
         
-        /* Vertical line (morphs on expand) - WHITE */
+        /* Vertical line - morphs elegantly */
         .expand-icon::after {
           content: '';
           position: absolute;
@@ -604,12 +718,14 @@ export default function About() {
           background: #FFFFFF;
           transform: translateX(-50%) scaleY(1);
           transform-origin: center;
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
           border-radius: 1px;
+          box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
         }
         
         .expand-icon.minus::after {
           transform: translateX(-50%) scaleY(0);
+          opacity: 0;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -704,16 +820,18 @@ export default function About() {
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         @media (max-width: 600px) {
-          .terminal-window { border-radius: 12px; }
-          .terminal-header { padding: 10px 12px; gap: 6px; }
-          .terminal-dot { width: 8px; height: 8px; }
-          .terminal-dot::after { width: 2px; height: 2px; top: 1.5px; left: 1.5px; }
-          .terminal-filename { font-size: 10px; margin-left: 8px; }
-          .terminal-content.collapsed { max-height: 90px; }
-          .terminal-content { padding: 10px 0 32px; }
-          .code-line { padding: 0 12px; font-size: 10px; min-height: 15px; line-height: 15px; }
-          .line-number { min-width: 20px; padding-right: 8px; font-size: 9px; }
-          .expand-button { bottom: 8px; right: 8px; width: 24px; height: 24px; }
+          .terminal-window { border-radius: 14px; }
+          .terminal-header { padding: 12px 14px; gap: 6px; }
+          .terminal-dot { width: 9px; height: 9px; }
+          .terminal-dot::after { width: 3px; height: 3px; top: 1.5px; left: 1.5px; }
+          .terminal-filename { font-size: 10px; margin-left: 10px; }
+          .scroll-hint { font-size: 8px; right: 14px; }
+          .terminal-content.collapsed { max-height: 85px; }
+          .terminal-content.expanded { max-height: clamp(240px, 45vh, 340px); }
+          .terminal-content { padding: 12px 0 36px; }
+          .code-line { padding: 1px 14px; font-size: 10px; min-height: 18px; line-height: 18px; }
+          .line-number { min-width: 24px; padding-right: 10px; font-size: 9px; }
+          .expand-button { bottom: 8px; right: 8px; width: 28px; height: 28px; border-radius: 6px; }
           .expand-icon { width: 12px; height: 12px; }
           .contact-icon { width: 50px; height: 50px; border-radius: 12px; }
           .contact-icon svg { width: 20px; height: 20px; }
@@ -740,6 +858,7 @@ export default function About() {
               <div className="terminal-dot yellow" />
               <div className="terminal-dot green" />
               <span className="terminal-filename">persona.yaml</span>
+              <span className="scroll-hint">↕ scroll</span>
             </div>
 
             <div className={`terminal-content ${isExpanded ? 'expanded' : 'collapsed'}`} ref={contentRef}>
