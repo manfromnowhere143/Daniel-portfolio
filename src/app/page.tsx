@@ -322,18 +322,9 @@ export default function About() {
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;300;400&display=swap');
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - ALWAYS FIXED LAYOUT                                          */
-        /* Page never scrolls - only terminal content scrolls when expanded                */
+        /* STATE OF THE ART - LOCKED ABOUT PAGE                                            */
+        /* Fixed viewport, no scroll - terminal content scrolls internally                 */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        html, body {
-          overscroll-behavior: none;
-          overscroll-behavior-y: none;
-          overflow: hidden;
-          position: fixed;
-          width: 100%;
-          height: 100%;
-        }
         
         * { -webkit-tap-highlight-color: transparent; }
         
