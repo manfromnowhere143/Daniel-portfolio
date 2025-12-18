@@ -35,8 +35,9 @@ const entertainmentApps = [
 
 const interactiveApps = [
   { id: 'sphere', name: 'Sphere', image: '/images/sperhaapp2.png' },
-  { id: 'manifold', name: 'Manifold', image: null },
+  { id: 'manifold', name: 'Manifold', image: '/images/mainfoldapp2.png' },
   { id: 'architecture', name: 'Architecture', image: null },
+  { id: 'metatronai', name: 'MetatronAI', image: null, link: 'https://metatron-genesis369.vercel.app' },
 ];
 
 const icons3DItems = [
@@ -338,13 +339,123 @@ export default function Creative() {
     </svg>
   );
 
+  // STATE OF THE ART - Dodecahedron Icon for MetatronAI (White Lighting)
+  const renderDodecahedronIcon = (size: number = miniIconSize) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      {/* Outer dodecahedron shell */}
+      <path
+        d="M12 2L20 7V17L12 22L4 17V7L12 2Z"
+        stroke="white"
+        strokeWidth="1.5"
+        fill="none"
+        opacity="0.85"
+      />
+      {/* Inner pentagon */}
+      <path
+        d="M8 9L16 9L18 14L12 18L6 14L8 9Z"
+        stroke="white"
+        strokeWidth="1"
+        fill="none"
+        opacity="0.5"
+      />
+      {/* Vertex connections */}
+      <path d="M12 2V9M4 7L8 9M20 7L16 9M4 17L6 14M20 17L18 14M12 22V18" stroke="white" strokeWidth="0.8" opacity="0.35"/>
+      {/* Center sacred point */}
+      <circle cx="12" cy="12" r="2" fill="white" opacity="0.9"/>
+      <circle cx="12" cy="12" r="1" fill="white" opacity="1"/>
+    </svg>
+  );
+
+  // Full size Dodecahedron Icon - Premium White Design
+  const renderDodecahedronIconLarge = (size: number = folderIconSize) => (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+      <defs>
+        {/* Subtle white glow */}
+        <filter id="whiteGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="1.5" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        {/* Radial fade for depth */}
+        <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="white" stopOpacity="1"/>
+          <stop offset="70%" stopColor="white" stopOpacity="0.6"/>
+          <stop offset="100%" stopColor="white" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+
+      {/* Outer dodecahedron - 12-sided sacred geometry */}
+      <path
+        d="M24 4L40 14V34L24 44L8 34V14L24 4Z"
+        stroke="white"
+        strokeWidth="1.8"
+        fill="none"
+        filter="url(#whiteGlow)"
+        opacity="0.9"
+      />
+
+      {/* Secondary inner shell */}
+      <path
+        d="M24 9L36 16V32L24 39L12 32V16L24 9Z"
+        stroke="white"
+        strokeWidth="1.2"
+        fill="none"
+        opacity="0.45"
+      />
+
+      {/* Vertex ray connections - sacred lines */}
+      <g stroke="white" strokeWidth="0.8" opacity="0.3">
+        <path d="M24 4V16"/>
+        <path d="M40 14L30 18"/>
+        <path d="M40 34L30 30"/>
+        <path d="M24 44V32"/>
+        <path d="M8 34L18 30"/>
+        <path d="M8 14L18 18"/>
+      </g>
+
+      {/* Central pentagon - heart of the dodecahedron */}
+      <path
+        d="M18 18L30 18L34 28L24 34L14 28L18 18Z"
+        stroke="white"
+        strokeWidth="1.3"
+        fill="none"
+        opacity="0.65"
+      />
+
+      {/* Inner star pattern */}
+      <g stroke="white" strokeWidth="0.6" opacity="0.25">
+        <path d="M24 16L30 18L28 26L24 28L20 26L18 18L24 16Z"/>
+        <path d="M24 24L30 26L24 32L18 26L24 24Z"/>
+      </g>
+
+      {/* Sacred center - triple ring */}
+      <circle cx="24" cy="24" r="5" stroke="white" strokeWidth="0.8" fill="none" opacity="0.35"/>
+      <circle cx="24" cy="24" r="3.5" fill="white" opacity="0.25"/>
+      <circle cx="24" cy="24" r="2.2" fill="white" opacity="0.7"/>
+      <circle cx="24" cy="24" r="1.2" fill="white" opacity="1"/>
+
+      {/* Corner vertices - 6 points */}
+      <g fill="white" opacity="0.6">
+        <circle cx="24" cy="6" r="1"/>
+        <circle cx="39" cy="15" r="1"/>
+        <circle cx="39" cy="33" r="1"/>
+        <circle cx="24" cy="42" r="1"/>
+        <circle cx="9" cy="33" r="1"/>
+        <circle cx="9" cy="15" r="1"/>
+      </g>
+    </svg>
+  );
+
   const getFolderAnimClass = (folderId: string) => openFolder === folderId ? folderAnimState : '';
   const getExpandedAnimClass = (itemId: string) => expandedItem === itemId ? expandedAnimState : '';
 
   const renderFolderPreview = (folderId: string) => {
     if (folderId === 'entertainment') {
+      // 3 apps in 2x2 grid - one empty spot
       return (
-        <div className="folder-preview folder-preview-3">
+        <div className="folder-preview folder-preview-4">
           <div className="folder-mini-icon folder-mini-png">
             <Image src="/images/3diconapp2.png" alt="3D Icons" fill style={{ objectFit: 'cover' }} />
           </div>
@@ -354,11 +465,13 @@ export default function Creative() {
           <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #1a1a1f, #0d0d10)' }}>
             {render3DIconMini(miniIconSize)}
           </div>
+          <div className="folder-mini-icon folder-mini-empty" />
         </div>
       );
     } else {
+      // Interactive - 4 apps in 2x2 grid
       return (
-        <div className="folder-preview folder-preview-3">
+        <div className="folder-preview folder-preview-4">
           <div className="folder-mini-icon folder-mini-png">
             <Image src="/images/sperhaapp2.png" alt="Sphere" fill style={{ objectFit: 'cover' }} />
           </div>
@@ -367,6 +480,9 @@ export default function Creative() {
           </div>
           <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #0f1215, #070809)' }}>
             {renderInteractiveMini('architecture', miniIconSize)}
+          </div>
+          <div className="folder-mini-icon" style={{ background: 'linear-gradient(145deg, #151518, #0a0a0c)' }}>
+            {renderDodecahedronIcon(miniIconSize)}
           </div>
         </div>
       );
@@ -592,6 +708,10 @@ export default function Creative() {
         .folder-preview-3 { grid-template-rows: 1fr 1fr; }
         .folder-preview-3 .folder-mini-icon:nth-child(3) { grid-column: 1 / -1; justify-self: center; }
         
+        .folder-preview-4 { 
+          grid-template-rows: 1fr 1fr; 
+        }
+        
         .folder-mini-icon {
           width: 46px;
           height: 46px;
@@ -607,6 +727,13 @@ export default function Creative() {
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
           -webkit-transform: translateZ(0);
           transform: translateZ(0);
+        }
+        
+        .folder-mini-icon.folder-mini-empty {
+          background: rgba(255, 255, 255, 0.06);
+          box-shadow: 
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.04);
         }
         
         .folder-mini-icon.folder-mini-png {
@@ -729,8 +856,14 @@ export default function Creative() {
         
         .folder-cards-grid {
           display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: repeat(2, 1fr);
+          gap: 20px;
+        }
+        
+        .folder-cards-grid-3 {
           grid-template-columns: repeat(3, 1fr);
-          gap: 18px;
+          grid-template-rows: 1fr;
         }
         
         .folder-card {
@@ -761,6 +894,7 @@ export default function Creative() {
         .folder-overlay.active .folder-card:nth-child(1) { transition-delay: 0.05s; }
         .folder-overlay.active .folder-card:nth-child(2) { transition-delay: 0.09s; }
         .folder-overlay.active .folder-card:nth-child(3) { transition-delay: 0.13s; }
+        .folder-overlay.active .folder-card:nth-child(4) { transition-delay: 0.17s; }
         
         .folder-card-icon {
           width: 72px;
@@ -791,7 +925,20 @@ export default function Creative() {
         }
         .folder-card-icon.folder-card-png { background: transparent; }
         .folder-card-icon.folder-card-png::before { display: none; }
-        .folder-card-icon:not(.folder-card-png) { background: linear-gradient(145deg, #1a1a1f, #0d0d10); }
+        .folder-card-icon:not(.folder-card-png):not(.folder-card-icon-empty) { background: linear-gradient(145deg, #1a1a1f, #0d0d10); }
+        
+        .folder-card-icon.folder-card-icon-empty {
+          background: rgba(0, 0, 0, 0.15);
+          box-shadow: 
+            inset 0 1px 0 rgba(255, 255, 255, 0.05),
+            inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+          cursor: default;
+        }
+        
+        .folder-card.folder-card-empty {
+          pointer-events: none;
+          opacity: 0.4;
+        }
         
         .folder-card-icon:not(.folder-card-png)::before {
           content: '';
@@ -801,6 +948,10 @@ export default function Creative() {
           border-radius: 17px 17px 50% 50%;
           pointer-events: none;
           z-index: 5;
+        }
+        
+        .folder-card-icon.folder-card-icon-empty::before {
+          display: none;
         }
         
         .folder-card-name {
@@ -1394,20 +1545,20 @@ export default function Creative() {
 
       <div className={`transition-bridge ${bridgePhase}`}><div className="bridge-spinner" /></div>
 
-      {/* Entertainment Folder */}
+      {/* Entertainment Folder - 3 apps in 2x2 grid */}
       <div className={`folder-overlay ${getFolderAnimClass('entertainment')}`}>
         <div className="folder-overlay-bg" onClick={handleCloseFolder} />
         <div className="folder-container">
           <div className="folder-cards-grid">
             <div className="folder-card" onClick={() => handleOpenExpandedFromFolder('3dicons-showcase')}>
               <div className="folder-card-icon folder-card-png">
-                <Image src="/images/3diconapp2.png" alt="3D Icons" fill style={{ objectFit: 'cover', borderRadius: '17px' }} />
+                <Image src="/images/3diconapp2.png" alt="3D Icons" fill style={{ objectFit: 'cover', borderRadius: '18px' }} />
               </div>
               <span className="folder-card-name">3D Icons</span>
             </div>
             <div className="folder-card" onClick={() => handleOpenExpandedFromFolder('geometry-showcase')}>
               <div className="folder-card-icon folder-card-png">
-                <Image src="/images/geometryapp2.png" alt="Geometry" fill style={{ objectFit: 'cover', borderRadius: '17px' }} />
+                <Image src="/images/geometryapp2.png" alt="Geometry" fill style={{ objectFit: 'cover', borderRadius: '18px' }} />
               </div>
               <span className="folder-card-name">Geometry</span>
             </div>
@@ -1417,24 +1568,28 @@ export default function Creative() {
               </div>
               <span className="folder-card-name">Icons</span>
             </div>
+            <div className="folder-card folder-card-empty">
+              <div className="folder-card-icon folder-card-icon-empty" />
+              <span className="folder-card-name">&nbsp;</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Interactive Folder */}
+      {/* Interactive Folder - 4 apps in 2x2 grid */}
       <div className={`folder-overlay ${getFolderAnimClass('interactive')}`}>
         <div className="folder-overlay-bg" onClick={handleCloseFolder} />
         <div className="folder-container">
           <div className="folder-cards-grid">
             <div className="folder-card" onClick={() => handleOpenExpandedFromFolder('exp-sphere')}>
               <div className="folder-card-icon folder-card-png">
-                <Image src="/images/sperhaapp2.png" alt="Sphere" fill style={{ objectFit: 'cover', borderRadius: '17px' }} />
+                <Image src="/images/sperhaapp2.png" alt="Sphere" fill style={{ objectFit: 'cover', borderRadius: '18px' }} />
               </div>
               <span className="folder-card-name">Sphere</span>
             </div>
             <div className="folder-card" onClick={() => handleOpenExpandedFromFolder('exp-manifold')}>
               <div className="folder-card-icon folder-card-png">
-                <Image src="/images/mainfoldapp2.png" alt="Manifold" fill style={{ objectFit: 'cover', borderRadius: '17px' }} />
+                <Image src="/images/mainfoldapp2.png" alt="Manifold" fill style={{ objectFit: 'cover', borderRadius: '18px' }} />
               </div>
               <span className="folder-card-name">Manifold</span>
             </div>
@@ -1443,6 +1598,12 @@ export default function Creative() {
                 {renderInteractiveMini('architecture', folderIconSize)}
               </div>
               <span className="folder-card-name">Architecture</span>
+            </div>
+            <div className="folder-card" onClick={() => window.open('https://metatron-genesis369.vercel.app', '_blank')}>
+              <div className="folder-card-icon" style={{ background: 'linear-gradient(145deg, #151518, #0a0a0c)' }}>
+                {renderDodecahedronIconLarge(folderIconSize)}
+              </div>
+              <span className="folder-card-name">MetatronAI</span>
             </div>
           </div>
         </div>
