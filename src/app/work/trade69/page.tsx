@@ -41,6 +41,7 @@ export default function Trade69() {
   const [overlay, setOverlay] = useState<OverlayType>('none');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [overlayVisible, setOverlayVisible] = useState(false);
 
   // Video state
   const [progress, setProgress] = useState(0);
@@ -60,8 +61,13 @@ export default function Trade69() {
   useEffect(() => {
     if (overlay !== 'none') {
       document.body.style.overflow = 'hidden';
+      // Trigger visibility after mount for animation
+      requestAnimationFrame(() => {
+        setOverlayVisible(true);
+      });
     } else {
       document.body.style.overflow = '';
+      setOverlayVisible(false);
     }
     return () => { document.body.style.overflow = ''; };
   }, [overlay]);
@@ -70,18 +76,19 @@ export default function Trade69() {
     if (type === 'video' && videoRef.current) {
       videoRef.current.pause();
     }
-    setOverlay(type);
     setIsClosing(false);
+    setOverlay(type);
   };
 
   const closeOverlay = () => {
     setIsClosing(true);
+    setOverlayVisible(false);
     setTimeout(() => {
       setOverlay('none');
       setSelectedImage(null);
       setIsClosing(false);
       if (videoRef.current) videoRef.current.play().catch(() => {});
-    }, 280);
+    }, 300);
   };
 
   const openImage = (src: string) => {
@@ -126,22 +133,41 @@ export default function Trade69() {
   return (
     <>
       <style>{`
-        :root {
-          --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-          --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
-          --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - THEME VARIABLES                                              */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        :root, [data-theme="dark"] {
+          --t69-bg: #050506;
+          --t69-text: #FAFAF8;
+          --t69-text-secondary: rgba(250, 250, 248, 0.7);
+          --t69-text-muted: rgba(250, 250, 248, 0.5);
+          --t69-border: rgba(255, 255, 255, 0.06);
+          --t69-card: rgba(40, 40, 45, 0.65);
+        }
+        
+        [data-theme="light"] {
+          --t69-bg: #F5F5F0;
+          --t69-text: #1a1a1a;
+          --t69-text-secondary: rgba(26, 26, 26, 0.7);
+          --t69-text-muted: rgba(26, 26, 26, 0.5);
+          --t69-border: rgba(0, 0, 0, 0.08);
+          --t69-card: rgba(255, 255, 255, 0.85);
         }
 
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
         
         .t69-page {
           min-height: 100vh;
-          background: #050506;
+          background: var(--t69-bg);
           padding-top: 60px;
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
         }
 
-        /* HERO */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* HERO SECTION                                                                    */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .t69-hero {
           max-width: 1200px;
           margin: 0 auto;
@@ -149,27 +175,33 @@ export default function Trade69() {
           text-align: center;
           opacity: 0;
           transform: translateY(20px);
-          transition: all 0.8s var(--ease-out-expo);
+          transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .t69-hero.loaded { opacity: 1; transform: translateY(0); }
+        
         .t69-hero-img {
           max-width: clamp(260px, 65vw, 500px);
           margin: 0 auto;
           border-radius: 14px;
           overflow: hidden;
-          box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+          box-shadow: 0 40px 100px rgba(0,0,0,0.5);
         }
 
-        /* VIDEO INLINE */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* VIDEO SECTION                                                                   */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .t69-vid-section { max-width: 700px; margin: 0 auto; padding: 0 20px 20px; }
+        
         .t69-vid-wrap {
           position: relative;
           border-radius: 14px;
           overflow: hidden;
           background: #000;
-          box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+          box-shadow: 0 30px 80px rgba(0,0,0,0.4);
         }
         .t69-vid-wrap video { width: 100%; display: block; }
+        
         .t69-vid-expand {
           position: absolute;
           bottom: 12px;
@@ -187,12 +219,15 @@ export default function Trade69() {
           cursor: pointer;
           opacity: 0;
           transform: scale(0.9);
-          transition: all 0.3s var(--ease-out);
+          transition: all 0.3s ease;
         }
         .t69-vid-wrap:hover .t69-vid-expand { opacity: 1; transform: scale(1); }
         .t69-vid-expand svg { width: 16px; height: 16px; color: white; }
 
-        /* FOLDERS */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* FOLDERS - iOS Style                                                             */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .t69-folders {
           max-width: 600px;
           margin: 0 auto;
@@ -201,132 +236,147 @@ export default function Trade69() {
           justify-content: center;
           gap: clamp(50px, 12vw, 100px);
         }
-        .t69-folder { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        
+        .t69-folder { 
+          display: flex; 
+          flex-direction: column; 
+          align-items: center; 
+          gap: 10px; 
+        }
+        
         .t69-folder-btn {
           width: 80px;
           height: 80px;
           border-radius: 20px;
-          background: linear-gradient(145deg, rgba(60,60,65,0.8), rgba(40,40,45,0.9));
+          background: var(--t69-card);
           backdrop-filter: blur(30px);
           -webkit-backdrop-filter: blur(30px);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          border: none;
+          border: 1px solid var(--t69-border);
           opacity: 0;
           transform: scale(0.85) translateY(12px);
-          transition: all 0.5s var(--ease-out-back);
-          box-shadow: 
-            0 8px 32px rgba(0,0,0,0.5),
-            inset 0 1px 0 rgba(255,255,255,0.1),
-            inset 0 -1px 0 rgba(0,0,0,0.2);
+          transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+          box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
         .t69-folder-btn.loaded { opacity: 1; transform: scale(1) translateY(0); }
         .t69-folder-btn:hover { transform: scale(1.05) translateY(-2px); }
         .t69-folder-btn:active { transform: scale(0.95); }
         
         .t69-folder-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px; }
+        
         .t69-folder-thumb {
           width: 28px;
           height: 28px;
           border-radius: 6px;
           overflow: hidden;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+          box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
         .t69-folder-thumb img { width: 100%; height: 100%; object-fit: cover; }
         
         .t69-arch-ico { display: flex; align-items: center; justify-content: center; }
-        .t69-arch-ico svg { width: 38px; height: 38px; color: rgba(255,255,255,0.85); }
+        .t69-arch-ico svg { width: 38px; height: 38px; color: var(--t69-text-secondary); }
         
         .t69-folder-label {
           font-size: 11px;
           font-weight: 500;
-          color: #fff;
+          color: var(--t69-text);
           opacity: 0;
           transform: translateY(6px);
-          transition: all 0.4s var(--ease-out) 0.1s;
+          transition: all 0.4s ease 0.1s;
         }
         .t69-folder-label.loaded { opacity: 0.9; transform: translateY(0); }
 
-        /* ═══════════════════════════════════════════════════════════════
-           OVERLAY SYSTEM - STATE OF THE ART
-           ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* OVERLAY SYSTEM - STATE OF THE ART                                               */
+        /* Fixed, reliable, no animation failures                                          */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .t69-overlay {
           position: fixed;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          z-index: 99999;
+          z-index: 999999;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(0,0,0,0.95);
+          background: rgba(0,0,0,0.92);
           opacity: 0;
-          animation: t69-fadeIn 0.3s var(--ease-out) forwards;
-        }
-        .t69-overlay.closing {
-          animation: t69-fadeOut 0.25s var(--ease-out) forwards;
+          visibility: hidden;
+          transition: opacity 0.3s ease, visibility 0.3s ease;
         }
         
-        @keyframes t69-fadeIn { to { opacity: 1; } }
-        @keyframes t69-fadeOut { to { opacity: 0; } }
+        .t69-overlay.visible {
+          opacity: 1;
+          visibility: visible;
+        }
+        
+        .t69-overlay.closing {
+          opacity: 0;
+        }
 
         .t69-overlay-content {
           opacity: 0;
-          transform: scale(0.94) translateY(16px);
-          animation: t69-slideUp 0.4s var(--ease-out-back) 0.05s forwards;
-        }
-        .t69-overlay.closing .t69-overlay-content {
-          animation: t69-slideDown 0.2s var(--ease-out) forwards;
+          transform: scale(0.95) translateY(10px);
+          transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
-        @keyframes t69-slideUp {
-          to { opacity: 1; transform: scale(1) translateY(0); }
+        .t69-overlay.visible .t69-overlay-content {
+          opacity: 1;
+          transform: scale(1) translateY(0);
         }
-        @keyframes t69-slideDown {
-          to { opacity: 0; transform: scale(0.97) translateY(8px); }
+        
+        .t69-overlay.closing .t69-overlay-content {
+          opacity: 0;
+          transform: scale(0.97) translateY(5px);
+          transition: all 0.2s ease;
         }
 
+        /* Close Button */
         .t69-close-btn {
           position: fixed;
-          bottom: max(20px, env(safe-area-inset-bottom, 20px));
+          bottom: max(24px, env(safe-area-inset-bottom, 24px));
           left: 50%;
-          transform: translateX(-50%) scale(0.7);
-          width: 50px;
-          height: 50px;
+          transform: translateX(-50%) scale(0.8);
+          width: 52px;
+          height: 52px;
           border-radius: 50%;
           background: rgba(255,255,255,0.12);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.1);
+          border: 1px solid rgba(255,255,255,0.15);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           opacity: 0;
-          animation: t69-closeBtnIn 0.4s var(--ease-out-back) 0.15s forwards;
-          z-index: 100;
-        }
-        .t69-overlay.closing .t69-close-btn {
-          animation: t69-closeBtnOut 0.15s var(--ease-out) forwards;
+          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+          z-index: 1000000;
         }
         
-        @keyframes t69-closeBtnIn {
-          to { opacity: 1; transform: translateX(-50%) scale(1); }
+        .t69-overlay.visible .t69-close-btn {
+          opacity: 1;
+          transform: translateX(-50%) scale(1);
         }
-        @keyframes t69-closeBtnOut {
-          to { opacity: 0; transform: translateX(-50%) scale(0.8); }
+        
+        .t69-overlay.closing .t69-close-btn {
+          opacity: 0;
+          transform: translateX(-50%) scale(0.8);
+          transition: all 0.15s ease;
         }
         
         .t69-close-btn:hover { background: rgba(255,255,255,0.2); }
-        .t69-close-btn:active { transform: translateX(-50%) scale(0.9); }
+        .t69-close-btn:active { transform: translateX(-50%) scale(0.92); }
         .t69-close-btn svg { width: 22px; height: 22px; color: white; }
 
-        /* ═══════════════════════════════════════════════════════════════
-           VIDEO THEATER
-           ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* VIDEO THEATER                                                                   */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .t69-video-overlay { background: #000; }
         
         .t69-theater {
@@ -354,19 +404,19 @@ export default function Trade69() {
 
         .t69-video-ui {
           position: fixed;
-          bottom: 80px;
+          bottom: 90px;
           left: 50%;
           transform: translateX(-50%);
           width: calc(100% - 40px);
           max-width: 500px;
           opacity: 1;
           transition: opacity 0.3s;
-          z-index: 10;
+          z-index: 1000001;
         }
         .t69-video-ui.hidden { opacity: 0; pointer-events: none; }
 
         .t69-progress-bar {
-          height: 20px;
+          height: 24px;
           display: flex;
           align-items: center;
           cursor: pointer;
@@ -374,12 +424,12 @@ export default function Trade69() {
         }
         .t69-progress-track {
           width: 100%;
-          height: 3px;
+          height: 4px;
           background: rgba(255,255,255,0.3);
           border-radius: 2px;
           transition: height 0.15s;
         }
-        .t69-progress-bar:hover .t69-progress-track { height: 5px; }
+        .t69-progress-bar:hover .t69-progress-track { height: 6px; }
         .t69-progress-fill {
           height: 100%;
           background: #e50914;
@@ -389,10 +439,10 @@ export default function Trade69() {
         .t69-progress-fill::after {
           content: '';
           position: absolute;
-          right: -5px;
+          right: -6px;
           top: 50%;
-          width: 10px;
-          height: 10px;
+          width: 12px;
+          height: 12px;
           background: #fff;
           border-radius: 50%;
           transform: translateY(-50%) scale(0);
@@ -465,19 +515,28 @@ export default function Trade69() {
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.2s;
+          z-index: 1000001;
         }
         .t69-play-indicator.show { opacity: 1; }
         .t69-play-indicator svg { width: 32px; height: 32px; color: white; margin-left: 3px; }
 
-        /* ═══════════════════════════════════════════════════════════════
-           GALLERY CARD
-           ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* GALLERY CARD                                                                    */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .t69-gallery-card {
           width: 280px;
-          background: #fff;
+          background: var(--t69-card);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
           border-radius: 24px;
           padding: 16px;
-          box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+          box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+          border: 1px solid var(--t69-border);
+        }
+        
+        [data-theme="light"] .t69-gallery-card {
+          background: #fff;
         }
         
         @media (min-width: 400px) {
@@ -502,28 +561,17 @@ export default function Trade69() {
           overflow: hidden;
           cursor: pointer;
           box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-          opacity: 0;
-          transform: scale(0.85);
-          animation: t69-thumbIn 0.4s var(--ease-out-back) forwards;
-        }
-        .t69-gallery-item:nth-child(1) { animation-delay: 0.05s; }
-        .t69-gallery-item:nth-child(2) { animation-delay: 0.08s; }
-        .t69-gallery-item:nth-child(3) { animation-delay: 0.11s; }
-        .t69-gallery-item:nth-child(4) { animation-delay: 0.14s; }
-        .t69-gallery-item:nth-child(5) { animation-delay: 0.17s; }
-        .t69-gallery-item:nth-child(6) { animation-delay: 0.20s; }
-        .t69-gallery-item:nth-child(7) { animation-delay: 0.23s; }
-        
-        @keyframes t69-thumbIn {
-          to { opacity: 1; transform: scale(1); }
+          transition: transform 0.3s ease;
         }
         
-        .t69-gallery-item:active { transform: scale(0.95); }
+        .t69-gallery-item:hover { transform: scale(1.03); }
+        .t69-gallery-item:active { transform: scale(0.97); }
         .t69-gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* ═══════════════════════════════════════════════════════════════
-           ARCHITECTURE CARD
-           ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* ARCHITECTURE CARD                                                               */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .t69-arch-card {
           width: 280px;
           aspect-ratio: 1;
@@ -540,18 +588,19 @@ export default function Trade69() {
           .t69-arch-card { width: 320px; }
         }
         @media (min-width: 768px) {
-          .t69-arch-card { width: 380px; border-radius: 28px; }
+          .t69-arch-card { width: 400px; border-radius: 28px; }
         }
 
-        /* ═══════════════════════════════════════════════════════════════
-           IMAGE EXPANDED
-           ═══════════════════════════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* IMAGE EXPANDED                                                                  */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .t69-image-expanded {
           max-width: calc(100vw - 32px);
           max-height: 75vh;
           border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+          box-shadow: 0 30px 80px rgba(0,0,0,0.5);
         }
         .t69-image-expanded img {
           display: block;
@@ -564,22 +613,26 @@ export default function Trade69() {
           .t69-image-expanded { max-width: 700px; border-radius: 16px; }
         }
 
-        /* CONTENT SECTIONS */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* CONTENT SECTIONS                                                                */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .t69-section-label {
           font-size: 9px;
           font-weight: 500;
           letter-spacing: 0.2em;
           text-transform: uppercase;
-          color: #fff;
+          color: var(--t69-text);
           opacity: 0.5;
           text-align: center;
           margin-bottom: 16px;
         }
+        
         .t69-overview { max-width: 640px; margin: 0 auto; padding: 20px 20px 28px; }
         .t69-overview p {
           font-size: clamp(15px, 2vw, 18px);
           font-weight: 300;
-          color: #fff;
+          color: var(--t69-text);
           line-height: 1.75;
           margin-bottom: 14px;
         }
@@ -593,43 +646,81 @@ export default function Trade69() {
           gap: clamp(8px, 1.5vw, 16px);
           align-items: baseline;
           padding: 10px 0;
-          border-bottom: 1px solid rgba(255,255,255,0.06);
+          border-bottom: 1px solid var(--t69-border);
         }
         .t69-data-item:last-child { border-bottom: none; }
-        .t69-data-num { font-size: 9px; font-weight: 500; color: #fff; opacity: 0.4; font-family: 'SF Mono', monospace; }
-        .t69-data-source { font-size: clamp(12px, 1.5vw, 14px); font-weight: 500; color: #fff; }
-        .t69-data-desc { font-size: clamp(11px, 1.3vw, 13px); color: #fff; opacity: 0.7; line-height: 1.5; }
+        .t69-data-num { 
+          font-size: 9px; 
+          font-weight: 500; 
+          color: var(--t69-text); 
+          opacity: 0.4; 
+          font-family: 'SF Mono', monospace; 
+        }
+        .t69-data-source { 
+          font-size: clamp(12px, 1.5vw, 14px); 
+          font-weight: 500; 
+          color: var(--t69-text); 
+        }
+        .t69-data-desc { 
+          font-size: clamp(11px, 1.3vw, 13px); 
+          color: var(--t69-text-secondary); 
+          line-height: 1.5; 
+        }
+        
         @media (max-width: 600px) {
           .t69-data-item { grid-template-columns: 22px 1fr; }
           .t69-data-desc { grid-column: 2; margin-top: 3px; }
         }
         
         .t69-intel { max-width: 860px; margin: 0 auto; padding: 28px 20px; }
-        .t69-intel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: clamp(24px, 4vw, 40px); }
+        .t69-intel-grid { 
+          display: grid; 
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+          gap: clamp(24px, 4vw, 40px); 
+        }
         .t69-intel-item { text-align: center; }
         .t69-intel-num {
           width: 44px;
           height: 44px;
           border-radius: 50%;
-          border: 1px solid rgba(255,255,255,0.15);
+          border: 1px solid var(--t69-border);
           display: flex;
           align-items: center;
           justify-content: center;
           margin: 0 auto 12px;
         }
-        .t69-intel-num span { font-size: 11px; color: #fff; opacity: 0.7; font-family: 'SF Mono', monospace; }
-        .t69-intel-title { font-size: clamp(13px, 1.5vw, 15px); font-weight: 500; color: #fff; margin-bottom: 8px; }
-        .t69-intel-desc { font-size: 12px; color: #fff; opacity: 0.7; line-height: 1.6; max-width: 220px; margin: 0 auto; }
+        .t69-intel-num span { 
+          font-size: 11px; 
+          color: var(--t69-text-secondary); 
+          font-family: 'SF Mono', monospace; 
+        }
+        .t69-intel-title { 
+          font-size: clamp(13px, 1.5vw, 15px); 
+          font-weight: 500; 
+          color: var(--t69-text); 
+          margin-bottom: 8px; 
+        }
+        .t69-intel-desc { 
+          font-size: 12px; 
+          color: var(--t69-text-secondary); 
+          line-height: 1.6; 
+          max-width: 220px; 
+          margin: 0 auto; 
+        }
         
         .t69-stack { max-width: 660px; margin: 0 auto; padding: 28px 20px; text-align: center; }
-        .t69-stack p { font-size: clamp(11px, 1.3vw, 13px); color: #fff; opacity: 0.6; line-height: 2; }
+        .t69-stack p { 
+          font-size: clamp(11px, 1.3vw, 13px); 
+          color: var(--t69-text-muted); 
+          line-height: 2; 
+        }
         
-        .t69-nav { border-top: 1px solid rgba(255,255,255,0.06); padding: 24px 20px; }
+        .t69-nav { border-top: 1px solid var(--t69-border); padding: 24px 20px; }
         .t69-nav-inner { max-width: 860px; margin: 0 auto; display: flex; justify-content: space-between; }
         .t69-nav a {
           font-size: 10px;
           font-weight: 500;
-          color: #fff;
+          color: var(--t69-text);
           opacity: 0.5;
           text-decoration: none;
           letter-spacing: 0.1em;
@@ -638,7 +729,10 @@ export default function Trade69() {
         }
         .t69-nav a:hover { opacity: 1; }
 
-        /* RESPONSIVE FOLDERS */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* RESPONSIVE FOLDERS                                                              */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         @media (min-width: 500px) {
           .t69-folder-btn { width: 95px; height: 95px; border-radius: 24px; }
           .t69-folder-thumb { width: 34px; height: 34px; border-radius: 8px; }
@@ -745,10 +839,12 @@ export default function Trade69() {
         </nav>
       </div>
 
-      {/* VIDEO OVERLAY */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* VIDEO OVERLAY                                                                   */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {overlay === 'video' && (
         <div
-          className={`t69-overlay t69-video-overlay ${isClosing ? 'closing' : ''}`}
+          className={`t69-overlay t69-video-overlay ${overlayVisible ? 'visible' : ''} ${isClosing ? 'closing' : ''}`}
           onClick={closeOverlay}
           onMouseMove={resetControlsTimer}
           onTouchStart={resetControlsTimer}
@@ -816,9 +912,11 @@ export default function Trade69() {
         </div>
       )}
 
-      {/* GALLERY OVERLAY */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* GALLERY OVERLAY                                                                 */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {overlay === 'gallery' && (
-        <div className={`t69-overlay ${isClosing ? 'closing' : ''}`} onClick={closeOverlay}>
+        <div className={`t69-overlay ${overlayVisible ? 'visible' : ''} ${isClosing ? 'closing' : ''}`} onClick={closeOverlay}>
           <div className="t69-overlay-content" onClick={e => e.stopPropagation()}>
             <div className="t69-gallery-card">
               <div className="t69-gallery-grid">
@@ -838,9 +936,11 @@ export default function Trade69() {
         </div>
       )}
 
-      {/* ARCHITECTURE OVERLAY */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* ARCHITECTURE OVERLAY                                                            */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {overlay === 'arch' && (
-        <div className={`t69-overlay ${isClosing ? 'closing' : ''}`} onClick={closeOverlay}>
+        <div className={`t69-overlay ${overlayVisible ? 'visible' : ''} ${isClosing ? 'closing' : ''}`} onClick={closeOverlay}>
           <div className="t69-overlay-content" onClick={e => e.stopPropagation()}>
             <div className="t69-arch-card">
               <Trade69Architecture />
@@ -854,9 +954,11 @@ export default function Trade69() {
         </div>
       )}
 
-      {/* IMAGE OVERLAY */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
+      {/* IMAGE OVERLAY                                                                   */}
+      {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {overlay === 'image' && selectedImage && (
-        <div className={`t69-overlay ${isClosing ? 'closing' : ''}`} onClick={closeOverlay}>
+        <div className={`t69-overlay ${overlayVisible ? 'visible' : ''} ${isClosing ? 'closing' : ''}`} onClick={closeOverlay}>
           <div className="t69-overlay-content" onClick={e => e.stopPropagation()}>
             <div className="t69-image-expanded">
               <img src={selectedImage} alt="" />
