@@ -40,8 +40,6 @@ export default function Trade69() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [overlay, setOverlay] = useState<OverlayType>('none');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [isClosing, setIsClosing] = useState(false);
-  const [overlayVisible, setOverlayVisible] = useState(false);
 
   // Video state
   const [progress, setProgress] = useState(0);
@@ -61,13 +59,8 @@ export default function Trade69() {
   useEffect(() => {
     if (overlay !== 'none') {
       document.body.style.overflow = 'hidden';
-      // Trigger visibility after mount for animation
-      requestAnimationFrame(() => {
-        setOverlayVisible(true);
-      });
     } else {
       document.body.style.overflow = '';
-      setOverlayVisible(false);
     }
     return () => { document.body.style.overflow = ''; };
   }, [overlay]);
@@ -76,19 +69,13 @@ export default function Trade69() {
     if (type === 'video' && videoRef.current) {
       videoRef.current.pause();
     }
-    setIsClosing(false);
     setOverlay(type);
   };
 
   const closeOverlay = () => {
-    setIsClosing(true);
-    setOverlayVisible(false);
-    setTimeout(() => {
-      setOverlay('none');
-      setSelectedImage(null);
-      setIsClosing(false);
-      if (videoRef.current) videoRef.current.play().catch(() => {});
-    }, 300);
+    setOverlay('none');
+    setSelectedImage(null);
+    if (videoRef.current) videoRef.current.play().catch(() => {});
   };
 
   const openImage = (src: string) => {
@@ -290,87 +277,52 @@ export default function Trade69() {
         .t69-folder-label.loaded { opacity: 0.9; transform: translateY(0); }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* OVERLAY SYSTEM - STATE OF THE ART                                               */
-        /* Fixed, reliable, no animation failures                                          */
+        /* OVERLAY SYSTEM - BULLETPROOF SIMPLE                                             */
+        /* No fancy animations - just WORKS                                                */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .t69-overlay {
           position: fixed;
           top: 0;
           left: 0;
-          right: 0;
-          bottom: 0;
+          width: 100vw;
+          height: 100vh;
           z-index: 999999;
+          background: rgba(0,0,0,0.95);
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(0,0,0,0.92);
-          opacity: 0;
-          visibility: hidden;
-          transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        
-        .t69-overlay.visible {
-          opacity: 1;
-          visibility: visible;
-        }
-        
-        .t69-overlay.closing {
-          opacity: 0;
+          padding-bottom: 80px;
         }
 
         .t69-overlay-content {
-          opacity: 0;
-          transform: scale(0.95) translateY(10px);
-          transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        .t69-overlay.visible .t69-overlay-content {
-          opacity: 1;
-          transform: scale(1) translateY(0);
-        }
-        
-        .t69-overlay.closing .t69-overlay-content {
-          opacity: 0;
-          transform: scale(0.97) translateY(5px);
-          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         /* Close Button */
         .t69-close-btn {
           position: fixed;
-          bottom: max(24px, env(safe-area-inset-bottom, 24px));
+          bottom: 24px;
           left: 50%;
-          transform: translateX(-50%) scale(0.8);
+          transform: translateX(-50%);
           width: 52px;
           height: 52px;
           border-radius: 50%;
-          background: rgba(255,255,255,0.12);
+          background: rgba(255,255,255,0.15);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.15);
+          border: 1px solid rgba(255,255,255,0.2);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          opacity: 0;
-          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
           z-index: 1000000;
         }
         
-        .t69-overlay.visible .t69-close-btn {
-          opacity: 1;
-          transform: translateX(-50%) scale(1);
-        }
-        
-        .t69-overlay.closing .t69-close-btn {
-          opacity: 0;
-          transform: translateX(-50%) scale(0.8);
-          transition: all 0.15s ease;
-        }
-        
-        .t69-close-btn:hover { background: rgba(255,255,255,0.2); }
-        .t69-close-btn:active { transform: translateX(-50%) scale(0.92); }
+        .t69-close-btn:hover { background: rgba(255,255,255,0.25); }
+        .t69-close-btn:active { transform: translateX(-50%) scale(0.95); }
         .t69-close-btn svg { width: 22px; height: 22px; color: white; }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -380,26 +332,21 @@ export default function Trade69() {
         .t69-video-overlay { background: #000; }
         
         .t69-theater {
-          width: 100vw;
-          height: 100vh;
+          width: 100%;
+          height: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
+          padding: 20px;
+          padding-bottom: 100px;
         }
         
         .t69-theater-video {
           width: 100%;
-          max-width: 100vw;
-          max-height: 70vh;
+          max-width: 900px;
+          max-height: 60vh;
           object-fit: contain;
-        }
-        
-        @media (min-width: 768px) {
-          .t69-theater-video {
-            width: 85vw;
-            max-width: 1000px;
-            border-radius: 12px;
-          }
+          border-radius: 12px;
         }
 
         .t69-video-ui {
@@ -844,7 +791,7 @@ export default function Trade69() {
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {overlay === 'video' && (
         <div
-          className={`t69-overlay t69-video-overlay ${overlayVisible ? 'visible' : ''} ${isClosing ? 'closing' : ''}`}
+          className="t69-overlay t69-video-overlay"
           onClick={closeOverlay}
           onMouseMove={resetControlsTimer}
           onTouchStart={resetControlsTimer}
@@ -916,7 +863,7 @@ export default function Trade69() {
       {/* GALLERY OVERLAY                                                                 */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {overlay === 'gallery' && (
-        <div className={`t69-overlay ${overlayVisible ? 'visible' : ''} ${isClosing ? 'closing' : ''}`} onClick={closeOverlay}>
+        <div className="t69-overlay" onClick={closeOverlay}>
           <div className="t69-overlay-content" onClick={e => e.stopPropagation()}>
             <div className="t69-gallery-card">
               <div className="t69-gallery-grid">
@@ -940,7 +887,7 @@ export default function Trade69() {
       {/* ARCHITECTURE OVERLAY                                                            */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {overlay === 'arch' && (
-        <div className={`t69-overlay ${overlayVisible ? 'visible' : ''} ${isClosing ? 'closing' : ''}`} onClick={closeOverlay}>
+        <div className="t69-overlay" onClick={closeOverlay}>
           <div className="t69-overlay-content" onClick={e => e.stopPropagation()}>
             <div className="t69-arch-card">
               <Trade69Architecture />
@@ -958,7 +905,7 @@ export default function Trade69() {
       {/* IMAGE OVERLAY                                                                   */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {overlay === 'image' && selectedImage && (
-        <div className={`t69-overlay ${overlayVisible ? 'visible' : ''} ${isClosing ? 'closing' : ''}`} onClick={closeOverlay}>
+        <div className="t69-overlay" onClick={closeOverlay}>
           <div className="t69-overlay-content" onClick={e => e.stopPropagation()}>
             <div className="t69-image-expanded">
               <img src={selectedImage} alt="" />
