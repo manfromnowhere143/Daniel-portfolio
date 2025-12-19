@@ -83,11 +83,11 @@ export default function Trade69() {
     setOverlay('image');
   };
 
-  // Video controls
+  // Video controls - auto hide after 4 seconds
   const resetControlsTimer = useCallback(() => {
     setShowControls(true);
     if (controlsTimer.current) clearTimeout(controlsTimer.current);
-    controlsTimer.current = setTimeout(() => setShowControls(false), 3000);
+    controlsTimer.current = setTimeout(() => setShowControls(false), 4000);
   }, []);
 
   const togglePlay = () => {
@@ -361,27 +361,31 @@ export default function Trade69() {
           width: 100vw;
           height: 100vh;
           z-index: 999999;
-          background: rgba(0,0,0,0.92);
+          background: rgba(0,0,0,0);
           display: flex;
           align-items: center;
           justify-content: center;
           padding-bottom: 80px;
-          opacity: 0;
-          animation: t69-overlayIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation: t69-overlayIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          will-change: opacity;
+          will-change: background;
           /* Prevent scroll behind */
           touch-action: none;
         }
         
         @keyframes t69-overlayIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
+          0% { background: rgba(0,0,0,0); }
+          100% { background: rgba(0,0,0,0.92); }
         }
         
         [data-theme="light"] .t69-overlay {
-          background: rgba(245,245,240,0.96);
+          animation: t69-overlayInLight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        @keyframes t69-overlayInLight {
+          0% { background: rgba(245,245,240,0); }
+          100% { background: rgba(245,245,240,0.96); }
         }
 
         .t69-overlay-content {
@@ -392,18 +396,19 @@ export default function Trade69() {
           transform: translateZ(0);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          /* Smooth content transitions */
-          animation: t69-contentSlideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          /* Content fades in WITH the background - no flash */
+          opacity: 0;
+          animation: t69-contentFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         
-        @keyframes t69-contentSlideIn {
-          from {
+        @keyframes t69-contentFadeIn {
+          0% {
             opacity: 0;
-            transform: translateZ(0) scale(0.92) translateY(12px);
+            transform: translateZ(0) scale(0.94);
           }
-          to {
+          100% {
             opacity: 1;
-            transform: translateZ(0) scale(1) translateY(0);
+            transform: translateZ(0) scale(1);
           }
         }
 
@@ -426,7 +431,7 @@ export default function Trade69() {
           cursor: pointer;
           z-index: 1000000;
           opacity: 0;
-          animation: t69-btnIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards;
+          animation: t69-btnIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s forwards;
           will-change: transform, opacity;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -472,14 +477,19 @@ export default function Trade69() {
         [data-theme="light"] .t69-close-btn svg { color: #1a1a1a; }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* VIDEO THEATER                                                                   */
+        /* VIDEO THEATER - NETFLIX PROUD                                                   */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .t69-video-overlay { 
-          background: #000;
-          padding-bottom: 0;
+          background: rgba(0,0,0,0) !important;
+          padding-bottom: 0 !important;
+          animation: t69-videoOverlayIn 0.35s ease forwards !important;
         }
-        [data-theme="light"] .t69-video-overlay { background: #000; }
+        
+        @keyframes t69-videoOverlayIn {
+          from { background: rgba(0,0,0,0); }
+          to { background: rgba(0,0,0,1); }
+        }
         
         .t69-theater {
           width: 100%;
@@ -488,6 +498,8 @@ export default function Trade69() {
           align-items: center;
           justify-content: center;
           position: relative;
+          animation: none !important;
+          opacity: 1 !important;
         }
         
         .t69-theater-video {
@@ -497,119 +509,134 @@ export default function Trade69() {
           max-height: 100vh;
           object-fit: contain;
           background: #000;
-          animation: t69-videoIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          opacity: 0;
+          transform: translateZ(0) scale(0.96);
+          animation: t69-videoIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
           will-change: transform, opacity;
-        }
-        
-        @media (min-width: 768px) {
-          .t69-theater {
-            padding: 40px;
-            padding-bottom: 100px;
-          }
-          .t69-theater-video {
-            max-width: 900px;
-            max-height: 70vh;
-            border-radius: 12px;
-          }
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         @keyframes t69-videoIn {
-          from {
-            opacity: 0;
-            transform: translateZ(0) scale(0.95);
-          }
           to {
             opacity: 1;
             transform: translateZ(0) scale(1);
           }
         }
         
-        /* Video Controls Container */
+        @media (min-width: 768px) {
+          .t69-theater {
+            padding: 60px;
+          }
+          .t69-theater-video {
+            max-width: 1000px;
+            max-height: 75vh;
+            border-radius: 12px;
+            box-shadow: 0 40px 120px rgba(0,0,0,0.8);
+          }
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* VIDEO CONTROLS - MINIMALIST NETFLIX STYLE                                       */
+        /* Auto-hides after 4 seconds, elegant thin controls                               */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
         .t69-video-controls {
           position: fixed;
           bottom: 0;
           left: 0;
           right: 0;
-          padding: 20px;
-          padding-bottom: max(20px, env(safe-area-inset-bottom));
-          background: linear-gradient(transparent, rgba(0,0,0,0.9));
+          padding: 0 20px 20px;
+          padding-bottom: max(24px, env(safe-area-inset-bottom));
+          background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
           z-index: 1000001;
           opacity: 1;
-          transition: opacity 0.3s ease;
+          transform: translateY(0);
+          transition: opacity 0.35s ease, transform 0.35s ease;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
         }
         
         .t69-video-controls.hidden {
           opacity: 0;
+          transform: translateY(20px);
           pointer-events: none;
         }
         
         @media (min-width: 768px) {
           .t69-video-controls {
-            padding: 24px 40px;
-            padding-bottom: max(24px, env(safe-area-inset-bottom));
+            padding: 0 40px 32px;
+            padding-bottom: max(32px, env(safe-area-inset-bottom));
+            gap: 20px;
           }
         }
 
+        /* Progress bar - thin elegant Netflix style */
         .t69-progress-bar {
           width: 100%;
           cursor: pointer;
-          padding: 8px 0;
-          margin-bottom: 16px;
+          padding: 12px 0;
+          margin: 0;
         }
         
         .t69-progress-track {
           width: 100%;
           height: 3px;
-          background: rgba(255,255,255,0.25);
-          border-radius: 2px;
-          transition: height 0.15s;
+          background: rgba(255,255,255,0.2);
+          border-radius: 1.5px;
+          transition: height 0.2s ease;
           position: relative;
+          overflow: visible;
         }
         
-        .t69-progress-bar:hover .t69-progress-track { height: 5px; }
+        .t69-progress-bar:hover .t69-progress-track { 
+          height: 5px; 
+        }
         
         .t69-progress-fill {
           height: 100%;
           background: #e50914;
-          border-radius: 2px;
+          border-radius: 1.5px;
           position: relative;
-          transition: width 0.1s linear;
+          transition: width 0.05s linear;
         }
         
         .t69-progress-fill::after {
           content: '';
           position: absolute;
-          right: -6px;
+          right: -7px;
           top: 50%;
           width: 14px;
           height: 14px;
           background: #e50914;
           border-radius: 50%;
           transform: translateY(-50%) scale(0);
-          transition: transform 0.15s;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.5);
         }
         
         .t69-progress-bar:hover .t69-progress-fill::after {
           transform: translateY(-50%) scale(1);
         }
 
+        /* Controls row */
         .t69-controls-row {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 8px;
+          gap: 16px;
           position: relative;
         }
         
         @media (min-width: 768px) {
-          .t69-controls-row { gap: 16px; }
+          .t69-controls-row { gap: 24px; }
         }
         
-        /* Netflix-style control buttons */
+        /* Control buttons - ultra thin elegant */
         .t69-ctrl-btn {
-          width: 44px;
-          height: 44px;
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
           background: transparent;
           border: none;
@@ -617,136 +644,184 @@ export default function Trade69() {
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
           position: relative;
           flex-shrink: 0;
+          -webkit-tap-highlight-color: transparent;
         }
         
         .t69-ctrl-btn:hover { 
           background: rgba(255,255,255,0.1); 
-          transform: scale(1.1); 
+          transform: scale(1.12); 
         }
-        .t69-ctrl-btn:active { transform: scale(0.95); }
-        .t69-ctrl-btn svg { color: white; width: 24px; height: 24px; }
+        .t69-ctrl-btn:active { 
+          transform: scale(0.92); 
+        }
+        .t69-ctrl-btn svg { 
+          color: white; 
+          width: 28px; 
+          height: 28px;
+          stroke-width: 1.5;
+        }
         
-        /* Skip buttons with labels */
+        /* Skip buttons - elegant with number */
         .t69-ctrl-btn.skip {
-          width: 48px;
-          height: 48px;
+          width: 52px;
+          height: 52px;
         }
         
         .t69-ctrl-btn.skip svg {
-          width: 28px;
-          height: 28px;
+          width: 32px;
+          height: 32px;
         }
         
         .t69-skip-label {
           position: absolute;
-          font-size: 9px;
+          font-size: 10px;
           font-weight: 600;
           color: white;
-          bottom: 6px;
+          bottom: 8px;
           letter-spacing: -0.02em;
+          pointer-events: none;
         }
         
-        /* Main play button */
+        /* Main play button - glass effect */
         .t69-ctrl-btn.play {
-          width: 56px;
-          height: 56px;
+          width: 64px;
+          height: 64px;
           background: rgba(255,255,255,0.15);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(255,255,255,0.1);
         }
         
         @media (min-width: 768px) {
           .t69-ctrl-btn.play {
-            width: 64px;
-            height: 64px;
+            width: 72px;
+            height: 72px;
           }
         }
         
         .t69-ctrl-btn.play:hover { 
-          background: rgba(255,255,255,0.25); 
+          background: rgba(255,255,255,0.25);
+          border-color: rgba(255,255,255,0.2);
         }
-        .t69-ctrl-btn.play svg { width: 28px; height: 28px; }
+        .t69-ctrl-btn.play svg { 
+          width: 28px; 
+          height: 28px; 
+        }
         
         @media (min-width: 768px) {
           .t69-ctrl-btn.play svg { width: 32px; height: 32px; }
         }
 
+        /* Time display */
         .t69-time {
           position: absolute;
           right: 0;
-          font-size: 12px;
-          color: rgba(255,255,255,0.7);
+          font-size: 13px;
+          color: rgba(255,255,255,0.6);
           font-variant-numeric: tabular-nums;
           font-weight: 400;
+          letter-spacing: 0.02em;
         }
         
         .t69-time-current {
-          color: white;
+          color: rgba(255,255,255,0.9);
         }
 
-        /* Close button for video - top right */
+        /* Close button - bottom left, minimal */
         .t69-video-close {
           position: fixed;
-          top: max(16px, env(safe-area-inset-top));
-          right: 16px;
-          width: 40px;
-          height: 40px;
+          bottom: max(24px, env(safe-area-inset-bottom));
+          left: 20px;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
-          background: rgba(0,0,0,0.5);
+          background: rgba(255,255,255,0.1);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.15);
+          border: 1px solid rgba(255,255,255,0.1);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           z-index: 1000002;
-          transition: all 0.2s ease;
+          opacity: 0;
+          transform: translateZ(0) scale(0.8);
+          animation: t69-videoCloseFadeIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+          transition: background 0.2s ease, transform 0.2s ease, opacity 0.3s ease;
+        }
+        
+        @keyframes t69-videoCloseFadeIn {
+          to {
+            opacity: 1;
+            transform: translateZ(0) scale(1);
+          }
+        }
+        
+        .t69-video-close.hidden {
+          opacity: 0;
+          pointer-events: none;
         }
         
         .t69-video-close:hover { 
           background: rgba(255,255,255,0.2); 
-          transform: scale(1.05);
+          transform: translateZ(0) scale(1.08);
         }
-        .t69-video-close:active { transform: scale(0.95); }
-        .t69-video-close svg { width: 20px; height: 20px; color: white; }
+        .t69-video-close:active { 
+          transform: translateZ(0) scale(0.92); 
+        }
+        .t69-video-close svg { 
+          width: 18px; 
+          height: 18px; 
+          color: white;
+          stroke-width: 2;
+        }
         
         @media (min-width: 768px) {
           .t69-video-close {
-            top: 24px;
-            right: 24px;
-            width: 44px;
-            height: 44px;
+            left: 32px;
+            bottom: max(32px, env(safe-area-inset-bottom));
+            width: 48px;
+            height: 48px;
           }
-          .t69-video-close svg { width: 22px; height: 22px; }
+          .t69-video-close svg { width: 20px; height: 20px; }
         }
 
+        /* Play indicator - center of screen */
         .t69-play-indicator {
           position: fixed;
           top: 50%;
           left: 50%;
-          transform: translate(-50%, -50%);
-          width: 80px;
-          height: 80px;
+          transform: translate(-50%, -50%) scale(0.8);
+          width: 88px;
+          height: 88px;
           border-radius: 50%;
-          background: rgba(0,0,0,0.6);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+          background: rgba(0,0,0,0.5);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
           display: flex;
           align-items: center;
           justify-content: center;
           opacity: 0;
           pointer-events: none;
-          transition: opacity 0.15s ease;
+          transition: opacity 0.2s ease, transform 0.2s ease;
           z-index: 1000001;
         }
         
-        .t69-play-indicator.show { opacity: 1; }
-        .t69-play-indicator svg { width: 36px; height: 36px; color: white; }
-        .t69-play-indicator.play svg { margin-left: 4px; }
+        .t69-play-indicator.show { 
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+        .t69-play-indicator svg { 
+          width: 40px; 
+          height: 40px; 
+          color: white;
+        }
+        .t69-play-indicator.play svg { 
+          margin-left: 5px; 
+        }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* GALLERY CARD - STATE OF THE ART                                                 */
@@ -1248,13 +1323,12 @@ export default function Trade69() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* VIDEO OVERLAY - NETFLIX STYLE                                                   */}
+      {/* VIDEO OVERLAY - NETFLIX PROUD                                                   */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {overlay === 'video' && (
         <div
           className="t69-overlay t69-video-overlay"
           onClick={(e) => {
-            // Tap anywhere to toggle controls, double tap center for play/pause
             if (e.target === e.currentTarget) {
               setShowControls(prev => !prev);
               resetControlsTimer();
@@ -1263,13 +1337,6 @@ export default function Trade69() {
           onMouseMove={resetControlsTimer}
           onTouchStart={resetControlsTimer}
         >
-          {/* Close button - top right */}
-          <button className="t69-video-close" onClick={closeOverlay}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <path d="M18 6L6 18M6 6l12 12"/>
-            </svg>
-          </button>
-
           {/* Video container */}
           <div className="t69-overlay-content t69-theater">
             <video
@@ -1301,7 +1368,17 @@ export default function Trade69() {
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21" /></svg>
           </div>
 
-          {/* Controls - bottom gradient bar */}
+          {/* Close button - bottom left, hides with controls */}
+          <button
+            className={`t69-video-close ${showControls ? '' : 'hidden'}`}
+            onClick={closeOverlay}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+
+          {/* Controls - bottom gradient bar, auto-hides after 4s */}
           <div className={`t69-video-controls ${showControls ? '' : 'hidden'}`} onClick={e => e.stopPropagation()}>
             {/* Progress bar */}
             <div className="t69-progress-bar" onClick={seek}>
@@ -1314,7 +1391,7 @@ export default function Trade69() {
             <div className="t69-controls-row">
               {/* Skip back 10s */}
               <button className="t69-ctrl-btn skip" onClick={() => skip(-10)}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M12.5 8V4L7 8.5l5.5 4.5V9a5 5 0 1 1-5 5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 <span className="t69-skip-label">10</span>
@@ -1331,7 +1408,7 @@ export default function Trade69() {
 
               {/* Skip forward 10s */}
               <button className="t69-ctrl-btn skip" onClick={() => skip(10)}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M11.5 8V4l5.5 4.5-5.5 4.5V9a5 5 0 1 0 5 5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 <span className="t69-skip-label">10</span>
