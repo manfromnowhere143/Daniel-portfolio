@@ -583,6 +583,25 @@ export default function Work() {
         
         * { -webkit-tap-highlight-color: transparent; }
         
+        /* Global GPU acceleration for smooth animations */
+        .folder-overlay,
+        .folder-overlay-bg,
+        .folder-container,
+        .folder-app,
+        .folder-app-icon,
+        .media-overlay,
+        .media-overlay-bg,
+        .media-container,
+        .media-item,
+        .media-item-icon,
+        .service-expanded,
+        .interactive-expanded,
+        .image-expanded,
+        .transition-bridge {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+        
         .work-page { 
           position: fixed;
           top: 0; left: 0; right: 0; bottom: 0;
@@ -703,6 +722,16 @@ export default function Work() {
             0 4px 12px rgba(0, 0, 0, 0.6),
             inset 0 1px 0 rgba(255, 255, 255, 0.15),
             inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          isolation: isolate;
+        }
+        
+        .folder-mini-icon img {
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
         .folder-mini-icon::before { 
@@ -713,7 +742,10 @@ export default function Work() {
           background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%); 
           border-radius: 11px 11px 50% 50%; 
           pointer-events: none; 
-          z-index: 5; 
+          z-index: 5;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
         .folder-mini-icon.has-image::before { display: none; }
@@ -741,7 +773,7 @@ export default function Work() {
         .folder-wrapper:nth-child(5) .folder-name { transition-delay: 530ms; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* FOLDER OVERLAY                                                                  */
+        /* FOLDER OVERLAY - ZERO FLASH GPU ACCELERATED                                     */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .folder-overlay {
@@ -758,6 +790,9 @@ export default function Work() {
           touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          will-change: visibility;
+          contain: layout style paint;
         }
         
         .folder-overlay.entering { visibility: visible; pointer-events: auto; }
@@ -773,6 +808,10 @@ export default function Work() {
           touch-action: none;
           opacity: 0;
           transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          will-change: opacity;
         }
         
         .folder-overlay.active .folder-overlay-bg { opacity: 1; }
@@ -784,21 +823,32 @@ export default function Work() {
           background: transparent;
           padding: 24px;
           opacity: 0;
-          transform: translateZ(0);
+          transform: translate3d(0, 0, 0);
           transition: none;
           touch-action: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: opacity;
         }
         
         .folder-overlay.active .folder-container { 
           opacity: 1; 
-          transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s; 
+          transition: opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1); 
         }
         .folder-overlay.exiting .folder-container { 
           opacity: 0; 
-          transition: opacity 0.25s ease; 
+          transition: opacity 0.2s ease; 
         }
         
-        .folder-apps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; touch-action: none; }
+        .folder-apps-grid { 
+          display: grid; 
+          grid-template-columns: repeat(2, 1fr); 
+          gap: 24px; 
+          touch-action: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+        }
         
         .folder-app {
           display: flex;
@@ -808,34 +858,38 @@ export default function Work() {
           cursor: pointer;
           text-decoration: none;
           opacity: 0;
-          transform: translateZ(0) scale(0.7) translateY(12px);
+          transform: translate3d(0, 12px, 0) scale(0.7);
           transition: none;
           touch-action: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
+          perspective: 1000px;
         }
         
         .folder-app-placeholder { width: 72px; height: 92px; }
         
         .folder-overlay.active .folder-app {
           opacity: 1;
-          transform: translateZ(0) scale(1) translateY(0);
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform: translate3d(0, 0, 0) scale(1);
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
         .folder-overlay.exiting .folder-app {
           opacity: 0;
-          transform: translateZ(0) scale(0.85) translateY(5px);
-          transition: opacity 0.15s ease, transform 0.2s ease;
+          transform: translate3d(0, 5px, 0) scale(0.85);
+          transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
-        .folder-overlay.active .folder-app:nth-child(1) { transition-delay: 0.04s; }
-        .folder-overlay.active .folder-app:nth-child(2) { transition-delay: 0.07s; }
-        .folder-overlay.active .folder-app:nth-child(3) { transition-delay: 0.10s; }
-        .folder-overlay.active .folder-app:nth-child(4) { transition-delay: 0.13s; }
-        .folder-overlay.active .folder-app:nth-child(5) { transition-delay: 0.16s; }
+        .folder-overlay.active .folder-app:nth-child(1) { transition-delay: 0.02s; }
+        .folder-overlay.active .folder-app:nth-child(2) { transition-delay: 0.05s; }
+        .folder-overlay.active .folder-app:nth-child(3) { transition-delay: 0.08s; }
+        .folder-overlay.active .folder-app:nth-child(4) { transition-delay: 0.11s; }
+        .folder-overlay.active .folder-app:nth-child(5) { transition-delay: 0.14s; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - ALIVE ICONS WITH WHITE BREATHING                             */
-        /* Elegant monochromatic pulse - Pure Apple elegance                               */
+        /* GPU-accelerated, zero-flash, Apple-quality transitions                          */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .folder-app-icon {
@@ -858,6 +912,20 @@ export default function Work() {
           transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
           animation: iconBreatheWhite 4s ease-in-out infinite;
           animation-delay: var(--breathe-delay, 0s);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          will-change: transform, box-shadow;
+          transform-style: preserve-3d;
+          isolation: isolate;
+        }
+        
+        /* Ensure images inside icons don't flash */
+        .folder-app-icon img {
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          will-change: auto;
         }
         
         @keyframes iconBreatheWhite {
@@ -884,7 +952,7 @@ export default function Work() {
         }
         
         .folder-app-icon:hover {
-          transform: translateY(-4px) scale(1.05);
+          transform: translate3d(0, -4px, 0) scale(1.05);
           box-shadow: 
             0 0 0 1px rgba(255, 255, 255, 0.2),
             0 0 50px var(--glow-white-strong),
@@ -897,7 +965,7 @@ export default function Work() {
         }
         
         .folder-app-icon:active {
-          transform: translateY(2px) scale(0.95);
+          transform: translate3d(0, 2px, 0) scale(0.95);
           box-shadow: 
             0 0 0 1px rgba(255, 255, 255, 0.1),
             0 0 15px var(--glow-white),
@@ -917,6 +985,9 @@ export default function Work() {
           border-radius: 18px 18px 50% 50%;
           pointer-events: none;
           z-index: 5;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
         .folder-app-icon::after {
@@ -927,6 +998,9 @@ export default function Work() {
           box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
           pointer-events: none;
           z-index: 6;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
         .folder-app-icon.has-image::before {
@@ -942,6 +1016,9 @@ export default function Work() {
           text-align: center;
           text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
           transition: color 0.3s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
         [data-theme="light"] .folder-app-name { text-shadow: none; }
@@ -964,7 +1041,7 @@ export default function Work() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* SERVICE EXPANDED                                                                */
+        /* SERVICE EXPANDED - GPU ACCELERATED                                              */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .service-expanded {
@@ -986,6 +1063,11 @@ export default function Work() {
           user-select: none;
           overscroll-behavior: none;
           transition: background 0.3s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          will-change: opacity, visibility;
+          contain: layout style paint;
         }
         
         .service-expanded::before {
@@ -993,11 +1075,13 @@ export default function Work() {
           position: absolute;
           top: 50%; left: 50%;
           width: 600px; height: 600px;
-          transform: translate(-50%, -60%);
+          transform: translate(-50%, -60%) translate3d(0, 0, 0);
           background: radial-gradient(circle, var(--glow-white-strong) 0%, transparent 70%);
           pointer-events: none;
           opacity: 0;
           transition: opacity 0.8s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .service-expanded.active::before { opacity: 1; }
@@ -1012,19 +1096,22 @@ export default function Work() {
           align-items: center;
           padding: 0 24px;
           opacity: 0;
-          transform: translateY(30px) scale(0.92);
+          transform: translate3d(0, 30px, 0) scale(0.92);
           transition: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
         }
         
         .service-expanded.active .service-expanded-content {
           opacity: 1;
-          transform: translateY(0) scale(1);
+          transform: translate3d(0, 0, 0) scale(1);
           transition: opacity 0.6s cubic-bezier(0.32, 0.72, 0, 1) 0.1s, transform 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s;
         }
         
         .service-expanded.exiting .service-expanded-content {
           opacity: 0;
-          transform: translateY(-20px) scale(0.96);
+          transform: translate3d(0, -20px, 0) scale(0.96);
           transition: opacity 0.3s ease, transform 0.35s ease;
         }
         
@@ -1042,6 +1129,10 @@ export default function Work() {
             0 30px 80px rgba(0, 0, 0, 0.3);
           position: relative;
           flex-shrink: 0;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          isolation: isolate;
         }
         
         .service-screen-frame::before {
@@ -1052,6 +1143,9 @@ export default function Work() {
           background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, transparent 100%);
           border-radius: 16px 16px 0 0;
           pointer-events: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
         .service-hero-image {
@@ -1060,9 +1154,17 @@ export default function Work() {
           overflow: hidden;
           position: relative;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
-        .service-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+        .service-hero-image img { 
+          width: 100%; height: 100%; object-fit: cover;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+        }
         
         .service-expanded-title {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
@@ -1073,19 +1175,22 @@ export default function Work() {
           letter-spacing: -0.02em;
           text-align: center;
           opacity: 0;
-          transform: translateY(12px);
+          transform: translate3d(0, 12px, 0);
           transition: color 0.3s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
         }
         
         .service-expanded.active .service-expanded-title {
           opacity: 1;
-          transform: translateY(0);
-          transition: opacity 0.45s ease 0.15s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s;
+          transform: translate3d(0, 0, 0);
+          transition: opacity 0.45s ease 0.15s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s, color 0.3s ease;
         }
         
         .service-expanded.exiting .service-expanded-title {
           opacity: 0;
-          transform: translateY(-8px);
+          transform: translate3d(0, -8px, 0);
           transition: opacity 0.25s ease, transform 0.3s ease;
         }
         
@@ -1099,19 +1204,22 @@ export default function Work() {
           max-width: 300px;
           margin-bottom: 20px;
           opacity: 0;
-          transform: translateY(12px);
+          transform: translate3d(0, 12px, 0);
           transition: color 0.3s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
         }
         
         .service-expanded.active .service-expanded-desc {
           opacity: 1;
-          transform: translateY(0);
-          transition: opacity 0.45s ease 0.18s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.18s;
+          transform: translate3d(0, 0, 0);
+          transition: opacity 0.45s ease 0.18s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.18s, color 0.3s ease;
         }
         
         .service-expanded.exiting .service-expanded-desc {
           opacity: 0;
-          transform: translateY(-8px);
+          transform: translate3d(0, -8px, 0);
           transition: opacity 0.2s ease, transform 0.25s ease;
         }
         
@@ -1123,19 +1231,22 @@ export default function Work() {
           max-width: 320px;
           margin-bottom: 16px;
           opacity: 0;
-          transform: translateY(12px);
+          transform: translate3d(0, 12px, 0);
           transition: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
         }
         
         .service-expanded.active .service-features {
           opacity: 1;
-          transform: translateY(0);
+          transform: translate3d(0, 0, 0);
           transition: opacity 0.45s ease 0.21s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.21s;
         }
         
         .service-expanded.exiting .service-features {
           opacity: 0;
-          transform: translateY(-8px);
+          transform: translate3d(0, -8px, 0);
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
@@ -1150,6 +1261,9 @@ export default function Work() {
           letter-spacing: 0.02em;
           white-space: nowrap;
           transition: background 0.3s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
         .service-expanded-close {
@@ -1163,24 +1277,26 @@ export default function Work() {
           cursor: pointer;
           margin-top: -8px;
           opacity: 0;
-          transform: scale(0.5) translateY(15px);
+          transform: translate3d(0, 15px, 0) scale(0.5);
           transition: transform 0.2s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .service-expanded.active .service-expanded-close {
           opacity: 1;
-          transform: scale(1) translateY(0);
+          transform: translate3d(0, 0, 0) scale(1);
           transition: opacity 0.4s ease 0.24s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.24s;
         }
         
         .service-expanded.exiting .service-expanded-close {
           opacity: 0;
-          transform: scale(0.8) translateY(8px);
+          transform: translate3d(0, 8px, 0) scale(0.8);
           transition: opacity 0.15s ease, transform 0.2s ease;
         }
         
-        .service-expanded-close:hover { transform: scale(1.1) translateY(0); }
-        .service-expanded-close:active { transform: scale(0.92) translateY(0); }
+        .service-expanded-close:hover { transform: translate3d(0, 0, 0) scale(1.1); }
+        .service-expanded-close:active { transform: translate3d(0, 0, 0) scale(0.92); }
         .service-expanded-close svg { width: 24px; height: 24px; color: var(--text-primary); transition: color 0.3s ease; }
         
         @media (min-width: 600px) {
@@ -1193,7 +1309,7 @@ export default function Work() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* MEDIA OVERLAY                                                                   */
+        /* MEDIA OVERLAY - GPU ACCELERATED                                                 */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .media-overlay {
@@ -1210,6 +1326,9 @@ export default function Work() {
           touch-action: manipulation;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          will-change: visibility;
+          contain: layout style paint;
         }
         
         .media-overlay.entering { visibility: visible; pointer-events: auto; }
@@ -1225,6 +1344,10 @@ export default function Work() {
           touch-action: manipulation;
           opacity: 0;
           transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          will-change: opacity;
         }
         
         .media-overlay.active .media-overlay-bg { opacity: 1; }
@@ -1236,15 +1359,26 @@ export default function Work() {
           background: transparent;
           padding: 24px;
           opacity: 0;
-          transform: translateZ(0);
+          transform: translate3d(0, 0, 0);
           transition: none;
           touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: opacity;
         }
         
-        .media-overlay.active .media-container { opacity: 1; transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.02s; }
-        .media-overlay.exiting .media-container { opacity: 0; transition: opacity 0.25s ease; }
+        .media-overlay.active .media-container { opacity: 1; transition: opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1); }
+        .media-overlay.exiting .media-container { opacity: 0; transition: opacity 0.2s ease; }
         
-        .media-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; touch-action: manipulation; }
+        .media-grid { 
+          display: grid; 
+          grid-template-columns: repeat(2, 1fr); 
+          gap: 18px; 
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+        }
         
         .media-item { 
           display: flex; 
@@ -1253,28 +1387,32 @@ export default function Work() {
           gap: 8px; 
           cursor: pointer; 
           opacity: 0; 
-          transform: translateZ(0) scale(0.7) translateY(12px); 
+          transform: translate3d(0, 12px, 0) scale(0.7); 
           transition: none; 
-          touch-action: manipulation; 
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
+          perspective: 1000px;
         }
         
         .media-overlay.active .media-item { 
           opacity: 1; 
-          transform: translateZ(0) scale(1) translateY(0); 
-          transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); 
+          transform: translate3d(0, 0, 0) scale(1); 
+          transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); 
         }
         
         .media-overlay.exiting .media-item { 
           opacity: 0; 
-          transform: translateZ(0) scale(0.85) translateY(5px); 
-          transition: opacity 0.15s ease, transform 0.2s ease; 
+          transform: translate3d(0, 5px, 0) scale(0.85); 
+          transition: opacity 0.2s ease, transform 0.25s ease; 
         }
         
-        .media-overlay.active .media-item:nth-child(1) { transition-delay: 0.04s; }
-        .media-overlay.active .media-item:nth-child(2) { transition-delay: 0.07s; }
-        .media-overlay.active .media-item:nth-child(3) { transition-delay: 0.10s; }
-        .media-overlay.active .media-item:nth-child(4) { transition-delay: 0.13s; }
-        .media-overlay.active .media-item:nth-child(5) { transition-delay: 0.16s; }
+        .media-overlay.active .media-item:nth-child(1) { transition-delay: 0.02s; }
+        .media-overlay.active .media-item:nth-child(2) { transition-delay: 0.05s; }
+        .media-overlay.active .media-item:nth-child(3) { transition-delay: 0.08s; }
+        .media-overlay.active .media-item:nth-child(4) { transition-delay: 0.11s; }
+        .media-overlay.active .media-item:nth-child(5) { transition-delay: 0.14s; }
         
         .media-item-icon { 
           width: 80px; height: 80px; 
@@ -1291,6 +1429,17 @@ export default function Work() {
             inset 0 1px 1px rgba(255, 255, 255, 0.25), 
             inset 0 -1px 1px rgba(0, 0, 0, 0.25);
           animation: iconBreatheWhite 4s ease-in-out infinite;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          will-change: transform, box-shadow;
+          isolation: isolate;
+        }
+        
+        .media-item-icon img {
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
         .media-item-icon::before { 
@@ -1301,7 +1450,10 @@ export default function Work() {
           background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%); 
           border-radius: 18px 18px 50% 50%; 
           pointer-events: none; 
-          z-index: 10; 
+          z-index: 10;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
         .media-item-icon img { width: 100%; height: 100%; object-fit: cover; }
@@ -1312,7 +1464,10 @@ export default function Work() {
           color: var(--text-primary); 
           text-align: center; 
           max-width: 76px; 
-          transition: color 0.3s ease; 
+          transition: color 0.3s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
         .media-close { 
@@ -1327,27 +1482,29 @@ export default function Work() {
           justify-content: center; 
           cursor: pointer; 
           opacity: 0; 
-          transform: scale(0.5); 
+          transform: translate3d(0, 0, 0) scale(0.5); 
           transition: none; 
           border: none; 
-          touch-action: manipulation; 
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .media-overlay.active .media-close { 
           opacity: 1; 
-          transform: scale(1); 
+          transform: translate3d(0, 0, 0) scale(1); 
           transition: opacity 0.3s cubic-bezier(0.32, 0.72, 0, 1) 0.15s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s; 
         }
         
         .media-overlay.exiting .media-close { 
           opacity: 0; 
-          transform: scale(0.8); 
+          transform: translate3d(0, 0, 0) scale(0.8); 
           transition: opacity 0.15s ease, transform 0.2s ease; 
         }
         
         .media-close svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); color: var(--text-primary); }
         
-        /* Image Expanded */
+        /* Image Expanded - GPU Accelerated */
         .image-expanded { 
           position: fixed; 
           top: 0; left: 0; right: 0; bottom: 0; 
@@ -1364,7 +1521,11 @@ export default function Work() {
           touch-action: none; 
           user-select: none; 
           overscroll-behavior: none; 
-          transition: background 0.3s ease; 
+          transition: background 0.3s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          will-change: opacity, visibility;
         }
         
         .image-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
@@ -1377,19 +1538,22 @@ export default function Work() {
           align-items: center; 
           touch-action: manipulation; 
           opacity: 0; 
-          transform: translateZ(0) scale(0.88); 
-          transition: none; 
+          transform: translate3d(0, 0, 0) scale(0.88); 
+          transition: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
         }
         
         .image-expanded.active .image-expanded-inner { 
           opacity: 1; 
-          transform: translateZ(0) scale(1); 
+          transform: translate3d(0, 0, 0) scale(1); 
           transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1) 0.05s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s; 
         }
         
         .image-expanded.exiting .image-expanded-inner { 
           opacity: 0; 
-          transform: translateZ(0) scale(0.92); 
+          transform: translate3d(0, 0, 0) scale(0.92); 
           transition: opacity 0.25s ease, transform 0.3s ease; 
         }
         
@@ -1403,19 +1567,29 @@ export default function Work() {
           filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.08)) drop-shadow(0 25px 60px rgba(0, 0, 0, 0.7)); 
           touch-action: manipulation; 
           opacity: 0; 
-          transform: translateZ(0) scale(0.9); 
-          transition: none; 
+          transform: translate3d(0, 0, 0) scale(0.9); 
+          transition: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
+          isolation: isolate;
+        }
+        
+        .image-expanded-content img {
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
         .image-expanded.active .image-expanded-content { 
           opacity: 1; 
-          transform: translateZ(0) scale(1); 
+          transform: translate3d(0, 0, 0) scale(1); 
           transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1) 0.12s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.12s; 
         }
         
         .image-expanded.exiting .image-expanded-content { 
           opacity: 0; 
-          transform: translateZ(0) scale(0.95); 
+          transform: translate3d(0, 0, 0) scale(0.95); 
           transition: opacity 0.2s ease, transform 0.25s ease; 
         }
         
@@ -1434,25 +1608,27 @@ export default function Work() {
           touch-action: manipulation; 
           z-index: 10; 
           opacity: 0; 
-          transform: scale(0.5); 
-          transition: none; 
+          transform: translate3d(0, 0, 0) scale(0.5); 
+          transition: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .image-expanded.active .image-expanded-close { 
           opacity: 1; 
-          transform: scale(1); 
+          transform: translate3d(0, 0, 0) scale(1); 
           transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.18s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s; 
         }
         
         .image-expanded.exiting .image-expanded-close { 
           opacity: 0; 
-          transform: scale(0.7); 
+          transform: translate3d(0, 0, 0) scale(0.7); 
           transition: opacity 0.15s ease, transform 0.2s ease; 
         }
         
         .image-expanded-close svg { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6)); color: var(--text-primary); }
         
-        /* 3D Interactive Expanded */
+        /* 3D Interactive Expanded - GPU Accelerated */
         .interactive-expanded { 
           position: fixed; 
           top: 0; left: 0; right: 0; bottom: 0; 
@@ -1466,7 +1642,11 @@ export default function Work() {
           opacity: 0; 
           visibility: hidden; 
           pointer-events: none; 
-          transition: background 0.3s ease; 
+          transition: background 0.3s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          will-change: opacity, visibility;
         }
         
         .interactive-expanded.entering { visibility: visible; pointer-events: auto; opacity: 0; }
@@ -1479,22 +1659,29 @@ export default function Work() {
           border-radius: 24px; 
           overflow: hidden; 
           opacity: 0; 
-          transform: scale(0.9); 
+          transform: translate3d(0, 0, 0) scale(0.9); 
           transition: none; 
-          touch-action: manipulation; 
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform, opacity;
         }
         
-        .interactive-content canvas { touch-action: manipulation; }
+        .interactive-content canvas { 
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
         
         .interactive-expanded.active .interactive-content { 
           opacity: 1; 
-          transform: scale(1); 
+          transform: translate3d(0, 0, 0) scale(1); 
           transition: opacity 0.45s ease 0.1s, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s; 
         }
         
         .interactive-expanded.exiting .interactive-content { 
           opacity: 0; 
-          transform: scale(0.95); 
+          transform: translate3d(0, 0, 0) scale(0.95); 
           transition: opacity 0.2s ease, transform 0.25s ease; 
         }
         
@@ -1509,28 +1696,30 @@ export default function Work() {
           justify-content: center; 
           cursor: pointer; 
           opacity: 0; 
-          transform: scale(0.5); 
+          transform: translate3d(0, 0, 0) scale(0.5); 
           transition: none; 
-          touch-action: manipulation; 
+          touch-action: manipulation;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .interactive-expanded.active .interactive-close { 
           opacity: 0.8; 
-          transform: scale(1); 
+          transform: translate3d(0, 0, 0) scale(1); 
           transition: opacity 0.35s ease 0.18s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s; 
         }
         
         .interactive-expanded.exiting .interactive-close { 
           opacity: 0; 
-          transform: scale(0.7); 
+          transform: translate3d(0, 0, 0) scale(0.7); 
           transition: opacity 0.15s ease; 
         }
         
-        .interactive-close:hover { opacity: 1; transform: scale(1.1); }
-        .interactive-close:active { transform: scale(0.95); }
+        .interactive-close:hover { opacity: 1; transform: translate3d(0, 0, 0) scale(1.1); }
+        .interactive-close:active { transform: translate3d(0, 0, 0) scale(0.95); }
         .interactive-close svg { color: var(--text-primary); }
         
-        /* Transition Bridge */
+        /* Transition Bridge - GPU Accelerated */
         .transition-bridge { 
           position: fixed; 
           top: 0; left: 0; right: 0; bottom: 0; 
@@ -1547,8 +1736,10 @@ export default function Work() {
           touch-action: none; 
           -webkit-backface-visibility: hidden; 
           backface-visibility: hidden; 
+          transform: translate3d(0, 0, 0);
           will-change: opacity; 
-          transition: opacity 0.2s ease-out, visibility 0s linear 0.2s; 
+          transition: opacity 0.2s ease-out, visibility 0s linear 0.2s;
+          contain: layout style paint;
         }
         
         .transition-bridge.loading { 
@@ -1571,7 +1762,10 @@ export default function Work() {
           border-top-color: var(--text-secondary); 
           border-radius: 50%; 
           animation: bridgeSpin 0.8s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite; 
-          filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.08)); 
+          filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.08));
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         
         @keyframes bridgeSpin { to { transform: rotate(360deg); } }
