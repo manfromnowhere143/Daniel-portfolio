@@ -57,7 +57,7 @@ export default function Trade69() {
           --t69-text: #FFFFFF;
           --t69-text-soft: rgba(255, 255, 255, 0.92);
           --t69-glow: rgba(255, 255, 255, 0.08);
-          --t69-border: rgba(255, 255, 255, 0.1);
+          --t69-border: rgba(255, 255, 255, 0.15);
         }
         
         [data-theme="light"] {
@@ -65,7 +65,7 @@ export default function Trade69() {
           --t69-text: #0a0a0a;
           --t69-text-soft: rgba(10, 10, 10, 0.88);
           --t69-glow: rgba(0, 0, 0, 0.05);
-          --t69-border: rgba(0, 0, 0, 0.1);
+          --t69-border: rgba(0, 0, 0, 0.12);
         }
 
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
@@ -299,77 +299,116 @@ export default function Trade69() {
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* DATA LAYERS - Floating pills, pure white text                                   */
+        /* FLOATING PILLS - Pure elegance, no labels, just text in space                   */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
-        .t69-data {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: clamp(14px, 2.2vh, 22px);
-          max-width: 600px;
-          opacity: 0;
-          animation: t69-float-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
-        }
-        
-        .t69-layer {
-          text-align: center;
-        }
-        
-        .t69-layer-name {
-          font-size: clamp(9px, 1.5vw, 11px);
-          font-weight: 500;
-          color: var(--t69-text);
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          margin-bottom: clamp(6px, 1vh, 10px);
-          opacity: 0.7;
-        }
-        
-        .t69-pills {
+        .t69-pills-container {
           display: flex;
           flex-wrap: wrap;
-          gap: clamp(6px, 1vw, 10px);
+          gap: clamp(8px, 1.2vw, 14px);
           justify-content: center;
+          max-width: 720px;
         }
         
         .t69-pill {
-          font-size: clamp(10px, 1.8vw, 13px);
-          font-weight: 400;
+          font-size: clamp(11px, 2vw, 14px);
+          font-weight: 300;
+          letter-spacing: 0.02em;
           color: var(--t69-text);
-          padding: clamp(5px, 0.8vh, 8px) clamp(12px, 2vw, 18px);
-          background: var(--t69-glow);
+          padding: clamp(7px, 1.1vh, 11px) clamp(16px, 2.8vw, 24px);
+          background: transparent;
           border: 1px solid var(--t69-border);
           border-radius: 100px;
           white-space: nowrap;
-          transition: all 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          cursor: default;
+          opacity: 0;
+          animation: t69-pill-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        /* Staggered animation for each pill */
+        .t69-pill:nth-child(1) { animation-delay: 0.5s; }
+        .t69-pill:nth-child(2) { animation-delay: 0.55s; }
+        .t69-pill:nth-child(3) { animation-delay: 0.6s; }
+        .t69-pill:nth-child(4) { animation-delay: 0.65s; }
+        .t69-pill:nth-child(5) { animation-delay: 0.7s; }
+        .t69-pill:nth-child(7) { animation-delay: 0.75s; }
+        .t69-pill:nth-child(8) { animation-delay: 0.8s; }
+        .t69-pill:nth-child(9) { animation-delay: 0.85s; }
+        .t69-pill:nth-child(10) { animation-delay: 0.9s; }
+        .t69-pill:nth-child(12) { animation-delay: 0.95s; }
+        .t69-pill:nth-child(13) { animation-delay: 1.0s; }
+        .t69-pill:nth-child(14) { animation-delay: 1.05s; }
+        .t69-pill:nth-child(15) { animation-delay: 1.1s; }
+        .t69-pill:nth-child(16) { animation-delay: 1.15s; }
+        
+        @keyframes t69-pill-in {
+          from { 
+            opacity: 0; 
+            transform: translateY(12px) scale(0.95); 
+          }
+          to { 
+            opacity: 1; 
+            transform: translateY(0) scale(1); 
+          }
         }
         
         .t69-pill:hover {
-          background: rgba(255,255,255,0.12);
-          border-color: rgba(255,255,255,0.2);
+          background: rgba(255,255,255,0.06);
+          border-color: rgba(255,255,255,0.3);
+          transform: translateY(-3px) scale(1.02);
+          box-shadow: 
+            0 8px 24px rgba(255,255,255,0.05),
+            0 0 40px rgba(255,255,255,0.03);
         }
         
         [data-theme="light"] .t69-pill:hover {
-          background: rgba(0,0,0,0.08);
-          border-color: rgba(0,0,0,0.15);
+          background: rgba(0,0,0,0.03);
+          border-color: rgba(0,0,0,0.2);
+          box-shadow: 
+            0 8px 24px rgba(0,0,0,0.06),
+            0 0 40px rgba(0,0,0,0.03);
+        }
+        
+        /* Separator dot between sections - ultra subtle */
+        .t69-dot {
+          width: 3px;
+          height: 3px;
+          border-radius: 50%;
+          background: var(--t69-text);
+          opacity: 0;
+          align-self: center;
+          margin: 0 4px;
+          animation: t69-dot-in 0.6s ease forwards;
+          animation-delay: 0.72s;
+        }
+        
+        .t69-dot:nth-of-type(2) {
+          animation-delay: 0.92s;
+        }
+        
+        @keyframes t69-dot-in {
+          from { opacity: 0; transform: scale(0); }
+          to { opacity: 0.15; transform: scale(1); }
         }
 
-        /* Description */
+        /* Description - Floating elegantly */
         .t69-desc {
-          font-size: clamp(11px, 2vw, 14px);
+          font-size: clamp(12px, 2.2vw, 15px);
           font-weight: 300;
+          letter-spacing: 0.01em;
           color: var(--t69-text);
-          line-height: 1.6;
+          line-height: 1.7;
           text-align: center;
-          max-width: 480px;
+          max-width: 500px;
           opacity: 0;
           animation: t69-float-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
         }
         
         .t69-desc em {
           font-style: normal;
-          font-weight: 500;
+          font-weight: 400;
+          opacity: 1;
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -394,8 +433,8 @@ export default function Trade69() {
           font-weight: 400;
           color: var(--t69-text);
           text-decoration: none;
-          opacity: 0.6;
-          transition: opacity 0.3s ease;
+          opacity: 0.75;
+          transition: all 0.3s ease;
           display: flex;
           align-items: center;
           gap: 8px;
@@ -403,6 +442,11 @@ export default function Trade69() {
         
         .t69-nav a:hover {
           opacity: 1;
+          transform: translateX(4px);
+        }
+        
+        .t69-nav a:first-child:hover {
+          transform: translateX(-4px);
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -618,14 +662,18 @@ export default function Trade69() {
           .t69-desc {
             display: none;
           }
+          .t69-pills-container {
+            gap: clamp(6px, 1vw, 10px);
+          }
         }
         
         @media (max-height: 600px) {
-          .t69-layer-name {
-            display: none;
+          .t69-pill {
+            padding: 5px 12px;
+            font-size: 10px;
           }
-          .t69-data {
-            gap: 10px;
+          .t69-pills-container {
+            gap: 6px;
           }
         }
       `}</style>
@@ -675,34 +723,19 @@ export default function Trade69() {
           End-to-end platform integrating <em>multi-source market intelligence</em>, machine learning, and <em>quantitative risk management</em> for autonomous trading.
         </p>
 
-        {/* Data Layers */}
-        <div className="t69-data">
-          <div className="t69-layer">
-            <p className="t69-layer-name">Data Collection</p>
-            <div className="t69-pills">
-              {["Reddit", "StockTwits", "ThetaData", "Alpaca", "Dark Pools", "News"].map((item, i) => (
-                <span key={i} className="t69-pill">{item}</span>
-              ))}
-            </div>
-          </div>
-
-          <div className="t69-layer">
-            <p className="t69-layer-name">Intelligence</p>
-            <div className="t69-pills">
-              {["Sentiment", "HMM Regime", "ML Signals", "Kelly Criterion", "Risk Mgmt"].map((item, i) => (
-                <span key={i} className="t69-pill">{item}</span>
-              ))}
-            </div>
-          </div>
-
-          <div className="t69-layer">
-            <p className="t69-layer-name">Stack</p>
-            <div className="t69-pills">
-              {["Python", "PostgreSQL", "TimescaleDB", "Redis", "Dash", "GPT-4"].map((item, i) => (
-                <span key={i} className="t69-pill">{item}</span>
-              ))}
-            </div>
-          </div>
+        {/* Floating Pills - Pure elegance */}
+        <div className="t69-pills-container">
+          {["Reddit", "StockTwits", "ThetaData", "Alpaca", "Dark Pools"].map((item, i) => (
+            <span key={`d-${i}`} className="t69-pill">{item}</span>
+          ))}
+          <span className="t69-dot" />
+          {["Sentiment", "HMM Regime", "ML Signals", "Kelly Criterion"].map((item, i) => (
+            <span key={`i-${i}`} className="t69-pill">{item}</span>
+          ))}
+          <span className="t69-dot" />
+          {["Python", "PostgreSQL", "TimescaleDB", "Redis", "GPT-4"].map((item, i) => (
+            <span key={`s-${i}`} className="t69-pill">{item}</span>
+          ))}
         </div>
 
         {/* Navigation */}
