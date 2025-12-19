@@ -69,13 +69,17 @@ export default function Overmind() {
           padding: 20px 20px 16px;
           text-align: center;
           opacity: 0;
-          transform: translateY(20px);
-          transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+          transform: translateZ(0) translateY(20px);
+          transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: transform, opacity;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         .om-hero.loaded {
           opacity: 1;
-          transform: translateY(0);
+          transform: translateZ(0) translateY(0);
         }
 
         .om-title {
@@ -92,11 +96,56 @@ export default function Overmind() {
           margin: 0 auto;
           border-radius: 14px;
           overflow: hidden;
-          box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+          box-shadow: 0 40px 100px rgba(0,0,0,0.5),
+                      0 0 0 1px rgba(255,255,255,0.08);
+          background: linear-gradient(145deg, rgba(20,20,25,0.8), rgba(10,10,15,0.9));
+          position: relative;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                      box-shadow 0.4s ease;
+        }
+        
+        /* Subtle glow animation */
+        .om-hero-image::before {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: 16px;
+          background: linear-gradient(135deg, 
+            rgba(100, 120, 255, 0.15) 0%, 
+            rgba(255, 100, 150, 0.1) 50%,
+            rgba(100, 200, 255, 0.12) 100%);
+          opacity: 0.6;
+          z-index: -1;
+          animation: om-heroGlow 4s ease-in-out infinite alternate;
+        }
+        
+        @keyframes om-heroGlow {
+          0% { opacity: 0.4; transform: scale(1); }
+          100% { opacity: 0.7; transform: scale(1.02); }
+        }
+        
+        .om-hero-image:hover {
+          transform: translateY(-4px) scale(1.02);
+          box-shadow: 0 50px 120px rgba(0,0,0,0.6),
+                      0 0 0 1px rgba(255,255,255,0.12);
         }
 
         [data-theme="light"] .om-hero-image {
-          box-shadow: 0 40px 100px rgba(0,0,0,0.15);
+          box-shadow: 0 40px 100px rgba(0,0,0,0.15),
+                      0 0 0 1px rgba(0,0,0,0.06);
+          background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(248,248,245,0.95));
+        }
+        
+        [data-theme="light"] .om-hero-image::before {
+          background: linear-gradient(135deg, 
+            rgba(100, 120, 255, 0.08) 0%, 
+            rgba(255, 100, 150, 0.05) 50%,
+            rgba(100, 200, 255, 0.06) 100%);
+        }
+        
+        [data-theme="light"] .om-hero-image:hover {
+          box-shadow: 0 50px 120px rgba(0,0,0,0.2),
+                      0 0 0 1px rgba(0,0,0,0.08);
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
