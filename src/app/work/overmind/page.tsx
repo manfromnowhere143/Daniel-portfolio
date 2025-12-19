@@ -1,9 +1,16 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import FadeImage from "@/components/FadeImage";
 
 export default function Overmind() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setIsLoaded(true), 100);
+  }, []);
+
   return (
     <>
       <style>{`
@@ -50,8 +57,16 @@ export default function Overmind() {
         .om-hero {
           max-width: 1200px;
           margin: 0 auto;
-          padding: clamp(20px, 4vh, 40px) 24px clamp(16px, 3vh, 24px);
+          padding: 20px 20px 16px;
           text-align: center;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .om-hero.loaded {
+          opacity: 1;
+          transform: translateY(0);
         }
 
         .om-title {
@@ -228,11 +243,11 @@ export default function Overmind() {
 
       <div className="om-page">
         {/* Hero */}
-        <div className="om-hero">
+        <div className={`om-hero ${isLoaded ? 'loaded' : ''}`}>
           <h1 className="om-title">Overmind</h1>
           <div className="om-hero-image">
             <FadeImage
-              src="/images/overmind-hero.png"
+              src="/images/twinkle.png"
               alt="Overmind"
               width={640}
               height={420}

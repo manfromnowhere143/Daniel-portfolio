@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import dynamic from 'next/dynamic';
 
@@ -9,6 +10,12 @@ const MetatronCube = dynamic(() => import('@/components/MetatronCube'), {
 });
 
 export default function MegaAgent() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setIsLoaded(true), 100);
+  }, []);
+
   return (
     <>
       <style>{`
@@ -46,8 +53,16 @@ export default function MegaAgent() {
         .ma-hero {
           max-width: 1200px;
           margin: 0 auto;
-          padding: clamp(20px, 4vh, 40px) 24px clamp(24px, 4vh, 32px);
+          padding: 20px 20px 16px;
           text-align: center;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .ma-hero.loaded {
+          opacity: 1;
+          transform: translateY(0);
         }
 
         .ma-title {
@@ -334,7 +349,7 @@ export default function MegaAgent() {
 
       <div className="ma-page">
         {/* Hero Section */}
-        <div className="ma-hero">
+        <div className={`ma-hero ${isLoaded ? 'loaded' : ''}`}>
           <h1 className="ma-title">MegaAgent</h1>
           <div className="ma-cube-container">
             <MetatronCube />

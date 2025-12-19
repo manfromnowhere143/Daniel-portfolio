@@ -1,9 +1,16 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import FadeImage from "@/components/FadeImage";
 
 export default function Octopus() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setIsLoaded(true), 100);
+  }, []);
+
   return (
     <>
       <style>{`
@@ -48,8 +55,16 @@ export default function Octopus() {
         .oc-hero {
           max-width: 1200px;
           margin: 0 auto;
-          padding: clamp(20px, 4vh, 40px) 24px clamp(40px, 6vh, 60px);
+          padding: 20px 20px 16px;
           text-align: center;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .oc-hero.loaded {
+          opacity: 1;
+          transform: translateY(0);
         }
 
         .oc-title {
@@ -62,17 +77,17 @@ export default function Octopus() {
         }
 
         .oc-hero-image {
-          max-width: clamp(280px, 70vw, 500px);
+          max-width: clamp(260px, 65vw, 500px);
           margin: 0 auto;
-          box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+          box-shadow: 0 40px 100px rgba(0,0,0,0.3);
           border: 1px solid var(--oc-border);
-          border-radius: 8px;
+          border-radius: 14px;
           overflow: hidden;
           background: var(--oc-card-bg);
         }
 
         [data-theme="dark"] .oc-hero-image {
-          box-shadow: 0 30px 80px rgba(255,255,255,0.06);
+          box-shadow: 0 40px 100px rgba(255,255,255,0.06);
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -319,7 +334,7 @@ export default function Octopus() {
 
       <div className="oc-page">
         {/* Hero */}
-        <div className="oc-hero">
+        <div className={`oc-hero ${isLoaded ? 'loaded' : ''}`}>
           <h1 className="oc-title">Octopus</h1>
           <div className="oc-hero-image">
             <FadeImage
