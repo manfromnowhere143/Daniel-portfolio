@@ -217,7 +217,7 @@ export default function Navigation() {
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - DESKTOP SIDEBAR                                          */
-        /* Refined, elegant, minimal - true luxury                                     */
+        /* Refined, elegant, minimal - pure floating elements                          */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .desktop-sidebar {
@@ -230,25 +230,6 @@ export default function Navigation() {
           flex-direction: column;
           align-items: flex-start;
           padding: 18px 16px;
-          background: transparent;
-          border: none;
-          box-shadow: none;
-          transition: all 0.3s ease;
-        }
-        
-        .desktop-sidebar:hover {
-          background: transparent;
-        }
-        
-        /* Light mode sidebar - also transparent */
-        [data-theme="light"] .desktop-sidebar {
-          background: transparent;
-          border: none;
-          box-shadow: none;
-        }
-        
-        [data-theme="light"] .desktop-sidebar:hover {
-          background: transparent;
         }
         
         .sidebar-logo {
@@ -307,19 +288,17 @@ export default function Navigation() {
           padding: 6px 10px;
           margin: 0 -10px;
           border-radius: 6px;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: opacity 0.3s ease;
           opacity: 0.4;
         }
         
         .sidebar-nav-link:hover {
           opacity: 0.85;
-          background: rgba(255, 255, 255, 0.04);
         }
         
         .sidebar-nav-link.active {
           opacity: 1;
           font-weight: 400;
-          background: rgba(255, 255, 255, 0.06);
         }
         
         .sidebar-nav-link.active::before {
