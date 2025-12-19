@@ -10,23 +10,44 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState<Date | null>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [theme, setTheme] = useState<'dark' | 'light' | 'space'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [overlayStyle, setOverlayStyle] = useState<{ bg: string; opacity: number } | null>(null);
 
   // Load theme from localStorage on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem('site-theme') as 'dark' | 'light' | 'space' | null;
-    if (savedTheme) {
+    const savedTheme = localStorage.getItem('site-theme') as 'dark' | 'light' | null;
+    if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
       setTheme(savedTheme);
       document.documentElement.setAttribute('data-theme', savedTheme);
     }
   }, []);
 
-  // Handle theme change - simple and clean
-  const handleThemeChange = (newTheme: 'dark' | 'light' | 'space') => {
+  // Handle theme change with cross-fade overlay - buttery smooth
+  const handleThemeChange = (newTheme: 'dark' | 'light') => {
     if (newTheme === theme) return;
-    setTheme(newTheme);
-    localStorage.setItem('site-theme', newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
+
+    // Get current background color for overlay
+    const currentBg = theme === 'light' ? '#F5F5F0' : '#050506';
+
+    // Show overlay with current bg - covers everything
+    setOverlayStyle({ bg: currentBg, opacity: 1 });
+
+    // Small delay then change theme underneath overlay
+    setTimeout(() => {
+      setTheme(newTheme);
+      localStorage.setItem('site-theme', newTheme);
+      document.documentElement.setAttribute('data-theme', newTheme);
+
+      // Fade out overlay smoothly
+      requestAnimationFrame(() => {
+        setOverlayStyle({ bg: currentBg, opacity: 0 });
+      });
+
+      // Remove overlay after fade completes
+      setTimeout(() => {
+        setOverlayStyle(null);
+      }, 600);
+    }, 50);
   };
 
   // Determine if current page has dark background
@@ -36,16 +57,14 @@ export default function Navigation() {
                      pathname === "/story" ||
                      pathname.startsWith("/work/");
 
-  // Colors based on theme (overrides page-based colors)
-  // When theme is set, use theme colors; otherwise use page-based colors
+  // Colors based on theme
   const getTextColor = () => {
     if (theme === 'light') return "#1a1a1a";
-    if (theme === 'dark' || theme === 'space') return "#FAFAF8";
-    return isDarkPage ? "#FAFAF8" : "#0A0A0A";
+    return "#FAFAF8";
   };
 
   const textColor = getTextColor();
-  const hamburgerColor = theme === 'light' ? "#1C1C1C" : (isDarkPage ? "#FAFAF8" : "#1C1C1C");
+  const hamburgerColor = theme === 'light' ? "#1C1C1C" : "#FAFAF8";
 
   // Real-time clock - updates every second
   useEffect(() => {
@@ -85,7 +104,7 @@ export default function Navigation() {
       <style>{`
         /* ═══════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - THEME VARIABLES                                          */
-        /* Complete definitions for buttery smooth transitions                         */
+        /* Only dark and light - clean and simple                                      */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         :root, [data-theme="dark"] {
@@ -110,45 +129,12 @@ export default function Navigation() {
           --border-secondary: rgba(0, 0, 0, 0.1);
         }
         
-        [data-theme="space"] {
-          --bg-primary: #000000;
-          --bg-secondary: #050508;
-          --bg-card: rgba(10, 10, 20, 0.65);
-          --text-primary: #E8EAFF;
-          --text-secondary: rgba(232, 234, 255, 0.7);
-          --text-tertiary: rgba(232, 234, 255, 0.5);
-          --border-primary: rgba(100, 100, 200, 0.1);
-          --border-secondary: rgba(100, 100, 200, 0.15);
-        }
-        
         /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* BUTTERY SMOOTH TRANSITIONS - Steve Jobs approved                            */
-        /* Cross-fade technique - no flash between any theme                           */
+        /* BUTTERY SMOOTH TRANSITIONS - No flash, professional                         */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         html, body {
           background-color: var(--bg-primary) !important;
-          transition: background-color 0.6s ease-in-out;
-        }
-        
-        /* Universal smooth transition for theme-aware elements */
-        *, *::before, *::after {
-          transition: background-color 0.6s ease-in-out, 
-                      color 0.6s ease-in-out,
-                      border-color 0.6s ease-in-out,
-                      fill 0.6s ease-in-out,
-                      stroke 0.6s ease-in-out;
-        }
-        
-        /* Exclude elements that need instant feedback */
-        button, a, input, textarea, select,
-        .theme-btn, .nav-icon-container, .sidebar-nav-link {
-          transition: background-color 0.2s ease, 
-                      color 0.2s ease,
-                      border-color 0.2s ease,
-                      transform 0.2s ease,
-                      opacity 0.2s ease,
-                      box-shadow 0.2s ease;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -235,42 +221,6 @@ export default function Navigation() {
             0 0 12px rgba(0, 0, 0, 0.5),
             0 2px 6px rgba(0, 0, 0, 0.4),
             inset 0 1px 1px rgba(255, 255, 255, 0.08);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* SPACE THEME BUTTON - Deep indigo with subtle glow                           */
-        /* Clean, elegant, single color - premium feel                                 */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        
-        .theme-btn.space {
-          background: linear-gradient(145deg, #1a1a3e 0%, #0f0f2a 50%, #080818 100%);
-          box-shadow:
-            0 0 0 0.5px rgba(100, 100, 200, 0.25),
-            0 1px 3px rgba(0, 0, 0, 0.4),
-            0 3px 6px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(150, 150, 255, 0.1);
-          position: relative;
-          overflow: hidden;
-        }
-        
-        /* Subtle inner glow */
-        .theme-btn.space::after {
-          content: '';
-          position: absolute;
-          top: 3px;
-          left: 4px;
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, rgba(150, 150, 255, 0.3) 0%, transparent 60%);
-        }
-        
-        .theme-btn.space.active {
-          box-shadow:
-            0 0 0 2px rgba(100, 100, 200, 0.35),
-            0 0 15px rgba(80, 80, 180, 0.25),
-            0 2px 6px rgba(0, 0, 0, 0.4),
-            inset 0 1px 1px rgba(150, 150, 255, 0.15);
         }
         
         /* Hover states */
@@ -448,21 +398,6 @@ export default function Navigation() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* MOBILE THEME TOGGLE - Horizontal row, centered                                */
-        /* ═══════════════════════════════════════════════════════════════════════════ */
-        
-        .mobile-theme-toggle {
-          display: flex;
-          flex-direction: row;
-          gap: 12px;
-          align-items: center;
-        }
-        
-        .mobile-theme-toggle .theme-btn {
-          width: 26px;
-          height: 26px;
-        }
-        
         /* ═══════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - MOBILE NAV ICONS                                         */
         /* Refined, smaller, more elegant - true luxury                                */
@@ -625,6 +560,24 @@ export default function Navigation() {
         }
       `}</style>
 
+      {/* Cross-fade overlay for smooth theme transitions - covers EVERYTHING */}
+      {overlayStyle && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '-50vh',
+            left: '-50vw',
+            width: '200vw',
+            height: '200vh',
+            backgroundColor: overlayStyle.bg,
+            opacity: overlayStyle.opacity,
+            transition: 'opacity 0.55s ease-out',
+            zIndex: 999999,
+            pointerEvents: 'none'
+          }}
+        />
+      )}
+
       {/* Desktop Sidebar */}
       <nav
         className={`desktop-sidebar ${styles.desktopOnly}`}
@@ -680,12 +633,6 @@ export default function Navigation() {
             onClick={() => handleThemeChange('dark')}
             aria-label="Dark theme"
             title="Dark"
-          />
-          <button
-            className={`theme-btn space ${theme === 'space' ? 'active' : ''}`}
-            onClick={() => handleThemeChange('space')}
-            aria-label="Space theme"
-            title="Space"
           />
         </div>
       </nav>
@@ -788,7 +735,7 @@ export default function Navigation() {
         }}
       />
 
-      {/* Mobile Time/Date - slides from left */}
+      {/* Mobile Time/Date and Theme Toggle - slides from left */}
       <div
         className={styles.mobileOnly}
         style={{
@@ -804,66 +751,54 @@ export default function Navigation() {
           pointerEvents: isOpen ? "auto" : "none"
         }}
       >
-        {time && (
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          gap: "3px"
+        }}>
+          {time && (
+            <>
+              <span style={{
+                fontSize: "14px",
+                fontWeight: 300,
+                letterSpacing: "0.08em",
+                color: textColor,
+                fontVariantNumeric: "tabular-nums"
+              }}>
+                {formatTime(time)}
+              </span>
+              <span style={{
+                fontSize: "10px",
+                fontWeight: 300,
+                letterSpacing: "0.12em",
+                color: textColor
+              }}>
+                {formatDate(time)}
+              </span>
+            </>
+          )}
+
+          {/* Theme buttons - vertical, under date */}
           <div style={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "flex-start",
-            gap: "3px"
+            gap: "8px",
+            marginTop: "12px"
           }}>
-            <span style={{
-              fontSize: "14px",
-              fontWeight: 300,
-              letterSpacing: "0.08em",
-              color: "#FAFAF8",
-              fontVariantNumeric: "tabular-nums"
-            }}>
-              {formatTime(time)}
-            </span>
-            <span style={{
-              fontSize: "10px",
-              fontWeight: 300,
-              letterSpacing: "0.12em",
-              color: "#FAFAF8"
-            }}>
-              {formatDate(time)}
-            </span>
+            <button
+              className={`theme-btn light ${theme === 'light' ? 'active' : ''}`}
+              onClick={() => handleThemeChange('light')}
+              aria-label="Light theme"
+              style={{ width: "22px", height: "22px" }}
+            />
+            <button
+              className={`theme-btn dark ${theme === 'dark' ? 'active' : ''}`}
+              onClick={() => handleThemeChange('dark')}
+              aria-label="Dark theme"
+              style={{ width: "22px", height: "22px" }}
+            />
           </div>
-        )}
-      </div>
-
-      {/* Mobile Theme Toggle - slides from right */}
-      <div
-        className={styles.mobileOnly}
-        style={{
-          position: "fixed",
-          top: "28px",
-          right: "70px",
-          zIndex: 200,
-          transform: isOpen ? "translateX(0)" : "translateX(120%)",
-          opacity: isOpen ? 1 : 0,
-          transition: isOpen
-            ? "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s, opacity 0.3s ease-out 0.1s"
-            : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease-in",
-          pointerEvents: isOpen ? "auto" : "none"
-        }}
-      >
-        <div className="mobile-theme-toggle">
-          <button
-            className={`theme-btn light ${theme === 'light' ? 'active' : ''}`}
-            onClick={() => handleThemeChange('light')}
-            aria-label="Light theme"
-          />
-          <button
-            className={`theme-btn dark ${theme === 'dark' ? 'active' : ''}`}
-            onClick={() => handleThemeChange('dark')}
-            aria-label="Dark theme"
-          />
-          <button
-            className={`theme-btn space ${theme === 'space' ? 'active' : ''}`}
-            onClick={() => handleThemeChange('space')}
-            aria-label="Space theme"
-          />
         </div>
       </div>
 

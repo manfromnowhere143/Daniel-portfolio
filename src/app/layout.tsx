@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import SwipeNavigation from "@/components/SwipeNavigation";
-import SpaceBackground from "@/components/SpaceBackground";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -69,10 +68,11 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('site-theme') || 'dark';
+                  var theme = localStorage.getItem('site-theme');
+                  if (theme !== 'light' && theme !== 'dark') theme = 'dark';
                   document.documentElement.setAttribute('data-theme', theme);
-                  var bg = theme === 'light' ? '#F5F5F0' : theme === 'space' ? '#000000' : '#050506';
-                  document.documentElement.style.backgroundColor = bg;
+                  document.documentElement.style.backgroundColor = theme === 'light' ? '#F5F5F0' : '#050506';
+                  document.body && (document.body.style.backgroundColor = theme === 'light' ? '#F5F5F0' : '#050506');
                 } catch (e) {}
               })();
             `,
@@ -82,17 +82,15 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               html, body {
-                transition: background-color 0.6s ease-in-out;
+                background-color: #050506;
               }
-              html[data-theme="dark"], html[data-theme="dark"] body { background-color: #050506; }
-              html[data-theme="light"], html[data-theme="light"] body { background-color: #F5F5F0; }
-              html[data-theme="space"], html[data-theme="space"] body { background-color: #000000; }
+              html[data-theme="dark"], html[data-theme="dark"] body { background-color: #050506 !important; }
+              html[data-theme="light"], html[data-theme="light"] body { background-color: #F5F5F0 !important; }
             `,
           }}
         />
       </head>
       <body className={inter.className}>
-        <SpaceBackground />
         <Navigation />
         <SwipeNavigation>
           {children}
