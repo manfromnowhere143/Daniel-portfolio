@@ -22,14 +22,14 @@ export default function Trade69() {
 
   // Gallery images - 9 screenshots
   const galleryImages = [
-    "/images/t69app3.png",
-    "/images/t69app3.png",
-    "/images/t69app3.png",
-    "/images/t69app3.png",
-    "/images/t69app3.png",
-    "/images/t69app3.png",
-    "/images/t69app3.png",
-    "/images/t69app3.png",
+    "/images/t69dash1.png",
+    "/images/t69dash2.png",
+    "/images/t69dash3.png",
+    "/images/t69dash4.png",
+    "/images/t69hero3.png",
+    "/images/tphoto1.png",
+    "/images/tphoto2.png",
+    "/images/tphoto3.png",
     "/images/t69app3.png",
   ];
 
