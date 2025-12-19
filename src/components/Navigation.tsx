@@ -21,12 +21,46 @@ export default function Navigation() {
     }
   }, []);
 
+  // Reset scroll position and body state on route change
+  useEffect(() => {
+    // Reset body state immediately
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    // Reset scroll to top
+    window.scrollTo(0, 0);
+    // Ensure sidebar is closed
+    setIsOpen(false);
+  }, [pathname]);
+
+  // Lock body scroll when sidebar is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isOpen]);
+
   // Handle theme change - instant, no flash
   const handleThemeChange = (newTheme: 'dark' | 'light') => {
     if (newTheme === theme) return;
     setTheme(newTheme);
     localStorage.setItem('site-theme', newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
+  };
+
+  // Handle navigation click - reset scroll and close sidebar
+  const handleNavClick = () => {
+    // Reset body state before navigation
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    // Scroll to top
+    window.scrollTo(0, 0);
+    // Close sidebar after brief delay for smooth transition
+    setTimeout(() => setIsOpen(false), 100);
   };
 
   // Determine if current page has dark background
@@ -112,8 +146,20 @@ export default function Navigation() {
         /* BUTTERY SMOOTH TRANSITIONS - No flash, professional                         */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
-        html, body {
+        html {
           background-color: var(--bg-primary) !important;
+          /* Prevent viewport height jumps on mobile */
+          height: 100%;
+          overflow-x: hidden;
+        }
+        
+        body {
+          background-color: var(--bg-primary) !important;
+          min-height: 100%;
+          min-height: 100dvh; /* Dynamic viewport height - accounts for mobile URL bar */
+          margin: 0;
+          padding: 0;
+          overflow-x: hidden;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -697,7 +743,7 @@ export default function Navigation() {
           {/* ABOUT - Clean minimalist human silhouette */}
           <Link
             href="/"
-            onClick={() => setTimeout(() => setIsOpen(false), 150)}
+            onClick={handleNavClick}
             className="nav-link"
           >
             <div className={`nav-icon-container ${pathname === "/" ? "active" : ""}`}>
@@ -719,7 +765,7 @@ export default function Navigation() {
           {/* WORK - Clean briefcase */}
           <Link
             href="/work"
-            onClick={() => setTimeout(() => setIsOpen(false), 150)}
+            onClick={handleNavClick}
             className="nav-link"
           >
             <div className={`nav-icon-container ${pathname === "/work" || pathname.startsWith("/work/") ? "active" : ""}`}>
@@ -743,7 +789,7 @@ export default function Navigation() {
           {/* CREATIVE - Elegant pen/quill with flowing stroke */}
           <Link
             href="/creative"
-            onClick={() => setTimeout(() => setIsOpen(false), 150)}
+            onClick={handleNavClick}
             className="nav-link"
           >
             <div className={`nav-icon-container ${pathname === "/creative" ? "active" : ""}`}>
