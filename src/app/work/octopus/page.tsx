@@ -37,6 +37,8 @@ export default function Octopus() {
           background: var(--oc-bg);
           padding-top: 60px;
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          overflow-x: hidden;
+          overscroll-behavior: none;
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -287,11 +289,11 @@ export default function Octopus() {
 
         .oc-nav {
           border-top: 1px solid var(--oc-border);
-          padding: clamp(40px, 6vh, 60px) 24px;
+          padding: 24px 20px;
         }
 
         .oc-nav-inner {
-          max-width: 1000px;
+          max-width: 860px;
           margin: 0 auto;
           display: flex;
           justify-content: space-between;

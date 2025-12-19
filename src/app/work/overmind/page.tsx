@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import FadeImage from "@/components/FadeImage";
 
 export default function Overmind() {
   return (
@@ -38,6 +39,8 @@ export default function Overmind() {
           background: var(--om-bg);
           padding-top: 60px;
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          overflow-x: hidden;
+          overscroll-behavior: none;
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -47,65 +50,29 @@ export default function Overmind() {
         .om-hero {
           max-width: 1200px;
           margin: 0 auto;
-          padding: clamp(40px, 8vh, 80px) 24px clamp(32px, 6vh, 48px);
+          padding: clamp(20px, 4vh, 40px) 24px clamp(16px, 3vh, 24px);
           text-align: center;
         }
 
         .om-title {
-          font-size: clamp(36px, 6vw, 56px);
+          font-size: clamp(32px, 5vw, 52px);
           font-weight: 200;
           color: var(--om-text);
-          margin-bottom: clamp(16px, 3vh, 24px);
+          margin-bottom: clamp(20px, 3vh, 32px);
           letter-spacing: -0.02em;
           line-height: 1.1;
         }
 
-        .om-subtitle {
-          font-size: clamp(14px, 1.8vw, 16px);
-          color: var(--om-text-secondary);
-          font-weight: 300;
-          letter-spacing: 0.02em;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* SYMBOL SECTION - Sacred Geometry                                                */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-
-        .om-symbol {
-          max-width: 400px;
+        .om-hero-image {
+          max-width: clamp(260px, 65vw, 500px);
           margin: 0 auto;
-          padding: clamp(40px, 6vh, 60px) 24px;
-          text-align: center;
+          border-radius: 14px;
+          overflow: hidden;
+          box-shadow: 0 40px 100px rgba(0,0,0,0.5);
         }
 
-        .om-symbol-container {
-          width: clamp(100px, 20vw, 140px);
-          height: clamp(100px, 20vw, 140px);
-          margin: 0 auto;
-          position: relative;
-        }
-
-        .om-symbol-svg {
-          width: 100%;
-          height: 100%;
-        }
-
-        .om-symbol-circle {
-          fill: none;
-          stroke: var(--om-text);
-          stroke-width: 0.5;
-          opacity: 0.6;
-        }
-
-        .om-symbol-line {
-          stroke: var(--om-text);
-          stroke-width: 0.3;
-          opacity: 0.4;
-        }
-
-        .om-symbol-dot {
-          fill: var(--om-text);
-          opacity: 0.5;
+        [data-theme="light"] .om-hero-image {
+          box-shadow: 0 40px 100px rgba(0,0,0,0.15);
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -231,11 +198,11 @@ export default function Overmind() {
 
         .om-nav {
           border-top: 1px solid var(--om-border);
-          padding: clamp(40px, 6vh, 60px) 24px;
+          padding: 24px 20px;
         }
 
         .om-nav-inner {
-          max-width: 1000px;
+          max-width: 860px;
           margin: 0 auto;
           display: flex;
           justify-content: space-between;
@@ -263,41 +230,14 @@ export default function Overmind() {
         {/* Hero */}
         <div className="om-hero">
           <h1 className="om-title">Overmind</h1>
-          <p className="om-subtitle">A Solana Meme Token Experiment</p>
-        </div>
-
-        {/* Sacred Symbol */}
-        <div className="om-symbol">
-          <div className="om-symbol-container">
-            <svg className="om-symbol-svg" viewBox="0 0 100 100">
-              {/* Outer circle */}
-              <circle className="om-symbol-circle" cx="50" cy="50" r="45" />
-
-              {/* Inner circles */}
-              <circle className="om-symbol-circle" cx="50" cy="50" r="30" />
-              <circle className="om-symbol-circle" cx="50" cy="50" r="15" />
-
-              {/* Hexagram lines */}
-              {[0, 60, 120, 180, 240, 300].map((angle, i) => {
-                const rad = (angle * Math.PI) / 180;
-                const x1 = 50 + Math.cos(rad) * 45;
-                const y1 = 50 + Math.sin(rad) * 45;
-                const x2 = 50 + Math.cos(rad + Math.PI) * 45;
-                const y2 = 50 + Math.sin(rad + Math.PI) * 45;
-                return <line key={i} className="om-symbol-line" x1={x1} y1={y1} x2={x2} y2={y2} />;
-              })}
-
-              {/* Node points */}
-              {[0, 60, 120, 180, 240, 300].map((angle, i) => {
-                const rad = (angle * Math.PI) / 180;
-                const x = 50 + Math.cos(rad) * 45;
-                const y = 50 + Math.sin(rad) * 45;
-                return <circle key={i} className="om-symbol-dot" cx={x} cy={y} r="2" />;
-              })}
-
-              {/* Center dot */}
-              <circle className="om-symbol-dot" cx="50" cy="50" r="2.5" style={{ opacity: 0.7 }} />
-            </svg>
+          <div className="om-hero-image">
+            <FadeImage
+              src="/images/overmind-hero.png"
+              alt="Overmind"
+              width={640}
+              height={420}
+              priority
+            />
           </div>
         </div>
 

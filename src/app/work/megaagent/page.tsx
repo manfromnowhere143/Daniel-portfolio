@@ -39,6 +39,8 @@ export default function MegaAgent() {
           background: var(--ma-bg);
           padding-top: 60px;
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          overflow-x: hidden;
+          overscroll-behavior: none;
         }
 
         .ma-hero {
@@ -302,11 +304,11 @@ export default function MegaAgent() {
 
         .ma-nav {
           border-top: 1px solid var(--ma-border);
-          padding: clamp(40px, 6vh, 60px) 24px;
+          padding: 24px 20px;
         }
 
         .ma-nav-inner {
-          max-width: 1000px;
+          max-width: 860px;
           margin: 0 auto;
           display: flex;
           justify-content: space-between;

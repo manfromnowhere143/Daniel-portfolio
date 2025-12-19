@@ -149,6 +149,10 @@ export default function Trade69() {
           background: var(--t69-bg);
           padding-top: 60px;
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+          overflow-x: hidden;
+          overscroll-behavior: none;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -293,6 +297,14 @@ export default function Trade69() {
           align-items: center;
           justify-content: center;
           padding-bottom: 80px;
+          animation: t69-overlayIn 0.3s ease forwards;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        
+        @keyframes t69-overlayIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
         
         [data-theme="light"] .t69-overlay {
@@ -303,6 +315,22 @@ export default function Trade69() {
           display: flex;
           align-items: center;
           justify-content: center;
+          animation: t69-contentIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity;
+          transform: translateZ(0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        
+        @keyframes t69-contentIn {
+          from { 
+            opacity: 0; 
+            transform: translateZ(0) scale(0.92) translateY(20px); 
+          }
+          to { 
+            opacity: 1; 
+            transform: translateZ(0) scale(1) translateY(0); 
+          }
         }
 
         /* Close Button */
@@ -323,6 +351,18 @@ export default function Trade69() {
           justify-content: center;
           cursor: pointer;
           z-index: 1000000;
+          animation: t69-btnIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+        }
+        
+        @keyframes t69-btnIn {
+          from { 
+            opacity: 0; 
+            transform: translateX(-50%) scale(0.8); 
+          }
+          to { 
+            opacity: 1; 
+            transform: translateX(-50%) scale(1); 
+          }
         }
         
         [data-theme="light"] .t69-close-btn {
@@ -361,6 +401,19 @@ export default function Trade69() {
           object-fit: contain;
           border-radius: 12px;
           background: #000;
+          animation: t69-videoIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity;
+        }
+        
+        @keyframes t69-videoIn {
+          from {
+            opacity: 0;
+            transform: translateZ(0) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateZ(0) scale(1);
+          }
         }
         
         [data-theme="light"] .t69-theater-video {
@@ -522,6 +575,19 @@ export default function Trade69() {
           padding: 16px;
           box-shadow: 0 25px 80px rgba(0,0,0,0.4);
           border: 1px solid var(--t69-border);
+          animation: t69-galleryCardIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity;
+        }
+        
+        @keyframes t69-galleryCardIn {
+          from {
+            opacity: 0;
+            transform: translateZ(0) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateZ(0) scale(1);
+          }
         }
         
         [data-theme="light"] .t69-gallery-card {
@@ -550,12 +616,39 @@ export default function Trade69() {
           overflow: hidden;
           cursor: pointer;
           box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-          transition: transform 0.3s ease;
+          opacity: 0;
+          transform: translateZ(0) scale(0.9);
+          animation: t69-thumbIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          will-change: transform, opacity;
+          transition: transform 0.2s ease;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
-        .t69-gallery-item:hover { transform: scale(1.03); }
-        .t69-gallery-item:active { transform: scale(0.97); }
-        .t69-gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .t69-gallery-item:nth-child(1) { animation-delay: 0.05s; }
+        .t69-gallery-item:nth-child(2) { animation-delay: 0.08s; }
+        .t69-gallery-item:nth-child(3) { animation-delay: 0.11s; }
+        .t69-gallery-item:nth-child(4) { animation-delay: 0.14s; }
+        .t69-gallery-item:nth-child(5) { animation-delay: 0.17s; }
+        .t69-gallery-item:nth-child(6) { animation-delay: 0.20s; }
+        .t69-gallery-item:nth-child(7) { animation-delay: 0.23s; }
+        
+        @keyframes t69-thumbIn {
+          to { 
+            opacity: 1; 
+            transform: translateZ(0) scale(1); 
+          }
+        }
+        
+        .t69-gallery-item:hover { transform: translateZ(0) scale(1.05); }
+        .t69-gallery-item:active { transform: translateZ(0) scale(0.97); }
+        .t69-gallery-item img { 
+          width: 100%; 
+          height: 100%; 
+          object-fit: cover; 
+          display: block;
+          pointer-events: none;
+        }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* ARCHITECTURE CARD                                                               */
@@ -571,6 +664,19 @@ export default function Trade69() {
           justify-content: center;
           box-shadow: 0 25px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
           overflow: hidden;
+          animation: t69-archIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity;
+        }
+        
+        @keyframes t69-archIn {
+          from {
+            opacity: 0;
+            transform: translateZ(0) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateZ(0) scale(1);
+          }
         }
         
         [data-theme="light"] .t69-arch-card {
@@ -595,7 +701,21 @@ export default function Trade69() {
           border-radius: 12px;
           overflow: hidden;
           box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+          animation: t69-imageIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity;
         }
+        
+        @keyframes t69-imageIn {
+          from {
+            opacity: 0;
+            transform: translateZ(0) scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: translateZ(0) scale(1);
+          }
+        }
+        
         [data-theme="light"] .t69-image-expanded {
           box-shadow: 0 30px 80px rgba(0,0,0,0.2);
         }
