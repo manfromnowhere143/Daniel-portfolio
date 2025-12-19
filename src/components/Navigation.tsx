@@ -568,7 +568,7 @@ export default function Navigation() {
             display: "block",
             height: "2px",
             borderRadius: "1px",
-            background: isOpen ? "#FAFAF8" : hamburgerColor,
+            background: isOpen ? textColor : hamburgerColor,
             transformOrigin: "right center",
             transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
             transitionDelay: isOpen ? "0.1s" : "0s",
@@ -576,7 +576,7 @@ export default function Navigation() {
             transform: isOpen
               ? "rotate(-45deg) translateX(3px) translateY(-1px)"
               : "rotate(0) translateX(0) translateY(0)",
-            boxShadow: isOpen
+            boxShadow: isOpen && theme === 'dark'
               ? "0 0 8px rgba(250, 250, 248, 0.3)"
               : "none"
           }} />
@@ -586,7 +586,7 @@ export default function Navigation() {
             display: "block",
             height: "2px",
             borderRadius: "1px",
-            background: isOpen ? "#FAFAF8" : hamburgerColor,
+            background: isOpen ? textColor : hamburgerColor,
             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
             transitionDelay: isOpen ? "0s" : "0.1s",
             width: isOpen ? "0px" : "20px",
@@ -599,7 +599,7 @@ export default function Navigation() {
             display: "block",
             height: "2px",
             borderRadius: "1px",
-            background: isOpen ? "#FAFAF8" : hamburgerColor,
+            background: isOpen ? textColor : hamburgerColor,
             transformOrigin: "right center",
             transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
             transitionDelay: isOpen ? "0.1s" : "0s",
@@ -607,7 +607,7 @@ export default function Navigation() {
             transform: isOpen
               ? "rotate(45deg) translateX(3px) translateY(1px)"
               : "rotate(0) translateX(0) translateY(0)",
-            boxShadow: isOpen
+            boxShadow: isOpen && theme === 'dark'
               ? "0 0 8px rgba(250, 250, 248, 0.3)"
               : "none"
           }} />
