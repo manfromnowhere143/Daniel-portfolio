@@ -288,11 +288,15 @@ export default function Trade69() {
           width: 100vw;
           height: 100vh;
           z-index: 999999;
-          background: rgba(0,0,0,0.95);
+          background: rgba(0,0,0,0.92);
           display: flex;
           align-items: center;
           justify-content: center;
           padding-bottom: 80px;
+        }
+        
+        [data-theme="light"] .t69-overlay {
+          background: rgba(245,245,240,0.95);
         }
 
         .t69-overlay-content {
@@ -321,15 +325,24 @@ export default function Trade69() {
           z-index: 1000000;
         }
         
+        [data-theme="light"] .t69-close-btn {
+          background: rgba(0,0,0,0.08);
+          border: 1px solid rgba(0,0,0,0.1);
+        }
+        
         .t69-close-btn:hover { background: rgba(255,255,255,0.25); }
+        [data-theme="light"] .t69-close-btn:hover { background: rgba(0,0,0,0.12); }
+        
         .t69-close-btn:active { transform: translateX(-50%) scale(0.95); }
         .t69-close-btn svg { width: 22px; height: 22px; color: white; }
+        [data-theme="light"] .t69-close-btn svg { color: #1a1a1a; }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* VIDEO THEATER                                                                   */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .t69-video-overlay { background: #000; }
+        [data-theme="light"] .t69-video-overlay { background: rgba(245,245,240,0.98); }
         
         .t69-theater {
           width: 100%;
@@ -347,6 +360,11 @@ export default function Trade69() {
           max-height: 60vh;
           object-fit: contain;
           border-radius: 12px;
+          background: #000;
+        }
+        
+        [data-theme="light"] .t69-theater-video {
+          box-shadow: 0 20px 60px rgba(0,0,0,0.2);
         }
 
         .t69-video-ui {
@@ -376,6 +394,9 @@ export default function Trade69() {
           border-radius: 2px;
           transition: height 0.15s;
         }
+        [data-theme="light"] .t69-progress-track {
+          background: rgba(0,0,0,0.2);
+        }
         .t69-progress-bar:hover .t69-progress-track { height: 6px; }
         .t69-progress-fill {
           height: 100%;
@@ -394,6 +415,9 @@ export default function Trade69() {
           border-radius: 50%;
           transform: translateY(-50%) scale(0);
           transition: transform 0.15s;
+        }
+        [data-theme="light"] .t69-progress-fill::after {
+          background: #1a1a1a;
         }
         .t69-progress-bar:hover .t69-progress-fill::after {
           transform: translateY(-50%) scale(1);
@@ -419,14 +443,22 @@ export default function Trade69() {
           transition: all 0.2s;
           position: relative;
         }
+        [data-theme="light"] .t69-ctrl-btn {
+          background: rgba(0,0,0,0.08);
+        }
         .t69-ctrl-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.08); }
+        [data-theme="light"] .t69-ctrl-btn:hover { background: rgba(0,0,0,0.12); }
         .t69-ctrl-btn:active { transform: scale(0.95); }
         .t69-ctrl-btn svg { color: white; }
+        [data-theme="light"] .t69-ctrl-btn svg { color: #1a1a1a; }
         
         .t69-ctrl-btn.play {
           width: 56px;
           height: 56px;
           background: rgba(255,255,255,0.15);
+        }
+        [data-theme="light"] .t69-ctrl-btn.play {
+          background: rgba(0,0,0,0.1);
         }
         .t69-ctrl-btn.play svg { width: 28px; height: 28px; }
         
@@ -437,6 +469,9 @@ export default function Trade69() {
           color: white;
           bottom: 8px;
         }
+        [data-theme="light"] .t69-skip-label {
+          color: #1a1a1a;
+        }
 
         .t69-time {
           position: absolute;
@@ -444,6 +479,9 @@ export default function Trade69() {
           font-size: 12px;
           color: rgba(255,255,255,0.8);
           font-variant-numeric: tabular-nums;
+        }
+        [data-theme="light"] .t69-time {
+          color: rgba(0,0,0,0.7);
         }
 
         .t69-play-indicator {
@@ -464,8 +502,12 @@ export default function Trade69() {
           transition: opacity 0.2s;
           z-index: 1000001;
         }
+        [data-theme="light"] .t69-play-indicator {
+          background: rgba(255,255,255,0.7);
+        }
         .t69-play-indicator.show { opacity: 1; }
         .t69-play-indicator svg { width: 32px; height: 32px; color: white; margin-left: 3px; }
+        [data-theme="light"] .t69-play-indicator svg { color: #1a1a1a; }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* GALLERY CARD                                                                    */
@@ -531,6 +573,11 @@ export default function Trade69() {
           overflow: hidden;
         }
         
+        [data-theme="light"] .t69-arch-card {
+          background: #fff;
+          box-shadow: 0 25px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.08);
+        }
+        
         @media (min-width: 400px) {
           .t69-arch-card { width: 320px; }
         }
@@ -548,6 +595,9 @@ export default function Trade69() {
           border-radius: 12px;
           overflow: hidden;
           box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+        }
+        [data-theme="light"] .t69-image-expanded {
+          box-shadow: 0 30px 80px rgba(0,0,0,0.2);
         }
         .t69-image-expanded img {
           display: block;
