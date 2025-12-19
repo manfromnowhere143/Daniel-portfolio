@@ -210,8 +210,11 @@ export default function About() {
     return () => clearInterval(interval);
   }, [isMounted]);
 
-  // Page load
+  // Page load - reset scroll and fade in
   useEffect(() => {
+    // Force scroll to top immediately
+    window.scrollTo(0, 0);
+    document.body.style.overflow = '';
     const timer = setTimeout(() => setIsLoaded(true), 50);
     return () => clearTimeout(timer);
   }, []);
