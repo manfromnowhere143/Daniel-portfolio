@@ -282,11 +282,11 @@ export default function About() {
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;300;400&display=swap');
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - THEME VARIABLES (STEVE JOBS LEVEL)                           */
-        /* Embedded for guaranteed loading - no external dependency                        */
+        /* STATE OF THE ART - THEME VARIABLES                                             */
+        /* Only dark and light - instant switching                                        */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
-        :root {
+        :root, [data-theme="dark"] {
           --bg-primary: #050506;
           --bg-secondary: #0a0a0b;
           --bg-card: rgba(20, 20, 22, 0.6);
@@ -310,42 +310,6 @@ export default function About() {
           --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
           --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.18);
           --icon-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* COSMOS THEME - Space & Time                                                     */
-        /* Deep space with nebula colors - Elon Musk proud                                 */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        [data-theme="cosmos"] {
-          --bg-primary: #050510;
-          --bg-secondary: #0a0a1a;
-          --bg-card: rgba(20, 15, 40, 0.6);
-          --text-primary: #E8E6FF;
-          --text-secondary: rgba(232, 230, 255, 0.8);
-          --text-tertiary: rgba(232, 230, 255, 0.5);
-          --border-primary: rgba(138, 43, 226, 0.15);
-          --shadow-md: 0 8px 24px rgba(138, 43, 226, 0.15);
-          --shadow-lg: 0 16px 48px rgba(138, 43, 226, 0.2);
-          --icon-shadow: 0 4px 12px rgba(138, 43, 226, 0.2), 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* SPACE THEME - Animated Three.js Background                                      */
-        /* Deep space with stars, nebulas, shooting stars                                  */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        [data-theme="space"] {
-          --bg-primary: transparent;
-          --bg-secondary: rgba(5, 5, 16, 0.5);
-          --bg-card: rgba(10, 10, 30, 0.4);
-          --text-primary: #E8EAFF;
-          --text-secondary: rgba(232, 234, 255, 0.8);
-          --text-tertiary: rgba(232, 234, 255, 0.5);
-          --border-primary: rgba(100, 100, 200, 0.12);
-          --shadow-md: 0 8px 24px rgba(50, 50, 150, 0.15);
-          --shadow-lg: 0 16px 48px rgba(50, 50, 150, 0.2);
-          --icon-shadow: 0 4px 12px rgba(100, 100, 200, 0.2), 0 2px 4px rgba(0, 0, 0, 0.4);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -375,8 +339,7 @@ export default function About() {
           touch-action: none;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
-                      background-color 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .about-page.loaded { opacity: 1; }
@@ -397,7 +360,7 @@ export default function About() {
           color: var(--text-primary);
           margin: 0 0 4px;
           letter-spacing: -0.02em;
-          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: color 0.3s ease;
         }
         
         .hero-tagline {
@@ -406,7 +369,7 @@ export default function About() {
           font-weight: 300;
           color: var(--text-secondary);
           letter-spacing: 0.05em;
-          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: color 0.3s ease;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -477,7 +440,7 @@ export default function About() {
             transparent 100%
           );
           opacity: 1;
-          transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: opacity 0.3s ease;
         }
         
         .terminal-fade-top::after {
@@ -494,19 +457,11 @@ export default function About() {
             transparent 100%
           );
           opacity: 0;
-          transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: opacity 0.3s ease;
         }
         
         [data-theme="light"] .terminal-fade-top::before { opacity: 0; }
         [data-theme="light"] .terminal-fade-top::after { opacity: 1; }
-        
-        /* Cosmos uses dark fade (similar background color) */
-        [data-theme="cosmos"] .terminal-fade-top::before { opacity: 1; }
-        [data-theme="cosmos"] .terminal-fade-top::after { opacity: 0; }
-        
-        /* Space theme - no fades (transparent background shows Three.js) */
-        [data-theme="space"] .terminal-fade-top::before { opacity: 0; }
-        [data-theme="space"] .terminal-fade-top::after { opacity: 0; }
         
         .terminal-fade-bottom {
           position: absolute;
@@ -534,7 +489,7 @@ export default function About() {
             transparent 100%
           );
           opacity: 1;
-          transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: opacity 0.3s ease;
         }
         
         .terminal-fade-bottom::after {
@@ -552,19 +507,11 @@ export default function About() {
             transparent 100%
           );
           opacity: 0;
-          transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: opacity 0.3s ease;
         }
         
         [data-theme="light"] .terminal-fade-bottom::before { opacity: 0; }
         [data-theme="light"] .terminal-fade-bottom::after { opacity: 1; }
-        
-        /* Cosmos uses dark fade (similar background color) */
-        [data-theme="cosmos"] .terminal-fade-bottom::before { opacity: 1; }
-        [data-theme="cosmos"] .terminal-fade-bottom::after { opacity: 0; }
-        
-        /* Space theme - no fades (transparent background shows Three.js) */
-        [data-theme="space"] .terminal-fade-bottom::before { opacity: 0; }
-        [data-theme="space"] .terminal-fade-bottom::after { opacity: 0; }
         
         /* Floating scroll arrow indicator */
         .scroll-arrow {
@@ -587,7 +534,7 @@ export default function About() {
           stroke: var(--text-primary);
           stroke-width: 1.5;
           fill: none;
-          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: stroke 0.3s ease;
         }
         
         @keyframes arrowFloat {
@@ -607,7 +554,7 @@ export default function About() {
           color: var(--text-secondary);
           white-space: pre-wrap;
           word-break: break-word;
-          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: color 0.3s ease;
         }
         
         .line-content {
@@ -623,7 +570,7 @@ export default function About() {
         
         .yaml-text {
           color: var(--text-primary);
-          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: color 0.3s ease;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
         }
@@ -632,8 +579,8 @@ export default function About() {
           font-variant-numeric: tabular-nums;
           text-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
           opacity: 0.9;
-          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1), 
-                      text-shadow 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: color 0.3s ease, 
+                      text-shadow 0.3s ease;
         }
         
         .yaml-text.yaml-dim {
@@ -686,8 +633,8 @@ export default function About() {
           animation: cursorBlink 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
           box-shadow: 0 0 12px currentColor, 0 0 25px currentColor;
           border-radius: 1px;
-          transition: background 1s cubic-bezier(0.4, 0, 0.2, 1), 
-                      box-shadow 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: background 0.3s ease, 
+                      box-shadow 0.3s ease;
         }
         
         @keyframes cursorBlink {
@@ -788,7 +735,7 @@ export default function About() {
           font-weight: 400;
           color: var(--text-primary);
           letter-spacing: 0.05em;
-          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: color 0.3s ease;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */

@@ -11,7 +11,6 @@ export default function Navigation() {
   const [time, setTime] = useState<Date | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-  const [overlayStyle, setOverlayStyle] = useState<{ bg: string; opacity: number } | null>(null);
 
   // Load theme from localStorage on mount
   useEffect(() => {
@@ -22,32 +21,12 @@ export default function Navigation() {
     }
   }, []);
 
-  // Handle theme change with cross-fade overlay - buttery smooth
+  // Handle theme change - instant, no flash
   const handleThemeChange = (newTheme: 'dark' | 'light') => {
     if (newTheme === theme) return;
-
-    // Get current background color for overlay
-    const currentBg = theme === 'light' ? '#F5F5F0' : '#050506';
-
-    // Show overlay with current bg - covers everything
-    setOverlayStyle({ bg: currentBg, opacity: 1 });
-
-    // Small delay then change theme underneath overlay
-    setTimeout(() => {
-      setTheme(newTheme);
-      localStorage.setItem('site-theme', newTheme);
-      document.documentElement.setAttribute('data-theme', newTheme);
-
-      // Fade out overlay smoothly
-      requestAnimationFrame(() => {
-        setOverlayStyle({ bg: currentBg, opacity: 0 });
-      });
-
-      // Remove overlay after fade completes
-      setTimeout(() => {
-        setOverlayStyle(null);
-      }, 600);
-    }, 50);
+    setTheme(newTheme);
+    localStorage.setItem('site-theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
   };
 
   // Determine if current page has dark background
@@ -559,24 +538,6 @@ export default function Navigation() {
           flex-shrink: 0;
         }
       `}</style>
-
-      {/* Cross-fade overlay for smooth theme transitions - covers EVERYTHING */}
-      {overlayStyle && (
-        <div
-          style={{
-            position: 'fixed',
-            top: '-50vh',
-            left: '-50vw',
-            width: '200vw',
-            height: '200vh',
-            backgroundColor: overlayStyle.bg,
-            opacity: overlayStyle.opacity,
-            transition: 'opacity 0.55s ease-out',
-            zIndex: 999999,
-            pointerEvents: 'none'
-          }}
-        />
-      )}
 
       {/* Desktop Sidebar */}
       <nav

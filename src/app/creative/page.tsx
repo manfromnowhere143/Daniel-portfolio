@@ -19,11 +19,11 @@ export default function Creative() {
     <>
       <style>{`
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - THEME VARIABLES (STEVE JOBS LEVEL)                           */
-        /* Embedded for guaranteed loading                                                  */
+        /* STATE OF THE ART - THEME VARIABLES                                              */
+        /* Only dark and light - instant switching                                         */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
-        :root {
+        :root, [data-theme="dark"] {
           --bg-primary: #050506;
           --text-primary: #FFFFFF;
           --text-secondary: rgba(255, 255, 255, 0.8);
@@ -37,32 +37,6 @@ export default function Creative() {
           --text-secondary: rgba(26, 26, 26, 0.75);
           --text-tertiary: rgba(26, 26, 26, 0.5);
           --text-muted: rgba(26, 26, 26, 0.3);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* COSMOS THEME - Space & Time                                                     */
-        /* Deep space with nebula colors - Elon Musk proud                                 */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        [data-theme="cosmos"] {
-          --bg-primary: #050510;
-          --text-primary: #E8E6FF;
-          --text-secondary: rgba(232, 230, 255, 0.8);
-          --text-tertiary: rgba(232, 230, 255, 0.5);
-          --text-muted: rgba(232, 230, 255, 0.3);
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* SPACE THEME - Animated Three.js Background                                      */
-        /* Deep space with stars, nebulas, shooting stars                                  */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        [data-theme="space"] {
-          --bg-primary: transparent;
-          --text-primary: #E8EAFF;
-          --text-secondary: rgba(232, 234, 255, 0.8);
-          --text-tertiary: rgba(232, 234, 255, 0.5);
-          --text-muted: rgba(232, 234, 255, 0.3);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -93,7 +67,6 @@ export default function Creative() {
           overflow: hidden;
           touch-action: none;
           overscroll-behavior: none;
-          transition: background-color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* Subtle radial gradient background */
@@ -168,21 +141,21 @@ export default function Creative() {
           stroke: var(--text-muted, rgba(255, 255, 255, 0.15));
           fill: none;
           stroke-width: 0.5;
-          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: stroke 0.3s ease;
         }
         
         .logo-svg .ring-inner {
           stroke: var(--text-tertiary, rgba(255, 255, 255, 0.25));
           animation: ringRotate 30s linear infinite;
           transform-origin: center;
-          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: stroke 0.3s ease;
         }
         
         .logo-svg .ring-outer {
           stroke: var(--text-muted, rgba(255, 255, 255, 0.1));
           animation: ringRotate 45s linear infinite reverse;
           transform-origin: center;
-          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: stroke 0.3s ease;
         }
         
         @keyframes ringRotate {
@@ -193,18 +166,18 @@ export default function Creative() {
         .logo-svg .line {
           stroke: var(--text-muted, rgba(255, 255, 255, 0.12));
           stroke-width: 0.3;
-          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: stroke 0.3s ease;
         }
         
         .logo-svg .node {
           fill: var(--text-tertiary, rgba(255, 255, 255, 0.4));
-          transition: fill 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: fill 0.3s ease;
         }
         
         .logo-svg .node-center {
           fill: var(--text-secondary, rgba(255, 255, 255, 0.9));
           animation: centerPulse 3s ease-in-out infinite;
-          transition: fill 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: fill 0.3s ease;
         }
         
         @keyframes centerPulse {
@@ -216,7 +189,7 @@ export default function Creative() {
           stroke: var(--text-muted, rgba(255, 255, 255, 0.2));
           fill: none;
           stroke-width: 0.4;
-          transition: stroke 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: stroke 0.3s ease;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -231,7 +204,7 @@ export default function Creative() {
           text-transform: uppercase;
           color: var(--text-tertiary, rgba(255, 255, 255, 0.4));
           text-align: center;
-          transition: color 1s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: color 0.3s ease;
         }
         
         @media (min-width: 600px) {
