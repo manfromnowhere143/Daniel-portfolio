@@ -424,44 +424,16 @@ export default function About() {
           pointer-events: none;
           z-index: 15;
           overflow: hidden;
-        }
-        
-        .terminal-fade-top::before {
-          content: '';
-          position: absolute;
-          inset: 0;
           background: linear-gradient(to bottom, 
-            #050506 0%,
-            #050506 18%,
-            rgba(5, 5, 6, 0.95) 32%,
-            rgba(5, 5, 6, 0.8) 48%,
-            rgba(5, 5, 6, 0.5) 65%,
-            rgba(5, 5, 6, 0.2) 82%,
+            var(--bg-primary) 0%,
+            var(--bg-primary) 18%,
+            color-mix(in srgb, var(--bg-primary) 95%, transparent) 32%,
+            color-mix(in srgb, var(--bg-primary) 80%, transparent) 48%,
+            color-mix(in srgb, var(--bg-primary) 50%, transparent) 65%,
+            color-mix(in srgb, var(--bg-primary) 20%, transparent) 82%,
             transparent 100%
           );
-          opacity: 1;
-          transition: opacity 0.3s ease;
         }
-        
-        .terminal-fade-top::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(to bottom, 
-            #F5F5F0 0%,
-            #F5F5F0 18%,
-            rgba(245, 245, 240, 0.95) 32%,
-            rgba(245, 245, 240, 0.8) 48%,
-            rgba(245, 245, 240, 0.5) 65%,
-            rgba(245, 245, 240, 0.2) 82%,
-            transparent 100%
-          );
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-        
-        [data-theme="light"] .terminal-fade-top::before { opacity: 0; }
-        [data-theme="light"] .terminal-fade-top::after { opacity: 1; }
         
         .terminal-fade-bottom {
           position: absolute;
@@ -472,46 +444,17 @@ export default function About() {
           pointer-events: none;
           z-index: 15;
           overflow: hidden;
-        }
-        
-        .terminal-fade-bottom::before {
-          content: '';
-          position: absolute;
-          inset: 0;
           background: linear-gradient(to top, 
-            #050506 0%,
-            #050506 25%,
-            rgba(5, 5, 6, 0.98) 35%,
-            rgba(5, 5, 6, 0.9) 45%,
-            rgba(5, 5, 6, 0.7) 58%,
-            rgba(5, 5, 6, 0.4) 72%,
-            rgba(5, 5, 6, 0.15) 85%,
+            var(--bg-primary) 0%,
+            var(--bg-primary) 25%,
+            color-mix(in srgb, var(--bg-primary) 98%, transparent) 35%,
+            color-mix(in srgb, var(--bg-primary) 90%, transparent) 45%,
+            color-mix(in srgb, var(--bg-primary) 70%, transparent) 58%,
+            color-mix(in srgb, var(--bg-primary) 40%, transparent) 72%,
+            color-mix(in srgb, var(--bg-primary) 15%, transparent) 85%,
             transparent 100%
           );
-          opacity: 1;
-          transition: opacity 0.3s ease;
         }
-        
-        .terminal-fade-bottom::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(to top, 
-            #F5F5F0 0%,
-            #F5F5F0 25%,
-            rgba(245, 245, 240, 0.98) 35%,
-            rgba(245, 245, 240, 0.9) 45%,
-            rgba(245, 245, 240, 0.7) 58%,
-            rgba(245, 245, 240, 0.4) 72%,
-            rgba(245, 245, 240, 0.15) 85%,
-            transparent 100%
-          );
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-        
-        [data-theme="light"] .terminal-fade-bottom::before { opacity: 0; }
-        [data-theme="light"] .terminal-fade-bottom::after { opacity: 1; }
         
         /* Floating scroll arrow indicator */
         .scroll-arrow {

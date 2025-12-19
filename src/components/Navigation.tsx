@@ -118,7 +118,7 @@ export default function Navigation() {
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - THEME TOGGLE BUTTONS                                     */
-        /* Horizontal row, left-aligned, under nav links - pure elegance               */
+        /* Horizontal row, left-aligned, under nav links - floating elegance           */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
         .theme-toggle-container {
@@ -129,7 +129,6 @@ export default function Navigation() {
           justify-content: flex-start;
           padding: 16px 0 0 0;
           margin-top: 16px;
-          border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
         
         .theme-btn {
@@ -231,63 +230,25 @@ export default function Navigation() {
           flex-direction: column;
           align-items: flex-start;
           padding: 18px 16px;
-          background: rgba(18, 18, 20, 0.35);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          border-radius: 14px;
-          border: 0.5px solid rgba(255, 255, 255, 0.04);
-          box-shadow: 
-            0 0 30px rgba(0, 0, 0, 0.25),
-            0 15px 35px rgba(0, 0, 0, 0.18),
-            inset 0 0.5px 0 rgba(255, 255, 255, 0.04);
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          background: transparent;
+          border: none;
+          box-shadow: none;
+          transition: all 0.3s ease;
         }
         
         .desktop-sidebar:hover {
-          background: rgba(22, 22, 24, 0.45);
-          border-color: rgba(255, 255, 255, 0.06);
-          box-shadow: 
-            0 0 50px rgba(0, 0, 0, 0.3),
-            0 20px 45px rgba(0, 0, 0, 0.22),
-            inset 0 0.5px 0 rgba(255, 255, 255, 0.06);
+          background: transparent;
         }
         
-        .desktop-sidebar::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 25%;
-          right: 25%;
-          height: 0.5px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-          pointer-events: none;
-        }
-        
-        /* Light mode sidebar */
+        /* Light mode sidebar - also transparent */
         [data-theme="light"] .desktop-sidebar {
-          background: rgba(255, 255, 255, 0.75);
-          border-color: rgba(0, 0, 0, 0.06);
-          box-shadow: 
-            0 0 30px rgba(0, 0, 0, 0.08),
-            0 15px 35px rgba(0, 0, 0, 0.06),
-            inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
-        }
-        
-        [data-theme="light"] .desktop-sidebar::before {
-          background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.06), transparent);
+          background: transparent;
+          border: none;
+          box-shadow: none;
         }
         
         [data-theme="light"] .desktop-sidebar:hover {
-          background: rgba(255, 255, 255, 0.85);
-          border-color: rgba(0, 0, 0, 0.08);
-        }
-        
-        [data-theme="light"] .theme-toggle-container {
-          border-top-color: rgba(0, 0, 0, 0.06);
-        }
-        
-        [data-theme="light"] .sidebar-nav {
-          border-top-color: rgba(0, 0, 0, 0.06);
+          background: transparent;
         }
         
         .sidebar-logo {
@@ -334,7 +295,6 @@ export default function Navigation() {
           width: 100%;
           margin-top: 12px;
           padding-top: 12px;
-          border-top: 0.5px solid rgba(255, 255, 255, 0.04);
         }
         
         .sidebar-nav-link {
