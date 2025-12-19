@@ -269,20 +269,19 @@ export default function Trade69Architecture() {
           ctx.arc(x, y, (layer.nodeSize * 0.5) * scale, 0, Math.PI * 2);
           ctx.fill();
 
-          // Node label
-          if (scale > 0.7) {
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-            ctx.font = `300 ${Math.max(8, 9 * scale)}px -apple-system, BlinkMacSystemFont, sans-serif`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
+          // Node label - always show, adaptive sizing
+          ctx.fillStyle = `rgba(255, 255, 255, ${scale > 0.5 ? 0.85 : 0.75})`;
+          const fontSize = Math.max(7, Math.min(10, 9 * scale));
+          ctx.font = `300 ${fontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
 
-            // Position label outside the orbit
-            const labelOffset = layer.nodeSize * scale + 12 * scale;
-            const labelX = cx + Math.cos(angle) * (r + labelOffset);
-            const labelY = cy + Math.sin(angle) * (r + labelOffset);
+          // Position label outside the orbit - closer on mobile
+          const labelOffset = layer.nodeSize * scale + (scale > 0.6 ? 12 : 8) * scale;
+          const labelX = cx + Math.cos(angle) * (r + labelOffset);
+          const labelY = cy + Math.sin(angle) * (r + labelOffset);
 
-            ctx.fillText(nodeName, labelX, labelY);
-          }
+          ctx.fillText(nodeName, labelX, labelY);
         });
       });
 
@@ -406,20 +405,18 @@ export default function Trade69Architecture() {
         return true;
       });
 
-      // Layer labels (static, at fixed positions)
-      if (scale > 0.6) {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-        ctx.font = `500 ${Math.max(8, 8 * scale)}px -apple-system, BlinkMacSystemFont, sans-serif`;
-        ctx.textAlign = 'left';
-        ctx.letterSpacing = '0.1em';
+      // Layer labels (static, at fixed positions) - always show
+      ctx.fillStyle = `rgba(255, 255, 255, ${scale > 0.5 ? 0.4 : 0.35})`;
+      const layerFontSize = Math.max(6, Math.min(9, 8 * scale));
+      ctx.font = `500 ${layerFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+      ctx.textAlign = 'left';
 
-        layers.forEach((layer, i) => {
-          if (i > 0) { // Skip CORE label
-            const labelY = cy - layer.radius * scale - 8 * scale;
-            ctx.fillText(layer.name, cx + 10 * scale, labelY);
-          }
-        });
-      }
+      layers.forEach((layer, i) => {
+        if (i > 0) { // Skip CORE label
+          const labelY = cy - layer.radius * scale - (scale > 0.6 ? 8 : 5) * scale;
+          ctx.fillText(layer.name, cx + (scale > 0.6 ? 10 : 6) * scale, labelY);
+        }
+      });
 
       animationRef.current = requestAnimationFrame(animate);
     };

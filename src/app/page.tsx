@@ -335,18 +335,19 @@ export default function About() {
           backface-visibility: hidden;
           transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
           
-          /* Perfect centering container */
+          /* Perfect centering container - shifted up */
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
+          padding-bottom: clamp(60px, 10vh, 100px); /* Shifts content up */
         }
         
         .about-page.loaded { opacity: 1; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* CENTERED CONTENT WRAPPER                                                        */
-        /* Everything perfectly centered in the void                                       */
+        /* Everything perfectly centered in the void, shifted up                           */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .content-wrapper {
@@ -427,46 +428,46 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* BUTTERY SMOOTH FADE OVERLAYS                                                    */
+        /* STATE OF THE ART - BUTTERY SMOOTH FADE OVERLAYS                                 */
+        /* Extended beyond bounds to eliminate any gaps - pixel perfect                    */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .terminal-fade-top {
           position: absolute;
-          top: 0;
-          left: -20px;
-          right: -20px;
-          height: 55px;
+          top: -4px; /* Extend above to eliminate gap */
+          left: -24px;
+          right: -24px;
+          height: 60px;
           pointer-events: none;
           z-index: 15;
-          overflow: hidden;
           background: linear-gradient(to bottom, 
             var(--bg-primary) 0%,
-            var(--bg-primary) 18%,
-            color-mix(in srgb, var(--bg-primary) 95%, transparent) 32%,
-            color-mix(in srgb, var(--bg-primary) 80%, transparent) 48%,
-            color-mix(in srgb, var(--bg-primary) 50%, transparent) 65%,
-            color-mix(in srgb, var(--bg-primary) 20%, transparent) 82%,
+            var(--bg-primary) 25%,
+            color-mix(in srgb, var(--bg-primary) 97%, transparent) 35%,
+            color-mix(in srgb, var(--bg-primary) 88%, transparent) 48%,
+            color-mix(in srgb, var(--bg-primary) 65%, transparent) 62%,
+            color-mix(in srgb, var(--bg-primary) 35%, transparent) 78%,
+            color-mix(in srgb, var(--bg-primary) 10%, transparent) 90%,
             transparent 100%
           );
         }
         
         .terminal-fade-bottom {
           position: absolute;
-          bottom: -8px;
-          left: -20px;
-          right: -20px;
-          height: 65px;
+          bottom: -10px;
+          left: -24px;
+          right: -24px;
+          height: 70px;
           pointer-events: none;
           z-index: 15;
-          overflow: hidden;
           background: linear-gradient(to top, 
             var(--bg-primary) 0%,
-            var(--bg-primary) 25%,
-            color-mix(in srgb, var(--bg-primary) 98%, transparent) 35%,
-            color-mix(in srgb, var(--bg-primary) 90%, transparent) 45%,
-            color-mix(in srgb, var(--bg-primary) 70%, transparent) 58%,
-            color-mix(in srgb, var(--bg-primary) 40%, transparent) 72%,
-            color-mix(in srgb, var(--bg-primary) 15%, transparent) 85%,
+            var(--bg-primary) 28%,
+            color-mix(in srgb, var(--bg-primary) 97%, transparent) 38%,
+            color-mix(in srgb, var(--bg-primary) 88%, transparent) 50%,
+            color-mix(in srgb, var(--bg-primary) 65%, transparent) 64%,
+            color-mix(in srgb, var(--bg-primary) 35%, transparent) 80%,
+            color-mix(in srgb, var(--bg-primary) 10%, transparent) 92%,
             transparent 100%
           );
         }
@@ -608,8 +609,8 @@ export default function About() {
             max-height: clamp(180px, 30vh, 240px); 
             padding: 28px 0; 
           }
-          .terminal-fade-top { height: 45px; left: -16px; right: -16px; }
-          .terminal-fade-bottom { height: 55px; bottom: -6px; left: -16px; right: -16px; }
+          .terminal-fade-top { height: 50px; top: -4px; left: -20px; right: -20px; }
+          .terminal-fade-bottom { height: 60px; bottom: -8px; left: -20px; right: -20px; }
           .scroll-arrow { bottom: 8px; right: -4px; width: 24px; height: 24px; }
           .scroll-arrow svg { width: 12px; height: 12px; }
           .code-line { padding: 1px 4px; font-size: 9px; min-height: 16px; line-height: 16px; }
@@ -628,13 +629,16 @@ export default function About() {
             max-height: clamp(165px, 28vh, 220px); 
             padding: 24px 0; 
           }
-          .terminal-fade-top { height: 38px; }
-          .terminal-fade-bottom { height: 48px; bottom: -5px; }
+          .terminal-fade-top { height: 42px; top: -4px; }
+          .terminal-fade-bottom { height: 52px; bottom: -6px; }
           .code-line { font-size: 8.5px; min-height: 15px; line-height: 15px; }
         }
         
         /* Very short screens - tighten everything */
         @media (max-height: 650px) {
+          .about-page {
+            padding-bottom: clamp(40px, 7vh, 60px);
+          }
           .content-wrapper {
             gap: clamp(4px, 1vh, 8px);
           }
@@ -645,6 +649,8 @@ export default function About() {
             max-height: clamp(140px, 25vh, 180px);
             padding: 20px 0;
           }
+          .terminal-fade-top { height: 36px; top: -3px; }
+          .terminal-fade-bottom { height: 44px; bottom: -5px; }
         }
       `}</style>
 
