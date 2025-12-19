@@ -142,7 +142,23 @@ export default function Trade69() {
           --t69-card: rgba(255, 255, 255, 0.85);
         }
 
-        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        * { 
+          -webkit-tap-highlight-color: transparent; 
+          box-sizing: border-box;
+        }
+        
+        html, body {
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+          -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Global animation smoothing */
+        @media (prefers-reduced-motion: no-preference) {
+          * {
+            scroll-behavior: smooth;
+          }
+        }
         
         .t69-page {
           min-height: 100vh;
@@ -151,8 +167,12 @@ export default function Trade69() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           overflow-x: hidden;
           overscroll-behavior: none;
+          overscroll-behavior-y: none;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
+          /* Prevent content jump */
+          position: relative;
+          isolation: isolate;
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -165,10 +185,17 @@ export default function Trade69() {
           padding: 20px 20px 16px;
           text-align: center;
           opacity: 0;
-          transform: translateY(20px);
-          transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+          transform: translateZ(0) translateY(20px);
+          transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: transform, opacity;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
-        .t69-hero.loaded { opacity: 1; transform: translateY(0); }
+        .t69-hero.loaded { 
+          opacity: 1; 
+          transform: translateZ(0) translateY(0); 
+        }
         
         .t69-hero-img {
           max-width: clamp(260px, 65vw, 500px);
@@ -176,6 +203,9 @@ export default function Trade69() {
           border-radius: 14px;
           overflow: hidden;
           box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+          transform: translateZ(0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -248,15 +278,34 @@ export default function Trade69() {
           cursor: pointer;
           border: 1px solid var(--t69-border);
           opacity: 0;
-          transform: scale(0.85) translateY(12px);
-          transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform: translateZ(0) scale(0.85) translateY(12px);
+          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                      opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                      box-shadow 0.3s ease;
           box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+          will-change: transform, opacity;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
-        .t69-folder-btn.loaded { opacity: 1; transform: scale(1) translateY(0); }
-        .t69-folder-btn:hover { transform: scale(1.05) translateY(-2px); }
-        .t69-folder-btn:active { transform: scale(0.95); }
+        .t69-folder-btn.loaded { 
+          opacity: 1; 
+          transform: translateZ(0) scale(1) translateY(0); 
+        }
+        .t69-folder-btn:hover { 
+          transform: translateZ(0) scale(1.08) translateY(-4px); 
+          box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+        }
+        .t69-folder-btn:active { 
+          transform: translateZ(0) scale(0.92); 
+          box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
         
-        .t69-folder-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px; }
+        .t69-folder-grid { 
+          display: grid; 
+          grid-template-columns: repeat(2, 1fr); 
+          gap: 3px;
+          transform: translateZ(0);
+        }
         
         .t69-folder-thumb {
           width: 28px;
@@ -264,11 +313,31 @@ export default function Trade69() {
           border-radius: 6px;
           overflow: hidden;
           box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
-        .t69-folder-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .t69-folder-thumb img { 
+          width: 100%; 
+          height: 100%; 
+          object-fit: cover;
+          -webkit-user-drag: none;
+        }
         
-        .t69-arch-ico { display: flex; align-items: center; justify-content: center; }
-        .t69-arch-ico svg { width: 38px; height: 38px; color: var(--t69-text-secondary); }
+        .t69-arch-ico { 
+          display: flex; 
+          align-items: center; 
+          justify-content: center;
+          transform: translateZ(0);
+        }
+        .t69-arch-ico svg { 
+          width: 38px; 
+          height: 38px; 
+          color: var(--t69-text-secondary);
+          transition: transform 0.3s ease;
+        }
+        .t69-folder-btn:hover .t69-arch-ico svg {
+          transform: scale(1.1);
+        }
         
         .t69-folder-label {
           font-size: 11px;
@@ -281,8 +350,8 @@ export default function Trade69() {
         .t69-folder-label.loaded { opacity: 0.9; transform: translateY(0); }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* OVERLAY SYSTEM - BULLETPROOF SIMPLE                                             */
-        /* No fancy animations - just WORKS                                                */
+        /* OVERLAY SYSTEM - STATE OF THE ART                                               */
+        /* Ultra smooth, GPU accelerated, no visual disruptions                            */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .t69-overlay {
@@ -297,9 +366,13 @@ export default function Trade69() {
           align-items: center;
           justify-content: center;
           padding-bottom: 80px;
-          animation: t69-overlayIn 0.3s ease forwards;
+          opacity: 0;
+          animation: t69-overlayIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          will-change: opacity;
+          /* Prevent scroll behind */
+          touch-action: none;
         }
         
         @keyframes t69-overlayIn {
@@ -308,60 +381,66 @@ export default function Trade69() {
         }
         
         [data-theme="light"] .t69-overlay {
-          background: rgba(245,245,240,0.95);
+          background: rgba(245,245,240,0.96);
         }
 
         .t69-overlay-content {
           display: flex;
           align-items: center;
           justify-content: center;
-          animation: t69-contentIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           will-change: transform, opacity;
           transform: translateZ(0);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          /* Smooth content transitions */
+          animation: t69-contentSlideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         
-        @keyframes t69-contentIn {
-          from { 
-            opacity: 0; 
-            transform: translateZ(0) scale(0.92) translateY(20px); 
+        @keyframes t69-contentSlideIn {
+          from {
+            opacity: 0;
+            transform: translateZ(0) scale(0.92) translateY(12px);
           }
-          to { 
-            opacity: 1; 
-            transform: translateZ(0) scale(1) translateY(0); 
+          to {
+            opacity: 1;
+            transform: translateZ(0) scale(1) translateY(0);
           }
         }
 
-        /* Close Button */
+        /* Close Button - Elegant fade in */
         .t69-close-btn {
           position: fixed;
           bottom: 24px;
           left: 50%;
-          transform: translateX(-50%);
+          transform: translateX(-50%) translateZ(0);
           width: 52px;
           height: 52px;
           border-radius: 50%;
-          background: rgba(255,255,255,0.15);
+          background: rgba(255,255,255,0.12);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.2);
+          border: 1px solid rgba(255,255,255,0.15);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           z-index: 1000000;
-          animation: t69-btnIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+          opacity: 0;
+          animation: t69-btnIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards;
+          will-change: transform, opacity;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transition: background 0.2s ease, transform 0.2s ease;
         }
         
         @keyframes t69-btnIn {
           from { 
             opacity: 0; 
-            transform: translateX(-50%) scale(0.8); 
+            transform: translateX(-50%) translateZ(0) scale(0.7); 
           }
           to { 
             opacity: 1; 
-            transform: translateX(-50%) scale(1); 
+            transform: translateX(-50%) translateZ(0) scale(1); 
           }
         }
         
@@ -370,19 +449,37 @@ export default function Trade69() {
           border: 1px solid rgba(0,0,0,0.1);
         }
         
-        .t69-close-btn:hover { background: rgba(255,255,255,0.25); }
-        [data-theme="light"] .t69-close-btn:hover { background: rgba(0,0,0,0.12); }
+        .t69-close-btn:hover { 
+          background: rgba(255,255,255,0.2); 
+          transform: translateX(-50%) translateZ(0) scale(1.05);
+        }
+        [data-theme="light"] .t69-close-btn:hover { 
+          background: rgba(0,0,0,0.12); 
+        }
         
-        .t69-close-btn:active { transform: translateX(-50%) scale(0.95); }
-        .t69-close-btn svg { width: 22px; height: 22px; color: white; }
+        .t69-close-btn:active { 
+          transform: translateX(-50%) translateZ(0) scale(0.92); 
+        }
+        .t69-close-btn svg { 
+          width: 22px; 
+          height: 22px; 
+          color: white;
+          transition: transform 0.2s ease;
+        }
+        .t69-close-btn:hover svg {
+          transform: rotate(90deg);
+        }
         [data-theme="light"] .t69-close-btn svg { color: #1a1a1a; }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* VIDEO THEATER                                                                   */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
-        .t69-video-overlay { background: #000; }
-        [data-theme="light"] .t69-video-overlay { background: rgba(245,245,240,0.98); }
+        .t69-video-overlay { 
+          background: #000;
+          padding-bottom: 0;
+        }
+        [data-theme="light"] .t69-video-overlay { background: #000; }
         
         .t69-theater {
           width: 100%;
@@ -390,19 +487,30 @@ export default function Trade69() {
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 20px;
-          padding-bottom: 100px;
+          position: relative;
         }
         
         .t69-theater-video {
           width: 100%;
-          max-width: 900px;
-          max-height: 60vh;
+          height: 100%;
+          max-width: 100vw;
+          max-height: 100vh;
           object-fit: contain;
-          border-radius: 12px;
           background: #000;
           animation: t69-videoIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           will-change: transform, opacity;
+        }
+        
+        @media (min-width: 768px) {
+          .t69-theater {
+            padding: 40px;
+            padding-bottom: 100px;
+          }
+          .t69-theater-video {
+            max-width: 900px;
+            max-height: 70vh;
+            border-radius: 12px;
+          }
         }
         
         @keyframes t69-videoIn {
@@ -416,62 +524,72 @@ export default function Trade69() {
           }
         }
         
-        [data-theme="light"] .t69-theater-video {
-          box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-        }
-
-        .t69-video-ui {
+        /* Video Controls Container */
+        .t69-video-controls {
           position: fixed;
-          bottom: 90px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: calc(100% - 40px);
-          max-width: 500px;
-          opacity: 1;
-          transition: opacity 0.3s;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          padding: 20px;
+          padding-bottom: max(20px, env(safe-area-inset-bottom));
+          background: linear-gradient(transparent, rgba(0,0,0,0.9));
           z-index: 1000001;
+          opacity: 1;
+          transition: opacity 0.3s ease;
         }
-        .t69-video-ui.hidden { opacity: 0; pointer-events: none; }
+        
+        .t69-video-controls.hidden {
+          opacity: 0;
+          pointer-events: none;
+        }
+        
+        @media (min-width: 768px) {
+          .t69-video-controls {
+            padding: 24px 40px;
+            padding-bottom: max(24px, env(safe-area-inset-bottom));
+          }
+        }
 
         .t69-progress-bar {
-          height: 24px;
-          display: flex;
-          align-items: center;
+          width: 100%;
           cursor: pointer;
-          margin-bottom: 12px;
+          padding: 8px 0;
+          margin-bottom: 16px;
         }
+        
         .t69-progress-track {
           width: 100%;
-          height: 4px;
-          background: rgba(255,255,255,0.3);
+          height: 3px;
+          background: rgba(255,255,255,0.25);
           border-radius: 2px;
           transition: height 0.15s;
+          position: relative;
         }
-        [data-theme="light"] .t69-progress-track {
-          background: rgba(0,0,0,0.2);
-        }
-        .t69-progress-bar:hover .t69-progress-track { height: 6px; }
+        
+        .t69-progress-bar:hover .t69-progress-track { height: 5px; }
+        
         .t69-progress-fill {
           height: 100%;
           background: #e50914;
           border-radius: 2px;
           position: relative;
+          transition: width 0.1s linear;
         }
+        
         .t69-progress-fill::after {
           content: '';
           position: absolute;
           right: -6px;
           top: 50%;
-          width: 12px;
-          height: 12px;
-          background: #fff;
+          width: 14px;
+          height: 14px;
+          background: #e50914;
           border-radius: 50%;
           transform: translateY(-50%) scale(0);
           transition: transform 0.15s;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
-        [data-theme="light"] .t69-progress-fill::after {
-          background: #1a1a1a;
-        }
+        
         .t69-progress-bar:hover .t69-progress-fill::after {
           transform: translateY(-50%) scale(1);
         }
@@ -480,61 +598,130 @@ export default function Trade69() {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 16px;
+          gap: 8px;
+          position: relative;
         }
         
+        @media (min-width: 768px) {
+          .t69-controls-row { gap: 16px; }
+        }
+        
+        /* Netflix-style control buttons */
         .t69-ctrl-btn {
           width: 44px;
           height: 44px;
           border-radius: 50%;
-          background: rgba(255,255,255,0.1);
+          background: transparent;
           border: none;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all 0.2s ease;
           position: relative;
+          flex-shrink: 0;
         }
-        [data-theme="light"] .t69-ctrl-btn {
-          background: rgba(0,0,0,0.08);
-        }
-        .t69-ctrl-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.08); }
-        [data-theme="light"] .t69-ctrl-btn:hover { background: rgba(0,0,0,0.12); }
-        .t69-ctrl-btn:active { transform: scale(0.95); }
-        .t69-ctrl-btn svg { color: white; }
-        [data-theme="light"] .t69-ctrl-btn svg { color: #1a1a1a; }
         
+        .t69-ctrl-btn:hover { 
+          background: rgba(255,255,255,0.1); 
+          transform: scale(1.1); 
+        }
+        .t69-ctrl-btn:active { transform: scale(0.95); }
+        .t69-ctrl-btn svg { color: white; width: 24px; height: 24px; }
+        
+        /* Skip buttons with labels */
+        .t69-ctrl-btn.skip {
+          width: 48px;
+          height: 48px;
+        }
+        
+        .t69-ctrl-btn.skip svg {
+          width: 28px;
+          height: 28px;
+        }
+        
+        .t69-skip-label {
+          position: absolute;
+          font-size: 9px;
+          font-weight: 600;
+          color: white;
+          bottom: 6px;
+          letter-spacing: -0.02em;
+        }
+        
+        /* Main play button */
         .t69-ctrl-btn.play {
           width: 56px;
           height: 56px;
           background: rgba(255,255,255,0.15);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
         }
-        [data-theme="light"] .t69-ctrl-btn.play {
-          background: rgba(0,0,0,0.1);
+        
+        @media (min-width: 768px) {
+          .t69-ctrl-btn.play {
+            width: 64px;
+            height: 64px;
+          }
+        }
+        
+        .t69-ctrl-btn.play:hover { 
+          background: rgba(255,255,255,0.25); 
         }
         .t69-ctrl-btn.play svg { width: 28px; height: 28px; }
         
-        .t69-skip-label {
-          position: absolute;
-          font-size: 10px;
-          font-weight: 700;
-          color: white;
-          bottom: 8px;
-        }
-        [data-theme="light"] .t69-skip-label {
-          color: #1a1a1a;
+        @media (min-width: 768px) {
+          .t69-ctrl-btn.play svg { width: 32px; height: 32px; }
         }
 
         .t69-time {
           position: absolute;
           right: 0;
           font-size: 12px;
-          color: rgba(255,255,255,0.8);
+          color: rgba(255,255,255,0.7);
           font-variant-numeric: tabular-nums;
+          font-weight: 400;
         }
-        [data-theme="light"] .t69-time {
-          color: rgba(0,0,0,0.7);
+        
+        .t69-time-current {
+          color: white;
+        }
+
+        /* Close button for video - top right */
+        .t69-video-close {
+          position: fixed;
+          top: max(16px, env(safe-area-inset-top));
+          right: 16px;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: rgba(0,0,0,0.5);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255,255,255,0.15);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 1000002;
+          transition: all 0.2s ease;
+        }
+        
+        .t69-video-close:hover { 
+          background: rgba(255,255,255,0.2); 
+          transform: scale(1.05);
+        }
+        .t69-video-close:active { transform: scale(0.95); }
+        .t69-video-close svg { width: 20px; height: 20px; color: white; }
+        
+        @media (min-width: 768px) {
+          .t69-video-close {
+            top: 24px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+          }
+          .t69-video-close svg { width: 22px; height: 22px; }
         }
 
         .t69-play-indicator {
@@ -542,28 +729,27 @@ export default function Trade69() {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 72px;
-          height: 72px;
+          width: 80px;
+          height: 80px;
           border-radius: 50%;
-          background: rgba(0,0,0,0.5);
+          background: rgba(0,0,0,0.6);
           backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
           display: flex;
           align-items: center;
           justify-content: center;
           opacity: 0;
           pointer-events: none;
-          transition: opacity 0.2s;
+          transition: opacity 0.15s ease;
           z-index: 1000001;
         }
-        [data-theme="light"] .t69-play-indicator {
-          background: rgba(255,255,255,0.7);
-        }
+        
         .t69-play-indicator.show { opacity: 1; }
-        .t69-play-indicator svg { width: 32px; height: 32px; color: white; margin-left: 3px; }
-        [data-theme="light"] .t69-play-indicator svg { color: #1a1a1a; }
+        .t69-play-indicator svg { width: 36px; height: 36px; color: white; }
+        .t69-play-indicator.play svg { margin-left: 4px; }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* GALLERY CARD                                                                    */
+        /* GALLERY CARD - STATE OF THE ART                                                 */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .t69-gallery-card {
@@ -573,17 +759,28 @@ export default function Trade69() {
           -webkit-backdrop-filter: blur(40px);
           border-radius: 24px;
           padding: 16px;
-          box-shadow: 0 25px 80px rgba(0,0,0,0.4);
-          border: 1px solid var(--t69-border);
-          animation: t69-galleryCardIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          box-shadow: 0 25px 80px rgba(0,0,0,0.4),
+                      0 0 0 1px var(--t69-border);
+          opacity: 0;
+          transform: translateZ(0) scale(0.9);
+          animation: t69-galleryCardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.02s forwards;
           will-change: transform, opacity;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          position: relative;
+        }
+        
+        /* Subtle inner glow */
+        .t69-gallery-card::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+          pointer-events: none;
         }
         
         @keyframes t69-galleryCardIn {
-          from {
-            opacity: 0;
-            transform: translateZ(0) scale(0.95);
-          }
           to {
             opacity: 1;
             transform: translateZ(0) scale(1);
@@ -591,7 +788,13 @@ export default function Trade69() {
         }
         
         [data-theme="light"] .t69-gallery-card {
-          background: #fff;
+          background: rgba(255,255,255,0.95);
+          box-shadow: 0 25px 80px rgba(0,0,0,0.12),
+                      0 0 0 1px rgba(0,0,0,0.06);
+        }
+        
+        [data-theme="light"] .t69-gallery-card::before {
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
         }
         
         @media (min-width: 400px) {
@@ -612,26 +815,29 @@ export default function Trade69() {
 
         .t69-gallery-item {
           aspect-ratio: 1;
-          border-radius: 12px;
+          border-radius: 10px;
           overflow: hidden;
           cursor: pointer;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.12);
           opacity: 0;
-          transform: translateZ(0) scale(0.9);
-          animation: t69-thumbIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          transform: translateZ(0) scale(0.85);
           will-change: transform, opacity;
-          transition: transform 0.2s ease;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          animation: t69-thumbIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                      box-shadow 0.25s ease;
         }
         
-        .t69-gallery-item:nth-child(1) { animation-delay: 0.05s; }
-        .t69-gallery-item:nth-child(2) { animation-delay: 0.08s; }
-        .t69-gallery-item:nth-child(3) { animation-delay: 0.11s; }
-        .t69-gallery-item:nth-child(4) { animation-delay: 0.14s; }
-        .t69-gallery-item:nth-child(5) { animation-delay: 0.17s; }
-        .t69-gallery-item:nth-child(6) { animation-delay: 0.20s; }
-        .t69-gallery-item:nth-child(7) { animation-delay: 0.23s; }
+        .t69-gallery-item:nth-child(1) { animation-delay: 0.12s; }
+        .t69-gallery-item:nth-child(2) { animation-delay: 0.16s; }
+        .t69-gallery-item:nth-child(3) { animation-delay: 0.20s; }
+        .t69-gallery-item:nth-child(4) { animation-delay: 0.24s; }
+        .t69-gallery-item:nth-child(5) { animation-delay: 0.28s; }
+        .t69-gallery-item:nth-child(6) { animation-delay: 0.32s; }
+        .t69-gallery-item:nth-child(7) { animation-delay: 0.36s; }
+        .t69-gallery-item:nth-child(8) { animation-delay: 0.40s; }
+        .t69-gallery-item:nth-child(9) { animation-delay: 0.44s; }
         
         @keyframes t69-thumbIn {
           to { 
@@ -640,39 +846,77 @@ export default function Trade69() {
           }
         }
         
-        .t69-gallery-item:hover { transform: translateZ(0) scale(1.05); }
-        .t69-gallery-item:active { transform: translateZ(0) scale(0.97); }
+        .t69-gallery-item:hover { 
+          transform: translateZ(0) scale(1.08); 
+          box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+        .t69-gallery-item:active { 
+          transform: translateZ(0) scale(0.95); 
+        }
         .t69-gallery-item img { 
           width: 100%; 
           height: 100%; 
           object-fit: cover; 
           display: block;
           pointer-events: none;
+          -webkit-user-drag: none;
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* ARCHITECTURE CARD                                                               */
+        /* ARCHITECTURE CARD - STATE OF THE ART                                            */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .t69-arch-card {
           width: 280px;
           aspect-ratio: 1;
-          background: #0c0c10;
+          background: linear-gradient(145deg, #0c0c10 0%, #0a0a0e 100%);
           border-radius: 24px;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 25px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
+          box-shadow: 0 25px 80px rgba(0,0,0,0.5), 
+                      0 0 0 1px rgba(255,255,255,0.06),
+                      inset 0 1px 0 rgba(255,255,255,0.05);
           overflow: hidden;
-          animation: t69-archIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          opacity: 0;
+          transform: translateZ(0) scale(0.92);
+          animation: t69-archIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
           will-change: transform, opacity;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          position: relative;
+        }
+        
+        /* Subtle animated gradient background */
+        .t69-arch-card::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse at 30% 20%, rgba(100,100,255,0.05) 0%, transparent 50%),
+                      radial-gradient(ellipse at 70% 80%, rgba(255,100,100,0.03) 0%, transparent 50%);
+          opacity: 0;
+          animation: t69-archGlow 0.8s ease 0.3s forwards;
+        }
+        
+        @keyframes t69-archGlow {
+          to { opacity: 1; }
+        }
+        
+        /* Content inside card animates in */
+        .t69-arch-card > * {
+          opacity: 0;
+          transform: translateZ(0) scale(0.95);
+          animation: t69-archContentIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+        }
+        
+        @keyframes t69-archContentIn {
+          to {
+            opacity: 1;
+            transform: translateZ(0) scale(1);
+          }
         }
         
         @keyframes t69-archIn {
-          from {
-            opacity: 0;
-            transform: translateZ(0) scale(0.95);
-          }
           to {
             opacity: 1;
             transform: translateZ(0) scale(1);
@@ -680,8 +924,15 @@ export default function Trade69() {
         }
         
         [data-theme="light"] .t69-arch-card {
-          background: #fff;
-          box-shadow: 0 25px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.08);
+          background: linear-gradient(145deg, #ffffff 0%, #f8f8f6 100%);
+          box-shadow: 0 25px 80px rgba(0,0,0,0.12), 
+                      0 0 0 1px rgba(0,0,0,0.06),
+                      inset 0 1px 0 rgba(255,255,255,0.8);
+        }
+        
+        [data-theme="light"] .t69-arch-card::before {
+          background: radial-gradient(ellipse at 30% 20%, rgba(100,100,255,0.08) 0%, transparent 50%),
+                      radial-gradient(ellipse at 70% 80%, rgba(255,100,100,0.05) 0%, transparent 50%);
         }
         
         @media (min-width: 400px) {
@@ -690,44 +941,84 @@ export default function Trade69() {
         @media (min-width: 768px) {
           .t69-arch-card { width: 400px; border-radius: 28px; }
         }
+        
+        /* SVG/Mermaid diagram styling */
+        .t69-arch-card svg {
+          max-width: 90%;
+          max-height: 90%;
+          color: var(--t69-text);
+        }
+        
+        .t69-arch-card .mermaid {
+          transform: translateZ(0);
+        }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* IMAGE EXPANDED                                                                  */
+        /* IMAGE EXPANDED - STATE OF THE ART                                               */
+        /* Smooth, elegant, no visual disruptions                                          */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .t69-image-expanded {
           max-width: calc(100vw - 32px);
           max-height: 75vh;
-          border-radius: 12px;
+          border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-          animation: t69-imageIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          box-shadow: 0 40px 100px rgba(0,0,0,0.6),
+                      0 0 0 1px rgba(255,255,255,0.05);
+          opacity: 0;
+          transform: translateZ(0) scale(0.85);
+          animation: t69-imageIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           will-change: transform, opacity;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          position: relative;
+        }
+        
+        /* Subtle shine effect */
+        .t69-image-expanded::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+          pointer-events: none;
         }
         
         @keyframes t69-imageIn {
-          from {
+          0% {
             opacity: 0;
-            transform: translateZ(0) scale(0.9);
+            transform: translateZ(0) scale(0.85);
           }
-          to {
+          100% {
             opacity: 1;
             transform: translateZ(0) scale(1);
           }
         }
         
         [data-theme="light"] .t69-image-expanded {
-          box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+          box-shadow: 0 40px 100px rgba(0,0,0,0.2),
+                      0 0 0 1px rgba(0,0,0,0.05);
         }
+        
+        [data-theme="light"] .t69-image-expanded::after {
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+        }
+        
         .t69-image-expanded img {
           display: block;
           max-width: 100%;
           max-height: 75vh;
           object-fit: contain;
+          -webkit-user-drag: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         
         @media (min-width: 768px) {
-          .t69-image-expanded { max-width: 700px; border-radius: 16px; }
+          .t69-image-expanded { max-width: 700px; border-radius: 20px; }
+        }
+        @media (min-width: 1024px) {
+          .t69-image-expanded { max-width: 800px; }
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
@@ -957,16 +1248,30 @@ export default function Trade69() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
-      {/* VIDEO OVERLAY                                                                   */}
+      {/* VIDEO OVERLAY - NETFLIX STYLE                                                   */}
       {/* ═══════════════════════════════════════════════════════════════════════════════ */}
       {overlay === 'video' && (
         <div
           className="t69-overlay t69-video-overlay"
-          onClick={closeOverlay}
+          onClick={(e) => {
+            // Tap anywhere to toggle controls, double tap center for play/pause
+            if (e.target === e.currentTarget) {
+              setShowControls(prev => !prev);
+              resetControlsTimer();
+            }
+          }}
           onMouseMove={resetControlsTimer}
           onTouchStart={resetControlsTimer}
         >
-          <div className="t69-overlay-content t69-theater" onClick={e => e.stopPropagation()}>
+          {/* Close button - top right */}
+          <button className="t69-video-close" onClick={closeOverlay}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+
+          {/* Video container */}
+          <div className="t69-overlay-content t69-theater">
             <video
               ref={expandedVideoRef}
               className="t69-theater-video"
@@ -974,7 +1279,11 @@ export default function Trade69() {
               autoPlay
               playsInline
               loop
-              onClick={togglePlay}
+              onClick={(e) => {
+                e.stopPropagation();
+                togglePlay();
+                resetControlsTimer();
+              }}
               onPlay={() => setPlaying(true)}
               onPause={() => setPlaying(false)}
               onTimeUpdate={() => expandedVideoRef.current && setProgress(expandedVideoRef.current.currentTime)}
@@ -987,45 +1296,53 @@ export default function Trade69() {
             />
           </div>
 
-          <div className={`t69-play-indicator ${!playing ? 'show' : ''}`}>
+          {/* Play indicator (shows when paused) */}
+          <div className={`t69-play-indicator play ${!playing ? 'show' : ''}`}>
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21" /></svg>
           </div>
 
-          <div className={`t69-video-ui ${showControls ? '' : 'hidden'}`} onClick={e => e.stopPropagation()}>
+          {/* Controls - bottom gradient bar */}
+          <div className={`t69-video-controls ${showControls ? '' : 'hidden'}`} onClick={e => e.stopPropagation()}>
+            {/* Progress bar */}
             <div className="t69-progress-bar" onClick={seek}>
               <div className="t69-progress-track">
                 <div className="t69-progress-fill" style={{ width: duration ? `${(progress / duration) * 100}%` : '0%' }} />
               </div>
             </div>
+
+            {/* Control buttons */}
             <div className="t69-controls-row">
-              <button className="t69-ctrl-btn" onClick={() => skip(-10)}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 5V1L7 6l5 5V7a6 6 0 1 1-6 6" strokeLinecap="round" strokeLinejoin="round"/>
+              {/* Skip back 10s */}
+              <button className="t69-ctrl-btn skip" onClick={() => skip(-10)}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M12.5 8V4L7 8.5l5.5 4.5V9a5 5 0 1 1-5 5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 <span className="t69-skip-label">10</span>
               </button>
+
+              {/* Play/Pause */}
               <button className="t69-ctrl-btn play" onClick={togglePlay}>
                 {playing ? (
                   <svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
                 ) : (
-                  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21"/></svg>
                 )}
               </button>
-              <button className="t69-ctrl-btn" onClick={() => skip(10)}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 5V1l5 5-5 5V7a6 6 0 1 0 6 6" strokeLinecap="round" strokeLinejoin="round"/>
+
+              {/* Skip forward 10s */}
+              <button className="t69-ctrl-btn skip" onClick={() => skip(10)}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M11.5 8V4l5.5 4.5-5.5 4.5V9a5 5 0 1 0 5 5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 <span className="t69-skip-label">10</span>
               </button>
-              <span className="t69-time">{fmt(progress)} / {fmt(duration)}</span>
+
+              {/* Time display */}
+              <span className="t69-time">
+                <span className="t69-time-current">{fmt(progress)}</span> / {fmt(duration)}
+              </span>
             </div>
           </div>
-
-          <button className="t69-close-btn" onClick={closeOverlay}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <path d="M18 6L6 18M6 6l12 12"/>
-            </svg>
-          </button>
         </div>
       )}
 

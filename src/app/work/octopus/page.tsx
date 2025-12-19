@@ -39,6 +39,14 @@ export default function Octopus() {
           --oc-node-bg: #F5F5F0;
         }
 
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        
+        html, body {
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+          -webkit-overflow-scrolling: touch;
+        }
+
         .oc-page {
           min-height: 100vh;
           background: var(--oc-bg);
@@ -46,6 +54,7 @@ export default function Octopus() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           overflow-x: hidden;
           overscroll-behavior: none;
+          overscroll-behavior-y: none;
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */

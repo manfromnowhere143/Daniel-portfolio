@@ -41,6 +41,14 @@ export default function Overmind() {
           --om-btn-text: #FAFAF8;
         }
 
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        
+        html, body {
+          overscroll-behavior: none;
+          overscroll-behavior-y: none;
+          -webkit-overflow-scrolling: touch;
+        }
+
         .om-page {
           min-height: 100vh;
           background: var(--om-bg);
@@ -48,6 +56,7 @@ export default function Overmind() {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
           overflow-x: hidden;
           overscroll-behavior: none;
+          overscroll-behavior-y: none;
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
