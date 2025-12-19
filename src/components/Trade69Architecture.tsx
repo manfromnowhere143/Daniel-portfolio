@@ -43,44 +43,44 @@ export default function Trade69Architecture() {
 
     const cx = size / 2;
     const cy = size / 2;
-    const scale = size / 400;
+    const scale = size / 480; // Smaller scale to fit all elements with padding
 
-    // Architecture layers - from center outward
+    // Architecture layers - from center outward (reduced radii for better fit)
     const layers = [
       {
         name: 'CORE',
         nodes: ['PostgreSQL', 'TimescaleDB', 'Redis'],
-        radius: 55,
+        radius: 45,
         speed: 0.15,
-        nodeSize: 6
+        nodeSize: 5
       },
       {
         name: 'INTELLIGENCE',
         nodes: ['Sentiment', 'HMM', 'Pattern', 'Signal'],
-        radius: 95,
+        radius: 78,
         speed: -0.08,
-        nodeSize: 5
+        nodeSize: 4.5
       },
       {
         name: 'ML',
         nodes: ['Tracker', 'Backtest', 'Pipeline', 'Model', 'Version'],
-        radius: 135,
+        radius: 110,
         speed: 0.05,
-        nodeSize: 4.5
+        nodeSize: 4
       },
       {
         name: 'RISK',
         nodes: ['Kelly', 'Options', 'Heat', 'Executor', 'Monitor'],
-        radius: 175,
+        radius: 142,
         speed: -0.03,
-        nodeSize: 4
+        nodeSize: 3.5
       },
       {
         name: 'DATA',
         nodes: ['StockTwits', 'Reddit', 'Alpaca', 'ThetaData', 'DarkPool', 'News'],
-        radius: 215,
+        radius: 172,
         speed: 0.02,
-        nodeSize: 3.5
+        nodeSize: 3
       }
     ];
 
@@ -166,13 +166,13 @@ export default function Trade69Architecture() {
       });
 
       // Outer atmospheric glow
-      const atmosphereGlow = ctx.createRadialGradient(cx, cy, 150 * scale, cx, cy, 250 * scale);
+      const atmosphereGlow = ctx.createRadialGradient(cx, cy, 120 * scale, cx, cy, 200 * scale);
       atmosphereGlow.addColorStop(0, 'rgba(255, 255, 255, 0.03)');
       atmosphereGlow.addColorStop(0.5, 'rgba(255, 255, 255, 0.015)');
       atmosphereGlow.addColorStop(1, 'transparent');
       ctx.fillStyle = atmosphereGlow;
       ctx.beginPath();
-      ctx.arc(cx, cy, 250 * scale, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 200 * scale, 0, Math.PI * 2);
       ctx.fill();
 
       // Draw orbital paths (subtle rings)
