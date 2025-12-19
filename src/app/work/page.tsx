@@ -169,7 +169,6 @@ export default function Work() {
         const target = e.target as HTMLElement;
         if (target.closest('.media-container')) return;
         if (target.closest('.image-expanded-content')) return;
-        if (target.closest('.social-scroll-container')) return;
         if (target.tagName === 'CANVAS') return;
         if (target.closest('.interactive-content')) return;
         e.preventDefault();
@@ -180,7 +179,6 @@ export default function Work() {
         const target = e.target as HTMLElement;
         if (target.closest('.media-container')) return;
         if (target.closest('.image-expanded-content')) return;
-        if (target.closest('.social-scroll-container')) return;
         if (target.tagName === 'CANVAS') return;
         if (target.closest('.interactive-content')) return;
         e.preventDefault();
@@ -949,62 +947,21 @@ export default function Work() {
         [data-theme="light"] .folder-app-name { text-shadow: none; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* SOCIAL FOLDER - HORIZONTAL SCROLL FOR 5+ ITEMS                                  */
-        /* Swipe to reveal Gmail - Pure iOS elegance                                       */
+        /* SOCIAL FOLDER - 5 ITEMS IN 2x2 + 1 CENTERED GRID                                */
+        /* Identical to other folders - Pure Apple elegance                                */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
-        .social-scroll-container {
-          width: 100%;
-          max-width: calc(100vw - 48px);
-          overflow-x: auto;
-          overflow-y: hidden;
-          -webkit-overflow-scrolling: touch;
-          touch-action: pan-x;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          padding: 10px 0;
+        .social-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 24px;
         }
         
-        .social-scroll-container::-webkit-scrollbar { display: none; }
-        
-        .social-apps-row {
-          display: flex;
-          gap: 20px;
-          padding: 0 8px;
-          min-width: max-content;
+        /* 5th item centered on its own row */
+        .social-grid .folder-app:nth-child(5) {
+          grid-column: 1 / -1;
+          justify-self: center;
         }
-        
-        .social-scroll-hint {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          margin-top: 16px;
-          opacity: 0.4;
-        }
-        
-        .social-scroll-hint span {
-          font-size: 10px;
-          font-weight: 400;
-          color: var(--text-primary);
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-        }
-        
-        .scroll-dots {
-          display: flex;
-          gap: 4px;
-        }
-        
-        .scroll-dot {
-          width: 4px;
-          height: 4px;
-          border-radius: 50%;
-          background: var(--text-primary);
-          opacity: 0.5;
-        }
-        
-        .scroll-dot:first-child { opacity: 1; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         /* SERVICE EXPANDED                                                                */
@@ -1640,7 +1597,6 @@ export default function Work() {
           .media-container { padding: 32px; } 
           .image-expanded-content { width: 340px; height: 340px; border-radius: 26px; } 
           .interactive-content { width: 380px; height: 380px; } 
-          .social-apps-row { gap: 28px; }
         }
         
         @media (min-width: 900px) { 
@@ -1655,7 +1611,6 @@ export default function Work() {
           .folder-app-icon { width: 96px; height: 96px; border-radius: 24px; } 
           .folder-app-placeholder { width: 96px; height: 120px; } 
           .interactive-content { width: 440px; height: 440px; } 
-          .social-apps-row { gap: 32px; }
         }
       `}</style>
 
@@ -1802,30 +1757,20 @@ export default function Work() {
         </div>
       )}
 
-      {/* Social Folder Overlay - HORIZONTAL SCROLL */}
+      {/* Social Folder Overlay - Identical to other folders */}
       {openFolder === 'social' && (
         <div className={`folder-overlay ${getFolderAnimClass()}`}>
           <div className="folder-overlay-bg" onClick={handleCloseFolder} />
           <div className="folder-container" onClick={handleCloseFolder}>
-            <div className="social-scroll-container" onClick={(e) => e.stopPropagation()}>
-              <div className="social-apps-row">
-                {socialLinks.map((social, index) => (
-                  <Link key={social.id} href={social.url} target={social.id === 'gmail' ? '_self' : '_blank'} rel="noopener noreferrer" className="folder-app" onClick={restoreScroll}>
-                    <div className="folder-app-icon" style={{ '--breathe-delay': `${index * 0.4}s` } as React.CSSProperties}>
-                      {renderSocialIcon(social.id, 32)}
-                    </div>
-                    <span className="folder-app-name">{social.name}</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-            <div className="social-scroll-hint">
-              <span>Swipe</span>
-              <div className="scroll-dots">
-                <div className="scroll-dot" />
-                <div className="scroll-dot" />
-                <div className="scroll-dot" />
-              </div>
+            <div className="folder-apps-grid social-grid" onClick={(e) => e.stopPropagation()}>
+              {socialLinks.map((social, index) => (
+                <Link key={social.id} href={social.url} target={social.id === 'gmail' ? '_self' : '_blank'} rel="noopener noreferrer" className="folder-app" onClick={restoreScroll}>
+                  <div className="folder-app-icon" style={{ '--breathe-delay': `${index * 0.4}s` } as React.CSSProperties}>
+                    {renderSocialIcon(social.id, 32)}
+                  </div>
+                  <span className="folder-app-name">{social.name}</span>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
