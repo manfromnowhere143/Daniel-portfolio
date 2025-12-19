@@ -614,27 +614,6 @@ export default function Navigation() {
         </div>
       </button>
 
-      {/* Overlay */}
-      <div
-        className={styles.mobileOnly}
-        onClick={() => setIsOpen(false)}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: "rgba(0,0,0,0.5)",
-          zIndex: 150,
-          opacity: isOpen ? 1 : 0,
-          pointerEvents: isOpen ? "auto" : "none",
-          transition: isOpen
-            ? "opacity 0.3s ease-out"
-            : "opacity 0.25s ease-in",
-          WebkitTapHighlightColor: "transparent"
-        }}
-      />
-
       {/* Mobile Time/Date and Theme Toggle - slides from left */}
       <div
         className={styles.mobileOnly}
