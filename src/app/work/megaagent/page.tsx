@@ -334,12 +334,12 @@ export default function MegaAgent() {
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* NAVIGATION                                                                      */
+        /* NAVIGATION - Above sidebar                                                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .ma-nav {
           position: fixed;
-          bottom: clamp(20px, 4vh, 36px);
+          bottom: clamp(85px, 11vh, 100px);
           left: 0;
           right: 0;
           display: flex;

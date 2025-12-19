@@ -34,8 +34,30 @@ export default function Trade69() {
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [archOpen, setArchOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [pendingImage, setPendingImage] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const expandedVideoRef = useRef<HTMLVideoElement>(null);
+
+  // Preload image before showing
+  const handleImageSelect = (src: string) => {
+    setPendingImage(src);
+    setImageLoaded(false);
+
+    const img = new Image();
+    img.onload = () => {
+      setSelectedImage(src);
+      setImageLoaded(true);
+      setPendingImage(null);
+    };
+    img.src = src;
+  };
+
+  const handleImageClose = () => {
+    setSelectedImage(null);
+    setImageLoaded(false);
+    setPendingImage(null);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -427,12 +449,12 @@ export default function Trade69() {
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* NAVIGATION - Pure white                                                         */
+        /* NAVIGATION - Pure white, above sidebar                                          */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .t69-nav {
           position: fixed;
-          bottom: clamp(20px, 4vh, 36px);
+          bottom: clamp(85px, 11vh, 100px);
           left: 0;
           right: 0;
           display: flex;
@@ -478,6 +500,8 @@ export default function Trade69() {
           -webkit-backdrop-filter: blur(30px);
           opacity: 0;
           animation: t69-overlay-fade 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+          will-change: opacity;
+          transform: translateZ(0);
         }
         
         @keyframes t69-overlay-fade {
@@ -563,14 +587,14 @@ export default function Trade69() {
           object-fit: contain;
         }
 
-        /* Gallery Card - Smooth entrance */
+        /* Gallery Card - Elegant with header like Octopus */
         .t69-gallery-card {
-          width: clamp(300px, 85vw, 400px);
+          width: clamp(300px, 80vw, 380px);
+          max-height: 75vh;
           background: rgba(10, 10, 12, 0.98);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
           border-radius: 24px;
-          padding: clamp(14px, 2.5vw, 20px);
           border: 1px solid rgba(255,255,255,0.08);
           box-shadow: 
             0 60px 160px rgba(0,0,0,0.8),
@@ -578,6 +602,10 @@ export default function Trade69() {
           opacity: 0;
           transform: scale(0.96);
           animation: t69-card-smooth 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+          will-change: transform, opacity;
+          transform-style: preserve-3d;
+          backface-visibility: hidden;
+          overflow: hidden;
         }
         
         @keyframes t69-card-smooth {
@@ -589,6 +617,39 @@ export default function Trade69() {
           background: rgba(255, 255, 255, 0.98);
           border: 1px solid rgba(0,0,0,0.08);
           box-shadow: 0 60px 160px rgba(0,0,0,0.2);
+        }
+        
+        .t69-gallery-header {
+          padding: clamp(14px, 2.5vw, 20px);
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+          text-align: center;
+        }
+        
+        [data-theme="light"] .t69-gallery-header {
+          border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        
+        .t69-gallery-title {
+          font-size: clamp(11px, 1.8vw, 13px);
+          font-weight: 400;
+          color: var(--t69-text);
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          margin: 0;
+        }
+        
+        .t69-gallery-scroll {
+          padding: clamp(14px, 2.5vw, 20px);
+          max-height: calc(75vh - 60px);
+          overflow-y: auto;
+          overflow-x: hidden;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        
+        .t69-gallery-scroll::-webkit-scrollbar {
+          display: none;
         }
         
         .t69-gallery-grid {
@@ -619,36 +680,72 @@ export default function Trade69() {
           transition: transform 0.1s ease;
         }
         
+        .t69-gallery-item.loading {
+          pointer-events: none;
+        }
+        
+        .t69-gallery-item.loading img {
+          opacity: 0.5;
+        }
+        
         .t69-gallery-item img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           opacity: 0;
           animation: t69-img-fade 0.3s ease 0.1s forwards;
+          transition: opacity 0.2s ease;
         }
         
         @keyframes t69-img-fade {
           to { opacity: 1; }
         }
+        
+        /* Loading overlay on gallery item */
+        .t69-gallery-loader {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(0,0,0,0.3);
+          backdrop-filter: blur(4px);
+          -webkit-backdrop-filter: blur(4px);
+        }
+        
+        .t69-spinner {
+          width: 24px;
+          height: 24px;
+          border: 2px solid rgba(255,255,255,0.2);
+          border-top-color: rgba(255,255,255,0.9);
+          border-radius: 50%;
+          animation: t69-spin 0.8s linear infinite;
+        }
+        
+        @keyframes t69-spin {
+          to { transform: rotate(360deg); }
+        }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* 3D ARCHITECTURE - Canvas Container                                              */
+        /* 3D ARCHITECTURE - Canvas Container - Fits screen perfectly                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .t69-arch-card {
-          width: clamp(320px, 85vw, 480px);
-          height: clamp(320px, 85vw, 480px);
+          width: clamp(280px, 70vw, 380px);
+          height: clamp(280px, 70vw, 380px);
+          max-width: calc(100vh - 200px);
+          max-height: calc(100vh - 200px);
           background: #000000;
-          border-radius: 28px;
-          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 24px;
+          border: 1px solid rgba(255,255,255,0.08);
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
           overflow: hidden;
           box-shadow: 
-            0 60px 160px rgba(0,0,0,0.9),
-            inset 0 0 120px rgba(255,255,255,0.02);
+            0 40px 120px rgba(0,0,0,0.9),
+            inset 0 0 80px rgba(255,255,255,0.02);
           opacity: 0;
           transform: scale(0.96);
           animation: t69-card-smooth 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
@@ -657,30 +754,34 @@ export default function Trade69() {
         [data-theme="light"] .t69-arch-card {
           background: #0a0a0a;
           border: 1px solid rgba(255,255,255,0.06);
-          box-shadow: 0 60px 160px rgba(0,0,0,0.5);
+          box-shadow: 0 40px 120px rgba(0,0,0,0.5);
         }
         
         @keyframes spin {
           to { transform: rotate(360deg); }
         }
 
-        /* Image Expanded - Zero flash */
+        /* Image Expanded - Zero flash crossfade */
         .t69-image-full {
+          position: absolute;
           max-width: calc(100vw - 32px);
           max-height: 80vh;
           border-radius: 16px;
           overflow: hidden;
-          background: #0a0a0a;
+          background: #000;
           box-shadow: 
             0 0 0 1px rgba(255,255,255,0.08),
             0 60px 160px rgba(0,0,0,0.9);
           opacity: 0;
-          transform: scale(0.95);
-          animation: t69-image-spring 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          transform: scale(1) translateZ(0);
+          animation: t69-image-crossfade 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+          will-change: transform, opacity;
+          transform-style: preserve-3d;
+          backface-visibility: hidden;
         }
         
-        @keyframes t69-image-spring {
-          0% { opacity: 0; transform: scale(0.95); }
+        @keyframes t69-image-crossfade {
+          0% { opacity: 0; transform: scale(0.98); }
           100% { opacity: 1; transform: scale(1); }
         }
         
@@ -822,32 +923,57 @@ export default function Trade69() {
       )}
 
       {/* Gallery Overlay */}
-      {galleryOpen && !selectedImage && (
-        <div className="t69-overlay" onClick={() => setGalleryOpen(false)}>
-          <div className="t69-gallery-card" onClick={e => e.stopPropagation()}>
-            <div className="t69-gallery-grid">
-              {galleryImages.map((src, i) => (
-                <div key={i} className="t69-gallery-item" onClick={() => setSelectedImage(src)}>
-                  <img src={src} alt="" />
-                </div>
-              ))}
+      {(galleryOpen || selectedImage) && (
+        <div className="t69-overlay" onClick={() => { setGalleryOpen(false); handleImageClose(); }}>
+          {/* Gallery Card - stays visible while image loads */}
+          <div
+            className="t69-gallery-card"
+            onClick={e => e.stopPropagation()}
+            style={{
+              opacity: selectedImage && imageLoaded ? 0 : 1,
+              transform: selectedImage && imageLoaded ? 'scale(0.95)' : 'scale(1)',
+              pointerEvents: selectedImage && imageLoaded ? 'none' : 'auto',
+              transition: 'opacity 0.3s ease, transform 0.3s ease'
+            }}
+          >
+            <div className="t69-gallery-header">
+              <h2 className="t69-gallery-title">Gallery</h2>
+            </div>
+            <div className="t69-gallery-scroll">
+              <div className="t69-gallery-grid">
+                {galleryImages.map((src, i) => (
+                  <div
+                    key={i}
+                    className={`t69-gallery-item ${pendingImage === src ? 'loading' : ''}`}
+                    onClick={() => handleImageSelect(src)}
+                  >
+                    <img src={src} alt="" />
+                    {pendingImage === src && (
+                      <div className="t69-gallery-loader">
+                        <div className="t69-spinner" />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          <button className="t69-close" onClick={() => setGalleryOpen(false)}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      )}
 
-      {/* Image Expanded */}
-      {selectedImage && (
-        <div className="t69-overlay" onClick={() => setSelectedImage(null)}>
-          <div className="t69-image-full">
-            <img src={selectedImage} alt="" />
-          </div>
-          <button className="t69-close" onClick={() => setSelectedImage(null)}>
+          {/* Expanded Image - fades in when loaded */}
+          {selectedImage && imageLoaded && (
+            <div
+              className="t69-image-full"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedImage(null);
+                setImageLoaded(false);
+              }}
+            >
+              <img src={selectedImage} alt="" />
+            </div>
+          )}
+
+          <button className="t69-close" onClick={() => { setGalleryOpen(false); handleImageClose(); }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>

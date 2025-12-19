@@ -414,12 +414,12 @@ export default function Octopus() {
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* NAVIGATION                                                                      */
+        /* NAVIGATION - Above sidebar                                                      */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .oc-nav {
           position: fixed;
-          bottom: clamp(20px, 4vh, 36px);
+          bottom: clamp(85px, 11vh, 100px);
           left: 0;
           right: 0;
           display: flex;
@@ -656,8 +656,8 @@ export default function Octopus() {
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .oc-system-card {
-          width: clamp(320px, 88vw, 560px);
-          max-height: 80vh;
+          width: clamp(300px, 85vw, 480px);
+          max-height: 65vh;
           background: rgba(10, 10, 12, 0.95);
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
@@ -679,13 +679,13 @@ export default function Octopus() {
         }
         
         .oc-system-scroll {
-          max-height: calc(80vh - 60px);
+          max-height: calc(65vh - 60px);
           overflow-y: auto;
           overflow-x: hidden;
           -webkit-overflow-scrolling: touch;
           scrollbar-width: none;
           -ms-overflow-style: none;
-          padding: clamp(20px, 4vw, 28px);
+          padding: clamp(16px, 3vw, 22px);
         }
         
         .oc-system-scroll::-webkit-scrollbar {
@@ -693,24 +693,24 @@ export default function Octopus() {
         }
         
         .oc-section-label {
-          font-size: clamp(9px, 1.4vw, 11px);
+          font-size: clamp(9px, 1.4vw, 10px);
           font-weight: 500;
           color: var(--oc-text-muted);
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          margin-bottom: clamp(16px, 3vw, 24px);
+          margin-bottom: clamp(12px, 2vw, 16px);
           text-align: center;
         }
         
         .oc-arch-list {
-          margin-bottom: clamp(32px, 5vw, 48px);
+          margin-bottom: clamp(20px, 3vw, 28px);
         }
         
         .oc-arch-item {
           display: flex;
           align-items: baseline;
-          gap: clamp(10px, 2vw, 16px);
-          padding: clamp(10px, 1.5vh, 14px) 0;
+          gap: clamp(8px, 1.5vw, 12px);
+          padding: clamp(6px, 1vh, 10px) 0;
           border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         
@@ -756,25 +756,25 @@ export default function Octopus() {
           }
         }
         
-        /* Memory Grid in System */
+        /* Memory Grid in System - Compact */
         .oc-memory-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: clamp(12px, 2vw, 20px);
+          gap: clamp(8px, 1.5vw, 12px);
         }
         
         @media (max-width: 400px) {
           .oc-memory-grid {
             grid-template-columns: 1fr;
-            gap: clamp(16px, 3vw, 24px);
+            gap: clamp(10px, 2vw, 14px);
           }
         }
         
         .oc-mem-card {
           text-align: center;
-          padding: clamp(12px, 2vw, 20px);
+          padding: clamp(10px, 1.5vw, 14px);
           background: rgba(255,255,255,0.03);
-          border-radius: 12px;
+          border-radius: 10px;
           border: 1px solid rgba(255,255,255,0.06);
         }
         
