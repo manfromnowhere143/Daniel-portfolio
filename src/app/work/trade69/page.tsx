@@ -2,6 +2,31 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+// Dynamic import for the 3D architecture visualization
+const Trade69Architecture = dynamic(() => import("@/components/Trade69Architecture"), {
+  ssr: false,
+  loading: () => (
+    <div style={{
+      width: '100%',
+      height: '100%',
+      background: '#000',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <div style={{
+        width: 40,
+        height: 40,
+        border: '2px solid rgba(255,255,255,0.1)',
+        borderTopColor: 'rgba(255,255,255,0.5)',
+        borderRadius: '50%',
+        animation: 'spin 1s linear infinite'
+      }} />
+    </div>
+  )
+});
 
 export default function Trade69() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -607,13 +632,13 @@ export default function Trade69() {
         }
 
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* 3D ARCHITECTURE - Orbital Neural Network                                        */
+        /* 3D ARCHITECTURE - Canvas Container                                              */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .t69-arch-card {
-          width: clamp(320px, 85vw, 440px);
-          aspect-ratio: 1;
-          background: radial-gradient(ellipse at center, #0a0a0c 0%, #000000 100%);
+          width: clamp(320px, 85vw, 480px);
+          height: clamp(320px, 85vw, 480px);
+          background: #000000;
           border-radius: 28px;
           border: 1px solid rgba(255,255,255,0.06);
           display: flex;
@@ -630,184 +655,13 @@ export default function Trade69() {
         }
         
         [data-theme="light"] .t69-arch-card {
-          background: radial-gradient(ellipse at center, #ffffff 0%, #f5f5f3 100%);
-          border: 1px solid rgba(0,0,0,0.06);
-          box-shadow: 0 60px 160px rgba(0,0,0,0.15);
-        }
-        
-        /* 3D Scene */
-        .t69-arch-scene {
-          width: 100%;
-          height: 100%;
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        
-        /* Animated orbital rings */
-        .t69-orbit-ring {
-          position: absolute;
-          border-radius: 50%;
+          background: #0a0a0a;
           border: 1px solid rgba(255,255,255,0.06);
+          box-shadow: 0 60px 160px rgba(0,0,0,0.5);
         }
         
-        .t69-orbit-ring.ring-1 {
-          width: 85%;
-          height: 85%;
-          animation: t69-orbit-rotate 40s linear infinite;
-        }
-        
-        .t69-orbit-ring.ring-2 {
-          width: 65%;
-          height: 65%;
-          animation: t69-orbit-rotate 30s linear infinite reverse;
-        }
-        
-        .t69-orbit-ring.ring-3 {
-          width: 45%;
-          height: 45%;
-          animation: t69-orbit-rotate 20s linear infinite;
-        }
-        
-        @keyframes t69-orbit-rotate {
-          from { transform: rotate(0deg); }
+        @keyframes spin {
           to { transform: rotate(360deg); }
-        }
-        
-        /* Central core with pulse */
-        .t69-core {
-          position: absolute;
-          width: 70px;
-          height: 70px;
-          border-radius: 50%;
-          background: radial-gradient(circle at 35% 35%, 
-            rgba(255,255,255,0.12) 0%, 
-            rgba(255,255,255,0.04) 50%,
-            transparent 70%
-          );
-          border: 1px solid rgba(255,255,255,0.15);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          animation: t69-core-breathe 4s ease-in-out infinite;
-          z-index: 10;
-        }
-        
-        @keyframes t69-core-breathe {
-          0%, 100% { 
-            transform: scale(1);
-            box-shadow: 
-              0 0 40px rgba(255,255,255,0.05),
-              0 0 80px rgba(255,255,255,0.02);
-          }
-          50% { 
-            transform: scale(1.05);
-            box-shadow: 
-              0 0 60px rgba(255,255,255,0.08),
-              0 0 100px rgba(255,255,255,0.04);
-          }
-        }
-        
-        .t69-core span {
-          font-size: 11px;
-          font-weight: 300;
-          color: #FFFFFF;
-          letter-spacing: 0.2em;
-        }
-        
-        /* Floating nodes */
-        .t69-node {
-          position: absolute;
-          width: 52px;
-          height: 52px;
-          border-radius: 50%;
-          background: rgba(8, 8, 12, 0.9);
-          border: 1px solid rgba(255,255,255,0.1);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 3px;
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-          cursor: default;
-        }
-        
-        .t69-node:hover {
-          transform: scale(1.2);
-          border-color: rgba(255,255,255,0.25);
-          box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-          z-index: 20;
-        }
-        
-        .t69-node svg {
-          width: 18px;
-          height: 18px;
-          color: #FFFFFF;
-        }
-        
-        .t69-node span {
-          font-size: 7px;
-          font-weight: 500;
-          color: #FFFFFF;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-        }
-        
-        /* Node positions - hexagonal layout */
-        .t69-node.data { top: 8%; left: 50%; transform: translateX(-50%); }
-        .t69-node.ml { top: 28%; right: 10%; }
-        .t69-node.risk { bottom: 28%; right: 10%; }
-        .t69-node.exec { bottom: 8%; left: 50%; transform: translateX(-50%); }
-        .t69-node.hmm { bottom: 28%; left: 10%; }
-        .t69-node.sent { top: 28%; left: 10%; }
-        
-        .t69-node.data:hover, .t69-node.exec:hover { transform: translateX(-50%) scale(1.2); }
-        
-        /* Connection beams */
-        .t69-beam {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 2px;
-          height: 90px;
-          background: linear-gradient(to bottom, 
-            rgba(255,255,255,0.15) 0%, 
-            rgba(255,255,255,0.02) 100%
-          );
-          transform-origin: top center;
-          opacity: 0.6;
-        }
-        
-        .t69-beam.to-data { transform: rotate(0deg) translateX(-50%); }
-        .t69-beam.to-ml { transform: rotate(60deg) translateX(-50%); }
-        .t69-beam.to-risk { transform: rotate(120deg) translateX(-50%); }
-        .t69-beam.to-exec { transform: rotate(180deg) translateX(-50%); }
-        .t69-beam.to-hmm { transform: rotate(240deg) translateX(-50%); }
-        .t69-beam.to-sent { transform: rotate(300deg) translateX(-50%); }
-        
-        /* Floating particles */
-        .t69-particle {
-          position: absolute;
-          width: 2px;
-          height: 2px;
-          background: rgba(255,255,255,0.4);
-          border-radius: 50%;
-          animation: t69-particle-float 8s ease-in-out infinite;
-        }
-        
-        .t69-particle:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; }
-        .t69-particle:nth-child(2) { top: 70%; left: 25%; animation-delay: 2s; }
-        .t69-particle:nth-child(3) { top: 35%; right: 20%; animation-delay: 4s; }
-        .t69-particle:nth-child(4) { bottom: 25%; right: 30%; animation-delay: 6s; }
-        
-        @keyframes t69-particle-float {
-          0%, 100% { opacity: 0; transform: translateY(0) scale(0); }
-          20% { opacity: 1; transform: translateY(-10px) scale(1); }
-          80% { opacity: 1; transform: translateY(-30px) scale(1); }
-          100% { opacity: 0; transform: translateY(-40px) scale(0); }
         }
 
         /* Image Expanded - Zero flash */
@@ -1001,82 +855,11 @@ export default function Trade69() {
         </div>
       )}
 
-      {/* Architecture Overlay - 3D Orbital Neural Network */}
+      {/* Architecture Overlay - 3D Neural Network Visualization */}
       {archOpen && (
         <div className="t69-overlay" onClick={() => setArchOpen(false)}>
           <div className="t69-arch-card" onClick={e => e.stopPropagation()}>
-            <div className="t69-arch-scene">
-              {/* Floating particles */}
-              <div className="t69-particle" />
-              <div className="t69-particle" />
-              <div className="t69-particle" />
-              <div className="t69-particle" />
-
-              {/* Orbital rings */}
-              <div className="t69-orbit-ring ring-1" />
-              <div className="t69-orbit-ring ring-2" />
-              <div className="t69-orbit-ring ring-3" />
-
-              {/* Connection beams */}
-              <div className="t69-beam to-data" />
-              <div className="t69-beam to-ml" />
-              <div className="t69-beam to-risk" />
-              <div className="t69-beam to-exec" />
-              <div className="t69-beam to-hmm" />
-              <div className="t69-beam to-sent" />
-
-              {/* Central core */}
-              <div className="t69-core">
-                <span>CORE</span>
-              </div>
-
-              {/* Satellite Nodes */}
-              <div className="t69-node data">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4-3-9s1.34-9 3-9m-9 9a9 9 0 019-9" />
-                </svg>
-                <span>Data</span>
-              </div>
-
-              <div className="t69-node ml">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M12 4v4m0 8v4M4 12h4m8 0h4" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-                <span>ML</span>
-              </div>
-
-              <div className="t69-node risk">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M12 9v4m0 4h.01" />
-                  <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-                </svg>
-                <span>Risk</span>
-              </div>
-
-              <div className="t69-node exec">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                <span>Exec</span>
-              </div>
-
-              <div className="t69-node hmm">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M3 12h4l3-9 4 18 3-9h4" />
-                </svg>
-                <span>HMM</span>
-              </div>
-
-              <div className="t69-node sent">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <circle cx="12" cy="12" r="4" />
-                  <path d="M12 2v2m0 16v2M2 12h2m16 0h2" />
-                  <path d="M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41" />
-                </svg>
-                <span>Sent</span>
-              </div>
-            </div>
+            <Trade69Architecture />
           </div>
           <button className="t69-close" onClick={() => setArchOpen(false)}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
