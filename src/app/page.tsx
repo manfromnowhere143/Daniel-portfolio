@@ -285,8 +285,8 @@ export default function About() {
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;300;400&display=swap');
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - THEME VARIABLES                                             */
-        /* Only dark and light - instant switching                                        */
+        /* STATE OF THE ART - THEME VARIABLES                                              */
+        /* Only dark and light - instant switching                                         */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         :root, [data-theme="dark"] {
@@ -297,9 +297,6 @@ export default function About() {
           --text-secondary: rgba(255, 255, 255, 0.8);
           --text-tertiary: rgba(255, 255, 255, 0.5);
           --border-primary: rgba(255, 255, 255, 0.06);
-          --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
-          --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
-          --icon-shadow: none;
         }
         
         [data-theme="light"] {
@@ -310,13 +307,10 @@ export default function About() {
           --text-secondary: rgba(26, 26, 26, 0.75);
           --text-tertiary: rgba(26, 26, 26, 0.5);
           --border-primary: rgba(0, 0, 0, 0.08);
-          --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
-          --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.18);
-          --icon-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* IRON LOCK - IDENTICAL TO WORK PAGE                                              */
+        /* IRON LOCK - FIXED VIEWPORT                                                      */
         /* Like iPhone home screen - fixed, no bounce, no scroll                           */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
@@ -331,10 +325,7 @@ export default function About() {
         
         .about-page {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          inset: 0;
           opacity: 0;
           background: var(--bg-primary);
           overflow: hidden;
@@ -343,17 +334,37 @@ export default function About() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+          
+          /* Perfect centering container */
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
         }
         
         .about-page.loaded { opacity: 1; }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* HERO SECTION - Below sidebar lines                                              */
+        /* CENTERED CONTENT WRAPPER                                                        */
+        /* Everything perfectly centered in the void                                       */
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        
+        .content-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: clamp(8px, 1.5vh, 16px);
+          width: 100%;
+          max-width: 600px;
+          padding: 0 24px;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════════════════════ */
+        /* HERO SECTION - Name and tagline                                                 */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .hero-section {
           text-align: center;
-          padding: clamp(70px, 12vh, 120px) 24px clamp(4px, 1vh, 12px);
         }
         
         .hero-name {
@@ -376,13 +387,12 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* GOLDEN SPIRAL - Bigger on mobile                                                */
+        /* GOLDEN SPIRAL                                                                   */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .spiral-container {
           display: flex;
           justify-content: center;
-          padding: clamp(4px, 1vh, 12px) 0;
           transform: scale(0.7);
           transform-origin: center;
         }
@@ -390,14 +400,12 @@ export default function About() {
         @media (min-width: 600px) {
           .spiral-container {
             transform: scale(0.85);
-            padding: clamp(6px, 1vh, 14px) 0;
           }
         }
         
         @media (min-width: 900px) {
           .spiral-container {
             transform: scale(1);
-            padding: clamp(10px, 2vh, 20px) 0;
           }
         }
         
@@ -406,6 +414,12 @@ export default function About() {
         /* No borders, no frame - pure text floating in void                               */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
+        .terminal-section {
+          position: relative;
+          width: 100%;
+          max-width: 500px;
+        }
+        
         .terminal-window {
           position: relative;
           background: transparent;
@@ -413,9 +427,7 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - BUTTERY SMOOTH FADE OVERLAYS                                 */
-        /* Using pseudo-elements with opacity for GPU-accelerated transitions              */
-        /* Steve Jobs would approve - pixel perfect, silky smooth                          */
+        /* BUTTERY SMOOTH FADE OVERLAYS                                                    */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .terminal-fade-top {
@@ -488,6 +500,29 @@ export default function About() {
           50% { transform: translateY(4px); opacity: 0.6; }
         }
         
+        .terminal-content {
+          position: relative;
+          padding: 32px 0;
+          max-height: clamp(200px, 32vh, 280px);
+          overflow-y: auto !important;
+          overflow-x: hidden !important;
+          -webkit-overflow-scrolling: touch;
+          touch-action: pan-y !important;
+          overscroll-behavior: contain;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          transition: filter 0.3s ease-out;
+        }
+        
+        .terminal-content.transitioning {
+          filter: blur(1px);
+          transition: filter 0.15s ease-in;
+        }
+        
+        .terminal-content::-webkit-scrollbar { 
+          display: none;
+        }
+        
         .code-line {
           display: block;
           padding: 1px 8px;
@@ -509,9 +544,7 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - ZERO FLASH TEXT TRANSITIONS                                  */
-        /* Apple's secret: blur during transition masks color change perception            */
-        /* Human eye cannot perceive color flash through motion blur                       */
+        /* YAML TEXT STYLING                                                               */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         .yaml-text {
@@ -531,41 +564,6 @@ export default function About() {
         
         .yaml-text.yaml-dim {
           opacity: 0.6;
-        }
-        
-        .terminal-section {
-          position: relative;
-          max-width: 500px;
-          margin: 0 auto;
-          padding: 0 24px;
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* APPLE'S SECRET - BLUR TRANSITION MASK                                           */
-        /* A tiny blur during color change makes transition imperceptible                  */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .terminal-content {
-          position: relative;
-          padding: 32px 0;
-          max-height: clamp(200px, 30vh, 240px);
-          overflow-y: auto !important;
-          overflow-x: hidden !important;
-          -webkit-overflow-scrolling: touch;
-          touch-action: pan-y !important;
-          overscroll-behavior: contain;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          transition: filter 0.3s ease-out;
-        }
-        
-        .terminal-content.transitioning {
-          filter: blur(1px);
-          transition: filter 0.15s ease-in;
-        }
-        
-        .terminal-content::-webkit-scrollbar { 
-          display: none;
         }
         
         /* Blinking cursor - theme aware */
@@ -590,226 +588,175 @@ export default function About() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* CONTACT ICONS                                                                   */
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        
-        .contact-section {
-          display: flex;
-          justify-content: center;
-          gap: 16px;
-          padding: clamp(16px, 3vh, 28px) 0 clamp(70px, 12vh, 100px);
-        }
-        
-        .contact-link {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 8px;
-          text-decoration: none;
-        }
-        
-        .contact-icon {
-          position: relative;
-          width: 56px;
-          height: 56px;
-          border-radius: 14px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(165deg, #1a1a1e 0%, #0c0c0e 100%);
-          color: #FFFFFF;
-          overflow: hidden;
-          transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-          box-shadow:
-            0 0 0 1px rgba(255, 255, 255, 0.05),
-            0 4px 12px rgba(0, 0, 0, 0.3),
-            0 8px 24px rgba(0, 0, 0, 0.2),
-            var(--icon-shadow, none);
-        }
-        
-        /* Light mode - dark icons float with shadow on pearl white */
-        [data-theme="light"] .contact-icon {
-          box-shadow:
-            0 0 0 1px rgba(0, 0, 0, 0.04),
-            0 4px 16px rgba(0, 0, 0, 0.12),
-            0 8px 32px rgba(0, 0, 0, 0.08),
-            0 2px 6px rgba(0, 0, 0, 0.06);
-        }
-        
-        /* Glass reflection */
-        .contact-icon::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 50%;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 100%);
-          border-radius: 14px 14px 50% 50%;
-          pointer-events: none;
-        }
-        
-        /* Inner edge */
-        .contact-icon::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 14px;
-          box-shadow: inset 0 1px 1px var(--border-primary, rgba(255, 255, 255, 0.06));
-          pointer-events: none;
-        }
-        
-        .contact-icon:hover {
-          transform: scale(1.08) translateY(-2px);
-          box-shadow:
-            0 0 0 1px var(--border-secondary, rgba(255, 255, 255, 0.08)),
-            var(--shadow-lg, 0 16px 48px rgba(0, 0, 0, 0.5));
-        }
-        
-        .contact-icon:active {
-          transform: scale(0.96);
-        }
-        
-        .contact-icon svg {
-          position: relative;
-          z-index: 2;
-        }
-        
-        .contact-name {
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-          font-size: 10px;
-          font-weight: 400;
-          color: var(--text-primary);
-          letter-spacing: 0.05em;
-          transition: color 0.3s ease;
-        }
-        
-        /* ═══════════════════════════════════════════════════════════════════════════════ */
-        /* RESPONSIVE - PERFECT MOBILE FIT                                                 */
+        /* RESPONSIVE - PERFECT CENTERING ON ALL SCREENS                                   */
         /* ═══════════════════════════════════════════════════════════════════════════════ */
         
         @media (max-width: 600px) {
-          .hero-section { padding: 50px 20px 0; }
+          .content-wrapper {
+            padding: 0 16px;
+            gap: clamp(6px, 1.2vh, 12px);
+          }
+          
           .hero-name { font-size: 24px; margin-bottom: 2px; }
           .hero-tagline { font-size: 11px; }
           
           .spiral-container { 
             transform: scale(0.6); 
-            padding: 0;
-            margin: -10px 0;
           }
           
-          .terminal-section { padding: 0 16px; }
-          .terminal-content { max-height: clamp(180px, 28vh, 220px); padding: 28px 0; }
+          .terminal-content { 
+            max-height: clamp(180px, 30vh, 240px); 
+            padding: 28px 0; 
+          }
           .terminal-fade-top { height: 45px; left: -16px; right: -16px; }
           .terminal-fade-bottom { height: 55px; bottom: -6px; left: -16px; right: -16px; }
           .scroll-arrow { bottom: 8px; right: -4px; width: 24px; height: 24px; }
           .scroll-arrow svg { width: 12px; height: 12px; }
           .code-line { padding: 1px 4px; font-size: 9px; min-height: 16px; line-height: 16px; }
-          
-          .contact-section { gap: 14px; padding: 14px 0 65px; }
-          .contact-link { gap: 5px; }
-          .contact-icon { width: 44px; height: 44px; border-radius: 11px; }
-          .contact-icon svg { width: 18px; height: 18px; }
-          .contact-name { font-size: 9px; }
         }
         
         /* Extra small screens */
         @media (max-width: 380px) {
-          .hero-section { padding: 45px 16px 0; }
           .hero-name { font-size: 22px; }
           .hero-tagline { font-size: 10px; }
           
           .spiral-container { 
             transform: scale(0.55); 
-            margin: -12px 0;
           }
           
-          .terminal-content { max-height: clamp(165px, 26vh, 200px); padding: 24px 0; }
+          .terminal-content { 
+            max-height: clamp(165px, 28vh, 220px); 
+            padding: 24px 0; 
+          }
           .terminal-fade-top { height: 38px; }
           .terminal-fade-bottom { height: 48px; bottom: -5px; }
           .code-line { font-size: 8.5px; min-height: 15px; line-height: 15px; }
-          
-          .contact-section { padding: 12px 0 60px; }
-          .contact-icon { width: 40px; height: 40px; border-radius: 10px; }
-          .contact-icon svg { width: 16px; height: 16px; }
+        }
+        
+        /* Very short screens - tighten everything */
+        @media (max-height: 650px) {
+          .content-wrapper {
+            gap: clamp(4px, 1vh, 8px);
+          }
+          .spiral-container {
+            transform: scale(0.5);
+          }
+          .terminal-content {
+            max-height: clamp(140px, 25vh, 180px);
+            padding: 20px 0;
+          }
         }
       `}</style>
 
       <div className={`about-page ${isLoaded ? 'loaded' : ''}`}>
-        {/* Hero */}
-        <div className="hero-section">
-          <h1 className="hero-name">Daniel Wahnich</h1>
-          <p className="hero-tagline">Artist, Autodidact, Builder.</p>
-        </div>
+        <div className="content-wrapper">
+          {/* Hero */}
+          <div className="hero-section">
+            <h1 className="hero-name">Daniel Wahnich</h1>
+            <p className="hero-tagline">Artist, Autodidact, Builder.</p>
+          </div>
 
-        {/* Golden Spiral */}
-        <div className="spiral-container">
-          <GoldenSpiral />
-        </div>
+          {/* Golden Spiral */}
+          <div className="spiral-container">
+            <GoldenSpiral />
+          </div>
 
-        {/* Floating Sacred Text */}
-        <div className="terminal-section">
-          <div className="terminal-window">
-            {/* Top fade - text disappears upward */}
-            <div className="terminal-fade-top" />
+          {/* Floating Sacred Text */}
+          <div className="terminal-section">
+            <div className="terminal-window">
+              {/* Top fade - text disappears upward */}
+              <div className="terminal-fade-top" />
 
-            <div className={`terminal-content ${isTransitioning ? 'transitioning' : ''}`} ref={contentRef}>
-              {personaLines.map((line, index) => {
-                const processedLine = processLine(line);
-                const isAgeLine = processedLine.includes('age_years_continuous');
-                return (
-                  <div key={index} className="code-line">
-                    <span className="line-content">
-                      {highlightLine(processedLine, isAgeLine)}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
+              <div className={`terminal-content ${isTransitioning ? 'transitioning' : ''}`} ref={contentRef}>
+                {personaLines.map((line, index) => {
+                  const processedLine = processLine(line);
+                  const isAgeLine = processedLine.includes('age_years_continuous');
+                  return (
+                    <div key={index} className="code-line">
+                      <span className="line-content">
+                        {highlightLine(processedLine, isAgeLine)}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
 
-            {/* Bottom fade - text disappears downward */}
-            <div className="terminal-fade-bottom" />
+              {/* Bottom fade - text disappears downward */}
+              <div className="terminal-fade-bottom" />
 
-            {/* Floating scroll arrow */}
-            <div className="scroll-arrow">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 5v14M5 12l7 7 7-7" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              {/* Floating scroll arrow */}
+              <div className="scroll-arrow">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 5v14M5 12l7 7 7-7" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Contact Icons */}
-        <div className="contact-section">
-          <a
-            href="https://github.com/manfromnowhere143"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="contact-link"
-          >
-            <div className="contact-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="white" opacity="0.85">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-              </svg>
-            </div>
-            <span className="contact-name">GitHub</span>
-          </a>
-
-          <a
-            href="mailto:cogitoergosum143@gmail.com"
-            className="contact-link"
-          >
-            <div className="contact-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <rect x="2" y="4" width="20" height="16" rx="2" stroke="white" strokeWidth="1.5" opacity="0.85"/>
-                <path d="M2 6l10 7 10-7" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.85"/>
-              </svg>
-            </div>
-            <span className="contact-name">Email</span>
-          </a>
         </div>
       </div>
     </>
   );
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════
+ * SAVED FOR SIDEBAR - GitHub and Gmail Contact Icons
+ * ═══════════════════════════════════════════════════════════════════════════════════════
+ *
+ * <a href="https://github.com/manfromnowhere143" target="_blank" rel="noopener noreferrer">
+ *   <div className="contact-icon">
+ *     <svg width="24" height="24" viewBox="0 0 24 24" fill="white" opacity="0.85">
+ *       <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+ *     </svg>
+ *   </div>
+ * </a>
+ *
+ * <a href="mailto:cogitoergosum143@gmail.com">
+ *   <div className="contact-icon">
+ *     <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+ *       <rect x="2" y="4" width="20" height="16" rx="2" stroke="white" strokeWidth="1.5" opacity="0.85"/>
+ *       <path d="M2 6l10 7 10-7" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.85"/>
+ *     </svg>
+ *   </div>
+ * </a>
+ *
+ * CSS for contact icons:
+ *
+ * .contact-icon {
+ *   position: relative;
+ *   width: 56px;
+ *   height: 56px;
+ *   border-radius: 14px;
+ *   display: flex;
+ *   align-items: center;
+ *   justify-content: center;
+ *   background: linear-gradient(165deg, #1a1a1e 0%, #0c0c0e 100%);
+ *   color: #FFFFFF;
+ *   overflow: hidden;
+ *   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+ *   box-shadow:
+ *     0 0 0 1px rgba(255, 255, 255, 0.05),
+ *     0 4px 12px rgba(0, 0, 0, 0.3),
+ *     0 8px 24px rgba(0, 0, 0, 0.2);
+ * }
+ *
+ * .contact-icon::before {
+ *   content: '';
+ *   position: absolute;
+ *   top: 0;
+ *   left: 0;
+ *   right: 0;
+ *   height: 50%;
+ *   background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 100%);
+ *   border-radius: 14px 14px 50% 50%;
+ *   pointer-events: none;
+ * }
+ *
+ * .contact-icon:hover {
+ *   transform: scale(1.08) translateY(-2px);
+ * }
+ *
+ * Links:
+ * - GitHub: https://github.com/manfromnowhere143
+ * - Email: cogitoergosum143@gmail.com
+ *
+ * ═══════════════════════════════════════════════════════════════════════════════════════ */
