@@ -44,6 +44,7 @@ export default function Navigation() {
 
   const textColor = getTextColor();
   const hamburgerColor = theme === 'light' ? "#1C1C1C" : "#FAFAF8";
+  const desktopIconColor = theme === 'light' ? "#1a1a1a" : "white";
 
   // Real-time clock - updates every second
   useEffect(() => {
@@ -216,106 +217,278 @@ export default function Navigation() {
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
-        /* STATE OF THE ART - DESKTOP SIDEBAR                                          */
-        /* Refined, elegant, minimal - pure floating elements                          */
+        /* STATE OF THE ART - DESKTOP TOP LEFT (Clock & Theme)                         */
+        /* Floating minimal elements                                                   */
         /* ═══════════════════════════════════════════════════════════════════════════ */
         
-        .desktop-sidebar {
+        .desktop-top-left {
           position: fixed;
-          left: 28px;
-          top: 50%;
-          transform: translateY(-50%);
+          left: 32px;
+          top: 32px;
           z-index: 50;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          padding: 18px 16px;
+          gap: 14px;
         }
         
-        .sidebar-logo {
-          width: 22px;
-          height: 26px;
-          margin-bottom: 14px;
-          opacity: 0.6;
-          transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        
-        .desktop-sidebar:hover .sidebar-logo {
-          opacity: 0.8;
-          transform: scale(1.03);
-        }
-        
-        .sidebar-time-container {
+        .desktop-time-container {
           display: flex;
           flex-direction: column;
-          gap: 2px;
-          margin-bottom: 8px;
-          padding-bottom: 0;
-          width: 100%;
+          gap: 3px;
         }
         
-        .sidebar-time {
-          font-size: 12px;
+        .desktop-time {
+          font-size: 14px;
           font-weight: 300;
           letter-spacing: 0.08em;
           font-variant-numeric: tabular-nums;
           opacity: 0.85;
         }
         
-        .sidebar-date {
-          font-size: 8px;
+        .desktop-date {
+          font-size: 10px;
           font-weight: 300;
           letter-spacing: 0.18em;
           opacity: 0.4;
         }
         
-        .sidebar-nav {
+        .desktop-theme-toggle {
           display: flex;
-          flex-direction: column;
-          gap: 2px;
-          width: 100%;
-          margin-top: 12px;
-          padding-top: 12px;
-        }
-        
-        .sidebar-nav-link {
-          position: relative;
-          font-size: 9px;
-          font-weight: 300;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          text-decoration: none;
-          padding: 6px 10px;
-          margin: 0 -10px;
-          border-radius: 6px;
-          transition: opacity 0.3s ease;
-          opacity: 0.4;
-        }
-        
-        .sidebar-nav-link:hover {
-          opacity: 0.85;
-        }
-        
-        .sidebar-nav-link.active {
-          opacity: 1;
-          font-weight: 400;
-        }
-        
-        .sidebar-nav-link.active::before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 2px;
-          height: 2px;
-          border-radius: 50%;
-          background: currentColor;
-          opacity: 0.7;
-          box-shadow: 0 0 6px currentColor;
+          flex-direction: row;
+          gap: 10px;
+          margin-top: 4px;
         }
         
         /* ═══════════════════════════════════════════════════════════════════════════ */
+        /* STATE OF THE ART - DESKTOP BOTTOM DOCK                                      */
+        /* Pure floating icons like mobile - NO container, NO labels                   */
+        /* ═══════════════════════════════════════════════════════════════════════════ */
+        
+        .desktop-nav-dock {
+          position: fixed;
+          bottom: 32px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 9999;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          gap: 24px;
+        }
+        
+        /* Desktop icon wrapper */
+        .desktop-icon-wrapper {
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+        
+        /* Desktop icon container - slightly larger than mobile */
+        .desktop-icon-container {
+          position: relative;
+          width: 56px;
+          height: 56px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 16px;
+          background: linear-gradient(
+            145deg,
+            #1a1a1a 0%,
+            #0e0e0e 50%,
+            #080808 100%
+          );
+          box-shadow: 
+            0 0 0 0.5px rgba(255, 255, 255, 0.04),
+            0 4px 10px rgba(0, 0, 0, 0.5),
+            0 10px 20px rgba(0, 0, 0, 0.4),
+            0 20px 40px rgba(0, 0, 0, 0.3),
+            inset 0 0.5px 0 rgba(255, 255, 255, 0.05);
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          cursor: pointer;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translateZ(0) scale(1);
+          overflow: hidden;
+          border: 0.5px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Desktop icon gradient border */
+        .desktop-icon-container::before {
+          content: '';
+          position: absolute;
+          inset: -0.5px;
+          border-radius: 16.5px;
+          padding: 0.5px;
+          background: linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.12),
+            rgba(255, 255, 255, 0.02),
+            rgba(255, 255, 255, 0.06),
+            rgba(255, 255, 255, 0.01)
+          );
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          pointer-events: none;
+          opacity: 0.6;
+        }
+        
+        /* Desktop icon top shine */
+        .desktop-icon-container::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 10%;
+          right: 10%;
+          height: 45%;
+          background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.06) 0%,
+            rgba(255, 255, 255, 0.02) 50%,
+            transparent 100%
+          );
+          border-radius: 16px 16px 50% 50%;
+          pointer-events: none;
+          z-index: 10;
+        }
+        
+        /* Desktop hover state */
+        .desktop-icon-container:hover {
+          transform: translateZ(0) scale(1.08) translateY(-4px);
+          box-shadow: 
+            0 0 0 0.5px rgba(255, 255, 255, 0.08),
+            0 0 20px rgba(255, 255, 255, 0.05),
+            0 8px 16px rgba(0, 0, 0, 0.5),
+            0 16px 32px rgba(0, 0, 0, 0.4),
+            inset 0 0.5px 0 rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Desktop active state */
+        .desktop-icon-container.active {
+          background: linear-gradient(
+            145deg,
+            #242424 0%,
+            #161616 50%,
+            #0c0c0c 100%
+          );
+          border-color: rgba(255, 255, 255, 0.1);
+          box-shadow: 
+            0 0 0 0.5px rgba(255, 255, 255, 0.08),
+            0 0 20px rgba(255, 255, 255, 0.05),
+            0 6px 14px rgba(0, 0, 0, 0.45),
+            0 14px 28px rgba(0, 0, 0, 0.35),
+            inset 0 0.5px 0 rgba(255, 255, 255, 0.08);
+          transform: translateZ(0) scale(1.03);
+        }
+        
+        .desktop-icon-container.active::after {
+          background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.03) 50%,
+            transparent 100%
+          );
+        }
+        
+        .desktop-icon-container.active:hover {
+          transform: translateZ(0) scale(1.05) translateY(-2px);
+        }
+        
+        /* Desktop click state */
+        .desktop-icon-container:active {
+          transform: translateZ(0) scale(0.95);
+          transition: transform 0.1s ease;
+        }
+        
+        .desktop-icon-container:not(.active) {
+          opacity: 0.7;
+        }
+        
+        .desktop-icon-container:not(.active):hover {
+          opacity: 1;
+        }
+        
+        .desktop-icon-svg {
+          position: relative;
+          z-index: 5;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+          transition: all 0.3s ease;
+        }
+        
+        .desktop-icon-container.active .desktop-icon-svg {
+          filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.15))
+                  drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+        
+        /* Light theme desktop icons */
+        [data-theme="light"] .desktop-icon-container {
+          background: linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #f5f5f5 50%,
+            #ebebeb 100%
+          );
+          border-color: rgba(0, 0, 0, 0.06);
+          box-shadow: 
+            0 0 0 0.5px rgba(0, 0, 0, 0.04),
+            0 4px 10px rgba(0, 0, 0, 0.08),
+            0 10px 20px rgba(0, 0, 0, 0.06),
+            inset 0 1px 0 rgba(255, 255, 255, 1);
+        }
+        
+        [data-theme="light"] .desktop-icon-container::before {
+          background: linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.8),
+            rgba(0, 0, 0, 0.02),
+            rgba(255, 255, 255, 0.4),
+            rgba(0, 0, 0, 0.01)
+          );
+        }
+        
+        [data-theme="light"] .desktop-icon-container::after {
+          background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(255, 255, 255, 0.2) 50%,
+            transparent 100%
+          );
+        }
+        
+        [data-theme="light"] .desktop-icon-svg {
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+        }
+        
+        [data-theme="light"] .desktop-icon-container:hover {
+          box-shadow: 
+            0 0 0 0.5px rgba(0, 0, 0, 0.06),
+            0 12px 24px rgba(0, 0, 0, 0.12),
+            0 24px 48px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 1);
+        }
+        
+        [data-theme="light"] .desktop-icon-container.active {
+          background: linear-gradient(
+            145deg,
+            #f8f8f8 0%,
+            #f0f0f0 50%,
+            #e8e8e8 100%
+          );
+          box-shadow: 
+            0 0 0 0.5px rgba(0, 0, 0, 0.08),
+            0 5px 12px rgba(0, 0, 0, 0.1),
+            0 10px 24px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 1);
+        }
+        
+        /* Labels removed - pure floating icons like mobile */
+        
         /* ═══════════════════════════════════════════════════════════════════════════ */
         /* STATE OF THE ART - MOBILE NAV ICONS                                         */
         /* Refined, smaller, more elegant - true luxury                                */
@@ -478,50 +651,21 @@ export default function Navigation() {
         }
       `}</style>
 
-      {/* Desktop Sidebar */}
-      <nav
-        className={`desktop-sidebar ${styles.desktopOnly}`}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div className="sidebar-logo">
-          <svg viewBox="0 0 28 32" fill="none" style={{ width: "100%", height: "100%" }}>
-            <path
-              d="M14 1L26 8.5V23.5L14 31L2 23.5V8.5L14 1Z"
-              stroke={textColor}
-              strokeWidth="0.75"
-              fill="none"
-            />
-            <circle cx="14" cy="16" r="3" stroke={textColor} strokeWidth="0.5" fill="none" opacity="0.5"/>
-          </svg>
-        </div>
-
+      {/* ═══════════════════════════════════════════════════════════════════════════ */}
+      {/* DESKTOP - Top Left Clock & Theme Toggle                                     */}
+      {/* ═══════════════════════════════════════════════════════════════════════════ */}
+      <div className={`desktop-top-left ${styles.desktopOnly}`}>
         {time && (
-          <div className="sidebar-time-container">
-            <span className="sidebar-time" style={{ color: textColor }}>
+          <div className="desktop-time-container">
+            <span className="desktop-time" style={{ color: textColor }}>
               {formatTime(time)}
             </span>
-            <span className="sidebar-date" style={{ color: textColor }}>
+            <span className="desktop-date" style={{ color: textColor }}>
               {formatDate(time)}
             </span>
           </div>
         )}
-
-        <div className="sidebar-nav">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`sidebar-nav-link ${item.isActive ? 'active' : ''}`}
-              style={{ color: textColor }}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* STATE OF THE ART - Theme Toggle Buttons */}
-        <div className="theme-toggle-container">
+        <div className="desktop-theme-toggle">
           <button
             className={`theme-btn light ${theme === 'light' ? 'active' : ''}`}
             onClick={() => handleThemeChange('light')}
@@ -535,9 +679,80 @@ export default function Navigation() {
             title="Dark"
           />
         </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════════════════════ */}
+      {/* DESKTOP - Bottom Floating Dock (Same style as mobile, larger)              */}
+      {/* ═══════════════════════════════════════════════════════════════════════════ */}
+      <nav className={`desktop-nav-dock ${styles.desktopOnly}`}>
+        {/* ABOUT */}
+        <Link href="/" className="desktop-icon-wrapper">
+          <div className={`desktop-icon-container ${pathname === "/" ? "active" : ""}`}>
+            <svg className="desktop-icon-svg" width="24" height="24" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="9" r="5" stroke={desktopIconColor} strokeWidth="1.5" fill="none"/>
+              <path
+                d="M5 28C5 28 7 18 16 18C25 18 27 28 27 28"
+                stroke={desktopIconColor}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                fill="none"
+              />
+            </svg>
+          </div>
+        </Link>
+
+        {/* WORK */}
+        <Link href="/work" className="desktop-icon-wrapper">
+          <div className={`desktop-icon-container ${pathname === "/work" || pathname.startsWith("/work/") ? "active" : ""}`}>
+            <svg className="desktop-icon-svg" width="24" height="24" viewBox="0 0 32 32" fill="none">
+              <rect x="3" y="10" width="26" height="16" rx="3" stroke={desktopIconColor} strokeWidth="1.5" fill="none"/>
+              <path
+                d="M11 10V7C11 5.5 12 4.5 13.5 4.5H18.5C20 4.5 21 5.5 21 7V10"
+                stroke={desktopIconColor}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                fill="none"
+              />
+              <line x1="16" y1="10" x2="16" y2="26" stroke={desktopIconColor} strokeWidth="0.75" opacity="0.25"/>
+            </svg>
+          </div>
+        </Link>
+
+        {/* CREATIVE */}
+        <Link href="/creative" className="desktop-icon-wrapper">
+          <div className={`desktop-icon-container ${pathname === "/creative" ? "active" : ""}`}>
+            <svg className="desktop-icon-svg" width="24" height="24" viewBox="0 0 32 32" fill="none">
+              <path
+                d="M22 4L8 18L6 26L14 24L28 10"
+                stroke={desktopIconColor}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+              <path
+                d="M6 26L8 18L14 24L6 26Z"
+                stroke={desktopIconColor}
+                strokeWidth="1.5"
+                strokeLinejoin="round"
+                fill="none"
+              />
+              <path
+                d="M10 22C14 20 18 22 22 18"
+                stroke={desktopIconColor}
+                strokeWidth="0.75"
+                strokeLinecap="round"
+                opacity="0.35"
+                fill="none"
+              />
+            </svg>
+          </div>
+        </Link>
       </nav>
 
-      {/* STATE OF THE ART - Floating Menu Button - Mobile Only */}
+      {/* ═══════════════════════════════════════════════════════════════════════════ */}
+      {/* MOBILE - Floating Menu Button (UNCHANGED)                                  */}
+      {/* ═══════════════════════════════════════════════════════════════════════════ */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={styles.mobileOnly}
@@ -614,7 +829,7 @@ export default function Navigation() {
         </div>
       </button>
 
-      {/* Mobile Time/Date and Theme Toggle - slides from left */}
+      {/* Mobile Time/Date and Theme Toggle - slides from left (UNCHANGED) */}
       <div
         className={styles.mobileOnly}
         style={{
@@ -681,7 +896,7 @@ export default function Navigation() {
         </div>
       </div>
 
-      {/* STATE OF THE ART - Bottom Floating Dock */}
+      {/* STATE OF THE ART - Bottom Floating Dock - MOBILE (UNCHANGED) */}
       <div
         className={`mobile-nav-bar ${styles.mobileOnly}`}
         style={{

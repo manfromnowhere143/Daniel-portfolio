@@ -808,6 +808,7 @@ export default function Work() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           will-change: opacity;
+          contain: layout style;
         }
         
         .folder-overlay.active .folder-container { 
@@ -827,13 +828,14 @@ export default function Work() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translate3d(0, 0, 0);
+          contain: layout style;
         }
         
         .folder-app {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 10px;
+          gap: 6px;
           cursor: pointer;
           text-decoration: none;
           opacity: 0;
@@ -844,6 +846,7 @@ export default function Work() {
           backface-visibility: hidden;
           will-change: transform, opacity;
           perspective: 1000px;
+          contain: layout style;
         }
         
         .folder-app-placeholder { width: 72px; height: 92px; }
@@ -897,6 +900,7 @@ export default function Work() {
           will-change: transform, box-shadow;
           transform-style: preserve-3d;
           isolation: isolate;
+          contain: layout style paint;
         }
         
         /* Ensure images inside icons don't flash */
@@ -905,6 +909,7 @@ export default function Work() {
           backface-visibility: hidden;
           transform: translate3d(0, 0, 0);
           will-change: auto;
+          contain: layout style paint;
         }
         
         @keyframes iconBreatheWhite {
@@ -967,6 +972,7 @@ export default function Work() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translate3d(0, 0, 0);
+          contain: layout style paint;
         }
         
         .folder-app-icon::after {
@@ -980,6 +986,7 @@ export default function Work() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translate3d(0, 0, 0);
+          contain: layout style paint;
         }
         
         .folder-app-icon.has-image::before {
@@ -989,7 +996,7 @@ export default function Work() {
         
         .folder-app-name {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-          font-size: 12px;
+          font-size: 11px;
           font-weight: 400;
           color: var(--text-primary);
           text-align: center;
@@ -998,6 +1005,11 @@ export default function Work() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translate3d(0, 0, 0);
+          line-height: 1.2;
+          max-width: 80px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         
         [data-theme="light"] .folder-app-name { text-shadow: none; }
@@ -1011,6 +1023,10 @@ export default function Work() {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 24px;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          contain: layout style;
         }
         
         /* 5th item centered on its own row */
@@ -1299,7 +1315,7 @@ export default function Work() {
           display: flex; 
           flex-direction: column; 
           align-items: center; 
-          gap: 8px; 
+          gap: 6px; 
           cursor: pointer; 
           opacity: 0; 
           transform: translate3d(0, 12px, 0) scale(0.7); 
@@ -1309,6 +1325,7 @@ export default function Work() {
           backface-visibility: hidden;
           will-change: transform, opacity;
           perspective: 1000px;
+          contain: layout style;
         }
         
         .media-overlay.active .media-item { 
@@ -1349,12 +1366,14 @@ export default function Work() {
           transform: translate3d(0, 0, 0);
           will-change: transform, box-shadow;
           isolation: isolate;
+          contain: layout style paint;
         }
         
         .media-item-icon img {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translate3d(0, 0, 0);
+          contain: layout style paint;
         }
         
         .media-item-icon::before { 
@@ -1369,16 +1388,21 @@ export default function Work() {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
           transform: translate3d(0, 0, 0);
+          contain: layout style paint;
         }
         
         .media-item-icon img { width: 100%; height: 100%; object-fit: cover; }
         
         .media-item-name { 
-          font-size: 12px; 
+          font-size: 11px; 
           font-weight: 400; 
           color: var(--text-primary); 
           text-align: center; 
-          max-width: 76px; 
+          max-width: 88px; 
+          line-height: 1.2;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
           transition: color 0.3s ease;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
