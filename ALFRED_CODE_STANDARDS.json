@@ -1,0 +1,444 @@
+{
+  "project_meta": {
+    "name": "Daniel Portfolio",
+    "framework": "Next.js 16 (App Router)",
+    "react_version": "19.2.0",
+    "styling": "Tailwind CSS 4 + Inline CSS-in-JS",
+    "3d_library": "Three.js 0.181.2",
+    "language": "TypeScript (strict mode)",
+    "deployment_target": "Vercel"
+  },
+
+  "files_analyzed": [
+    {
+      "file_path": "package.json",
+      "patterns": ["minimal dependencies", "standard Next.js scripts", "babel-plugin-react-compiler for optimization"],
+      "standards": ["semantic versioning", "private package", "separate dev/prod dependencies"],
+      "notes": "Lean dependency tree focused on Three.js for 3D, Next.js for framework, Tailwind for styling"
+    },
+    {
+      "file_path": "tsconfig.json",
+      "patterns": ["strict mode enabled", "path aliases with @/*", "bundler module resolution"],
+      "standards": ["ES2017 target", "incremental compilation", "react-jsx transform"],
+      "notes": "Path alias @/* maps to ./src/* for clean imports"
+    },
+    {
+      "file_path": "next.config.ts",
+      "patterns": ["typed config with NextConfig", "React Compiler enabled"],
+      "standards": ["ES module syntax", "minimal configuration"],
+      "notes": "reactCompiler: true enables automatic memoization"
+    },
+    {
+      "file_path": "eslint.config.mjs",
+      "patterns": ["flat config format", "Next.js core-web-vitals preset", "TypeScript preset"],
+      "standards": ["ES module config", "explicit ignore patterns"],
+      "notes": "Uses eslint-config-next for framework-specific rules"
+    },
+    {
+      "file_path": "postcss.config.mjs",
+      "patterns": ["Tailwind CSS 4 PostCSS plugin"],
+      "standards": ["ES module config", "minimal plugin configuration"],
+      "notes": "Uses @tailwindcss/postcss for Tailwind 4 integration"
+    },
+    {
+      "file_path": "src/app/layout.tsx",
+      "patterns": [
+        "server component for metadata",
+        "Google Fonts via next/font",
+        "inline script for theme flash prevention",
+        "viewport configuration for mobile",
+        "comprehensive SEO metadata"
+      ],
+      "standards": [
+        "Metadata export for SEO",
+        "Viewport export for mobile config",
+        "suppressHydrationWarning for theme scripts",
+        "Readonly<{}> for children prop typing"
+      ],
+      "notes": "Root layout handles Navigation, SwipeNavigation wrapper, and theme initialization script to prevent FOUC"
+    },
+    {
+      "file_path": "src/app/globals.css",
+      "patterns": ["Tailwind directives", "CSS custom properties", "utility layer extensions"],
+      "standards": ["mobile-first tap highlight removal", "CSS variables for theming"],
+      "notes": "Minimal global CSS - most styling is component-scoped via inline styles"
+    },
+    {
+      "file_path": "src/app/sitemap.ts",
+      "patterns": ["MetadataRoute.Sitemap return type", "function-based sitemap"],
+      "standards": ["typed Next.js metadata routes", "explicit URLs with priorities"],
+      "notes": "SEO sitemap with monthly update frequency and priority hierarchy"
+    },
+    {
+      "file_path": "src/app/robots.ts",
+      "patterns": ["MetadataRoute.Robots return type", "function-based robots"],
+      "standards": ["allow all crawlers", "sitemap reference"],
+      "notes": "Simple robots.txt configuration via Next.js API"
+    },
+    {
+      "file_path": "src/app/page.tsx",
+      "patterns": [
+        "use client directive for interactivity",
+        "static SSR initial values to prevent hydration mismatch",
+        "inline <style> tags with template literals",
+        "extensive CSS-in-JS with CSS variables for theming",
+        "MutationObserver for theme change detection",
+        "real-time value calculations with useEffect intervals",
+        "responsive clamp() values",
+        "CSS layer organization with comment headers"
+      ],
+      "standards": [
+        "camelCase function names",
+        "SCREAMING_SNAKE_CASE for constants",
+        "explicit return types not required for components",
+        "useRef for DOM references",
+        "useState with explicit type inference",
+        "cleanup in useEffect return"
+      ],
+      "notes": "Main page uses YAML-style content display with syntax highlighting, real-time age calculation, and theme-aware styling"
+    },
+    {
+      "file_path": "src/components/Navigation.tsx",
+      "patterns": [
+        "use client directive",
+        "CSS Module import for responsive classes",
+        "inline <style> with extensive CSS",
+        "theme state in localStorage",
+        "real-time clock with useEffect interval",
+        "separate mobile/desktop rendering",
+        "custom hamburger menu animation",
+        "iOS-style app icon design with gradients and shadows"
+      ],
+      "standards": [
+        "usePathname for route detection",
+        "Link component for navigation",
+        "aria-label for accessibility",
+        "CSS custom properties for theme colors",
+        "cubic-bezier for smooth animations",
+        "backface-visibility: hidden for performance"
+      ],
+      "notes": "Complex responsive navigation with floating dock on desktop, hamburger on mobile, theme toggle, and real-time clock display"
+    },
+    {
+      "file_path": "src/components/SwipeNavigation.tsx",
+      "patterns": [
+        "use client directive",
+        "touch event handling with refs",
+        "velocity-based swipe detection",
+        "rubber band effect at edges",
+        "page transition animations",
+        "overlay detection to disable swipe",
+        "DOM query for state detection",
+        "useCallback for memoized handlers"
+      ],
+      "standards": [
+        "interface for props",
+        "ReactNode type for children",
+        "useRef for touch tracking values",
+        "cleanup in useEffect",
+        "requestAnimationFrame not used (setTimeout preferred)"
+      ],
+      "notes": "iOS-style swipe navigation between pages with physics-based feel, prevents conflicts with overlays and modals"
+    },
+    {
+      "file_path": "src/components/GoldenSpiral.tsx",
+      "patterns": [
+        "use client directive",
+        "useMemo for pre-computed SVG data",
+        "mathematical constants (phi)",
+        "SVG with defs for filters/gradients",
+        "theme-aware CSS classes",
+        "CSS class-based color switching"
+      ],
+      "standards": [
+        "pure computational logic in useMemo",
+        "SVG viewBox for responsive scaling",
+        "CSS transitions for theme changes"
+      ],
+      "notes": "Pure SVG component with golden ratio mathematics, theme-aware colors via CSS classes"
+    },
+    {
+      "file_path": "src/components/FadeImage.tsx",
+      "patterns": [
+        "use client directive",
+        "next/image for optimization",
+        "fade-in on load pattern",
+        "aspectRatio style property"
+      ],
+      "standards": [
+        "interface for props with optional fields",
+        "default parameter values",
+        "inline styles with spread operator"
+      ],
+      "notes": "Reusable image component with loading fade effect using next/image"
+    },
+    {
+      "file_path": "src/components/Lightbox.tsx",
+      "patterns": [
+        "use client directive",
+        "useCallback for memoized handlers",
+        "keyboard event handling (Escape)",
+        "body scroll lock",
+        "portal-like fixed positioning",
+        "animation keyframes in <style>"
+      ],
+      "standards": [
+        "interface for props",
+        "cleanup in useEffect",
+        "event.stopPropagation for nested clicks",
+        "aria-label for close button"
+      ],
+      "notes": "Modal lightbox component with keyboard support, scroll lock, and animations"
+    },
+    {
+      "file_path": "src/components/Navigation.module.css",
+      "patterns": [
+        "CSS Module with responsive classes",
+        "media query breakpoints at 768px",
+        "!important for override certainty"
+      ],
+      "standards": [
+        "camelCase class names for CSS Modules",
+        "mobile-first approach"
+      ],
+      "notes": "Minimal CSS Module for responsive display toggling between mobile/desktop nav"
+    },
+    {
+      "file_path": "src/app/work/page.tsx",
+      "patterns": [
+        "use client directive",
+        "dynamic imports for 3D components",
+        "animation state machine pattern",
+        "multiple refs for timeout management",
+        "complex overlay/modal state management",
+        "touch event blocking when overlays open",
+        "useCallback for all handlers",
+        "window.__cleanup pattern for event listeners"
+      ],
+      "standards": [
+        "type union for AnimationState",
+        "centralized data arrays at top",
+        "cleanup all timeouts in useEffect return",
+        "body scroll/touch action manipulation"
+      ],
+      "notes": "Complex page with multiple overlay states, 3D components loaded dynamically, sophisticated touch handling"
+    },
+    {
+      "file_path": "src/components/GeometricDivider.tsx",
+      "patterns": [
+        "use client directive",
+        "pure SVG component",
+        "SVG filters for glow effects",
+        "linear gradients in SVG"
+      ],
+      "standards": [
+        "fixed dimensions",
+        "SVG path for complex shapes"
+      ],
+      "notes": "Decorative SVG divider with infinity symbol and glow effects"
+    },
+    {
+      "file_path": "src/components/FlowerOfLife.tsx",
+      "patterns": [
+        "use client directive",
+        "mathematical circle generation",
+        "sacred geometry patterns",
+        "SVG composition with multiple layers"
+      ],
+      "standards": [
+        "computed positions from math formulas",
+        "array mapping for repeated elements"
+      ],
+      "notes": "Sacred geometry SVG component with mathematically computed circle positions"
+    },
+    {
+      "file_path": "src/components/QuantumSphere.tsx",
+      "patterns": [
+        "use client directive",
+        "Three.js integration",
+        "GLSL shader code as template literals",
+        "useRef for Three.js objects",
+        "animation loop with requestAnimationFrame",
+        "responsive canvas sizing",
+        "expand/collapse state with animation progress refs"
+      ],
+      "standards": [
+        "interface for component props",
+        "cleanup renderer and animation frame",
+        "window.devicePixelRatio clamping",
+        "high-performance power preference"
+      ],
+      "notes": "Advanced 3D visualization with custom GLSL shaders including simplex noise, FBM, and curl noise"
+    },
+    {
+      "file_path": "src/app/story/page.tsx",
+      "patterns": [
+        "server component (no use client)",
+        "Metadata export for page SEO",
+        "imported components",
+        "inline styles with responsive clamp()"
+      ],
+      "standards": [
+        "semantic HTML (h1, p)",
+        "consistent spacing patterns",
+        "border-left for timeline markers"
+      ],
+      "notes": "Server-rendered content page with timeline-style layout and imported decorative components"
+    }
+  ],
+
+  "architectural_patterns": {
+    "folder_structure": {
+      "src/app": "Next.js App Router pages and layouts",
+      "src/app/[route]/page.tsx": "Page components following Next.js 13+ conventions",
+      "src/components": "Shared React components",
+      "public/images": "Static assets"
+    },
+    "component_hierarchy": {
+      "layout.tsx": "Root wrapper with Navigation and SwipeNavigation",
+      "page.tsx": "Individual route pages",
+      "components": "Reusable UI elements imported into pages"
+    },
+    "separation_of_concerns": {
+      "data": "Defined as const arrays at top of component files",
+      "logic": "useCallback and useMemo hooks",
+      "presentation": "Inline styles and <style> tags",
+      "state": "useState with animation state machines"
+    }
+  },
+
+  "coding_standards": {
+    "naming": {
+      "components": "PascalCase (Navigation, GoldenSpiral)",
+      "functions": "camelCase (handleClick, getAge)",
+      "constants": "SCREAMING_SNAKE_CASE (BIRTHDAY, INITIAL_AGE, PAGES)",
+      "hooks": "camelCase starting with use- prefix",
+      "css_classes": "kebab-case or camelCase for CSS Modules",
+      "refs": "camelCase ending with Ref (containerRef, rendererRef)"
+    },
+    "typing": {
+      "props": "interface definitions (interface FadeImageProps)",
+      "state": "type inference or explicit union types",
+      "event_handlers": "React event types (React.TouchEvent)",
+      "three_js": "@types/three for 3D types"
+    },
+    "error_handling": {
+      "approach": "try-catch in inline scripts, early returns for invalid states",
+      "null_checks": "optional chaining and null guards"
+    },
+    "imports": {
+      "order": "React hooks, Next.js, external libs, local components",
+      "style": "Named imports, path aliases (@/components)"
+    }
+  },
+
+  "design_patterns": {
+    "react_hooks_usage": {
+      "useState": "Simple state, initial values for SSR compatibility",
+      "useEffect": "Side effects with cleanup, dependency arrays",
+      "useRef": "DOM refs, mutable values that don't trigger re-render, Three.js objects",
+      "useCallback": "Event handlers to prevent unnecessary re-renders",
+      "useMemo": "Expensive computations, SVG point calculations"
+    },
+    "functional_patterns": {
+      "pure_functions": "Mathematical calculations (getAge, circle positions)",
+      "composition": "Small focused components composed together",
+      "data_mapping": "Array.map for repeated UI elements"
+    },
+    "state_management": {
+      "animation_states": "Union types ('idle' | 'entering' | 'active' | 'exiting')",
+      "local_storage": "Theme persistence",
+      "refs_for_animation": "Progress values that need to persist between renders"
+    },
+    "3d_patterns": {
+      "dynamic_import": "next/dynamic with { ssr: false } for Three.js",
+      "renderer_management": "Refs for renderer, cleanup on unmount",
+      "shader_organization": "GLSL as template literals in const"
+    }
+  },
+
+  "ui_ux_patterns": {
+    "spacing": {
+      "approach": "CSS clamp() for responsive values",
+      "example": "clamp(20px, 4vh, 40px)",
+      "units": "px for fixed, vh/vw for responsive, em for typography"
+    },
+    "typography": {
+      "font_families": "Inter for body, JetBrains Mono for code, system fonts as fallback",
+      "weights": "200 (light), 300 (regular for this design), 400 (normal)",
+      "sizes": "clamp() for responsive scaling"
+    },
+    "colors": {
+      "dark_theme": {
+        "background": "#050506, #0a0a0b",
+        "text": "#FAFAF8, rgba(255,255,255,0.8)",
+        "borders": "rgba(255,255,255,0.06)"
+      },
+      "light_theme": {
+        "background": "#F5F5F0, #EAEAE5",
+        "text": "#1a1a1a, rgba(26,26,26,0.7)",
+        "borders": "rgba(0,0,0,0.08)"
+      }
+    },
+    "component_style": {
+      "buttons": "No visible borders, transparent backgrounds, hover transforms",
+      "icons": "Monochromatic white, SVG with viewBox",
+      "cards": "Gradient backgrounds, subtle shadows, border-radius 14-16px"
+    },
+    "animation_cues": {
+      "transitions": "0.3s-0.4s duration, cubic-bezier timing",
+      "transforms": "scale, translateY for hover states",
+      "opacity": "Fade in/out for page transitions",
+      "cubic_beziers": [
+        "cubic-bezier(0.4, 0, 0.2, 1) - smooth ease",
+        "cubic-bezier(0.34, 1.56, 0.64, 1) - bouncy",
+        "cubic-bezier(0.175, 0.885, 0.32, 1.275) - spring"
+      ]
+    },
+    "mobile_patterns": {
+      "touch_targets": "48-56px minimum",
+      "safe_area": "env(safe-area-inset-bottom)",
+      "tap_highlight": "-webkit-tap-highlight-color: transparent",
+      "pinch_zoom": "Disabled via viewport and touch-action"
+    }
+  },
+
+  "deployment_patterns": {
+    "build_scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "eslint"
+    },
+    "vercel": {
+      "deployment": "Automatic via Git push",
+      "domain": "danielwahnich.vercel.app"
+    },
+    "seo": {
+      "sitemap": "Dynamic via src/app/sitemap.ts",
+      "robots": "Dynamic via src/app/robots.ts",
+      "metadata": "Export from layout and pages",
+      "open_graph": "Configured in layout.tsx"
+    }
+  },
+
+  "comments_documentation_style": {
+    "section_headers": {
+      "format": "═══════════════════════════════════════════════════════════════",
+      "style": "Box-style comments for major sections",
+      "example": "// ═══ STATE OF THE ART - SECTION NAME ═══"
+    },
+    "inline_comments": {
+      "style": "Brief explanations for non-obvious code",
+      "placement": "Above the line or end of line"
+    },
+    "saved_code": {
+      "format": "Multi-line block comments for removed/future code",
+      "example": "/* SAVED FOR SIDEBAR - GitHub and Gmail Contact Icons */"
+    },
+    "documentation": {
+      "readme": "Standard create-next-app template",
+      "props": "Interface definitions serve as documentation"
+    }
+  }
+}
